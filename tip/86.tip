@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Improved Debugger Support
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -322,6 +322,12 @@ Andreas Kupries suggests defining a line number ''Tcl_Token'' type.
      ''ResolvedCmdName''
 
    * This is now fixed.
+
+Donal Fellows asks if trace is disabled in the execution handler,
+how tracing to a sub-interp would work, and clarification on the
+purpose and use of trace variable {debug}.
+
+    * The documentation was updated to clarify these points.
 
 ~ Copyright
 
