@@ -1,10 +1,10 @@
 TIP:            188
 Title:          Add 'string is wideinteger' to the 'string is' Subcommand
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        23-Apr-2004
 Post-History:   
 Discussions-To: news:comp.lang.tcl
