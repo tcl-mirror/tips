@@ -1,6 +1,6 @@
 TIP:		167
 Title:		Add a New Option for Context Help for Windows
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Ramon Ribó <ramsan@cimne.upc.es>
 State:		Draft
 Type:		Project
@@ -68,7 +68,7 @@ values.
 
 ~ Reference Implementation
 
-[[To be uploaded to SourceForge and URL added to this TIP.]]
+http://sf.net/tracker/?func=detail&atid=312997&aid=845248&group_id=12997
 
 ~ Copyright
 
