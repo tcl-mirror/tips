@@ -1,0 +1,345 @@
+TIP:		155
+Title:		Fix Some of the Text Widget's Limitations
+Version:	$Revision: 1.1 $
+Author:		Vince Darley <vince@santafe.edu>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	08-Sep-2003
+Post-History:	
+
+~ Abstract
+
+Tk's text widget is very powerful, but has a number of known
+limitations.  Foremost amongst these is the way in which, particularly
+when there are long wrapped lines in the widget, the vertical
+scrollbar slider changes in size depending on the number of logical
+lines currently displayed.  See http://mini.net/tcl/896 for more
+detail and an example.
+
+This TIP addresses this usability bug and a number of other issues.
+
+~ Proposal
+
+The text widget has a number of limitations:
+
+  1. The aforementioned scrollbar interaction is flawed
+
+  1. To count the number of characters between index positions $idx1
+     and $idx2, one can only really do ''string length [.text get
+     $idx1 $idx2]''.  There is no easy way to determine the number of
+     visible (non-elided) characters between these two index
+     positions, nor the number of valid index positions between them
+     (remember that embedded windows or images always take up one unit
+     of index position, but don't correspond to any characters).
+
+  1. Performing a correct text "replace" operation (as used by a text
+     editor, for example) is difficult, because combinations of
+     insert/delete tend to make the window scroll and/or leave the
+     insertion cursor in an unnatural place.
+
+  1. There is no way to configure the widget to get an acceptable
+     block-cursor.
+
+  1. When long lines are wrapped there is no easy way to get the
+     beginning or end of a possible display line, or move up or down
+     by display lines, unless the line is actually currently displayed
+     (and even then the code is rather complex).
+
+This TIP is, therefore, to fix these limitations, as follows:
+
+  1. Make internal changes to the text widget so it keeps track of the
+     number of vertical display pixels in each logical line, and uses
+     that information to calculate scrollbar interactions, to provide
+     a better user experience.
+
+  1. Add a ''count'' widget subcommand, which calculates the number of
+     characters or index positions or non-elided characters/index
+     positions between two given indices.
+
+  1. Add a ''replace'' widget subcommand, which performs a combined
+     delete/insert operation while ensuring that the insertion
+     position, vertical display position, and undo/redo information is
+     correctly set.
+
+  1. Add a ''-blockcursor'' configuration option which makes the
+     widget use a rectangular flashing "block" rather than a thin beam
+     for the insertion point.
+
+  1. Add ''displaylinestart'' and ''displaylineend'' and ''+/- N
+     displaylines'' index offsets which work like ''linestart'',
+     ''lineend'', ''+/- N lines'' but with display lines, and which
+     work whether the relevant indices are currently displayed or not.
+
+Each of these proposals is discussed and presented in full detail
+below.
+
+In addition, the current implementation provides for a bit more text
+widget objectification and fixes the "very slow deletion of lots of
+text with lots of tags" bug (there was a non-linear slowdown which has
+been removed).  One crashing bug in the text widget has also been
+fixed.
+
+~ Scrollbar Interaction
+
+This is the most complex of the proposed changes, even though solving
+it results in no changes to the actual text-widget's public Tcl or C
+interfaces.  The following example illustrates the problem:
+
+| pack [scrollbar .s -command {.t yview}] -side right -fill y
+| pack [text .t -yscrollcommand {.s set}] -side left
+|
+| for {set i 0} {$i < 300} {incr i} {
+|   .t insert insert $i
+| }
+|
+| for {set i 0} {$i < 20} {incr i} {
+|   .t insert insert "$i"
+| }
+|
+| for {set i 0} {$i < 300} {incr i} {
+|   .t insert insert $i
+| }
+
+Solving this problem perfectly must require the text widget to know
+exactly how many vertical pixels each line contains.  However, for a
+widget which contains a great deal (megabytes) of text, images,
+embedded windows and numerous tags (and on which certain tags could
+have their font configuration changed on the fly), it is clearly
+impractical to have the widget calculate every line's pixel-height
+requirements whenever anything changes (for bad cases the
+response-time would be unacceptable).
+
+The solution proposed is an asynchronous update mechanism where the
+structure representing each logical line caches the last known pixel
+height and an epoch counter.  As changes (global or local) are made,
+individual logical lines recalculate their height either immediately
+(for small, local changes such as inserting a few characters) or are
+scheduled for recalculation (for larger changes such as resizing the
+window or changing size-influencing tag settings).  When blocks of
+lines (or, indeed, all lines) are scheduled for recalculation, each
+asynchronous callback should only recalculate the pixel heights of a
+relatively small number of lines, so that user-responsiveness is
+maintained.
+
+As line pixel-height calculations are updated, a second asynchronous
+mechanism is triggered, this one to update any scrollbar attached to
+the text widget (i.e. call the ''-yscrollcommand'' callback).  Again
+it is undesirable to call this every single time a single line's
+height is updated, so this is called with a timer mechanism so it is
+updated every 200ms.
+
+Both of these asynchronous mechanisms should be designed so they do
+not need to be run if nothing relevant has changed in the widget.
+
+It may require some experimentation to determine the most appropriate
+usage patterns of these asynchronous callbacks.  In particular, the
+current implementation uses timer callbacks (idle callbacks cannot be
+used because idle callbacks are not allowed to reschedule themselves).
+A thread-based implementation may have some advantages (although it
+certainly has disadvantages too).
+
+~ Count Subcommand
+
+A new subcommand ''.text count ?options? startIndex endIndex'' is
+added for all text widgets.  Valid options are ''-chars'',
+''-indices'', ''-visiblechars'' and ''-visibleindices''.  The default
+value, if no option is specified, is ''-indices''.
+
+The subcommand counts the number of relevant things between the two
+indices.  If startIndex is after endIndex, the result will be a
+negative number.  The actual items which are counted depend on the
+option given, as follows:
+
+ -indices: count all characters and embedded windows or images (i.e.
+    everything which counts in text-widget index space), whether they
+    are elided or not.
+
+ -chars: count all characters, whether elided or not.  Do not count
+    embedded windows or images.
+
+ -visiblechars: count all non-elided characters.
+
+ -visibleindices: count all non-elided characters, windows and images.
+
+In particular, this means that:
+
+| string length [.text get $i1 $i2] == [.text count -chars $i1 $i2]
+
+provided $i1 is not after $i2 in the widget.  It also means that
+
+| .text compare "$i1 + [.text count -indices $i1 $i2]chars" == $i2
+
+is true under all circumstances.  Notice that, unfortunately, index
+manipulation with ''$idx + ${n}chars'' actually moves not $n
+characters but $n index positions.  There is no equivalent
+manipulation which does actually use characters (nor is there a
+manipulation which ignores elided characters/indices).  The TIP author
+does not currently propose to fix this last limitation, although if a
+suitable, sensible syntax is found, he is willing to add such
+functionality to this TIP.  (Sadly, it appears as if backward
+compatibility would prevent us from simply using ''chars'',
+''indices'', ''visiblechars'', ''visibleindices'' as four different
+manipulation options, since the old ''chars'' would be equivalent to
+the new ''indices''.  Perhaps ''glyphs'' would work OK instead of
+''chars''?).
+
+~ Replace Subcommand
+
+A new subcommand
+
+| .text replace index1 index2 chars ?tagList chars tagList ...?
+
+is added for all text widgets.  This subcommand is approximately
+equivalent to a combined:
+
+| .text delete index1 index2
+| .text insert index1 chars ?tagList chars tagList ...?
+
+but also ensures that the current window display position (e.g. what
+line is currently displayed at the top left corner of the text widget),
+the current insertion position and the undo/redo stack are all correctly
+set up.  This subcommand could be implemented in pure Tcl, but is quite
+complex to get right.  The C-level implementation shares most of the
+code with insert/delete/count and can also be made more efficient in
+its handling of window-scrolling issues.
+
+~ Block Cursor
+
+A new text widget configuration option ''-blockcursor <boolean>'' is
+added.  If set to any true value, instead of a thin flashing vertical
+bar being used for the insertion cursor, a full rectangular block is
+used instead.
+
+~ Display-Line Handling
+
+Currently one can discover the beginning or end of a given logical line
+and move between logical lines with:
+
+| .text index "$idx linestart"
+| .text index "$idx lineend"
+| .text index "$idx +1lines"
+| .text index "$idx -5lines"
+
+However, when a given logical line may be wrapped over numerous
+display lines it is not so simple to find the beginning or end of a
+display line, or move up or down by display lines.  (In fact is is
+currently possible with the ''@'' syntax if the logical line and the
+$idx are both currently displayed on screen, but is not possible(*) if
+the logical line is not currently displayed).  Therefore a new index
+manipulation set are added:
+
+| .text index "$idx displaylinestart"
+| .text index "$idx displaylineend"
+| .text index "$idx +1displaylines"
+| .text index "$idx -5displaylines"
+
+These work whether or not $idx is currently displayed (when it is not
+displayed, the index is calculated by laying out the geometry of the line
+behind the scenes so this operation is certainly more time-consuming than
+determining the logical line start or end).
+
+(*) Perhaps it would be possible, if horribly cumbersome, by copying the
+relevant contents into another text widget which is unmapped and making
+sure the desired lines are visible in that widget, and finally
+performing the desired operations on the copy before deleting it all!
+
+~ Backward Compatibility
+
+All of the above changes simply extend the functionality of the text
+widget in new ways, and therefore have no possible backward
+compatibility problems, except one:
+
+Since the interaction between text widget and vertical scrollbar is now
+slightly different, any code which assumed that a particular scrollbar
+position (e.g. 0.5) corresponds to a particular line of text will find
+that that line of text may now be different (and will of course depend on
+the actual line heights).  This change is considered a bug fix, not an
+incompatibility!  In particular, however, any code which performs a
+calculation like:
+
+| set num_lines [lindex [split [.text index end] .] 0]
+| set last_visible [expr {int($num_lines *[lindex [.text yview] 1])}]
+
+(under the assumption that the scrollbar's units are effectively
+measured in logical lines) will now get a different answer (since the
+scrollbar operates with pixels), and that different answer will not
+correspond to the last visible line.  Of course the code should
+always have used:
+
+| set last_visible
+|   [expr {int([.text index "@[winfo width .text],[winfo height .text]"])}]
+
+which works correctly no matter how the scrollbar operates.
+
+Lastly, with this proposal as it stands, due to the unfortunate use of
+''chars'' to mean ''indices'' in the current text widget, there may be
+some user-confusion between this and the new ''-chars'' and
+''-visiblechars'' count options.  It may be better to use ''glyphs''
+or something else instead.  Hopefully discussion will clear up the
+desired behaviour and nomenclature.
+
+~ Implementation
+
+A relatively complete implementation is available at:
+
+http://sf.net/tracker/?func=detail&aid=791292&group_id=12997&atid=312997
+
+This passes all Tk text widget tests (on Windows XP, at least), including
+a significant number of new tests.  The memory requirements of the text
+widget have increased marginally to support the correct vertical
+scrolling behaviour: two new integers must be stored for each logical
+line of text.
+
+~ Out of Scope
+
+A number of other text widget enhancements might be nice.  Some of
+these are listed here for completeness:
+
+  * Printing support (at least to postscript like the canvas widget)
+
+  * Smooth scrolling.  The current implementation still forces a
+    complete, single display line to be shown at the top of the
+    window.  Given the pixel-based calculations provided by this TIP,
+    it would be quite easy to provide true smooth scrolling.  There is
+    an open question as to whether such smooth scrolling is always
+    desirable and, ''if not'', how to allow the programmer to revert
+    to the old behaviour.
+
+  * Cloning (e.g. reading in the result of ''.text -dump'', although
+    handling of tag definitions and tag-bindings would also be nice)
+
+  * Synchronizing/backing the widget contents with a Tcl variable
+    (actually not too hard to implement quite efficiently now, given
+    the ''count'' functionality).
+
+  * Loading data into the widget asynchronously from a channel (easy
+    to implement with Tcl procedures, although core support might make
+    for better scrollbar handling and thereby make such a feature
+    almost invisible to the user).
+
+  * Modifications to the horizontal scrollbar.  The horizontal
+    scrollbar's position/status depends only on the
+    ''currently-displayed contents'' of the text widget.  This means
+    as one scrolls the widget vertically, the horizontal scrollbar
+    changes.  No attempt has been made to fix this problem in this
+    TIP.
+
+  * A shorthand (''firstdisplayed'', ''lastdisplayed'' ?)  for the
+    rather less obvious ''.text index "@0,0"'' and ''.text index
+    "@[winfo width .text],[winfo height .text]"''
+
+  * The attachment of user-defined data to each logical line in the
+    widget (e.g. a code parser's current internal state), which might
+    make true parsing for syntax colouring significantly easier.
+
+None of these is included in the current TIP or current
+implementation.  If interested members of the community wish to extend
+this TIP or submit further TIPs to handle any of these enhancements,
+they are very welcome (and the author is happy to help coordinate
+where possible).
+
+~ Copyright
+
+This document has been placed in the public domain.
