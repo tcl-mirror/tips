@@ -1,6 +1,6 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Draft
@@ -312,6 +312,8 @@ There are a few other commands that change:
 
  * [[string map]] will take a dictionary instead of (or as well as) a
    list as its map argument.
+
+Naturally, dictionary handling will form its own maintenance area.  [16] and [24] will be updated as necessary.
 
 ~ C API
 
