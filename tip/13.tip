@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -136,7 +136,7 @@ engine is maintained at
 http://sourceforge.net/projects/tiprender/ .  To enable the
 web-editing features, set the Tcl variable FEATURE(EDIT) to 1 in
 the file config.tcl.  A working version of the proposed web service
-is available at http://www.scriptics.com:8080/cgi-bin/tct/tip/ .
+is available at http://dev.scriptics.com:8080/cgi-bin/tct/tip/ .
 
 For what it's worth, this TIP was created primarily within a web
 browser, making revisions through the web interface provided by the
