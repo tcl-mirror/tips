@@ -1,11 +1,11 @@
 TIP:		76
 Title:		Make 'regsub' Return a String
-State:		Draft
+State:		Accepted
 Type:		Project
 Tcl-Version:	8.4
-Vote:		Pending
+Vote:		Done
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Bruce Hartweg <B.Hartweg@compaq.com>
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	29-Nov-2001
