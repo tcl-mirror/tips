@@ -1,0 +1,96 @@
+TIP:		112
+Title:		Ensembles are Namespaces are Commands
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	10-Oct-2002
+
+~ Abstract
+
+This TIP proposes unifying the concept of ensembles (from [[Incr
+Tcl]]) with namespaces and commands.
+
+~ Rationale
+
+Tcl's subcommand-style command collections (e.g. ''array'', ''info'',
+''string'', ''interp'', etc.) are a very intuitive and popular way of
+structuring collections of related commands.  However, it is quite
+awkward to write Tcl code that behaves that way.  Users of [[Incr
+Tcl]] have access to ensembles which provide that, but it would be a
+very useful feature for many other uses too.
+
+At the same time, it is becoming clear that many applications want to
+commonly refer to commands inside other namespaces directly (instead
+of through the [[namespace import]] mechanism) but the syntax for
+doing this is verbose and not as elegant as it might be.
+
+I believe that the same solution can address these two problems in one
+go, and make the language stronger and more usable for it.
+
+~ Proposed Change
+
+I propose altering Tcl so that for every namespace (except the
+top-level one) there is a command in the parent namespace that allows
+ensemble-like access to the exported commands of the namespace.  It
+will also provide suitable error messages when the given subcommand is
+not an exported command of the namespace (either because it is not a
+command at all, or because it is not exported), following the
+well-known Tcl style as enforced by ''Tcl_GetIndexFromObj()''.
+
+With respect to sub-namespaces, there are two consequences.  Firstly,
+sub-namespaces will only be visible where they are exported by their
+parent (though anyone knowing the colon path will be able to examine
+anything they want, as at present).  Secondly, where such exports are
+done, you can get a chain of ensembles, one nested inside another.
+
+No namespaces will be placed on the stack as part of expansion of the
+ensemble(s) so as to facilitate the use of [[uplevel]] to access the
+caller's stack frame/namespace.
+
+~ Example
+
+|namespace eval carrot {          ;# Creates command ::carrot
+|   namespace export foo bar potato
+|
+|   proc foo {} {puts 1}          ;# Exported
+|   proc bar {} {puts 2}          ;# Exported
+|   proc boo {} {puts 3}          ;# Not exported
+|
+|   namespace eval turnip {       ;# Not exported
+|      namespace export alpha
+|      proc alpha {} {puts 4}     ;# Exported
+|      proc beta {} {puts 5}      ;# Not exported
+|   }
+|
+|   namespace eval potato {       ;# Exported
+|      namespace export north
+|      proc north {} {puts 6}     ;# Exported
+|      proc south {} {puts 7}     ;# Not exported
+|   }
+|}
+|
+|carrot foo                       ;# Prints 1
+|carrot bar                       ;# Prints 2
+|carrot b                         ;# Also prints 2 ("boo" not exported)
+|carrot ?                         ;# Alternatives "bar", "foo" and "potato"
+|carrot potato                    ;# Complains about missing argument
+|carrot potato ?                  ;# Suggests you might try "north" instead
+|carrot potato north              ;# Prints 6
+|carrot turnip alpha              ;# Complains about "turnip" being not known
+|carrot::turnip alpha             ;# Prints 4
+|carrot::turnip::beta             ;# Prints 5
+
+~ Consequences
+
+Many commands in both Tcl and Tk would benefit from leveraging this,
+and it would enable straight-forward implementations of things like
+[65] in pure Tcl code.  It would also make doing things like partial
+exposure of ensemble-like commands in safe interpreters much easier.
+
+~ Copyright
+
+This document has been placed in the public domain.
