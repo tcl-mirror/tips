@@ -1,6 +1,6 @@
 TIP:		107
 Title:		Fix the 2-second "raise delay" in Tk
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Joe English <jenglish@flightlab.com>
 State:		Draft
 Type:		Project
@@ -79,25 +79,25 @@ fix and ought to make it in before 8.4 goes final.
 
 First, some terminology:
 
-    * ''toplevel'': a Tk [[toplevel]] window.
+    *	''toplevel'': a Tk [[toplevel]] window.
 
-    * ''wrapper'': an auxiliary window created by Tk to hold the
-      toplevel and its (optional) menubar.  Initially created as a
-      child of the root window.
+    *	''wrapper'': an auxiliary window created by Tk to hold the
+	toplevel and its (optional) menubar.  Initially created as a
+	child of the root window.
 
-    * ''client window'': From the window manager's perspective, any
-      window created as a child of the root window by an X client.  Tk
-      wrapper windows are client windows.  Most window managers
-      reparent client windows under a new frame window which holds
-      window manager decorations.
+    *	''client window'': From the window manager's perspective, any
+	window created as a child of the root window by an X client.
+	Tk wrapper windows are client windows.  Most window managers
+	reparent client windows under a new frame window which holds
+	window manager decorations.
 
-    * ''reparent'': Used as a noun, the immediate parent of a wrapper
-      which has been reparented by a window manager.
+    *	''reparent'': Used as a noun, the immediate parent of a
+	wrapper which has been reparented by a window manager.
 
-    * ''frame'': The immediate child of the root window (or virtual
-      root window) created by the window manager to hold a client
-      window and its decorations.  May or may not be the same as the
-      reparent window.
+    *	''frame'': The immediate child of the root window (or virtual
+	root window) created by the window manager to hold a client
+	window and its decorations.  May or may not be the same as the
+	reparent window.
 
 Next, some methodology:
 
