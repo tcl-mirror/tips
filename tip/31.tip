@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -10,6 +10,7 @@ Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         <dgp@users.sf.net>
+Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -161,6 +162,11 @@ branch, or they may be rejected.
      by ActiveState for Cisco. Not for public modification.
 
    * ''dgp-refactor'' (Tcl) - Various refactoring exercises.
+
+   * ''kennykb-numerics-branch'' (Tcl) - Explorations into improving
+     Tcl's numeric properties, including support for large integers
+     and rationals, and improvements to Tcl's floating point
+     conversions.
 
 ~ Dead Branches
 
