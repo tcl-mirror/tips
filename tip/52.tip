@@ -1,6 +1,6 @@
 TIP:            52
 Title:          Hierarchical Namespace Lookup of Commands and Variables
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Withdrawn
@@ -178,6 +178,19 @@ with the new behaviour.
 
  > Not addressed in this TIP: Impact on speed of the interpreter.
 (Seeking out mail on Tcl core where author of talks about this)
+
+~ Notice of Withdrawal
+
+This TIP was Withdrawn by the TIP Editor following discussion on the
+tcl-core mailing list.  The following is a summary of reasons for
+withdrawal:
+
+ > Insufficiently subtle.  52 will break any code that assumes the
+   current behaviour (and you can bet someone will have that
+   assumption) and 142 doesn't let two namespaces have different
+   search paths (unless the variable is always interpreted locally,
+   which just creates bizarre variable name magic.)
+
 
 ~ Copyright
 

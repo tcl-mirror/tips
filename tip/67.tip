@@ -1,6 +1,6 @@
 TIP:           67
 Title:         Allow Subclassing of tk_getOpenFile, tk_getSaveFile on UNIX
-Version:       $Revision: 1.4 $
+Version:       $Revision: 1.5 $
 Author:        Chris Nelson <nelson@pinebush.com>
 Author:        Al Zielaskowski <zielasko@pinebush.com>
 State:         Withdrawn
@@ -141,6 +141,17 @@ relative to Tk 8.4a3 follows:
 | 
 |     # Create the bindings:
 |     #
+
+~ Notice of Withdrawal
+
+This TIP was Withdrawn by the TIP Editor following discussion on the
+tcl-core mailing list.  The following is a summary of reasons for
+withdrawal:
+
+ > This would make porting code between platforms obscenely difficult
+   as there is no way for the subclassing to work the same way on all
+   platforms.  Better for people to roll their own, perhaps starting
+   from the foundations of the UNIX file browsing code if they wish.
 
 ~ Copyright
 

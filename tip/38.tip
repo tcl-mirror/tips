@@ -1,6 +1,6 @@
 TIP:		38
 Title:          Add Support for Default Bindtags
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:         Bryan Oakley <boakley@austin.rr.com>
 State:		Withdrawn
 Type:           Project
@@ -128,6 +128,21 @@ pluggable look and feel some day.
 
 Keeping all of the bindtags interaction with the bindtags command
 seems like a better way to go.
+
+~ Notice of Withdrawal
+
+This TIP was Withdrawn by the TIP Editor following discussion on the
+tcl-core mailing list.  The following is a summary of reasons for
+withdrawal:
+
+ > Perhaps some of the ideas behind these TIPs should be incorporated
+   into some new TIP on making megawidget support better, but none of
+   these TIPs really stand on their own.  (38 isn't a good idea, since
+   alteration of the bindtags for all widgets of a class at once is a
+   bad idea, and it is better when rolling your own megawidget classes
+   to put the setting up of the bindtags in there.  39 and 42 just
+   clash with each other as soon as you have two different codebases
+   trying to use a single widget.)
 
 ~ Copyright
 

@@ -1,6 +1,6 @@
 TIP:		142
 Title:		Search Path Variable to Lookup Command Names in Namespaces
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Ulrich Schoebel <ulrich.schoebel@sigos.de>
 Tcl-Version:	8.5
 State:		Withdrawn
@@ -68,6 +68,19 @@ Then the default value would be ''::''.
 ~ Implementation
 
 To be done when this TIP is accepted.
+
+~ Notice of Withdrawal
+
+This TIP was Withdrawn by the TIP Editor following discussion on the
+tcl-core mailing list.  The following is a summary of reasons for
+withdrawal:
+
+ > Insufficiently subtle.  52 will break any code that assumes the
+   current behaviour (and you can bet someone will have that
+   assumption) and 142 doesn't let two namespaces have different
+   search paths (unless the variable is always interpreted locally,
+   which just creates bizarre variable name magic.)
+
 
 ~ Copyright
 

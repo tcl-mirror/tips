@@ -1,6 +1,6 @@
 TIP:		46
 Title:          Consistent Overlap Behavior of Area-Defining Canvas Items 
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Gerhard Hintermayer <g.hintermayer@inode.at>
 State:          Withdrawn
 Type:           Project
@@ -53,6 +53,16 @@ rectangles are wire frames.
 What I'd like is: all points which are inside of an area object should return
 the enclosing object when passed to find overlap, ''regardless'' of the fill
 color of the item.
+
+~ Notice of Withdrawal
+
+This TIP was Withdrawn by the TIP Editor following discussion on the
+tcl-core mailing list.  The following is a summary of reasons for
+withdrawal:
+
+ > This would remove useful behaviour that is used rather more often
+   than people think.  If people want unfilled polygons with the other
+   style of overlap behaviour, they should use lines.
 
 ~ Copyright
 
