@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.37 $
+Version:        $Revision: 1.38 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -68,7 +68,7 @@ assigned:
 
    1. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''ByteArray Objects'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''ByteArray Objects'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
