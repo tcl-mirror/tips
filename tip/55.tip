@@ -1,6 +1,6 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 State:          Draft
 Type:           Project
@@ -193,7 +193,8 @@ the values stored in this description (eg. email addresses of creators).
 
  > This element is a string containing the name of the distributed
    package. The name may consist only of alphanumeric characters,
-   colons, dashes and underscores.  This name should correspond to the name of
+   colons, dashes and underscores.  This name should correspond to the
+   name of
    the package defined by this distribution (that is, the code should
    contain ''package provide xyzzy'' where ''xyzzy'' is the value of
    this element.
@@ -465,14 +466,18 @@ load all of these packages if ''[[package require tcllib]]'' was called.
 
 Possible values for $architecture in the directory structure include:
 
-   * the value of ''tcl_platform(platform)'': windows, unix, macintosh
-   * a composite of tcl_platform values:
-     ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
-   * a canonical system name as returned by ''config.guess'': ''i686-pc-linux-gnu''
+ * the value of ''tcl_platform(platform)'': windows, unix, macintosh
+
+ * a composite of tcl_platform values:
+  ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
+
+ * a canonical system name as returned by ''config.guess'': ''i686-pc-linux-gnu''
+
 ~ Installing Packages
 
 A package structured according to this TIP can be installed using the following
 steps:
+
    1 Download the package archive (eg. zip file)
    2 Locate a writeable directory included on $auto_path (or ask for a
      installation directory)
