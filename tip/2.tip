@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -34,7 +34,7 @@ their history is the historical record of the feature proposal.  This
 historical record is available by the normal (CVS?) commands for
 retrieving older revisions.  For those without direct access to the
 CVS tree, you can browse the current and past TIP revisions via
-http://tip.web.site/
+http://www.scriptics.com:8080/cgi-bin/tct/tip/
 
 Further details on the arguments behind the evolution of the TIP
 concept and formatting can be found in the archive of the ''tclcore''
@@ -200,7 +200,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.11 $
+|Version:       $Revision: 1.12 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
