@@ -1,20 +1,20 @@
-TIP:           74
-Title:         wm stackorder command
-Version:       $Revision: 1.1 $
-Author:        Mo DeJong <mdejong@users.sourceforge.net>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4
-Vote:          Pending
-Created:       12-Nov-2001
-Post-History:  
+TIP:            74
+Title:          wm stackorder command
+Version:        $Revision: 1.2 $
+Author:         Mo DeJong <mdejong@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Nov-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
 Tk provides no means to query the stacking order of toplevel windows.
 This functionality would be useful to applications that wished to save
 and restore the state and relative order of each toplevel.  This
-functionality would also make it easier to write test cases for window
+functionality would also make it possible to write test cases for window
 manager related commands like focus, raise, and lower.  This document
 suggests a new ''wm stackorder'' command to address this deficiency.
 
@@ -46,7 +46,7 @@ The ''isbelow'' usage is analogous:
 One additional C API would be added.  It would accept a Tk window and
 return an array of Tk windows in stacking order.  This function would
 be implemented in the platform specific window manager code, such as
-''tkUnixWm.c''.  This function signature are subject to change.
+''tkUnixWm.c''.  This function signature is subject to change.
 
 |TkWindow ** TkWmStackorderToplevel(TkWindow *parentPtr);
 
@@ -101,17 +101,9 @@ assistance from area maintainers.
 
 ~ Alternatives
 
-Some users have implemented a set of bindings on the Toplevel class
-that can be used to keep track of windows being raised, lowered,
-created, and destroyed.  The functionality could be wrapped into a
-module and added to tklib.  This alternative was not pursued because
-the inability to query the stacking order seems like a deficiency that
-should be addressed in the core of Tk.  Indeed, the inability to query
-the toplevel window stacking order in the Tk test suite was the
-driving factor in the creation of this TIP.
-
-The ''winfo children'' command is another option.  The documentation
-reads:
+Instead of adding a new wm stackorder command, one could
+adjust the behavior of the ''winfo children''. The
+documentation currently reads:
 
  winfo children window:
     Returns a list containing the path names of all the children of
@@ -121,7 +113,7 @@ reads:
 
 A user would no doubt conclude that the stacking order was maintained
 for both toplevels and contained widgets.  Unfortunately, the
-implementation only keeps track of the stacking order for contained
+implementation only tracks the stacking order for contained
 widgets.
 
 |% toplevel .t
@@ -133,23 +125,83 @@ widgets.
 |% winfo children .t
 |.t.b2 .t.b1
 
-Tk does not keep track of stacking order changes in toplevels.
+Tk does not track stacking order changes for toplevels.
 
+|% toplevel .t2
 |% winfo children .
 |.t .t2
 |% raise .t
 |% winfo children .
 |.t .t2
 
-It would not be difficult to fix the ''winfo children'' command so
-that it made use of the same logic as the ''wm stackorder'' command
-w.r.t. toplevels.  The tricky thing would be keeping the
-''TkWindow->childList'' list up to date when the window manager
-changed the toplevel stacking order.  ''Tk_RestackWindow()''
-explicitly avoids adjusting the stacking order of toplevel windows.
-The "right" solution for this ''winfo'' problem is not immediately
-apparent.  Even so, it does not stand in the way of adding the ''wm
-stackorder'' command.
+There are two possible ways to "fix" the ''winfo children'' command
+so that it would return toplevels in stacking order. One could call
+the ''TkWmStackorderToplevel()'' function and use the results to
+sort any toplevels that would be returned by ''winfo children''.
+The other option would be to resort the ''TkWindow->childList''
+as toplevels are moved up and down in the stacking order.
+
+Both of these alternatives have some serious implementation issues.
+The ''TkWmStackorderToplevel()'' function is very slow. The X based
+implementation recurses through each window in the Tk hierarchy to
+create a mapping of wrapper window ids to TkWindows. The function
+then queries the X server to find each X window that is a child of
+the root screen and checks to see if the window exists in the
+mapping. When compared to ''winfo children'', which just loops
+over an in-memory list, it is easy to see why ''wm stackorder''
+is so much slower.
+
+|% for {set i 0} {$i < 10} {incr i} {toplevel .t$i}
+|% time {winfo children .} 100
+|34 microseconds per iteration
+|% time {wm stackorder .} 100
+|394 microseconds per iteration
+
+It would not be wise to make the ''winfo children'' command
+an order of magnitude slower just to add a new capability.
+One also needs to remember that the ''winfo children'' command
+is often used recursively, so any slowdown would be multiplied
+by the depth of the window hierarchy.
+
+The second option would be to keep the ''TkWindow->childList''
+sorted as toplevels are raised and lowered either by the
+application or the window manager. This would imply binding
+to the <Circulate> event under X. While the <Circulate> event
+is defined in Tk, it does not seem to actually be delivered
+by the window manager. In any event, this seems like an area
+ripe for incompatibility and error.
+
+Even if one of the above fixes for the ''winfo children'' command
+was doable, it still would not satisfy user's needs. One would
+be able to compare the relative stacking order of two toplevels
+that have the same parent.
+
+|% toplevel .t1
+|% toplevel .t2
+|% winfo children .
+|{.t1 .t2}
+
+Unfortunately, it would not be possible to compare the stacking
+order of two toplevel windows that have different parents.
+
+|% toplevel .t1
+|% toplevel .t1.t2
+|# No help here!
+|% winfo children .
+|.t1
+|% winfo children .t1
+|.t1.t2
+
+It would not even be possible to query the position of the
+. window in the stacking order since it does not have a
+parent window that can be passed to ''winfo children''.
+
+Since modifying ''winfo children'' could cause some
+serious problems and it would ultimately be ineffective,
+this alternative was rejected. Instead, the documentation
+for the ''winfo children'' command should be updated to
+indicate that toplevel windows are not returned in stacking
+order.
 
 ~ Risks
 
@@ -158,15 +210,13 @@ The logic of the ''wm stackorder'' command is rather insulated from
 the rest of the Tk core.  Changing the implementation of
 ''Tk_RestackWindow()'' and keeping the ''TkWindow->childList'' up to
 date w.r.t. external changes would be more risky since it could affect
-other parts of the core.
-
-Calling ''XQueryTree()'' seems less error prone that monitoring
-notification events although it might be more expensive in terms of
-processing time.  Calling ''XQueryTree()'' requires that we recurse
-the entire Tk window tree looking for wrapper pointers so we can check
-them against each of the X window ids in the root window.  We might
-want to also store wrapper pointers in the map table so that a call to
-''Tk_IdToWindow()'' with a wrapper X id would work.
+other parts of the core. Calling ''XQueryTree()'' seems less error
+prone that monitoring notification events although it might be more
+expensive in terms of processing time. We might speed things up by
+also storing wrapper pointers in the map table so that a call to
+''Tk_IdToWindow()'' with a wrapper X id would work, but it is not
+clear that would help since the ''XQueryTree()'' likely takes up
+most of the function processing time.
 
 It is also not known how difficult or costly this functionality will
 be to implement on Windows, Mac OS, or Mac OS X.
