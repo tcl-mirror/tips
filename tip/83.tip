@@ -1,9 +1,9 @@
 TIP:            83
 Title:          Augment Tcl_EvalFile with Tcl_EvalChannel and Tcl_EvalUrl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Marian Szczepkowski <marian@mail.jozep.com.au>
 Author:         <dgp@users.sf.net>
-State:          Draft
+State:          Deferred
 Type:           Project
 Vote:           Pending
 Created:        24-Jan-2002
