@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -25,8 +25,9 @@ and although final approval of [2] is still pending, several TIPs
 have been submitted, discussed, and revised, and a few have been
 approved, so acceptance of TIPs in some form seems likely.
 
-A prototype system has been provided by Donal Fellows
-< fellowsd@cs.man.ac.uk > at http://www.cs.man.ac.uk/fellowsd-bin/TIP/
+A prototype system has been provided by Donal
+Fellows <fellowsd@cs.man.ac.uk>
+at http://www.cs.man.ac.uk/fellowsd-bin/TIP/
 that delivers TIPs to visitors in a variety of formats.  However,
 that system lacks archiving of each revision of each TIP, and
 offers no interface (through the web or otherwise) for making
