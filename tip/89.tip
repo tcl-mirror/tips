@@ -1,6 +1,6 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
 State:          Draft
@@ -192,10 +192,13 @@ Re-throw ''try - catch - finally ''
 
   * Added additional ''ecvar'' and ''infovar'' optional arguments to the catch
   statement.
+
   * All uncaught errors are propagated up after execution of the finally block
   (if specified).
+
   * Unanticipated errors within a catch or finally block start a new stack trace
   and are propagated up.
+
   * Additional ''info'' optional argument added to throw for completeness.
 
 ~ Reference Implementation
