@@ -1,0 +1,179 @@
+TIP:            48
+Title:          Basic themeing infrastructure for Tk
+Version:        $Revision: 1.1 $
+Author:         Frédéric Bonnet <fredericbonnet@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Jul-2001
+Post-History:   
+Tcl-Version:    8.4
+Discussions-To: news:comp.lang.tcl
+
+~ Abstract
+
+The Tk Toolkit is one of the last major GUI toolkits lacking themes support.
+This TIP proposes several simple changes that would allow for basic
+themeability to be easily and progressively implemented without loss of
+compatibility.
+
+~ Background
+
+The Tk Toolkit appeared on X-Window systems at a time where Motif was the de
+facto standard for GUI development. It thus naturally adopted Motif's
+look&feel and its famous 3d border style. First ports to non-X platforms
+such as Windows and MacOS kept the Motif style, which disappointed many
+users who felt Tk applications look "foreign". Version 8.0 released around
+1996 added native look&feel on these platforms.
+
+Recently, other Open Source toolkits such as QT (used by the KDE project)
+and Gtk (used by the GIMP graphics editing software and the Gnome project)
+emerged as powerful and free alternatives to Motif for X-Window GUI
+development. The rapidly growing success of Open Source systems such as
+GNU/Linux helped both toolkits attract a vast community of developers, and
+the firm (and sometimes friendly) competition between both communities led
+to an explosion of new features. Thirst for freedom and customizability
+created the need for themeability.
+
+The current implementation of Tk only provides native look&feel on supported
+platforms (Windows, X-Window, MacOS). This lack partly explains Tk's loss of
+mindshare, especially amongst Linux developers, where theme support is
+considered a "cool" or must-have feature. 
+
+While yesterday's goal of many GUIs was cross-platform visual uniformity (QT
+and Gtk borrowed much of their visual appearance to Windows, which borrowed
+earlier to NeXTStep), it is now quite common to find huge visual differences
+on today's desktops, even on same systems. Screenshot contests are quite
+common nowadays.
+
+~ Rationale
+
+Tk first kept away from the toolkit war. Tk's and its competitors'
+philosophies are radically opposite. Tk favors high level abstractions and
+scripting languages such as Tcl, whereas QT and Gtk developments are
+primarily done using C or C++ (which Tcl/Tk advocates believe to be The
+Wrong Way). But despite Tk's power, flexibility and ease of use, it has lost
+serious mindshare, especially amongst newcomers and Linux users who don't
+care about its cross-platform capabilities.
+
+Many Tk users may see themes support as cosmetic or of lower importance than
+much needed features suc as megawidgets or objectification. Nevertheless,
+this is a critical feature to be implemented for the long-term viability of
+Tk. Many courses are now promoting QT, Gtk or (aarggg!) Swing in place of
+Motif, leaving no room to Tk. Whatever its qualities (cross-platform,
+performance, ease of use, internationalization and Unicode support), the
+lack of themeability will always be seen as one of the main reasons for not
+using Tk. Applications using Tk instead of Gtk will look as "foreign" on
+pixmap-themed Linux desktop, or even on newer MacOS and Windows versions, as
+pre-8.0 applications were on non-X desktops.
+
+The lack of themeability is neither a fatality nor difficult to solve. Tk
+already allows for colors, fonts and border width and relief to be specified
+for all widgets. What is currently missing is pixmap themeing and border
+styles. The current proposal describes the needed building blocks for theme
+support that are both easy to implement and backward compatible.
+
+A straightforward solution would be that introduced by the Dash-patch in the
+form of new widget options such as ''-tile''. But this approach suffers from
+several major drawbacks:
+
+   * A lot of new options are needed to handle the many ways of drawing
+pixmap tiles, such as anchoring, repeating, or scaling.
+
+   * With the introduction of new options such as ''-activebackground'',
+tile-related options must be duplicated for each widget state (normal,
+active, disabled...), thus cluttering the options namespace a little more
+and raising the learning curve.
+
+   * Applying a theme to a whole widget hierarchy implies traversing the
+whole tree and applying a lot of options to each widget.
+
+  * Memory consumption is mechanically increased for all widgets, even in
+the case when these options are not used.
+
+Careful examination of the current implementation shows that Tk aready
+provides a simple and extensible mechanism for theme handling. Most widgets
+use the same 3D border drawing code, which is gathered in a limited number
+of files (generic/tk3d.{c|h} and <platform>/tk<platform>3d.{c|h}). This code
+is used under the hood by options such as ''-background'', which accept
+color values like ''-foreground'' but actually create ''Tk_3DBorder''s
+instead of ''XColor''s. By extending the current code and allowing
+script-level access to border objects, one gets a flexible, powerful and
+easy to use themeing mechanism. Combined with the standard option database
+mechanism, we get ready-to-use and well known theme file formats in the form
+of Tcl scripts or X resource files. Further theme-related changes being made
+on border objects rather than on widgets, backward and upward compatibility
+is guaranteed. Border objects will give the same benefits as current font
+objects. Similar enhancements may be done to color handling by creating
+color objects.
+
+~ Proposal
+
+This document proposes the creation of a new Tk command ''border'', similar
+in functionality to the existing ''font'' command. This command will allows
+for border objects to be created and configured. Moreover, by rewriting the
+current border handling APIs such ''Tk_Get3DBorder'' in a compatible way to
+accept both colors and border object, all widgets using borders gain
+immediate access to the new feature without needing to be rewritten. No new
+feature is introduced by this document, such as pixmap tiling or border
+style, but the clean separation between widgets and border handling will
+allow for easier implementation of such features in future versions.
+
+~ Specification
+
+The new ''border'' command closely follows the existing ''font'' command,
+both in use and behavior. It provides ''configure'', ''create'', ''delete''
+and ''names'' subcommands. For now, border objects only have one options,
+''-background'', that gives the same functionality as the existing
+implementation (ie give the base color for 3d border drawing).
+
+Like with fonts, any change to a given border object is propagated to all
+widgets using this border.
+
+~ Compatibility
+
+The changes have implications that are very similar to that introduced by
+the new font mechanism in Tk 4.2.
+
+No extra widget option is introduced. Existing API functionalities are
+exposed at script level. The current behavior is extended: existing border
+objects take precedence over color names for procedures such as
+''Tk_Get3DBorder''. Any code using the standard public API should need no
+change at all. Code accessing internal structures may need to be rewritten.
+
+~ Related Ideas / Future Work
+
+Similar work can be done on colors. In the current implementation, colors
+are either RGB triplets or fixed color names. Color objects would give a
+higher flexibility and themeability:  allowing the definition of abstract
+colors, propagating changes to a whole widget hierarchy, or using alternate
+color spaces such as Lab, Yuv, CMYK... Contrary to borders, there is no
+color object available in Tk, and XColors are used directly, so this implies
+incompatible (but needed) changes.
+
+The goal of the present TIP is to provide the building blocks needed to
+easily implement theme-related features such as pixmap tiling or shaped
+windows, by separating widget options for actual border management. The only
+option supported by the current proposal, ''-background'', offers no new
+feature with respect to the current implementation. Future enhancements and
+extensions are expected to introduce new options for this purpose. Future
+options may cover the following features:
+
+   1. Border style: allow choice between predefined or user-provided border
+styles, such as Motif, Windows, MacOS... Distinct code may be provided for
+all the supported reliefs.
+
+   1. Pixmap tiling: images (with potentially transparent areas) will be
+specified for the various elements of the border: sides, center, corners.
+Several display methods may be available, such as anchoring, repeating and
+stretching. An alternative is to supply a single image and specify areas to
+use for the various elements.
+
+   1. Procedural drawing: gradients, textures...
+
+   1. Shaped windows.
+
+~ Copyright
+
+This document has been placed in the public domain.
+
