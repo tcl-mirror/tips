@@ -1,0 +1,132 @@
+TIP:		38
+Title:          Add Support for Default Bindtags
+Version:	$Revision: 1.1 $
+Author:         Bryan Oakley <boakley@austin.rr.com>
+State:		Draft
+Type:           Project
+Vote:		Pending
+Created:	27-Jun-2001
+Tcl-Version:    8.4
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to add support for the ability to change the default
+list of bindtags for a class of widgets.
+
+~ Introduction
+
+Bindtags are an extremely useful addition to the Tk toolkit.  By
+modifying the bindtags for a given widget, enhanced bindings can be
+added, or default behaviors removed, without modifying actual
+bindings.
+
+At present, the default bindtags for a widget are fixed.  All widgets
+are created with the same default bindtags.  If an application
+programmer wants to alter the bindtags for a widget, she must do so on
+a case by case basis.
+
+By allowing the programmer to define their own default bindtags, one
+can leverage the power of bindtags with fewer lines of code.  In
+addition, changing the default bindtags can not only affect all
+widgets in a block of code, but widgets that are created at runtime,
+even if created by imported packages that are beyond the programmer's
+control.
+
+~ Specification
+
+An enhancement to the bindtags command is suggested.  At present, the
+only valid use of bindtags is to include a widget name as the first
+argument.  Therefore, adding a new parameter that does not begin with
+a dot will not break any existing scripts (that is to say, any script
+that presently has the command ''bindtags default'' is broken).
+
+This TIP proposes the following enhancement to the bindtags syntax:
+
+| bindtags default class tagList
+
+''default'' is the literal name of a subcommand
+
+''class'' is a widget class (e.g. Listbox, Text, etc) or ''*'' to
+signify all classes.  A default for a specific class will override the
+default for all.
+
+''tagList'' is a Tcl list of bindtags, with support for the following
+meta-characters, ala bind:
+
+ %C: the widget class
+ %W: the widget path for a specific instance of a widget
+ %%: replaced with a single %
+
+For example:
+
+| bindtags default Text [list Special %W %C . all]
+| => Special %W %C . all
+| text .t
+| => .t
+| bindtags .t
+| => Special .t Text . all
+
+If ''tagList'' is null (e.g. ''bindtags default Text {}''), the
+default bindtag reverts to the existing behavior.  Because of this it
+is not possible to associate a null bindtag list to a widget, but it's
+doubtful that would ever be an issue.  One could just as easily
+associate a bogus bindtag that has no bindings to get the same result.
+(As an alternate suggestion, we could allow null bindtag lists, and
+use ''bindtags default Text'' without a tagList to specify that the
+core defaults be used).
+
+When a widget is created, its default bindtags will be those specified
+by the programmer via the enhanced syntax.  If no defaults have been
+specified, the current behavior will be used.  For widgets that take a
+-class parameter (e.g. frames), it will choose the bindtags based on
+its requested class rather than its base class.  For example, ''frame
+.foo -class Combobox'' will use the bindtags for the class
+''Combobox'' rather than the class ''Frame''.
+
+~ Rationale
+
+Occasionally it is desirable to add a special bindtag to the front or
+end of the bindtag list for all widgets in an application.  Or, one
+way want to replace the widget class bindtag with their own or remove
+it altogether.  Without a way to specify a default, a programmer must
+issue a bindtag command for every widget after it is created.  This
+has an impact on overall performance.  In addition, it can be a source
+of errors over time; if a new programmer begins work on a project, she
+may not realize that widgets need this new bindtag and fail to add it
+in her code.
+
+In addition, when widgets are created dynamically during the course of
+a user's interaction with the system (for example, when a dialog is
+created before it is popped up), the bindtags must be added at
+runtime.  Often this is impractical if the dialog or widget(s) belong
+to an imported package that the programmer can't modify.
+
+~ Alternatives to this TIP
+
+An alternative way to implement this TIP might be to modify each
+widget command such that it becomes configurable.  An example might
+be:
+
+| button configure -bindtags {Special %W %C . all}
+| => Special %W %C . all
+| button .foo
+| => .foo
+| bindtags .foo
+| Special .foo Button . all
+
+Given that the widget commands now have no notion of class-level
+configuration values, it seems awkward to introduce it at this time.
+It would, however, open up the door for adding other features in
+future versions of Tk.  I can envision, for example, ''button
+configure -renderer myButtonRenderProc'', which would call
+myButtonRenderProc to render button widgets instead of using the
+default C-based renderer.  This might make it possible to support a
+pluggable look and feel some day.
+
+Keeping all of the bindtags interaction with the bindtags command
+seems like a better way to go.
+
+~ Copyright
+
+This document has been placed in the public domain with great vigor.
