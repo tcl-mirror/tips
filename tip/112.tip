@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.15 $
+Version:        $Revision: 2.16 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -112,7 +112,9 @@ The options available for creation and configuring are:
  -unknown: This provides (when non-empty) a partial command to handle
    the case where an ensemble subcommand is not recognized and would
    otherwise generate an error.  It is executed by concatenating on
-   ''all'' the arguments to the ensemble command and then invoking the
+   ''all'' the arguments to the ensemble command (including the ensemble
+   command name, though it is the fully qualified name that is passed)
+   and then invoking the
    completed command in the scope of the caller; if the script terminates
    normally, the ensemble engine reparses the subcommand and tries to
    dispatch it again (which is ideal for when the ensemble's
@@ -129,11 +131,17 @@ The options available for creation and configuring are:
    that the ensemble has defined (formatted similarly to the error
    message from ''Tcl_GetIndexFromObj()'').  This error will also be
    thrown when the subcommand is still not recognized during reparsing.
+   It is also an error for an -unknown handler to delete its namespace.
 
 Ensemble creation takes an extra option value pair:
 
  -command: This option allows you to override what the name of the
    ensemble to create is.
+
+Ensemble configuring allows the querying of an extra read-only option:
+
+ -namespace: This ''read-only'' option allows the retrieval of the name
+   of the namespace that the ensemble was created in.
 
 Given an ensemble command created by the above mechanism, calling the
 command will first of all match the subcommand to its implementing
