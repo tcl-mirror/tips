@@ -1,0 +1,84 @@
+TIP:		146
+Title:		Add Overall Anchoring to the Grid Geometry Manager
+Version:	$Revision: 1.1 $
+Author:		Peter Spjuth <peter.spjuth@space.se>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	05-Aug-2003
+Tcl-Version:	8.5
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to add an anchor option to grid managers to control
+the behaviour of a grid where all weights are zero.
+
+~ Rationale
+
+Have you ever found yourself adding "-weight" to an unused row or
+column in a grid?  That is usually the workaround to use when you have
+no "-weight" on any column but you don't want things to sit in the
+middle of the grid when the window is grown.
+
+By adding an anchor option it lets the code directly reflect the
+intention of the programmer and it makes the code more maintainable
+since you can add and remove columns without having to update the
+dummy weight.
+
+~ Shrinking a Grid
+
+When growing a grid, the behaviour is rather simple.  Follow the
+weights and when 0, follow the anchor.
+
+When shrinking a grid without weight things get more interesting.
+
+The previous behaviour of the grid is a bit inconsistent in that when
+grown it centers the slaves (as in anchor "center") and when shrunk it
+shows the upper left part (as in anchor "nw").
+
+Thus, following the new anchor will not be backwardly compatible, even
+though I doubt it can be common for people to rely on that behaviour.
+
+For shrinking there are three options.
+
+ 1. Always clip the bottom/right.  i.e. behave as now.
+
+ 2. Clip depending on anchor.
+
+ 3. Try to shrink all columns/rows, and only clip when minsize stops
+    further shrinking.
+
+To me 3. is how the grid should have worked long ago since I prefer it
+to shrink for example a button than leave it undisplayed.
+
+I think 2. makes more sense than 1., and if we are going to accept a
+minor compatibility breach maybe we just as well can go to 3.
+
+In this TIP's specification it is still undecided what to do with
+shrinking.
+
+~ Specification
+
+A new subcommand ''grid anchor'' is added.  It is similar to ''grid
+propagate'' in that it configures an aspect of a grid manager.
+
+The syntax is ''grid anchor master ?value?'' where ''value'' is a
+standard anchor value with ''center'' as default.
+
+Whenever there is extra space in the grid manager and no "-weight" is
+specified, the entire grid is placed according to the anchor value.
+
+~ Future Work
+
+I believe it would make more sense to have "nw" as default anchor but
+that feels like too big a compatibility breach, so maybe it can be
+done in 9.0.
+
+~ Reference Implementation
+
+Not implemented yet.
+
+~ Copyright
+
+This document has been placed in the public domain.
