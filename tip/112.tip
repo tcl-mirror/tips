@@ -1,13 +1,13 @@
-TIP:		112
-Title:		Ensembles are Namespaces are Commands
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 2.1 $
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Created:	10-Oct-2002
+TIP:            112
+Title:          Ensembles are Namespaces are Commands
+Version:        $Revision: 2.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        10-Oct-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -42,48 +42,103 @@ implementing command, but also some leading arguments to that command
 (similar to what you can do with the [[interp alias]] mechanism) this
 becomes a very powerful mechanism indeed.
 
+Finally, a sophisticated extra capability is the addition of an unknown
+subcommand callback to allow the creator of the ensemble to specify a
+customized strategy for handling subcommands that are not recognized by
+the ensemble machinery.  The handler itself has several possible
+strategies for dealing with the problem: throwing an error (with any
+string as the message) is one, of course, but the handler may also add
+new subcommands to the ensemble and ask the ensemble to have another go,
+or even do the subcommand execution directly for itself.
+
 ~ Proposed Change
 
 I propose to add a new subcommand to the [[namespace]] command,
 ''ensemble'', that creates and manipulates the ensemble command for a
-namespace.  Each namespace may have either 0 or 1 ensemble command
-associated with it, with the default name of the ensemble command
+namespace.  Each namespace may have any number of ensemble commands
+associated with it, with the default name of an ensemble command
 being the fully-qualified name of the namespace itself, though it will
-be legal to rename the ensemble command (anyone wanting to track such
+be legal to rename ensemble commands (anyone wanting to track such
 events should use the [[trace]] command.)  Tcl will not create an
 ensemble command for any namespace by default.
 
-The format of the [[namespace ensemble]] command will be this:
+The [[namespace ensemble]] command will have the following subcommands:
 
-|namespace ensemble theNamespace ?theSubcommandToCommandPrefixDict?
+ create: For creating a new ensemble for the ''current'' namespace.  The
+   command will take an optional argument giving the name of the ensemble
+   to create, and then a list of option value pairs (as defined below) to
+   set the ensemble up with.  As stated above, the default command name
+   is exactly the name of the namespace, but any other name may be
+   supplied; if it does not start with a namespace separator, the name
+   will be taken as being relative to the current namespace.
 
-That is to say that the first argument to the [[namespace ensemble]]
-command will be the name namespace to work with, and using the command
-will cause the ensemble command (with the corresponding name, as
-outlined above) to be created if it does not already exist, optionally
-specifying a dictionary (as in [111]) that maps from the full ensemble
-subcommand name to the prefix command and arguments used to replace
-the ensemble command/subcommand parameter pair.  If no dictionary is
-provided or the dictionary is empty, the ensemble's subcommands shall
-be exactly those commands that are exported by the namespace at the
-time that the ensemble command is called.  The result of calling the
-command will be the dictionary provided, or an empty dictionary if no
-dictionary was provided.
+ > As a side note, there is no ambiguity between the optional command
+   name and the option value list, as the option value list is always an
+   even number of arguments.
 
-If the ensemble command already exists and a dictionary, possibly
-empty, was specified, this shall update the set of commands provided
-by the ensemble command (with an empty dictionary standing for the set
-of exported namespace commands, as described in the previous
-paragraph) and return the new dictionary.  If the ensemble command
-exists but no dictionary is provided, then this command will return
-the currently used dictionary (subject to the special interpretation
-of the empty dictionary) without any side effects.
+ configure: For reading and writing the configuration of a particular
+   ensemble.  The command takes an argument specifying the name of the
+   ensemble to configure, and then works with either no extra arguments
+   (when it retrieves the entire ensemble configuration), one extra
+   argument (the name of the option to retrieve), or a list of option
+   value pairs to configure the ensemble with.  The name that this
+   subcommand looks up is the original (qualified) command that the
+   ensemble was created with.
+
+ info: For producing a list of ensembles associated with the current
+   namespace.  Takes an optional pattern that matches which ensembes to
+   return in the list; the pattern is matched against the original
+   (qualified) command that the ensemble was created with.
+
+ delete: For destroying ensembles associated with the current namespace.
+   Takes an optional pattern for constraining what ensembles are deleted;
+   the pattern is matched against the original (qualified) command that
+   the ensemble was created with.
+
+The options available for creation and configuring are:
+
+ -export: This option (if non-empty) specifies a list of ensemble
+   subcommands that the ensemble supports.  It does not need to be
+   sorted.  Each command is mapped according to the dictionary in the
+   ''-map'' option (if a non-empty map is present and the command has
+   a mapping) or to the correspondingly named command (which is not
+   required to exist at the time this is specified) in the context
+   namespace.
+
+ -map: This option (if non-empty) specifies a dictionary that maps
+   from ensemble subcommand names to lists of arguments to substitute
+   into the ensemble invokation in place of the ensemble command name
+   and the subcommand name.  See the ''-export'' option for the meaning
+   of this option when that option is also non-empty.  If this option is
+   empty and the ''-export'' option is empty too, the namespace will use
+   the exported commands of the namespace as its command set, dynamically
+   determining them (subject to cacheing) every time the ensemble is
+   invoked.
+
+ -prefix: This boolean option (which is on by default) controls whether
+   unambiguous prefixes of ensemble commands are recognized as if they
+   were the fully specified ensemble command names.
+
+ -unknown: This provides (when non-empty) a script fragment to handle the
+   case where an ensemble subcommand is not recognized and would
+   otherwise generate an error.  It is executed by concatenating on
+   ''all'' the arguments to the ensemble command and then evaluating the
+   resulting script in the scope of the caller; the result of the script
+   and any result code generated are passed directly back to the caller
+   unless the result code is TCL_CONTINUE (as generated by the
+   [[continue]] command) when instead the input command will be reparsed
+   (which is ideal for when the ensemble's configuration has been updated
+   by the unknown subcommand handler.)
+
+ -command: This read-only option lets you retrieve the original name of
+   the ensemble command.
 
 Given an ensemble command created by the above mechanism, calling the
 command will first of all match the subcommand to its implementing
 command (or command/argument list, as derived from the dictionary) in
 a manner that will be recognizably similar to that enforced by
-''Tcl_GetIndexFromObj()'' (including unambiguous prefix extension).
+''Tcl_GetIndexFromObj()'' (unless the ''-unknown'' option override this
+behaviour.)
 Then the ensemble command will rewrite the command and arguments so
 that the ensemble command and subcommand are replaced by the
 implementing command and any specified arguments, with the resulting
@@ -95,6 +150,7 @@ that the implementing command may itself be an ensemble command.
 
 |namespace eval carrot {          ;# Creates command ::carrot
 |   namespace export foo bar potato
+|   namespace ensemble create
 |
 |   proc foo {} {puts 1}          ;# Exported
 |   proc bar {} {puts 2}          ;# Exported
@@ -104,16 +160,17 @@ that the implementing command may itself be an ensemble command.
 |      namespace export alpha
 |      proc alpha {} {puts 4}     ;# Exported
 |      proc beta {} {puts 5}      ;# Not exported
+|      namespace ensemble create
 |   }
-|   namespace ensemble turnip
 |
 |   namespace eval potato {       ;# Exported
 |      proc north {} {puts 6}     ;# Not exported
 |      proc south {} {puts 7}     ;# Not exported
+|      namespace ensemble create -map {
+|         north ::carrot::potato::north
+|      }
 |   }
 |}
-|namespace ensemble carrot
-|namespace ensemble carrot::potato {north ::carrot::potato::north}
 |
 |
 |carrot foo                       ;# Prints 1
@@ -131,7 +188,11 @@ that the implementing command may itself be an ensemble command.
 |spud north                       ;# Prints 6
 |spud south                       ;# Complains about "south" being not known
 |carrot potato north              ;# Complains: no ::carrot::potato command
-|namespace ensemble carrot::potato {north {puts NORTH} south {puts SOUTH}}
+|namespace eval carrot::potato {
+|   namespace ensemble configure carrot::potato -map {
+|      north {puts NORTH} south {puts SOUTH}
+|   }
+|}
 |spud north                       ;# Prints NORTH
 |spud south                       ;# Prints SOUTH
 |namespace delete carrot
@@ -144,14 +205,15 @@ that the implementing command may itself be an ensemble command.
 |namespace eval B {
 |   proc b args {puts B::b=>$args}
 |}
-|namespace ensemble A {
+|# Create an ensemble in the global namespace
+|namespace ensemble create C -map {
 |   eg1 {::A::a foo bar}
 |   eg2 {::B::b 1 2 3}
 |   eg3 ::string
 |}
-|A eg1 spong                      ;# Prints A::a=>foo bar spong
-|A eg2 evil code {[exit]}         ;# Prints B::b=>1 2 3 evil code [exit]
-|A eg3 length qwertyuiop          ;# Returns 10
+|C eg1 spong                      ;# Prints A::a=>foo bar spong
+|C eg2 evil code {[exit]}         ;# Prints B::b=>1 2 3 evil code [exit]
+|C eg3 length qwertyuiop          ;# Returns 10
 
 ~ Consequences
 
