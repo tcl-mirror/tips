@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
 State:          Draft
@@ -953,6 +953,6 @@ terms of the Open Publication License
 
 The author of this TIP wishes to thank all the Tcl'ers who have
 taken the time to read and comment on it, most notably Joe English,
-Donal K. Fellows, Arjen Markus, Reinhard Max,
+Donal K. Fellows, Jeff Hobbs, Arjen Markus, Reinhard Max,
 Christopher Nelson, Donald G. Porter,
 Pascal Scheffers, and Peter da Silva.
