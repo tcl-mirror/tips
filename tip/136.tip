@@ -1,15 +1,15 @@
-TIP:		136
-Title:		Large List Initialisation
-Version:	$Revision: 1.1 $
-Author:		Simon Geard <simon.geard@ntlworld.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	25-May-2003
-Tcl-Version:	8.5
-Post-History:	
+TIP:            136
+Title:          Large List Initialisation
+Version:        $Revision: 1.2 $
+Author:         Simon Geard <simon.geard@ntlworld.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-May-2003
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP proposes the addition of a list initialisation command so
 that large lists can be easily and efficiently initialised.
@@ -47,25 +47,28 @@ notion that "everything is a string" in Tcl.
 
 ~Implementation
 
-I propose the introduction of a new command, ''linit'':
+I propose the introduction of a new command, ''lrepeat'':
 
-| linit <number> <value>
+| lrepeat <number> <element1> ?<element2>? ?<element3>? ...
 
-which returns a list of length <number> each element with value
-<value>; <number> must be a positive integer and <value> a list or
+which returns a list of length <number> * (number of elements). The new list is the given element sequence repeated <number> times.
+<number> must be a positive integer and each <element.> a list or
 string.
 
 Examples:
 
-| linit 100 0               - returns a list of 100 zeros
-| linit 100 [linit 100 0]   - returns a 100x100 matrix (list of lists) of zeros
+| lrepeat 100 0                 - returns a list of 100 zeros
+| lrepeat 100 [lrepeat 100 0]   - returns a 100x100 matrix (list of lists) of zeros
+| lrepeat 3 a b c               - returns a nine-element list {a b c a b c a b c}
+| lrepeat 1 a b c               - identical to [list a b c]
 
 ~Reference Implementation
 
 I have implemented this command.  A patch against the Tcl 8.4.3
 source, which implements the command and provides both tests and
 documentation, is available from
-http://homepage.ntlworld.com/whiteowl/tcl843-linit.patch
+http://homepage.ntlworld.com/whiteowl/tcl/tcl843-lrepeat.patch
+The directory also contains timing information and code which demonstrates a performance gain of over ten times for large lists.
 
 ~Copyright
 
