@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -641,6 +641,7 @@ assigned one or more maintainers:
      unix/install-sh,
      unix/ldAix,
      unix/mkLinks,
+     unix/mkLinks.tcl,
      unix/tcl.m4,
      unix/tcl.spec,
      unix/tclConfig.sh.in,
