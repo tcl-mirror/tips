@@ -1,6 +1,6 @@
 TIP:		241
-Title:		Case-Insensitive List Searching and Sorting
-Version:	$Revision: 1.1 $
+Title:		Case-Insensitive Switches and List Searching and Sorting
+Version:	$Revision: 1.2 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
@@ -8,18 +8,18 @@ Vote:		Pending
 Created:	26-Feb-2005
 Post-History:	
 Tcl-Version:	8.5
-Keywords:	Tcl, sorted lists
+Keywords:	Tcl, sorted lists, matching
 
 ~ Abstract
 
-This TIP proposes a '''-nocase''' option for the '''lsearch''' and
-'''lsort''' commands to allow for case-insensitive handling of the
-specified list.
+This TIP proposes a '''-nocase''' option for the '''lsearch''',
+'''lsort''' and '''switch''' commands to allow for case-insensitive
+handling of the specified list.
 
 ~ Rationale
 
-The '''lsearch''' and '''lsort''' commands are very flexible and
-powerful. However, in certain situations the ability to perform
+The '''lsearch''', '''lsort''' and '''switch''' commands are very flexible
+and powerful. However, in certain situations the ability to perform
 case-insensitive searching and sorting is absolutely required (such as
 searching fully qualified file names on file systems that do not
 differentiate between upper and lower case). Without the '''-nocase'''
@@ -35,6 +35,8 @@ Options will be added like this:
  > '''lsearch''' ?'''-nocase'''? ''list'' ''pattern''
 
  > '''lsort''' ?'''-nocase'''? ''list''
+
+ > '''switch''' ?'''-nocase'''? ''string bodyDefinition''
 
 For '''lsearch''', the '''-nocase''' option can be used with the
 '''-ascii''', '''-exact''', '''-glob''', and '''-regexp''' options. It
@@ -53,6 +55,11 @@ For both '''lsearch''' and '''lsort''', the '''-nocase''' option has
 no effect when used with the '''-dictionary''', '''-integer''', or
 '''-real''' options. For '''lsort''', the '''-nocase''' option has no
 effect when used with the '''-command''' option.
+
+For '''switch''', the '''-nocase''' option can be used with all three
+matching modes ('''-exact''', '''-glob''', '''-regexp''') and
+indicates that the matching of ''string'' should be performed in a
+case-insensitive manner.
 
 ~ Reference Implementation
 
