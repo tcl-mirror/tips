@@ -1,6 +1,6 @@
 TIP:            88
 Title:          Extend Tcl Process Id Control via 'pid'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
 Author:         <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -28,9 +28,9 @@ enhanced with new syntax.  This TIP proposes adding subcommands to
 ~ Specification
 
 |   pid ?fileId?
-|   pid send signalType fileIdOrPid ?fileIdOrPid ...?
+|   pid terminate pid ?pid ...?
 
-The first line is the current definition for [[pid]], which is to return the name of the current process id, or that attached to a ''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add only ''send'' initially.  This command is adapted almost directly from TclX, but changed to work as a subcommand of [[pid]].  This is to satisfy one of the most common requests from users regarding process management - killing a known process.  It also establishes the framework of extending [[pid]] for future modifications.
+The first line is the current definition for [[pid]], which is to return the name of the current process id, or that attached to a ''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add only ''terminate'' initially.  This command is adapted almost directly from TclX's signal handling, but changed to work as a subcommand of [[pid]].  This is to satisfy one of the most common requests from users regarding process management - killing a known process.  It also establishes the framework of extending [[pid]] for future modifications.
 
 ~ Reference Implementation
 
@@ -55,8 +55,9 @@ functions like these:
 |   pid list ?pattern?
 |   pid id ?-session id? ?-processgroup id?
 |   pid handle action signal ...
+|   pid send signalType fileIdOrPid ?fileIdOrPid ...?
 
-[[pid wait]] was in the initial tip, but it was recommended to rework it with callback to make it much more useful to the user.  The [[pid id]] command was intended for Unix only, operating on the current process id, and would function similar to the [[file attributes]] command, but Windows NT does have similar functionality.  The ''-user'' and ''-group'' options will return the name if possible, otherwise the id. The ''-parent'' option would be read-only (like ''-longname'' for [[file attributes]]).
+[[pid wait]] was in the initial tip, but it was recommended to rework it with callback to make it much more useful to the user.  The [[pid id]] command was intended for Unix only, operating on the current process id, and would function similar to the [[file attributes]] command, but Windows NT does have similar functionality.  The ''-user'' and ''-group'' options will return the name if possible, otherwise the id. The ''-parent'' option would be read-only (like ''-longname'' for [[file attributes]]).  [[pid send]] suffers from cross-platform portability as well.  On Windows, you can only ''raise'' signals inside of your own process.
 
 [[pid nice]] is easy to implement, while [[pid list]] is very much platform sensitive.  [[pid handle]] is for signal handling, another oft-requested feature for the core, and would be based on the TclX [[signal]] command (perhaps named ''trap'' as in Expect?).  It could be massaged to various forms.  These aren't to be addressed in this TIP, but are just ideas for the future.
 
@@ -68,7 +69,7 @@ This was the original form for [[pid send]], but it was noted that we are really
 
 [[process]] rather than [[pid]] seems a more logical name for this command, but we are working within the constraints of the existing commands in order to prevent command bloat.  There is still logic in the naming, as we are dealing with process ids.
 
-[[pid terminate]] was also recommended, with the ability to terminate a process and all its children.  This would be useful, but is not in the scope of the current tip.
+[[pid terminate]] was also recommended to have the ability to terminate a process *and* all its children.  This would be useful, but is not in the scope of the current tip.
 
 ~ Copyright
 
