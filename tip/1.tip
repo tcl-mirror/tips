@@ -1,6 +1,6 @@
 TIP:            1
 Title:          TIP Index
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         TIP Editor <donal.fellows@cs.man.ac.uk>
 State:          Active
 Type:           Informational
@@ -16,6 +16,11 @@ the TCT. It will be continually and automatically updated.
 ~ Index
 
 #index:
+
+White backgrounds indicate that the TIP is still a draft, yellow
+backgrounds highlight TIPs being voted on, and where a TIP has been
+rejected, withdrawn or obsoleted its index entry has a dark grey
+background.
 
 ~ Explanations and How To Submit New TIPs
 
