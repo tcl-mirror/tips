@@ -1,6 +1,6 @@
 TIP:            69
 Title:          Improvements for the Tcl Hash Table
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         George A. Howlett <gah@siliconmetrics.com>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -10,7 +10,7 @@ Vote:           Pending
 Created:        16-Oct-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
-Tcl-Version:    8.5
+Tcl-Version:    9.0
 
 ~ Abstract
 
