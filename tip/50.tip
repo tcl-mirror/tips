@@ -1,6 +1,6 @@
 TIP:            50
 Title:          Bundle [incr Tcl] with the Core Tcl distribution
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Mark Harrison <markh@asiainfo.com>
 Author:         Jeff Hobbs <jeffh@ActiveState.com>
@@ -183,3 +183,4 @@ vote shall not be considered binding.
 ~ Copyright
 
 This document has been placed in the public domain.
+
