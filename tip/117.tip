@@ -1,13 +1,13 @@
-TIP:		117
-Title:		Object Type Introspection
-Version:	$Revision: 1.1 $
-Author:		Peter Spjuth <peter.spjuth@space.se>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	01-Nov-2002
-Post-History:	
+TIP:            117
+Title:          Object Type Introspection
+Version:        $Revision: 1.2 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Nov-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -23,69 +23,72 @@ what type an object currently has.
 This small gap in Tcl's introspection abilities can be filled with a
 simple addition to the ''info'' command.
 
-Since the command is mainly for debugging it gives a human readable
-output, but guarantees that it is also a list to simplify script
-handling of the result.
-
 ~ Specification
 
 A new subcommand, ''objtype'', is added to ''info'' with the syntax:
 
-|info objtype value
+|info objtype ?value?
 
-It returns a list where the second element is the name of value's
-object type, or "none" if there is no internal representation.  The
-fourth element is "yes" or "no" depending on if the object has a valid
-string representation or not.  The first and third elements are static
-strings "Type:" and "StringRep:" to make it human readable.
+If no value is submitted, a list of all currently registered object
+types are return.
 
-Examples:
+If a value is submitted, it returns a list where the first element
+is the name of value's object type, or "none" if there is no
+internal representation.  The second element is a boolean of the
+form yes/no stating if the object has a valid string representation.
 
+|% info objtype
+|boolean index double end-offset wideInt list cmdName bytecode
+|nsName procbody bytearray int {array search} string
 |% set apa hejsan
 |hejsan
 |% info objtype $apa
-|Type: none StringRep: yes
+|none yes
 |% string length $apa
 |6
 |% info objtype $apa
-|Type: string StringRep: yes
+|string yes
 |% regexp $apa hoppsan
 |0
 |% info objtype $apa
-|Type: regexp StringRep: yes
+|regexp yes
 |% info objtype [expr 1+1]
-|Type: int StringRep: no
+|int no
 
 ~ Reference Implementation
 
 |static int
-|InfoObjtypeCmd(dummy, interp, objc, objv)
-|    ClientData dummy;          /* Not used. */
-|    Tcl_Interp *interp;        /* Current interpreter. */
-|    int objc;                  /* Number of arguments. */
-|    Tcl_Obj *CONST objv[];     /* Argument objects. */
+|InfoObjTypeCmd(dummy, interp, objc, objv)
+|    ClientData dummy;		/* Not used. */
+|    Tcl_Interp *interp;		/* Current interpreter. */
+|    int objc;			/* Number of arguments. */
+|    Tcl_Obj *CONST objv[];	/* Argument objects. */
 |{
 |    Tcl_Obj *listPtr;
 |
-|    if (objc != 3) {
-|        Tcl_WrongNumArgs(interp, 2, objv, "value");
+|    if ((objc != 2) && (objc != 3)) {
+|        Tcl_WrongNumArgs(interp, 2, objv, "?value?");
 |        return TCL_ERROR;
 |    }
 |
 |    listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 |
-|    Tcl_ListObjAppendElement(interp, listPtr,
-|            Tcl_NewStringObj("Type:", -1));
-|    Tcl_ListObjAppendElement(interp, listPtr, Tcl_NewStringObj(
-|            (objv[2]->typePtr != NULL) ? objv[2]->typePtr->name : "none", -1));
-|    Tcl_ListObjAppendElement(interp, listPtr,
-|            Tcl_NewStringObj("StringRep:", -1));
-|    Tcl_ListObjAppendElement(interp, listPtr,
-|            Tcl_NewStringObj((objv[2]->bytes != NULL) ? "yes" : "no", -1));
-|
+|    if (objc == 2) {
+|        Tcl_AppendAllObjTypes(interp, listPtr);
+|    } else {
+|        Tcl_ListObjAppendElement(interp, listPtr, Tcl_NewStringObj(
+|                (objv[2]->typePtr != NULL) ? objv[2]->typePtr->name : "none", -1));
+|        Tcl_ListObjAppendElement(interp, listPtr,
+|                Tcl_NewStringObj((objv[2]->bytes != NULL) ? "yes" : "no", -1));
+|    }
 |    Tcl_SetObjResult(interp, listPtr);
 |    return TCL_OK;
 |}
+
+~ Future possibilities
+
+For further object introspection the command can easily be 
+extended by options.
 
 ~ Copyright
 
