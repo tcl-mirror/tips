@@ -1,22 +1,23 @@
 TIP:            21
 Title:          Asymmetric Padding in the Pack Geometry Manager
-Version:        $Revision: 1.1 $
-Tcl-Version:	8.4
+Version:        $Revision: 1.2 $
 Author:         D. Richard Hipp <drh@hwaci.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        14-Jan-2001
-Post-History:
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
-Proposes modifying the ''pack'' geometry manager to support asymmetric
-padding.
+Proposes modifying the ''pack'' and ''grid'' geometry 
+managers to support asymmetric padding.
 
 ~ Rationale
 
-The ''pack'' geometry manager allows for adding extra space to the
+The ''pack'' and ''grid'' geometry managers allows for 
+adding extra space to the
 left and right of a widget using the -padx option, and above and below
 the widget using -pady.  But there is currently no way to add
 different amounts of space on opposite sides of the widget.  When a
@@ -27,15 +28,17 @@ unnecessarily and obscures the intent of the programmer.
 
 ~ Proposed Enhancement
 
-This TIP proposes to modify the -padx and -pady of ''pack'' geometry
-manager as follows: If the argument to -padx or -pady is a screen
+This TIP proposes to modify the -padx and -pady of both
+the ''pack'' and ''grid'' geometry
+managers as follows: If the argument to -padx or -pady is a screen
 distance, that distance is added to both sides of the widget.  (This
 is the current behavior.)  If the argument is a list of two screen
 distances, then the first screen distance is the extra space to add to
 the left or top and the second screen distance is the extra space to
 add to the right or bottom.
 
-The changes to -padx and -pady occur only if the pack geometry manager
+The changes to -padx and -pady occur in ''pack'' 
+only if the pack geometry manager
 is used according to the new syntax.  The older deprecated syntax
 (that dates from Tk3.3) will not support asymmetric padding.
 
@@ -45,6 +48,7 @@ This document has been placed in the public domain.
 
 ~ Patch
 
-Patches to implement asymmetric padding in the pack geometry manager,
+Patches to implement asymmetric padding in the 
+pack and grid geometry managers,
 as described above, are available at
-http://www.hwaci.com/sw/asym_pad_patch.txt
+http://www.hwaci.com/sw/asym_pad_patch_2.txt
