@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -79,13 +79,13 @@ done in 9.0.
 
 To clarify the shrinking options here is an example.
 
- a: Current behaviour or, "1" with anchor "center".
+a: Current behaviour or, "1" with anchor "center".
 
- b: "2" with anchor "center"
+b: "2" with anchor "center"
 
- c: "2" with anchor "nw"
+c: "2" with anchor "nw"
 
- d: "3" with anchor "nw"
+d: "3" with anchor "nw"
 
 |foreach top {.a .b .c .d} {
 |    toplevel $top
