@@ -1,6 +1,6 @@
 TIP:            32
 Title:          Add Tcl_Obj support to traces
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -25,136 +25,148 @@ type conversions to and from strings.  However, the trace API
 continues to require character strings in both command and variable
 traces.
 
+In addition, the ''Tcl_CreateTrace'' function interacts rather badly
+with the bytecode compiler, since it forbids inlining of functions.
+Since many trace applications ignore the built-in functions that would
+have been inlined, this restriction is not needed by many
+applications.  This TIP proposes to make it optional in the revised API.
+
+The trace mechanism in the Tcl library has been underused for some
+time, partly because it is awkward.  While the profiler, tracer and
+debugger from TclX and the debugger from Expect have seen some limited
+success, they are certainly not familiar to the majority of Tcl users.
+
+The second author of this TIP has experimented with using the trace
+mechanism to build a profiler for Tcl that does not depend on source
+code instrumentation.  His experience was that:
+
+  * It is very difficult to write useful trace procedures without
+    resorting to ''tclInt.h'' -- in particular, the fact that only the
+    command name and not the ''Tcl_Command'' token is passed meant
+    that ''Tcl_FindCommand'' is needed to do virtually anything
+    useful.
+
+  * The profiler often perturbs the run-time behavior of the program,
+    often violently.  The reason is twofold.  First, the string
+    representation of all of a traced command's arguments must be
+    constructed, even though the trace procedure has no need for
+    them.  Second, the presence of the trace procedure defeats the
+    bytecode compiler.  Since the user of a profiler is unlikely to
+    care about each individual built-in command (the common usage is
+    to profile the time spent in procedures), turning off inline
+    compilation of commands is neither needed nor wanted.
+
+  * The profiler traces returns from commands by subsituting the
+    command procedure with one that is internal to the profiler
+    itself, and restoring the command procedure upon exit.  Doing so
+    requires many needless lookups of the command name, because only
+    the name is presented to the trace procedure, and the name is the
+    only way to access ''Tcl_GetCommandInfo'' and
+    ''Tcl_SetCommandInfo''.  This overhead can be avoided only by
+    including ''tclInt.h'' and casting the ''Tcl_Command'' object to a
+    ''Command'' object -- in other words, by accessing the
+    interpreter's internal data structures from the extension.
+
+This TIP is an effort to rationalize the trace interface to avoid
+these difficulties.
+
 ~ Specification
 
-Add the following functions to the Tcl core:
+The following functions shall be added to the Tcl core:
 
- * Tcl_Trace ''Tcl_CreateObjTrace''(interp, level, objProc,
-   clientData)
+ 1. Tcl_CreateObjTrace
 
- > ''Tcl_CreateObjTrace'' behaves in the same manner as
-   ''Tcl_CreateTrace'', except the trace procedure (objProc) should
-   have arguments and result that match type type
-   ''Tcl_CmdObjTraceProc'':
+| Tcl_Trace Tcl_CreateObjTrace ( Tcl_Interp*          interp,
+|                                int                  level, 
+|                                int                  flags,
+|                                Tcl_CmdObjTraceProc* objProc,
+|                                ClientData           clientData );
 
-|typedef void Tcl_CmdObjTraceProc(
-|    ClientData clientData,
-|    Tcl_Interp *interp,
-|    int level,
-|    char *command,
-|    Tcl_ObjCmdProc *cmdProc,
-|    ClientData cmdClientData,
-|    int objc,
-|    Tcl_Obj * CONST objv[] );
+  > The ''Tcl_CreateObjTrace'' function adds a trace to the Tcl evaluator.
+    The ''interp'' argument is the Tcl interpreter for which tracing is
+    being requested.  The ''level'' argument is the maximum depth of
+    recursive calls; when the execution depth of the interpreter exceeds
+    this number, the trace callback does not execute.  The ''objProc''
+    argument is the callback procedure to execute each time a Tcl command
+    is evaluated; it is expected to have arguments and result type that
+    match ''Tcl_CmdObjTraceProc'' below.  The ''clientData'' argument is
 
- > Trace tokens returned by ''Tcl_CreateObjTrace'' can be used in
-   ''Tcl_DeleteTrace'' to remove the trace.
+    client data to pass to the ''objProc'' callback.  Finally, the
+    ''flags'' argument gives flags that control the tracing.  Initially,
+    the only flag supported will be ''TCL_ALLOW_INLINE_COMPILE''.  If this
+    flag is set, the bytecode compiler is permitted to compile in-line
+    code for the Tcl built-in commands; any command that has been compiled
+    in-line will not be traced.
 
- * int ''Tcl_ObjTraceVar2''(interp, part1Ptr, part2Ptr, flags,
-   objProc, clientData)
+  > The ''Tcl_CreateObjTrace'' function returns a ''trace token'' -- an
+    object of opaque type that may be passed to ''Tcl_DeleteTrace'' to
+    delete the trace.
 
- > ''Tcl_ObjTraceVar2'' behaves in the same manner as
-   ''Tcl_TraceVar2'', except the variable name is passed as Tcl_Obj
-   pointers (in the same manner as ''Tcl_ObjSetVar2'', q.v.), and the
-   trace procedure (objProc) should have arguments and result that
-   match the type ''Tcl_VarObjTraceProc'':
+  > The ''Tcl_CmdObjTraceProc'' will have the following type signature.
 
-|typedef Tcl_Obj *Tcl_VarObjTraceProc(
-|    ClientData clientData,
-|    Tcl_Interp *interp,
-|    Tcl_Obj *part1Ptr,
-|    Tcl_Obj *part2Ptr,
-|    int flags );
+|    typedef int Tcl_CmdObjTraceProc( ClientData     clientData,
+|                                     Tcl_Interp*    interp,
+|                                     int            level,
+|                                     CONST char*    command,
+|                                     Tcl_Command    commandInfo,
+|                                     int            objc,
+|                                     Tcl_Obj *CONST objv[] );
 
- > Under normal conditions, the trace procedure should return NULL,
-   indicating successful completion.  If objProc returns a value other
-   than NULL it signifies that an error occurred.  Upon return,
-   the reference count of the Tcl_Obj should be at least one;
-   ownership of this reference is transferred to the Tcl interpreter.
+ >  The ''clientData'' parameter is the client data that was passed to
+    ''Tcl_CreateObjTrace''.  The ''interp'' parameter designates a Tcl
+    interpreter.  The ''level'' parameter specifies the execution level.
+    The ''command'' parameter gives the raw UTF-8 text of the command
+    being evaluated, before any substitutions have been performed.  The
+    ''commandInfo'' parameter is an opaque ''Tcl_Command'' object that
+    gives information about the command.  The ''objc'' and ''objv''
+    parameters are the command name and parameter vector after
+    substitution.
 
- * void ''Tcl_ObjUntraceVar2''(interp, part1Ptr, part2Ptr, flags,
-   objProc, clientData)
+  > The trace procedure is expected to return a standard Tcl status
+    return.  If it returns ''TCL_OK'', the command is evaluated
+    normally.  If it returns ''TCL_ERROR'', evaluation of the command
+    does not take place.  The interpreter result is expected to
+    contain an error message.  If it returns any other status, such as
+    ''TCL_BREAK'', ''TCL_CONTINUE'' or ''TCL_RETURN'', it is treated
+    as if the command had done so.
 
- > ''Tcl_ObjUntraceVar2'' behaves in the same manner as
-   ''Tcl_UntraceVar2'', except it is used to remove trace procedures
-   registered with ''Tcl_ObjTraceVar2''.
+ 1. Tcl_GetCommandTokenInfo and Tcl_SetCommandTokenInfo
 
- * ClientData ''Tcl_ObjVarTraceInfo2''(interp, part1Ptr, part2Ptr,
-   flags, objProc, prevClientData)
+| int
+| Tcl_GetCommandTokenInfo( Tcl_Interp*  interp,
+|                          Tcl_Command  token,
+|                          Tcl_CmdInfo* infoPtr );
 
- > ''Tcl_ObjVarTraceInfo2'' behaves in the same manner as
-   ''Tcl_VarTraceInfo2'', except it is used to iterate through trace
-   procedures registered with ''Tcl_ObjTraceVar2''.
+| int
+| Tcl_SetCommandTokenInfo( Tcl_Interp*        interp,
+|                          Tcl_Command        token,
+|                          CONST Tcl_CmdInfo* infoPtr );
+
+  > The ''Tcl_GetCommandTokenInfo'' and ''Tcl_SetCommandTokenInfo''
+    functions are precisely parallel to today's ''Tcl_GetCommandInfo''
+    and ''Tcl_SetCommandInfo'' procedures, except that they accept an
+    opaque ''Tcl_Command'' object instead of a command name.  They are
+    provided so that trace procedures (and other extensions that have
+    such an object) can adjust command information without having to
+    go through two extra lookups in the command hash by applying
+    ''Tcl_GetCommandInfo'' to the result of ''Tcl_GetCommandName.''
 
 ~ Change History
+
+3 November 2001 - Reworked the entire TIP.  Changed the object trace
+handling to work with ''Tcl_Command'' objects instead of command
+names.  Removed the object-based variable trace procedures.  Since Tcl
+variable names really are character strings and not Tcl objects,
+object-based variable trace procedures would be ''slower'' than the
+string-based ones.
 
 30 March 2001 - Changed return value of objProc to a Tcl_Obj * instead
 of int (and using the interpreter result to indicate an error).  This
 is more consistent with the current behavior (but without the bug).  -dac
 
-~ See Also
-
-Tcl manual pages ''Tcl_TraceVar'' and ''Tcl_CreateTrace''.
-
 ~ Copyright
 
 Copyright © 2000 by David Cuthbert.  Distribution in whole or part,
 with or without annotations, is unlimited.
-
-~ Comments
-
-Kevin Kenny (2 April 2001):
-
-This proposal is detailing functionality that I've wanted for
-quite some time.  Given, however, that it allows us to make a
-partial break with the past, I'd like to make some minor changes
-to ''Tcl_CmdObjTraceProc.''
-
-In place of the type signature,
-
-|  typedef void Tcl_CmdObjTraceProc(
-|      ClientData clientData,
-|      Tcl_Interp *interp,
-|      int level,
-|      char *command,
-|      Tcl_ObjCmdProc *cmdProc,
-|      ClientData cmdClientData,
-|      int objc,
-|      Tcl_Obj * CONST objv[] );
-
-may I suggest that since the interpreter has the ''Command'' structure
-in hand, it simply deliver a ''Tcl_Command'' with the command's
-information, in place of the command procedure and client data?
-Also, the command name is redundant, since the same information
-is present in ''objv[ 0 ]''.
-
-The signature would then be:
-
-|  typedef void Tcl_CmdObjTraceProc(
-|      ClientData clientData,  /* Client data from Tcl_CreateObjTrace */
-|      Tcl_Interp* interp,     /* Tcl interpreter */
-|      int level,              /* Execution level */
-|      Tcl_Command cmdInfo,    /* Command information */
-|      int objc,               /* Parameter count */
-|      Tcl_Obj *CONST objv[]   /* Parameter vector */
-|  );
-
-This would allow the trace procedure to do interesting things like
-replace the command's ''objCmdProc'' and client data temporarily,
-before the interpreter uses them.  I have a profiler that works
-that way, using the existing API's.  It's awkward at the moment,
-because it needs to use ''Tcl_FindCommand'' to get at the command
-object (''Tcl_GetCommandInfo'' would also work in current releases,
-but I'm in the position of needing bugward compatibility with 8.0).
-It also is a horrible performance drain because of the shimmering
-that's needed to support tracing currently, and the fact that
-tracing defeats the bytecode compiler.
-
-If this change gets approved, and I can get ''TclpGetTime'' exported,
-I'll definitely release the profiler.  (I don't care to release code
-that depends on tclInt.h, because I don't want to track APIs
-that the maintainers don't consider 'stable'.)
-
-By the way, this change should be easier from a political standpoint
-than it was a year ago, when any extension that used this mechanism
-was presumably a competitor of the TclPro tools.
+Copyright © 2001 by Kevin B. Kenny.  Distribution in whole or part,
+with or without annotations, is unlimited.
