@@ -1,19 +1,19 @@
-TIP:		64
-Title:		Improvements to Windows Font Handling
-Version:	$Revision: 1.1 $
-Author:		Chris Nelson <chris@pinebush.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	27-Sep-2001
-Post-History:	
+TIP:            64
+Title:          Improvements to Windows Font Handling
+Version:        $Revision: 1.2 $
+Author:         Chris Nelson <chris@pinebush.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Sep-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
 This TIP improves handling of native fonts in Tk under Microsoft
 Windows making Tk applications more aesthetic and more consistent with
-users' expectations of Windows applications.
+users' expectations of 'Windows applications.
 
 ~ Background
 
@@ -28,10 +28,10 @@ configurable aspects of the native system.
   * On Microsoft Windows, this includes ''system'', ''systemfixed'',
     ''ansi'', ''ansifixed'', ''device'', and ''oemfixed''.
 
-Through v8.4a2, Tk used 8pt MS Sans Serif as the default font for
+Through v8.4a3, Tk used 8pt MS Sans Serif as the default font for
 widgets.  While this was almost OK, it fails in two respects:
 
-   * Users can change the font used for various Windows desktop
+   * Users can change the font used for various 'Windows desktop
      features so MS Sans Serif may not be the correct font for, for
      example, menus.
 
@@ -45,8 +45,8 @@ based on the Message font configured for the Windows desktop.  This
 appears to be wrong.
 
 This TIP attempts to fix the default Tk font the right way as well as
-giving Tk programmers access to the rest of the fonts configure for
-the Windows desktop.
+giving Tk programmers access to the rest of the fonts configured for
+the 'Windows desktop.
 
 ~ The Default GUI Font
 
@@ -57,20 +57,20 @@ are:
     1. ANSI_FIXED_FONT
 
     2. ANSI_VAR_FONT
-    
+
     3. DEVICE_DEFAULT_FONT
-    
+
     4. DEFAULT_GUI_FONT
-    
+
     5. OEM_FIXED_FONT
-    
+
     6. SYSTEM_FIXED_FONT
 
     7. SYSTEM_FONT
 
 The ''TkStateMap systemMap'' in ''tkWinFont.c'' listed all but one of
 these, DEFAULT_GUI_FONT.  As it turns out, this is the most important
-as it is the one that Windows uses as it's default font (for example,
+as it is the one that 'Windows uses as it's default font (for example,
 in Control Panel Applets).
 
 I propose to add DEFAULT_GUI_FONT to the ''systemMap'' with a font
@@ -101,8 +101,8 @@ structure lists:
 
    *  Message box font 
 
-The Windows Desktop Properties also include a font for icon labels on
-the desktop.  This font is accesses with ''SystemParametersInfo()''.
+The 'Windows Desktop Properties also include a font for icon labels on
+the desktop.  This font is accessed with ''SystemParametersInfo()''.
 
 I propose to add 6 desktop fonts as system fonts on Windows.  The
 names would be derived from their Desktop Properties entries:
@@ -121,7 +121,7 @@ A reference implementation for this is available in Patch #461442
 
 ~ Dynamic fonts
 
-Many Windows applications respond on-the-fly to changes in the desktop
+Many 'Windows applications respond on-the-fly to changes in the desktop
 fonts.  Tk responds to changes in Tk fonts via [[font configure]].  I
 propose that Tk respond to the WM_SETTINGCHANGE message from Windows
 to propagate changes to the desktop fonts enumerated above as it
