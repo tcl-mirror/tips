@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -43,150 +43,150 @@ assigned:
                      Jim Ingham <jingham@apple.com> (Mac),
                      Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX)
 
-   2. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   3. ''Timer Events'' - Kevin Kenny <kennykb@acm.org>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Timer Events'' - Kevin Kenny <kennykb@acm.org>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   4. ''Async Events'' - 
+   1. ''Async Events'' - 
 
-   5. ''XT Notifier'' - 
+   1. ''XT Notifier'' - 
 
-   6. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
+   1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
                               Daniel Steffen <das@users.sourceforge.net> (Mac),
                               Jim Ingham <jingham@apple.com> (Mac),
 			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   7. ''Variables'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Variables'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   8. ''Environment Variables'' -
+   1. ''Environment Variables'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac)
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   9. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   10. ''Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   11. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   12. ''ByteArray Objects'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''ByteArray Objects'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   13. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   14. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   14. ''Dict Object'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   1. ''Dict Object'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
 
-   15. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   16. ''Commands I-L'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands I-L'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   17. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   18. ''[[history]]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[history]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   19. ''[[interp]]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[interp]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   20. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   21. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   22. ''[[scan]]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[scan]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   23. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   24. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   25. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   26. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
+   1. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
                           Rolf Schroedter <Rolf.Schroedter@dlr.de> (WinSerial),
                           Daniel Steffen <das@users.sourceforge.net> (Mac),
                           Jim Ingham <jingham@apple.com> (Mac),
 			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   27. ''dde Package'' - Pat Thoyts <patthoyts@users.sourceforge.net>,
+   1. ''dde Package'' - Pat Thoyts <patthoyts@users.sourceforge.net>,
                          Kevin Kenny <kennykb@acm.org>
 
-   28. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   29. ''msgcat Package'' - Don Porter <dgp@users.sourceforge.net>
+   1. ''msgcat Package'' - Don Porter <dgp@users.sourceforge.net>
 
-   30. ''opt Package'' - Don Porter <dgp@users.sourceforge.net>
+   1. ''opt Package'' - Don Porter <dgp@users.sourceforge.net>
 
-   31. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
+   1. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
 
-   32. ''Safe Base'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Safe Base'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   33. ''tcltest Package'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   1. ''tcltest Package'' - Jeff Hobbs <JeffH@ActiveState.com>,
 	Melissa Chawla <hershey@panasas.com>
 
-   34. ''Pathname Management'' -
+   1. ''Pathname Management'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac),
 	Vincent Darley <vincentdarley@users.sourceforge.net>,
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   35. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
+   1. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
                         Jim Ingham <jingham@apple.com> (Mac),
 			Vincent Darley <vincentdarley@users.sourceforge.net>,
 			Jeff Hobbs <JeffH@ActiveState.com>
 
-   36. ''Init - Library - Autoload'' -
+   1. ''Init - Library - Autoload'' -
         Don Porter <dgp@users.sourceforge.net>,
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac),
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   37. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   38. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
+   1. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
                              Daniel Steffen <das@users.sourceforge.net> (Mac),
                              Jim Ingham <jingham@apple.com> (Mac),
                              Jan Nijtmans <j.nijtmans@chello.nl>,
 			     Jeff Hobbs <JeffH@ActiveState.com>
 
-   39. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   40. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   41. ''Regexp'' - Pavel Goran <pvgoran@newmail.ru>
+   1. ''Regexp'' - Pavel Goran <pvgoran@newmail.ru>
 
-   42. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   43. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   44. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   45. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
+   1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
                       Daniel Steffen <das@users.sourceforge.net> (Mac),
                       Jim Ingham <jingham@apple.com> (Mac),
 		      Jeff Hobbs <JeffH@ActiveState.com>
 
-   46. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
+   1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
                               Daniel Steffen <das@users.sourceforge.net> (Mac),
                               Jim Ingham <jingham@apple.com> (Mac),
 			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   47. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
+   1. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
                           Jim Ingham <jingham@apple.com> (Mac),
 			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   48. ''Portability Support'' -
+   1. ''Portability Support'' -
         Mo DeJong <mdejong@cygnus.com>,
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac),
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   49. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>,
+   1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>,
 	Lloyd Lim <lloydlim@users.sourceforge.net>
 
-   50. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   51. ''[[resource]]'' - Daniel Steffen <das@users.sourceforge.net>
+   1. ''[[resource]]'' - Daniel Steffen <das@users.sourceforge.net>
                       Jim Ingham <jingham@apple.com>
 
-   52. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
+   1. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
                        Jim Ingham <jingham@apple.com>
 
 ~ Orphaned Categories
