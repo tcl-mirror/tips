@@ -5,7 +5,7 @@ Created:	25-Jul-2003
 Type:		Project
 State:		Draft
 Vote:		Pending
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Tcl-Version:	8.5
 Post-History:	
 
@@ -175,6 +175,11 @@ framework, but which I've left out for various reasons:
 
  open channels, file sizes, etc.: Most other things can be limited in
    Tcl right now without special support.
+
+~Implementation
+
+An example implementation of this TIP is available as a patch
+[http://sf.net/tracker/?func=detail&aid=926771&group_id=10894&atid=310894].
 
 ~Copyright
 
