@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Add Tcl_SetChannelMode
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -11,32 +11,31 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP allows the ''tclvfs'' extension to adjust the writability of
-a channel within its close callbacks.
+This tip allows the creator and opener of a channel to cast away privileges and have them restored on close, to permit last-minute processing.  It is sufficient to resolve a tclvfs bug, minimal, and safe.
 
 ~ Rationale
 
-In order for the ''tclvfs'' extension to close a channel, it may need
-to write to that channel. If the channel is opened read-only, this
-causes a problem. This TIP proposes a new API that allows C code to
-modify the read/write status of a channel so that the close operation
-can be completed properly.
+Tclvfs has a bug '''[[1004273]] Can't read from channel in close callback''' [http://sourceforge.net/tracker/index.php?func=detail&aid=1004273&group_id=32692&atid=406308]
+
+The problem is that the user has requested a read/only or write/only channel, but the tclvfs' close process absolutely requires fuller access to the channel.  For example: a user's write-only chan has to be read by close in order to be processed.  Another example: a user's read-only channel has to be initially seeded by a memchan.
+
+This can be modelled by the opener of a channel (in this case, the tclvfs code) opening it with its required permissions and casting them away before handing them to a user, subsequently re-aquiring full channel permissions at the point where the channel needs to be closed - that is, immediately before the tclvfs' close callback is invoked.
+
+~ Safety
+   * escalation of privilege is controlled with the tcl core, unavailable to extensions.
+   * privilege is only granted (via its close callback) to the entity which opened the channel.
+
+Since the opening entity can in any case have complete access to any file it can create, and cannot successfully modify any file it couldn't have opened through the core, and because the privileges are only available to the opener, and then only at a point immediately before the tcl core is about to complete channel closing, re-escalation of privileges doesn't expose open channels to any additional risk of interference.
 
 ~ Proposed Change
 
-The following function, '''Tcl_SetChannelMode''' (the name analogous
-to the existing ''Tcl_GetChannelMode'') will be added to the core and
-published as part of Tcl's public C API.
+Immediately prior to invoking vfs close callback, tcl core should set permissions to the maximum.
 
-|void
-|Tcl_SetChannelMode(chan, mode)
-|    Tcl_Channel chan;
-|    int mode;
-|{
-|    ChannelState *statePtr = ((Channel*)chan)->state;
-|    state->flags &= ~(TCL_READABLE | TCL_WRITABLE);
-|    state->flags |= mode & (TCL_READABLE | TCL_WRITABLE);
-|}
+~ History
+
+This Tip was originally written to allow C code to modify permissions, but this makes the permissions system mean nothing, as a channel's permissions could then be freely modified in an ad hoc manner.
+
+This Tip now specifies a weaker modification that is still powerful enough to implemenent the desired channel semantics.
 
 ~ Copyright
 
