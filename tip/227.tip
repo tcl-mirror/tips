@@ -1,0 +1,127 @@
+TIP:            227
+Title:          Interface to Get and Set the Return Options of an Interpreter
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        30-Oct-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes new public C routines to allow the same access to
+interpreter return options [90] as are provided at the script level
+by the '''catch''' and '''return''' commands.
+
+~ Background
+
+In Tcl 8.5, the '''return''' command has aready been extended to
+accept all option value pairs passed to it as arguments, to permit
+extensions to augment any custom return code values with whatever
+additional data values are appropriate.  The '''errorInfo''' and
+'''errorCode''' values associated with the '''TCL_ERROR''' return
+code are already converted to this mechanism.
+
+The ability to set custom return options in the interp has been
+limited to the script level though.  For extension commands
+implemented entirely in C, it is inconvenient and somewhat
+unreliable to perform a ''Tcl_Eval("return ...")'' to be able
+to access this capability.
+
+Likewise, the '''catch''' command is able to capture the
+current set of return options in the interp, but doing so
+requires both a script level command, and use of a variable.
+Extension commands implemented in C are better served with
+a direct interface to fetch the dictionary value.
+
+~ Proposal
+
+Two new routines will be added to Tcl's public stub table:
+
+ > int '''Tcl_SetReturnOptions'''(Tcl_Interp *''interp'', Tcl_Obj *''options'')
+
+ > Tcl_Obj *'''Tcl_GetReturnOptions'''(Tcl_Interp *''interp'', int ''result'')
+
+These routines already exist in the HEAD of Tcl's development sources,
+but as private routines.  The Tcl source code itself already makes calls
+to these routines where appropriate, and their functioning is tested by
+the test suite.  This TIP merely proposes making these routines available
+as part of the public interface.
+
+The ''Tcl_SetReturnOptions'' routine is essentially equivalent to
+the '''return -options''' command.  The ''int'' value returned is
+the return code that the '''return''' command would return given
+the same options.  In fact, a valid implementation for the '''return'''
+command would be:
+
+| int Tcl_ReturnObjCmd(ClientData cd, Tcl_Interp *interp,
+|			int objc, Tcl_Obj *const objv[])
+| {
+|     int explicitResult = (0 == (objc %2));
+|     int numOptions = objc - 1 - explicitResult;
+|     if (explicitResult) Tcl_SetObjResult(interp, objv[objc-1]);
+|     return Tcl_SetReturnOptions(interp, Tcl_NewListObj(numOptions, objv+1));
+| }
+
+Note that ''Tcl_SetReturnOptions'' is like ''Tcl_SetObjResult''
+and ''Tcl_SetVar2Ex'' in that you can pass it a newly created
+Tcl_Obj confident that it will be freed later.  No refCount
+manipulation is required.
+
+The ''Tcl_GetReturnOptions'' routine is used by '''catch''' to
+fetch the value to be stored in the ''optionsVarName'' variable,
+if any.  The ''result'' argument should be whatever return code
+was returned by the script evaluation, or other ''interp'' activity
+whose return options you wish to retrieve.
+
+The ''(Tcl_Obj *)'' returned by ''Tcl_GetReturnOptions'' points
+to a newly created, unshared '''Tcl_Obj'''.  It can be written
+to as returned; no need to implement copy-on-write checks.  In
+particular, new key value pairs can be added to the dictionary,
+or existing ones changed or removed.  As noted above, such a
+value is also suitable for passing right back to ''Tcl_SetReturnOptions''.
+
+~ Compatibility
+
+Some extensions provide commands that offer the ability to evaluate a
+Tcl script in some other context, and return the complete result of
+that evaluation.  For example, the '''Thread''' package provides
+the '''thread::send''' command that evaluates a script in another
+interp in a different thread.  The '''thread::send''' command
+ultimately has a return code and a result that matches those produced
+by the script evaluation in the other thread.  Furthermore, the
+'''::errorInfo''' and '''::errorCode''' variables are set according
+to the script evaluation outcome in the other thread as well.
+Extensions that accomplish such passing of full evaluation results
+achieve it now with copies of all portions of the full evaluation results:
+the return code, the interp result, and when appropriate, the values
+of '''::errorInfo''' and '''::errorCode'''.  
+
+Such mechanisms will continue to work unchanged in Tcl 8.5.
+However, they will no longer represent the ''complete'' evaluation
+results of the script.  In order to continue to communicate back
+the full outcome of script evaluation, these extensions will want
+to call ''Tcl_GetReturnOptions'' after the script completes,
+transport that value back, and call ''Tcl_SetReturnOptions''
+in the original interp.  Note that use of
+these routines will automatically take care of '''::errorInfo'''
+and '''::errorCode''', so the complete outcome of script evaluation
+will be able to be communicated by the return code, the interp result,
+and the dictionary of return options.  Because the return options
+dictionary is itself extensible, this interface will not need to
+change again.
+
+~ Reference Implementation
+
+Pending...
+
+~ Comments
+
+Please make any comments here.
+
+~ Copyright
+
+This document has been placed in the public domain.
