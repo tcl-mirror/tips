@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -216,8 +216,8 @@ preference.
  {seconds from epoch, StarDate}: If either of these fields is present,
    it uniquely determines date and time.
 
- {am/pm indicator, hour am/pm, minute, second}, {hour, minute,
-   second}: Time with seconds is preferred to time without seconds.
+ {am/pm indicator, hour am/pm, minute, second}, {hour, minute, second}:
+   Time with seconds is preferred to time without seconds.
 
  {am/pm indicator, hour am/pm, minute}, {hour, minute}: Time can be
    interpreted without the seconds.
