@@ -1,6 +1,6 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
@@ -261,7 +261,7 @@ following respects:
 
 The latest patch for this tip 62 is available at:
 
-|  http://www.employees.org/~hlavana/tcl/
+  http://www.employees.org/~hlavana/tcl/
 
 The ''enterstep'' and ''leavestep'' functionallity does not work
 correctly in the latest patch. The main changes for the patch
