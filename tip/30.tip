@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -44,7 +44,8 @@ assigned:
 
    7. ''[entry]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   8. ''[frame] and [toplevel]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   8. ''[frame] and [toplevel]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+	Peter Spjuth <peter.spjuth@space.se>
 
    9. ''[listbox]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
