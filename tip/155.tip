@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -314,7 +314,7 @@ line of text.
 A number of other text widget enhancements might be nice.  Some of
 these are listed here for completeness:
 
-  * Printing support (at least to postscript like the canvas widget)
+  * Printing support (at least to postscript like the canvas widget -- in fact I'm sure 95% of the canvas printing code could be re-used for this, with the only new stuff being handling of multiple pages.  It might be preferable to support pdf instead, however)
 
   * Cloning (e.g. reading in the result of ''.text -dump'', although
     handling of tag definitions and tag-bindings would also be nice)
@@ -335,7 +335,7 @@ these are listed here for completeness:
     changes.  No attempt has been made to fix this problem in this
     TIP.
 
-  * A shorthand (''firstdisplayed'', ''lastdisplayed'', or ''display start'', ''display end''?)  for the
+  * A shorthand (''display start'', ''display end''?)  for the
     rather less obvious ''.text index "@0,0"'' and ''.text index
     "@[winfo width .text],[winfo height .text]"''
 
