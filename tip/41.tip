@@ -1,10 +1,10 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Eric Melski <ericm@interwoven.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        04-Jul-2001
 Post-History:   
 Keywords:       widget,tk,panedwindow
