@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -93,8 +93,8 @@ with ''proc''.
 
 | proc myBreak {} {return -code break}
 
-It would be a welcome completion of Tcl's built-in commands to be able
-to create a replacement for every one of them using ''proc''.
+It would be a welcome completion of Tcl's set of built-in commands to
+be able to create a replacement for every one of them using ''proc''.
 
 ~ Alternatives
 
