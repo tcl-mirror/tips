@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.13 $
+Version:        $Revision: 2.14 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -224,6 +224,10 @@ Many commands in both Tcl and Tk would benefit from leveraging this,
 and it would enable straight-forward implementations of things like
 [65] in pure Tcl code.  It would also make doing things like partial
 exposure of ensemble-like commands in safe interpreters much easier.
+
+~ Sample Implementation
+
+http://sf.net/tracker/?func=detail&aid=786509&group_id=10894&atid=310894
 
 ~ Copyright
 
