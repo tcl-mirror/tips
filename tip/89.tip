@@ -1,6 +1,6 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
 State:          Draft
@@ -29,6 +29,14 @@ compatibility penalty is incurred.
 This TIP proposes adding a try/catch command to the Tcl core (or C based
 Tcl library).  This implementation is not unlike those found in C++, C#,
 Java and Python (to name a few).
+
+An argument to add this to the core is that it modernizes the Tcl
+exception handling without impacting performance in any other way.
+Try/Catch are isolated commands that can easily be added, and do not
+interact with other commands or require other changes.  Try/Catch is not
+an isolated extension that is useful for special purposes only.  These
+commands, if implemented into the core, will be useful for any script
+currently using the catch construct.
 
 ~ Specification
 
@@ -72,7 +80,7 @@ I propose the following two commands be added to Tcl:
    required body of the ''finally'' block is evaluated following the
    ''try'' block and ''catch'' block.
 
->  ''type_list'' represents a list of glob style patterns used to match eache
+ > ''type_list'' represents a list of glob style patterns used to match eache
    of the errorCode list conditions.  A match is declared if the type_list
    patterns or errorCode elements are exhausted (whichever comes first) and a
    mismatch has not occurred.  If a match occurs, and ''ecvar'' is specified,
@@ -92,7 +100,7 @@ I propose the following two commands be added to Tcl:
    later discrimination of the two different error conditions (rethrown
    vs. unintended).
 
-   Note, ''catch {*}'', if specified, will catch all remaining errors.
+ > Note, ''catch {*}'', if specified, will catch all remaining errors.
    If used, it should be placed last since each of the catch blocks are
    evaluated in the order specified. ''type'' is that set in
    errorCode, and can be any user defined type, or built-in types
@@ -181,6 +189,7 @@ Re-throw ''try - catch - finally ''
 |    }
 
 ~ Revisions : Tom Wilkason March 26, 2002
+
 > Added additional ''ecvar'' and ''infovar'' optional arguments to the catch
   statement.
 > All uncaught errors are propagated up after execution of the finally block
