@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.49 $
+Version:        $Revision: 1.50 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -75,9 +75,16 @@ there more than here.
 <note by="Richard Suchenwirth" date="2001-01-30">Whitespace in XML element names won't work.. or is 
 "Kupries" an attribute without value?</note>
 
+~ Dummy <Section> 'To' "Test" XML Generation
+
+Move along now; nothing to see here...
+
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.49  2001/01/30 09:43:33  tclhttpd
+| Revision through web from  <richard.suchenwirth@kst.siemens.de> (15922)
+|
 | Revision 1.48  2001/01/30 09:40:49  tclhttpd
 | Revision through web from Richard GH Suchenwirth <richard.suchenwirth@kst.siemens.de> (15856)
 |
