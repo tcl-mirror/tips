@@ -1,14 +1,14 @@
 TIP:            50
 Title:          Bundle [incr Tcl] with the Core Tcl distribution
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
-Author:		Mark Harrison <markh@asiainfo.com>
-Author:		Jeff Hobbs <jeffh@ActiveState.com>
-Author:		Andreas Kupries <andreas@ActiveState.com>
-Author:		Karl Lehenbauer <karl@procplace.com>
-Author:		Michael McLennan <mmc@cadence.com>
-Author:		Don Porter <dgp@users.sourceforge.net>
-Author:		Brent Welch <welch@acm.org>
+Author:         Mark Harrison <markh@asiainfo.com>
+Author:         Jeff Hobbs <jeffh@ActiveState.com>
+Author:         Andreas Kupries <andreas@ActiveState.com>
+Author:         Karl Lehenbauer <karl@procplace.com>
+Author:         Michael McLennan <mmc@cadence.com>
+Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Brent Welch <welch@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -163,6 +163,11 @@ discuss the individual points in further detail.
         systems such as OTcl.  These users would be essentially
         disenfranchised if, for instance, a ''::class'' command were to
         appear in the Core.
+
+~ Implementation
+
+Jeff Hobbs has volunteered to lead the implementation effort with
+the assistance of all volunteers who want to help.
 
 ~ Notes
 
