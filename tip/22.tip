@@ -1,15 +1,16 @@
-TIP:		22
-Title:		Multiple Index Arguments to lindex
-Version:	$Revision: 1.5 $
-Author:		David Cuthbert <dacut@kanga.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	19-Jan-2001
-Tcl-Version:	8.4a2
-Keywords:	lindex, multiple arguments, sublists
+TIP:            22
+Title:          Multiple Index Arguments to lindex
+Version:        $Revision: 1.6 $
+Author:         David Cuthbert <dacut@kanga.org>
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jan-2001
+Post-History:   
 Discussions-To: news:comp.lang.tcl
-Post-History:
+Keywords:       {lindex {multiple arguments} sublists}
+Tcl-Version:    8.4a2
 
 ~ Abstract
 
@@ -114,7 +115,7 @@ allow this more-natural style of coding to be written in Tcl.
    be accessed in the manner described in this TIP.  In the
    ''struct'' module of ''tcllib'', several other data structures
    are being developed: graph, tree, queue, stack.  I would support
-   adding another data structure to that modules that provides an
+   adding another data structure to that module that provides an
    interface like the one described in this TIP, with the intent that
    all of these helpful data structures find their way into the
    BI distribution.
