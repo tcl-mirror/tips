@@ -1,0 +1,92 @@
+TIP:		36
+Title:		Library Access to 'Subst' Functionality
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	13-Jun-2001
+Post-History:	
+
+~ Abstract
+
+Some applications make very heavy use of the ''subst'' command - it
+seems particularly popular in the active-content-generation field -
+and for them it is important to optimise this as much as possible.
+This TIP adds a direct interface to these capabilities to the Tcl
+library, allowing programmers to avoid the modest overheads of even
+''Tcl_EvalObjv'' and the option parser for the ''subst'' command
+implementation.
+
+~ Functionality Changes
+
+There will be one script-visible functionality change from the current
+implementation; if the evaluation of any command substitution returns
+TCL_BREAK, then the result of the ''subst'' command will be the string
+up to that point and no further.  This contrasts with the current
+behaviour where TCL_BREAK (like TCL_CONTINUE) just causes the current
+command substitution to finish early.
+
+~ Design Decisions
+
+The code should be created by effectively splitting
+''Tcl_SubstObjCmd'' in the current ''.../generic/tclCmdMZ.c'' into two
+pieces.  One of these pieces will have the same interface as the
+present code and will contain the argument parser.  The other piece
+will be the implementation of the ''subst'' behaviour and will be
+separately exposed at the C level as well as being called by the
+front-end code.
+
+The code should take positive flags stating what kinds of
+substitutions should be performed, as this is closest to the current
+internal implementation of the ''subst'' command.  These flags will be
+named with the prefix TCL_SUBST_*.  For programming convenience, the
+flag TCL_SUBST_ALL will also be provided allowing the common case of
+wanting all substitutions to be performed with a minimum of fuss.
+
+The string to be substituted will be passed in as a ''Tcl_Obj *'' too,
+as this is both easiest to do from the point-of-view of the front-end
+code and permits additional optimisation of the core at some future
+point if it proves necessary and/or desirable.  By contrast, passing
+in a standard C string or a ''Tcl_DString *'' does not permit any such
+optimisations in the future.
+
+The code should return a newly-allocated ''Tcl_Obj *'' as this allows
+for the efficient implementation of the front-end involving no
+re-copying of the resulting string.  It also allows error conditions
+to be represented by NULL (with an error message in the interpreter
+result) and does not force a Tcl_DString reference to be passed in as
+an ''out'' parameter; returning the result gives a much clearer call
+semantics.  Another advantage of using ''Tcl_Obj''s to build the
+result is the fact that they have a more sophisticated memory
+allocation algorithm that copes more efficiently with very large
+strings; when large and small strings are being combined together (as
+is easily the case in ''subst'') this can make a substantial
+difference.
+
+~ Public Interface
+
+''Added to .../generic/tcl.h''
+
+|#define TCL_SUBST_COMMANDS    0x01
+|#define TCL_SUBST_VARIABLES   0x02
+|#define TCL_SUBST_BACKSLASHES 0x04
+|#define TCL_SUBST_ALL         0x07
+
+''Added to .../generic/tcl.decls''
+
+|declare someNumber generic {
+|    Tcl_Obj * Tcl_SubstObj( Tcl_Interp *interp,
+|                            Tcl_Obj *objPtr,
+|                            int flags)
+|}
+
+~ Implementation
+
+The implementation is to be developed upon acceptance of this TIP, but
+will involve ''Tcl_AppendToObj'' and ''Tcl_AppendObjToObj''.
+
+~ Copyright
+
+This document has been placed in the public domain.
