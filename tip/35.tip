@@ -1,9 +1,8 @@
 TIP:            35
 Title:          Enhanced Support for Serial Communications
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
-Author:         Rolf Schroedter <Rolf.Schroedter@dlr.de>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        06-Jun-2001
