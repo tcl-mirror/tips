@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -101,17 +101,21 @@ be able to create a replacement for every one of them using ''proc''.
 
 The ''return'' command shall have syntax:
 
-| return ?$option $value ...? ?$result?
+| return ?option value ...? ?result?
 
-There can be any number of ''$option $value'' pairs, and
-any value at all is acceptable for an ''$option'' argument.
-The legal values of a ''$value'' argument are limited for
-some ''$option''s, as follows:
+There can be any number of ''option value'' pairs, and
+any value at all is acceptable for an ''option'' argument.
+The legal values of a ''value'' argument are limited for
+some ''option''s, as follows:
 
- > the ''$value'' after a '''-code''' must be either
-   an integer (32-bit only), or one of the strings, '''ok''',
-   '''error''', '''return''', '''break''', or '''continue''',
+ > the ''$value'' after a -code must be either
+   an integer (32-bit only), or one of the strings, ok,
+   error, return, break, or continue,
    just as in the 8.4 spec for ''return''.
+
+ > the ''$value'' after a -level must be a non-negative integer.
+
+ > the ''$value'' after a -options must be a dictionary [111].
 
 ~ Examples
 
