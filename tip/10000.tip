@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.141 $
+Version:        $Revision: 1.142 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -47,7 +47,7 @@ Test of ''italic'', '''bold''' and ''mixed '''bold'' and italic''' text.
 
 ~~Subsection test
 
-foobar
+foobarsoom
 
 ~~~Subsubsection test
 
