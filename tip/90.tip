@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -72,7 +72,7 @@ First, ''catch'' is not able to capture the information.  Consider:
 
 After evaluation, ''code'' contains "2" (''TCL_RETURN''), ''message''
 contains "baz", ''::errorInfo'' contains "foo", and ''::errorCode''
-contains "bar".  But there's is nothing accessible at the script level
+contains "bar".  But there is nothing accessible at the script level
 that contains the value passed to the ''-code'' option.  That code is
 stored internally in the ''Tcl_Interp'' structure as
 ''interp->returnCode'', but scripts cannot access that value.
@@ -152,11 +152,11 @@ of community discussion.
    consider extending its syntax to solve the rest.  Perhaps an
    additional ''-returncode'' switch:
 
-|   return -code return -returncode "returnCode" ...
+|   return -code return -returncode $returnCode ...
 
  > Or perhaps an additional optional argument:
 
-|   return -code return ... ?"result"? ?"returnCode"?
+|   return -code return ... ?$result? ?$returnCode?
 
  > An additional field within the ''Tcl_Interp'' structure would need
    to be added for storage of the value of the ''returnCode''
@@ -165,7 +165,7 @@ of community discussion.
 
  > Advantage: it's a simple change.
 
- > Disadvantage: it just pushes the incompleteness problem one down
+ > Disadvantage: it just pushes the incompleteness problem down one
    level.
 
  > After this change, commands defined by ''proc'' would be able to
@@ -185,7 +185,7 @@ of community discussion.
  > The incompleteness remaining after the combination of alternatives
    2 and 3 could be solved by allowing the value of ''returnCode'' to
    be a list in both the extended ''catch'' and the extended ''return
-   -code return''.  For example, after evaluation of:
+   -code return''.  For example, after evaluation of
 
 |    set code [catch {
 |        return -code return -returncodes $oldReturnCodes baz
@@ -241,11 +241,103 @@ of community discussion.
  > Advantage: A complete solution that's easy to understand.
 
  > Disadvantage: Very powerful technique that might enable things we
-   don't want to enable.
+   don't want to enable.  In particular, without great care, and
+   perhaps some special case handling that could be difficult to
+   document, it appears this would open up a way for a safe interp to
+   force code to be evaluated in a trusted interp.
 
-~ See Also
+~ Generalization
 
-Documentation for tcllib's control package:
+The particular problem and solutions presented here can be seen as the
+remedy to a general incapacity of ''return'' and ''catch''.  Most
+fundamentally, the purpose of ''return'' is to allow a proc to set its
+return code and its result.  However, it has always been the case that
+one particular return code, ''TCL_ERROR'', has required additional
+information.  Thus, ''return'' has always recognized the
+''-errorcode'' and ''-errorinfo'' options, and has stuffed the values
+into global variables ''::errorCode'' and ''::errorInfo'' so that
+those values can be accessible to a later ''catch''.  
+
+The current motivation shows that another return code, ''TCL_RETURN'',
+also needs to be able to pass additional information.  One alternative
+has been to add yet another special purpose option, ''-returncodes'',
+to ''return''.  Rather than invent another global variable, another
+argument has been proposed for ''catch'' as a cleaner way for it to
+collect the additional information.
+
+Could it not be the case that other return codes might also benefit
+from the ability to pass additional information?  This could be
+accomplished by having ''return'' take all ''option value'' pairs, and
+add them to a list, stored in a Tcl_Obj-valued field in the
+''Tcl_Interp'' structure.  We already permit new return codes to be
+defined.  This would add a simple way for those custom return codes to
+pass along arbitrary additional information.  The additional argument
+to ''catch'' would then be the name of a variable to be assigned the
+value of that entire list.
+
+One complication is the need for a policy or convention for naming the
+options.  Note that ''return'' forces all ''option value'' pairs to
+come before the ''result'' argument.  Thus, there is no technical
+requirement for a leading "-" character in the ''option'' value.  For
+consistnecy with what has gone before, though, such a requirement
+might not be a bad idea to enforce.  Then, in order that the
+additional information associated with different return code would not
+conflict, a prefix convention could be adopted where each return code
+would define additional options with the prefix ''-$code''.  For the
+built-in return codes, both the numeric and word forms would be
+acceptable, so ''-errorinfo'' and ''-1-info'' would refer to the same
+option.  The values stored in the list variable named by the last
+''catch'' argument would all use the numeric prefixes.
+
+Under that proposal, one could completely reproduce the return code,
+result, and additional information of a script, caught by ''catch''
+like so:
+
+| set code [catch {uplevel 1 $script} message args]
+| eval [list return -code $code] $args [list $message]
+
+Most control structure commands would add processing between the two
+commands above to handle whatever custom return codes they honor.
+
+One big advantage to this approach is that the ''-errorcode'' and
+''-errorinfo'' arguments are preserved through an arbitray amount of
+nesting, so there's no need to keep saving and restoring the values of
+global variables ''::errorCode'' and ''::errorInfo'' at each level of
+processing.
+
+For compatibility reasons, the options ''-errorcode'' and
+''-errorinfo'' would have to continue to be handled through existing
+mechanisms at least through the Tcl 8.x releases.  However, once the
+more general approach was established and included an appropriate
+public C interface, the use of special routines like
+''Tcl_AddErrorInfo'' and its relatives could be deprecated.  The
+''errorCode'' and ''errorInfo' fields of the ''Tcl_Interp'' struct
+could also go away.  In the very long run, the use of global variables
+''::errorCode'' and ''::errorInfo'' could be phased out as well.
+
+A related interface is the ''bgerror'' command that accepts only a
+single ''message'' argument, relying on the global variables
+''::errorCode'' and ''::errorInfo'' to access the additional
+information.  This is good enough for the ''TCL_ERROR'' return code.
+However, ''Tcl_BackgroundError'' is called for any non-''TCL_OK''
+return code, but is not passed what the return code is, so all
+non-''TCL_OK'' codes get treated like errors.  This should be cleaned
+up.  Possibly, ''Tcl_BackgroundError'' should be called only for
+errors.  Possibly, other non-''TCL_OK'' codes should be more
+explicitly converted to ''TCL_ERROR'' along with a more explicit error
+message.  Or, possibly, ''Tcl_BackgroundError'' and ''bgerror'' need
+extending to detect and handle different non-''TCL_OK'' return codes
+differently.  In the last case, the additional return information
+needs to be passed to ''bgerror''.
+
+~ Acknowledgment
+
+Thanks to Joe English for pointing out the opportunies for
+generalization in this proposal.
+
+~ See also
+
+Documentation for tcllib's control package: 
 http://tcllib.sf.net/doc/control.html
 
 ~ Copyright
