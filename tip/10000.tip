@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.134 $
+Version:        $Revision: 1.135 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -59,15 +59,6 @@ spong wibble
 
  > some more test stuff
 
-'''interp invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
-
-The '''interp invokehidden''' subcommand would continue to function as the
-current documentation dictates with the following notable exceptions:
-
-   * A new '''-namespace''' option can specify the target namespace in the slave interpreter where the command should be invoked.
-
-   * If both the '''-global''' and '''-namespace''' options are present, the '''-namespace''' option is ignored.
-
 ~ Reference Implementation
 
 A reference implementation does ''not'' yet exist.
@@ -76,11 +67,13 @@ A reference implementation does ''not'' yet exist.
 
 Public domain
 
+----------------------------------
+
 ~ Abstract
 
 This TIP proposes a ''-namespace'' option for the '''interp invokehidden'''
 subcommand to allow hidden commands to be invoked in the specified
-namespace in the slave interpreter.
+namespace context in the slave interpreter.
 
 ~ Rationale
 
@@ -111,7 +104,7 @@ the current documentation dictates with the following notable exceptions:
 
 ~~Example Usage
 
-The following example script illustrates how this feature might be used.
+The following example scripts illustrates how this feature might be used.
 
 |################################################
 |# file inside.tcl
@@ -143,7 +136,7 @@ The following additions/changes would be made to the private Tcl C API:
   int ''flags'')
 
  > Invokes the specified command in the namespace context specified by
-   the namespaceName argument.
+   the namespaceName argument.  This is a new function.
 
  * Two new flags '''TCL_INVOKE_NS_MUST_EXIST''' and 
   '''TCL_INVOKE_NO_GLOBAL_ONLY''' would be created for use with the 
