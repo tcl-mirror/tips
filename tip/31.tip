@@ -1,0 +1,117 @@
+TIP:            31
+Title:          CVS tags in the Tcl and Tk repositories
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        12-Mar-2001
+Post-History:   
+
+~ Abstract
+
+This document keeps a record of the CVS tags used in the Tcl and Tk
+repositories and their meanings.
+
+~ Background
+
+CVS uses tags to collectively label a particular set of revisions of a
+particular set of files.  With a tag, one may easily request all the
+revisions of all the files that correspond to something meaningful,
+such as an official release of a project.
+
+There are two kinds of tags provided by CVS.  First is the release tag
+that simply marks a set of revisions as belonging together as a unit.
+Each release of a project should be tagged with a release tag.  Other
+development milestones may also receive a release tag.  Release tags
+are useful for marking any point in development that will be useful to
+return to or compare against.
+
+The second kind of tag is a branch tag.  It does not mark a single
+revision of a file, but an entire branch of development of a file.
+Branch tags are the means by which different working directories can
+track different branches of development.
+
+A tag may be used in a CVS repository only once, so we must keep track
+of what tags have already been used, and what they mean.  The
+remaining sections of this TIP record the tags in use.  This TIP
+should be kept up to date by adding any new tags here as they are
+added to the CVS repository.
+
+~ Release Tags
+
+The following tags in the Tcl and Tk CVS repositories correspond to
+the following releases of Tcl/Tk:
+
+   * core-8-4-a2 - Tcl/Tk 8.4a2
+
+   * core-8-4-a1 - Tcl/Tk 8.4a1
+
+   * core-8-3-2 - Tcl/Tk 8.3.2
+
+   * core-8-3-1 - Tcl/Tk 8.3.1
+
+   * core-8-3-0 - Tcl/Tk 8.3.0
+
+   * core-8-3-b2 - Tcl/Tk 8.3b2
+
+   * core-8-3-b1 - Tcl/Tk 8.3b1
+
+   * core-8-2-3 - Tcl/Tk 8.2.3
+
+   * core-8-2-2 - Tcl/Tk 8.2.2
+
+   * core-8-2-1 - Tcl/Tk 8.2.1
+
+   * core-8-2-0 - Tcl/Tk 8.2.0
+
+   * core-8-2-b3 - Tcl/Tk 8.2b3
+
+   * core-8-2-b2 - Tcl/Tk 8.2b2
+
+   * core-8-2-b1 - Tcl/Tk 8.2b1
+
+   * core-8-1-1 - Tcl/Tk 8.1.1
+
+   * core-8-1-0 - Tcl/Tk 8.1.0
+
+   * core-8-1-b3 - Tcl/Tk 8.1b3
+
+   * core-8-1-b2 - Tcl/Tk 8.1b2
+
+   * core-8-1-b1 - Tcl/Tk 8.1b1
+
+   * core-8-0-5 - Tcl/Tk 8.0.5
+
+   * core-8-0-4 - Tcl/Tk 8.0.4
+
+   * core-8-0-3 - Tcl/Tk 8.0.3
+
+   * core-8-0-2 - Tcl/Tk 8.0p2
+
+~ Branch Tags - Official Development
+
+The following branch tags label branches of development from which
+releases of Tcl/Tk are generated:
+
+   * HEAD - current development of new features; spawns 8.4aX
+     releases.
+
+   * core-8-3-1-branch - bug fix branch; spawns 8.3.X releases.
+
+~ Branch Tags - Features
+
+The following branch tags label branches on which features are being
+devloped and tested.  No releases of Tcl/Tk will be spawned from these
+branches.  As the features mature, they will be merged onto the HEAD
+branch, or they may be rejected.
+
+   * dgp-privates-into-namespace (Tk) - Work on moving Tk's private
+     commands and variables into the ::tk namespace and its children.
+
+   * core-8-4-win-speedup (Tk) - Work on improving performance of Tk
+     on the Windows platforms.
+
+~ Copyright
+
+This document has been placed in the public domain.
