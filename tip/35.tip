@@ -1,6 +1,6 @@
 TIP:            35
 Title:          Enhanced Support for Serial Communications
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
 Author:         Rolf Schroedter <Rolf.Schroedter@dlr.de>
 State:          Draft
@@ -195,6 +195,12 @@ does not provide a complete control over serial settings.
 
 So the proposal is to remove the current save/restore mechanism
 from the Unix implementation for serial ports.
+
+~ Source code patches
+
+The patches have been uploaded to the sourceforge patch tracker:
+    ID=438509 TIP#35 Patches: Serial Port Enhancements
+    file=tip35patch.tgz
 
 ~ Copyright
 
