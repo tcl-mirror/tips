@@ -1,6 +1,6 @@
 TIP:            4
 Title:          Tcl Release and Distribution Philosophy
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Brent Welch <welch@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Larry W. Virden <lvirden@cas.org>
@@ -149,7 +149,7 @@ others not listed.
 
  > 1. Event counters and interval timers
 
- > 1. Structures: including tree, stack, graph, queue
+ > 1. Structures, including tree, stack, graph, queue
 
  > 1. URI parsing
 
