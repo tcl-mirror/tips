@@ -1,0 +1,76 @@
+TIP:		87
+Title:		Allow Tcl Access to the Recursion Limit
+Version:	$Revision: 1.1 $
+Author:		Stephen Trier <sct@po.cwru.edu>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	19-Feb-2002
+Post-History:	
+Discussions-To: news:comp.lang.tcl
+Keywords:	Tcl_SetRecusionLimit, recursion limit
+
+~ Abstract
+
+An extension to the [[interp]] command, [[interp recursionlimit]],
+will permit Tcl scripts to control their own recursion limits.  Until
+now, this limit has been changeable from a C API, but not from within
+Tcl.
+
+~ Rationale
+
+As of Tcl 8.4a3, Tcl scripts must live with the default recursion
+depth of 1000 nested calls to the ''Tcl_Eval'' family of functions or
+resort to C code to change the limit.  Nevertheless, Tcl programmers
+may find it useful to reduce the limit when debugging or to increase
+it for scripts that include deeply recursive functions.  The changes
+proposed in this TIP will make this possible in pure Tcl code.
+
+
+~ Specification
+
+ generic/tclInterp.c: Add subcommands to [interp] and to the slave
+   interpreter object command with the following syntax:
+
+ > interp recursionlimit ''interp'' ''?newlimit?''
+
+ > ''slave'' recursionlimit ''?newlimit?''
+
+ > The parameter ''newlimit'' must be a positive integer.  When it is
+   present, the limit is changed to ''newlimit'' and the command
+   returns the new recursion limit.  If the ''newlimit'' parameter is
+   absent, the command returns the current recursion limit.
+
+ > No maximum value is enforced.  It is the programmer's
+   responsibility to ensure the recursion limit will not overflow the
+   process stack.
+
+ > A safe interpreter is not allowed to change the recursion limit for
+   itself nor for any other interpreter.  Attempting to do so will
+   generate an error.  Safe interpreters are allowed to query
+   recursion limits.
+
+ doc/interp.n: Add documentation for the new subcommands, including a
+   warning about stack overflow, much like the warning in the
+   documentation for ;;Tcl_SetRecursionLimit()''.
+
+ test/interp.test: Add tests for the new subcommands.
+
+~ Comments Received
+
+Using a command or variable ''::tcl::recursionLimit'' to manipulate
+the limit was initially considered, but Miguel Sofer suggested making
+the function a subcommand of [[interp]] because the recursion limit is
+logically an attribute of each interpreter.  Miguel also observed that
+implementing ''TclpCheckStackSpace()'' for Unix (a future TIP?) would
+mitigate the dangers of setting the recursion limit too high.
+http://groups.google.com/groups?hl=en&threadm=3C6D0A88.5DC9D8B4%40utdt.edu
+
+~ Reference Implementation
+
+An implementation is in progress.
+
+~ Copyright
+
+This document is in the public domain.
