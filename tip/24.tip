@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -174,7 +174,8 @@ assigned:
         Jim Ingham <jingham@apple.com> (Mac),
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   49. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   49. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>,
+	Lloyd Lim <lloydlim@users.sourceforge.net>
 
    50. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
 
