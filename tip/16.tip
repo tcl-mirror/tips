@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Process
@@ -673,7 +673,7 @@ assigned one or more maintainers:
      tests/resource.test,
      tests/source.test
 
-   >   1. ''Other Stuff I Don't Understand'' - mac/AppleScript.html
+   >   1. ''Mac-Specific Files'' - mac/AppleScript.html
      mac/Background.doc
      mac/libmoto.doc
      mac/morefiles.doc
