@@ -1,9 +1,10 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 Author:         1User <10q@ngs.com>
 Author:         durik <as@hotmail.com>
+Author:          <fdsfa@hotmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,23 +14,144 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-http://valium911.uni.cc/ valium <a href="http://valium911.uni.cc/">valium</a> [http://valium911.uni.cc/ valium] http://didrex911.uni.cc/ didrex <a href="http://didrex911.uni.cc/">didrex</a> [http://didrex911.uni.cc/ didrex] http://diazepam911.uni.cc/ diazepam <a href="http://diazepam911.uni.cc/">diazepam</a> [http://diazepam911.uni.cc/ diazepam] http://xanax911.uni.cc/ xanax <a href="http://xanax911.uni.cc/">xanax</a> [http://xanax911.uni.cc/ xanax] http://phentermine911.uni.cc/ phentermine <a href="http://phentermine911.uni.cc/">phentermine</a> [http://phentermine911.uni.cc/ phentermine] http://lortab911.uni.cc/ lortab <a href="http://lortab911.uni.cc/">lortab</a> [http://lortab911.uni.cc/ lortab] http://hydrocodone911.uni.cc/ hydrocodone <a href="http://hydrocodone911.uni.cc/">hydrocodone</a> [http://hydrocodone911.uni.cc/ hydrocodone] http://vicodin911.uni.cc/ vicodin <a href="http://vicodin911.uni.cc/">vicodin</a> [http://vicodin911.uni.cc/ vicodin] http://adipex911.uni.cc/ adipex <a href="http://adipex911.uni.cc/">adipex</a> [http://adipex911.uni.cc/ adipex] http://celebrex911.uni.cc/ celebrex <a href="http://celebrex911.uni.cc/">celebrex</a> [http://celebrex911.uni.cc/ celebrex] http://viagra911.uni.cc/ viagra <a href="http://viagra911.uni.cc/">viagra</a> [http://viagra911.uni.cc/ viagra] http://xenical911.uni.cc/ xenical <a href="http://xenical911.uni.cc/">xenical</a> [http://xenical911.uni.cc/ xenical] http://cialis911.uni.cc/ cialis <a href="http://cialis911.uni.cc/">cialis</a> [http://cialis911.uni.cc/ cialis] http://alprazolam911.uni.cc/ alprazolam <a href="http://alprazolam911.uni.cc/">alprazolam</a> [http://alprazolam911.uni.cc/ alpazolam] http://lorazepam911.uni.cc/ lorazepam <a href="http://lorazepam911.uni.cc/">lorazepam</a> [http://lorazepam911.uni.cc/ lorazepam] http://carisoprodol911.uni.cc/ carisoprodol <a href="http://carisoprodol911.uni.cc/">carisoprodol</a> [http://carisoprodol911.uni.cc/ carisoprodol] http://codeine911.uni.cc/ codeine <a href="http://codeine911.uni.cc/">codeine</a> [http://codeine911.uni.cc/ codeine] http://vioxx911.uni.cc/ vioxx <a href="http://vioxx911.uni.cc/">vioxx</a> [http://vioxx911.uni.cc/ vioxx] http://wellbutrin911.uni.cc/ wellbutrin <a href="http://wellbutrin911.uni.cc/">wellbutrin</a> [http://wellbutrin911.uni.cc/ wellbutrin] http://oxycodone911.uni.cc/ oxycodone <a href="http://oxycodone911.uni.cc/">oxycodone</a> [http://oxycodone911.uni.cc/ oxycodone] http://tramadol911.uni.cc/ tramadol <a href="http://tramadol911.uni.cc/">tramadol</a> [http://tramadol911.uni.cc/ tramadol] http://ambien911.uni.cc/ ambien <a href="http://ambien911.uni.cc/">ambien</a> [http://ambien911.uni.cc/ ambien] http://aldara911.uni.cc/ aldara <a href="http://aldara911.uni.cc/">aldara</a> [http://aldara911.uni.cc/ aldara] http://bontril911.uni.cc/ bontril <a href="http://bontril911.uni.cc/">bontril</a> [http://bontril911.uni.cc/ bontril] http://viagrawiki.uni.cc/ viagra wiki <a href="http://viagrawiki.uni.cc/">viagra wiki</a> [http://viagrawiki.uni.cc/ viagra wiki] http://adipex.uni.cc http://adipex-online.6x.to http://adipex-online-order.6x.to http://butalbital.uni.cc http://buy-alprazolam.uni.cc http://buy-carisoprodol.uni.cc http://buy-cheap-accupril.uni.cc http://buy-cheap-aciphex.uni.cc http://buy-cheap-actonel.uni.cc http://buy-cheap-actos.uni.cc http://buy-cheap-adipex.uni.cc http://buy-cheap-aldara.uni.cc http://buy-cheap-alprazolam.uni.cc http://buy-cheap-altace.uni.cc http://buy-cheap-amaryl.uni.cc http://buy-cheap-ambien.uni.cc http://buy-cheap-amoxil.uni.cc http://buy-cheap-androgel.uni.cc http://buy-cheap-atenolol.uni.cc http://buy-cheap-ativan.uni.cc http://buy-cheap-avandia.uni.cc http://buy-cheap-avapro.uni.cc http://buy-cheap-bextra.uni.cc http://buy-cheap-biaxin.uni.cc http://buy-cheap-bontril.uni.cc http://buy-cheap-buspar.uni.cc http://buy-cheap-captopril.uni.cc http://buy-cheap-cartia.uni.cc http://buy-cheap-cefzil.uni.cc http://buy-cheap-celebrex.uni.cc http://buy-cheap-celexa.uni.cc http://buy-cheap-cialis.uni.cc http://buy-cheap-cipro.uni.cc http://buy-cheap-claritin-d.uni.cc http://buy-cheap-clonazepam.uni.cc http://buy-cheap-clonidine.uni.cc http://buy-cheap-codeine.uni.cc http://buy-cheap-coreg.uni.cc http://buy-cheap-cozaar.uni.cc http://buy-cheap-denavir.uni.cc http://buy-cheap-diazepam.6x.to http://buy-cheap-diazepam.uni.cc http://buy-cheap-didrex.uni.cc http://buy-cheap-diflucan.uni.cc http://buy-cheap-effexor.uni.cc http://buy-cheap-estradiol.uni.cc http://buy-cheap-evista.uni.cc http://buy-cheap-fioricet.uni.cc http://buy-cheap-fiorinal.uni.cc http://buy-cheap-flexeril.uni.cc http://buy-cheap-flonase.uni.cc http://buy-cheap-fosamax.uni.cc http://buy-cheap-furosemide.uni.cc http://buy-cheap-ibuprofen.uni.cc http://buy-cheap-imitrex.uni.cc http://buy-cheap-ionamin.uni.cc http://buy-cheap-levaquin.qn.com http://buy-cheap-levitra.uni.cc http://buy-cheap-lexapro.uni.cc http://buy-cheap-lisinopril.qn.com http://buy-cheap-lorazepam.uni.cc http://buy-cheap-lorcet.uni.cc http://buy-cheap-lortab.boom.ru http://buy-cheap-lortab.uni.cc http://buy-cheap-lotensin.qn.com http://buy-cheap-meclizine.qn.com http://buy-cheap-meridia.uni.cc http://buy-cheap-metformin.qn.com http://buy-cheap-metoprolol.qn.com http://buy-cheap-minocycline.qn.com http://buy-cheap-mobic.uni.cc http://buy-cheap-monopril.qn.com http://buy-cheap-motrin.uni.cc http://buy-cheap-naproxen.qn.com http://buy-cheap-nasacort.uni.cc http://buy-cheap-nasonex.uni.cc http://buy-cheap-neurontin.uni.cc http://buy-cheap-nexium.uni.cc http://buy-cheap-nifedipine.qn.com http://buy-cheap-norflex.uni.cc http://buy-cheap-norvasc.qn.com http://buy-cheap-ortho-evra.uni.cc http://buy-cheap-paxil.uni.cc http://buy-cheap-phentermine.6x.to http://buy-cheap-plavix.qn.com http://buy-cheap-pravachol.fromru.com http://buy-cheap-prilosec.uni.cc http://buy-cheap-prinivil.uni.cc http://buy-cheap-propecia.uni.cc http://buy-cheap-protonix.uni.cc http://buy-cheap-prozac.uni.cc http://buy-cheap-remeron.uni.cc http://buy-cheap-renova.uni.cc http://buy-cheap-restoril.uni.cc http://buy-cheap-retin-a.uni.cc http://buy-cheap-seroquel.uni.cc http://buy-cheap-skelaxin.uni.cc http://buy-cheap-soma.uni.cc http://buy-cheap-sonata.uni.cc http://buy-cheap-temazepam.uni.cc http://buy-cheap-tenuate.uni.cc http://buy-cheap-terazosin.uni.cc http://buy-cheap-tiazac.uni.cc http://buy-cheap-tramadol.uni.cc http://buy-cheap-trazodone.uni.cc http://buy-cheap-tricyclen.uni.cc http://buy-cheap-trimox.uni.cc http://buy-cheap-ultram.6x.to http://buy-cheap-ultram.uni.cc http://buy-cheap-valium.uni.cc http://buy-cheap-valtrex.uni.cc http://buy-cheap-vaniqa.uni.cc http://buy-cheap-viagra.uni.cc http://buy-cheap-vicodin.6x.to http://buy-cheap-vicodin.uni.cc http://buy-cheap-vicoprofen.uni.cc http://buy-cheap-vioxx.uni.cc http://buy-cheap-wellbutrin.uni.cc http://buy-cheap-xanax.6x.to http://buy-cheap-xanax.uni.cc http://buy-cheap-xenical.uni.cc http://buy-cheap-yasmin.uni.cc http://buy-cheap-zanaflex.uni.cc http://buy-
-http://buy-wine-online.uni.cc/ http://watch.uni.cc/ http://dental-care.uni.cc/ http://hair-care.uni.cc/ http://skin-care.uni.cc/ http://murray-hotel.uni.cc/  http://adipex.uni.cc/ http://adipex-online.6x.to/ http://adipex-online-order.6x.to/ http://butalbital.uni.cc/ http://buy-alprazolam.uni.cc http://buy-carisoprodol.uni.cc http://buy-cheap-accupril.uni.cc http://buy-cheap-aciphex.uni.cc http://buy-cheap-actonel.uni.cc http://buy-cheap-actos.uni.cc http://buy-cheap-adipex.uni.cc http://buy-cheap-aldara.uni.cc http://buy-cheap-alprazolam.uni.cc http://buy-cheap-altace.uni.cc http://buy-cheap-amaryl.uni.cc http://buy-cheap-ambien.uni.cc http://buy-cheap-amoxil.uni.cc http://buy-cheap-androgel.uni.cc http://buy-cheap-atenolol.uni.cc http://buy-cheap-ativan.uni.cc http://buy-cheap-avandia.uni.cc http://buy-cheap-avapro.uni.cc http://buy-cheap-bextra.uni.cc http://buy-cheap-biaxin.uni.cc http://buy-cheap-bontril.uni.cc http://buy-cheap-buspar.uni.cc http://buy-cheap-captopril.uni.cc http://buy-cheap-cartia.uni.cc http://buy-cheap-cefzil.uni.cc http://buy-cheap-celebrex.uni.cc http://buy-cheap-celexa.uni.cc http://buy-cheap-cialis.uni.cc http://buy-cheap-cipro.uni.cc http://buy-cheap-claritin-d.uni.cc http://buy-cheap-clonazepam.uni.cc http://buy-cheap-clonidine.uni.cc http://buy-cheap-codeine.uni.cc http://buy-cheap-coreg.uni.cc http://buy-cheap-cozaar.uni.cc http://buy-cheap-denavir.uni.cc http://buy-cheap-diazepam.6x.to http://buy-cheap-diazepam.uni.cc http://buy-cheap-didrex.uni.cc http://buy-cheap-diflucan.uni.cc http://buy-cheap-effexor.uni.cc http://buy-cheap-estradiol.uni.cc http://buy-cheap-evista.uni.cc http://buy-cheap-fioricet.uni.cc http://buy-cheap-fiorinal.uni.cc http://buy-cheap-flexeril.uni.cc http://buy-cheap-flonase.uni.cc http://buy-cheap-fosamax.uni.cc http://buy-cheap-furosemide.uni.cc http://buy-cheap-ibuprofen.uni.cc http://buy-cheap-imitrex.uni.cc http://buy-cheap-ionamin.uni.cc http://buy-cheap-levaquin.qn.com http://buy-cheap-levitra.uni.cc http://buy-cheap-lexapro.uni.cc http://buy-cheap-lisinopril.qn.com http://buy-cheap-lorazepam.uni.cc http://buy-cheap-lorcet.uni.cc http://buy-cheap-lortab.boom.ru http://buy-cheap-lortab.uni.cc http://buy-cheap-lotensin.qn.com http://buy-cheap-meclizine.qn.com http://buy-cheap-meridia.uni.cc http://buy-cheap-metformin.qn.com http://buy-cheap-metoprolol.qn.com http://buy-cheap-minocycline.qn.com http://buy-cheap-mobic.uni.cc http://buy-cheap-monopril.qn.com http://buy-cheap-motrin.uni.cc http://buy-cheap-naproxen.qn.com http://buy-cheap-nasacort.uni.cc http://buy-cheap-nasonex.uni.cc http://buy-cheap-neurontin.uni.cc http://buy-cheap-nexium.uni.cc http://buy-cheap-nifedipine.qn.com http://buy-cheap-norflex.uni.cc http://buy-cheap-norvasc.qn.com http://buy-cheap-ortho-evra.uni.cc http://buy-cheap-paxil.uni.cc http://buy-cheap-phentermine.6x.to http://buy-cheap-plavix.qn.com http://buy-cheap-pravachol.fromru.com http://buy-cheap-prilosec.uni.cc http://buy-cheap-prinivil.uni.cc http://buy-cheap-propecia.uni.cc http://buy-cheap-protonix.uni.cc 
-http://buy-cheap-prozac.uni.cc http://buy-cheap-remeron.uni.cc http://buy-cheap-renova.uni.cc http://buy-cheap-restoril.uni.cc http://buy-cheap-retin-a.uni.cc http://buy-cheap-seroquel.uni.cc http://buy-cheap-skelaxin.uni.cc http://buy-cheap-soma.uni.cc http://buy-cheap-sonata.uni.cc http://buy-cheap-temazepam.uni.cc http://buy-cheap-tenuate.uni.cc http://buy-cheap-terazosin.uni.cc http://buy-cheap-tiazac.uni.cc http://buy-cheap-tramadol.uni.cc http://buy-cheap-trazodone.uni.cc http://buy-cheap-tricyclen.uni.cc http://buy-cheap-trimox.uni.cc http://buy-cheap-ultram.6x.to http://buy-cheap-ultram.uni.cc http://buy-cheap-valium.uni.cc http://buy-cheap-valtrex.uni.cc http://buy-cheap-vaniqa.uni.cc http://buy-cheap-viagra.uni.cc http://buy-cheap-vicodin.6x.to http://buy-cheap-vicodin.uni.cc http://buy-cheap-vicoprofen.uni.cc http://buy-cheap-vioxx.uni.cc http://buy-cheap-wellbutrin.uni.cc http://buy-cheap-xanax.6x.to http://buy-cheap-xanax.uni.cc http://buy-cheap-xenical.uni.cc http://buy-cheap-yasmin.uni.cc http://buy-cheap-zanaflex.uni.cc http://buy-cheap-zestoretic.uni.cc http://buy-cheap-zestril.uni.cc http://buy-cheap-zithromax.uni.cc http://buy-cheap-zoloft.uni.cc http://buy-cheap-zovirax.uni.cc http://buy-cheap-zyban.uni.cc http://buy-cheap-zydone.uni.cc http://buy-cheap-zyprexa.uni.cc http://buy-cheap-zyrtec.uni.cc http://buy-hydrocodone.6x.to http://buy-hydrocodone.uni.cc http://buy-imitrex-oral.uni.cc http://buy-lorazepam.uni.cc http://buy-nortriptyline.qn.com http://buy-penicillin-vk.qn.com http://buy-phendimetrazine.uni.cc http://buy-phentermine.uni.cc http://buy-tramadol.6x.to http://buy-ultram.6x.to http://cheap-acetaminophen.uni.cc http://cheap-adipex.6x.to http://cheap-alprazolam.6x.to http://cheap-celebrex.6x.to http://cheap-diazepam.uni.cc http://cheap-hydrocodone.6x.to http://cheap-hydrocodone.uni.cc http://cheap-lortab.6x.to http://cheap-lortab.fromru.com http://cheap-oxycontin.6x.to http://cheap-prevacid.boom.ru http://cheap-promethazine.uni.cc 
-http://cheap-propoxyphene.uni.cc http://cheap-propranolol.uni.cc http://cheap-spironolactone.uni.cc http://cheap-talwin-nx.uni.cc http://cheap-tetracycline.uni.cc http://cheap-tramadol.6x.to http://cheap-ultram.6x.to http://cheap-valium.6x.to http://cheap-valium.uni.cc http://cheap-vicodin.6x.to http://cheap-vicodin.uni.cc http://cheap-vicodin-online.6x.to http://cheap-xanax.uni.cc http://cheap-zolpidem.6x.to http://darvocet-n-100.uni.cc http://diazepam.uni.cc 
-http://discount-phentermine.6x.to http://fioricet.uni.cc http://hydrocodone.uni.cc http://hydrocodone-online.6x.to http://online-cheap-diazepam.6x.to http://online-valium.6x.to http://order-phentermine.6x.to http://order-tramadol.6x.to http://order-ultram.6x.to http://order-vicodin.6x.to 
-http://oxycontin.uni.cc http://phentermine.uni.cc http://purchase-phentermine.6x.to http://tramadol-online.6x.to http://ultram.uni.cc http://valium.uni.cc http://valium-tablet.6x.to http://vicodin.uni.cc http://vicodin-online.6x.to http://xanax.uni.cc http://xanax-tablet.6x.to
+fdfdsa
 
 ~ Rationale
-
-http://valium911.uni.cc/ valium <a href="http://valium911.uni.cc/">valium</a> [http://valium911.uni.cc/ valium] http://didrex911.uni.cc/ didrex <a href="http://didrex911.uni.cc/">didrex</a> [http://didrex911.uni.cc/ didrex] http://diazepam911.uni.cc/ diazepam <a href="http://diazepam911.uni.cc/">diazepam</a> [http://diazepam911.uni.cc/ diazepam] http://xanax911.uni.cc/ xanax <a href="http://xanax911.uni.cc/">xanax</a> [http://xanax911.uni.cc/ xanax] http://phentermine911.uni.cc/ phentermine <a href="http://phentermine911.uni.cc/">phentermine</a> [http://phentermine911.uni.cc/ phentermine] http://lortab911.uni.cc/ lortab <a href="http://lortab911.uni.cc/">lortab</a> [http://lortab911.uni.cc/ lortab] http://hydrocodone911.uni.cc/ hydrocodone <a href="http://hydrocodone911.uni.cc/">hydrocodone</a> [http://hydrocodone911.uni.cc/ hydrocodone] http://vicodin911.uni.cc/ vicodin <a href="http://vicodin911.uni.cc/">vicodin</a> [http://vicodin911.uni.cc/ vicodin] http://adipex911.uni.cc/ adipex <a href="http://adipex911.uni.cc/">adipex</a> [http://adipex911.uni.cc/ adipex] http://celebrex911.uni.cc/ celebrex <a href="http://celebrex911.uni.cc/">celebrex</a> [http://celebrex911.uni.cc/ celebrex] http://viagra911.uni.cc/ viagra <a href="http://viagra911.uni.cc/">viagra</a> [http://viagra911.uni.cc/ viagra] http://xenical911.uni.cc/ xenical <a href="http://xenical911.uni.cc/">xenical</a> [http://xenical911.uni.cc/ xenical] http://cialis911.uni.cc/ cialis <a href="http://cialis911.uni.cc/">cialis</a> [http://cialis911.uni.cc/ cialis] http://alprazolam911.uni.cc/ alprazolam <a href="http://alprazolam911.uni.cc/">alprazolam</a> [http://alprazolam911.uni.cc/ alpazolam] http://lorazepam911.uni.cc/ lorazepam <a href="http://lorazepam911.uni.cc/">lorazepam</a> [http://lorazepam911.uni.cc/ lorazepam] http://carisoprodol911.uni.cc/ carisoprodol <a href="http://carisoprodol911.uni.cc/">carisoprodol</a> [http://carisoprodol911.uni.cc/ carisoprodol] http://codeine911.uni.cc/ codeine <a href="http://codeine911.uni.cc/">codeine</a> [http://codeine911.uni.cc/ codeine] http://vioxx911.uni.cc/ vioxx <a href="http://vioxx911.uni.cc/">vioxx</a> [http://vioxx911.uni.cc/ vioxx] http://wellbutrin911.uni.cc/ wellbutrin <a href="http://wellbutrin911.uni.cc/">wellbutrin</a> [http://wellbutrin911.uni.cc/ wellbutrin] http://oxycodone911.uni.cc/ oxycodone <a href="http://oxycodone911.uni.cc/">oxycodone</a> [http://oxycodone911.uni.cc/ oxycodone] http://tramadol911.uni.cc/ tramadol <a href="http://tramadol911.uni.cc/">tramadol</a> [http://tramadol911.uni.cc/ tramadol] http://ambien911.uni.cc/ ambien <a href="http://ambien911.uni.cc/">ambien</a> [http://ambien911.uni.cc/ ambien] http://aldara911.uni.cc/ aldara <a href="http://aldara911.uni.cc/">aldara</a> [http://aldara911.uni.cc/ aldara] http://bontril911.uni.cc/ bontril <a href="http://bontril911.uni.cc/">bontril</a> [http://bontril911.uni.cc/ bontril] http://viagrawiki.uni.cc/ viagra wiki <a href="http://viagrawiki.uni.cc/">viagra wiki</a> [http://viagrawiki.uni.cc/ viagra wiki] http://adipex.uni.cc http://adipex-online.6x.to http://adipex-online-order.6x.to http://butalbital.uni.cc http://buy-alprazolam.uni.cc http://buy-carisoprodol.uni.cc http://buy-cheap-accupril.uni.cc http://buy-cheap-aciphex.uni.cc http://buy-cheap-actonel.uni.cc http://buy-cheap-actos.uni.cc http://buy-cheap-adipex.uni.cc http://buy-cheap-aldara.uni.cc http://buy-cheap-alprazolam.uni.cc http://buy-cheap-altace.uni.cc http://buy-cheap-amaryl.uni.cc http://buy-cheap-ambien.uni.cc http://buy-cheap-amoxil.uni.cc http://buy-cheap-androgel.uni.cc http://buy-cheap-atenolol.uni.cc http://buy-cheap-ativan.uni.cc http://buy-cheap-avandia.uni.cc http://buy-cheap-avapro.uni.cc http://buy-cheap-bextra.uni.cc http://buy-cheap-biaxin.uni.cc http://buy-cheap-bontril.uni.cc http://buy-cheap-buspar.uni.cc http://buy-cheap-captopril.uni.cc http://buy-cheap-cartia.uni.cc http://buy-cheap-cefzil.uni.cc http://buy-cheap-celebrex.uni.cc http://buy-cheap-celexa.uni.cc http://buy-cheap-cialis.uni.cc http://buy-cheap-cipro.uni.cc http://buy-cheap-claritin-d.uni.cc http://buy-cheap-clonazepam.uni.cc http://buy-cheap-clonidine.uni.cc http://buy-cheap-codeine.uni.cc http://buy-cheap-coreg.uni.cc http://buy-cheap-cozaar.uni.cc http://buy-cheap-denavir.uni.cc http://buy-cheap-diazepam.6x.to http://buy-cheap-diazepam.uni.cc http://buy-cheap-didrex.uni.cc http://buy-cheap-diflucan.uni.cc http://buy-cheap-effexor.uni.cc http://buy-cheap-estradiol.uni.cc http://buy-cheap-evista.uni.cc http://buy-cheap-fioricet.uni.cc http://buy-cheap-fiorinal.uni.cc http://buy-cheap-flexeril.uni.cc http://buy-cheap-flonase.uni.cc http://buy-cheap-fosamax.uni.cc http://buy-cheap-furosemide.uni.cc http://buy-cheap-ibuprofen.uni.cc http://buy-cheap-imitrex.uni.cc http://buy-cheap-ionamin.uni.cc http://buy-cheap-levaquin.qn.com http://buy-cheap-levitra.uni.cc http://buy-cheap-lexapro.uni.cc http://buy-cheap-lisinopril.qn.com http://buy-cheap-lorazepam.uni.cc http://buy-cheap-lorcet.uni.cc http://buy-cheap-lortab.boom.ru http://buy-cheap-lortab.uni.cc http://buy-cheap-lotensin.qn.com http://buy-cheap-meclizine.qn.com http://buy-cheap-meridia.uni.cc http://buy-cheap-metformin.qn.com http://buy-cheap-metoprolol.qn.com http://buy-cheap-minocycline.qn.com http://buy-cheap-mobic.uni.cc http://buy-cheap-monopril.qn.com http://buy-cheap-motrin.uni.cc http://buy-cheap-naproxen.qn.com http://buy-cheap-nasacort.uni.cc http://buy-cheap-nasonex.uni.cc http://buy-cheap-neurontin.uni.cc http://buy-cheap-nexium.uni.cc http://buy-cheap-nifedipine.qn.com http://buy-cheap-norflex.uni.cc http://buy-cheap-norvasc.qn.com http://buy-cheap-ortho-evra.uni.cc http://buy-cheap-paxil.uni.cc http://buy-cheap-phentermine.6x.to http://buy-cheap-plavix.qn.com http://buy-cheap-pravachol.fromru.com http://buy-cheap-prilosec.uni.cc http://buy-cheap-prinivil.uni.cc http://buy-cheap-propecia.uni.cc http://buy-cheap-protonix.uni.cc http://buy-cheap-prozac.uni.cc http://buy-cheap-remeron.uni.cc http://buy-cheap-renova.uni.cc http://buy-cheap-restoril.uni.cc http://buy-cheap-retin-a.uni.cc http://buy-cheap-seroquel.uni.cc http://buy-cheap-skelaxin.uni.cc http://buy-cheap-soma.uni.cc http://buy-cheap-sonata.uni.cc http://buy-cheap-temazepam.uni.cc http://buy-cheap-tenuate.uni.cc http://buy-cheap-terazosin.uni.cc http://buy-cheap-tiazac.uni.cc http://buy-cheap-tramadol.uni.cc http://buy-cheap-trazodone.uni.cc http://buy-cheap-tricyclen.uni.cc http://buy-cheap-trimox.uni.cc http://buy-cheap-ultram.6x.to http://buy-cheap-ultram.uni.cc http://buy-cheap-valium.uni.cc http://buy-cheap-valtrex.uni.cc http://buy-cheap-vaniqa.uni.cc http://buy-cheap-viagra.uni.cc http://buy-cheap-vicodin.6x.to http://buy-cheap-vicodin.uni.cc http://buy-cheap-vicoprofen.uni.cc http://buy-cheap-vioxx.uni.cc http://buy-cheap-wellbutrin.uni.cc http://buy-cheap-xanax.6x.to http://buy-cheap-xanax.uni.cc http://buy-cheap-xenical.uni.cc http://buy-cheap-yasmin.uni.cc http://buy-cheap-zanaflex.uni.cc http://buy-
-
-http://buy-wine-online.uni.cc/ http://watch.uni.cc/ http://dental-care.uni.cc/ http://hair-care.uni.cc/ http://skin-care.uni.cc/ http://murray-hotel.uni.cc/  http://adipex.uni.cc/ http://adipex-online.6x.to/ http://adipex-online-order.6x.to/ http://butalbital.uni.cc/ http://buy-alprazolam.uni.cc http://buy-carisoprodol.uni.cc http://buy-cheap-accupril.uni.cc http://buy-cheap-aciphex.uni.cc http://buy-cheap-actonel.uni.cc http://buy-cheap-actos.uni.cc http://buy-cheap-adipex.uni.cc http://buy-cheap-aldara.uni.cc http://buy-cheap-alprazolam.uni.cc http://buy-cheap-altace.uni.cc http://buy-cheap-amaryl.uni.cc http://buy-cheap-ambien.uni.cc http://buy-cheap-amoxil.uni.cc http://buy-cheap-androgel.uni.cc http://buy-cheap-atenolol.uni.cc http://buy-cheap-ativan.uni.cc http://buy-cheap-avandia.uni.cc http://buy-cheap-avapro.uni.cc http://buy-cheap-bextra.uni.cc http://buy-cheap-biaxin.uni.cc http://buy-cheap-bontril.uni.cc http://buy-cheap-buspar.uni.cc http://buy-cheap-captopril.uni.cc http://buy-cheap-cartia.uni.cc http://buy-cheap-cefzil.uni.cc http://buy-cheap-celebrex.uni.cc http://buy-cheap-celexa.uni.cc http://buy-cheap-cialis.uni.cc http://buy-cheap-cipro.uni.cc http://buy-cheap-claritin-d.uni.cc http://buy-cheap-clonazepam.uni.cc http://buy-cheap-clonidine.uni.cc http://buy-cheap-codeine.uni.cc http://buy-cheap-coreg.uni.cc http://buy-cheap-cozaar.uni.cc http://buy-cheap-denavir.uni.cc http://buy-cheap-diazepam.6x.to http://buy-cheap-diazepam.uni.cc http://buy-cheap-didrex.uni.cc http://buy-cheap-diflucan.uni.cc http://buy-cheap-effexor.uni.cc http://buy-cheap-estradiol.uni.cc http://buy-cheap-evista.uni.cc http://buy-cheap-fioricet.uni.cc http://buy-cheap-fiorinal.uni.cc http://buy-cheap-flexeril.uni.cc http://buy-cheap-flonase.uni.cc http://buy-cheap-fosamax.uni.cc http://buy-cheap-furosemide.uni.cc http://buy-cheap-ibuprofen.uni.cc http://buy-cheap-imitrex.uni.cc http://buy-cheap-ionamin.uni.cc http://buy-cheap-levaquin.qn.com http://buy-cheap-levitra.uni.cc http://buy-cheap-lexapro.uni.cc http://buy-cheap-lisinopril.qn.com http://buy-cheap-lorazepam.uni.cc http://buy-cheap-lorcet.uni.cc http://buy-cheap-lortab.boom.ru http://buy-cheap-lortab.uni.cc http://buy-cheap-lotensin.qn.com http://buy-cheap-meclizine.qn.com http://buy-cheap-meridia.uni.cc http://buy-cheap-metformin.qn.com http://buy-cheap-metoprolol.qn.com http://buy-cheap-minocycline.qn.com http://buy-cheap-mobic.uni.cc http://buy-cheap-monopril.qn.com http://buy-cheap-motrin.uni.cc http://buy-cheap-naproxen.qn.com http://buy-cheap-nasacort.uni.cc http://buy-cheap-nasonex.uni.cc http://buy-cheap-neurontin.uni.cc http://buy-cheap-nexium.uni.cc http://buy-cheap-nifedipine.qn.com http://buy-cheap-norflex.uni.cc http://buy-cheap-norvasc.qn.com http://buy-cheap-ortho-evra.uni.cc http://buy-cheap-paxil.uni.cc http://buy-cheap-phentermine.6x.to http://buy-cheap-plavix.qn.com http://buy-cheap-pravachol.fromru.com http://buy-cheap-prilosec.uni.cc http://buy-cheap-prinivil.uni.cc http://buy-cheap-propecia.uni.cc http://buy-cheap-protonix.uni.cc 
-http://buy-cheap-prozac.uni.cc http://buy-cheap-remeron.uni.cc http://buy-cheap-renova.uni.cc http://buy-cheap-restoril.uni.cc http://buy-cheap-retin-a.uni.cc http://buy-cheap-seroquel.uni.cc http://buy-cheap-skelaxin.uni.cc http://buy-cheap-soma.uni.cc http://buy-cheap-sonata.uni.cc http://buy-cheap-temazepam.uni.cc http://buy-cheap-tenuate.uni.cc http://buy-cheap-terazosin.uni.cc http://buy-cheap-tiazac.uni.cc http://buy-cheap-tramadol.uni.cc http://buy-cheap-trazodone.uni.cc http://buy-cheap-tricyclen.uni.cc http://buy-cheap-trimox.uni.cc http://buy-cheap-ultram.6x.to http://buy-cheap-ultram.uni.cc http://buy-cheap-valium.uni.cc http://buy-cheap-valtrex.uni.cc http://buy-cheap-vaniqa.uni.cc http://buy-cheap-viagra.uni.cc http://buy-cheap-vicodin.6x.to http://buy-cheap-vicodin.uni.cc http://buy-cheap-vicoprofen.uni.cc http://buy-cheap-vioxx.uni.cc http://buy-cheap-wellbutrin.uni.cc http://buy-cheap-xanax.6x.to http://buy-cheap-xanax.uni.cc http://buy-cheap-xenical.uni.cc http://buy-cheap-yasmin.uni.cc http://buy-cheap-zanaflex.uni.cc http://buy-cheap-zestoretic.uni.cc http://buy-cheap-zestril.uni.cc http://buy-cheap-zithromax.uni.cc http://buy-cheap-zoloft.uni.cc http://buy-cheap-zovirax.uni.cc http://buy-cheap-zyban.uni.cc http://buy-cheap-zydone.uni.cc http://buy-cheap-zyprexa.uni.cc http://buy-cheap-zyrtec.uni.cc http://buy-hydrocodone.6x.to http://buy-hydrocodone.uni.cc http://buy-imitrex-oral.uni.cc http://buy-lorazepam.uni.cc http://buy-nortriptyline.qn.com http://buy-penicillin-vk.qn.com http://buy-phendimetrazine.uni.cc http://buy-phentermine.uni.cc http://buy-tramadol.6x.to http://buy-ultram.6x.to http://cheap-acetaminophen.uni.cc http://cheap-adipex.6x.to http://cheap-alprazolam.6x.to http://cheap-celebrex.6x.to http://cheap-diazepam.uni.cc http://cheap-hydrocodone.6x.to http://cheap-hydrocodone.uni.cc http://cheap-lortab.6x.to http://cheap-lortab.fromru.com http://cheap-oxycontin.6x.to http://cheap-prevacid.boom.ru http://cheap-promethazine.uni.cc 
-http://cheap-propoxyphene.uni.cc http://cheap-propranolol.uni.cc http://cheap-spironolactone.uni.cc http://cheap-talwin-nx.uni.cc http://cheap-tetracycline.uni.cc http://cheap-tramadol.6x.to http://cheap-ultram.6x.to http://cheap-valium.6x.to http://cheap-valium.uni.cc http://cheap-vicodin.6x.to http://cheap-vicodin.uni.cc http://cheap-vicodin-online.6x.to http://cheap-xanax.uni.cc http://cheap-zolpidem.6x.to http://darvocet-n-100.uni.cc http://diazepam.uni.cc 
-http://discount-phentermine.6x.to http://fioricet.uni.cc http://hydrocodone.uni.cc http://hydrocodone-online.6x.to http://online-cheap-diazepam.6x.to http://online-valium.6x.to http://order-phentermine.6x.to http://order-tramadol.6x.to http://order-ultram.6x.to http://order-vicodin.6x.to 
-http://oxycontin.uni.cc http://phentermine.uni.cc http://purchase-phentermine.6x.to http://tramadol-online.6x.to http://ultram.uni.cc http://valium.uni.cc http://valium-tablet.6x.to http://vicodin.uni.cc http://vicodin-online.6x.to http://xanax.uni.cc http://xanax-tablet.6x.to 
-There is an occassional need within Tcl scripts to change the way in
+http://buy-cialis.kucko.com
+http://buy-levitra.kucko.com
+http://buy-viagra-online.kucko.com
+http://buy-viagra.kucko.com
+http://cheap-cialis.kucko.com
+http://cheap-levitra.kucko.com
+http://cheap-viagra.kucko.com
+http://cialis-online.kucko.com
+http://cialis-viagra.kucko.com
+http://cialis.kucko.com
+http://generic-cialis.kucko.com
+http://generic-viagra.kucko.com
+http://levitra-online.kucko.com
+http://levitra.kucko.com
+http://order-viagra.kucko.com
+http://viagra-levitra.kucko.com
+http://viagra-online.kucko.com
+http://viagra-prescription.kucko.com
+http://viagra.kucko.com
+http://adult-dating.adultfriendfindernow.com
+http://adult-finder.adultfriendfindernow.com
+http://adult-friend-find.adultfriendfindernow.com
+http://adult-friend-finder-coupon.adultfriendfindernow.com
+http://adult-friend-finder.adultfriendfindernow.com
+http://adult-friend.adultfriendfindernow.com
+http://adult-personals.adultfriendfindernow.com
+http://adult-sex.adultfriendfindernow.com
+http://adultfriendfinder-com.adultfriendfindernow.com
+http://adultfriendfinder.adultfriendfindernow.com
+http://free-adult-personals.adultfriendfindernow.com
+http://friend-finder.adultfriendfindernow.com
+http://photo-personals.adultfriendfindernow.com
+http://sex-personals.adultfriendfindernow.com
+http://adult-dating.adultfriendsite.com
+http://adult-finder.adultfriendsite.com
+http://adult-friend-find.adultfriendsite.com
+http://adult-friend-finder-coupon.adultfriendsite.com
+http://adult-friend-finder.adultfriendsite.com
+http://adult-friend.adultfriendsite.com
+http://adult-personals.adultfriendsite.com
+http://adult-sex.adultfriendsite.com
+http://adultfriendfinder-com.adultfriendsite.com
+http://adultfriendfinder.adultfriendsite.com
+http://free-adult-personals.adultfriendsite.com
+http://friend-finder.adultfriendsite.com
+http://photo-personals.adultfriendsite.com
+http://sex-personals.adultfriendsite.com
+http://adult-dating.dating999.com
+http://adult-personals.dating999.com
+http://christian-dating-service.dating999.com
+http://christian-dating.dating999.com
+http://dating-personals.dating999.com
+http://dating-service.dating999.com
+http://dating-site.dating999.com
+http://dating-web-site.dating999.com
+http://dating.dating999.com
+http://free-dating.dating999.com
+http://free-personals.dating999.com
+http://internet-dating-service.dating999.com
+http://internet-dating.dating999.com
+http://on-line-dating.dating999.com
+http://online-dating-service.dating999.com
+http://online-dating.dating999.com
+http://personals.dating999.com
+http://photo-personals.dating999.com
+http://singles-dating.dating999.com
+http://buy-cialis.findbestpills.com
+http://buy-levitra.findbestpills.com
+http://buy-viagra-online.findbestpills.com
+http://buy-viagra.findbestpills.com
+http://cheap-cialis.findbestpills.com
+http://cheap-levitra.findbestpills.com
+http://cheap-viagra.findbestpills.com
+http://cialis-online.findbestpills.com
+http://cialis-viagra.findbestpills.com
+http://cialis.findbestpills.com
+http://generic-cialis.findbestpills.com
+http://generic-viagra.findbestpills.com
+http://levitra-online.findbestpills.com
+http://levitra.findbestpills.com
+http://order-viagra.findbestpills.com
+http://viagra-levitra.findbestpills.com
+http://viagra-online.findbestpills.com
+http://viagra-prescription.findbestpills.com
+http://viagra.findbestpills.com
+http://adipex-online.diet-pills-now.net
+http://adipex.diet-pills-now.net
+http://buy-adipex.diet-pills-now.net
+http://buy-didrex.diet-pills-now.net
+http://buy-phentermine.diet-pills-now.net
+http://buy-propecia.diet-pills-now.net
+http://buy-soma.diet-pills-now.net
+http://buy-tramadol.diet-pills-now.net
+http://buy-ultram.diet-pills-now.net
+http://carisoprodol.diet-pills-now.net
+http://cheap-adipex.diet-pills-now.net
+http://cheap-didrex.diet-pills-now.net
+http://cheap-phentermine.diet-pills-now.net
+http://cheap-propecia.diet-pills-now.net
+http://cheap-soma.diet-pills-now.net
+http://cheap-tramadol.diet-pills-now.net
+http://didrex-online.diet-pills-now.net
+http://didrex.diet-pills-now.net
+http://order-phentermine.diet-pills-now.net
+http://phentermine-online.diet-pills-now.net
+http://phentermine-prescription.diet-pills-now.net
+http://phentermine.diet-pills-now.net
+http://propecia.diet-pills-now.net
+http://purchase-phentermine.diet-pills-now.net
+http://soma-online.diet-pills-now.net
+http://soma.diet-pills-now.net
+http://tramadol-online.diet-pills-now.net
+http://tramadol.diet-pills-now.net
+http://ultram-online.diet-pills-now.net
+http://ultram.diet-pills-now.net
+http://adult-sex-toys.fabuloussextoys.com
+http://adult-toy-store.fabuloussextoys.com
+http://adult-toys.fabuloussextoys.com
+http://anal-toy.fabuloussextoys.com
+http://big-dildo.fabuloussextoys.com
+http://brutal-dildo.fabuloussextoys.com
+http://dildo-vibrator.fabuloussextoys.com
+http://dildo.fabuloussextoys.com
+http://huge-dildo.fabuloussextoys.com
+http://jack-rabbit-vibrator.fabuloussextoys.com
+http://rabbit-vibrator.fabuloussextoys.com
+http://sex-movie.fabuloussextoys.com
+http://sex-shop.fabuloussextoys.com
+http://sex-toy-shop.fabuloussextoys.com
+http://sex-toy-store.fabuloussextoys.com
+http://sex-toy.fabuloussextoys.com
+http://sex-toys.fabuloussextoys.com
+http://sex-videos.fabuloussextoys.com
+http://vibrator.fabuloussextoys.com
+http://vibrators.fabuloussextoys.comThere is an occassional need within Tcl scripts to change the way in
 which command names are resolved.  For instance, when implementing
 language constructs such as object systems, or some functional
 programming ideas (such as anonymous first-class functions).  In the
