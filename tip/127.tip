@@ -1,11 +1,10 @@
 TIP:            127
 Title:          Add an -index Option to [lsearch]
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
-Author:         <BNDAR_27_SA@YAHOO.COM>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        26-Feb-2003
 Post-History:   
 Tcl-Version:    8.5
