@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -52,6 +52,14 @@ I miss a button or some such which allows me to enter a new
 TIP. Currently it seems as if I can just edit an existing
 document.
 
+More: After submitting the changes I had to explicitly reload the TIP
+frame to see my changes. This is most likely a browser problem, but I
+think we should add a note to the edit page about this, or people might
+assume that their changes were lost in some way, and perceive the service
+as unreliable.
+
+That's it for now. ... I'll add the same comments to [14], they belong
+there more than here.
 </Andreas Kupries>
 
 ~ ChangeLog
@@ -59,6 +67,9 @@ document.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.16  2000/12/08 09:43:08  tclhttpd
+| Revision through web from Donal K. Fellows <fellowsd@cs.man.ac.uk> (17272)
+|
 
 ~ Copyright
 
