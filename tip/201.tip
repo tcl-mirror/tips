@@ -1,28 +1,26 @@
-TIP:		201
-Title:		Add 'in' Operator to [expr]
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Jeff Hobbs <jeffh@activestate.com>
-Created:	21-May-2004
-Keywords:	Tk, list membership, sets
+TIP:            201
+Title:          Add 'in' Operator to [expr]
+Version:        $Revision: 1.2 $
+Author:         Jeff Hobbs <jeffh@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-May-2004
+Post-History:   
+Keywords:       Tk,list membership,sets
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes a new '''expr''' operator "'''in'''" that simplifies
-the standard "does this item exist in list" '''lsearch''' case in
-expressions.
+This TIP proposes new '''expr''' operators "'''in'''" and "'''ni'''" that simplifies the standard "does this item exist in list" '''lsearch''' case in expressions, with "'''ni'''" being "not in".
 
 ~ Rationale
 
-The addition of an '''in''' operator is syntactic sugar for the
+The addition of '''in''' and '''ni''' operators is syntactic sugar for the
 verbose '''lsearch''' operation that checks for a single items
-existence in a list.  It serves to simplify the reading and writing of
-code that requires this comparatively-common operation.  The '''in'''
-operator will do '''lsearch -exact''' searching as well, which would
+existence (or non-existence) in a list.  It serves to simplify the reading and writing of
+code that requires this comparatively-common operation.  The
+operators will do '''lsearch -exact''' searching as well, which would
 correct an inadvertant bug that many users introduce into their code
 when they write:
 
@@ -36,7 +34,7 @@ actually proposing a much more general alteration.
 
 ~ Specification
 
-A new infix '''expr''' operator '''in''' will be added, making the
+A new infix '''expr''' operators '''in''' and '''ni''' will be added, making the
 following pairs of commands equivalent (assuming nobody has redefined
 '''lsearch''' of course):
 
@@ -49,15 +47,17 @@ following pairs of commands equivalent (assuming nobody has redefined
    list.
 
 | if {[lsearch -exact $list $item] == -1} { ... }
-| if {!($item in $list)} { ... }
+| if {$item ni $list} { ... }
 
-~~ Rejected Alternative
+~ Comments
 
 There was a proposal to add a separate operator "'''!in'''" to do
 negated membership testing, but that significantly complicates the
 expression parser and is likely to be harder to teach to newcomers to
 Tcl, since it looks like the application of an operator to another
 operator.
+
+'''notin''' and '''ni''' were also suggested, and '''ni''' was accepted as a reasonable pair for "not in", similar to '''ne''' being "not equal".  There was some concern about '''ni''' in that TeX has a different interpretation, but that is unlikely to confuse the majority of Tcl users.
 
 ~ Reference Implementation
 
