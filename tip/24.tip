@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -26,13 +26,13 @@ assigned:
 
    1. ''Event Loops'' -
 
-   1. ''Timer Events'' -
+   1. ''Timer Events'' - Kevin Kenny <kennykb@acm.org>
 
    1. ''Async Events'' - 
 
    1. ''XT Notifier'' - 
 
-   1. ''Time Measurement'' - 
+   1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>
 
    1. ''Variables'' - 
 
@@ -92,11 +92,11 @@ assigned:
 
    1. ''File System'' - 
 
-   1. ''Init - Library - Autoload'' -
+   1. ''Init - Library - Autoload'' - Don Porter <dgp@users.sourceforge.net>
 
-   1. ''Package Manager'' - 
+   1. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>
 
-   1. ''Dynamic Loading'' - 
+   1. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>
 
    1. ''Memory Allocation'' - 
 
@@ -112,7 +112,7 @@ assigned:
 
    1. ''Threading'' -
 
-   1. ''Embedding Support'' -
+   1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>
 
    1. ''Release Notes'' - 
 
