@@ -1,9 +1,9 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Withdrawn
+State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        06-Sep-2001
