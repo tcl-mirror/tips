@@ -1,0 +1,60 @@
+TIP:		242
+Title:		Preselect Filter on tk_get*File Dialogs
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	03-Mar-2005
+
+~ Abstract
+
+This TIP proposes adding an '''-initialtype''' option to the
+'''tk_getOpenFile''' and '''tk_getSaveFile''' dialog box
+commands. This option will preselect the filter from the
+'''-filetypes''' list based on the type name.
+
+~ Rationale
+
+The standard Open and Save dialog boxes currently allow you to seed
+the initial directory and the initial file, but selecting the initial
+filter should be supported as well. It is common to use a single
+dialog with a variety of filter options as a way for the user to
+select the import or export type, rather then having the user select a
+type before opening the dialog. By giving the application control over
+selecting the filter, the UI can be made friendlier to the user since
+the current operation is mostly similar to previous operations. For
+example, if you just opened a .txt file, the next open the user
+performs is most likely also a .txt file, so requiring the user to
+adjust the filter again is extra, unnecessary work.
+
+~ Proposed Change
+
+Add an '''-initialtype''' option to '''tk_getOpenFile''' and
+'''tk_getSaveFile'''. The value will be the filter name, that is,
+index 0 of the extension definition.  For example, given:
+
+|    set types {
+|        {{Text Files}       {.txt}        }
+|        {{TCL Scripts}      {.tcl}        }
+|        {{C Source Files}   {.c}      TEXT}
+|        {{GIF Files}        {.gif}        }
+|        {{GIF Files}        {}        GIFF}
+|        {{All Files}        *             }
+|    }
+|    tk_getOpenFile -types $types
+
+For selecting .c files for the filter, the '''-initialtype''' option
+would be "-initialtype {C Source Files}".
+
+~ Reference Implementation
+
+A reference implementation will be posted to Tk patches. I have
+modified ''tkfbox.tcl'' and ''tkWinDialog.c''. I have not looked at
+MacOSX yet.
+
+~ Copyright
+
+This document has been placed in the public domain.
