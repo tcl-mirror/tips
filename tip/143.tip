@@ -1,0 +1,181 @@
+TIP:		143
+Title:		An Interpreter Resource Limiting Framework
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	25-Jul-2003
+Type:		Project
+State:		Draft
+Vote:		Pending
+Version:	$Revision: 1.1 $
+Tcl-Version:	8.5
+Post-History:	
+
+~Abstract
+
+This TIP introduces a mechanism for creating and manipulating
+per-interpreter resource limits.  This stops several significant
+classes of denial-of-service attack, and can also be used to do things
+like guaranteeing an answer within a particular amount of time.
+
+~Rationale
+
+Currently it is trivial for scripts running in even safe Tcl
+interpreters to conduct a denial-of-service attack on the thread in
+which they are running.  All they have to do is write a simple
+infinite loop with the [[for]] or [[while]] commands.  Of course, it
+is possible to put a stop to this by hiding those commands from the
+interpreter, but even then it is possible to simulate the DoS effect
+with the help of a procedure like this (which even under ideal
+conditions will take over three days to run):
+
+|proc x s {eval $s; eval $s; eval $s; eval $s}
+|x {x {x {x {x {x {x {x {x {x {x {x {x {x {sleep 1}}}}}}}}}}}}}}
+
+The easiest way around this, of course, is the resource quota as used
+by heavyweight operating systems, perhaps combined with the
+''alarm(2)'' system call.  Or at least that would be the way to do it
+if it wasn't for the fact that those are ridiculously heavy
+sledgehammers to take to this particular nut.  Luckily we control the
+execution environment - it is a Tcl interpreter after all - so we can
+implement our own checks.  It is this that is the aim of this TIP.
+
+~General Specification
+
+I propose to add a subcommand ''limit'' to the ''interp'' command and
+to the object-like interpreter access commands.  It will be an error
+for any safe interpreter to call the ''limit'' subcommand; master
+interpreters may enable it for their safe slaves via the mechanism
+interpreter aliases, as is normal for security policies.
+
+The first argument to the ''interp limit'' command will be the name of
+the interpreter whose limit is to be inspected.  The second argument
+will be the name of the limit being modified; this TIP defines two
+kinds of limits:
+
+ time: Specifies when the interpreter will be prohibited from
+   performing further executions.  The limit is not guaranteed to be
+   hit at exactly the time given, but will not be hit before then.
+
+ command: Specifies a maximum number of commands (see [[info
+   commandcount]]) to be executed.
+
+The third and subsequent arguments specify a series of properties
+(each of which has a name that begins with a hyphen) which may be set
+(if there are pairs of arguments, being the property name and the
+value to set it to) or read (if there is just the property name on its
+own).  The set of properties is limit-specific, but always includes
+the following:
+
+ -value: For controlling the actual value of the limit, and expected
+   to be an integer value of some form when a limit is set.  If no
+   limit is set, the -value property will always be the empty string.
+
+ -command: A Tcl script to be executed in the global namespace of the
+   interpreter reading/writing the property when the limit is found to
+   be exceeded in the limited interpreter.  If no command callback is
+   defined ''for this interpreter'', the -command option will be the
+   empty string.  Note that multiple interpreters may set command
+   callbacks that are distinct from each other; an interpreter may not
+   see what other interpreters have installed (except by running a
+   script in those foreign interpreters, of course.)  The order of
+   calling of the callbacks is not defined by this TIP.
+
+ > ''Still to be defined - the result of an exceptional return of a
+   callback command, especially in the manner of the cases outlined in
+   [90].''
+
+ -granularity: Limits will always be checked within
+   ''Tcl_AsyncInvoke()'', which is called regularly by the Tcl
+   interpreter.  However, the cost of just checking a limit can be
+   quite appreciable (it might involve system calls, say) so this
+   property allows the control of how many calls to
+   ''Tcl_AsyncInvoke()'' happen between each time that the limit is
+   checked.  If the granularity is ''1'', the limit will be checked
+   every time.  It is an error to try to set the granularity to less
+   than ''1''.
+
+When an interpreter hits a limit, it first runs all command callbacks
+in their respective interpreters.  Once that is done, the interpreter
+rechecks the limit (since the command callbacks might have decided to
+raise or remove it) and if it is still exceeded it bails out the
+interpreter in the following way:
+
+ * A flag is set in the interpreter to mark the interpreter as having
+   exceeded its limits.
+
+ * The currently executing command/script in the interpreter is made
+   to return with code TCL_ERROR.  (This is superior to using a novel
+   return code, as third-party extensions are usually far better at
+   handling error cases!)
+
+ * The [[catch]] command will only catch errors if the interpreter
+   containing it does not have the flag mentioned just above set.
+   Similarly, further trips round the internal loops of the [[vwait]],
+   [[update]] and [[tkwait]] commands will not proceed with that flag
+   set.  (There will also need to be a C API for reading the flag so
+   extensions can obey the rules as well, though I do not know what to
+   call it at this stage.)  No calls to [[bgerror]] should be made.
+
+ * Once the execution unwinds out of the interpreter so that no
+   further invocations of the interpreter are left on the call-stack,
+   the flag is reset.  The same is true if the limits are adjusted in
+   any way.  Note that attempting to execute things within the
+   interpreter without raising the limits will result in the limit
+   being hit immediately.
+
+When resource limits are being used, unlimited master interpreters
+should take care to use the [[catch]] command when calling their
+limited slaves.  Otherwise hitting the limit in the slave might well
+smash the master as well, just because of general error propagation.
+But that is good practise anyway.
+
+~Time Limits
+
+Time limits are specified in terms of the time (in seconds from the
+epoch, as returned by [[clock seconds]]) when the limit will be hit.
+Setting the limit to the current time ensures that the limit will be
+immediately activated.
+
+Where a time-limited interpreter creates a slave interpreter, the
+slave will get the same time-limit as the creating master interpreter.
+
+~Command Limits
+
+Command limits are specified in terms of the number of commands (see
+[[info commandcount]] for a definition of the metric) that may be
+executed before the limit is hit.
+
+Where a command-limited interpreter creates a slave interpreter, the
+slave will get the command-limit ''0'' after initialisation
+(i.e. after the return from the call to ''Tcl_CreateSlave()'') and
+will be unable to execute and commands until the limit for the slave
+is raised.  Master interpreters implementing security policies for
+safe interpreters might want to set such limits semi-automatically to
+something more useful by deducting command-executions from the
+creating interpreter to its new slave.
+
+~Possible Future Directions
+
+There are some obvious other things that could be brought within this
+framework, but which I've left out for various reasons:
+
+ call stack: We already do limiting of this, so bring that within this
+   framework would be a nice regularisation.  On the other hand, such
+   a change would not be backward-compatible, and it might not be safe
+   to perform the callbacks either (especially as overflowing the
+   stack is fatal in a way that overrunning on time is not.)
+
+ memory: Limiting the amount of memory that an interpreter may
+   allocate for its own use would be very nice.  But conceptually
+   difficult to do (what about memory shared between interpreters?),
+   expensive to keep track of (memory debugging is known to add a lot
+   of overhead, and memory limiting would be more intrusive) and a
+   really big change technically too (i.e. you'd be rewriting a
+   significant fraction of the Tcl C API to make sure that every
+   memory allocation knows which interpreter owns it.)
+
+ open channels, file sizes, etc.: Most other things can be limited in
+   Tcl right now without special support.
+
+~Copyright
+
+This document is placed in the public domain.
