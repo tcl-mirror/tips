@@ -1,6 +1,6 @@
 TIP:		159
 Title:		Extending Tk 'wm' Command to Support Coloured Icons
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Georgios Petasis <petasis@iit.demokritos.gr>
 State:		Draft
 Type:		Project
@@ -101,181 +101,12 @@ icon sizes are preferred, although Xlib offers a relevant function.
 
 ~ Reference Implementation
 
-Here is a possible implementation for the Unix platform.  The patch is
-very small, so I have included it here:
-
-|--- tk_XP/unix/tkUnixWm.c       2003-09-02 14:56:46.000000000 +0300
-|+++ tk/unix/tkUnixWm.c  2003-10-01 10:04:40.000000000 +0300
-|@@ -395,6 +395,9 @@
-| static int             WmIconnameCmd _ANSI_ARGS_((Tk_Window tkwin,
-|                            TkWindow *winPtr, Tcl_Interp *interp, int objc,
-|                            Tcl_Obj *CONST objv[]));
-|+static int             WmIconphotoCmd _ANSI_ARGS_((Tk_Window tkwin,
-|+                           TkWindow *winPtr, Tcl_Interp *interp, int objc,
-|+                           Tcl_Obj *CONST objv[]));
-| static int             WmIconpositionCmd _ANSI_ARGS_((Tk_Window tkwin,
-|                            TkWindow *winPtr, Tcl_Interp *interp, int objc,
-|                            Tcl_Obj *CONST objv[]));
-|@@ -971,7 +974,8 @@
-|        "aspect", "attributes", "client", "colormapwindows",
-|        "command", "deiconify", "focusmodel", "frame",
-|        "geometry", "grid", "group", "iconbitmap",
-|-       "iconify", "iconmask", "iconname", "iconposition",
-|+       "iconify", "iconmask", "iconname",
-|+        "iconphoto", "iconposition",
-|        "iconwindow", "maxsize", "minsize", "overrideredirect",
-|         "positionfrom", "protocol", "resizable", "sizefrom",
-|         "stackorder", "state", "title", "transient",
-|@@ -980,7 +984,8 @@
-|         WMOPT_ASPECT, WMOPT_ATTRIBUTES, WMOPT_CLIENT, WMOPT_COLORMAPWINDOWS,
-|        WMOPT_COMMAND, WMOPT_DEICONIFY, WMOPT_FOCUSMODEL, WMOPT_FRAME,
-|        WMOPT_GEOMETRY, WMOPT_GRID, WMOPT_GROUP, WMOPT_ICONBITMAP,
-|-       WMOPT_ICONIFY, WMOPT_ICONMASK, WMOPT_ICONNAME, WMOPT_ICONPOSITION,
-|+       WMOPT_ICONIFY, WMOPT_ICONMASK, WMOPT_ICONNAME,
-|+        WMOPT_ICONPHOTO, WMOPT_ICONPOSITION,
-|        WMOPT_ICONWINDOW, WMOPT_MAXSIZE, WMOPT_MINSIZE, WMOPT_OVERRIDEREDIRECT,
-|         WMOPT_POSITIONFROM, WMOPT_PROTOCOL, WMOPT_RESIZABLE, WMOPT_SIZEFROM,
-|         WMOPT_STACKORDER, WMOPT_STATE, WMOPT_TITLE, WMOPT_TRANSIENT,
-|@@ -1072,6 +1077,8 @@
-|        return WmIconmaskCmd(tkwin, winPtr, interp, objc, objv);
-|       case WMOPT_ICONNAME:
-|        return WmIconnameCmd(tkwin, winPtr, interp, objc, objv);
-|+      case WMOPT_ICONPHOTO:
-|+        return WmIconphotoCmd(tkwin, winPtr, interp, objc, objv);
-|       case WMOPT_ICONPOSITION:
-|        return WmIconpositionCmd(tkwin, winPtr, interp, objc, objv);
-|       case WMOPT_ICONWINDOW:
-|@@ -2061,6 +2068,122 @@
-| /*
-|  *----------------------------------------------------------------------
-|  *
-|+ * WmIconphotoCmd --
-|+ *
-|+ *     This procedure is invoked to process the "wm iconphoto"
-|+ *     Tcl command.
-|+ *     See the user documentation for details on what it does.
-|+ *
-|+ * Results:
-|+ *     A standard Tcl result.
-|+ *
-|+ * Side effects:
-|+ *     See the user documentation.
-|+ *
-|+ *----------------------------------------------------------------------
-|+ */
-|+
-|+static int
-|+WmIconphotoCmd(tkwin, winPtr, interp, objc, objv)
-|+    Tk_Window tkwin;           /* Main window of the application. */
-|+    TkWindow *winPtr;           /* Toplevel to work with */
-|+    Tcl_Interp *interp;                /* Current interpreter. */
-|+    int objc;                  /* Number of arguments. */
-|+    Tcl_Obj *CONST objv[];     /* Argument objects. */
-|+{
-|+    register WmInfo *wmPtr = winPtr->wmInfoPtr;
-|+    Tk_PhotoHandle photo;
-|+    Tk_PhotoImageBlock block;
-|+    int i, size = 0, width, height, index = 0, x, y;
-|+    long R, G, B, A;
-|+    long *iconPropertyData;
-|+    unsigned char *pixelByte;
-|+
-|+    if (objc < 4) {
-|+       Tcl_WrongNumArgs(interp, 2, objv,
-|+                                    "window photo_image ?photo_image2 ...?");
-|+       return TCL_ERROR;
-|+    }
-|+    /*
-|+     * Iterate over all images to retrieve their sizes, in order to allocate a
-|+     * buffer large enough to hold all images.
-|+     */
-|+    for (i = 3; i < objc; i++) {
-|+        photo = Tk_FindPhoto(interp, Tcl_GetString(objv[i]));
-|+        if (photo == NULL) return TCL_ERROR;
-|+        Tk_PhotoGetSize(photo, &width, &height);
-|+        /* We need to cardinals for width & height and one cardinal for each
-|+         * image pixel. */
-|+        size += 2 + width * height;
-|+    }
-|+    /* We have calculated the size of the data. Try to allocate the needed
-|+     * memory space. */
-|+    iconPropertyData = (long *) Tcl_AttemptAlloc(sizeof(long)*size);
-|+    if (iconPropertyData == NULL) {
-|+        return TCL_ERROR;
-|+    }
-|+    memset(iconPropertyData, 0, sizeof(long)*size);
-|+
-|+    for (i = 3; i < objc; i++) {
-|+        photo = Tk_FindPhoto(interp, Tcl_GetString(objv[i]));
-|+        if (photo == NULL) {
-|+            Tcl_Free((char *) iconPropertyData);
-|+            return TCL_ERROR;
-|+        }
-|+        Tk_PhotoGetSize(photo, &width, &height);
-|+        Tk_PhotoGetImage(photo, &block);
-|+        /*
-|+         * Each image data will be placed as an array of 32bit packed
-|+         * CARDINAL, in a window property named "_NET_WM_ICON":
-|+         * _NET_WM_ICON
-|+         * 
-|+         * _NET_WM_ICON CARDINAL[][2+n]/32
-|+         * 
-|+         * This is an array of possible icons for the client.
-|+         * This specification does not stipulate what size these icons should
-|+         * be, but individual desktop environments or toolkits may do so.
-|+         * The Window Manager MAY scale any of these icons to an appropriate
-|+         * size. 
-|+         * 
-|+         * This is an array of 32bit packed CARDINAL ARGB with high byte being
-|+         * A, low byte being B. The first two cardinals are width, height.
-|+         * Data is in rows, left to right and top to bottom.
-|+         */
-|+         
-|+        /*
-|+         * Encode the image data in the iconPropertyData array.
-|+         */
-|+        iconPropertyData[index++] = width;
-|+        iconPropertyData[index++] = height;
-|+        for (y = 0; y < height; y++) {
-|+            for (x = 0; x < width; x++) {
-|+                R = *(block.pixelPtr + x*block.pixelSize +
-|+                      y*block.pitch + block.offset[0]);
-|+                G = *(block.pixelPtr + x*block.pixelSize +
-|+                      y*block.pitch + block.offset[1]);
-|+                B = *(block.pixelPtr + x*block.pixelSize +
-|+                      y*block.pitch + block.offset[2]);
-|+                A = *(block.pixelPtr + x*block.pixelSize +
-|+                      y*block.pitch + block.offset[3]);
-|+                pixelByte = (unsigned char *) &iconPropertyData[index];
-|+                pixelByte[3] = A;
-|+                pixelByte[2] = R;
-|+                pixelByte[1] = G;
-|+                pixelByte[0] = B;
-|+                index++;
-|+            }
-|+        }
-|+    }
-|+    XChangeProperty(winPtr->display, wmPtr->wrapperPtr->window,
-|+                    Tk_InternAtom(tkwin, "_NET_WM_ICON"),
-|+                   XA_CARDINAL, 32, PropModeReplace,
-|+                   (unsigned char *) iconPropertyData, size);
-|+    Tcl_Free((char *) iconPropertyData);
-|+    return TCL_OK;
-|+}
-|+^L
-|+/*
-|+ *----------------------------------------------------------------------
-|+ *
-|  * WmIconpositionCmd --
-|  *
-|  *     This procedure is invoked to process the "wm iconposition"
+A reference implementation (initially for just Unix) is available at
+http://sf.net/tracker/?func=detail&aid=815751&group_id=12997&atid=312997
 
 Note that also I have a reference implementation of the first approach
 (passing a colour pixmap instead of a bitmap), in case we decide to
 follow this approach (or both simultaneously :-) ).
-
-See also:
-http://sf.net/tracker/?func=detail&aid=815751&group_id=12997&atid=312997
 
 ~ Notes
 
