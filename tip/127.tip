@@ -1,6 +1,6 @@
 TIP:            127
 Title:          Add an -index Option to [lsearch]
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
 Author:         <BNDAR_27_SA@YAHOO.COM>
 State:          Draft
@@ -117,23 +117,6 @@ keys.
 
 The ''lsearch'' command does not have this functionality yet, one has
 to use ''foreach'' and ''lindex'' to loop over the list one by one.
-
-Multiple indices for the ''-index'' option to both ''lsearch'' and
-''lsort'' should be added, to make the option more similar to ''lset''
-and ''lindex'' style indices.
-
-The ''-subindices'' option is a convenience option to make constructs
-like this example work well:
-
-| foreach item [lsearch -all -subindices -index {0 0} $record bla] {
-|         lset record $item bar
-| }
-
-Without the subindices option it could be written as:
-
-| foreach item [lsearch -all -index $idx $record bla] {
-|         lset record [concat $idx $item] bar
-| }
 
 Multiple indices for the ''-index'' option to both ''lsearch'' and
 ''lsort'' should be added, to make the option more similar to ''lset''
