@@ -1,6 +1,6 @@
 TIP:            35
 Title:          Enhanced Support for Serial Communications
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
 Author:         Rolf Schroedter <Rolf.Schroedter@dlr.de>
 State:          Draft
@@ -163,7 +163,7 @@ Macintosh systems - ?
  open.n: Serial port filenames are documented here.  Add a link to
     [[fconfigure]] for additional serial options.
 
-~ Other Issues
+~ Timeouts
 
 It has also been proposed to add a [[fconfigure -timeout]] option
 specifying read and write timeouts.  Together with a blocking read a
@@ -183,6 +183,18 @@ On the other hand timeout for read operations can easily be
 implemented in a cross-platform way by using the VMIN/VTIME settings
 for Unix and the COMTIMEOUTS for Windows.
 That's why the author finally agrees with the -timeout proposal.
+
+~ Restore settings at close ?
+
+It has also been proposed that Tcl should not restore the original
+serial ports settings at [[close $chan]]. IMO it doesn't hurt, 
+because anyway an application should care about setting up the serial
+port properly before using. Without restoring a Tcl script could be 
+used as a ''poor'' stty, considering however that Tcl 
+does not provide a complete control over serial settings.
+
+So the proposal is to remove the current save/restore mechanism
+from the Unix implementation for serial ports.
 
 ~ Copyright
 
