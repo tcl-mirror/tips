@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.146 $
+Version:        $Revision: 1.147 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -103,6 +103,10 @@ the '''-dictionary''', '''-integer''', or '''-real''' options.
 
 A reference implementation of this TIP is availble
 [http://sourceforge.net/tracker/index.php?func=detail&aid=1152746&group_id=10894&atid=310894].
+
+~ Encoding test
+
+from Lars Hellstrøm.    
 
 ~ Copyright
 
