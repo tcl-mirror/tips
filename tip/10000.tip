@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.67 $
+Version:        $Revision: 1.68 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -92,6 +92,10 @@ there more than here.
 ~ Dummy <Section> 'To' "Test" XML Generation
 
 Move along now; nothing to see here...
+
+~ TIPs as PostScript and Adobe PDF
+
+http://www.cs.man.ac.uk/~fellowsd/tcl/bitsandpieces/tips_on_20010622.pdf
 
 ~ Copyright
 
