@@ -3,7 +3,7 @@ Title:		Add a Megawidget Support Core Package
 Author:		Damon Courtney <damon@unreality.com>
 Tcl-Version:	8.5
 Created:	22-Mar-2003
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Type:		Project
 State:		Draft
 Vote:		Pending
@@ -67,12 +67,14 @@ The following commands would be part of the package:
  > Define the options available to widgets of ''widgetClass''.  An
    ''optionList'' is a list describing the option:
 
- > ''type option dbClass dbName defVale''
+ > ''type option dbClass dbName defValue''
 
- > ''type'' can be '''boolean''', '''int''', '''double''',
+ > The ''type'' value can be '''boolean''', '''int''', '''double''',
    '''string''', '''enum''', '''color''', '''font''', '''bitmap''',
    '''border''', '''relief''', '''cursor''', '''justify''',
-   '''anchor''', '''synonym''', '''pixels''', or '''window'''.
+   '''anchor''', '''synonym''', '''pixels''', or '''window'''.  The
+   other values should be familiar to users of Tk's standard
+   '''configure''' subcommand.
 
 '''::megawidget::create''' ''widgetName widgetClass commandName''
 
