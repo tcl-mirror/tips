@@ -1,5 +1,5 @@
 modules      CVSROOT modules
-admin        -d web/admin
+admin         web/admin
 doc.site     -d web/doc.site
 devxchg.site -d web/devxchg.site
 dxc_res.site -d web/dxc_res.site
