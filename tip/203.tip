@@ -1,15 +1,16 @@
-TIP:		203
-Title:		Create tclConfig.sh-Equivalent in Tcl
-Version:	$Revision: 1.1 $
-Author:		Colin McCormack <coldstore@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	17-Jun-2004
-Discussions-To:	http://mini.net/tcl/tclConfig.sh
-Post-History:	
-Keywords:	configuration, installation
-Tcl-Version:	8.5
+TIP:            203
+Title:          Create tclConfig.sh-Equivalent in Tcl
+Version:        $Revision: 1.2 $
+Author:         Colin McCormack <coldstore@users.sourceforge.net>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        17-Jun-2004
+Post-History:   
+Discussions-To: http://mini.net/tcl/tclConfig.sh
+Keywords:       configuration,installation
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -36,6 +37,16 @@ namespace.
 Anything similar would suffice, whether it's added to a ''dict'' under
 '''info''', '''tcl_platform''', or placed in a namespace doesn't
 greatly matter.
+
+~ Comments
+
+How about converting this proposal into
+a proposal listing the values found in
+''tclConfig.sh'' and propsing that Tcl
+should pass those values into
+'''Tcl_RegisterConfig''' during initialization?
+That would make all the values available
+to scripts via the ''::tcl::pkgconfig'' command.
 
 ~ Copyright
 
