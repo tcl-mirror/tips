@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -396,7 +396,7 @@ engine.
 are looking for "foo.bar.baz", then look for "bar.baz" then "baz", until we find 
 an implementation. 
 
-> If no implementation was found, then a panic is generated, meaning that
+ > If no implementation was found, then a panic is generated, meaning that
 some dependency has not been resolved. In the general case, this won't happen 
 for core widgets (because they only use core elements), and new widgets either 
 have to rely on core or package-provided elements, or define their own.
