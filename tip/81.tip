@@ -1,6 +1,6 @@
 TIP:            81
 Title:          [incr Tcl] Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Process
@@ -22,143 +22,114 @@ handling source (see [0] and [16] for details and rationale.)
 
 ~ Functional Areas
 
-[[incr Tcl]] shall be divided into the following 20 functional units
-(the twentieth is the shared part of the source tree), each to be
-assigned one or more maintainers:
+[[incr Tcl]] shall be divided into the following 8 functional units
+(the seventh is the obsolete parts of the source tree, and the eighth
+is the shared part of the source tree), each to be assigned one or
+more maintainers:
 
- Objects: 
-
- > 1. ''Built-in Class Methods'' -
+ 1. ''Objects'' -
       generic/itcl_bicmds.c,
-      tests/info.test
-
- > 2. ''Class and Object Management'' -
       generic/itcl_class.c,
+      generic/itcl_methods.c,
       generic/itcl_objects.c,
+      generic/itcl_parse.c,
+      doc/body.n,
+      doc/class.n,
+      doc/configbody.n,
+      tests/basic.test,
+      tests/body.test,
+      tests/info.test,
       tests/inherit.test,
       tests/interp.test,
       tests/methods.test,
-      tests/protection.test
+      tests/protection.test,
 
- > 3. ''Class-scope Commands'' -
-      generic/itcl_methods.c,
-      doc/body.n,
-      doc/configbody.n,
-      tests/body.test,
-
- > 4. ''Command Parsing'' -
-      generic/itcl_parse.c,
-      doc/class.n,
-      tests/basic.test,
-
- Other Generic Source: 
-
- > 5. ''Package Commands'' -
+ 2. ''Other Commands'' -
       generic/itcl_cmds.c,
+      generic/itcl_ensemble.c,
       doc/code.n,
       doc/delete.n,
+      doc/ensemble.n,
       doc/find.n,
       doc/local.n,
       doc/scope.n,
       tests/chain.test,
       tests/delete.test,
+      tests/ensemble.test,
       tests/import.test,
       tests/local.test,
       tests/namespace.test,
       tests/scope.test
 
- > 6. ''Ensembles'' -
-      generic/itcl_ensemble.c,
-      doc/ensemble.n,
-      tests/ensemble.test
-
- > 7. ''Linking with C'' -
-      generic/itcl_linkage.c
-
- > 8. ''Utility Code'' -
-      generic/itcl_util.c
-
- > 9. ''Stand-alone Application'' -
+ 3. ''Mac Build+Support'' -
       mac/tclMacAppInit.c,
+      mac/MW_ItclHeader.pch,
+      mac/pkgIndex.tcl,
+      mac/itclMacApplication.r,
+      mac/itclMacLibrary.r,
+      mac/itclMacResource.r,
+      mac/itclMacTclCode.r,
+      mac/itclStaticApplication.r
+
+ 4. ''Unix Build+Support'' -
       unix/tclAppInit.c,
+      configure.in,
+      aclocal.m4,
+      Makefile.in,
+      itclConfig.sh.in,
+      pkgIndex.tcl.in
+
+ 5. ''Windows Build+Support'' -
       win/dllEntryPoint.c,
-      doc/itclsh.1
+      win/makefile.bc,
+      win/makefile.vc,
+      win/rc/itcl.rc
 
- > 10. ''Initialisation'' -
-       library/itcl.tcl,
-       tests/mkindex.itcl,
-       tests/mkindex.test,
-       tests/tclIndex
+ 6. ''Other'' -
+      generic/itcl_util.c,
+      generic/itcl_linkage.c,
+      doc/itclsh.1,
+      library/itcl.tcl,
+      tests/mkindex.itcl,
+      tests/mkindex.test,
+      tests/tclIndex
 
- Build and Install: 
+~ Obsolete Files
 
- > 11. ''Mac Build'' -
-       mac/MW_ItclHeader.pch
+These files are all obsolete in one way or another, and will be removed
+as part of the migration process.  They are listed here for completeness
+only.
 
- > 12. ''Unix Build'' -
-       configure.in,
-       aclocal.m4,
-       Makefile.in,
-       itclConfig.sh.in
-
- > 13. ''Windows Build'' -
-       win/makefile.bc,
-       win/makefile.vc
-
- > 14. ''Package Index Files'' -
-       pkgIndex.tcl.in,
-       mac/pkgIndex.tcl
-       ''(see also mac/itclMacLibrary.r and mac/itclStaticApplication.r)''
-
- Platform Support: 
-
- > 15. ''Mac Resources'' -
-       mac/itclMacApplication.r,
-       mac/itclMacLibrary.r,
-       mac/itclMacResource.r,
-       mac/itclMacTclCode.r,
-       mac/itclStaticApplication.r
-
- > 16. ''Windows Resources'' -
-       win/rc/itcl.rc
-
- Other: 
-
- > 17. ''Obsolete Commands'' -
-       generic/itcl_obsolete.c,
-       doc/itcl_class.n,
-       doc/itcl_info.n
-
- > 18. ''Obsolete Tests'' -
-       tests/defs,
-       tests/old/AAA.test,
-       tests/old/Bar.tcl,
-       tests/old/BarFoo.tcl,
-       tests/old/Baz.tcl,
-       tests/old/Foo.tcl,
-       tests/old/FooBar.tcl,
-       tests/old/Geek.tcl,
-       tests/old/Mongrel.tcl,
-       tests/old/VirtualErr.tcl,
-       tests/old/all,
-       tests/old/basic.test,
-       tests/old/inherit.test,
-       tests/old/tclIndex,
-       tests/old/testlib.tcl,
-       tests/old/toaster.test,
-       tests/old/uplevel.test,
-       tests/old/upvar.test,
-       tests/old/toasters/Appliance.tcl,
-       tests/old/toasters/Hazard.tcl,
-       tests/old/toasters/Outlet.tcl,
-       tests/old/toasters/SmartToaster.tcl,
-       tests/old/toasters/Toaster.tcl,
-       tests/old/toasters/tclIndex,
-       tests/old/toasters/usualway.tcl,
-
- > 19. ''Migration to Core'' -
-       generic/itcl_migrate.c,
-       doc/man.macros
+ * generic/itcl_obsolete.c,
+   generic/itcl_migrate.c,
+   doc/man.macros,
+   doc/itcl_class.n,
+   doc/itcl_info.n
+   tests/defs,
+   tests/old/AAA.test,
+   tests/old/Bar.tcl,
+   tests/old/BarFoo.tcl,
+   tests/old/Baz.tcl,
+   tests/old/Foo.tcl,
+   tests/old/FooBar.tcl,
+   tests/old/Geek.tcl,
+   tests/old/Mongrel.tcl,
+   tests/old/VirtualErr.tcl,
+   tests/old/all,
+   tests/old/basic.test,
+   tests/old/inherit.test,
+   tests/old/tclIndex,
+   tests/old/testlib.tcl,
+   tests/old/toaster.test,
+   tests/old/uplevel.test,
+   tests/old/upvar.test,
+   tests/old/toasters/Appliance.tcl,
+   tests/old/toasters/Hazard.tcl,
+   tests/old/toasters/Outlet.tcl,
+   tests/old/toasters/SmartToaster.tcl,
+   tests/old/toasters/Toaster.tcl,
+   tests/old/toasters/tclIndex,
+   tests/old/toasters/usualway.tcl
 
 ~ Shared Files
 
