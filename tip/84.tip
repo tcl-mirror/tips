@@ -1,13 +1,14 @@
-TIP:		84
-Title:		Add control for mouse movement filtering
-Version:	$Revision: 1.1 $
-Author:		Jyrki Alakuijala <Jyrki.Alakuijala@iki.fi>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	26-Feb-2002
-Post-History:	
+TIP:            84
+Title:          Add control for mouse movement filtering
+Version:        $Revision: 1.2 $
+Author:         Jyrki Alakuijala <Jyrki.Alakuijala@iki.fi>
+Author:         Jeff Hobbs <JeffH@ActiveState.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Feb-2002
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -30,6 +31,12 @@ receive all the movement events instead of only the last buffered one.
 
 This has been a problem for me since 1995 and has - at many times -
 caused me to consider changing the widget system.
+
+~ Implementation
+
+|    int Tk_CollapseMotionEvents(Display *display, int collapse)
+
+A reference implementation is SF Tk patch 564642, which adds a flag to the TkDisplay that specifies whether motions events should be collapsed or not.  The default is the current behavior of collapsing these events.
 
 ~ Copyright
 
