@@ -1,10 +1,10 @@
 TIP:            136
 Title:          Large List Initialisation
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Simon Geard <simon.geard@ntlworld.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        25-May-2003
 Post-History:   
 Tcl-Version:    8.5
