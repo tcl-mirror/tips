@@ -1,0 +1,72 @@
+TIP:		137
+Title:		Specifying Script Encodings for [source] and tclsh
+Author:		Anton Kovalenko <a_kovalenko@fromru.com>
+Type:		Project
+State:		Draft
+Vote:		Pending
+Version:	$Revision: 1.1 $
+Tcl-Version:	8.5
+Created:	29-May-2003
+Post-History:	
+
+~ Abstract
+
+This TIP proposes a way to specify encoding used to read a script 
+with ''source'' command and tclsh shell.
+
+~ Rationale
+
+Now all Tcl scripts are expected to be in the system encoding.  An
+author of a script or a package can't specify concrete encoding to
+source the script or the files of package.  Common practise is to
+assume that encoding to be superset of ASCII, and not to use non-ASCII
+characters in the scripts that are targeting the wide audience of
+potential users.
+
+There's a way to specify UNICODE literals with \uXXXX sequences.  But
+it's not an universal and convenient way - this sequences aren't
+substituted in {}-quoted strings, and they can't be edited in WYSIWYG
+editors without special (and hence uncommon) support.
+
+This TIP proposes to add the ''-encoding'' option support to
+''source'' command and to tclsh.  Thus, package authors will be able
+to specify encoding of the package files in ''pkgIndex.tcl''; and
+script authors will be able to specify the script encoding when
+calling tclsh (either in the first line beginning with ''#!'' or in
+the line where the ''exec tclsh "$0" "$@"'' is located).
+
+~ Specification
+
+Tclsh will allow the encoding to be specified on the command-line in
+two forms: the first form is ''-encoding name'' as two separate
+arguments, and the second is ''-encoding:name'' (a single argument.)
+The second form is intended for when the script begins with ''#!'' and
+is because Unix kernels pass extra parameters from the ''#!'' line as
+a single argument.
+
+Common use of this new options will be like this:
+
+ 1. In a script:
+
+| !#/usr/bin/tclsh -encoding:utf-8
+| do something...
+
+ > or it could be:
+
+| #!/bin/sh
+| # I wish to use tclsh \
+| exec tclsh -encoding utf-8 "$0" "$@"
+
+ 2. In a ''pkgIndex.tcl'':
+
+| package ifneeded pkg 1.02 [list source -encoding utf-8 \
+|      [file join $dir pkg.tcl]]
+
+~ Implementation
+
+The implementation of this TIP can be found at
+http://sourceforge.net/projects/tcl as Patch #742683.
+
+~ Copyright
+
+This document is placed in the public domain.
