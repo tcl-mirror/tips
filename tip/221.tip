@@ -1,10 +1,10 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.7 $
+Version:        $Revision: 2.8 $
 Author:         Don Porter <dgp@users.sf.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        15-Sep-2004
 Post-History:   
 Keywords:       bgerror,return,options
