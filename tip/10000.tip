@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.145 $
+Version:        $Revision: 1.146 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -18,6 +18,7 @@ Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Joe Mistachkin <joe@mistachkin.com>
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -29,6 +30,10 @@ Post-History:
 This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
 can take place.
+
+~ Testing Non-ASCII Characters...
+
+Lars Hellstrøm did not write this
 
 ~ Rationale
 
