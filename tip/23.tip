@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -131,8 +131,9 @@ be a Category in the SourceForge Tracker for Tk:
      library/entry.tcl,
      tests/entry.test
 
-   >  8. ''[frame] and [toplevel]'' -
+   >  8. ''[frame], [toplevel] and [labelframe]'' (see [18]) -
      doc/frame.n,
+     doc/labelframe.n,
      doc/toplevel.n,
      generic/tkFrame.c,
      tests/frame.test
@@ -211,7 +212,7 @@ be a Category in the SourceForge Tracker for Tk:
    >  18. ''[text]'' -
      doc/text.n,
      generic/tkText.c,
-     generic/tkText.h
+     generic/tkText.h,
      generic/tkTextBTree.c,
      generic/tkTextDisp.c,
      generic/tkTextImage.c,
@@ -237,11 +238,14 @@ be a Category in the SourceForge Tracker for Tk:
      doc/optionMenu.n,
      library/optMenu.tcl
 
-   >  21. ''[panedwindow]'' -
+   >  21. ''[panedwindow]'' (see [41]) -
      doc/panedwindow.n,
      generic/tkPanedWindow.c,
      library/panedwindow.tcl,
      tests/panedwindow.test
+
+   >  22. ''Style Engine'' (see [48]) -
+     generic/tkStyle.c
 
    Widget Options: 
 
@@ -262,7 +266,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tk3d.h,
      unix/tkUnix3d.c,
      tests/bevel.tcl,
-     tests/border.tcl,
+     tests/border.test,
      win/tkWin3d.c
 
    >  3. ''Built-in Bitmaps'' -
@@ -317,7 +321,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/cmap.tcl,
      tests/color.test,
      win/tkWinColor.c,
-     xlib/colors.c
+     xlib/xcolors.c
 
    >  9. ''Cursor Names'' -
      doc/GetCursor.3,
@@ -354,6 +358,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/dialog.n,
      library/dialog.tcl,
      mac/tkMacDialog.c,
+     tests/dialog.test,
      tests/winDialog.test,
      unix/tkUnixDialog.c,
      win/tkWinDialog.c
@@ -486,7 +491,7 @@ be a Category in the SourceForge Tracker for Tk:
    Other Tk commands: 
 
     >  1. ''[console]'' -
-     doc/console.n
+     doc/console.n,
      generic/tkConsole.c,
      library/console.tcl
 
@@ -570,6 +575,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/GetVRoot.3,
      doc/HWNDToWindow.3,
      doc/MoveToplev.3,
+     doc/SetCaret.3,
      doc/SetGrid.3,
      doc/bell.n,
      doc/bind.n,
@@ -585,10 +591,12 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkPointer.c,
      tests/bell.test,
      tests/cmds.test,
+     tests/embed.test,
      tests/id.test,
      tests/raise.test,
      tests/tk.test,
      tests/winfo.test,
+     tests/wm.test,
      xlib/xgc.c
 
    >  5. ''Mac Window Operations'' -
@@ -615,7 +623,7 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixXId.c
 
    >  7. ''Win Window Operations'' -
-     tests/WinWm.test,
+     tests/winWm.test,
      win/stubs.c,
      win/tkWinDraw.c,
      win/tkWinEmbed.c,
@@ -668,9 +676,9 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkMain.c,
      mac/tkMacInit.c,
      unix/tkUnixInit.c,
-     win/tkWin32DLL.c,
+     win/tkWin32Dll.c,
      win/tkWinInit.c,
-     tests/main.test,
+     tests/main.test
 
    >  3. ''wish'' -
      doc/wish.1,
@@ -698,6 +706,7 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/dialog2.tcl,
      library/demos/entry1.tcl,
      library/demos/entry2.tcl,
+     library/demos/entry3.tcl,
      library/demos/filebox.tcl,
      library/demos/floor.tcl,
      library/demos/form.tcl,
@@ -707,15 +716,19 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/image2.tcl,
      library/demos/items.tcl,
      library/demos/label.tcl,
+     library/demos/labelframe.tcl,
      library/demos/menu.tcl,
      library/demos/menubu.tcl,
      library/demos/msgbox.tcl,
+     library/demos/paned1.tcl,
+     library/demos/paned2.tcl,
      library/demos/plot.tcl,
      library/demos/puzzle.tcl,
      library/demos/radio.tcl,
      library/demos/ruler.tcl,
      library/demos/sayings.tcl,
      library/demos/search.tcl,
+     library/demos/spin.tcl,
      library/demos/states.tcl,
      library/demos/style.tcl,
      library/demos/text.tcl,
@@ -732,7 +745,8 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/images/noletter.bmp,
      library/demos/images/pattern.bmp,
      library/demos/images/tcllogo.gif,
-     library/demos/images/teapot.ppm
+     library/demos/images/teapot.ppm,
+     mac/widget.r
 
    >  2. ''Square Demo'' -
      generic/tkSquare.c,
@@ -750,13 +764,16 @@ be a Category in the SourceForge Tracker for Tk:
    Localization: 
 
    >  1. ''L10N'' -
+     library/msgs/cs.msg,
      library/msgs/de.msg,
      library/msgs/el.msg,
      library/msgs/en.msg,
+     library/msgs/en_gb.msg,
      library/msgs/es.msg,
      library/msgs/fr.msg,
      library/msgs/it.msg,
-     library/msgs/nl.msg
+     library/msgs/nl.msg,
+     library/msgs/ru.msg
 
    Release Engineering: 
 
@@ -766,8 +783,8 @@ be a Category in the SourceForge Tracker for Tk:
      */*/README,
      changes,
      license.terms,
-     tk4.0.ps,
-     doc/options.n
+     doc/options.n,
+     doc/tk4.0.ps,
      mac/bugs.doc,
      tests/bugs.tcl
 
@@ -787,16 +804,23 @@ be a Category in the SourceForge Tracker for Tk:
      xlib/xutil.c
 
    >  4. ''Mac Build'' -
+     mac/MW_TkBuildLibHeader.h,
+     mac/MW_TkBuildLibHeader.pch,
      mac/MW_TkHeader.h,
      mac/MW_TkHeader.pch,
+     mac/MW_TkHeaderCommon.h,
      mac/MW_TkOldImgHeader.h,
+     mac/MW_TkOldImgStaticHeader.h,
+     mac/MW_TkStaticHeader.h,
+     mac/MW_TkStaticHeader.pch,
      mac/MW_TkTestHeader.h,
      mac/MW_TkTestHeader.pch,
      mac/tkMacApplication.r,
      mac/tkMacLibrary.r,
      mac/tkMacProjects.sea.hqx,
      mac/tkMacResource.r,
-     mac/tkMacShlib.exp
+     mac/tkMacShlib.exp,
+     mac/tkMacTclCode.r
 
    >  5. ''Unix Build'' -
      unix/Makefile.in,
@@ -814,8 +838,10 @@ be a Category in the SourceForge Tracker for Tk:
      win/configure.in,
      win/makefile.vc,
      win/mkd.bat,
+     win/nmakehlp.c,
      win/rc/tk.rc,
      win/rc/tk_base.rc,
+     win/rc/wish.exe.manifest,
      win/rc/wish.rc,
      win/rmd.bat,
      win/rules.vc,
@@ -844,6 +870,7 @@ be a Category in the SourceForge Tracker for Tk:
      library/images/pwrdLogo200.gif,
      library/images/pwrdLogo75.gif,
      library/images/tai-ku.gif,
+     win/lamp.bmp,
      win/rc/tk.ico,
      win/rc/wish.ico
 
@@ -864,6 +891,7 @@ API and should be changed only with TCT approval.
      generic/tkInt.h,
      generic/tkPort.h,
      generic/tkStubLib.c,
+     library/unsupported.tcl,
      mac/tkMac.h,
      mac/tkMacInt.h,
      mac/tkMacPort.h,
@@ -883,8 +911,8 @@ The following files are generated, so they don't need maintainers.
      generic/tkIntXlibDecls.h,
      generic/tkPlatDecls.h,
      generic/tkStubInit.c,
-     library/demos/tclIndex
-     library/tclIndex
+     library/demos/tclIndex,
+     library/tclIndex,
      unix/configure,
      unix/mkLinks,
      win/configure
