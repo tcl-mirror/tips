@@ -2,15 +2,13 @@
 
 <!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
 
-<!-- $Id: tipxml.dtd,v 1.6 2003-08-29 09:55:22 dkf Exp $ -->
+<!-- $Id: tipxml.dtd,v 1.7 2003-08-29 11:38:22 dkf Exp $ -->
 
 <!-- This document is placed in the Public Domain. -->
 
 <!-- ================================================================== -->
-<!-- Entity declarations (a character, and several content models.)	-->
+<!--    Entity declarations (various shared element content models.)	-->
 <!-- ================================================================== -->
-<!ENTITY ff "&#12;"> <!-- Form feeds are relatively common characters	-->
-                     <!-- in verbatim sections that are patches.	-->
 
 <!-- Basic datatypes... -->
 <!ENTITY % url 	      "CDATA"> <!-- Only permit URLs, may be partial.	-->
