@@ -1,6 +1,6 @@
 TIP:            122
 Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Martin Weber <ephaeton@gmx.net>
 Author:         Martin Weber <Ephaeton@gmx.net>
 State:          Draft
@@ -14,7 +14,7 @@ Tcl-Version:    8.5
 
 This TIP shall bring flexible management of word and non-word chars to
 Tcl, to be used throughout the Tcl realm in e.g. [[regexp]]'s \w \W,
-Tk's [[textwidget]], etc.
+Tk's [[textwidget]], [[string]] wordstart/wordend etc.
 
 ~Specification
 
