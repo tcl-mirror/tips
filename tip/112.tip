@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.23 $
+Version:        $Revision: 2.24 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -251,7 +251,7 @@ Where an empty -unknown handler is given (the default), the ensemble command wil
 |   return {}
 |}
 |# Our new subcommand implementation
-|proc flash w {
+|proc flashFrame w {
 |   set bg [$w cget -background]
 |   foreach colour {black white black white black white} {
 |      $w configure -background $colour
