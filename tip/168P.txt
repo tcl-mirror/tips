@@ -1,0 +1,1 @@
+P(t) = \sum_{k=0}^n \binom{n}{k} t^k (1-t)^{n-k} P_k

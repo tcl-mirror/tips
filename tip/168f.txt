@@ -1,0 +1,1 @@
+f(t) = \sum_{k=0}^n  a_k \binom{n}{k} t^k (1-t)^{n-k}

@@ -1,6 +1,6 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
 State:		Draft
@@ -24,13 +24,12 @@ a sequence ''knot-point'' ''control-point'' ''control-point''
 composed of cubic Bezier segments.  More precisely, if the list of
 coordinates is
 
-|  a_0 b_0 a_1 b_1 a_2 b_2 ...
+#image:168ab List of coordinates
 
 then the Nth (counting from zero) segment of the curve consists of
 points whose coordinates (x,y) satisfies
 
-|  x = a_{3N} (1-t)^3 + 3 a_{3N+1} t (1-t)^2 + 3 a_{3N+2} t^2 (1-t) + a_{3N+3} t^3,
-|  y = b_{3N} (1-t)^3 + 3 b_{3N+1} t (1-t)^2 + 3 b_{3N+2} t^2 (1-t) + b_{3N+3} t^3
+#image:168xy Parametric equations for x and y
 
 for some value of t between 0 and 1, inclusive.  If there are 3N+1
 points then the above defines an N segment curve.  In the case that
@@ -102,7 +101,7 @@ The question of what may rightfully be called "bezier" is somewhat
 complicated and deserves expounding upon.  It really begins with
 Bernstein; the ''Bernstein degree n form'' of a polynomial f is
 
-|  f(t) = \sum_{k=0}^n  a_k \binom{n}{k} t^k (1-t)^{n-k}
+#image:168f Bernstein degree n form polynomial
 
 [[this is LaTeX code, in case anyone wonders]].  One advantage this
 form has over the standard form is that the coefficients a_0, ..., a_n
@@ -120,7 +119,7 @@ curve) where each coordinate function is the Bernstein polynomial one
 gets by taking as a_k the corresponding coordinate of the point P_k
 and parametric time goes from 0 to 1; formally
 
-|  P(t) = \sum_{k=0}^n \binom{n}{k} t^k (1-t)^{n-k} P_k
+#image:168P Bernstein polynomial for points
 
 for t between 0 and 1 inclusive.  Higher degree Bezier curves are not
 used much in computer graphics (probably because the effect on the
