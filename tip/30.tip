@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.34 $
+Version:        $Revision: 1.35 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -15,6 +15,7 @@ Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net>
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
+Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -87,7 +88,7 @@ assigned:
 
    17. ''[spinbox]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   18. ''[text]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   18. ''[text]'' - Jeff Hobbs <JeffH@ActiveState.com>, Vince Darley <vincentdarley@users.sourceforge.net>
 
    19. ''Menubars (obsolete)'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -226,7 +227,7 @@ assigned:
 
    68. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				   Chengye Mao <chengye.geo@yahoo.com>
-                                   Vincent Darley <vincentdarley@users.sourceforge.net> (iconbitmap only)
+                                   Vincent Darley (maintainer for wm iconbitmap only) <vincentdarley@users.sourceforge.net>
 
    69. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
