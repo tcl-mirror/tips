@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -135,7 +135,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.6 $. (Initially $Revision: 1.6 $ should be used, which
+	$Revision: 1.7 $. (Initially $Revision: 1.7 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -301,9 +301,10 @@ work out fairly well in practise, especially since they are only
 rarely used.)
 
 Within the body text of a (non-verbatim) paragraph, italicised emphasis is
-indicated by enclosing the text within inside double apostrophes "''"
+indicated by enclosing the text within inside double apostrophes " ' ' "
 and emboldened emphasis is indicated by enclosing the text within
-inside triple apostrophes "'''".  They should not be nested.  Special URLs of
+inside triple apostrophes " ' ' ' ".  They should not be nested.
+Special URLs of
 the form tip:tipnumber are expanded into full URLs to the given TIP
 through the current formatting engine (where applicable.)  References
 of the form [tipnumber] are also expanded as links to the given TIP,
