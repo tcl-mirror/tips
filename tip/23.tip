@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -202,7 +202,7 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixScrlbr.c,
      win/tkWinScrlbr.c
 
-   >  17. ''Spinbox'' -
+   >  17. ''[spinbox]'' -
      doc/spinbox.n,
      library/spinbox.tcl,
      tests/spinbox.test
@@ -288,7 +288,7 @@ units, each to be assigned one or more maintainers:
      generic/tkObj.c,
      tests/obj.test
 
-   >  6. ''Utility Procedures'' -
+   >  6. ''Utility Functions'' -
      doc/DrawFocHlt.3,
      doc/GetScroll.3,
      generic/tkUtil.c,
@@ -396,10 +396,10 @@ units, each to be assigned one or more maintainers:
      generic/tkImgPhoto.c,
      tests/imgPhoto.test
 
-   >  4. ''Photo Image: GIF'' -
+   >  4. ''Photo Image|GIF'' -
      generic/tkImgGIF.c
 
-   >  5. ''Photo Image: PPM'' -
+   >  5. ''Photo Image|PPM'' -
      generic/tkImgPPM.c,
      tests/imgPPM.test
 
@@ -531,7 +531,7 @@ units, each to be assigned one or more maintainers:
    >  1. ''Geometry'' -
      generic/tkTrig.c
 
-   >  2. ''Tk_Win Procedures'' -
+   >  2. ''Tk_Win Functions'' -
      doc/ConfigWind.3,
      doc/CrtWindow.3,
      doc/IdToWindow.3,
@@ -741,25 +741,25 @@ units, each to be assigned one or more maintainers:
 
    Localization: 
 
-   >  1. ''L10N: German'' -
+   >  1. ''L10N|German'' -
      library/msgs/de.msg
 
-   >  2. ''L10N: Greek'' -
+   >  2. ''L10N|Greek'' -
      library/msgs/el.msg
 
-   >  3. ''L10N: English'' -
+   >  3. ''L10N|English'' -
      library/msgs/en.msg
 
-   >  4. ''L10N: Spanish'' -
+   >  4. ''L10N|Spanish'' -
      library/msgs/es.msg
 
-   >  5. ''L10N: French'' -
+   >  5. ''L10N|French'' -
      library/msgs/fr.msg
 
-   >  6. ''L10N: Italian'' -
+   >  6. ''L10N|Italian'' -
      library/msgs/it.msg
 
-   >  7. ''L10N: Dutch'' -
+   >  7. ''L10N|Dutch'' -
      library/msgs/nl.msg
 
    Release Engineering: 
