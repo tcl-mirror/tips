@@ -1,6 +1,6 @@
 TIP:            235
 Title:          Exposing a C API for Ensembles
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
@@ -29,36 +29,63 @@ possible.
 
 This TIP proposes exposing the following functions:
 
- Tcl_CreateEnsemble(interp, name, namespacePtr, flags): Create an ensemble linked to a particular
+ Tcl_CreateEnsemble: Create an ensemble linked to a particular
    namespace and return the command token for the namespace command.
+   The ''flags'' argument specifies the initial version of the set of
+   flags controllable through Tcl_SetEnsembleFlags (see below).
 
- Tcl_FindEnsemble(interp, objPtr, flags): Locate a command token for an ensemble. Has an
-   argument that controls whether failure to find an ensemble is an
-   error.
+ > > Tcl_Command '''Tcl_CreateEnsemble'''(Tcl_Interp *''interp'', CONST char *''name'', Tcl_Namespace *''namespacePtr'', int ''flags'')
 
- Tcl_IsEnsemble(token): Test whether a command token refers to an ensemble.
+ Tcl_FindEnsemble: Return a command token for an ensemble, or NULL if
+   the name does not refer to an ensemble. The ''flags'' argument
+   controls whether failure to find an ensemble is an error and should
+   be either 0 or TCL_LEAVE_ERR_MSG.
 
- Tcl_GetEnsembleSubcommandList(interp,token,objPtrPtr), Tcl_SetEnsembleSubcommandList(interp,token,objPtr): Read
+ > > Tcl_Command '''Tcl_FindEnsemble'''(Tcl_Interp *''interp'', Tcl_Obj *''cmdNameObj'', int ''flags'')
+
+ Tcl_IsEnsemble: Test whether a command token refers to an ensemble.
+
+ > > int '''Tcl_IsEnsemble'''(Tcl_Command ''command'')
+
+ Tcl_GetEnsembleSubcommandList, Tcl_SetEnsembleSubcommandList: Read
    and write the (fixed) list of subcommands of the ensemble.
    Equivalent to manipulating the '''-subcommands''' option.
 
- Tcl_GetEnsembleMappingDict(interp,token,objPtrPtr), Tcl_SetEnsembleMappingDict(interp,token,objPtr): Read and
+ > > int '''Tcl_GetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''subcmdListObjPtr''
+
+ > > int '''Tcl_SetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''subcmdListObj''
+
+ Tcl_GetEnsembleMappingDict, Tcl_SetEnsembleMappingDict: Read and
    write the dictionary that maps subcommands to prefixes of
    implementation commands. Equivalent to manipulating the '''-map'''
    option.
 
- Tcl_GetEnsembleUnknownHandler(interp,token,objPtrPtr), Tcl_SetEnsembleUnknownHandler(interp,token,objPtr): Read
+ > > int '''Tcl_GetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''mapDictObjPtr''
+
+ > > int '''Tcl_SetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''mapDictObj''
+
+ Tcl_GetEnsembleUnknownHandler, Tcl_SetEnsembleUnknownHandler: Read
    and write the command prefix list that is used to implement the
    unknown-subcommand handler. Equivalent to manipulating the
    '''-unknown''' option.
 
- Tcl_GetEnsembleFlags(interp,token,flagsPtr), Tcl_SetEnsembleFlags(interp,token,flags): Read and write the flags
+ > > int '''Tcl_GetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''handlerListObjPtr''
+
+ > > int '''Tcl_SetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''handlerListObj''
+
+ Tcl_GetEnsembleFlags, Tcl_SetEnsembleFlags: Read and write the flags
    for the ensemble. Currently there is only one settable flag bit,
    TCL_ENSEMBLE_PREFIX, which is present exactly when '''-prefix'''
    option is true.
 
- Tcl_GetEnsembleNamespace(interp,token,namespacePtrPtr): Reads the namespace associated with the
+ > > int '''Tcl_GetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int *''flagsPtr''
+
+ > > int '''Tcl_SetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int ''flags''
+
+ Tcl_GetEnsembleNamespace: Reads the namespace associated with the
    ensemble; this value may not be altered.
+
+ > > int '''Tcl_GetEnsembleNamespace'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Namespace **''namespacePtrPtr'')
 
 ~ Reference Implementation
 
