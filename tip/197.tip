@@ -1,10 +1,10 @@
 TIP:		197
 Title:		Text Widget Persistant Cursor
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4
+Tcl-Version:	8.5
 Vote:		Pending
 Created:	12-May-2004
 Post-History:	
