@@ -1,6 +1,6 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin Kenny <kennykb@acm.org >
@@ -84,7 +84,8 @@ conversions in the Tcl library:
     that a number shall be formatted using
     the smallest number of decimal digits required to distinguish
     it from the next floating point number above it and the next
-    floating point number below.
+    floating point number below.  Other values of ''tcl_precision''
+    shall continue to work as they do in Tcl 8.4.
     The documentation shall formally deprecate changing
     ''::tcl_precision'' to any other value, warning that doing so
     risks both loss of precision and inconsistency between string
