@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.32 $
+Version:        $Revision: 1.33 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -13,6 +13,7 @@ Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -120,7 +121,8 @@ assigned:
 			  Daniel Steffen <das@users.sourceforge.net> (Mac)
 
    32. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			 Daniel Steffen <das@users.sourceforge.net> (Mac)
+			 Daniel Steffen <das@users.sourceforge.net> (Mac),
+			 Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net> (MacOSX)
 
    33. ''Generic Dialog Support'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 				    Jeff Hobbs <JeffH@ActiveState.com>
@@ -158,7 +160,8 @@ assigned:
    44. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    45. ''Mac Fonts'' - George B. Smith <gbs@k9haven.com>,
-		       Daniel Steffen <das@users.sourceforge.net>
+		       Daniel Steffen <das@users.sourceforge.net>,
+		       Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net> (MacOSX)
 
    46. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
