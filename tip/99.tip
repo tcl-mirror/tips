@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -22,24 +22,22 @@ but is up to the file-system which owns ''source''.
 
 The command will take the syntax:
 
-|      file link source ?target?
+|      file link ?-type linktype? ?--? source ?target?
 
-If ''target'' is not given, then returns the value of the symbolic
+If ''target'' is not given, then returns the value of the
 link given by ''source'' (i.e. the name of the file it points to).  If
 ''source'' isn't a symbolic link or its value cannot be read, then an
 error is returned.  If ''target'' is given then creates a link from
 ''source'' to ''target''.  The type of link created is platform
-specific, but is generally a symbolic or soft link.  On systems that
-don't support symbolic links this option is undefined, and an error
-message will always be returned.  In particular Windows 95, 98 and ME
-do not support any symbolic links at present.  However, Unix, MacOS
-and Windows NT/2000/XP (on NTFS drives) do.
+specific, but is generally a symbolic or soft link.  Where the user wishes to specify the type of the link, the optional '-type linktype' flags can be given.  Accepted values for linktype will be "soft" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+do not support any symbolic links at present, but Unix, MacOS
+and Windows NT/2000/XP (on NTFS drives) do).
 
-On MacOS and Unix, symbolic links will be created.  On Windows (where
-supported - i.e. on NTFS drives), symbolic links will be created for
-directory links, and hard-links for file links (since symbolic file
-links do not appear to be supported - shortcuts are simply shell
-aliases).
+The TIP proposes implementing:
+
+>           Unix,MacOSX       Win-NTFS             MacOS
+>soft:          yes        directories-only         yes
+>hard:          yes          files-only              no
 
 ~ Rationale
 
@@ -52,25 +50,15 @@ for a recent thread), and if Tcl can read links (''file readlink'',
 
 There is no cross-platform alternative available.  TclX provides a
 ''link'' command for Unix only, and Unix platforms can also use ''exec
-ln -s'' command to achieve the same effect.
+ln ?-s?'' command to achieve the same effect.
 
 ~ Reference Implementation
 
-''Part of
+''
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-''Note:'' a large portion of this patch should be applied to Tcl
-whether this TIP passes or not, since otherwise on Windows ''file
-lstat'', ''file type'', ''file delete'', ''file copy'' will misbehave
-on symbolic links which may exist in the filesystem (in particular
-''file delete'' will have the unfortunate effect of deleting the
-''original'' of a symbolically linked directory in Tcl 8.3 or 8.4 at
-present).
-
-The portion of the patch which is crucial to this TIP is the actual
-''file link'' subcommand implementation, which is only 15 lines of
-code.
+This reference implementation needs to be updated with the '-type linktype' option.
 
 ~ Copyright
 
