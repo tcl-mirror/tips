@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -84,6 +84,20 @@ subcommands will be updated in the following way:
    command, there will also be a '''-boolean''' option to indicate the
    current behaviour, and which will mutually exclusive with the
    '''-alpha''' option.
+
+~Examples
+
+Create a small image with a black border and a partially-transparent
+red area in the center.
+
+|image create photo transExample
+|transExample put black -to 0 0 10 10
+|transExample put red@.5 -to 2 2 8 8
+
+Retrieve the alpha value of a pixel near the middle of the image
+created previously.
+
+|set aVal [transExample transparency get 5 5 -alpha]
 
 ~Reference Implementation
 
