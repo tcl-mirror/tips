@@ -1,6 +1,6 @@
 TIP:            222
 Title:          Add [wm attributes -alpha] Attribute on Windows
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -50,11 +50,11 @@ The reference patch implements the functionality along with one bug fix to
 ''UpdateWrapper'' - correct setting of the Z order of the window based on the
 previous wrapper window.
 
-While this patch addresses Windows alpha transparency, it is available for other platforms.  It is recommended that the same format be used across platforms.
+While this patch addresses Windows alpha transparency, it is available for other platforms.  It is recommended that the same syntax be used across platforms.
 
 ~ Comments
 
-Please make any comments here.
+Discussion focused around the use of ''-alpha'' versus ''-transparency''.  Some felt that the latter was more familiar to end users.  The author refutes this with several points.  First, the existing TIP#166 uses ''-alpha'' as well, for the same functionality specific to Tk images (using the same [0..1] value as well).  Also, the underlying APIs for each platform refer to the alpha level as well.  In looking over various documentation, transparency is often a boolean concept, which alpha is the gradual level.  This is how it will be used in Tk.
 
 ~ Copyright
 
