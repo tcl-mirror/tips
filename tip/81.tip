@@ -1,6 +1,6 @@
 TIP:            81
 Title:          [incr Tcl] Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Process
@@ -73,11 +73,12 @@ more maintainers:
 
  4. ''Unix Build+Support'' -
       unix/tclAppInit.c,
-      configure.in,
-      aclocal.m4,
-      Makefile.in,
-      itclConfig.sh.in,
-      pkgIndex.tcl.in
+      configure.in ''(to move to unix/configure.in)'',
+      aclocal.m4  ''(to move to unix/aclocal.m4 and gain pieces the
+                     poorly-named Itcl tcl.m4)'',
+      Makefile.in ''(to move to unix/Makefile.in)'',
+      itclConfig.sh.in ''(to move to unix/itclConfig.sh.in)'',
+      pkgIndex.tcl.in ''(to move to unix/pkgIndex.tcl.in)''
 
  5. ''Windows Build+Support'' -
       win/dllEntryPoint.c,
@@ -156,7 +157,7 @@ The following files are generated, so they don't need maintainers.
    generic/itclIntDecls.h,
    generic/itclStubInit.c,
    generic/itclStubLib.c,
-   configure
+   configure ''(moves to unix/configure, trailing configure.in)''
 
 ~ Copyright
 
