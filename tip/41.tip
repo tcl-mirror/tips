@@ -1,6 +1,6 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
@@ -403,6 +403,9 @@ widget.
  * Allow a bindable image to be placed on the window sash, a la 
 Netscape's Messenger, or Java Swing, to allow one-click expand and
 collapse of the pane.
+
+ * Integrate with the -setgrid option such that if a pane contains
+a -setgrided widget, the sash can only be moved in grid size steps.
 
 Neither of these are prohibited by the current design, and could be 
 implemented at a later date as enhancements to the widget.
