@@ -1,13 +1,13 @@
 TIP:            44
 Title:          Move Tk's Private Commands and Variables into ::tk Namespace
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        16-Jul-2001
-Tcl-Version:	8.4
-Post-History:
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -128,6 +128,16 @@ This proposal has already been implemented and committed to Tk's
 CVS repository on the branch tagged ''dgp-privates-into-namespace''.
 That branch is up to date with Tk's HEAD branch as of July 16, 2001.
 
+To make an anonymous checkout of the reference implementation into
+a directory named ''tkprivate'', run the following CVS commands:
+
+| $ cvs -d :pserver:anonymous@cvs.tktoolkit.sf.net:/cvsroot/tktoolkit \
+|   login
+| (Logging in to anonymous@cvs.tktoolkit.sf.net)
+| CVS password: <Enter>
+| $ cvs -d :pserver:anonymous@cvs.tktoolkit.sf.net:/cvsroot/tktoolkit \
+|   co -r dgp-privates-into-namespace -d tkprivate tk
+
 The reference implementation has the same performance on the Tk
 test suite as the HEAD revision.
 
@@ -163,4 +173,3 @@ proposal so they will not be counter-proposed.
 ~ Copyright
 
 This document has been placed in the public domain.
-
