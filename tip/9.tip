@@ -1,11 +1,11 @@
 TIP:            9
 Title:          Tk Standard Library
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Marty Backe <mgbacke@usa.net>
 Author:         hellins <hellins@263.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        07-Nov-2000
