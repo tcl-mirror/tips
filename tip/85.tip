@@ -1,9 +1,9 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        31-Jan-2002
