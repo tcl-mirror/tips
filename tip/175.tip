@@ -1,8 +1,8 @@
 TIP:            175
 Title:          Add an -async Option to [open]
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        15-Mar-2004
