@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -199,7 +199,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.4 $
+|Version:       $Revision: 1.5 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -248,8 +248,7 @@ incorporated into the archive, please contact the TIP Editor.
 ----
 
 ~ Comments
-
- >  
+ > From ''Don Porter  <dgp@users.sourceforge.net>'': 
 
  > 1. It is confusing that ``project'' TIPs defined here do not
       correspond to ``projects'' defined in [0].
@@ -281,8 +280,6 @@ incorporated into the archive, please contact the TIP Editor.
 
  > 7. Should process TIPs be reserved for those proposals that
       revise [0] and require 2/3 support of the entire TCT?
-
- > ''Don Porter  <dgp@users.sourceforge.net>''
 
 ----
 
