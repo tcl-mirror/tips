@@ -1,6 +1,6 @@
 TIP:            0
 Title:          Tcl Core Team Basic Rules
-Version:        $Revision: 2.0 $
+Version:        $Revision: 2.1 $
 Author:         John Ousterhout <ouster@interwoven.com>
 State:          Draft
 Type:           Process
@@ -28,6 +28,7 @@ The phrase "Tcl core" refers to the Tcl interpreter and the Tk
 toolkit (the packages previously released by Sun, Scriptics, and
 Ajuba).  We also include the Tcl Developer Exchange Web site and
 the Tcl bug database in the Tcl core.  The Tcl Core Team may also
+choose to take on additional responsibilities such as the creation
 of more comprehensive "batteries included" releases.  We expect
 other Tcl development teams to form independently from the Tcl
 Core Team to manage additional projects, such as popular extensions.
