@@ -1,14 +1,15 @@
-TIP:		123
-Title:		Adding an Exponentiation Operator to the [expr] Command
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	16-Dec-2002
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	mathematics, evaluation
+TIP:            123
+Title:          Adding an Exponentiation Operator to the [expr] Command
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Dec-2002
+Post-History:   
+Keywords:       mathematics,evaluation
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -93,6 +94,10 @@ all other operators:
 The precedence of the exponentiation operator is thus ''higher'' than
 the multiplication, division and remainder operations and lower than
 the unary operations, in accordance with common definitions.
+
+~ Sample Implementation
+
+http://sf.net/tracker/?func=detail&aid=655176&group_id=10894&atid=310894
 
 ~ Copyright
 
