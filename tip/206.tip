@@ -1,13 +1,14 @@
 TIP:            206
 Title:          Add an [ftruncate] Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        25-Jun-2004
 Post-History:   
 Tcl-Version:    8.5
+Obsoleted-By:	208
 
 ~ Abstract
 
