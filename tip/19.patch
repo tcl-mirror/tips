@@ -1,0 +1,206 @@
+diff -r -c -N tk8.4a2/doc/text.n tk8.4a2.textchg/doc/text.n
+*** tk8.4a2/doc/text.n	Thu Aug 24 23:58:33 2000
+--- tk8.4a2.textchg/doc/text.n	Wed Dec 13 19:54:14 2000
+***************
+*** 734,739 ****
+--- 734,744 ----
+  \fIOption\fR may have any of the values accepted by the \fBtext\fR
+  command.
+  .TP
++ \fIpathName \fBchanged\fR ?\fIboolean\fR
++ Sets or returns the current value of the ``text changed'' flag.
++ This flag is set whenever text is inserted into or deleted from
++ the widget.
++ .TP
+  \fIpathName \fBcompare\fR \fIindex1 op index2\fR
+  Compares the indices given by \fIindex1\fR and \fIindex2\fR according
+  to the relational operator given by \fIop\fR, and returns 1 if
+diff -r -c -N tk8.4a2/generic/tkText.c tk8.4a2.textchg/generic/tkText.c
+*** tk8.4a2/generic/tkText.c	Mon Jul 24 17:05:40 2000
+--- tk8.4a2.textchg/generic/tkText.c	Thu Dec 28 08:12:54 2000
+***************
+*** 488,493 ****
+--- 488,494 ----
+      int result = TCL_OK;
+      size_t length;
+      int c;
++     int chg;
+      TkTextIndex index1, index2;
+  
+      if (argc < 2) {
+***************
+*** 528,533 ****
+--- 529,557 ----
+  	}
+  	result = Tk_ConfigureValue(interp, textPtr->tkwin, configSpecs,
+  		(char *) textPtr, argv[2], 0);
++     } else if ((c == 'c') && (strncmp(argv[1], "changed", length) == 0)
++ 	    && (length >= 2)) {
++ 	if (argc > 3) {
++ 	    Tcl_AppendResult(interp, "wrong # args: should be \"",
++ 		    argv[0], " changed ?boolean?\"",
++ 		    (char *) NULL);
++ 	    result = TCL_ERROR;
++ 	    goto done;
++ 	}
++ 
++ 	if (argc == 2) {
++ 	    Tcl_SetResult(interp,
++ 		(textPtr->flags & TEXT_CHANGED) ? "1" : "0", TCL_STATIC);
++ 	} else if (Tcl_GetBoolean(interp, argv[2], &chg) != TCL_OK) {
++ 	    result = TCL_ERROR;
++ 	    goto done;
++ 	} else {
++ 	    if (chg) {
++ 		textPtr->flags |= TEXT_CHANGED;
++ 	    } else {
++ 		textPtr->flags &= ~TEXT_CHANGED;
++ 	    }
++ 	}
+      } else if ((c == 'c') && (strncmp(argv[1], "compare", length) == 0)
+  	    && (length >= 3)) {
+  	int relation, value;
+***************
+*** 1248,1253 ****
+--- 1272,1283 ----
+       */
+  
+      textPtr->abortSelections = 1;
++ 
++     /*
++      * Indicate that the text has changed.
++      */
++ 
++     textPtr->flags |= TEXT_CHANGED;
+  }
+  
+  /*
+***************
+*** 1402,1407 ****
+--- 1432,1443 ----
+       */
+  
+      textPtr->abortSelections = 1;
++ 
++     /*
++      * Indicate that the text has changed.
++      */
++ 
++     textPtr->flags |= TEXT_CHANGED;
+  
+      return TCL_OK;
+  }
+diff -r -c -N tk8.4a2/generic/tkText.h tk8.4a2.textchg/generic/tkText.h
+*** tk8.4a2/generic/tkText.h	Wed Jan  5 18:18:58 2000
+--- tk8.4a2.textchg/generic/tkText.h	Thu Dec 28 08:13:20 2000
+***************
+*** 641,646 ****
+--- 641,648 ----
+   *				for the duration of button presses.
+   * UPDATE_SCROLLBARS:		Non-zero means scrollbar(s) should be updated
+   *				during next redisplay operation.
++  * TEXT_CHANGED:		Set whenever the widget's text changes;
++  *				cleared/reset by the "changed" widget command.
+   */
+  
+  #define GOT_SELECTION		1
+***************
+*** 649,654 ****
+--- 651,657 ----
+  #define BUTTON_DOWN		8
+  #define UPDATE_SCROLLBARS	0x10
+  #define NEED_REPICK		0x20
++ #define TEXT_CHANGED		0x40
+  
+  /*
+   * Records of the following type define segment types in terms of
+diff -r -c -N tk8.4a2/tests/text.test tk8.4a2.textchg/tests/text.test
+*** tk8.4a2/tests/text.test	Mon Jul 24 17:05:40 2000
+--- tk8.4a2.textchg/tests/text.test	Thu Dec 28 08:14:03 2000
+***************
+*** 1366,1387 ****
+      .t search -backward -regexp "\$" insert 1.0
+  } {2.6}
+  
+  eval destroy [winfo child .]
+  option clear
+  
+  # cleanup
+  ::tcltest::cleanupTests
+  return
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+  
+--- 1366,1427 ----
+      .t search -backward -regexp "\$" insert 1.0
+  } {2.6}
+  
++ 
++ test text-25.1 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     # Too many arguments; should throw an error.
++     catch {.t changed foo bar}
++ } {1}
++ 
++ test text-25.2 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     .t changed
++ } {0}
++ 
++ test text-25.3 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     .t insert 1.0 "foo"
++     .t changed
++ } {1}
++ 
++ test text-25.4 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     .t insert 1.0 "foo"
++     .t changed no
++     .t changed
++ } {0}
++ 
++ test text-25.5 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     .t insert 1.0 "foo"
++     .t changed no
++     .t delete 1.1
++     .t changed
++ } {1}
++ 
++ test text-25.6 {TextWidgetCmd procedure, "changed" option} {
++     catch {destroy .t}
++     text .t
++     pack .t
++     .t changed yes
++     .t changed
++ } {1}
++ 
++ 
+  eval destroy [winfo child .]
+  option clear
+  
+  # cleanup
+  ::tcltest::cleanupTests
+  return
+  

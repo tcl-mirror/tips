@@ -1,0 +1,97 @@
+TIP:		19
+Title:		Add a Text Changed Flag to Tk's Text Widget
+Version:	$Revision: 1.1 $
+Author:		Neil McKay <mckay@eecs.umich.edu>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	03-Jan-2001
+Tcl-Version:	8.4a2
+Post-History:
+
+~Abstract
+
+This TIP adds a ''text changed'' flag to the Tk text widget.  The flag
+would initially be reset, but would be set whenever the contents of
+the text widget changes.
+
+~Rationale
+
+When creating a text editor, it is often useful to know when the
+contents of the edit buffer have changed, e.g. in order to ask the
+user whether or not to save changes on exit. It is possible to create
+key bindings in Tk's text widget that will set a flag whenever the
+user changes the widget's contents; however, this is awkward, and it
+still requires that the programmer set the flag whenever text is
+changed programmatically.  A better solution is to include a ''text
+changed'' flag in the code for the text widget itself; this can be
+accomplished with a relatively small amount of code.
+
+~Flag Behavior
+
+The ''text changed'' flag should behave as follows:
+
+ * It should be reset when the text widget is created
+
+ * It should be set whenever characters are inserted into or deleted
+   from the widget
+
+ * It must be resettable programmatically via a Tcl command
+
+~Reference Implementation
+
+At the Tcl level, one possible implementation is to add a ''changed''
+widget command to the text widget. One possible syntax for this
+command is:
+
+|    .txt changed ?boolean?
+
+where .txt is a text widget.  With no ''boolean'' argument, the
+command returns the state of the text-changed flag; with an argument,
+it sets the state of the text-changed flag to the value of the
+argument.
+
+~Example
+
+A typical sequence of commands in a text editor would be
+
+ 1. Create a text widget
+
+ 2. Read a file and put its contents into the text widget
+
+ 3. Mark the text as unchanged
+
+ 4. Edit the text
+
+ 5. Write the text out, if it has changed.
+
+This could be accomplished by the following Tcl code fragment:
+
+| grid [button .b -text Quit -command EndEdit]
+| grid [text .t]
+|
+| proc EndEdit {} {
+|     if {[.t changed]} {
+|         set result [tk_messageBox -type yesno -message "Save changes?"]
+|         if {[string compare $result "yes"] == 0} {
+|             set fh [open $fileName "w"]
+|             puts -nonewline $fh [.t get 1.0 end-1c]
+|             close $fh
+|         }
+|     }
+|     exit
+| }
+|
+| set fh [open $fileName "r"]
+| .t insert end [read $fh]
+| close $fh
+| .t changed false
+
+~Copyright
+
+This document is in the public domain.
+
+~Patch
+
+The ''changed'' text widget command, as described above, may be added
+to Tk8.4a2 by applying the patch at http:19.patch
