@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -46,7 +46,8 @@ different alternatives.  This is the eval version:
 |eval exec \$prog $opts1 [getMoreopts] \$file1 \$file2
 
 The eval version would be even more complex if the lists that are to
-be expanded are not known to be pure. To be really safe the last would be:
+be expanded are not known to be pure. To be really safe the last
+would be:
 
 |eval exec \$prog [lrange $opts1 0 end] [lrange [getMoreopts] 0 end] \$file1 \$file2
 
@@ -79,15 +80,16 @@ parser can do the job.
 Any char that fulfils that could be used but the choice fell on @
 since that char is odd enough to be visible which helps readability.
 
-An alternative syntax could be:
+An alternative syntax could be something like:
 
 |expand { destroy <[winfo children .]> }
 |expand { button .b <$stdargs> -text $mytext -bd $border }
 |expand { exec $prog <$opts1> <[getMoreopts]> $file1 $file2 }
 
-Using enclosing symbols suggests that they may affect grouping, which
-they would not if Tcl's parser shall be used.  Thus a single char is
-less likely to cause confusion.
+Using enclosing symbols might suggest that they affect grouping, but
+since the enclosed part must be a single word in itself this is no
+practical problem.  The selection of a single char is, just as the
+selection of which char, just a preference.
 
 ~ Specification
 
@@ -99,7 +101,8 @@ The command is processed in the following manner:
 
  1. Parse into words according to Tcl's standard rules.
 
- 2. Any word starting with @ is remembered and the @ is removed.
+ 2. Any word starting with @ and followed by a single variable or command
+    substitution is remembered and the @ is removed.
 
  3. Perform Tcl's normal execution steps on the new line up to the
     point where the command should have been called.
@@ -113,23 +116,15 @@ The return value of expand is the return value of the command.
 ''Note 1:'' A word should really start with @ to trigger expansion
 which means that words like these are not expanded:
 
-|cmd "@$temp" {@home} \@[something]
+|cmd "@$temp" \@[something]
 
-''Note 2:'' Even though it makes most sense to use @ with words like:
+''Note 2:'' Expansion is only performed with words like:
 
 |cmd @$var @[somecmd $arg]
 
-the rules allow usages like this:
+Words like these are not expanded but still valid code:
 
-|cmd @$var$apa @[foo]xy[apa]
-
-''Note 3:'' If removal of the @ changes word boundaries of the
-command it leads to a tricky case:
-
-|cmd @"word1 word2"
-
-Handling this properly is both tricky and rather useless.  It is
-probably best to just declare it illegal.
+|cmd @cursor @$x,$y @[foo]xy[apa]
 
 ~ Forward compatibility
 
@@ -142,43 +137,58 @@ can be made for what may be acceptable in the future, this should
 affect the specification in this TIP.
 
 If a single character like @ is chosen for a global expand syntax
-it means a backwards compatibility break.  So, what chars are likely
-to be used by people and thus causing problems when backwards
-compatibility is broken?
+it means a backwards compatibility break.  The impact is lessened
+since the expansion is only done when followed by exactly one variable
+or command substitution, but there is still an impact.  So, what chars
+are likely to be used by people and thus causing problems or confusion
+when backwards compatibility is broken?
 
 Some food for thought about different chars:
 
+|_     # Word char
+|:     # Gets ugly with namespace qualifiers:  :$::var
+
 |!   if !$var {...}
-|%   format %d $var
-|&   exec something &
-|'   # Looks like a grouping char?
-|(   # Looks like a grouping char, confuses paren-matching
-|)   # Odd enough as opening, but would confuse any paren-matching
-|*   string match *$word* $line
-|+   wm geometry +10+10
-|,
-|-   incr a -1
-|.   button .b
-|/   open /home/xxxx
-|:   set ::var
-|<   bind . <Button-1>   # Looks like a grouping char?
-|=   expr $a == $b
-|>   exec something > somewhere
-|?
-|@   # Real example: it is used in Bras.
-|^   regexp ^hejsan $line
-|_   # Word char
-|`   # Looks like a grouping char?
-||   open |prog
+|*   string match *$suffix $line
+|^   regexp ^$prefix $line
 |~   cd ~$user
+||   open |$prog
+|.   button .$w ; glob -nocomplain .$str
+|=   wm geometry .e =$geo
+|@   .x conf -bitmap @$bmp -cursor @$cur
+|<   bind . <$left>  ; set html <$tag>
+
+|(   expr ($a + $b) * $c ;# Confuses paren-matching
+|)     # Odd enough as opening, but would confuse any paren-matching
+
+|+   expr $a +$b  ;# Same for any operator
+|-   
+|%
+|&   
+|/   open /$path   
+
+|'     # Makes more sense as enclosing?
+|`     # Makes more sense as enclosing?
+
+|>   
+|?
+|,   append recipients ,[join $header($ccL) ,]
 
 Example usage of those that seem reasonable:
 
-|expand { exec $prog @$opts1 @[getMoreopts] $file1 $file2 }
 |expand { exec $prog '$opts1 '[getMoreopts] $file1 $file2 }
 |expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
 |expand { exec $prog ,$opts1 ,[getMoreopts] $file1 $file2 }
 |expand { exec $prog ?$opts1 ?[getMoreopts] $file1 $file2 }
+|expand { exec $prog >$opts1 >[getMoreopts] $file1 $file2 }
+
+Or, as enclosing
+
+|expand { exec $prog '$opts1' '[getMoreopts]' $file1 $file2 }
+|expand { exec $prog `$opts1` `[getMoreopts]` $file1 $file2 }
+|expand { exec $prog ,$opts1, ,[getMoreopts], $file1 $file2 }
+|expand { exec $prog ?$opts1? ?[getMoreopts]? $file1 $file2 }
+|expand { exec $prog >$opts1< >[getMoreopts]< $file1 $file2 }
 
 For comparison, the syntax that has been proposed earlier that
 would not break backwards compatibility:
@@ -188,8 +198,8 @@ would not break backwards compatibility:
 
 ~ Discussion
 
-When first issued the TIP caused some discussion on c.l.t.  Until a summary
-is made, here is the thread:
+When first issued the TIP caused some discussion on c.l.t.  Until a
+summary is made, here is the thread:
 
 http://groups.google.com/groups?th=9e77d5836b06ab1b
 
