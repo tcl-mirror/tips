@@ -1,0 +1,45 @@
+TIP:		182
+Title:		Add [expr bool] Math Function
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:
+Version:	$Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+Created:	23-Mar-2004
+
+~ Abstract
+
+This TIP proposes a new function '''bool()''' for use with the
+[[expr]] command.
+
+~ Rationale
+
+This math function would be very useful in a number of different
+situations, such as:
+
+ * if {bool(true)} then { puts "True" }
+
+ * if (bool(0x1)} then { puts "True" }
+
+~ Proposed Change
+
+A new math function named bool would be added to the list of functions
+supported by the [[expr]] command.
+
+ > '''expr {bool(''' ''value'' ''')}]'''
+
+This would return "1" for any value of ''value'' that is non-zero
+(plus all non-numeric strings accepted as true by
+''Tcl_GetBoolean()'') and "0" otherwise.
+
+~ Reference Implementation
+
+A reference implementation does ''not'' yet exist.  Internally, the
+function should use something semantically equivalent to using
+''Tcl_GetBooleanFromObj()''.
+
+~ Copyright
+
+This document has been placed in the public domain.
