@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -15,7 +15,7 @@ Tk's text widget is very powerful, but has a number of known
 limitations.   In particular the entire handling of wrapped lines and 'display/visual entities' versus 'logical entities' is quite limited.  The most obvious side-effect of these inadequacies is the 'scrollbar problem' (in which, particularly
 when there are long wrapped lines in the widget, the vertical
 scrollbar slider changes in size depending on the number of logical
-lines currently displayed, see http://mini.net/tcl/896 for example).  This TIP overhauls the widget to provide consistent, complete support for 'display lines', 'display indices' and as a consequence smooth, pixel-based scrolling.
+lines currently displayed, see http://mini.net/tcl/896 for example).  This TIP overhauls the widget to provide consistent, complete support for 'display lines', 'display indices' and as a consequence smooth, pixel-based scrolling.  A few other small bugs/issues have also been resolved.
 
 ~ Proposal
 
