@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.107 $
+Version:        $Revision: 1.108 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -42,8 +42,6 @@ proposed in [13].
 Here's a simple edit test.
 
 ~ Copyright
-
-~ Abstract
 
 ~ Abstract
 
@@ -277,27 +275,27 @@ added.
         If none of the above indicators is present, midnight in the
         given time zone is used.
 
-    > > In all of the foregoing discussion, the 'base date', 'base month',
-        'base week', and 'base year' refer to the day, month, week or year
-        designated by the ''-base'' parameter, which is a count of
-        seconds from the Posix epoch.  If no ''-base'' parameter is supplied,
-        the current date is used as the base date.  The year, month,
-        week and day are obtained by interpreting the base date in the
-        time zone specified by the date/time string.  If the
-        given format does not include a time zone, then the
-        base time is interpreted in the default time zone; see
-        ''TIME ZONES'' below for the way that the default time zone
-        is determined, and the interpretation of the ''-timezone'' and
-        '' -gmt'' options.
+    > In all of the foregoing discussion, the 'base date', 'base month',
+      'base week', and 'base year' refer to the day, month, week or year
+      designated by the ''-base'' parameter, which is a count of
+      seconds from the Posix epoch.  If no ''-base'' parameter is supplied,
+      the current date is used as the base date.  The year, month,
+      week and day are obtained by interpreting the base date in the
+      time zone specified by the date/time string.  If the
+      given format does not include a time zone, then the
+      base time is interpreted in the default time zone; see
+      ''TIME ZONES'' below for the way that the default time zone
+      is determined, and the interpretation of the ''-timezone'' and
+      '' -gmt'' options.
 
-    > > The locale is used to determine the spelling of native language
-        words such as the names of months, names of weekdays, am/pm indicators,
-        and locale eras.  It is also used in the interpretation of the
-        format groups, '%X', '%x', and '%c'.  In addition, the locale
-        determines the date at which the calendar in use changes from
-        the Julian calendar to the Gregorian.  If no ''-locale'' parameter
-        is supplied, the default is to use the root locale.  See 
-        ''LOCALISATION'' below for more information.
+    > The locale is used to determine the spelling of native language
+      words such as the names of months, names of weekdays, am/pm indicators,
+      and locale eras.  It is also used in the interpretation of the
+      format groups, '%X', '%x', and '%c'.  In addition, the locale
+      determines the date at which the calendar in use changes from
+      the Julian calendar to the Gregorian.  If no ''-locale'' parameter
+      is supplied, the default is to use the root locale.  See 
+      ''LOCALISATION'' below for more information.
 
     > clock format:
       The [[clock format]] command shall have the syntax:
@@ -307,13 +305,13 @@ added.
 |                            ?-locale name? \
 |                            ?-timezone timeZone?
 
-    > > It accepts a time, expressed in seconds from the Posix epoch of
+    > It accepts a time, expressed in seconds from the Posix epoch of
         1 January 1970, 00:00 UTC, and formats it according to the given
         format string.  See ''FORMATS'' below for a discussion of the
         available format codes.  If no format string is supplied, a
         default format, {%a %b %d %H:%M:%S %Z %Y} is used.
 
-    > > The ''-timezone'', ''-gmt'', and ''-locale'' options are interpreted
+    > The ''-timezone'', ''-gmt'', and ''-locale'' options are interpreted
         as for [[clock scan]].  See ''TIME ZONES'' and ''LOCALISATION''
         below for how these options work.
 
@@ -326,7 +324,7 @@ added.
 |       clock (add|subtract) time ?count unit?... \
 |           ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
 
-    > > It accepts a time, expressed in seconds from the Posix epoch of
+    > It accepts a time, expressed in seconds from the Posix epoch of
         1 January 1970, 00:00 UTC, and adds or subtracts units of time
         from it according to the alternating ''count'' and ''unit'' parameters.
         Each ''count'' must be a wide integer; each ''unit'' is one of
@@ -336,7 +334,7 @@ added.
 |                               weeks   week    days    day
 |               hours   hour    minutes minute  seconds second
 
-    > > The command works by converting the given time to
+    > The command works by converting the given time to
         a calendar day and time of day in the given locale and
         time zone.  To that day and time of day, it adds or subtracts
         the given offsets ''in sequence''.  It reconverts the
@@ -344,7 +342,7 @@ added.
         given locale and time zone, and returns that
         count of seconds.
 
-    > > There are subtle differences in many cases between adding
+    > There are subtle differences in many cases between adding
         seemingly similar offsets.  For instance, on the day before
         Daylight Saving Time goes into effect, adding 24 hours will
         give "the time 24 hours from the base time, irrespective of
@@ -355,7 +353,7 @@ added.
         when performing date/time arithmetic across the change
         between the Julian and Gregorian calendars.
 
-    > > The ''-timezone'', ''-gmt'', and ''-locale'' options are
+    > The ''-timezone'', ''-gmt'', and ''-locale'' options are
         used to control the interpretation of the count of seconds
         as a calendar day and time.  Refer to ''TIME ZONES'' and
         ''LOCALIZATION'' below for a fuller discussion.
@@ -372,7 +370,7 @@ added.
       functions.  For this reason, format groups will function identically
       on all platforms.  The format groups will be interpreted as follows.
 
-    > %a: 
+    > %a:
       On output, receives the abbreviation for the day of the
       week in the given locale.  On input, matches the name of
       the day of the week (in the given locale) in either 
@@ -714,240 +712,6 @@ added.
     > > The first transition is expected to take place at
         time -9223372036854775808, the smallest value of a wide integer.
 
-    > Any string recognizable as a Posix time zone specifier (see [
-    > %%:
-      On output, produces a literal '%' charater.  On input, matches a
-      literal '%' character.
-
-    > %+:
-      Synonymous with "%a %b %e %H:%M:%S %Z %Y".
-
-    TIME ZONES:
-    There are several ways that a time zone may be specified for use
-    with [[clock scan]], [[clock format]], [[clock add]] and
-    [[clock subtract]].  In order of preference:
-
-    > * The time zone may appear in the input string matched by
-        a %z or %Z format group in [[clock scan]].  These format
-        groups match time zones in the forms +hhmm, +hhmmss, -hhmm,
-        -hhmmss, and alphanumeric strings.  The numeric representations
-        are self explanatory; an alphanumeric string must be the
-        one of:
-|               gmt     ut      utc     bst     wet     wat     at
-|               nft     nst     ndt     ast     adt     est     edt
-|               cst     cdt     mst     mdt     pst     pdt     yst
-|               ydt     hst     hdt     cat     ahst    nt      idlw
-|               cet     cest    met     mewt    mest    swt     sst
-|               eet     eest    bt      it      zp4     zp5     ist
-|               zp6     wast    wadt    jt      cct     jst     cast
-|               cadt    east    eadt    gst     nzt     nzst    nzdt
-|               idle
-    > > or a single letter other than J.  Generally speaking, numeric
-        time zones should be preferred for communication among computers;
-        the alphanumeric time zones are provided primarily for the parsing
-        of legacy RFC822 time stamps.
-
-    > * The time zone may appear in the ''-timezone'' argument to the
-        [[clock]] command.
-
-    > * The time zone may appear in the environment variable, ''TCL_TZ''.
-
-    > * The time zone may appear in the environment variable, ''TZ''.
-
-    > * Failing all of these, on Windows systems, the time zone will be
-        obtained from the Registry.
-
-    > * As a last resort, the time zone is set to ':localtime'.
-
-    > Once the time zone is obtained by one of these means, it is interpreted
-      as follows:
-
-    > '':localtime'' --
-      This specifier requests that the C library functions 'localtime' and
-      'mktime' be used whenever converting times between local and
-      Greenwich.  It is generally used as a last resort if the time
-      zone can be determined in no other way.
-
-    > ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'' --
-      These specifiers give the time zone explicitly in terms of hours,
-      minutes and seconds east (+) or west (-) of Greenwich.
-
-    > ':filename' --
-      The given file name is interpreted as a path name relative to
-      [[info library]]/tzdata, and the specified file is loaded as a
-      Tcl script.  The script is expected to set the '':filename''
-      element in the ''tzdata'' array to a list of transitions.  Each
-      transition is a four-element list comprising:
-
-    > > * the time at which the transition takes place, expressed in
-          seconds from the Posix Epoch (1 January 1970, 00:00 UTC)
-
-    > > * the offset (in seconds east of Greenwich) to apply.
-
-    > > * an indicator (0=Standard Time, 1=Daylight Saving Time)
-
-    > > * the name to use when displaying the given time zone in the
-          root locale.
-
-    > > The first transition is expected to take place at
-        time -9223372036854775808, the smallest value of a wide integer.
-
-    > Any string recognizable as a Posix time zone specifier (see [
-    > %%:
-      On output, produces a literal '%' charater.  On input, matches a
-      literal '%' character.
-
-    > %+:
-      Synonymous with "%a %b %e %H:%M:%S %Z %Y".
-
-    TIME ZONES:
-    There are several ways that a time zone may be specified for use
-    with [[clock scan]], [[clock format]], [[clock add]] and
-    [[clock subtract]].  In order of preference:
-
-    > * The time zone may appear in the input string matched by
-        a %z or %Z format group in [[clock scan]].  These format
-        groups match time zones in the forms +hhmm, +hhmmss, -hhmm,
-        -hhmmss, and alphanumeric strings.  The numeric representations
-        are self explanatory; an alphanumeric string must be the
-        one of:
-|               gmt     ut      utc     bst     wet     wat     at
-|               nft     nst     ndt     ast     adt     est     edt
-|               cst     cdt     mst     mdt     pst     pdt     yst
-|               ydt     hst     hdt     cat     ahst    nt      idlw
-|               cet     cest    met     mewt    mest    swt     sst
-|               eet     eest    bt      it      zp4     zp5     ist
-|               zp6     wast    wadt    jt      cct     jst     cast
-|               cadt    east    eadt    gst     nzt     nzst    nzdt
-|               idle
-    > > or a single letter other than J.  Generally speaking, numeric
-        time zones should be preferred for communication among computers;
-        the alphanumeric time zones are provided primarily for the parsing
-        of legacy RFC822 time stamps.
-
-    > * The time zone may appear in the ''-timezone'' argument to the
-        [[clock]] command.
-
-    > * The time zone may appear in the environment variable, ''TCL_TZ''.
-
-    > * The time zone may appear in the environment variable, ''TZ''.
-
-    > * Failing all of these, on Windows systems, the time zone will be
-        obtained from the Registry.
-
-    > * As a last resort, the time zone is set to ':localtime'.
-
-    > Once the time zone is obtained by one of these means, it is interpreted
-      as follows:
-
-    > '':localtime'' --
-      This specifier requests that the C library functions 'localtime' and
-      'mktime' be used whenever converting times between local and
-      Greenwich.  It is generally used as a last resort if the time
-      zone can be determined in no other way.
-
-    > ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'' --
-      These specifiers give the time zone explicitly in terms of hours,
-      minutes and seconds east (+) or west (-) of Greenwich.
-
-    > ':filename' --
-      The given file name is interpreted as a path name relative to
-      [[info library]]/tzdata, and the specified file is loaded as a
-      Tcl script.  The script is expected to set the '':filename''
-      element in the ''tzdata'' array to a list of transitions.  Each
-      transition is a four-element list comprising:
-
-    > > * the time at which the transition takes place, expressed in
-          seconds from the Posix Epoch (1 January 1970, 00:00 UTC)
-
-    > > * the offset (in seconds east of Greenwich) to apply.
-
-    > > * an indicator (0=Standard Time, 1=Daylight Saving Time)
-
-    > > * the name to use when displaying the given time zone in the
-          root locale.
-
-    > > The first transition is expected to take place at
-        time -9223372036854775808, the smallest value of a wide integer.
-
-    > Any string recognizable as a Posix time zone specifier (see [
-    > %%:
-      On output, produces a literal '%' charater.  On input, matches a
-      literal '%' character.
-
-    > %+:
-      Synonymous with "%a %b %e %H:%M:%S %Z %Y".
-
-    TIME ZONES:
-    There are several ways that a time zone may be specified for use
-    with [[clock scan]], [[clock format]], [[clock add]] and
-    [[clock subtract]].  In order of preference:
-
-    > * The time zone may appear in the input string matched by
-        a %z or %Z format group in [[clock scan]].  These format
-        groups match time zones in the forms +hhmm, +hhmmss, -hhmm,
-        -hhmmss, and alphanumeric strings.  The numeric representations
-        are self explanatory; an alphanumeric string must be the
-        one of:
-|               gmt     ut      utc     bst     wet     wat     at
-|               nft     nst     ndt     ast     adt     est     edt
-|               cst     cdt     mst     mdt     pst     pdt     yst
-|               ydt     hst     hdt     cat     ahst    nt      idlw
-|               cet     cest    met     mewt    mest    swt     sst
-|               eet     eest    bt      it      zp4     zp5     ist
-|               zp6     wast    wadt    jt      cct     jst     cast
-|               cadt    east    eadt    gst     nzt     nzst    nzdt
-|               idle
-    > > or a single letter other than J.  Generally speaking, numeric
-        time zones should be preferred for communication among computers;
-        the alphanumeric time zones are provided primarily for the parsing
-        of legacy RFC822 time stamps.
-
-    > * The time zone may appear in the ''-timezone'' argument to the
-        [[clock]] command.
-
-    > * The time zone may appear in the environment variable, ''TCL_TZ''.
-
-    > * The time zone may appear in the environment variable, ''TZ''.
-
-    > * Failing all of these, on Windows systems, the time zone will be
-        obtained from the Registry.
-
-    > * As a last resort, the time zone is set to ':localtime'.
-
-    > Once the time zone is obtained by one of these means, it is interpreted
-      as follows:
-
-    > '':localtime'' --
-      This specifier requests that the C library functions 'localtime' and
-      'mktime' be used whenever converting times between local and
-      Greenwich.  It is generally used as a last resort if the time
-      zone can be determined in no other way.
-
-    > ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'' --
-      These specifiers give the time zone explicitly in terms of hours,
-      minutes and seconds east (+) or west (-) of Greenwich.
-
-    > ':filename' --
-      The given file name is interpreted as a path name relative to
-      [[file join [[info library]] clock tzdata]], and the specified file is loaded as a
-      Tcl script.  The script is expected to set the '':filename''
-      element in the ''tzdata'' array to a list of transitions.  Each
-      transition is a four-element list comprising:
-
-    > > * the time at which the transition takes place, expressed in
-          seconds from the Posix Epoch (1 January 1970, 00:00 UTC)
-
-    > > * the offset (in seconds east of Greenwich) to apply.
-
-    > > * an indicator (0=Standard Time, 1=Daylight Saving Time)
-
-    > > * the name to use when displaying the given time zone in the
-          root locale.
-
-    > > The first transition is expected to take place at
-        time -9223372036854775808, the smallest value of a wide integer.
-
     > Any string recognizable as a Posix time zone specifier (see [http://www.opengroup.org/onlinepubs/007904975/basedefs/xbd_chap08.html]):
       A time zone may be specified in Posix syntax, for example
       ''EST5EDT'' or ''EST+05:00EDT+04:00,M4.1.0/01:00,M10.5.0/02:00''.
@@ -1016,7 +780,7 @@ added.
         alternative calendar.  In the root locale, LOCALE_DATE_FORMAT
         is the same as DATE_FORMAT.
 
-    > > LOCALE_ERAS
+    > > LOCALE_ERAS:
         In a locale where a calendar with multiple eras is in use,
         gives a list of triples.  The first element of each triple
         is the time (in seconds from the Posix epoch of 1 January 1970,
@@ -1024,7 +788,7 @@ added.
         era, and the third is a constant offset to be subtracted from
         the Gregorian year to give the year of the era.
 
-    > > LOCALE_NUMERALS
+    > > LOCALE_NUMERALS:
         In a locale where alternative numerals may be used, gives
         a list containing the numerals that represent the numbers from
         zero to ninety-nine.  Note that these numerals are the ones
@@ -1164,6 +928,18 @@ added.
 |            {-1357603200 \u662d\u548c 1925} 
 |            {568512000 \u5e73\u6210 1987}"
 |    }
+
+In addition to the standard locales, two special locales may appear
+ on the ''-locale'' parameter; ''current'', which designates the
+result of evaluating [[mclocale]], and ''system'', which designates
+the current "system" locale, which is determined by (in order of
+preference):
+
+   * the date/time format settings on the Windows control panel
+
+   * the environment variable LC_TIME
+
+   * the current locale from [[mclocale]].
 
 ~ Build system
 
