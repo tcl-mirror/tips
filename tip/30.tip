@@ -1,10 +1,11 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
 Author:         Todd M. Helfter <tmh@purdue.edu>
+Author:         Chengye Mao <chengye@bellsouth.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -118,7 +119,7 @@ assigned:
 
    45. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>
+   46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
 
    47. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -126,13 +127,13 @@ assigned:
 
    49. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
 		         Joe English <jenglish@flightlab.com> (Unix)
 
    51. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		         Joe English <jenglish@flightlab.com> (Unix)
 
-   52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
 
    53. ''[focus]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -148,7 +149,7 @@ assigned:
 
    59. ''Safe Tk'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   60. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
+   60. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
 
    61. ''Tk_Win Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -161,7 +162,7 @@ assigned:
    65. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				    Joe English <jenglish@flightlab.com>
 
-   66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
+   66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
 
    67. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
