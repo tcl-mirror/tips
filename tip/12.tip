@@ -1,13 +1,14 @@
 TIP:            12
 Title:          The "Batteries Included" Distribution
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         George A. Howlett <gah@siliconmetrics.com>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
-Type:           Informational
+Type:           Informative
 Vote:           Pending
 Created:        15-Sep-2000
+Post-History:   
 Discussions-To: news:comp.lang.tcl
-Post-History: 
 
 ~ Abstract
 
@@ -70,8 +71,8 @@ not how it's structured under the hood.
 ~ The "Batteries Included" Distribution.
 
 Let's start with a very modest example.  Let's imagine that the
-"Batteries Included" distribution is nothing more than a tar file of
-Tcl/Tk and several extensions.
+"Batteries Included" distribution is nothing more than an archive file of
+the source code for Tcl/Tk and several extensions.
 
 |            Unix    Windows  Mac
 |             ----    -------  ---
@@ -85,7 +86,7 @@ Tcl/Tk and several extensions.
 |  Html widget
 |  XML
 |  ...lots more...
-  
+
 Tcl, Tk, and the packages are configured such that they can be built
 and installed just from a top level directory (not individually).
 Someone can download and try out all sorts of new features without
@@ -93,7 +94,7 @@ repeating the same "configure", "make", "make install" sequences.
 
 With this simple tar file, the following benefits are automatically
 generated:
-  
+
   * It provides a simple way for users to try out extensions.  Users
     only have to run download, configure, compile and install, at
     most, once.
@@ -107,12 +108,12 @@ generated:
     features being universally available.  Your program can again be
     just a Tcl script, not an array of packages that everyone needs to
     download and install.
-     
+
   * It's better for extension writers.  Configuration is simpler,
     since you know where all the sources and the compiler-specific
     information will reside.  You don't need to search for
     ''tclConfig.sh'' or ''tkConfig.sh'' files.
-     
+
   * It's better for Tcl/Tk distribution builders.  This includes both
     the Linux distributors and company sysadmins that build Tcl/Tk.
     They don't have to fear installing extensions because of version
@@ -188,7 +189,8 @@ unlikely to have been tested against the 8.4 alphas.
    extension authors that are willing to work with us to build a
    directory framework, change configuration files, etc.  Extensions
    do not need to work on all platforms.  For example, there is a
-   wealth of Windows-based extensions that should be included.
+   wealth of Windows-based extensions that should be included in 
+   a Windows specific build.
 
  > What are the minimum requirements for extensions in the short term?
    Manual pages, html, tests, demos all would be nice.  We need to
@@ -199,7 +201,7 @@ unlikely to have been tested against the 8.4 alphas.
 
  > We need to make this work with more that one release installed.
    Don't suppose that there only one version will ever be used.
-   
+
  * Setup CVS archives.
 
  * Create configuration files.  
@@ -267,7 +269,7 @@ breaking down goals into subtasks.
 ~ Open Issues
 
  * Windows and MacIntosh sources.
- 
+
  > Given the dearth of configuration tools for these platforms, it's
    likely that only binary installations will be available for the
    near term.
@@ -276,7 +278,7 @@ breaking down goals into subtasks.
 
  > Overlap in command and widget names can be neatly handled by
    namespaces.  Need to consider how to handle manual pages.
- 
+
 ~ More Information
 
 If anyone has interest to participate or would like to add comments to
