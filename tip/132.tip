@@ -1,6 +1,6 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin Kenny <kennykb@acm.org >
@@ -208,7 +208,7 @@ code that is not yet in the core, a different module name is required
 to check it out:
 
 | export CVSROOT=:ext:yourname@cvs.sourceforge.net:/cvsroot/tcl
-| cvs -q checkout -rkennykb-numerics-branch tcl_numerics
+| cvs -q checkout -rkennykb-tip-132 tcl_numerics
 
 The implementation is essentially complete; it includes changes to
 the documentation and test suite needed for this TIP.
