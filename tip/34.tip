@@ -1,11 +1,11 @@
 TIP:            34
 Title:          Modernize TEA Build System
-Version:        $Revision: 2.2 $
+Version:        $Revision: 2.3 $
 Author:         Mo DeJong <supermo@bayarea.net>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        03-May-2001
 Post-History:   
 Tcl-Version:    8.4
