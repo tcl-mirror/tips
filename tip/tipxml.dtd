@@ -1,0 +1,108 @@
+<!-- XML DTD for Tcl Improvement Proposals (when formatted as XML.) -->
+
+<!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
+
+<!-- This document is placed in the Public Domain. -->
+
+<!-- ================================================================== -->
+<!ENTITY ff "&#12;"> <!-- form feeds are relatively common characters -->
+                     <!-- in patches included verbatim... -->
+
+<!-- Basic datatypes... -->
+<!ENTITY % url 	      "CDATA"> <!-- only permit URLs, may be partial -->
+<!ENTITY % num 	      "CDATA"> <!-- only permit non-negative integers -->
+
+<!-- simplify header declaration (later) by partitioning -->
+<!ENTITY % header.req "title, author+, status, history, created">
+<!ENTITY % header.opt "discussions?, keyword*, obsoletes*, obsoleted*">
+
+<!-- kinds of 'paragraphs': only inner can go inside lists -->
+<!ENTITY % in.par     "para     | pre   | itemize | enumerate | describe" >
+<!ENTITY % out.par    "%in.par; | quote | rule    | index     | image" >
+
+<!-- Mixed content for conventional paragraphs -->
+<!ENTITY % emphtext   "#PCDATA   | url | tipref">
+<!ENTITY % text       "%emphtext | emph">
+
+<!-- The outermost element of a TIP -->
+<!ELEMENT TIP (header, abstract, body)>
+<!ATTLIST TIP number %num #REQUIRED>
+
+<!-- ================================================================== -->
+<!-- Headers... -->
+<!ELEMENT header (%header.required;, %header.optional;)>
+
+<!ELEMENT title  (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ATTLIST author address %url; #REQUIRED>
+<!ELEMENT status (#PCDATA)><!-- Content is the CVS Revision/Id -->
+<!ATTLIST status
+	type  (process|project|informative) 'informative'
+	state (draft|active|accepted|deferred|final|rejected|withdrawn) 'draft'
+	vote  (prior|during|after|none) 'prior'
+	tclversion CDATA #IMPLIED
+	><!-- require tclversion when type='project' -->
+<!ELEMENT created EMPTY>
+<!ATTLIST created
+	day   %num; #REQUIRED
+	month (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec) 'jan'
+	year  %num; #REQUIRED
+	>
+<!ELEMENT history (event*)>
+<!ELEMENT event   (#PCDATA)>
+
+<!ELEMENT discussions EMPTY>
+<!ELEMENT obsoletes   EMPTY>
+<!ELEMENT obsoleted   EMPTY>
+<!ELEMENT keyword     (#PCDATA)>
+<!ATTLIST discussions dest %url; #REQUIRED>
+<!ATTLIST obsoletes   tip  %num; #REQUIRED>
+<!ATTLIST obsoleted   tip  %num; #REQUIRED>
+
+<!-- ================================================================== -->
+<!-- The body of a TIP -->
+<!ELEMENT body (section)+>
+
+<!ELEMENT abstract (%text;)*>
+<!ELEMENT section  (%out.par;)*>
+<!ATTLIST section  title CDATA #REQUIRED>
+
+<!-- ================================================================== -->
+<!-- Particles of sections... -->
+<!ELEMENT para  (%text;)*>
+<!ELEMENT quote (%text;)*>
+<!ELEMENT pre   (#PCDATA)>
+<!ATTLIST pre   xml:space (preserve) #FIXED 'preserve'> <!-- From Spec... -->
+<!ELEMENT rule  EMPTY>
+<!ELEMENT index EMPTY>
+<!ATTLIST index kind (short|medium|long) 'medium'>
+<!ELEMENT image EMPTY>
+<!ATTLIST image
+	src     %url; #REQUIRED
+	caption CDATA #IMPLIED
+	>
+
+<!-- ================================================================== -->
+<!-- Lists... -->
+<!ELEMENT itemize   (item.i)+>
+<!ELEMENT enumerate (item.e)+>
+<!ELEMENT describe  (item.d)+>
+<!ELEMENT item.i    (%in.par;)*>
+<!ELEMENT item.e    (%in.par;)*>
+<!ELEMENT item.d    (%in.par;)*>
+
+<!ATTLIST item.e  index %num  #REQUIRED>
+<!ATTLIST item.d  name  CDATA #REQUIRED>
+
+<!-- ================================================================== -->
+<!-- elements that can be embedded in paragraph-content -->
+<!ELEMENT emph (%emphtext;)*> <!-- emphs may not be nested -->
+<!ELEMENT url EMPTY>
+<!ATTLIST url ref %url; #REQUIRED>
+<!ELEMENT tipref EMPTY>
+<!ATTLIST tipref
+	tip  %num       #REQUIRED
+	type (text|url) 'text'
+	>
+
+<!-- ================================================================== -->
