@@ -1,13 +1,13 @@
 TIP:            110
 Title:          Add a Tristate Mode to the Checkbutton and Radiobutton
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brian Griffin <bgriffin@model.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        01-Oct-2002
 Post-History:   
-Tcl-Version:    9.0
+Tcl-Version:    8.5
 
 ~ Abstract
 
