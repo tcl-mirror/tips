@@ -1,6 +1,6 @@
 TIP:            50
 Title:          Bundle [incr Tcl] with the Core Tcl distribution
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Mark Harrison <markh@asiainfo.com>
 Author:         Jeff Hobbs <jeffh@ActiveState.com>
@@ -117,10 +117,7 @@ discuss the individual points in further detail.
      greatly.  While it is a separate loadable package, [[incr Tcl]]
      is intimate with the core, depending on many undocumented
      interfaces to carry out its functions.  Integrating it with the
-     Core would make it easier to maintain.  It would also enable
-     export of the ''Tcl_*'' interfaces relating to namespaces, which
-     are currently kept private largely because [[incr Tcl]] might
-     need them to change!
+     Core would make it easier to maintain.
 
    * Including a ''::class'' command in the Core is not acceptable at
      this time, because it would have the effect of disenfranchising
