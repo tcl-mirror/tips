@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -213,7 +213,7 @@ assigned:
 
 ~ General Categories
 
-The following categories in Tk's SourceForge Tracker do not refer to any
+The  following categories in Tk's SourceForge Tracker do not refer to any
 specific portion of Tk.  Reports in these categories should be mapped to
 categories corresponding to a maintained area of Tk, when seeking the
 appropriate maintainer:
