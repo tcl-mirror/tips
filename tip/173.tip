@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -853,7 +853,7 @@ evaluating [[mclocale]], and '''system''', which designates the current
 
    * the current locale from [[mclocale]].
 
-~ Build System
+~~ Build System
 
 Several tools are provided for the use of maintainers:
 
