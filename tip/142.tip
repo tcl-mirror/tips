@@ -1,9 +1,9 @@
 TIP:		142
 Title:		Search Path Variable to Lookup Command Names in Namespaces
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Ulrich Schoebel <ulrich.schoebel@sigos.de>
 Tcl-Version:	8.5
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Vote:		Pending
 Created:	23-Jul-2003

@@ -1,9 +1,9 @@
 TIP:            52
 Title:          Hierarchical Namespace Lookup of Commands and Variables
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        09-Aug-2001
