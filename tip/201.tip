@@ -1,0 +1,68 @@
+TIP:		201
+Title:		Add 'in' Operator to [expr]
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <jeffh@activestate.com>
+Created:	21-May-2004
+Keywords:	Tk, list membership, sets
+
+~ Abstract
+
+This TIP proposes a new '''expr''' operator "'''in'''" that simplifies
+the standard "does this item exist in list" '''lsearch''' case in
+expressions.
+
+~ Rationale
+
+The addition of an '''in''' operator is syntactic sugar for the
+verbose '''lsearch''' operation that checks for a single items
+existence in a list.  It serves to simplify the reading and writing of
+code that requires this comparatively-common operation.  The '''in'''
+operator will do '''lsearch -exact''' searching as well, which would
+correct an inadvertant bug that many users introduce into their code
+when they write:
+
+| if {[lsearch $list $item] != -1} { ... }
+
+as '''lsearch''' does '''-glob''' matching by default.  I have found
+this error repeated often in user code.
+
+Note that [133] uses an '''in''' operator as a motivating case, but is
+actually proposing a much more general alteration.
+
+~ Specification
+
+A new infix '''expr''' operator '''in''' will be added, making the
+following pairs of commands equivalent (assuming nobody has redefined
+'''lsearch''' of course):
+
+ * Searching for an arbitrary item in an arbitrary list.
+
+| if {[lsearch -exact $list $item] != -1} { ... }
+| if {$item in $list} { ... }
+
+ * Checking for the absence of an arbitrary item from an arbitrary
+   list.
+
+| if {[lsearch -exact $list $item] == -1} { ... }
+| if {!($item in $list)} { ... }
+
+~~ Rejected Alternative
+
+There was a proposal to add a separate operator "'''!in'''" to do
+negated membership testing, but that significantly complicates the
+expression parser and is likely to be harder to teach to newcomers to
+Tcl, since it looks like the application of an operator to another
+operator.
+
+~ Reference Implementation
+
+''[[To Follow]]''
+
+~ Copyright
+
+This document has been placed in the public domain.
