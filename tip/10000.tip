@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.57 $
+Version:        $Revision: 1.58 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -29,6 +29,10 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+~ History Test
+
+Check that editing still works with new history-enabling code.
 
 ~ Submission Test
 
@@ -89,6 +93,9 @@ This document has been placed in the public domain.
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.57  2001/03/07 21:21:07  tclhttpd
+| Revision through web from Kevin B KENNY <kennykb@acm.org> (19955)
+|
 | Revision 1.56  2001/03/07 21:17:39  tclhttpd
 | Revision through web from Kevin B KENNY <kennykb@acm.org> (19865)
 |
