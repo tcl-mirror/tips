@@ -1,7 +1,8 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -41,11 +42,11 @@ The following definitions are excerpted from [78]:
    transport between places, machines, organizations, and people.
 
  shared library: A piece of binary code that provides a set of
-   operations and datastructures like a normal library, but which does
+   operations and data structures like a normal library, but which does
    not need to be physically incorporated into the executables that
    use it until they are actually executed. This is the normal way to
    distribute binary code for a Tcl package such that it can be
-   incorporated into a tcl interpreter with the ''load'' command. On
+   incorporated into a Tcl interpreter with the ''load'' command. On
    Windows, shared libraries are known as DLLs, on the Macintosh ...
 
 ~ References
@@ -65,7 +66,7 @@ A number of packaging and installation systems (for example, Debian
 developed by the Linux community which provide an interesting range of
 facilities.  These systems commonly provide facilities for pre and post
 installation scripts and pre and post removal scripts to help set up
-and shut down packages.  Also included are detailed dependancy
+and shut down packages.  Also included are detailed dependency
 relations between packages which can be used by an installer to ensure
 that a package will work once it is installed or warn of potential
 conflicts after installation.
@@ -92,7 +93,7 @@ the commands implemented by the package and some additional metadata
 about the author etc.  Distributions might also optionally include
 demonstration scripts and applications illustrating their use, these
 could either be incorporated into the documentation or included as
-standalone Tcl files.
+stand-alone Tcl files.
 
 Distributions which include shared libraries add an additional layer of
 complexity since these will only run on the platforms for which they
@@ -117,10 +118,10 @@ distribution:
 |      + pkgIndex.tcl     -- package index file (optional)
 
 In addition, a distribution may include any additional files or
-directories required for it's operation.
+directories required for its operation.
 
 ''DESCRIPTION'' is a file containing metadata about the
-package(s) contained in the distribution. It's format will be described
+package(s) contained in the distribution. Its format will be described
 in a later section of this document.
 
 The file ''pkgIndex.tcl'' currently required by the package-loading
@@ -132,7 +133,7 @@ distribution mean that the generated file would not work.
 
 If the ''pkgIndex.tcl'' file is included in the distribution it should
 load files from their locations within the distribution directory
-structure. For example, tcl files should be loaded from the ''tcl''
+structure. For example, Tcl files should be loaded from the ''tcl''
 directory.
 
 ''doc/'' directory contains documentation in an accepted format.
@@ -155,7 +156,7 @@ directory should contain a file ''readme.txt'' which explains how to
 run the examples and provides a commentary on what they do.
 
 ''$architecture'' directories contain shared libraries for various
-platforms. The special architecture ''tcl'' is used for tcl script
+platforms. The special architecture ''tcl'' is used for Tcl script
 files. They either implement the package or contain companion procedure
 definitions to the shared libraries of the package.
 
@@ -187,7 +188,7 @@ itself, hence the element names are all intended to describe
 packages. Other objects might be described including people and
 organisations. The package description should not include these
 objects but a package repository might store them separately keyed on
-the values stored in this description (eg. email addresses of creators).
+the values stored in this description (e.g. email addresses of creators).
 
  * ''Identifier'' (DC)
 
@@ -222,9 +223,9 @@ the values stored in this description (eg. email addresses of creators).
  > The ''level'' component allows a more fine-grained differentiation
    of maturity levels.  When a package has maturity ''production'' the
    ''level'' component is often called the ''patchlevel'' of the package.
-   If the ''level'' component is zero, it may be ommitted.
+   If the ''level'' component is zero, it may be omitted.
 
- > The period each side of the ''maturity'' component may be ommited.
+ > The period each side of the ''maturity'' component may be omitted.
 
  > Valid version numbers can be decoded via the following regular
    expression:
@@ -246,7 +247,7 @@ the values stored in this description (eg. email addresses of creators).
    organisation or service responsible for the creation of the
    package optionally followed by the email address of the author in
    angle brackets [http://www.faqs.org/rfcs/rfc2822.html]. More detail
-   about an author can be provided in a seperate object in the RDF
+   about an author can be provided in a separate object in the RDF
    description and if this is provided the email address should be used
    as the value of the Name field in that object.
 
@@ -268,7 +269,7 @@ the values stored in this description (eg. email addresses of creators).
    statement for the resource, or reference a service providing such
    information.  This will usually be a reference to the license under
    which the package is distributed. This can be a free form string
-   naming the license or a URL refering to a document containing the
+   naming the license or a URL referring to a document containing the
    text of the license.
 
  > If the Rights element is absent, no assumptions can be made
@@ -279,7 +280,7 @@ the values stored in this description (eg. email addresses of creators).
 
  * ''URL''
 
- > This element is a string containing an url refering to a
+ > This element is a string containing an url referring to a
    document or site at which the information about the package can be
    found. This url is ''not'' the location of the distribution, as this
    might be part of a larger repository separate from the package site.
@@ -302,7 +303,7 @@ the values stored in this description (eg. email addresses of creators).
    It is and padded with zero at the front if less than 10. It denotes
    the day in the month the distribution was released.
 
- > A valid data string can be obtained with the tcl command
+ > A valid data string can be obtained with the Tcl command
    [[clock format [clock seconds] -format "%Y-%m-%d"]]
 
  > Example: 2002-01-23
@@ -332,7 +333,7 @@ the values stored in this description (eg. email addresses of creators).
 
  * ''Recommend''
 
- > Declares a strong, but not absolute dependancy on another package.
+ > Declares a strong, but not absolute dependency on another package.
    In most cases this package should be installed unless the user has
    specific reasons not to install them.
 
@@ -436,7 +437,7 @@ Firstly, since a distribution may contain more than one package, the
 set of files making up the various packages could be combined together
 and described by a single DESCRIPTION.txt file.  This is similar to the
 way that tcllib is currently distributed.  The disadvantage would be
-that all of the tcl files implementing these packages would have to
+that all of the Tcl files implementing these packages would have to
 reside in the same directory which could cause name clashes.
 
 The second alternative is to create a distribution consisting of only a
@@ -484,7 +485,7 @@ steps:
 
   1. Download the package archive (eg. zip file)
 
-  2. Locate a writeable directory included on $auto_path (or ask for a
+  2. Locate a writable directory included on $auto_path (or ask for a
      installation directory)
 
   3. Unpack the archive in the desired location.
