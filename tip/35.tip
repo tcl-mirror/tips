@@ -1,13 +1,13 @@
-TIP:           35
-Title:         Enhanced Support for Serial Communications
-Version:       $Revision: 1.5 $
-Author:        Rolf Schroedter <rolf.schroedter@dlr.de>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4
-Vote:          Pending
-Created:       06-Jun-2001
-Post-History:
+TIP:            35
+Title:          Enhanced Support for Serial Communications
+Version:        $Revision: 1.6 $
+Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        06-Jun-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -73,7 +73,7 @@ serial communications:
     used to change the software handshake characters.  Normally the
     operating system default should be DC1 (0x11 hex) and DC3 (0x13
     hex) representing the ASCII standard XON and XOFF characters.  The
-    -xonxoff option cannot be queried.
+    -xchar option cannot be queried.
 
  -ttycontrol {signal boolean signal boolean ...}: ''(Windows and
     Unix)''.  This option is used to setup the handshake output lines
@@ -97,7 +97,7 @@ serial communications:
 
  -queue: ''(Windows and Unix)''.  The -queue option can only be
     queried.  It returns a list of two integers representing the
-    current number of bytes in the input and output queue.
+    current number of bytes in the input and output queue respectively.
 
  -sysbuffer inSize: 
 
@@ -160,7 +160,7 @@ Macintosh systems - ?
 It has also been proposed to add a [[fconfigure -timeout]] option
 specifying read and write timeouts.  Together with a blocking read a
 timeout could be used to wait for an expected number of data bytes
-from the serial port.  There are to arguments against timeouts:
+from the serial port.  There are two arguments against timeouts:
 
  1. Adding timeout to blocking I/O at the driver level radically
     changes the behaviour of read/write operations.  This adds a lot
