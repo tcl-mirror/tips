@@ -1,11 +1,12 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.38 $
+Version:        $Revision: 1.39 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Pavel Goran <pvgoran@newmail.ru>
+Author:          <dgp@users.sf.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -120,7 +121,8 @@ assigned:
    1. ''Safe Base'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''tcltest Package'' - Jeff Hobbs <JeffH@ActiveState.com>,
-	Melissa Chawla <hershey@panasas.com>
+	Melissa Chawla <hershey@panasas.com>,
+        Don Porter <dgp@users.sourceforge.net>
 
    1. ''Pathname Management'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
