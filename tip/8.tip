@@ -1,0 +1,93 @@
+TIP:           8
+Title:         Add winico support to the wm command on windows
+Version:       $Id: 8.tip,v 1.1 2000-11-30 13:02:55 fellowsd Exp $
+Author:        Vince Darley <vince.darley@eurobios.com>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.4.0
+Vote:          Pending
+Created:       06-Nov-2000
+Post-History:
+
+~ Abstract
+
+Add to ''wm'' the ability to do the windows-titlebar-icon manipulation
+that the winico extension currently provides, without the bugs noted
+in that extension.
+
+~ Proposal
+
+Modify ''wm'' on Windows only to allow an optional ''-default'' argument.
+
+|wm iconbitmap .winpath ?-default? filename
+
+And to allow filenames which end in .ico or .icr to be interpreted
+differently.  Filenames with any other extension will be handled,
+as before, by the ''bitmap'' code (which will generally either do
+nothing, or throw an error, thus maintaining backwards compatibility).
+
+The ''-default'' argument, if given, will change not the icon of the
+.winpath given, but rather the default icon for all windows in the
+current application for which no specific icon as been set.
+
+A slightly different implementation already exists (Vince's
+''titlebaricon'' patch), which fixes the basic "wrapper window"
+problems and should be easy enough to modify for a different syntax.
+
+~ Rationale
+
+There have been many requests on news:comp.lang.tcl for this ability
+in the Tk core, and several bug reports filed against Winico, and this
+ability has been placed on the Tk 8.4 roadmap.
+http://dev.scriptics.com/software/tcltk/roadmap.tml
+
+The choice of ''wm iconbitmap'' is suggested, because ''wm
+iconbitmap'' currently doesn't appear to do anything on Windows, yet
+is the obvious choice for the user trying to set the window's icon
+(e.g. many posts on news:comp.lang.tcl are actually asking why ''wm
+iconbitmap'' doesn't do anything).
+
+In the future we may wish to extend ''wm iconbitmap'' on all platforms
+so that other image types can be accepted (e.g. .gif, .png).  This
+proposal extends naturally to allow such future work.
+
+~ Alternatives
+
+Fix the core so that Winico can work properly as an extension.
+
+My implementation as shown that this would require a couple of
+patches, and also the exporting of an additional obscure function into
+Tk's stub table (a function which would ensure that Tk's window
+manager is completely initialised).  It would also not help the users
+posting to news:comp.lang.tcl asking "why doesn't wm iconbitmap do
+anything?"
+
+~ Objections
+
+''This is platform specific and should go in an extension''
+
+See ''Alternatives'' above, also see the ''future suggestion'' above
+in which this kind of code can be usefully extended in a
+cross-platform way.
+
+''The -default flag is weird, and it means we ignore the window name''
+
+I agree, but please suggest a better alternative rather than just
+moaning.  The command with the -default flag is IMHO more useful than
+the command without (for example it makes sure that Tk's built-in
+dialogs have the icon of your application).  An alternative might be
+to use ''wm iconbitmap -default filename'', but that involves more
+significant modifications of the semantics of ''wm''.  It might,
+however, be a good idea.
+
+''wm iconbitmap will still do nothing when given a bitmap''
+
+Yes, but there's that backwards compatibility issue.  This should be
+properly documented with pointers to the use of .ico/.icr file
+formats.  When or if proper support is added to Tk for .gif, .png or
+even Tk images as icons, this bug can be fixed.  The purpose of this
+TIP is not to fix that bug, but to provide a better solution.
+
+~ Copyright
+
+This document has been placed in the public domain.

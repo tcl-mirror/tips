@@ -1,0 +1,762 @@
+TIP:            16
+Title:          Tcl Functional Areas for Maintainer Assignments
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Process
+Vote:           Pending
+Created:        21-Nov-2000
+Post-History:   
+
+~ Abstract
+
+This document proposes a division of Tcl's source code into
+functional areas so that each area may be assigned to one or
+more maintainers.
+
+~ Background
+
+TCT procedures (see [0]) call for each ''maintainer'' to be
+responsible for a portion of Tcl's source code.  Certain
+portions of Tcl's source code are naturally associated with
+certain other portions.  (For example, the implementation of
+a command is intimately related to the documentation for that
+command.)  Establishing a ''natural'' division of Tcl's source
+code into units needing maintainers is a useful preliminary
+effort toward a public call for volunteer maintainers.
+
+~ Rationale
+
+When someone reports a bug, or offers a patch, he will want to
+be able to determine what maintainers have oversight over his
+report.  This implies that we seek a simple mapping from something
+he knows about his bug or patch to the set of maintainers.
+
+For a patch, the submitter certainly knows what file(s) she is 
+patching.  For a bug report, the reporter is likely to know what
+command or C function he believes to be buggy.  Fortunately, every
+C function or Tcl command (combined with the platform) can be associated
+with exactly one source code file, the file providing the definition
+of the C function, or the command procedure of the Tcl command.
+Thus, a mapping from source code file to maintainer is sufficient
+to complete the determination.
+
+The source code file should not be the largest unit, however.
+Certain sets of files should each be gathered into a larger unit,
+all files in that unit with the same maintainer(s).  Tcl's man pages
+already gather related routines and commands into one page of
+documentation.  Using the modules implied by the man pages, and by
+the location of routines in particular source code files, a ''natural''
+division of Tcl into minimal maintainer units follows in the Proposal
+section below.
+
+It may be that some of these minimal units can be joined together
+into still larger related units.  That is not necessary, though.
+We can just have the same maintainer(s) assigned to all the related
+minimal units.
+
+~ Proposal
+
+Tcl shall be divided into the following 52 functional units, each to be
+assigned one or more maintainers:
+
+   Events: 
+
+   >  1. ''Notifier'' - doc/CrtFileHdlr.3,
+     doc/DoOneEvent.3,
+     doc/Notifier.3,
+     doc/Sleep.3,
+     generic/tclNotify.c,
+     mac/tclMacNotify.c,
+     tests/unixNotfy.c,
+     tests/winNotify.c,
+     unix/tclUnixNotfy.c,
+     unix/tclUnixEvent.c,
+     win/tclWinNotify.c
+
+   >   1. ''Event Loops'' - doc/bgerror.n,
+     doc/update.n,
+     doc/vwait.n,
+     doc/BackgdErr.3,
+     doc/Exit.3,
+     generic/tclEvent.c,
+     tests/event.test
+
+   >   1. ''Timer Events'' - doc/after.n,
+     doc/CrtTimerHdlr.3,
+     doc/DoWhenIdle.3,
+     generic/tclTimer.c,
+     tests/timer.test
+
+   >   1. ''Asychronous Events'' - doc/Async.3,
+     generic/tclAsync.c,
+     tests/async.test
+
+   >   1. ''Xt Based Notifier'' - unix/tclXtNotify.c,
+     unix/tclXtTest.c
+
+   >   1. ''Time Measurement'' - compat/gettod.c,
+     compat/strftime.c,
+     doc/clock.n,
+     generic/tclClock.c,
+     generic/tclGetDate.y,
+     mac/tclMacTime.c,
+     tests/clock.test,
+     tests/winTime.test,
+     unix/tclUnixTime.c,
+     win/tclWinTime.c
+
+   Variables: 
+
+   >   1. ''Variable Commands and Interfaces'' - doc/append.n,
+     doc/array.n,
+     doc/global.n,
+     doc/lappend.n,
+     doc/set.n,
+     doc/unset.n,
+     doc/upvar.n,
+     doc/variable.n,
+     doc/SetVar.3,
+     doc/TraceVar.3,
+     doc/UpVar.3,
+     generic/tclVar.c,
+     tests/append.test,
+     tests/set.test,
+     tests/set-old.test,
+     tests/upvar.test,
+     tests/var.test
+
+   >   1. ''Environment Variables'' - generic/tclEnv.c,
+     mac/tclMacEnv.c,
+     tests/env.test
+
+   >   1. ''Linked C Variables'' - doc/LinkVar.3,
+     generic/tclLink.c,
+     tests/link.test
+
+   Objects: 
+
+   >   1. ''Object System and Fundamental Object Types'' - doc/Access.3,
+     doc/Backslash.3,
+     doc/BoolObj.3,
+     doc/Concat.3,
+     doc/DoubleObj.3,
+     doc/DString.3,
+     doc/Encoding.3,
+     doc/FindExec.3,
+     doc/GetCwd.3,
+     doc/Hash.3,
+     doc/IntObj.3,
+     doc/Object.3,
+     doc/ObjectType.3,
+     doc/PrintDbl.3,
+     doc/SplitList.3,
+     doc/StringObj.3,
+     doc/StrMatch.3,
+     generic/tclEncoding.c,
+     generic/tclHash.c,
+     generic/tclObj.c,
+     generic/tclStringObj.c,
+     generic/tclUtil.c,
+     library/encoding/*.enc
+     tests/dstring.test,
+     tests/encoding.test,
+     tests/stringObj.test,
+     tests/obj.test,
+     tests/util.test
+
+   >   1. ''Converions From String'' - doc/GetInt.3,
+     generic/tclGet.c,
+     tests/get.test
+
+   >   1. ''bytearray Object Type'' - doc/binary.n,
+     doc/ByteArrObj.3,
+     generic/tclBinary.c,
+     tests/binary.test
+
+   >   1. ''index Object Type'' - doc/GetIndex.3,
+     doc/WrongNumArgs.3,
+     generic/tclIndexObj.c,
+     tests/indexObj.test
+
+   >   1. ''list Object Type'' - doc/ListObj.3,
+     generic/tclListObj.c,
+     tests/listObj.test
+
+   Fundamental Built-in Commands: 
+
+   >   1. ''A - H'' - doc/break.n,
+     doc/case.n,
+     doc/catch.n,
+     doc/cd.n,
+     doc/concat.n,
+     doc/continue.n,
+     doc/encoding.n,
+     doc/error.n,
+     doc/eval.n,
+     doc/exit.n,
+     doc/expr.n,
+     doc/file.n,
+     doc/for.n,
+     doc/foreach.n,
+     doc/format.n,
+     generic/tclCmdAH.c,
+     tests/cmdAH.test
+     tests/case.test,
+     tests/concat.test,
+     tests/error.test,
+     tests/eval.test,
+     tests/foreach.test,
+     tests/format.test,
+     tests/for-old.test
+
+   >   1. ''I - L'' - doc/if.n,
+     doc/incr.n,
+     doc/info.n,
+     doc/join.n,
+     doc/lindex.n,
+     doc/linsert.n,
+     doc/list.n,
+     doc/llength.n,
+     doc/lrange.n,
+     doc/lreplace.n,
+     doc/lsearch.n,
+     doc/lsort.n,
+     generic/tclCmdIL.c,
+     tests/cmdIL.test,
+     tests/if-old.test,
+     tests/incr-old.test,
+     tests/info.test,
+     tests/join.test,
+     tests/lindex.test,
+     tests/linsert.test,
+     tests/list.test,
+     tests/llength.test,
+     tests/lrange.test,
+     tests/lreplace.test,
+     tests/lsearch.test
+
+   >   1. ''M - Z'' - doc/pwd.n,
+     doc/regexp.n,
+     doc/regsub.n,
+     doc/rename.n,
+     doc/return.n,
+     doc/split.n,
+     doc/string.n,
+     doc/subst.n,
+     doc/switch.n,
+     doc/time.n,
+     doc/trace.n,
+     doc/while.n,
+     generic/tclCmdMZ.c,
+     tests/cmdMZ.test
+     tests/pwd.test,
+     tests/rename.test,
+     tests/split.test,
+     tests/string.test,
+     tests/subst.test,
+     tests/switch.test,
+     tests/trace.test,
+     tests/while-old.test
+
+   >   1. ''[[history]]'' - doc/history.n,
+     doc/RecEvalObj.3,
+     doc/RecordEval.3,
+     generic/tclHistory.c,
+     library/history.tcl,
+     tests/history.test
+
+   >   1. ''[[interp]]'' - doc/interp.n,
+     doc/CrtSlave.3,
+     generic/tclInterp.c,
+     tests/interp.test
+
+   >   1. ''[[namespace]]'' - doc/namespace.n,
+     generic/tclNamesp.c,
+     generic/tclResolve.c,
+     tests/namespace.test,
+     tests/namespace-old.test
+
+   >   1. ''[[proc]]'' - doc/proc.n,
+     doc/uplevel.n,
+     generic/tclProc.c,
+     generic/tclTestProcBodyObj.c,
+     tests/proc.test,
+     tests/proc-old.test,
+     tests/uplevel.test
+
+   >   1. ''[[scan]]'' - doc/scan.n,
+     generic/tclScan.c,
+     tests/scan.test
+
+   Channels: 
+
+   >   1. ''Channel Commands'' - doc/close.n,
+     doc/eof.n,
+     doc/exec.n,
+     doc/fblocked.n,
+     doc/fconfigure.n,
+     doc/fcopy.n,
+     doc/flush.n,
+     doc/gets.n,
+     doc/open.n,
+     doc/puts.n,
+     doc/read.n,
+     doc/seek.n,
+     doc/socket.n,
+     doc/tell.n,
+     generic/tclIOCmd.c,
+     tests/exec.test,
+     tests/ioCmd.test,
+     tests/remote.test,
+     tests/socket.test
+
+   >   1. ''Channel System'' -  doc/fileevent.n,
+     doc/ChnlStack.3,
+     doc/CrtChnlHdlr.3,
+     doc/CrtCloseHdlr.3,
+     doc/CrtChannel.3,
+     doc/DetachPids.3,
+     doc/GetStdChan.3,
+     doc/OpenFileChnl.3,
+     doc/SetErrno.3,
+     generic/tclIO.c,
+     generic/tclIO.h,
+     generic/tclIOUtil.c,
+     generic/tclPipe.c,
+     generic/tclPosixStr.c,
+     tests/io.test,
+     tests/ioUtil.test,
+     win/tclWinError.c
+
+   >   1. ''Channel Transformations'' - generic/tclIOGT.c,
+     tests/iogt.test
+
+   >   1. ''Built-in Channel Types'' - compat/waitpid.c,
+     doc/GetHostName.3,
+     doc/GetOpnFl.3,
+     doc/OpenTcp.3,
+     doc/pid.n,
+     generic/tclIOSock.c,
+     mac/tclMacChan.c,
+     mac/tclMacSock.c,
+     tests/pid.test,
+     tests/winConsole.test,
+     tests/winPipe.test,
+     unix/tclUnixChan.c,
+     unix/tclUnixPipe.c,
+     unix/tclUnixSock.c,
+     win/cat.c,
+     win/stub16.c,
+     win/tclWinChan.c,
+     win/tclWinConsole.c,
+     win/tclWinPipe.c,
+     win/tclWinSerial.c,
+     win/tclWinSock.c
+
+   Packages: 
+
+   >   1. ''dde Package'' - doc/dde.n,
+     library/dde/pkgIndex.tcl,
+     tests/winDde.test
+     win/tclWinDde.c
+
+   >   1. ''http Package'' - doc/http.n,
+     library/http1.0/http.tcl,
+     library/http1.0/pkgIndex.tcl,
+     library/http/http.tcl,
+     library/http/pkgIndex.tcl,
+     tests/http.test,
+     tests/httpd,
+     tests/httpold.test
+
+   >   1. ''msgcat Package'' - doc/msgcat.n,
+     library/msgcat/msgcat.tcl,
+     library/msgcat/pkgIndex.tcl,
+     tests/msgcat.test
+
+   >   1. ''opt Package'' - library/opt/optparse.tcl,
+     library/opt/pkgIndex.tcl,
+     tests/opt.test
+
+   >   1. ''registry Package'' - doc/registry.n,
+     library/reg/pkgIndex.tcl,
+     win/tclWinReg.c,
+     tests/registry.test
+
+   >   1. ''Safe Base'' - doc/safe.n,
+     library/safe.tcl,
+     tests/safe.test
+
+   >   1. ''tcltest Package'' - doc/tcltest.tcl,
+     library/tcltest/tcltest.tcl,
+     library/tcltest/pkgIndex.tcl,
+     tests/tcltest.test
+
+   File System: 
+
+   >   1. ''Pathname Management'' - doc/filename.n,
+     doc/glob.n,
+     doc/SplitPath.3,
+     doc/Translate.3,
+     mac/tclMacFile.c,
+     generic/tclFileName.c,
+     tests/fileName.test,
+     tests/unixFile.test,
+     tests/winFile.test,
+     unix/tclUnixFile.c,
+     win/tclWinFile.c
+
+   >   1. ''File System Access'' - generic/tclFCmd.c,
+     mac/tclMacFCmd.c,
+     tests/fCmd.test,
+     tests/macFCmd.test,
+     tests/unixFCmd.test,
+     tests/winFCmd.test,
+     unix/tclUnixFCmd.c,
+     win/tclWinFCmd.c
+
+   Initialization, Script Library, and Autoloader: 
+
+   >   1. doc/library.n,
+     doc/tclvars.n,
+     doc/unknown.n,
+     doc/Init.3,
+     doc/SourceRCFile.3,
+     generic/tclInitScript.h,
+     library/auto.tcl,
+     library/init.tcl,
+     library/parray.tcl,
+     library/word.tcl,
+     mac/tclMacInit.c,
+     tests/autoMkindex.tcl,
+     tests/autoMkindex.test,
+     tests/init.test,
+     tests/platform.test,
+     tests/security.test,
+     tests/unixInit.test,
+     tests/unknown.test,
+     unix/tclUnixInit.c,
+     win/tclWinInit.c
+
+   Package Support: 
+
+   >   1. ''Package Management'' - doc/InitStubs.3,
+     doc/package.n,
+     doc/packagens.n,
+     doc/pkgMkIndex.n,
+     doc/PkgRequire.3,
+     generic/tclPkg.c,
+     generic/tclStubLib.c,
+     library/package.tcl,
+     tests/package.test,
+     tests/pkg.test,
+     tests/pkgMkIndex.test,
+     tests/pkg/*.tcl
+
+   >   1. ''Dynamic Loading'' - compat/dlfcn.h,
+     doc/load.n,
+     doc/StaticPkg.3,
+     generic/tclLoad.c,
+     generic/tclLoadNone.c,
+     library/ldAout.tcl,
+     mac/tclMacLoad.c,
+     tests/load.test,
+     unix/dltest/*,
+     unix/tclLoad*.c,
+     win/tclWinLoad.c
+
+   Memory Management: 
+
+   >   1. ''Allocation'' - doc/memory.n,
+     doc/Alloc.3,
+     doc/TCL_MEM_DEBUG.3,
+     doc/DumpActiveMemory.3,
+     generic/tclAlloc.c,
+     generic/tclCkalloc.c
+
+   >   1. ''Preservation'' - doc/Preserve.3,
+     generic/tclPreserve.c
+
+   Regular Expressions: 
+
+   >   1. doc/re_syntax.n,
+     doc/RegExp.3,
+     generic/regc_color.c,
+     generic/regc_cvec.c,
+     generic/regc_lex.c,
+     generic/regc_locale.c,
+     generic/regc_nfa.c,
+     generic/regcomp.c,
+     generic/regcustom.h,
+     generic/rege_dfa.c,
+     generic/regerror.c,
+     generic/regerrs.h,
+     generic/regex.h,
+     generic/regexec.c,
+     generic/regfree.c,
+     generic/regfronts.c,
+     generic/regguts.h,
+     generic/tclRegexp.c,
+     generic/tclRegexp.h,
+     tests/reg.test,
+     tests/regexp.test,
+     tools/uniClass.tcl
+
+   UTF-8 String Management: 
+
+   >   1. doc/ToUpper.3,
+     doc/Utf.3,
+     generic/tclUtf.c,
+     tools/uniParse.tcl,
+     tests/utf.test,
+     win/tclWin32Dll.c
+
+   Fundamental Parsing and Evaluation: 
+
+   >   1. doc/AddErrInfo.3,
+     doc/AllowExc.3,
+     doc/AssocData.3,
+     doc/CallDel.3,
+     doc/CmdCmplt.3,
+     doc/CrtCommand.3,
+     doc/CrtObjCmd.3,
+     doc/CrtInterp.3,
+     doc/CrtMathFnc.3,
+     doc/CrtTrace.3,
+     doc/Eval.3,
+     doc/ExprLong.3,
+     doc/ExprLongObj.3,
+     doc/GetVersion.3,
+     doc/Interp.3,
+     doc/ParseCmd.3,
+     doc/SaveResult.3,
+     doc/SetRecLimit.3,
+     doc/SetResult.3,
+     doc/Tcl.n,
+     generic/tclBasic.c,
+     generic/tclParse.c,
+     generic/tclParseExpr.c,
+     generic/tclResult.c,
+     tests/assocd.test,
+     tests/basic.test,
+     tests/cmdInfo.test,
+     tests/dcall.test,
+     tests/expr-old.test,
+     tests/parse.test,
+     tests/parseExpr.test,
+     tests/parseOld.test,
+     tests/result.test,
+     tests/stack.test
+
+   Bytecode: 
+
+   >   1. compat/float.h,
+     generic/tclCompCmds.c,
+     generic/tclCompExpr.c,
+     generic/tclCompile.c,
+     generic/tclCompile.h,
+     generic/tclExecute.c,
+     generic/tclLiteral.c
+     tests/compExpr-old.test,
+     tests/compExpr.test,
+     tests/compile.test,
+     tests/execute.test,
+     tests/expr.test,
+     tests/for.test,
+     tests/if.test,
+     tests/incr.test,
+     tests/while.test
+
+   Threads: 
+
+   >   1. doc/Thread.3,
+     generic/tclThread.c,
+     generic/tclThreadJoin.c,
+     mac/tclMacThrd.c,
+     mac/tclMacThrd.h,
+     tests/thread.test,
+     unix/tclUnixThrd.c,
+     unix/tclUnixThrd.h,
+     win/tclWinThrd.c,
+     win/tclWinThrd.h
+
+   Embedding Support: 
+
+   >   1. doc/AppInit.3,
+     doc/Tcl_Main.3,
+     doc/tclsh.1,
+     generic/tclMain.c,
+     generic/tclPanic.c,
+     mac/tclMacAppInit.c,
+     mac/tclMacPanic.c,
+     unix/tclAppInit.c,
+     win/tclAppInit.c
+
+   Release Engineering: 
+
+   >   1. ''Release Notes'' - README,
+     changes,
+     license.terms,
+     */license.terms,
+     compat/README,
+     generic/README,
+     mac/README,
+     mac/bugs.doc,
+     tests/README,
+     tests/pkg/license.terms,
+     tools/README,
+     unix/README,
+     win/README
+
+   >   1. ''Portability Support'' - compat/dirent.h,
+     compat/dirent2.h,
+     compat/tclErrno.h,
+     compat/unistd.h,
+     generic/tclMath.h,
+     generic/tclPort.h,
+     mac/tclMacPort.h,
+     unix/tclMtherr.c,
+     unix/tclUnixPort.h,
+     win/tclWinMtherr.c,
+     win/tclWinPort.h
+
+   >   1. ''Configuration and Build Tools'' - tests/all.tcl,
+     tools/configure.in,
+     tools/cvtEOL.tcl,
+     tools/genStubs.tcl,
+     tools/index.tcl,
+     tools/Makefile.in,
+     tools/man2help.tcl,
+     tools/man2help2.tcl,
+     tools/man2tcl.c,
+     tools/tcl.hpj.in,
+     tools/tcl.wse.in,
+     tools/tclSplash.bmp,
+     tools/tcltk-man2html.tcl,
+     tools/white.bmp,
+     unix/Makefile.in,
+     unix/aclocal.m4,
+     unix/configure.in,
+     unix/install-sh,
+     unix/ldAix,
+     unix/mkLinks,
+     unix/tcl.m4,
+     unix/tcl.spec,
+     unix/tclConfig.sh.in,
+     win/Makefile.in,
+     win/aclocal.m4,
+     win/configure.in,
+     win/makefile.vc,
+     win/mkd.bat,
+     win/rmd.bat,
+     win/tcl.hpj.in,
+     win/tcl.m4,
+     win/tcl.rc
+     win/tclConfig.sh.in,
+     win/tclsh.ico,
+     win/tclsh.rc
+
+   >   1. ''Other Tools'' - tools/checkLibraryDoc.tcl,
+     tools/genWinImage.tcl,
+     tools/man2html.tcl,
+     tools/man2html1.tcl,
+     tools/man2html2.tcl,
+     tools/regexpTestLib.tcl
+
+   Macintosh Stuff: 
+
+   >   1. ''[[resource]]'' - doc/resource.n,
+     doc/source.n,
+     mac/tclMacResource.c,
+     mac/tclMacResource.r,
+     tests/resource.test,
+     tests/source.test
+
+   >   1. ''Other Stuff I Don't Understand'' - mac/AppleScript.html
+     mac/Background.doc
+     mac/libmoto.doc
+     mac/morefiles.doc
+     mac/MW_TclAppleScriptHeader.h
+     mac/MW_TclAppleScriptHeader.pch
+     mac/MW_TclHeader.h
+     mac/MW_TclHeader.pch
+     mac/MW_TclTestHeader.h
+     mac/MW_TclTestHeader.pch
+     mac/porting.notes
+     mac/tclMac.h
+     mac/tclMacAETE.r
+     mac/tclMacAlloc.c
+     mac/tclMacApplication.r
+     mac/tclMacBOAAppInit.c
+     mac/tclMacBOAMain.c
+     mac/tclMacCommonPch.h
+     mac/tclMacDNR.c
+     mac/tclMacExit.c
+     mac/tclMacInterupt.c
+     mac/tclMacLibrary.c
+     mac/tclMacLibrary.r
+     mac/tclMacMath.h
+     mac/tclMacMSLPrefix.h
+     mac/tclMacOSA.c
+     mac/tclMacOSA.exp
+     mac/tclMacOSA.r
+     mac/tclMacProjects.sea.hqx
+     mac/tclMacShLib.exp
+     mac/tclMacTclCode.r
+     mac/tclMacUnix.c
+     mac/tclMacUtil.c
+     tests/osa.test
+
+~ Shared Files
+
+The following files are shared by all of Tcl.  Any maintainer may
+modify them as necessary to complete changes they are making to
+their portion of Tcl.  Some of the following files define Tcl's
+API and should be changed only in accordance with TCT approval.
+
+   * ChangeLog,
+     compat/limits.h,
+     compat/fixstrtod.c,
+     compat/memcmp.c,
+     compat/opendir.c,
+     compat/stdlib.h,
+     compat/string.h,
+     compat/strncasecmp.c,
+     compat/strstr.c,
+     compat/strtod.c,
+     compat/strtol.c,
+     compat/strtoul.c,
+     compat/tmpnam.c,
+     doc/man.macros,
+     generic/tcl.decls,
+     generic/tcl.h,
+     generic/tclInt.decls,
+     generic/tclInt.h,
+     generic/tclTest.c,
+     generic/tclTestObj.c,
+     mac/tclMacInt.h,
+     mac/tclMacTest.c,
+     tests/misc.test,
+     unix/tclUnixTest.c,
+     win/tclWinInt.h,
+     win/tclWinTest.c
+
+~ Generated Files
+
+The following files are generated, so they don't need maintainers.
+
+   * generic/tclDate.c,
+     generic/tclUniData.c,
+     generic/tclDecls.h,
+     generic/tclIntDecls.h,
+     generic/tclIntPlatDecls.h,
+     generic/tclPlatDecls.h,
+     generic/tclStubInit.c,
+     library/tclIndex,
+     unix/configure,
+     win/configure
+
+~ Copyright
+
+This document has been placed in the public domain.

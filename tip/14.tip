@@ -1,0 +1,87 @@
+TIP:            14
+Title:          Access (via tkInt) to Tk Photo Image Transparency
+Version:        $Revision: 1.1 $
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
+Type:           Project
+Tcl-Version:	8.4.0
+Vote:           Pending
+Created:        22-Nov-2000
+Keywords:	Tk, photo, transparency, internal, access
+Post-History:   
+
+~ Abstract
+
+It is useful for some extensions to have access to the transparency
+information in photo images for various reasons, but this is not
+currently available, even via an internal structure defined in
+''generic/tkInt.h''.  This TIP is aimed at making the information
+available in a way that can be kept backwardly compatible even if the
+internal structure definitions change.
+
+~ Rationale
+
+I have been working for several years (on-and-off) on an extension for
+Tk that allows it to have non-rectangular windows
+(http://www.cs.man.ac.uk/~fellowsd/tcl/shapeidx.html) which is an
+effect that is great for all sorts of purposes but which comes
+particularly into its own when used in conjunction with drag-and-drop
+to make drag tokens that obscure only part of what lies underneath
+them.  However, one of the most useful ways of specifying the shape of
+a window turns out to be via images of various kinds, and the natural
+way to do this is with the transparency data within the image.  The
+problem is that this data is locked up entirely within structures that
+are completely private to ''generic/tkImgPhoto.c''; none of it is
+visible at all anywhere else, even within the core.  (There is code
+that uses colour data instead to do this sort of trick,
+http://www.sys.uea.ac.uk/~fuzz/tktrans/default.html, but this is a
+slow process and frankly a little strange if we already have
+transparency data available.)
+
+To get around this problem, the data member ''validRegion'' of the
+''PhotoMaster'' structure needs to be made available by some
+mechanism.  There are two ways of doing this:
+
+ 1. Placing the ''PhotoMaster'' structure, or some version of it, in
+    ''generic/tkInt.h'', or
+
+ 2. Creating a function to access the data member.
+
+The first way is very cheap initially, but also very inflexible and
+creates yet another hidden version dependency (such as is tackled in
+[5]) should we decide to change the structure for any reason (we also
+have had problems with this sort of thing in the past in relation to
+the ''Tcl_Interp'' member ''result'', direct access to which has been
+deprecated for years, but where there is still existing code that does
+it and which forms one of the largest barriers for some extensions
+from upgrading to Tcl 8.0 or later.)  It is also unnecessary since
+only the core needs to know how to create new instances of the
+structure.
+
+The second way, by contrast, is far more flexible in the future as it
+will allow us to completely change the internal implementation of
+photo image transparency without affecting any extensions at all.  The
+cost of doing this is that a new entry in one of the stub tables must
+be created.  Due to the fact that the type of the ''validRegion''
+member is (currently) internal, I propose adding the function to the
+''tkInt'' stub interface, and I propose calling the function
+''TkPhotoGetValidRegion''.
+
+This TIP is not a substitute for a more sophisticated proposal that
+would offer script-level and sophisticated extension-level access to
+photo transparency, I accept, but at the time of writing I do not see
+how such an interface would be structured.
+
+~ Sample Implementation Patch
+
+http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch
+
+This applies a patch to ''tkImgPhoto.c'', ''tkInt.h'',
+''tkInt.decls'', ''tkIntDecls.h'' and ''tkStubInit.c'', all within the
+''generic'' directory of the Tk distribution.  Due to the fact that
+the patch as it stands has no computational component, and it is an
+internal interface anyway, it includes no documentation or tests.
+
+~ Copyright
+
+This document is placed in the public domain.

@@ -1,0 +1,78 @@
+TIP:            15
+Title:          Functions to List and Detail Math Functions
+Version:        $Revision: 1.1 $
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
+Type:           Project
+Tcl-Version:	8.4.0
+Vote:           Pending
+Created:        22-Nov-2000
+Keywords:	Tcl, expr, function, introspection
+Post-History:   
+
+~ Abstract
+
+Provides a way for the list of all math functions defined in the
+current interpreter to be discovered, and for discovering what
+arguments might be passed to an existing math function.  This may be
+useful in tests as well as more general use.
+
+~ Rationale
+
+Although it is quite easy to define a new function for use in
+expressions, there is no public way of performing introspection on
+this information.  Having a way to extract the arguments from an
+existing math function was requested by
+http://sourceforge.net/bugs/?func=detailbug&bug_id=119304&group_id=10894
+and once you have one, it becomes trivial to also ask for a second
+function to list what functions are defined.
+
+I propose the creation of two functions that fulfil this rôle;
+''Tcl_GetMathFuncInfo'' and ''Tcl_ListMathFuncs''.  These functions
+will be documented on the same manual page as ''Tcl_CreateMathFunc''.
+
+~ Tcl_GetMathFuncInfo
+
+This function will take an interpreter reference, a function name (as
+a string) and pointers to variables capable of taking each of the last
+four arguments to ''Tcl_CreateMathFunc'', and will return a standard
+Tcl result (either ''TCL_OK'' or ''TCL_ERROR'', depending on whether a
+function with the given name exists within the given interpreter, with
+an error message being left in the interpreter's result in the
+''TCL_ERROR'' case.)  The array of argument types whose reference is
+placed into the variable pointed to by ''argTypesPtr'' will be
+allocated by Tcl, and should be freed with ''Tcl_Free''.
+
+|int Tcl_GetMathFuncInfo(Tcl_Interp *interp, char *name,
+|                        int *numArgsPtr, Tcl_ValueType **argTypesPtr,
+|                        Tcl_MathProc *procPtr,
+|                        ClientData *clientDataPtr);
+
+The parameter names are chosen by analogy with ''Tcl_CreateMathFunc''.
+
+~ Tcl_ListMathFuncs
+
+This function will take an interpreter reference and an optional
+string that describes a glob-like pattern that restricts the set of
+math functions that the caller is interested in receiving (with a
+''NULL'' indicating that no filtering is desired.)  The function will
+return a pointer to a newly-allocated ''Tcl_Obj'' list of the names of
+all the math functions defined within that interpreter, or ''NULL'' in
+the case of an error (in which case a suitable message will be left in
+the interpreter.)  The list will not be required to be sorted.
+
+|Tcl_Obj *Tcl_ListMathFuncs(Tcl_Interp *interp, char *pattern);
+
+The alternative is to pass in the addresses of variables that will be
+updated to contain the number of functions and an array of function
+names.  But I prefer the ''Tcl_Obj'' approach as it is expressing the
+fact that the list of function names is really a single thing being
+returned (albeit one that is not a simple value.)  It is not
+anticipated that the performance of this function will need to be
+crucial to too many applications.
+
+Maybe this should be mapped to an ''info'' subcommand.
+
+~ Copyright
+
+This document is placed in the public domain.

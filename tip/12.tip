@@ -1,0 +1,292 @@
+TIP:		12
+Title:		The "Batteries Included" Distribution
+Version:	$Revision: 1.1 $
+Author:		George A. Howlett <gah@siliconmetrics.com>
+State:		Draft
+Type:		Informational
+Vote:		Pending
+Created:	15-Sep-2000
+Discussions-To: news:comp.lang.tcl
+Post-History: 
+
+~ Abstract
+
+This document describes a comprehensive Tcl/Tk distribution.  Its
+primary purpose is to create a standard source tree that includes Tcl,
+Tk, and extensions so that they can be built and installed in an
+simple and easy manner.
+
+~ Introduction
+
+One of the most enduring complaints about Tcl/Tk is that it lacks
+features, especially when compared to Perl, Python, or Java.  We
+patiently explain that some particular feature is available in
+extension "XYZ" only to hear how hard it is to build and install
+extensions.
+
+Frank Stajano ("The SMS server, or why I switched from Tcl to Python")
+describes the problem succinctly.
+
+ > "But if I had to put the finger on the single most important reason
+   that has me now working in Python rather than in Tcl/[[incr Tcl]]
+   it would not be a language issue but a library issue. I prefer
+   Python because its standard library is a gold mine. Sure, for
+   anything I want to do there's bound to be an extension available in
+   the Tcl code repository on the FTP site. Now I just have to find
+   it, fetch it, recompile the interpreter with it (Oh wait - this may
+   mean getting and installing a C compiler for this system. Will the
+   GNU one compile the windowing stuff properly or do I need to get
+   VC++, or Borland?  Who wants to have some fun discovering where
+   another IDE has hidden the useful compiler flags this week?), hope
+   that it won't clash with other extensions I've had to install, hope
+   that it will not require a different version of the interpreter
+   from the one I am running, and so on. Python supports the same C
+   extension mechanism as Tcl - but the practical difference is that
+   the stuff I want is, most of the time, already included and shipped
+   in the standard distribution of the language!"
+
+ > "But, as a general-purpose tool, Python's single most important
+   selling point is the richness of its standard library - an idea
+   that Tcl is only now starting to internalise. It's all in the
+   distribution.  You can attack your practical problem using the
+   stuff that's already installed on your system, and documented in
+   the library manual you already printed. Python is great because it
+   comes with batteries included."
+
+It's true. There are too many things to know to maintain even a
+moderate set of extensions.  There are too many different places to
+download extensions, too many extension-specific configuration
+options, etc.
+
+My hope is that this proposal will mark the beginning of the end of
+the "Batteries Included" problem.  One evidence of success will be
+that words "core" and "extension" disappear from our Tcl vocabularies.
+We've lived their artifical distinctions that are useful only to core
+developers and extension writers.  It's skewed our thinking about
+relationship between Tcl and its parts.  After all, application
+writers first care about whether a feature or capability is available,
+not how it's structured under the hood.
+
+~ The "Batteries Included" Distribution.
+
+Let's start with a very modest example.  Let's imagine that the
+"Batteries Included" distribution is nothing more than a tar file of
+Tcl/Tk and several extensions.
+
+|            Unix    Windows  Mac
+|             ----    -------  ---
+|  Tcl 8.3       x       x      x
+|  Tk 8.3        x       x      x
+|  [incr Tcl]    x       x      x
+|  expect        x       ?
+|  TclX          x
+|  BLT           x       x
+|  Trf           
+|  Html widget
+|  XML
+|  ...lots more...
+  
+Tcl, Tk, and the packages are configured such that they can be built
+and installed just from a top level directory (not individually).
+Someone can download and try out all sorts of new features without
+repeating the same "configure", "make", "make install" sequences.
+
+With this simple tar file, the following benefits are automatically
+generated:
+  
+  * It provides a simple way for users to try out extensions.  Users
+    only have to run download, configure, compile and install, at
+    most, once.
+
+  * It describes a clear framework for extensions.  We will have
+    established a directory structure for both source code and
+    installed binaries.  It will be much more clear how to
+    inter-operate.  This is TEA in action.
+
+  * It's better for Tcl/Tk application writers.  You can count on
+    features being universally available.  Your program can again be
+    just a Tcl script, not an array of packages that everyone needs to
+    download and install.
+     
+  * It's better for extension writers.  Configuration is simpler,
+    since you know where all the sources and the compiler-specific
+    information will reside.  You don't need to search for
+    ''tclConfig.sh'' or ''tkConfig.sh'' files.
+     
+  * It's better for Tcl/Tk distribution builders.  This includes both
+    the Linux distributors and company sysadmins that build Tcl/Tk.
+    They don't have to fear installing extensions because of version
+    dependencies.
+
+  > Let's give Redhat and SuSE a good reason to move off of version
+    8.0. One the big advantages of Linux over (let's say) Solaris is
+    that each new Redhat or SuSE distribution comes with updated
+    versions of utilities already built.
+
+  * It's better for the core developers. Extension writers will
+    willing the adopt changes in exchange for the wider distribution.
+    The core team will in turn gain better understanding of the
+    burdens of extension writers.
+
+  * It's better for Tcl library writers.  With [incr Tcl], we now have
+    a basis for a real, extensible Tcl-code library.  Library code
+    rely on a full set of extensions being available.
+
+~ Rationale
+
+We want to create an open door procedure that makes it easy for
+contributors to add new features and commands to Tcl and Tk.  By
+creating a framework for extensions to be built and distributed, the
+"Batteries Included" distribution will provide a path for great new
+features to quickly become available to the Tcl community.
+
+The "Batteries Included" distributed is not designed to be one size
+that fits all.  I assume there will be many distributions to suit many
+needs.  There may be one for Tcl web servers and another for embedded
+systems.  The goal is that the "Batteries Included" distribution will
+become a prototype for other distributions.  Distribution creators
+will be able to pull code from the same CVS source tree.
+
+What will distinguish the "Batteries Included" distribution is that it
+will be the most comprehensive and most up-to-date distribution.  We
+will explicitly not choose one package or extension over another.
+That decision should remain with the Tcl user community.  The only
+requirement is that the extensions are robust and/or actively
+maintained.
+
+If the "Batteries Included" distribution is to become successful, it
+must be a cooperative effort between Tcl core developers, extension
+writers, and the Tcl user community.  For example, we need the help of
+extension writers to adopt the new configuration scheme and directory
+structure.
+
+~ Particulars
+
+We can stage the project with small milestones while still focusing on
+longer range goals.  For example, the first phase can be as simple as
+creating a tar file.  It will start to address questions that were
+raised by TEA.  For example, how do we manage documentation?
+
+The biggest reason why this proposal will succeed is the incredible
+talent in the Tcl community.  We can leverage the skills and
+experiences of the foremost experts on the core, extensions, and
+applications.
+
+~ Tcl/Tk Version.
+
+The distribution will be based on 8.3.2 (or 8.3.3 when it is
+released).  While there's no assurance when 8.4 will be released and
+in what state, we also want to place a premium on stable, robust
+extensions, that have been thoroughly tested.  Most extensions will be
+unlikely to have been tested against the 8.4 alphas.
+
+~ Phase 1.
+
+ * Identify extensions.  
+
+ > What extensions should be included in the near term?  We need
+   extension authors that are willing to work with us to build a
+   directory framework, change configuration files, etc.  Extensions
+   do not need to work on all platforms.  For example, there is a
+   wealth of Windows-based extensions that should be included.
+
+ > What are the minimum requirements for extensions in the short term?
+   Manual pages, html, tests, demos all would be nice.  We need to
+   temper this with what's practical.  This is a learning process. We
+   can adjust requirements in future phases.
+
+ * Determine build and install directory structures.  
+
+ > We need to make this work with more that one release installed.
+   Don't suppose that there only one version will ever be used.
+   
+ * Setup CVS archives.
+
+ * Create configuration files.  
+
+ > This will require negotiation with extension writers.  We want
+   their buy-in so they will maintain the changes.
+
+ > There may be more than one form of configuration required.  One
+   subtle but important issue is that extensions must be able to be
+   configured without Tcl or Tk libraries already existing.  This is a
+   "trusted" configure.  The extension must trust that the library
+   will exist.  Right now, most extensions work from "untrusted"
+   configurations.
+
+ * Test builds on multiple platforms.  
+
+ > For now, the Windows and Mac build files can be hand-generated.  It
+   may be too hard to create a seamless build environment. We're not
+   trying to satisfy every Windows/Mac developer here.  We can focus
+   on creating pre-built binary distributions for these platforms.
+
+ * Create self-installing executables for Windows and the Mac.  
+
+ > If we want, we can provide Linux, Solaris, etc. binaries by
+   reviving Michael McLennan's Tclish installer.
+
+~ Phase 2.
+
+ * Handle documentation issues.  
+
+ > Generate platform specific doc with Richard Hipp's XML code.
+
+ * Establish Tcl code library.
+
+ * Identify more extensions.
+
+ * Determine the release schedule for "batteries included" distribution.  
+
+ > How often do you release a new version?  It must be more frequent
+   than Tcl/Tk.  We can start by planning for quarterly releases and
+   then adding more frequent releases if necessary.
+
+ * Determine what core changes (if any) are needed for the distribution.
+
+ * Start looking at network-based updates.
+
+ * Start looking at selective builds.  Allow builders to compile/install 
+   subsets of the distribution.
+
+ * Push on Redhat, SuSE, etc. to pick up distribution.
+
+~ Phase 3.
+
+ * Network-based installs.
+
+ * Selective installations/builds.
+
+ * Include applications tree.
+
+ * Identify more extensions.
+
+The last phases are sketchy.  Feel free to add to this list, further
+breaking down goals into subtasks.
+
+~ Open Issues
+
+ * Windows and MacIntosh sources.
+ 
+ > Given the dearth of configuration tools for these platforms, it's
+   likely that only binary installations will be available for the
+   near term.
+
+ * Documentation
+
+ > Overlap in command and widget names can be neatly handled by
+   namespaces.  Need to consider how to handle manual pages.
+ 
+~ More Information
+
+If anyone has interest to participate or would like to add comments to
+the "Batteries Included" proposal, please send mail to George Howlett
+<gah@siliconmetrics.com>.
+
+~ Copyright
+
+This document has been placed in the public domain.
+
+~ See Also
+
+[4] by Brent Welch <welch@acm.org>.
