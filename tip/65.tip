@@ -1,12 +1,12 @@
 TIP:            65
 Title:          Enhanced [info args]
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Glenn Jackman <glennj@nortelnetworks.com>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Glenn Jackman <glennj@ncf.ca>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        18-Sep-2001
 Post-History:   
 Tcl-Version:    8.5
@@ -137,6 +137,14 @@ relationship to [[info args]].
 Refer to the submitted patch, which implements an subcommand named
 [[info fullargs]], at:
 http://sourceforge.net/tracker/index.php?func=detail&aid=461635&group_id=10894&atid=310894
+
+~ Reasons for Rejection
+
+Those voting against this proposal believed that since the desired
+functionality is already possible with a short script of just a few
+Tcl commands, it would be unnecessary bloat to add another subcommand.
+Some also pointed to [112] as another approach to letting people extend
+Tcl built-in commands with their own custom subcommands.
 
 ~ Copyright
 
