@@ -1,6 +1,6 @@
 TIP:            33
 Title:          Add 'lset' Command to Assign to List Elements.
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -213,7 +213,7 @@ replacements are performed in place.
 The author has implemented a simpler variant of the proposed command
 as an object command, and also proposes to bytecode compile it,
 although the implementation of bytecode compilation is incomplete.
-The reference implementation also does not yet expand ''objv[[ 2 ]]''
+The reference implementation also does not yet expand ''objv[[2]]''
 as a list in the case where ''objc==4,'' and is known to have memory
 leaks where ill-formed index arguments are presented.  It is given
 here as ''concept code'' and to present its impact on performance of
@@ -615,21 +615,21 @@ It is possible for a sufficiently smart compromise implementation
 to avoid all this shimmering.  In the case where ''objc==4'', the
 ''lset'' command must:
 
- 1. Test whether ''objv[[ 2 ]]'' designates an object whose internal
+ 1. Test whether ''objv[[2]]'' designates an object whose internal
     representation holds an integer.  If so, simply use it as an index.
 
- 2. Test whether ''objv[[ 2 ]]'' designates an object whose internal
+ 2. Test whether ''objv[[2]]'' designates an object whose internal
     representation holds a list.  If so, perform the recursive
     extraction of indexed elements from sublists described above.
 
- 3. Form the string representation of ''objv[[ 2 ]]'' and test whether
+ 3. Form the string representation of ''objv[[2]]'' and test whether
     it is ''end'' or ''end-'' followed by an integer.  If so, use it
     as an index.
 
- 4. Attempt to coerce ''objv[[ 2 ]]'' to an integer; if successful, use
+ 4. Attempt to coerce ''objv[[2]]'' to an integer; if successful, use
     the result as an integer.
 
- 5. Attempt to coerce ''objv[[ 2 ]]'' to a list; if successful, use
+ 5. Attempt to coerce ''objv[[2]]'' to a list; if successful, use
     the result as an index list.
 
  6. Report a malformed ''index'' argument; the ''indexList'' parameter
