@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -45,8 +45,8 @@ different alternatives.  This is the eval version:
 |eval button .b $stdargs -text \$mytext -bd $border
 |eval exec \$prog $opts1 [getMoreopts] \$file1 \$file2
 
-The eval version would be even more complex if lists that are to be expanded
-are not known to be pure. To be really safe the last would be:
+The eval version would be even more complex if the lists that are to
+be expanded are not known to be pure. To be really safe the last would be:
 
 |eval exec \$prog [lrange $opts1 0 end] [lrange [getMoreopts] 0 end] \$file1 \$file2
 
@@ -137,7 +137,7 @@ One aspect of choosing a syntax here is to think about the
 future.  Should there later be a wish for a global syntax for argument
 expansion it would be nice if it were the same as the one chosen in
 the expand command.  From this point of view @ may be a bad choise
-since that feels rather unlikely for a global syntax.  If an agreement
+since that might not be likely for a global syntax.  If an agreement
 can be made for what may be acceptable in the future, this should
 affect the specification in this TIP.
 
@@ -145,6 +145,8 @@ If a single character like @ is chosen for a global expand syntax
 it means a backwards compatibility break.  So, what chars are likely
 to be used by people and thus causing problems when backwards
 compatibility is broken?
+
+Some food for thought about different chars:
 
 |!   if !$var {...}
 |%   format %d $var
@@ -170,6 +172,8 @@ compatibility is broken?
 ||   open |prog
 |~   cd ~$user
 
+Example usage of those that seem reasonable:
+
 |expand { exec $prog @$opts1 @[getMoreopts] $file1 $file2 }
 |expand { exec $prog '$opts1 '[getMoreopts] $file1 $file2 }
 |expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
@@ -186,6 +190,7 @@ would not break backwards compatibility:
 
 When first issued the TIP caused some discussion on c.l.t.  Until a summary
 is made, here is the thread:
+
 http://groups.google.com/groups?th=9e77d5836b06ab1b
 
 ~ Reference Implementation
