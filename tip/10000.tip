@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.91 $
+Version:        $Revision: 1.92 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -34,6 +34,14 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+~ Abstract
+
+This TIP proposes several changes to the conversion between floating point
+numbers and character strings. The changes are made to restore the
+"everything is a string" contract that Tcl implicitly makes; without them,
+there are observable differences in the behavior of floating point numbers,
+depending on the state of the internal representation.
 
 ~ Rationale
 
@@ -109,11 +117,11 @@ in the Tcl library:
     floating-point number to the string having at most ''$::tcl_precision''
     significant digits that satisfies the following constraints:
 
-        * if reconverted to a binary floating point number, it yields
+ >      * if reconverted to a binary floating point number, it yields
           a number that is the closest among all strings having the
           given number of significant digits.
 
-        * if there is more than one string that is equally close but
+ >      * if there is more than one string that is equally close but
           neither string yields the given number exactly, then the
           string with the even digit in the least significant place
           is chosen. Examples:
@@ -123,7 +131,7 @@ in the Tcl library:
 |              % set tcl_precision 2 ; expr 0.375
 |              0.38
 
-        * if there is more than one string with at most the given number of
+ >      * if there is more than one string with at most the given number of
           significant digits that yields the given floating-point number,
           but one has fewer significant digits than the other, then
           the shorter one is chosen.  Example:
@@ -131,26 +139,26 @@ in the Tcl library:
 |              % expr 0.2
 |              0.2
 
-          Note that the case above does ''not'' return
+        > Note that the case above does ''not'' return
 
 |              0.20000000000000001
 
-          even though that number is closer to the actual floating
-          point value of 
+        > even though that number is closer to the actual floating
+        > point value of 
 
 |              0.200000000000000011102230246251565404236316680908203125
 
-          because 0.2 is the shorter representation.
+        > because 0.2 is the shorter representation.
 
-        * if there is more than one string with at most the given number
+ >      * if there is more than one string with at most the given number
           of significant digits that reconverts exactly to the same
           floating point number, and all such strings are equally long,
           then the one closest to the given floating point number is chosen.
 
-    The ''dtoa'' function in David Gay's floating-point conversion library
+ >  The ''dtoa'' function in David Gay's floating-point conversion library
     already has a collection of options that implement these semantics.
 
- 4. The test suite for Tcl shall be upgraded to include suitable test
+ 1. The test suite for Tcl shall be upgraded to include suitable test
     vectors for assessing correct rounding behavior.  The paper by
     Verdonk, Cuyt and Verschaeren in the References, and the associated
     software, present a suitable data set for inclusion.
