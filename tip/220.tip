@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Add Tcl_SetChannelMode
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -22,6 +22,7 @@ The problem is that the user has requested a read/only or write/only channel, bu
 This can be modelled by the opener of a channel (in this case, the tclvfs code) opening it with its required permissions and casting them away before handing them to a user, subsequently re-aquiring full channel permissions at the point where the channel needs to be closed - that is, immediately before the tclvfs' close callback is invoked.
 
 ~ Safety
+
    * escalation of privilege is controlled with the tcl core, unavailable to extensions.
    * privilege is only granted (via its close callback) to the entity which opened the channel.
 
