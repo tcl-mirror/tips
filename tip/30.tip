@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -127,11 +127,11 @@ assigned:
 
    46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
 
-   47. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   47. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
 
-   48. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   48. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
 
-   49. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   49. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
 
    50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
 		         Joe English <jenglish@flightlab.com> (Unix), Daniel Steffen <das@users.sourceforge.net> (Mac)
