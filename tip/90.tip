@@ -1,9 +1,9 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.37 $
+Version:        $Revision: 1.38 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        15-Mar-2002
