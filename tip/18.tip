@@ -1,0 +1,192 @@
+TIP:		18
+Title:		Add Labels to Frames
+Version:	$Revision: 1.1 $
+Author:		Peter Spjuth <peter.spjuth@space.se>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	12-Dec-2000
+Post-History:
+
+~ Abstract
+
+This TIP proposes to add labels to the core's standard frames.  Even
+though they are possible to create now, this change would make them as
+easy to create and use as they deserve to be.
+
+~ Introduction
+
+Labelled frames are a common thing in a GUI and the need for them are
+rather clear by the fact that practically every widget package
+implements some version of it. However, every implementation is of
+megawidget style and has the drawback of always having a sub-frame
+where children are put. You can't pack things directly in the frame,
+which make them harder to use.
+
+This proposal wants to add labels to standard frames in a way that
+allows children to be packed/placed etc. directly in the frame.
+
+Below is an example of what I mean with a labelled frame.
+
+#image:18labframe Example of labelled frame
+
+~ Specification
+
+The proposed change consists of the following new options to a frame.
+
+ -text: Standard option. Default value "".
+
+ -font: Standard option. Default value same as Label.
+
+ -fg:   Standard option. Default value same as Label.
+
+ -labelwidget: Specify a widget to use as label. Default value "".
+  This option overrides any -text, -font and -fg setting.  The widget
+  used must exist before using it as -labelwidget, and if it is not a
+  descendant of the frame it is automatically raised in the stacking
+  order to be visible.
+
+ -labelanchor: Sets where to place the label.  Takes the values nw, n,
+  ne, en, e, es, se, s, sw, ws, w and wn, listing them clockwise.
+  Default value "nw".
+
+ -padx, -pady: Standard options. Adds some "air" between the border
+  and the interior of the frame. Default value 0.
+
+
+~ Rationale
+
+My main approach has been to make a simple but still general
+solution. The most typical usage should be easy, more advanced usage
+possible, and more features should be possible to add later if needed.
+
+Options -text, -font and -fg lets you make a simple label in an easy
+manner. If you want a more advanced label, e.g. with an image or with
+a checkbutton, you can get it with -labelwidget.
+
+For placement of the label I chose a style I found in IWidget's
+"labeledframe" widget. It's the most general solution I can see since
+it allows access to all twelve obvious positions in an easy way.
+
+Options -padx and -pady does not have anything directly to do with
+labels, but are a generally nice addition to frames. It is a thing I
+have missed a lot in the past.
+
+The thing about raising the -labelwidget in the stacking order comes
+from this:
+
+With the most simple implementation, using -labelwidget could be done
+in two ways:
+
+|# Way #1
+|frame .f -relief groove -bd 2
+|label .f.l -text Mupp
+|.f configure -labelwidget .f.l
+
+|# Way #2
+|label .l -text Mupp
+|frame .f -relief groove -bd 2 -labelwidget .l
+|raise .l .f
+
+In the first you want the label to be a child but since it has to
+exist, the -labelwidget can't be used on the frame creation line.
+
+In the second you try to circumvent it by creating the label first,
+but then you have to raise it above the frame to be visible.
+
+Even though it's just one extra line of code I find it a bit awkward
+when it's so easy to do something about.  The first can be fixed by
+not trying to do anything with the label widget until idle time when
+it has had a chance to be created.  This is not a good solution though
+since it leads to some rather awkward things in implementation.  The
+second can be fixed by automatically raising the label in the stacking
+order when used as -labelwidget. If this is documented clearly, I
+don't have a problem with it, and that is why I chose it.
+
+~ Implementing
+
+Implementing this is mostly rather straightforward. The tricky part is
+that a change is needed in geometry management, which introduces a
+slight backward incompatibility.
+
+The problem is this. Today a widget can set an internal border width.
+This defines a uniform width area around the edge of the widget that
+geometry managers should stay away from. This is not enough though,
+since a labelled frame needs to get more space on one side where it
+will put the label. Also, there is no way for a widget to affect its
+own size (anything it says is overridden by pack/grid), so the frame
+cannot make sure that enough size is requested to make room for the
+label.
+
+Currently it is the responsibility of the geometry managers to take
+the internal border width into account when placing widgets, and when
+calculating the requested size of a widget.  The proposal is to add a
+new layer between the size of the widget and the size and position of
+the widget's "client area" (the area where children should be
+placed). The geometry managers will work with client areas via two new
+APIs ''Tk_ClientAreaGeometryRequest'' and ''Tk_GetClientArea''.
+''Tk_ClientAreaGeometryRequest'' will add the internal border to the
+requested client area size and propagate the request to
+''Tk_GeometryRequest''.  ''Tk_GetClientArea'' will "subtract" the
+internal border from the widget's size to get the client area size and
+position.  The default behaviour of the two will be to use the current
+internalBorderWidth field and thus the old behaviour is kept and most
+widgets can just use ''Tk_SetInternalBorder'' like they always have.
+The extended functionality needed we get by making it possible for a
+widget to register callbacks to handle the client area calculations.
+This makes it possible for a widget to have complete control over its
+client area and its size.  The callbacks are registered in the
+''Tk_ClassProcs'' structure (see [5]).
+
+This adds two new fields to the ''TkWindow'' structure, reqClientWidth
+and reqClientHeight.
+
+''New APIs''
+
+|void Tk_ClientAreaGeometryRequest(tkwin, cReqWidth, cReqHeight)
+|void Tk_GetClientArea(tkwin, xPtr, yPtr, widthPtr, heightPtr)
+|int Tk_ReqClientWidth()
+|int Tk_ReqClientHeight()
+
+''New fields in Tk_ClassProcs''
+
+|typedef void (Tk_RequestClientAreaProc) _ANSI_ARGS_((ClientData clientData));
+|typedef void (Tk_GetClientAreaProc) _ANSI_ARGS_((ClientData clientData,
+|	int *clientX, int *clientY, int *clientWidth, int *clientHeight));
+
+~ Rejected alternatives
+
+For handling of geometry management, two other solutions was regarded.
+
+ 1. Deprecate the internalBorderWidth field and add four new fields to
+    ''TkWindow'', one for each side.
+
+ 2. Add two new fields to ''TkWindow''. One pointing at a side and one
+    telling how much extra border to put on that side.
+
+They both solve the part with extra space for the label, but number 2
+lacks a lot in generality and number 1 is a bit kludgey in my opinion.
+Another problem is that none of these solves how to let the frame
+request room for the label. This could be done by adding even more
+fields, e.g.  a minimum requested width/height, but then the
+simplicity that are their strength starts to fade. The selected
+solution, though a bit more complex, is so much more general that it
+was not much of a choice.  (Credit to Paul Duffin
+<pduffin@hursley.ibm.com> for suggesting that solution.)
+
+~ Reference Implementation
+
+An almost finished implementation exists, and it's just a matter of
+polishing the last bits to create a patch for this proposal if it
+is accepted.
+
+At http://www.dtek.chalmers.se/~d1peter/labframe.tcl you can find a
+pure Tcl demo of labelled frames.  Even though it uses sub-frames and
+thus do not live up to what I want to accomplish here it implements
+all new options as specified here and can be played with if you want
+to know more.
+
+~ Copyright
+
+This document has been placed in the public domain.
