@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -514,8 +514,6 @@ A reference implementation is available in Patch 942881
 ~ Comments
 
 [[ Add comments on the document here ]]
-
-[[EDITING TEST]]
 
 ~ Copyright
 
