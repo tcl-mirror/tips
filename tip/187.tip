@@ -1,0 +1,145 @@
+TIP:		187
+Title:		Procedures as Values
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Salvatore Sanfilippo <antirez@invece.org>
+Created:	20-Apr-2004
+Keywords:	Tcl, lambda, anonymous, command, function
+
+~ Abstract
+
+This TIP describes a change in the semantics of Tcl to allow
+procedures to be first class values, being represented as strings, and
+in particular as three element lists.
+
+~ Rationale
+
+The Tcl programming language is an homoiconic-form language. Program
+and data are both presented as strings. A Tcl procedure's arguments
+list and body are not an exception to this rule, but the procudure
+itself is handled as a name bound to a particular couple of arguments
+list and body. This name lives in a separated namespace and does not
+collide with variables names.
+
+The first argument of every Tcl command should be the name of a
+built-in command, or a procedure (actually a procedure is a user
+defined command).  In the latter case, the Tcl interpreter performs a
+lookup in a virtual table (that is indirectly accessible using
+'''proc''' and '''info''' commands), in order to check if there is a
+procedure with the specified name, and to call the procedure using the
+associated arguments list and body. If a procedure with the specified
+name is not present (nor a built-in command), the interpreter calls a
+special procedure named unknown to handle the exception, or raises an
+error if the unknown procedure does not exists.
+
+This TIP proposes to modify the Tcl semantic in order to check if the
+command name is a valid, three-elements Tcl list with the first
+element of the list being the string '''lambda''', before to lookup
+any built-in command or procedure. In such a case Tcl will call the
+procedure that is represented by the arguments list and body that are
+the second and third elements of the list.  Procedures represented as
+three-elements lists are called ''anonymous procedures'' in this TIP,
+and are first class values as any other Tcl list.
+
+The storage of an anonymous procedure is handled like any other Tcl
+object.  Memory management is one of the main problems of procedures
+created "on the fly" in Tcl, so that to create anonymous procedures in
+Tcl in order to emulate the lambda operator, was and is a problem.
+With this TIP, anonymous procedures can be created just using the list
+command. The following is an example:
+
+|        set p [list lambda x {string length $x}]
+|        $p foo
+
+The above script evaluates to 3. Fast, reliable anonymous procedures
+may allow Tcl to better support a functional approach that is very
+interesting to use in a language where the list is the main data
+structure.
+
+~~Examples
+
+The following Tcl scripts (based on the classic list combinators from
+functional programming languages) should look very natural to most
+experienced Tcl programmers:
+
+~~~Example 1: Use of Anonymous Commands with a [map] Command
+
+|    proc map {list proc} {
+|        set res {}
+|        foreach e $list {
+|            lappend res [$proc $e]
+|        }
+|        return $res
+|    }
+|
+|    set a [one two three four five]
+|    set b [map $a [list lambda x {string length $x}]]
+
+This evaluates to [list 3 3 5 4 4]
+
+~~~Example 2: Use of Anonymous Commands with a [filter] Command
+
+|    proc filter {list proc} {
+|        set res {}
+|        foreach e $list {
+|            if {![$proc $e]} {
+|                lappend res $e
+|            }
+|        }
+|    }
+|
+|    set a [1 10 100 4 5]
+|    set b [filter $a [list lambda x {expr $x<10}]]
+
+This evaluates to [list 10 100]
+
+Note: In pratice, defining an alias, '''lambda''', for '''list
+lambda''' leads to more natural-looking code.
+
+The author of this TIP thinks that many Tcl programmers will enjoy the
+ability to use this programming style. The Tcl folklore actually
+implemented different versions of '''lambda''' in the past, but no one
+is suitable for prime time.
+
+Still, the ability to manipulate lists in a simpler way can make Tcl
+more enjoinable.
+
+The new semantic introduced by this TIP is not only needed to use
+operators like ''map'' and ''filter'', but generally makes Tcl able to
+address high-order programming in a clean way: procedures that returns
+procedures, Currying, and functional composition are all possible
+using the TIP's first class procedures in a straightforward way.
+
+There are probably other interesting applications in the field of the
+Object Oriented Programming.
+
+~ Proposed Change
+
+The proposed change is to check if the first argument of a command is
+an anonymous procedure before to perform any other lookup.  This test
+should be fast using the object's string representation because a Tcl
+list having as first argument the string "lambda" must start in a
+proper way that is easy to detect.
+
+The procedure can be byte-compiled when it's called the first time,
+the byte-compiled version can be referenced from the internal
+representation of the ''Tcl_Obj'' representing the procedure. The
+original string representation of the anonymous procedure can be
+cached inside the ''Tcl_Obj'' in order to be able to recreate it when
+needed as for ''Tcl_Obj'' semantic.
+
+Actually the implementation may create a conventional Tcl procedure
+associated and referenced by the anonymous procedure's object, that
+can be released when the internal representation of the anonymous
+procedure's ''Tcl_Obj'' is freed.
+
+The real Tcl procedure may live in the '''::lambda''' namespace in
+order to be self-introspective.
+
+~ Copyright
+
+This document has been placed in the public domain.
