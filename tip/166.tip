@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -125,7 +125,7 @@ Create a green box with a simple shadow effect
 |# Make a simple graduated fill varying in alpha for the shadow
 |for {set i 14} {$i>0} {incr i -1} {
 |   set i2 [expr {$i+30}]
-|   foo put [format black%x [expr {15-$i}]] -to $i $i $i2 $i2
+|   foo put [format black#%x [expr {15-$i}]] -to $i $i $i2 $i2
 |}
 |# Put a solid green rectangle on top
 |foo put #080 -to 0 0 30 30
