@@ -1,0 +1,64 @@
+TIP:		106
+Title:		Add encoding abilities to the DDE command
+Version:	$Revision: 1.1 $
+Author:		Harald Oehlmann <Harald.Oehlmann@Elmicron.de>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	13-Aug-2002
+Post-History:	
+
+
+~ Abstract
+
+When using Windows DDE communication with non-Tcl programs, the
+encoding of the exchanged strings is mostly needed to be the system
+encoding.  Selection of this behaviour should be possible with in the
+[[dde]] command should be done by a parameter.
+
+~ Specification
+
+Extend the [[dde]] command by the option ''-encoding''.  For example:
+
+| dde -encoding system execute CS CS {[Set(Var,"Äpfel"]}
+
+The default value for the encoding is ''utf-8'' for backward
+compatibility.
+
+~ Rationale
+
+The communication with DDE with external programs uses the format
+clipboard ''CF_TEXT'' and the sent text should be coded in the system
+encoding (''cp1252'' in my locale).
+
+Most people who use DDE to communicate with, for example, Excel use
+the fact that what Excel expects (''cp1252'') and what Tcl actually
+sends (''utf-8'') is identical for 7-bit values and they don't use
+8-bit values.  Unfortunately, characters needed in German, French and
+other languages are located over this limit and thus are not
+transferable.
+
+Peter Hardie addressed this point on 2000-10-26 in the Tcl Feature
+Request at SourceForge (#219185: "dde only handles UTF-8 data (-binary
+patch available)"
+http://sf.net/tracker/index.php?func=detail&aid=219185&group_id=10894&atid=360894).
+His proposal was to add a ''-binary'' option.  I think that an
+''-encoding'' option is more general purpose and needs only very
+little supplementary coding.
+
+It is envisaged that the main needed encodings will be:
+
+ utf-8:		For Tcl-to-Tcl communication.
+
+ system:	For the communication with other programs.
+
+ binary:	To fully control the sent data.
+
+~ Reference Implementation
+
+May be done after discussion.
+
+~ Copyright
+
+This document has been placed in the public domain
