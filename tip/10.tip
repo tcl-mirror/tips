@@ -1,6 +1,6 @@
 TIP:            10
 Title:          Tcl I/O Enhancement: Thread-Aware Channels
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 State:          Draft
 Type:           Project
@@ -98,10 +98,9 @@ The changes necessary to accomplish this are:
       function.
 
 A patch implementing all of the changes described above and
-additionally extending the documentation and the testsuite
-was registered at SourceForge. The Id is 103538. A direct
-reference is available:
-http://sourceforge.net/patch/?func=detailpatch&patch_id=103538&group_id=10894
+additionally extending the documentation and the test-suite
+is available here:
+http://www.cs.man.ac.uk/fellowsd-bin/TIP/10.patch
 
 ~ Copyright
 

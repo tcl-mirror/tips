@@ -1,0 +1,300 @@
+? tests/http.test__
+? tests/httpold.test__
+Index: doc/CrtChannel.3
+===================================================================
+RCS file: /cvsroot/tcl/tcl/doc/CrtChannel.3,v
+retrieving revision 1.8
+diff -u -r1.8 CrtChannel.3
+--- doc/CrtChannel.3	2000/10/06 21:06:08	1.8
++++ doc/CrtChannel.3	2001/02/28 21:20:07
+@@ -11,7 +11,7 @@
+ .BS
+ '\" Note:  do not modify the .SH NAME line immediately below!
+ .SH NAME
+-Tcl_CreateChannel, Tcl_GetChannelInstanceData, Tcl_GetChannelType, Tcl_GetChannelName, Tcl_GetChannelHandle, Tcl_GetChannelMode, Tcl_GetChannelBufferSize, Tcl_SetChannelBufferSize, Tcl_NotifyChannel, Tcl_BadChannelOption, Tcl_ChannelName, Tcl_ChannelVersion, Tcl_ChannelBlockModeProc, Tcl_ChannelCloseProc, Tcl_ChannelClose2Proc, Tcl_ChannelInputProc, Tcl_ChannelOutputProc, Tcl_ChannelSeekProc, Tcl_ChannelSetOptionProc, Tcl_ChannelGetOptionProc, Tcl_ChannelWatchProc, Tcl_ChannelGetHandleProc, Tcl_ChannelFlushProc, Tcl_ChannelHandlerProc, Tcl_IsChannelShared, Tcl_IsChannelRegistered, Tcl_CutChannel, Tcl_SpliceChannel, Tcl_IsChannelExisting, Tcl_ClearChannelHandlers \- procedures for creating and manipulating channels
++Tcl_CreateChannel, Tcl_GetChannelInstanceData, Tcl_GetChannelType, Tcl_GetChannelName, Tcl_GetChannelHandle, Tcl_GetChannelMode, Tcl_GetChannelBufferSize, Tcl_SetChannelBufferSize, Tcl_NotifyChannel, Tcl_BadChannelOption, Tcl_ChannelName, Tcl_ChannelVersion, Tcl_ChannelBlockModeProc, Tcl_ChannelCloseProc, Tcl_ChannelClose2Proc, Tcl_ChannelInputProc, Tcl_ChannelOutputProc, Tcl_ChannelSeekProc, Tcl_ChannelSetOptionProc, Tcl_ChannelGetOptionProc, Tcl_ChannelWatchProc, Tcl_ChannelGetHandleProc, Tcl_ChannelFlushProc, Tcl_ChannelHandlerProc, Tcl_IsChannelShared, Tcl_IsChannelRegistered, Tcl_CutChannel, Tcl_SpliceChannel, Tcl_IsChannelExisting, Tcl_ClearChannelHandlers, Tcl_GetChannelThread \- procedures for creating and manipulating channels
+ .SH SYNOPSIS
+ .nf
+ \fB#include <tcl.h>\fR
+@@ -31,6 +31,11 @@
+ int
+ \fBTcl_GetChannelHandle\fR(\fIchannel, direction, handlePtr\fR)
+ .sp
++.VS 8.4
++Tcl_ThreadId
++\fBTcl_GetChannelThread\fR(\fIchannel\fR)
++.VE
++.sp
+ int
+ \fBTcl_GetChannelBufferSize\fR(\fIchannel\fR)
+ .sp
+@@ -215,6 +220,12 @@
+ then \fBTCL_ERROR\fR is returned instead.  Different channel drivers
+ will return different types of handle.  Refer to the manual entries
+ for each driver to determine what type of handle is returned.
++.VS 8.4
++.PP
++\fBTcl_GetChannelThread\fR returns the id of the thread currently managing
++the specified \fIchannel\fR. This allows channel drivers to send their file
++events to the correct event queue even for a multi-threaded core.
++.VE
+ .PP
+ \fBTcl_GetChannelMode\fR returns an OR-ed combination of \fBTCL_READABLE\fR
+ and \fBTCL_WRITABLE\fR, indicating whether the channel is open for input
+Index: generic/tcl.decls
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tcl.decls,v
+retrieving revision 1.43
+diff -u -r1.43 tcl.decls
+--- generic/tcl.decls	2001/01/18 19:09:55	1.43
++++ generic/tcl.decls	2001/02/28 21:20:10
+@@ -1501,6 +1501,9 @@
+ declare 432 generic {
+     int Tcl_AttemptSetObjLength(Tcl_Obj *objPtr, int length)
+ }
++declare 433 generic {
++    Tcl_ThreadId Tcl_GetChannelThread(Tcl_Channel channel)
++}
+ 
+ ##############################################################################
+ 
+Index: generic/tclDecls.h
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tclDecls.h,v
+retrieving revision 1.44
+diff -u -r1.44 tclDecls.h
+--- generic/tclDecls.h	2001/01/18 19:09:55	1.44
++++ generic/tclDecls.h	2001/02/28 21:20:17
+@@ -1350,6 +1350,9 @@
+ /* 432 */
+ EXTERN int		Tcl_AttemptSetObjLength _ANSI_ARGS_((
+ 				Tcl_Obj * objPtr, int length));
++/* 433 */
++EXTERN Tcl_ThreadId	Tcl_GetChannelThread _ANSI_ARGS_((
++				Tcl_Channel channel));
+ 
+ typedef struct TclStubHooks {
+     struct TclPlatStubs *tclPlatStubs;
+@@ -1850,6 +1853,7 @@
+     char * (*tcl_AttemptRealloc) _ANSI_ARGS_((char * ptr, unsigned int size)); /* 430 */
+     char * (*tcl_AttemptDbCkrealloc) _ANSI_ARGS_((char * ptr, unsigned int size, char * file, int line)); /* 431 */
+     int (*tcl_AttemptSetObjLength) _ANSI_ARGS_((Tcl_Obj * objPtr, int length)); /* 432 */
++    Tcl_ThreadId (*tcl_GetChannelThread) _ANSI_ARGS_((Tcl_Channel channel)); /* 433 */
+ } TclStubs;
+ 
+ #ifdef __cplusplus
+@@ -3629,6 +3633,10 @@
+ #ifndef Tcl_AttemptSetObjLength
+ #define Tcl_AttemptSetObjLength \
+ 	(tclStubsPtr->tcl_AttemptSetObjLength) /* 432 */
++#endif
++#ifndef Tcl_GetChannelThread
++#define Tcl_GetChannelThread \
++	(tclStubsPtr->tcl_GetChannelThread) /* 433 */
+ #endif
+ 
+ #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
+Index: generic/tclIO.c
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tclIO.c,v
+retrieving revision 1.28
+diff -u -r1.28 tclIO.c
+--- generic/tclIO.c	2001/01/30 17:32:06	1.28
++++ generic/tclIO.c	2001/02/28 21:20:34
+@@ -1056,6 +1056,14 @@
+     tsdPtr->firstCSPtr	= statePtr;
+ 
+     /*
++     * TIP #10. Mark the current thread as the one managing the new
++     *          channel. Note: 'Tcl_GetCurrentThread' returns sensible
++     *          values even for a non-threaded core.
++     */
++
++    statePtr->managingThread = Tcl_GetCurrentThread ();
++
++    /*
+      * Install this channel in the first empty standard channel slot, if
+      * the channel was previously closed explicitly.
+      */
+@@ -1471,6 +1479,32 @@
+ /*
+  *----------------------------------------------------------------------
+  *
++ * Tcl_GetChannelThread --
++ *
++ *	Given a channel structure, returns the thread managing it.
++ *	TIP #10
++ *
++ * Results:
++ *	Returns the id of the thread managing the channel.
++ *
++ * Side effects:
++ *	None.
++ *
++ *----------------------------------------------------------------------
++ */
++
++Tcl_ThreadId
++Tcl_GetChannelThread(chan)
++    Tcl_Channel chan;		/* The channel to return managing thread for. */
++{
++    Channel *chanPtr = (Channel *) chan;	/* The actual channel. */
++
++    return chanPtr->state->managingThread;
++}
++
++/*
++ *----------------------------------------------------------------------
++ *
+  * Tcl_GetChannelType --
+  *
+  *	Given a channel structure, returns the channel type structure.
+@@ -2254,6 +2288,14 @@
+ 
+     statePtr->nextCSPtr	= tsdPtr->firstCSPtr;
+     tsdPtr->firstCSPtr	= statePtr;
++
++    /*
++     * TIP #10. Mark the current thread as the new one managing this
++     *          channel. Note: 'Tcl_GetCurrentThread' returns sensible
++     *          values even for a non-threaded core.
++     */
++
++    statePtr->managingThread = Tcl_GetCurrentThread ();
+ }
+ 
+ /*
+Index: generic/tclIO.h
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tclIO.h,v
+retrieving revision 1.2
+diff -u -r1.2 tclIO.h
+--- generic/tclIO.h	2000/09/28 06:38:21	1.2
++++ generic/tclIO.h	2001/02/28 21:20:37
+@@ -233,6 +233,8 @@
+ 				 * long as the channel state. Never NULL. */
+     struct ChannelState *nextCSPtr;
+ 				/* Next in list of channels currently open. */
++    Tcl_ThreadId managingThread; /* TIP #10: Id of the thread managing
++				  * this stack of channels. */
+ } ChannelState;
+     
+ /*
+Index: generic/tclStubInit.c
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tclStubInit.c,v
+retrieving revision 1.47
+diff -u -r1.47 tclStubInit.c
+--- generic/tclStubInit.c	2001/01/18 19:09:55	1.47
++++ generic/tclStubInit.c	2001/02/28 21:20:39
+@@ -836,6 +836,7 @@
+     Tcl_AttemptRealloc, /* 430 */
+     Tcl_AttemptDbCkrealloc, /* 431 */
+     Tcl_AttemptSetObjLength, /* 432 */
++    Tcl_GetChannelThread, /* 433 */
+ };
+ 
+ /* !END!: Do not edit above this line. */
+Index: generic/tclTest.c
+===================================================================
+RCS file: /cvsroot/tcl/tcl/generic/tclTest.c,v
+retrieving revision 1.22
+diff -u -r1.22 tclTest.c
+--- generic/tclTest.c	2000/11/24 11:27:37	1.22
++++ generic/tclTest.c	2001/02/28 21:20:47
+@@ -4517,6 +4517,18 @@
+         return TCL_OK;
+     }
+     
++    if ((cmdName[0] == 'm') && (strncmp(cmdName, "mthread", len) == 0)) {
++        if (argc != 3) {
++            Tcl_AppendResult(interp, "channel name required",
++                    (char *) NULL);
++            return TCL_ERROR;
++        }
++
++        TclFormatInt(buf, Tcl_GetChannelThread (chan));
++        Tcl_AppendResult(interp, buf, (char *) NULL);
++        return TCL_OK;
++    }
++
+     if ((cmdName[0] == 'n') && (strncmp(cmdName, "name", len) == 0)) {
+         if (argc != 3) {
+             Tcl_AppendResult(interp, "channel name required",
+Index: tests/io.test
+===================================================================
+RCS file: /cvsroot/tcl/tcl/tests/io.test,v
+retrieving revision 1.14
+diff -u -r1.14 io.test
+--- tests/io.test	2000/04/10 17:19:00	1.14
++++ tests/io.test	2001/02/28 21:20:55
+@@ -6722,6 +6722,29 @@
+     list $x $result
+ } {1 {gets {normal message from pipe} gets {} catch {error message from pipe}}}
+ 
++
++
++if {[info commands testthread] != {}} {
++    set mainthread [testthread id]
++} else {
++    set mainthread 0
++}
++
++test io-59.1 {Thread reference of channels} {
++    # TIP #10
++    # More complicated tests (like that the reference changes as a
++    # channel is moved from thread to thread) can be done only in the
++    # extension which fully implements the moving of channels between
++    # threads, i.e. 'Threads'. Or we have to extend [testthread] as well.
++
++    set f [open longfile r]
++    set result [testchannel mthread $f]
++    close $f
++    set result
++} $mainthread
++
++
++
+ # cleanup
+ foreach file [list fooBar longfile script output test1 pipe my_script foo \
+ 	bar test2 test3 cat stdout] {
+@@ -6730,16 +6753,3 @@
+ ::tcltest::restoreState
+ ::tcltest::cleanupTests
+ return
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+Index: unix/mkLinks
+===================================================================
+RCS file: /cvsroot/tcl/tcl/unix/mkLinks,v
+retrieving revision 1.18
+diff -u -r1.18 mkLinks
+--- unix/mkLinks	2001/01/18 19:09:56	1.18
++++ unix/mkLinks	2001/02/28 21:20:57
+@@ -165,6 +165,7 @@
+     rm -f Tcl_SpliceChannel.3
+     rm -f Tcl_IsChannelExisting.3
+     rm -f Tcl_ClearChannelHandlers.3
++    rm -f Tcl_GetChannelThread.3
+     ln CrtChannel.3 Tcl_CreateChannel.3
+     ln CrtChannel.3 Tcl_GetChannelInstanceData.3
+     ln CrtChannel.3 Tcl_GetChannelType.3
+@@ -195,6 +196,7 @@
+     ln CrtChannel.3 Tcl_SpliceChannel.3
+     ln CrtChannel.3 Tcl_IsChannelExisting.3
+     ln CrtChannel.3 Tcl_ClearChannelHandlers.3
++    ln CrtChannel.3 Tcl_GetChannelThread.3
+ fi
+ if test -r CrtChnlHdlr.3; then
+     rm -f Tcl_CreateChannelHandler.3
