@@ -1,6 +1,6 @@
 TIP:            57
 Title:          Move TclX's [lassign] into the Tcl Core
-Version:        $Revision: 1.7 $
+Version:        $Revision: 2.0 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Agnar Renolen <agnar.renolen@emap.no>
 State:          Draft
