@@ -1,11 +1,11 @@
 TIP:		157
 Title:		Argument Expansion with Leading {expand}
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Kevin B. Kenny <kennykb@acm.org>
 Author:		Peter Spjuth <peter.spjuth@space.se>
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:		Don Porter <dgp@users.sf.net>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	20-Sep-2003
