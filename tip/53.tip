@@ -1,6 +1,6 @@
 TIP:            53
 Title:          Addition of 'assert' Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Gerald W. Lester <Gerald.Lester@aspentech.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Withdrawn
@@ -71,23 +71,22 @@ The manual entry for the ''assert'' command is included here:
 
 ----
 
-~ REMARKS
+~ Remarks
 
-The bytecode compiler (8.4a4) contains code that recognizes a
-no-op procedure of the form:
+This TIP has been withdrawn because of other changes, both inside and
+outside the Tcl core.
 
-|proc no-op args {}
+ 1. The bytecode compiler (8.4a4) contains code that recognizes a
+    no-op procedure of the form ''proc no-op args {}'' and generates
+    no bytecode if such a procedure is called with arguments that have
+    no side effects.
 
-and generates no bytecode if such a procedure is called with
-arguments that have no side effects.
-
-The ''control'' package within tcllib implements a ''::control::assert''
-procedure that provides all the requested functionality.
+ 2. The ''control'' package within tcllib implements a
+    ''::control::assert'' procedure that provides all the requested
+    functionality.
 
 These two, taken together, provide an implementation of the requested
 functionality that is acceptable to the original author of this TIP.
-The TIP is therefore withdrawn.
-----
 
 ~ Copyright
 
