@@ -22,15 +22,15 @@
 
 <!-- Mixed content for conventional paragraphs -->
 <!ENTITY % emphtext   "#PCDATA   | url | tipref">
-<!ENTITY % text       "%emphtext | emph">
+<!ENTITY % text       "%emphtext; | emph">
 
 <!-- The outermost element of a TIP -->
 <!ELEMENT TIP (header, abstract, body)>
-<!ATTLIST TIP number %num #REQUIRED>
+<!ATTLIST TIP number %num; #REQUIRED>
 
 <!-- ================================================================== -->
 <!-- Headers... -->
-<!ELEMENT header (%header.required;, %header.optional;)>
+<!ELEMENT header (%header.req;, %header.opt;)>
 
 <!ELEMENT title  (#PCDATA)>
 <!ELEMENT author (#PCDATA)>
@@ -72,7 +72,7 @@
 <!ELEMENT para  (%text;)*>
 <!ELEMENT quote (%text;)*>
 <!ELEMENT pre   (#PCDATA)>
-<!ATTLIST pre   xml:space (preserve) #FIXED 'preserve'> <!-- From Spec... -->
+<!ATTLIST pre   xml:space (default|preserve) 'preserve'>
 <!ELEMENT rule  EMPTY>
 <!ELEMENT index EMPTY>
 <!ATTLIST index kind (short|medium|long) 'medium'>
@@ -91,7 +91,7 @@
 <!ELEMENT item.e    (%in.par;)*>
 <!ELEMENT item.d    (%in.par;)*>
 
-<!ATTLIST item.e  index %num  #REQUIRED>
+<!ATTLIST item.e  index %num;  #REQUIRED>
 <!ATTLIST item.d  name  CDATA #REQUIRED>
 
 <!-- ================================================================== -->
@@ -101,7 +101,7 @@
 <!ATTLIST url ref %url; #REQUIRED>
 <!ELEMENT tipref EMPTY>
 <!ATTLIST tipref
-	tip  %num       #REQUIRED
+	tip  %num;       #REQUIRED
 	type (text|url) 'text'
 	>
 
