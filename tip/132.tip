@@ -1,6 +1,6 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin Kenny <kennykb@acm.org >
@@ -220,7 +220,7 @@ to adjust the test suite accordingly.
 ~ Acknowledgments
 
 The discussion of just why 17 is magical was prompted by a suggestion
-from Lars Hellstrxm.
+from Lars Hellstrøm.
 
 ~ Copyright
 
