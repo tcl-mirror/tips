@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.2 $
+Version:        $Revision: 2.3 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -63,6 +63,13 @@ as the ''path'' argument to the existing '''interp aliases'''
 subcommand.  This argument determines which interp's background
 error handler we are interested in.  The value of an empty list
 for ''path'' indicates the current interp.
+
+As is the case with other '''interp''' subcommands, an alternative
+means to access the same functionality will be made available
+as the '''bgerror''' subcommand of the ''slave'' command of
+an interp with syntax:
+
+ > ''slave'' '''bgerror''' ?''cmdPrefix''?
 
 When no ''cmdPrefix'' argument is present, the command prefix
 currently registered to handle background errors in the ''path''
