@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.18 $
+Version:        $Revision: 2.19 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -36,11 +36,11 @@ go, and make the language stronger and more usable for it.
 Furthermore, by giving the programmer control over the mapping from
 the ensemble subcommands to their implementing commands, we can build
 a simple class system on the cheap since we can, in effect, import
-commands from elsewhere into the ensemble.  Indeed, by extending the
-mapping so that it allows the specification of not just the
-implementing command, but also some leading arguments to that command
-(similar to what you can do with the [[interp alias]] mechanism) this
-becomes a very powerful mechanism indeed.
+commands from elsewhere into the ensemble.  By extending the mapping
+so that it allows the specification of not just the implementing
+command, but also some leading arguments to that command (similar to
+what you can do with the [[interp alias]] mechanism) this becomes a
+very powerful mechanism indeed.
 
 Finally, a sophisticated extra capability is the addition of an unknown
 subcommand callback to allow the creator of the ensemble to specify a
