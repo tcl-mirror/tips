@@ -1,26 +1,16 @@
-TIP:		22
-Title:		Multiple Index Arguments to lindex
-Version:	$Revision: 1.1 $
-Author:		David Cuthbert <dacut@kanga.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	19-Jan-2001
-Tcl-Version:	8.4a2
-Keywords:	lindex, multiple arguments, sublists
+TIP:            22
+Title:          Multiple Index Arguments to lindex
+Version:        $Revision: 1.2 $
+Author:         David Cuthbert <dacut@kanga.org>
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jan-2001
+Post-History:   
 Discussions-To: news:comp.lang.tcl
-Post-History:
-
-~ Abstract
-
-Obtaining access to elements of sublists in Tcl often requires nested
-calls to the ''lindex'' command.  The indices are syntactically listed
-in most-nested to least-nested order, which is the reverse from other
-notations.  In addition, the nesting of command substitution brackets
-further decreases readability.  This proposal describes an extension
-to the ''lindex'' command that allows it to accept multiple index
-arguments, in least-nested to most-nested order, to automatically
-extract elements of sublists.
+Keywords:       {lindex {multiple arguments} sublists}
+Tcl-Version:    8.4a2
 
 ~ Rationale
 
@@ -104,6 +94,34 @@ allow this more-natural style of coding to be written in Tcl.
  1. Whether the result of the ''lindex'' operation is successful, the
     underlying Tcl_Obj that represents the list argument may have its
     internal representation invalidated or changed to that of a list.
+
+----
+
+~ Comments
+
+ > I agree that it would be helpful to many programmers to
+   provide a multi-dimensional array data structure that can
+   be accessed in the manner described in this TIP.  In the
+   ''struct'' module of ''tcllib'', several other data structures
+   are being developed: graph, tree, queue, stack.  I would support
+   adding another data structure to that modules that provides an
+   interface like the one described in this TIP, with the intent that
+   all of these helpful data structures find their way into the
+   BI distribution.
+
+ > I don't see any advantage to adding complexity to [[lindex]]
+   as an alternative to development of a multi-dimensional array
+   structure.  Without a compelling advantage, I'm inclined against
+   making [[lindex]] more complex.  I like having Tcl's built-in
+   commands provide primitive operations, and leave it to
+   packages to combine the primitives into more useful, more
+   complex resources.
+
+ > This TIP should also consider how any changes to [[lindex]] mesh
+   with the whole [[listx]] overhaul of Tcl's [[list]] command that
+   has been discussed.
+
+ > ''Don Porter <dgp@users.sourceforge.net>''
 
 ~ Copyright
 
