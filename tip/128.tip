@@ -1,0 +1,103 @@
+TIP:		128
+Title:		Ability to Install a Custom Memory Allocator
+Version:	$Revision: 1.1 $
+Author:		Christophe Cap <udragon@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	13-Mar-2003
+Post-History:	
+
+~ Abstract
+
+This TIP alters Tcl to allow embedded uses of the Tcl library (and any
+extensions) to either use the Tcl memory allocators as their main
+allocator (especially in C++) or to set the memory allocator that Tcl
+uses for itself through ''ckalloc()''.
+
+~ Background
+
+A while ago I was experiencing troubles when allocating images
+([[image create photo]]) while memory was already exhausted, my app
+crashed (due to known bug item #698571, which is in the HEAD by now!)
+This shouldn't happen anyway since my application had it's new handler
+set.
+
+Tracing down the source of the allocators I noticed that Tcl uses
+''HeapAlloc()'' (on Win32) to allocate its memory.  Why not use
+''malloc()''?
+
+~ New/Malloc Handler 
+
+It would be nice to be able to catch memory allocation errors with a
+custom new handler.
+
+A solution could be to replace ''HeapAlloc()'' (on Win32) and other
+platform specific memory handlers should be replaced by ''malloc()''.
+
+This way a new handler can by set through ''set_new_handler()''.
+
+Note that the Microsoft VC++ compiler has some ANSI incompatibility in
+that it uses ''_set_new_handler()'' rather than ''set_new_handler()''.
+We would naturally conceal this platform difference.
+
+For example:
+
+|#include <new> 
+|
+|//
+|// New handler for Microsoft Visual C++ compiler
+|//
+|
+|#ifdef _MSC_VER
+|#include <new.h>
+|
+|int __cdecl _newHandler(size_t size )
+|{
+|   // Do whatever
+|
+|   return 0;
+|}
+|
+|#else
+|
+|//
+|// Ansi C/C++ new handler
+|//
+|
+|void __cdecl _newHandler( void )
+|{
+|   // Do whatever
+|}
+|#endif
+|
+|void sethandlers(void)
+|{
+|// Microsoft compiler 
+|#ifdef _MSC_VER  
+|
+|   _set_new_handler (_newHandler); // Setup new handler
+|   _set_new_mode( 1 ); // Re-route malloc failures to new handler !
+|
+|// Ansi compiler 
+|
+|#else 
+|
+|   set_new_handler (_newHandler); // ANSI new handler
+|
+|#endif
+|}
+
+~ Tcl Implementation 
+
+The above suggested solution could work for some compilers, but may
+not for all (some compilers might not support setting a malloc failure
+callback.)  Therefore a Tcl custom new handler functionality could be
+implemented that handles Tcl specific memory allocation failures.
+
+Something like: ''Tcl_SetMemHandler()''?
+
+~ Copyright
+
+This document has been placed in the public domain.
