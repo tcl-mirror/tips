@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.29 $
+Version:        $Revision: 1.30 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -11,6 +11,7 @@ Author:         Miguel Bañón <bagnonm@safelayer.com>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -41,6 +42,7 @@ assigned:
    3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>,
 				  Jeff Hobbs <JeffH@ActiveState.com>,
 				  Daniel Steffen <das@users.sourceforge.net> (Mac)
+                       Vincent Darley <vincentdarley@users.sourceforge.net> (Mac)
 
    4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			  Jan Nijtmans <j.nijtmans@chello.nl>
@@ -64,6 +66,7 @@ assigned:
 
    11. ''Mac Menus'' - George B. Smith <gbs@k9haven.com>,
 		       Daniel Steffen <das@users.sourceforge.net>
+                       Vincent Darley <vincentdarley@users.sourceforge.net>
 
    12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			Todd Helfter <tmh@purdue.edu>
@@ -207,12 +210,14 @@ assigned:
 
    66. ''Mac Window Operations'' - George B. Smith <gbs@k9haven.com>,
 				   Daniel Steffen <das@users.sourceforge.net>
+                                   Vincent Darley <vincentdarley@users.sourceforge.net>
 
    67. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				    Joe English <jenglish@flightlab.com>
 
    68. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				   Chengye Mao <chengye.geo@yahoo.com>
+                                   Vincent Darley <vincentdarley@users.sourceforge.net>
 
    69. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
