@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -372,9 +372,10 @@ as a valid argument, allowing package and application authors to
 define their own new return codes as needed by their own control
 structure commands.  Now that ''return'' will accept any ''option''
 argument, and ''catch'' can capture all ''option value'' argument
-pairs passed to the caught ''return'' command, package an extension
+pairs passed to the caught ''return'' command, package and application
 authors now have the ability to augment their custom return codes
-with additional data.
+with additional data.  Some prefix convention should be established
+to avoid key name conflicts in the return options dictionary.
 
 ~ Potential Concerns
 
@@ -416,6 +417,23 @@ from any level in the call stack (absent an intervening ''catch''):
 | % escape 1
 | % escape 2
 | command returned bad code: 2
+
+Another concern was whether this proposal gave slave interpreters
+any new powers over their masters.  The return code from evaluation
+of an untrusted script in a slave interpreter should always be
+wrapped in a ''catch'' already, lest a TCL_ERROR in the script
+blow the stack.  Given that, the only thing this proposal does is
+give the ''catch'' command more information to use to decide
+how to handle the misbehaving script.
+
+~ Compatibility
+
+It is the author's belief that this proposal is completely
+compatible with prior Tcl 8.X releases.  Any error-free script
+that ran before, should continue to run with the same results.
+At the C level, only internal changes are made, and no new interfaces
+are defined.  Any extension or embedding C program that sticks to the
+public stubs interface should see no visible change.  
 
 ~ Prototype
 
