@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -238,9 +238,9 @@ Some comments I see above, or received in e-mail:
 
  * ''Add links to an interface showing revision history''
 
- > Once we have CVSweb installed and operating on the same server, that
-   will be done.  With the TIPs already in CVS, that should not be
-   difficult.  We should not re-invent CVSweb.
+ > Check out the [History] links at the bottom of the HTML rendered pages.
+   Thanks to Donal Fellows for coding that up.  (OK, so we *did* reinvent
+   CVSWeb.)
 
  * ''A separate <TEXTAREA> for the Abstract''
 
