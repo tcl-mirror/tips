@@ -1,0 +1,253 @@
+TIP:		234
+Title:		Add Support For Zlib Compression
+Version:	$Revision: 1.1 $
+Author:		Pascal Scheffers <pascal@scheffers.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	08-Dec-2004
+Post-History:	
+Keywords:	Tcl, zip, gzip, deflate
+Tcl-Version:	8.5
+
+~ Abstract
+
+This TIP proposes a new core package with commands to handle
+compression and decompression using the Zlib compression library.
+
+~ Rationale
+
+The Zlib compression algorithm is a widely used method for compression
+of files and streams. It is the algorithm used for .gz and (most) .zip
+files, as well as one of the standard compression algorithms in the
+HTTP protocol specifications.
+
+Including support for zlib compression in the core would enable the
+use of compressed VFS files, pure Tcl implementations of gzip and zip
+utilities and the use of compression in various network protocols.
+
+A compressed VFS would be of great benefit to the new '''clock'''
+implementation [173], which brings a long a large number of small
+files which contain the timezone data. Although this would also
+require support for a VFS file format in the core. One possible
+candidate would be the Tcl Read Only fs (trofs), or perhaps a zip file
+VFS (only a tclvfs zip handler exists at the time of writing).
+
+~~ History and Implementation Notes
+
+The specification and implementation for the package and command
+originally come from tclkit. This has been wrapped in a TEA compliant
+package for the reference implementation.
+
+The gzip support and C Language API are not part of the original zlib
+extension.
+
+The package version for this release must be 1.2 or higher if the zlib
+package name is used and 2.0 or higher if the package does not use the
+zlib toplevel command.
+
+The zlib command in tclkit has two undocumented commands, which will
+not be implemented in this tip. This may cause some incompatibilities.
+
+~ Dependency Issues
+
+The package utilizes zlib/libz from the gzip project
+[http://www.gzip.org/zlib/]. The license of this project/library is
+compatible with the Tcl license, it also compiles on most, if not all,
+platforms where Tcl compiles.
+
+For ease of use, the core distribution should probably include a copy
+of libz under ''tcl/compat'', with configuration options available so
+that people building Tcl on platforms that already come with an
+installed copy of the zlib library can use that instead.
+
+~ Streaming
+
+For large files (where large is a relative value, of course),
+streaming compression and decompression is a must have. This will be
+covered in a second TIP document.
+
+~ Specification
+
+~~ Tcl API
+
+~~~ Compression and Decompression
+
+There are three compressed formats supported by this command:
+
+   * ''compress'': the output contains raw deflate data, with no
+     zlib/gzip headers or trailers and no checksum value.
+
+   * ''deflate'': the output contains data in zlib format, with zlib
+     header and trailer using an Adler-32 checksum
+
+   * ''gzip'': the output contains data in gzip format, with empty
+     gzip filename, no extra data, no comment, no modification time
+     (set to zero), no header crc and the operating system will be set
+     to 255 (unknown).
+
+Data is treated as binary, meaning that all input and output is going
+to be converted and treated as byte arrays in Tcl.
+
+ > '''zlib compress''' ''data'' ?''level''?
+
+Returns raw deflate ''data'', at an optional compression ''level''.
+The compression level must be between 0 and 9: 1 gives best speed, 9
+gives best compression, 0 gives no compression at all (the input data
+is simply copied a block at a time).
+ 
+ > '''zlib decompress''' ''compressedData'' ?''bufferSize''?
+
+Decompresses raw deflate as obtained from '''zlib compress'''. The
+optional buffer size can be used to specify the size of the
+decompressed data in bytes if it is known before decompression.
+Otherwise, the buffer starts out at 16Kb and is doubled until the
+decompressed data fits.
+
+ > '''zlib deflate''' ''data'' ?''level''?
+
+Returns zlib-compressed ''data'', at an optional compression
+'''level'''.  The compression level must be between 0 and 9: 1 gives
+best speed, 9 gives best compression, 0 gives no compression at all
+(the input data is simply copied a block at a time).
+ 
+ > '''zlib inflate''' ''deflatedData'' ?''bufferSize''?
+
+Decompresses the zlib-compressed data as obtained from '''zlib
+deflate'''. The optional buffer size can be used to specify the size
+of the decompressed data in bytes if it is known before decompression.
+Otherwise, the buffer starts out at 16Kb and is doubled until the
+decompressed data fits.
+
+ > '''zlib gzip''' ''data'' ?''level''?
+
+Returns gzip-compressed ''data'', at an optional compression
+''level''.  The compression level must be between 0 and 9: 1 gives
+best speed, 9 gives best compression, 0 gives no compression at all
+(the input data is simply copied a block at a time).
+
+The gzip header will have no file name, no extra data, no comment, no
+modification time (set to zero), no header crc, and the operating
+system will be set to 255 (unknown).
+ 
+ > '''zlib gunzip''' ''gzipData'' ?''bufferSize''?
+
+Decompresses the gzip data as obtained from '''zlib deflate''' or any
+gzip file. The optional buffer size can be used to specify the size of
+the decompressed data in bytes if it is known before decompression.
+Otherwise, the buffer starts out at 16Kb and is doubled until the
+decompressed data fits.
+
+Only the uncompressed gzip data is available, not the original
+filename, extra data, modification time, header crc or the operating
+system from the gzip header.
+
+Note that '''compress'''/'''decompress''', '''deflate'''/'''inflate'''
+and '''gzip'''/'''gunzip''' must be used in pairs.
+
+~~~ Checksums
+
+ > '''zlib crc32''' ''data'' ?''startValue''?
+
+Calculates a standard ''CRC-32'' checksum, with an optional start
+value for incremental calculations.
+
+ > '''zlib adler32''' ''data'' ?''startValue''?
+
+Calculates a quick ''Adler-32'' checksum, with an optional start value
+for incremental calculations.
+
+~~ C API
+
+~~~ SYNOPSYS
+
+Tcl_Obj *
+'''Zlib_Deflate'''(''interp'', ''type'', ''data'', ''level'')
+
+Tcl_Obj *
+'''Zlib_Inflate'''(''interp'', ''type'', ''compressedData'', ''bufferSize'')
+
+uint
+'''Zlib_CRC32'''(''interp'', ''data'', ''startValue'')
+
+uint
+'''Zlib_Adler32'''(''interp'', ''data'', ''startValue'')
+
+~~~ ARGUMENTS
+
+ Tcl_Interp *interp (in): Optional interpreter to use for error
+  reporting.
+
+ int type (in): Compressed data format.  For compression and
+  decompression either ZLIB_FORMAT_RAW, ZLIB_FORMAT_ZLIB or
+  ZLIB_FORMAT_GZIP. A fourth value, ZLIB_FORMAT_AUTO is available for
+  decompression, which can be used when decompressing either GZIP or
+  ZLIB formatted data. Decompression of RAW data requires specifying
+  the format as RAW.
+
+ Tcl_Obj *data (in): The uncompressed input data for compression or
+  checksum calulations
+
+ int level (in): The compression level. Must be between 0 and 9; 1
+  gives best speed, 9 gives best compression, 0 gives no compression
+  at all (the input data is simply copied a block at a time).
+
+ Tcl_Obj *compresseddata (in): The compressed input data for
+  decompression.
+
+ int buffersize (in): The buffer size can be used to specify the size
+  of the decompressed data in bytes if it is known before
+  decompression. If buffersize is 0, the buffer starts out at 16Kb and
+  is doubled until the decompressed data fits.
+
+ uint startvalue (in): Optional start value for continuation of
+  checksum calculation.
+
+~~~ Functions
+
+ > '''Zlib_Deflate()'''
+
+Depending on the type flag, this function returns a ''Tcl_Obj*'' at
+refcount 0 with the compressed data in either raw deflate format, zlib
+format or gzip format.
+
+ > '''Zlib_Inflate()'''
+
+This function returns a ''Tcl_Obj*'' at refcount 0 with the
+decompressed data.  The buffersize argument may be used as a hint if
+the decompressed size is know before decompression.
+
+ > '''Zlib_CRC32()'''
+
+This function returns the standard CRC-32 calculation. The startvalue
+should contain the previously returned value for streaming
+calculations, or zero for the first block.
+
+ > '''Zlib_Adler32()'''
+
+This function returns a quick Adler-32 calculation. The startvalue
+should contain the previously returned value for streaming
+calculations, or zero for the first block.
+
+~ Usage
+
+Because zlib is to be implemented as a core package, applications will
+need to do a [package require zlib] or the C equivalent.
+
+~ Safe Interpreters
+
+These commands only work on data already available to a safe
+interpreter and are therefore safe make available in the safe
+interpreter.
+
+~ Reference Implementation 
+
+The reference implementation is not yet available.
+
+~ Comments
+
+[[ Insert here please ]]
+
+~ Copyright
+
+This document has been placed in the public domain.
