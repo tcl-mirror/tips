@@ -1,0 +1,43 @@
+TIP:		220
+Title:		Add Tcl_SetChannelMode
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Colin McCormack <colin@sharedtech.dyndns.org>
+Created:	12-Sep-2004
+
+~ Abstract
+
+This TIP allows the ''tclvfs'' extension to adjust the writability of
+a channel within its close callbacks.
+
+~ Rationale
+
+In order for the ''tclvfs'' extension to close a channel, it may need
+to write to that channel. If the channel is opened read-only, this
+causes a problem. This TIP proposes a new API that allows C code to
+modify the read/write status of a channel so that the close operation
+can be completed properly.
+
+~ Proposed Change
+
+The following function, '''Tcl_SetChannelMode''' (the name analogous
+to the existing ''Tcl_GetChannelMode'') will be added to the core and
+published as part of Tcl's public C API.
+
+|void
+|Tcl_SetChannelMode(chan, mode)
+|    Tcl_Channel chan;
+|    int mode;
+|{
+|    ChannelState *statePtr = ((Channel*)chan)->state;
+|    state->flags &= ~(TCL_READABLE | TCL_WRITABLE);
+|    state->flags |= mode & (TCL_READABLE | TCL_WRITABLE);
+|}
+
+~ Copyright
+
+This document has been placed in the public domain.
