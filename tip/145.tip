@@ -1,6 +1,6 @@
 TIP:            145
 Title:          Enhanced Tk Font Handling
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -24,11 +24,11 @@ and that all applications are expected to use.  The list includes the
 menu font, the caption font, the tooltip font and others.  Some of the
 special fonts have been given symbolic names but these are not
 available to dynamic inspection.  This TIP proposes to make these
-fonts available using the named font mechanism as used by the ''font
-create'' command.  This has some significant advantages.  The set of
+fonts available using the named font mechanism as used by the '''font
+create''' command.  This has some significant advantages.  The set of
 special font names becomes available to the programmer using the
-''font names'' command.  The font configuration is available using the
-''font configure'' command.  Also there is already a scheme in place
+'''font names''' command.  The font configuration is available using the
+'''font configure''' command.  Also there is already a scheme in place
 to update all widgets using a named font when that fonts configuration
 changes.  It is now a simple matter of re-defining the system fonts on
 receipt of the WM_SETTINGCHANGE message to have Tk properly reflect
@@ -36,47 +36,49 @@ changes to the system-wide font selection.
 
 ~ Proposed Changes
 
-1. Generic changes
+~~ Generic changes
 
-The named font creation routine ''CreateNamedFont'' is to be exposed
-on the public API as ''Tk_CreateNamedFont''.  Also, the code used to
+The named font creation routine '''CreateNamedFont()''' is to be exposed
+on the public API as '''Tk_CreateNamedFont()'''.  Also, the code used to
 delete a named font should be factored out into an API function,
-''Tk_DeleteNamedFont''.
+'''Tk_DeleteNamedFont()'''.
 
-2. Windows platform specific changes
+~~ Windows Platform-Specific Changes
 
-A ''TkWinSetupSystemFonts'' function is to be created which obtains
+A '''TkWinSetupSystemFonts()''' function is to be created which obtains
 the font description for the system fonts and calls
-''Tk_CreateNamedFont'' appropriately.  This needs to be called during
+'''Tk_CreateNamedFont()''' appropriately.  This needs to be called during
 font package initialization.  The fonts are obtained using the Win32
-SystemParameters API and the set of defined stock object identifiers
-used with GetStockObject.
+''SystemParameters'' API and the set of defined stock object identifiers
+used with ''GetStockObject''.
 
-The toplevel Windows message message handler function ''WmProc'' must
+The toplevel Windows message message handler function '''WmProc''' must
 handle the WM_SETTINGCHANGE message by calling the
-TkWinSetupSystemFonts function.  This must call ''Tk_DeleteNamedFont''
-and then ''Tk_CreateNamedFont'' to properly re-define the font and to
+'''TkWinSetupSystemFonts()''' function.  This must call '''Tk_DeleteNamedFont'''
+and then '''Tk_CreateNamedFont''' to properly re-define the font and to
 propagate this change to all Tk widgets concerned. The Tk wigets will
-properly handle the font update by calling their WorldChanged
+properly handle the font update by calling their ''WorldChanged''
 procedures.
 
-~ Cross-Platform Concerns
+~~ Cross-Platform Concerns
 
 It seems likely to be useful to ensure that aliases are available for
 each platform for the set of system fonts.  This is currently done for
 the Tk cursors and helps to ensure that a script written for one
 system will usefully operate on another platform.
 
-Tk currently guarantees that "Courier", "Times" and "Helvetica" will
+Tk currently guarantees that "''Courier''", "''Times''" and "''Helvetica''" will
 always be available and are mapped to something suitable. It has been
-proposed that these should really be "monospace", "serif" and
-"sans-serif". The CSS specification (1) defines these plus "cursive"
-and "fantasy" but there seems no good reason to include these two
+proposed that these should really be "''monospace''", "''serif''" and
+"''sans-serif''". The CSS specification
+[http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families]
+defines these plus "''cursive''"
+and "''fantasy''" but there seems no good reason to include these two
 names.
 
-~ System defined fonts
+~~ System Defined Fonts
 
-1. Windows
+~~~ Windows
 
 The current set of special font names that Tk defines under windows
 are as follows, all with  -underline 0 -overstrike 0 -slant roman
@@ -110,14 +112,14 @@ thin title bars. Finally status font is the font used for tooltips and
 status bars. All these Tk* fonts can be changed via the Windows
 Desktop properties dialog.
 
-2. Motif
+~~~ Motif
 
 |    XmNbuttonFontList		(for pushbuttons in dialogs)
 |    XmNlabelFontList		(for labels)
 |    XmNtextFontList		(for text entry fields)
 |    XmNdefaultFontList		(for everything else)
 
-3. GNOME
+~~~ GNOME
 
 Gnome or GTK+ documentation, but the Gnome 2.2 "Font Preferences"
 dialog lets you specify:
@@ -129,7 +131,7 @@ dialog lets you specify:
 
 It appears that all GTK+ UI controls use the same "Application" font.
 
-4. KDE
+~~~ KDE
 
 KDE's font preferences dialog lists:
 
@@ -140,9 +142,10 @@ KDE's font preferences dialog lists:
 |    Window Title
 |    Taskbar
 
-5. Aqua
+~~~ Aqua
 
-Aqua defines the following (2):
+Aqua defines the following
+[http://developer.apple.com/documentation/UserExperience/Conceptual/AquaHIGuidelines/AHIGFonts/index.html]:
 
 |     System font
 |     Emphasized system font
@@ -152,20 +155,18 @@ Aqua defines the following (2):
 |     Label font
 |     Mini system font
 
-The system font is used for text in menus, modeless dialogs, and titles
-of document windows [...]
-The small system font is used for informative text in alerts [...]. It
-is also the default font for headings in lists, for help tags, and for
-text in the small versions of many controls.
-If your application creates text documents, use the application
-font as the default for user-created content.
-The label font is used for labels with controls such as sliders and icon
-bevel buttons.
-If necessary, the mini system font can be used for utility window labels
-and text.
-Use emphasized system fonts sparingly.
+ > The system font is used for text in menus, modeless dialogs, and
+   titles of document windows [...]  The small system font is used for
+   informative text in alerts [...]. It is also the default font for
+   headings in lists, for help tags, and for text in the small
+   versions of many controls.  If your application creates text
+   documents, use the application font as the default for user-created
+   content.  The label font is used for labels with controls such as
+   sliders and icon bevel buttons.  If necessary, the mini system font
+   can be used for utility window labels and text.  Use emphasized
+   system fonts sparingly.
 
-An alternative reference (3) lists
+An alternative reference [http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/appearance_manager/constant_15.html] lists:
 
 |    kThemeSystemFont
 |    kThemeSmallSystemFont
@@ -186,37 +187,30 @@ An alternative reference (3) lists
 |    kThemeSystemFontDetailEmphasized
 |    kThemeToolbarFont
 
-~ Suggested Tk font aliases
+~ Suggested Tk Font Aliases
 
 From all the above this TIP suggests that the following names be provided
 for all platforms and where possible these map to system defined fonts.
 
-> TkDefaultFont: the default for all GUI items not otherwise specified.
+ TkDefaultFont: the default for all GUI items not otherwise specified.
 
-> TkFixedFont: standard fixed width font
+ TkFixedFont: standard fixed width font
 
-> TkMenuFont: used for menu items
+ TkMenuFont: used for menu items
 
-> TkCaptionFont: used for window and dialog caption bars
+ TkCaptionFont: used for window and dialog caption bars
 
-> TkSmallCaptionFont: used for captions on contained windows or tool dialogs.
+ TkSmallCaptionFont: used for captions on contained windows or tool
+   dialogs.
 
-> TkIconFont: font in use for icon captions
+ TkIconFont: font in use for icon captions
 
-> TkTooltipFont: a font to use for tooltip windows (transient 
-information windows)
+ TkTooltipFont: a font to use for tooltip windows (transient
+   information windows)
 
 ~ Implementation
 
 http://sf.net/tracker/?func=detail&aid=780617&group_id=12997&atid=312997
-
-~ Bibliography
-
-1. http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families
-
-2. http://developer.apple.com/documentation/UserExperience/Conceptual/AquaHIGuidelines/AHIGFonts/index.html
-
-3. http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/appearance_manager/constant_15.html
 
 ~ Copyright
 
