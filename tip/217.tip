@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -29,7 +29,7 @@ present-day numerics-oriented languages such as MATLAB, have included
 the ability to directly obtain the indices required to access a list in 
 sorted order.
 
-~ Proposal
+~ Proposed Specification
 
 The '''lsort''' command shall accept a new option, '''-indices'''.
 When '''lsort''' is called with the option, it shall return a list of
@@ -76,7 +76,7 @@ lines:
 |
 |  % lsort -indices [list a c b]
 |  0 2 1
-|  % lsort -indices -unique -decreasing -float -index 0 \
+|  % lsort -indices -unique -decreasing -real -index 0 \
 |          {{1.2 a} {34.5 b} {34.5 c} {5.6 d}}
 |  1 3 0
 
