@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -53,8 +53,8 @@ is, immediately before the ''tclvfs'' close callback is invoked.
 
 ~ Proposed Change
 
-Immediately prior to invoking the VFS close callback, Tcl core should
-set permissions to the maximum possible.
+Immediately prior to invoking the VFS close callback on a channel,
+Tcl core should set channel's permissions to the maximum possible.
 
 ~ History
 
