@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -18,7 +18,7 @@ a ''file link'' subcommand to allow cross-platform creation of links.
 
 Add a new subcommand with the following syntax:
 
-|      file link ?-type linktype? ?--? source ?target?
+|      file link source ?target? ?linktype?
 
 If ''target'' is not given, then returns the value of the
 link given by ''source'' (i.e. the name of the file it points to).  If
@@ -26,8 +26,10 @@ link given by ''source'' (i.e. the name of the file it points to).  If
 error is returned.  If ''target'' is given then creates a link from
 ''source'' to ''target''.  
 
-The type of link created is platform
-specific, but is by default a symbolic link where this is supported.  Where the user wishes to specify the type of the link explicitly, the option '-type linktype' can be given.  Accepted values for linktype will be "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+When the ''target'' argument is given, an optional third argument ''linktype'' is allowed.  When this third argument is not given, the type of link created is platform
+specific (i.e. the user is asking "please create any link that is possible in this filesystem"), but is by default a symbolic link where this is supported.  
+
+However, the user may wish to specify the type of the link explicitly with the optional ''linktype'' argument.  Accepted values for linktype will be "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
 do not support any symbolic links at present, but Unix, MacOS
 and Windows NT/2000/XP (on NTFS drives) do).
 
@@ -60,7 +62,7 @@ ln ?-s?'' command to achieve the same effect.
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-This reference implementation needs to be updated with the '-type linktype' option.
+This reference implementation needs to be updated with the 'linktype' option.
 
 ~ Copyright
 
