@@ -1,13 +1,14 @@
-TIP:		66
-Title:		Stand-alone and Embedded Tcl/Tk Applications
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Informational
-Vote:		Pending
-Created:	02-Oct-2001
-Post-History: 
-Keywords:	installation, initialisation, embedded, resources
+TIP:            66
+Title:          Stand-alone and Embedded Tcl/Tk Applications
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         yossawee <yossawee1974@yahoo.com>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        02-Oct-2001
+Post-History:   
+Keywords:       installation,initialisation,embedded,resources
 
 ~ Abstract
 
