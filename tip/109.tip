@@ -1,11 +1,11 @@
 TIP:		109
 Title:		New Look for Checkbutton and Radiobutton on Unix
-State:		Draft
+State:		Accepted
 Type:		Project
-Tcl-Version:	9.0
-Vote:		In progress
+Tcl-Version:	8.5
+Vote:		Done
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Brian Griffin <bgriffin@model.com>
 Created:	01-Oct-2002
 
