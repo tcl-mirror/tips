@@ -1,13 +1,14 @@
-TIP:		124
-Title:		Adding "clock microseconds" Subcommand
-Version:	$Revision: 1.1 $
-Author:		Mark Harrison <mh@pixar.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	20-Dec-2002
-Post-History:	
+TIP:            124
+Title:          Adding "clock microseconds" Subcommand
+Version:        $Revision: 1.2 $
+Author:         Mark Harrison <mh@pixar.com>
+Author:         Kevin Kenny <kennykb@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Dec-2002
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -52,3 +53,21 @@ http://sf.net/tracker/?func=detail&atid=310894&aid=656997&group_id=10894
 ~ Copyright
 
 This document has been placed in the public domain.
+
+~ Comments
+
+Kevin Kenny writes:
+
+The two-integer result that you propose is awkward.  I'd counterpropose
+the following:
+
+   1. Change [[clock clicks -milliseconds]] to return a wide integer,
+      representing the number of milliseconds since the Posix epoch.
+
+   1. Add a [[clock clicks -microseconds]] that likewise returns
+      a wide integer, representing the number of microseconds since
+      the Posix epoch.
+
+This proposal, to me, feels much more like Tcl, and less like exposing
+the awkward C gettimeofday() interface.  What does the original author
+think?
