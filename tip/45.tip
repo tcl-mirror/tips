@@ -1,6 +1,6 @@
 TIP:            45
 Title:          Empty index lists for [lindex] and [lset]
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -49,7 +49,7 @@ An empty list of indices is a convenient means of specifying the root.
 
 |  lindex list {}
 
-    will return the value of the entire list.  The ''list'' parameter
+ >  will return the value of the entire list.  The ''list'' parameter
     is not required to be a well-formed Tcl list when
     this form is used.
 
@@ -62,7 +62,7 @@ An empty list of indices is a convenient means of specifying the root.
 
 |  lset var {} value
 
-    will simply store the supplied value into the variable named ''var''.
+ >  will simply store the supplied value into the variable named ''var''.
     Neither the old nor the new value of ''var'' is required to be
     a well-formed Tcl list when this form is used.  The return value of
     the operation, as with all other uses of ''lset'', is the
