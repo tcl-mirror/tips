@@ -1,0 +1,60 @@
+TIP:            222
+Title:          Add [wm attributes -alpha] Attribute on Windows
+Version:        $Revision: 1.1 $
+Author:         Jeff Hobbs <jeffh@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Sep-2004
+Post-History:   
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes a new controlled attribute '''-alpha''' to control toplevel
+alpha transparency for the '''wm attributes''' command on Windows.
+
+~ Rationale
+
+Windows 2000/XP+ has the ability to create windows with alpha
+transparency.  This attribute would expose control for that functionality
+for Tk users.  This is mostly an eye candy feature, but could be useful
+for fade-in splash screens or fancy demos.
+
+~ Specification
+
+A new attribute '''-alpha''' will be recognized by '''wm attributes'''.  It will
+take a value from 0 (opaque) to 100 (full transparent) that signifies the
+percentage transparency of the toplevel.  Thus, '''-alpha 10''' would make the
+toplevel 10% transparent (mostly visible).
+
+There are some special considerations for this feature.  It only works on
+Windows 2000/XP+.  The code handles the dynamic lookup of the necessary
+functionality.  If you do not have the functionality, then any attempt to
+set the '''-alpha''' value will be ignores, and queries to '''-alpha'''
+will always return 0 (opaque).
+
+Layered windows cannot use the CS_CLASSDC class style, so an alternative
+class must be made available.  This is handled in the implementation
+transparently, with ''UpdateWrapper'' choosing the appropriate class as
+necessary.  Transparent windows will use '''TkTransparentToplevel''' as their
+class name (normal is '''TkToplevel''').
+
+Efforts have been made to reduce calls to ''UpdateWrapper''.
+
+~ Reference Implementation
+
+See Tk Patch 892194 [http://sf.net/support/tracker.php?aid=892194]
+
+The reference patch implements the functionality along with one bug fix to
+UpdateWrapper - correct setting of the Z order of the window based on the
+previous wrapper window.
+
+~ Comments
+
+Please make any comments here.
+
+~ Copyright
+
+This document has been placed in the public domain.
+
