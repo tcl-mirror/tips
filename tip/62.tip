@@ -1,0 +1,155 @@
+TIP:           62
+Title:         Add Support for Command Tracing
+Version:       $Revision: 1.1 $
+Author:        Hemang Lavana <HemangLavana@users.sourceforge.net>
+Author:        Vince Darley <vince.darley@eurobios.com>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.4
+Vote:          Pending
+Created:       18-Sep-2001
+Post-History:
+
+~ Abstract
+
+This TIP proposes that the Tcl's trace command be extended to include
+tracing of commands for the following four operations: ''before'',
+''after'', ''preinside'' and ''postinside''.
+
+~ Rationale
+
+One of the main strengths of Tcl is the ability to trace ''read'',
+''write'' or ''delete'' operations on variables.  Moreover, Tcl8.4 has
+already added support for tracing ''rename'' or ''delete'' operations
+on Tcl commands.  Addition of the proposed four operations for command
+tracing will further improve the capabilities of Tcl without any loss
+of performance (see ''Benchmark Results'' section below).
+
+I can see several applications of this feature, including:
+
+  *  overloading/wrapping of Tcl commands, please see
+     http://mini.net/tcl/1494.html
+
+  *  aid developer in debugging Tcl scripts
+
+  *  profiler module in ''tcllib'' can benefit from this feature
+
+
+~ Specification
+
+This TIP proposes an enhancement to the following trace command:
+
+|    trace add command name ops command
+
+The ''ops'' argument currently accepts ''rename'' and ''delete'' as a
+valid operation.  The following 4 operations will be added to the
+list:
+
+   1. ''before'' - Invoke ''command'' whenever the ''command'' is
+        executed, just before the actual execution takes place.
+
+   2. ''after'' - Invoke ''command'' whenever the ''command'' is
+        executed, just after the actual execution takes place.
+
+   3. ''preinside'' - Invoke ''command'' whenever anything is executed
+        inside the ''proc'' being traced, just before that execution
+        takes place.  For example if we have ''proc foo {} {puts
+        "hello"}'', then a preinside trace would be invoked just
+        before ''puts "hello"'' was executed.  Setting a ''preinside''
+        trace on a ''command'' will not result in an error and is
+        simply ignored.
+
+   4. ''postinside'' - Invoke ''command'' whenever anything is
+        executed inside the ''proc'' being traced, just after that
+        execution takes place.  Setting a ''postinside'' trace on a
+        ''command'' will not result in an error and is simply ignored.
+
+When the trace triggers, depending on the operations being traced, a
+number of arguments are appended to command so that the actual command
+is as follows:
+
+For before and preinside operations:
+
+|    command command-string op
+
+''Command-string'' gives the complete current command being executed
+(the traced command for a before operation, an arbitrary command for a
+preinside operation), including all arguments in their fully expanded
+form.  ''Op'' indicates what operation is being performed on the
+variable, and is one of before or preinside as defined above.  The
+trace operation can be used to stop the command from executing, by
+deleting the command in question.  Of course when the command is
+subsequently executed, an 'invalid command' error will occur.
+
+For after and postinside operations:
+
+|   command command-string code result op
+
+''Command-string'' gives the complete current command being executed
+(the traced command for a before operation, an arbitrary command for a
+postinside operation), including all arguments in their fully expanded
+form.  Code gives the result code of that execution, and of the result
+string.  ''Op'' indicates what operation is being performed on the
+variable, and is one of after or postinside as defined above.  Note
+that the creation of many preinside or postinside traces can lead to
+unintuitive results, since the invoked commands from one trace can
+themselves lead to further command invocations for other traces.
+However, these unintuitive results are completely predictable and safe
+(and tested in the test suite).  Nevertheless the user will probably
+only want to have one such trace active at a time.
+
+Some people may not be comfortable with the names of the operations,
+especially ''preinside'' and ''postinside''.  So I am open to having
+these called whatever is best acceptable.  Vince Darley has also noted
+that some people preferred this to be added as ''trace add execution''
+instead of ''trace add command''.
+
+~ Reference Implementation
+
+This proposal has been implemented by Vince Darley.  Please see
+Feature Request #462580:
+http://sf.net/tracker/?func=detail&aid=462580&group_id=10894&atid=360894
+
+The original patch from Vince Darley has been modified in the
+following respects:
+
+  1.  For ''before'' and ''pre-inside'' operations, the original patch
+      passed arguments to the ''command'' in its unexpanded form.
+      This behavior has been changed to pass the arguments in its
+      fully expanded form since it should be more useful for debugging
+      scripts.
+
+  2.  The original patch could not trace Tcl commands that were
+      invoked inside a procedure because tracing is currently not
+      possible for compiled commands.  Therefore, the patch was
+      modified such that Tcl commands are no longer internally
+      compiled if a trace has been set on a command.
+
+  3.  The original patch was created on 2000-Sept-14.  It was updated
+      to work with the current CVS head.
+
+Vince Darley fully supports the changes proposed in [[1]] and [[2]].
+
+I just realized (while writing this TIP) that the ''preinside'' and
+''postinside'' traces on a procedure turn on global tracing.  This
+will have side-effects: it will also trace commands executed in
+another procedure that is triggered due to variable tracing or by
+''vwait/update'' commands.  The expected behavior needs further
+thought.
+
+~ Benchmark Results
+
+One potential objection to this TIP could be that it may affect the
+performance of the Tcl-core.  Therefore, I have run the
+''runbench.tcl'' script from the tclbench module for comparison on a
+Sun Ultra5, Solaris2.6 machine.  The results have been posted at
+http://sf.net/tracker/?func=detail&aid=462580&group_id=10894&atid=360894
+
+These results show that there is hardly any performance hit, if any,
+by addition of this feature.  Of course when you activate a trace on a
+command, then you will see a performance hit, but since primary uses
+of traces will be in profiling and debugging, that isn't an issue.
+
+~ Copyright
+
+This document has been placed in the public domain.
