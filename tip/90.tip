@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -275,11 +275,27 @@ freed, but any error or exception will be presented to the
 caller exactly as if it had never been caught in the first place.
 
 Finally, two examples of how to use the new features in a 
-control structure proc. ...
+control structure proc.  The essence of a control structure
+command is its ability to evaluate a script in the caller's
+context, preserving the illusion that no additional stack
+frame was ever used.  So, a proc replacement for ''eval''
+illustrates the technique.
 
 The first approach assumes one knows
 the internal details of how the ''uplevel'' command adds to
-the stack trace. ...
+the stack trace. 
+
+| proc myEval script {
+|     if {[catch {uplevel 1 $script} result options] == 1} {
+|         set stack [dict get $options -errorinfo]
+|         regsub {\s+invoked from within\s+"uplevel 1 \$script"$} $stack {} stack
+|         regsub {\("uplevel" body line (\d+)\)$} $stack [subst -nobackslashes \
+|                 {("[lindex [info level 0] 0]" body line \1)}] stack
+|         dict set options -errorinfo $stack
+|     }
+|     dict incr options -level
+|     return -options $options $result
+| }
 
 ~ Potential Concerns
 
