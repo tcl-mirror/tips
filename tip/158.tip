@@ -1,0 +1,92 @@
+TIP:		158
+Title:		Distinguish the two 'Enter' keys on Windows
+Version:	$Revision: 1.1 $
+Author:		Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
+Author:		Kevin Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:           Pending
+Created:	20-Sep-2003
+Tcl-Version:	8.5
+Discussions-To:	news:comp.lang.tcl
+Post-History:	
+
+~ Abstract
+
+This TIP proposes that the "extended keys" on a Windows keyboard be
+labeled with <Mod4> so that they can be distinguished from their
+counterparts on the main keyboard.
+
+~ Rationale
+
+Most US keyboards on Windows systems have two keys bearing the label,
+'Enter'.  The Tk system generates the events, ''<KeyPress-Return>''
+and ''<KeyRelease-Return>'' for both of them; the two keys are
+indistinguishable.  While this behavior is in keeping with the
+"Microsoft Windows User Experience Guidelines," which explicitly state
+that the two keys should command identical functionality, it is
+inconvenient for developers who wish to port Unix applications that
+already have different actions bound to the ''<KeyPress-Return>'' and
+''<KeyPress-KP_Enter>'' events.
+
+~ Specification
+
+The solution that has been chosen supports the greatest possible
+backward compatibility.  What is proposed is that 'tkWinX.c' will
+examine the ''KF_EXTENDED'' bit in the keyboard state (passed as
+''lParam'' to the ''GetState'' function) and map it as modifier
+4. (Modifiers 1 through 3, respectively, refer to the ''Num Lock'',
+''Menu'', and ''Scroll Lock'' keys.)
+
+This change has little if any impact on existing Windows code, since
+modifier 4 is not generated on Windows today.  A binding to
+''<Return>'' will continue to fire for the numeric ''Enter'' key,
+unless there is also a binding to ''<Mod4-Return>'' which will then
+take precedence.
+
+Existing Unix or Mac code that binds ''<Return>'' and ''<KP_Enter>''
+to identical functionality (and does not bind ''<Mod4-Enter>'') will
+also not need to change.  Again, the existing ''<Return>'' binding
+will fire for the ''Enter'' keys on both the main keyboard and the
+numeric pad.
+
+Unix code that has distinct bindings for ''<Return>'' and
+''<KP_Enter>'' does not function correctly on Windows today - and
+cannot be made to do so without changing its specification.  To port
+such code to Windows once this change is in place, a developer will
+have to add bindings to ''<Mod4-Return>'' that mirror those for
+''<KP_Enter>''. Once the developer has done this, the application will
+distinguish the two keys and fire the appropriate binding for each.
+
+~ Reference Implementation
+
+The changes require to implement this proposal can be obtained from
+SourceForge as Tk Patch #797404.
+
+~ Summary of Discussion
+
+This change has been discussed extensively on the tcl-core mailing
+list ([http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/1791694]
+and several following threads) and the comp.lang.tcl newsgroup
+[http://groups.google.com/groups?threadm=3F520749.8080808@acm.org].
+
+The chief proposed alternative to the use of modifier 4 was to modify
+''tkWinX.c'' so that the ''Enter'' key on the numeric pad would
+generate the same ''<KP_Enter>'' event that it does on Unix.  The
+drawback to this proposal, making it unacceptable to the authors of
+this TIP, is that existing user code on Windows that establishes
+bindings to ''<Return>'' but not ''<KP_Enter>'' would no longer
+recognize the numeric ''Enter'' key.  This problem was seen as a far
+greater drawback than the need for those porting Unix applications
+(and wishing to continue to operate inconsistently with the Microsoft
+guidelines) to add an additional binding, particularly in light of the
+fact that those applications today can't implement the desired
+functionality on Windows at all.
+
+~ Copyright
+
+Copyright © 2003 by Kevin B. Kenny.  All rights reserved.
+
+Permission to use this document in accordance with the terms of Open
+Publication License (http://www.opencontent.org/openpub/) is herewith
+granted.
