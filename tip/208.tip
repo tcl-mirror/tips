@@ -1,6 +1,6 @@
 TIP:            208
 Title:          Add a 'chan' Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -9,6 +9,7 @@ Created:        02-Jul-2004
 Post-History:   
 Keywords:       Tcl
 Tcl-Version:    8.5
+Obsoletes:	206
 
 ~ Abstract
 
