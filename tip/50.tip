@@ -1,7 +1,14 @@
 TIP:            50
-Title:          Bundle [[incr Tcl]] with the Core Tcl distribution
-Version:        $Revision: 1.2 $
-Author:         Kevin Kenny <kennykb@acm.org>,		Mark Harrison <markh@asiainfo.com>,		Jeff Hobbs <jeffh@ActiveState.com>,		Andreas Kupries <andreas@ActiveState.com>,		Karl Lehenbauer <karl@procplace.com>,		Michael McLennan <mmc@cadence.com>,		Don Porter <dgp@nist.gov>,		Brent Welch <welch@acm.org>
+Title:          Bundle [incr Tcl] with the Core Tcl distribution
+Version:        $Revision: 1.3 $
+Author:         Kevin Kenny <kennykb@acm.org>
+Author:		Mark Harrison <markh@asiainfo.com>
+Author:		Jeff Hobbs <jeffh@ActiveState.com>
+Author:		Andreas Kupries <andreas@ActiveState.com>
+Author:		Karl Lehenbauer <karl@procplace.com>
+Author:		Michael McLennan <mmc@cadence.com>
+Author:		Don Porter <dgp@users.sourceforge.net>
+Author:		Brent Welch <welch@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
