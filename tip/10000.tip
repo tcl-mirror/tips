@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.90 $
+Version:        $Revision: 1.91 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -150,7 +150,7 @@ in the Tcl library:
     The ''dtoa'' function in David Gay's floating-point conversion library
     already has a collection of options that implement these semantics.
 
- 1. The test suite for Tcl shall be upgraded to include suitable test
+ 4. The test suite for Tcl shall be upgraded to include suitable test
     vectors for assessing correct rounding behavior.  The paper by
     Verdonk, Cuyt and Verschaeren in the References, and the associated
     software, present a suitable data set for inclusion.
