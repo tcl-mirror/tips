@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -131,11 +131,11 @@ An enhanced version of the Fellows TIP rendering engine with the
 capabilities proposed above is available at
 http://math.nist.gov/~DPorter/tcltk/tipweb/tipweb.tar.gz
 
-''Note that the reference implementation reference just above
-is now out of date with the implementation being tested.  After
-some more debugging, the current implementation will be submitted
-as a Patch to the tiprender project at SourceForge, see
-http://sourceforge.net/projects/tiprender/ .
+ > Note that the reference implementation reference just above
+   is now out of date with the implementation being tested.  After
+   some more debugging, the current implementation will be submitted
+   as a Patch to the tiprender project at SourceForge, see
+   http://sourceforge.net/projects/tiprender/ .
 
 For what it's worth, this TIP was created primarily within a web
 browser, making revisions through the web interface provided by the
