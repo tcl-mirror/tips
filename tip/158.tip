@@ -1,11 +1,11 @@
 TIP:            158
 Title:          Distinguish the two 'Enter' keys on Windows
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        20-Sep-2003
 Post-History:   
 Discussions-To: news:comp.lang.tcl
