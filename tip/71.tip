@@ -1,11 +1,11 @@
 TIP:            71
 Title:          Tk Bitmap Image Improvements
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Eric Melski <ericm@interwoven.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        26-Oct-2001
@@ -63,14 +63,29 @@ This version is not implemented yet.
 ~ Commentary
 
 ''Donal K. Fellows <donal.k.fellows@man.ac.uk> writes:''
-Previous versions of this TIP proposed fixing the problem using
-bitmaps instead of bitmap images and added an infrastructure for
-tracking those bitmaps.  Since I think that ultimately we should be
-getting rid of bitmaps and instead using something based on the image
-infrastructure (which already has proper introspection support) those
-parts of this TIP have been removed.  However, making the changes to
-effect the switch to using bitmap images instead of bitmaps for things
-like stippes, cursors, etc. lies outside the scope of this TIP.
+
+ > Previous versions of this TIP proposed fixing the problem using
+   bitmaps instead of bitmap images and added an infrastructure for
+   tracking those bitmaps.  Since I think that ultimately we should be
+   getting rid of bitmaps and instead using something based on the
+   image infrastructure (which already has proper introspection
+   support) those parts of this TIP have been removed.  However,
+   making the changes to effect the switch to using bitmap images
+   instead of bitmaps for things like stippes, cursors, etc. lies
+   outside the scope of this TIP.
+
+''Donal K. Fellows <donal.k.fellows@man.ac.uk> writes:''
+
+ > In the long period since this TIP was proposed, the world of GUIs
+   has moved on somewhat.  Although the requirement for arrows remains
+   the same, the solutions proposed in this TIP (both originally and
+   as it now stands) do not permit the sort of graphical snazziness
+   that modern users tend to expect.  Nor is there a sufficient range
+   of sizes for a reasonable selection to be available for a modern
+   display; even the largest of those arrows would look unusably tiny
+   on my desktop!  This indicates that a completely different solution
+   is required, which in turn would be better stated as a separate
+   TIP.
 
 ~ Copyright
 
