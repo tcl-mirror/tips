@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -208,7 +208,7 @@ be a Category in the SourceForge Tracker for Tk:
      library/spinbox.tcl,
      tests/spinbox.test
 
-   >  18. ''Text Widget'' -
+   >  18. ''[text]'' -
      doc/text.n,
      generic/tkText.c,
      generic/tkText.h
@@ -529,7 +529,7 @@ be a Category in the SourceForge Tracker for Tk:
 
    Low-level Tk functions: 
 
-   >  1. ''Geometry'' -
+   >  1. ''Geometry Functions'' -
      generic/tkTrig.c
 
    >  2. ''Tk_Win Functions'' -
@@ -779,7 +779,7 @@ be a Category in the SourceForge Tracker for Tk:
      xlib/ximage.c,
      xlib/xutil.c
 
-   >  4. ''Macintosh Build'' -
+   >  4. ''Mac Build'' -
      mac/MW_TkHeader.h,
      mac/MW_TkHeader.pch,
      mac/MW_TkOldImgHeader.h,
@@ -800,7 +800,7 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tk.spec,
      unix/tkConfig.sh.in
 
-   >  6. ''Windows Build'' -
+   >  6. ''Win Build'' -
      win/Makefile.in,
      win/aclocal.m4,
      win/configure.in,
