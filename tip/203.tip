@@ -1,0 +1,42 @@
+TIP:		203
+Title:		Create tclConfig.sh-Equivalent in Tcl
+Version:	$Revision: 1.1 $
+Author:		Colin McCormack <coldstore@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	17-Jun-2004
+Discussions-To:	http://mini.net/tcl/tclConfig.sh
+Post-History:	
+Keywords:	configuration, installation
+Tcl-Version:	8.5
+
+~ Abstract
+
+This proposal requires the build-time creation of a file
+''tclConfig.tcl'' that is equivalent to ''tclConfig.sh'' in both
+logical content and location.
+
+~ Rationale
+
+Packages such as Critcl[http://www.equi4.com/critcl.html], and indeed
+anything which tries to build extensions under Tcl need more
+introspection to discover the ground rules of construction in the
+installation in which they find themselves.
+
+In order to facilitate such future build tools, the build information
+should be made available to Tcl scripts.
+
+~ Specification
+
+The web page http://mini.net/tcl/tclConfig.sh contains a parser to
+understand a ''tclConfig.sh'' and set variables in the ''::tclConfig''
+namespace.
+
+Anything similar would suffice, whether it's added to a ''dict'' under
+'''info''', '''tcl_platform''', or placed in a namespace doesn't
+greatly matter.
+
+~ Copyright
+
+This document has been placed in the public domain.
