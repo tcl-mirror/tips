@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -72,7 +72,7 @@ This TIP is, therefore, to fix these limitations, as follows:
   1. Add ''displaylinestart'' and ''displaylineend'' and ''+/- N
      displaylines'' index offsets which work like ''linestart'',
      ''lineend'', ''+/- N lines'' but with display lines, and which
-     work whether the relevant indices are currently displayed or not.
+     work whether the relevant indices are currently displayed or not.  And make ''tk::TextUpDownLine'' operate in terms of display lines.
 
   1. Add an option ''-displaychars'' to ''get'' which, if given, restricts the returned characters to be just those which are not elided.
 
@@ -248,6 +248,8 @@ displayed, the index is calculated by laying out the geometry of the line
 behind the scenes so this operation is certainly more time-consuming than
 determining the logical line start or end).  The "display" in these items can be abbreviated if it is followed by whitespace (if it is not abbreviated then the whitespace is optional).
 
+In addition the single proc ''tk::TextUpDownLine'' (in text.tcl) has been updated to operate in terms of display lines and thereby to retain the current x position as accurately as possible across multiple up/down arrow keypresses.
+
 (*) Perhaps it would be possible, if horribly cumbersome, by copying the
 relevant contents into another text widget which is unmapped and making
 sure the desired lines are visible in that widget, and finally
@@ -296,7 +298,7 @@ Lastly, "+N chars" is a synonym for "+N indices" for backwards compatibility rea
 
 ~ Implementation
 
-A relatively complete implementation (''not'' a final implementation -- two small issues are still to be addressed) is available at:
+A relatively complete implementation (''not'' a final implementation -- one small issue is still to be addressed) is available at:
 
 http://sf.net/tracker/?func=detail&aid=791292&group_id=12997&atid=312997
 
@@ -332,7 +334,7 @@ these are listed here for completeness:
     changes.  No attempt has been made to fix this problem in this
     TIP.
 
-  * A shorthand (''firstdisplayed'', ''lastdisplayed'' ?)  for the
+  * A shorthand (''firstdisplayed'', ''lastdisplayed'', or ''display start'', ''display end''?)  for the
     rather less obvious ''.text index "@0,0"'' and ''.text index
     "@[winfo width .text],[winfo height .text]"''
 
@@ -340,7 +342,7 @@ these are listed here for completeness:
     widget (e.g. a code parser's current internal state), which might
     make true parsing for syntax colouring significantly easier.
 
-  * The pre-existing behaviour of ''+/- N lines'' uses byte-indices instead of x-pixel calculations (thereby having the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  Further, the behaviour is quite strange when wrapping is enabled in the widget.  This TIP does not propose any changes in this area other than to suggest that Tcl coders make use of 'displaylines' instead, for more consistent behaviour.
+  * The pre-existing behaviour of ''+/- N lines'' uses byte-indices instead of x-pixel calculations (thereby having the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  Further, the behaviour is quite strange when wrapping is enabled in the widget.  This TIP does not propose any changes in this area other than to suggest that Tcl coders make use of 'displaylines' instead, for more consistent behaviour (as has been done to text.tcl).
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
