@@ -1,6 +1,6 @@
 TIP:            4
 Title:          Tcl Release and Distribution Philosophy
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Brent Welch <welch@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Larry W. Virden <lvirden@cas.org>
@@ -165,9 +165,9 @@ others not listed.
  1. The Standard Tk Library of Tcl/Tk scripts.  Currently
     this includes packages for:
 
- >1. BWidgets
+ > 1. BWidgets
 
- >1. mclistbox
+ > 1. mclistbox
 
  1. Img
 
