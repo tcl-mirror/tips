@@ -1,9 +1,8 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.10 $
-Author:         János Holányi <csani@lme.linux.hu>
-Author:         <m13666@maidfnzgnl.ru>
+Version:        $Revision: 1.11 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         János Holányi <csani@lme.linux.hu>
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 State:          Draft
 Type:           Project
@@ -132,7 +131,7 @@ just have four values for each entry, but that is getting baroque.
 
 ~Reference Implementation
 
-''Not yet...''
+http://sf.net/tracker/?func=detail&aid=848578&group_id=10894&atid=310894
 
 ~Copyright
 
