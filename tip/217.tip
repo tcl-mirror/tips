@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -54,8 +54,10 @@ This means an alternative (though less efficient for single lists) mechanism for
 
 ~ Reference Implementation
 
-Available on SourceForge [http://sourceforge.net/tracker/index.php?func=detail&aid=1017532&group_id=10894&atid=310894] 
-and at: http://www.bovik.org/lsort-indices-diff.txt
+The reference implementation is available on SourceForge [http://sourceforge.net/tracker/index.php?func=detail&aid=1017532&group_id=10894&atid=310894] 
+and at: http://www.bovik.org/lsort-indices-diff.txt  It should be 
+applied with '''patch -l''' or '''patch --ignore-whitespace''' or it 
+may not fully apply.
 
 That reference implementation is a 109-line context diff, involving 
 adding 20 lines of code to ''tclCmdIL.c'', only one additional int 
@@ -105,6 +107,26 @@ lines:
 |  % lsort -indices -unique -decreasing -real -index 0 \
 |          {{1.2 a} {34.5 b} {34.5 c} {5.6 d}}
 |  2 3 0
+
+~ Tcl-core Discussion
+
+Here are some highlights from the discussion of this TIP on the 
+Tcl-core mailing list.  No assurance is given that the discussion
+is either completely or impartially represented here.
+
+Lars Hellström 
+[http://sourceforge.net/mailarchive/message.php?msg_id=9346824] 
+described a pure Tcl solution virtually identical to the one shown 
+above, "which could be complicated enough to warrent a special [lsort] 
+option."  He also suggested a '''-keycommand''' option for sorting on 
+keys generated on-the-fly.  Finally, he pointed out a flaw concerning
+the example in the Rationale from the original version of this TIP, 
+which has since been corrected.
+
+In reply to Lars, the author
+[http://sourceforge.net/mailarchive/message.php?msg_id=9348381]
+provided the timing data given above, and an efficient alternative to 
+the '''-keycommand''' idea using this TIP's '''-indices''' proposal.
 
 ~ Copyright
 
