@@ -1,10 +1,10 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Vince Darley <vince@santafe.edu>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        08-Sep-2003
 Post-History:   
 Tcl-Version:    8.5
