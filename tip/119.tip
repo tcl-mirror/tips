@@ -1,6 +1,6 @@
 TIP:           119
 Title:         Angled Text on a Canvas
-Version:       $Revision: 1.1 $
+Version:       $Revision: 1.2 $
 Author:        Simon Geard <simon.geard@ntlworld.com>
 State:         Draft
 Type:          Project
@@ -54,7 +54,7 @@ have amended Tk 8.4.1 with the above syntax for the X version (on
 Linux).  This initial work was fairly straightforward but the internal
 housekeeping work maintaining and interacting with an angled box will
 be more substantial.  The patch is located at
-http://homepage.ntlworld.com/tk841_at_patch.gz
+http://homepage.ntlworld.com/whiteowl/tk841_at_patch.gz
 The X version can be done with the ''xvertex.5.0'' extension which is
 included in the above patch.  I don't know how it would be done on
 non-X systems.
