@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -12,7 +12,9 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes the addition to Tcl of source code file-name and line-numbering information, making it available at script execution time.
+This TIP proposes the addition to Tcl of source code file-name and
+line-numbering information, making it available at script execution
+time.
 
 ~ Rationale
 
@@ -41,37 +43,44 @@ automatically bring the user into an editor at the offending line.
 
 A new '''execution''' subcommand to the '''trace''' command.
 
-* trace execution TARGET ?LEVEL?
+ > '''trace execution''' ''target'' ?''level''?
 
 This arranges for an execution trace to be setup for commands at nesting
-''LEVEL'' or above, thereby providing a simple Tcl interface for tracing
+''level'' or above, thereby providing a simple Tcl interface for tracing
 commands to say, implement a  debugger.  With no arguments,  the current
 target is returned.  If target is the empty string, the execution trace
-is removed.  Unless the ''TARGET''argument is a valid output channel
-such as ''stdout'', it is assumed to be a command string to be
+is removed.  Unless the ''target'' argument is a valid output channel
+such as '''stdout''', it is assumed to be a command string to be
 executed.  When level is
 not specified, it defaults to 0, meaning trace all  commands.  For  each
 traced command, the following data will be produced:
 
  * linenumber
+
  >  The  line number the instruction begins on.
 
  * filename
+
  > The fully normalized file name.
 
  * nestlevel
+
  > The nesting level of the command.
 
  * stacklevel
+
  > The stack call level as per [info level].
 
  * curnsproc
+
  > The current fully qualified namespace/function.
 
  * cmdname
+
  > The fully qualified command name of the command to be invoked.
 
  * command
+
  > The command line to be executed including arguments.
 
 If target is a valid Tcl channel opened for output, the trace data is
@@ -91,29 +100,29 @@ subcommands of its own in turn:
  > Returns a list with two items: the line number and file name of
    the current statement.
 
- * '''info line number''' ''PROC'' ?''LINE''?
+ * '''info line number''' ''proc'' ?''line''?
 
- > Get/set the line number for the start of ''PROC''.  In get mode,
+ > Get/set the line number for the start of ''proc''.  In get mode,
    returns the definition line number in the message body.
 
- * '''info line level''' ''NUMBER''
+ * '''info line level''' ''number''
 
  > Like the info level command, but returns the line number and
   file name from which the call at level number originates.
   For use with ''trace execution''.
 
- * '''info line file''' ?''PROC'' ?''FILE''??
+ * '''info line file''' ?''proc'' ?''file''??
 
- > Get/set the sourced file path for PROC.  If PROC is not specified,
+ > Get/set the sourced file path for ''proc''.  If ''proc'' is not specified,
    dump all known sourced file paths.
 
- * '''info line find''' ''FILE LINE''
+ * '''info line find''' ''file line''
 
- > Given a file path and line number, return the ''PROC'' name
-   containing line number ''LINE''.  A new nonstatic procedure
+ > Given a file path and line number, return the ''proc'' name
+   containing line number ''line''.  A new nonstatic procedure
    ''TclFindProcByLine()'' provides this function.
 
- * '''info line relativeerror''' ?''BOOL''?
+ * '''info line relativeerror''' ?''bool''?
 
  > Set to 1 to disable absolute line number and file path on a
    procedure error.  This demotes procedure traceback errors to the
