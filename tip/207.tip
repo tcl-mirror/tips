@@ -1,12 +1,12 @@
 TIP:            207
 Title:          Add a -namespace Option to [interp invokehidden]
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        29-Jun-2004
-Post-History:
+Post-History:   
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -31,9 +31,9 @@ used to change the target namespace context cannot be used.
 
 ~ Specification
 
- > '''interp invokehidden''' ''path'' ?'''-global'''?
-   ?'''-namespace''' ''namespace''? ?'''--'''?
-   ''hiddenCmdName'' ?''arg ...''?
+ > '''interp invokehidden''' ''path''
+   ?'''-namespace''' ''namespace''? ?'''-global'''?
+   ?'''--'''? ''hiddenCmdName'' ?''arg ...''?
 
 The '''interp invokehidden''' subcommand would continue to function as
 the current documentation dictates with the following notable
@@ -101,8 +101,8 @@ The following additions/changes would be made to the private Tcl C API:
    during command resolution.
 
  * static int '''SlaveInvokeHidden'''(Tcl_Interp *''interp'',
-   Tcl_Interp *''slaveInterp'', int ''global'', Tcl_Obj *CONST
-   ''namespaceName'', int ''objc'', Tcl_Obj *CONST ''objv''[])
+   Tcl_Interp *''slaveInterp'', Tcl_Obj *CONST ''namespaceName'',
+   int ''global'', int ''objc'', Tcl_Obj *CONST ''objv''[])
 
  > The '''SlaveInvokeHidden''' would be modified to accept a 
    ''namespaceName'' argument.
