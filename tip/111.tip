@@ -1,13 +1,13 @@
-TIP:		111
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Title:		Dictionary Values and Manipulators
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	05-Oct-2002
-Post-History:	
+TIP:            111
+Title:          Dictionary Values and Manipulators
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Oct-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -210,6 +210,24 @@ Proposed subcommands:
    terminate successfully immediately.  If any evaluation of the body
    generates a ''TCL_CONTINUE'' result, this shall be treated exactly
    like a normal ''TCL_OK'' result.
+
+ dict filter:	Create a new dictionary from an old one containing just
+		a selection of key/value pairs.
+
+|	dict filter $dictionaryValue key $globPattern
+|	dict filter $dictionaryValue value $globPattern
+|	dict filter $dictionaryValue script {$keyVar $valueVar} $script
+
+ > This takes a dictionary value and returns a new dictionary that
+   contains just those key/value pairs that match the specified rule.
+   Three rules are outlined above.  The ''key'' rule only matches those
+   key/value pairs whose keys match the given glob-style pattern.  The
+   ''value'' rule only matches those key/value pairs whose values match
+   the given glob-style pattern.  The ''script'' rule tests for matching
+   by assigning the key to the ''keyVar'' and the value to the
+   ''valueVar'', and then evaluating the given script which should
+   return a boolean value (with the key/value pair only being included
+   in the result of the [[dict filter]] when a true value is returned.)
 
  dict append:	Append a string to the value for a particular key in
 		the dictionary.
