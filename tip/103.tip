@@ -1,8 +1,9 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -173,6 +174,11 @@ Some food for thought about different chars:
 |`     # Makes more sense as enclosing?
 |>   exec foobar >/some/file
 |,   append recipients ,[join $header($ccL) ,]
+
+|{}  completely forward-compatible, as {} currently cannot be
+|    trailed by anything but whitespace. (This would limit the
+|    originally proposed global syntax change to the argument
+|    of the expand command)
 
 Example usage of those that seem reasonable:
 
