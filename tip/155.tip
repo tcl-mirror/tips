@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -58,7 +58,7 @@ This TIP is, therefore, to fix these limitations, as follows:
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
-     positions or lines or displaylines or vertical-pixels between two given indices.
+     positions or lines or displaylines or vertical-pixels between two given indices.  Similar extend ''+N chars'' to allow index calculations by chars, indices and elided or not.
 
   1. Add a ''replace'' widget subcommand, which performs a combined
      delete/insert operation while ensuring that the insertion
@@ -74,7 +74,7 @@ This TIP is, therefore, to fix these limitations, as follows:
      ''lineend'', ''+/- N lines'' but with display lines, and which
      work whether the relevant indices are currently displayed or not.
 
-  1. Add an option ''-visiblechars'' to ''get'' which, if given, restricts the returned characters to be just those which are not elided.
+  1. Add an option ''-displaychars'' to ''get'' which, if given, restricts the returned characters to be just those which are not elided.
 
 Each of these proposals is discussed and presented in full detail
 below.
@@ -150,7 +150,7 @@ Given the pixel calculations are available, they have been used to provide for s
 
 A new subcommand ''.text count ?options? startIndex endIndex'' is
 added for all text widgets.  Valid options (any combination of which can be specified) are ''-chars'',
-''-indices'', ''-visiblechars'', ''-visibleindices'', ''-lines'', ''-displaylines'', ''-ypixels''.  The default
+''-indices'', ''-displaychars'', ''-displayindices'', ''-lines'', ''-displaylines'', ''-ypixels''.  The default
 value, if no option is specified, is ''-indices''.  In addition ''-update'' can be specified.  If given this option ensures all subsequent options operate on a range of indices for which all metric calculations (e.g. line pixel heights) are up to date.  This option is of particular importance to the ''-ypixels'' option.
 
 The subcommand counts the number of relevant things between the two
@@ -165,9 +165,9 @@ option given, as follows:
  -chars: count all characters, whether elided or not.  Do not count
     embedded windows or images.
 
- -visiblechars: count all non-elided characters.
+ -displaychars: count all non-elided characters.
 
- -visibleindices: count all non-elided characters, windows and images.
+ -displayindices: count all non-elided characters, windows and images.
 
  -lines: count all logical lines (this option is only included for completeness since it can be achieved pretty easily in Tk already)
 
@@ -177,27 +177,21 @@ option given, as follows:
 
 If more than one of these counting options is given, the result is a list with one entry for each such option given (''-update'' does not contribute to this result, of course).
 
+Similar, the index modifiers are extended so the following are now valid: "+N display chars", "+N indices", "+N display indices", "+N any indices", "+N any chars".  The "display" and "any" can be abbreviated if they are followed by whitespace.
+
 In particular, this means that:
 
 | string length [.text get $i1 $i2] == [.text count -chars $i1 $i2]
 
 provided $i1 is not after $i2 in the widget.  It also means that
 
-| .text compare "$i1 + [.text count -indices $i1 $i2]chars" == $i2
+| .text compare "$i1 + [.text count -indices $i1 $i2]indices" == $i2
 
-is true under all circumstances.  Notice that, unfortunately, index
-manipulation with ''$idx + ${n}chars'' actually moves not $n
-characters but $n index positions.  There is no equivalent
-manipulation which does actually use characters (nor is there a
-manipulation which ignores elided characters/indices).  The TIP author
-does not currently propose to fix this last limitation, although if a
-suitable, sensible syntax is found, he is willing to add such
-functionality to this TIP.  (Sadly, it appears as if backward
-compatibility would prevent us from simply using ''chars'',
-''indices'', ''visiblechars'', ''visibleindices'' as four different
-manipulation options, since the old ''chars'' would be equivalent to
-the new ''indices''.  Perhaps ''glyphs'' would work OK instead of
-''chars''?).
+and
+
+| .text compare "$i1 + [.text count -displayindices $i1 $i2] display indices" == $i2
+
+is true under all circumstances.
 
 ~ Replace Subcommand
 
@@ -246,25 +240,25 @@ manipulation set are added:
 
 | .text index "$idx displaylinestart"
 | .text index "$idx displaylineend"
-| .text index "$idx +1displaylines"
-| .text index "$idx -5displaylines"
+| .text index "$idx +1display lines"
+| .text index "$idx -5display lines"
 
 These work whether or not $idx is currently displayed (when it is not
 displayed, the index is calculated by laying out the geometry of the line
 behind the scenes so this operation is certainly more time-consuming than
-determining the logical line start or end).
+determining the logical line start or end).  The "display" in "+1 display lines" can be abbreviated if it is followed by whitespace.
 
 (*) Perhaps it would be possible, if horribly cumbersome, by copying the
 relevant contents into another text widget which is unmapped and making
 sure the desired lines are visible in that widget, and finally
 performing the desired operations on the copy before deleting it all!
 
-~ Get -visiblechars
+~ Get -displaychars
 
-This is a simple new option to the ''get'' subcommand, which now has the syntax ''.text get ?-visiblechars? ?--? index1 ?index2....?''.  This means the following code now makes sense:
+This is a simple new option to the ''get'' subcommand, which now has the syntax ''.text get ?-displaychars? ?--? index1 ?index2....?''.  This means the following code now makes sense:
 
 | set found [.text search -elide -count num $pattern $pos]
-| set match [.text get -visiblechars $found "$found + $num chars"]
+| set match [.text get -displaychars $found "$found + $num chars"]
 
 Previously, achieving something like the second line was quite complex.
 
@@ -298,12 +292,7 @@ which works correctly no matter how the scrollbar operates.
 
 In addition, with the new ''pixels'' unit for the scrollbar, the command ''.text yview scroll 1 p'' is now ambiguous and will throw an error.  This incompatibility is similar to those which have previously been introduced in, e.g., Tk 8.4 (with -padx, -pady).
 
-Lastly, with this proposal as it stands, due to the unfortunate use of
-''chars'' to mean ''indices'' in the current text widget, there may be
-some user-confusion between this and the new ''-chars'' and
-''-visiblechars'' count options.  It may be better to use ''glyphs''
-or something else instead.  Hopefully discussion will clear up the
-desired behaviour and nomenclature.  
+Lastly, "+N chars" is a synonym for "+N indices" for backwards compatibility reasons.  This may be different to "+N any chars".
 
 ~ Implementation
 
@@ -319,9 +308,7 @@ line of text.
 
 ~ Open questions
 
- 1. How to resolve the confusion between ''chars'' and ''indices''?  In particular, there is no easy way of doing ''$idx +N actualcharacters'' because ''$idx +N chars'' actually moves N indices forwards.
-
- 2. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.  What does it mean to move ''-1 line'' when we are currently already on a wrapped line?
+ 1. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.  What does it mean to move ''-1 line'' when we are currently already on a wrapped line?
 
 ~ Out of Scope
 
