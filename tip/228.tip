@@ -1,6 +1,6 @@
 TIP:            228
 Title:          Tcl Filesystem Reflection API
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -139,7 +139,7 @@ interpreter''' (nor its thread).
 
 ~~ The posixerror Subcommand
 
- > '''posixerror''' ''error''
+ > '''filesystem posixerror''' ''error''
 
 This command can be called by a handler command during the execution
 of a filesystem operation to signal the POSIX error code of a failure.
@@ -151,7 +151,7 @@ to signal, or its symbolic name, like "EEXIST", "ENOENT", etc.
 
 ~~ The internalerror Subcommand
 
- > '''internalerror''' ''cmdprefix''
+ > '''filesystem internalerror''' ''cmdprefix''
 
 This method registers the provided command prefix as the command to
 call when the core has to report internal errors thrown by a handler
@@ -210,7 +210,7 @@ And finally the list of methods and their detailed specification.
 
 ~~ The initialize Method
 
- > '''initalize''' ''root''
+ > ''handler'' '''initalize''' ''root''
 
 This method is called first, and then never again (for the given
 ''root'').  Its responsibility is to initialize all parts of the
@@ -227,7 +227,7 @@ The current version is ''1''.
 
 ~~ The finalize Method
 
- > '''finalize''' ''root''
+ > ''handler'' '''finalize''' ''root''
 
 The method is called when the filesystem was '''unmount'''ed, and is
 the last call a handler can receive for a specific ''root''.  This
@@ -241,7 +241,7 @@ method is returned as the error of the '''unmount''' command.
 
 ~~ The access Method
 
- * '''access''' ''root relative actualpath mode''
+ * ''handler'' '''access''' ''root relative actualpath mode''
 
 This method is called to determine the "access" permissions for the
 file (''relative'').
@@ -268,7 +268,7 @@ to have for the request to succeed.
 
 ~~ The createdirectory Method
 
- > '''createdirectory''' ''root relative actualpath''
+ > ''handler'' '''createdirectory''' ''root relative actualpath''
 
 This method has to create a directory with the given name
 (''relative'').  The command can assume that ''relative'' does not
@@ -283,7 +283,7 @@ such handler is present.
 
 ~~ The deletefile Method
 
- > '''deletefile''' ''root relative actualpath''
+ > ''handler'' '''deletefile''' ''root relative actualpath''
 
 This method has to delete the file ''relative''.
 
@@ -295,7 +295,7 @@ such handler is present.
 
 ~~ The fileattributes Method
 
- > '''fileattributes''' ''root relative actualpath'' ?''index''? ?''value''?
+ > ''handler'' '''fileattributes''' ''root relative actualpath'' ?''index''? ?''value''?
 
 The command has to return a list containing the names of all
 acceptable attributes, if neither ''index'' nor ''value'' were
@@ -317,7 +317,7 @@ such handler is present.
 
 ~~ The matchindirectory Method
 
- > ''matchindirectory''' ''root relative actualpath pattern types perm mac''
+ > ''handler''  '''matchindirectory''' ''root relative actualpath pattern types perm mac''
 
 This method has to return the list of files or directories in the path
 ''relative'' which match the glob ''pattern'', are compatible with the
@@ -351,7 +351,7 @@ type.  If ''mac'' is empty then the data is irrelevant.
 
 ~~ The open Method
 
- > '''open''' ''root relative actualpath mode permissions''
+ > ''handler'' '''open''' ''root relative actualpath mode permissions''
 
 This command has to return a list describing the successfully opened
 file ''relative'', or throw an error describing how the operation
@@ -383,7 +383,7 @@ more.
 
 ~~ The removedirectory Method
 
- > '''removedirectory''' ''root relative actualpath recursive''
+ > ''handler'' '''removedirectory''' ''root relative actualpath recursive''
 
 This method has to delete the given directory. The argument
 ''recursive'' is a boolean value. The method has to signal the POSIX
@@ -399,7 +399,7 @@ ignored if no such handler is present.
 
 ~~ The stat Method
 
- > '''stat''' ''root relative actualpath''
+ > ''handler'' '''stat''' ''root relative actualpath''
 
 This method has to return a dictionary containing the stat structure
 for the file ''relative''.
@@ -473,7 +473,7 @@ is a kludgey solution and should be avoided.
 
 ~~ The utime Method
 
- > '''utime''' ''root relative actualpath atime ctime mtime''
+ > ''handler'' '''utime''' ''root relative actualpath atime ctime mtime''
 
 This method has to set the access and modification times of the file
 ''relative''. The access time is set to ''atime'', creation time to
@@ -489,7 +489,7 @@ such handler is present.
 
 ~~ The copyfile Method
 
- > '''copyfile''' ''root relative_src actualpath_src relative_dst
+ > ''handler'' '''copyfile''' ''root relative_src actualpath_src relative_dst
    actualpath_dst''
 
 This method is optional. It has to create a copy of a file in the
@@ -511,7 +511,7 @@ the POSIX error "EXDEV".
 
 ~~ The copydir Method
 
- > '''copydir''' ''root relative_src actualpath_src relative_dst
+ > ''handler'' '''copydir''' ''root relative_src actualpath_src relative_dst
    actualpath_dst''
 
 This method is optional. It has to create a recursive copy of a
@@ -533,7 +533,7 @@ the POSIX error "EXDEV".
 
 ~~ The rename Method
 
- > '''rename''' ''root relative_src actualpath_src relative_dst
+ > ''handler'' '''rename''' ''root relative_src actualpath_src relative_dst
    actualpath_dst''
 
 This method is optional. It has to rename a file in the filesystem,
