@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.14 $
+Version:        $Revision: 2.15 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -45,11 +45,10 @@ becomes a very powerful mechanism indeed.
 Finally, a sophisticated extra capability is the addition of an unknown
 subcommand callback to allow the creator of the ensemble to specify a
 customized strategy for handling subcommands that are not recognized by
-the ensemble machinery.  The handler itself has several possible
-strategies for dealing with the problem: throwing an error (with any
-string as the message) is one, of course, but the handler may also add
-new subcommands to the ensemble and ask the ensemble to have another go,
-or even do the subcommand execution directly for itself.
+the ensemble machinery.  This allows an ensemble to be dynamically
+updated to include those subcommands that the user asks for, which is
+a potential route for doing things like using an ensemble as a wrapper
+round a Tk widget.
 
 ~ Proposed Change
 
@@ -217,6 +216,34 @@ that the implementing command may itself be an ensemble command.
 |C eg1 spong                      ;# Prints A::a=>foo bar spong
 |C eg2 evil code {[exit]}         ;# Prints B::b=>1 2 3 evil code [exit]
 |C eg3 length qwertyuiop          ;# Returns 10
+|
+|
+|# An example demonstrating the use of -unknown to do delegation
+|# This uses an ensemble to add a subcommand to a frame
+|package require Tk
+|rename [frame .f] _impl.f
+|namespace ensemble create -command .f -unknown {delegate _impl.f} -map {
+|   flash {flashFrame _impl.f}
+|}
+|# General delegation framework handler
+|proc delegate {target ensemble subcmd args} {
+|   # Read the current map
+|   set map [namespace ensemble configure $ensemble -map]
+|   # Update it to include the new subcommand
+|   dict set map $subcmd [list $target $subcmd]
+|   # Install back into the ensemble
+|   namespace ensemble configure $ensemble -map $map
+|}
+|# Our new subcommand implementation
+|proc flash w {
+|   set bg [$w cget -background]
+|   foreach colour {black white black white black white} {
+|      $w configure -background $colour
+|      update idletasks
+|      after 150
+|   }
+|   $w configure -background $bg
+|}
 
 ~ Consequences
 
