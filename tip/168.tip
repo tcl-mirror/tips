@@ -1,6 +1,6 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
 State:		Draft
@@ -93,7 +93,7 @@ former is really the latter should not be underestimated.
 The reason for changing the official name of the traditional smoothing
 method to "true" are (i) that it is backwards compatible in the sense
 that this name works for specifying that smoothing method in all Tk
-versions and (ii) that it is somewhat memnonic, because it happens to
+versions and (ii) that it is somewhat mnemonic, because it happens to
 coincide with the format used for curves in ''True''Type fonts.
 
 ~ Background
@@ -138,7 +138,7 @@ of given points (the ''knots'' of the curve) in a given order,
 satisfies some smoothness condition, and in some sense is best
 possible under these conditions.  The most common optimality condition
 is that the curve should be composed from segments that can be
-parametrized by polynomials of given degree, but there are implicit
+parameterized by polynomials of given degree, but there are implicit
 conditions (minimizing some suitable measure of curve deformation)
 which leads to the same family of curves.
 
@@ -147,9 +147,9 @@ this sense, even though the points used for defining them are (with
 the exception for endpoints) not the knots of the spline.  (Rather,
 the internal knots are the midpoints of the line segments joining two
 adjacent control point.)  The "raw" curves proposed here are in
-general ''not'' splines (because they admit dicontinuous changes in
+general ''not'' splines (because they admit discontinuous changes in
 tangent direction, thus violating the smoothness condition), but they
-often serve as an encoding for precomputed degree 3 splines and this
+often serve as an encoding for pre-computed degree 3 splines and this
 use has lead to a confusion in terminology in this area.  It is not
 uncommon that piecewise cubic Bezier curves in general are referred to
 as "cubic splines", even though that is a more special concept.  It
@@ -178,7 +178,7 @@ curves produced in general aren't splines.
 ~ Implementation
 
 An implementation of this proposal (minus the part about changing the
-name of the existing -smooth method) exists.  I indend to upload it as
+name of the existing -smooth method) exists.  I intend to upload it as
 a SourceForge patch as soon as I know what TIP number this proposal
 will get.
 
