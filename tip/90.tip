@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -246,7 +246,28 @@ such a replacement is:
 |     return -options $options $result
 | }
 
-In every way [myReturn] should be an equivalent to [return].
+In every way ''myReturn'' should be an equivalent to ''return''.
+
+The new ability to exactly reproduce stack traces makes a
+''catch'' of large scripts more attractive.  For example, a
+procedure that allocates some resource, then performs operations,
+and finally frees the resource before returning.  In order to
+be sure the resource is freed, we must ''catch'' any errors
+that might cause the procedure to return before the freeing
+of the resource.  The solution looks like:
+
+| proc doSomething {} {
+|     set resource [allocate]
+|     catch {
+|          # Arbitrarily long script of operations
+|     } result options
+|     deallocate $resource
+|     return -options $options $result
+| }
+
+With that structure, we are confident the resource is always
+freed, but any error or exception will be presented to the
+caller exactly as if it had never been caught in the first place.
 
 ~ Prototype
 
