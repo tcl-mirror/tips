@@ -1,0 +1,69 @@
+TIP:		145
+Title:		Enhanced Tk Font Handling
+Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
+Version:	$Revision: 1.1 $
+Type:		Project
+State:		Draft
+Vote:		Pending
+Tcl-Version:	8.5
+Created:	31-Jul-2003
+Post-History:	
+
+~ Abstract
+
+[64] suggests some improvements to font handling under windows.
+However, not all of this TIP appears to have been implemented and I
+believe this can be done better using the Tk named fonts mechanism.
+
+~ Rationale
+
+Windows, and no doubt MacOS as well, provide a number of system
+defined fonts.  These are fonts that may be configured by the end user
+and that all applications are expected to use.  The list includes the
+menu font, the caption font, the tooltip font and others.  Some of the
+special fonts have been given symbolic names but these are not
+available to dynamic inspection.  This TIP proposes to make these
+fonts available using the named font mechanism as used by the ''font
+create'' command.  This has some significant advantages.  The set of
+special font names becomes available to the programmer using the
+''font names'' command.  The font configuration is available using the
+''font configure'' command.  Also there is already a scheme in place
+to update all widgets using a named font when that fonts configuration
+changes.  It is now a simple matter of re-defining the system fonts on
+receipt of the WM_SETTINGCHANGE message to have Tk properly reflect
+changes to the system-wide font selection.
+
+~ Proposed Changes
+
+The named font creation routine ''CreateNamedFont'' needs to be
+exposed on the internal API as ''TkCreateNamedFont''.  Also, the code
+used to delete a named font should be factored out into a function,
+''TkDeleteNamedFont''.
+
+A ''TkWinSetupSystemFonts'' function is to be created which obtains
+the font description for the system fonts and calls
+''TkCreateNamedFont'' appropriately.  This needs to be called during
+font package initialization.  The fonts are obtained using the Win32
+SystemParameters API and the set of defined stock object identifiers
+used with GetStockObject.
+
+The toplevel Windows message message handler function ''WmProc'' must
+handle the WM_SETTINGCHANGE message by calling the
+TkWinSetupSystemFonts function.  This must call ''TkDeleteNamedFont''
+and then ''TkCreateNamedFont'' to properly re-define the font and to
+propagate this change to all Tk widgets concerned.
+
+~ Cross-Platform Concerns
+
+It seems likely to be useful to ensure that aliases are available for
+each platform for the set of system fonts.  This is currently done for
+the Tk cursors and helps to ensure that a script written for one
+system will usefully operate on another platform.
+
+~ Implementation
+
+http://sf.net/tracker/?func=detail&aid=780617&group_id=12997&atid=312997
+
+~ Copyright
+
+This document is placed in the public domain.
