@@ -1,7 +1,8 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin Kenny <kennykb@acm.org>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -201,6 +202,11 @@ strings are "numbers":
 | 1
 | % string is double Inf
 | 1
+
+''Donal K. Fellows notes that...'' the '''expr''' command will handle Inf and NaN quite well if asked nicely; it just won't return them.
+
+| % expr {1 / Inf}
+| 0.0
 
 ~ References
 
