@@ -1,9 +1,10 @@
 TIP:		57
 Title:		Multiple Assignment Command
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Agnar Renolen <agnar.renolen@emap.no>
 State:		Draft
 Type:		Project
+Vote:		Pending
 Tcl-Version:	8.4
 Created:	30-Aug-2001
 Post-History:	
