@@ -1,9 +1,9 @@
 TIP:            32
 Title:          Add Tcl_Obj-enabled counterpart to Tcl_CreateTrace
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Mar-2001
@@ -129,19 +129,17 @@ The following functions shall be added to the Tcl core:
     ''TCL_BREAK'', ''TCL_CONTINUE'' or ''TCL_RETURN'', it is treated
     as if the command had done so.
 
- 1. Tcl_GetCommandTokenInfo and Tcl_SetCommandTokenInfo
+ 1. Tcl_GetCommandInfoFromToken and Tcl_SetCommandInfoFromToken
 
 | int
-| Tcl_GetCommandTokenInfo( Tcl_Interp*  interp,
-|                          Tcl_Command  token,
+| Tcl_GetCommandInfoFromToken( Tcl_Command  token,
 |                          Tcl_CmdInfo* infoPtr );
 
 | int
-| Tcl_SetCommandTokenInfo( Tcl_Interp*        interp,
-|                          Tcl_Command        token,
+| Tcl_SetCommandInfoFromToken( Tcl_Command        token,
 |                          CONST Tcl_CmdInfo* infoPtr );
 
-  > The ''Tcl_GetCommandTokenInfo'' and ''Tcl_SetCommandTokenInfo''
+  > The ''Tcl_GetCommandInfoFromToken'' and ''Tcl_SetCommandInfoFromToken''
     functions are precisely parallel to today's ''Tcl_GetCommandInfo''
     and ''Tcl_SetCommandInfo'' procedures, except that they accept an
     opaque ''Tcl_Command'' object instead of a command name.  They are
@@ -151,6 +149,9 @@ The following functions shall be added to the Tcl core:
     ''Tcl_GetCommandInfo'' to the result of ''Tcl_GetCommandName.''
 
 ~ Change History
+
+10 February 2002 - Moved to Final Status with slight revisions in the names
+and arguments of Tcl_GetCommandInfoFromToken and Tcl_SetCommandInfoFromToken.
 
 3 November 2001 - Reworked the entire TIP.  Changed the object trace
 handling to work with ''Tcl_Command'' objects instead of command
