@@ -1,8 +1,8 @@
 TIP:		184
 Title:		Avoid Creating Unusable Variables
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Miguel Sofer <msofer@users.sf.net>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	27-Mar-2004
