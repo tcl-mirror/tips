@@ -1,6 +1,6 @@
 TIP:		131
 Title:		Read My Mind and Do What I Mean
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Joe English <jenglish@flightlab.com>
 State:		Draft
 Type:		Project
@@ -25,6 +25,16 @@ intends.
 ''programmer's'' mind, not the end user's.  Otherwise the consequences
 could be disastrous, since end users rarely have a firm grasp of what
 the original programmer was up to.
+
+As a consequence of this command, there is also a corresponding
+function for ''expr'' which applies the same principles to general
+mathematical computation:
+
+|  set result [expr {rmmadwim()}]
+
+This extra functionality is easy to enable:
+
+|  rmmadwim
 
 ~ Rationale
 
