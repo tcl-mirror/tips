@@ -1,6 +1,6 @@
 TIP:            158
 Title:          Distinguish the two 'Enter' keys on Windows
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -36,12 +36,13 @@ backward compatibility.  What is proposed is that 'tkWinX.c' will
 examine the ''KF_EXTENDED'' bit in the keyboard state (passed as
 ''lParam'' to the ''GetState'' function) and map it as modifier
 4. (Modifiers 1 through 3, respectively, refer to the ''Num Lock'',
-''Menu'', and ''Scroll Lock'' keys.)
+''Alt'', and ''Scroll Lock'' keys.)  An alias shall be added so
+that ''Extended'' may be used in place of ''Mod4''.
 
 This change has little if any impact on existing Windows code, since
 modifier 4 is not generated on Windows today.  A binding to
 ''<Return>'' will continue to fire for the numeric ''Enter'' key,
-unless there is also a binding to ''<Mod4-Return>'' which will then
+unless there is also a binding to ''<Extended-Return>'' which will then
 take precedence.
 
 Existing Unix code that binds ''<Return>'' and ''<KP_Enter>''
@@ -54,7 +55,7 @@ Unix code that has distinct bindings for ''<Return>'' and
 ''<KP_Enter>'' does not function correctly on Windows today - and
 cannot be made to do so without changing its specification.  To port
 such code to Windows once this change is in place, a developer will
-have to add bindings to ''<Mod4-Return>'' that mirror those for
+have to add bindings to ''<Extended-Return>'' that mirror those for
 ''<KP_Enter>''. Once the developer has done this, the application will
 distinguish the two keys and fire the appropriate binding for each.
 
@@ -70,8 +71,8 @@ different bindings between the numeric pad and the main keyboard.
 
 ~ Reference Implementation
 
-The changes require to implement this proposal can be obtained from
-SourceForge as Tk Patch #797404.
+The changes require to implement an earlier version of this
+proposal can be obtained from SourceForge as Tk Patch #797404.
 
 ~ Summary of Discussion
 
@@ -93,13 +94,26 @@ guidelines) to add an additional binding, particularly in light of the
 fact that those applications today can't implement the desired
 functionality on Windows at all.
 
+One proposed workaround was to have a default ''all'' binding for
+''<KP_*>'' events on Windows fire the corresponding binding for
+a non-''KP'' keysym.  Unfortunately, this solution introduces even
+worse surprising behavior.  A conventional binding to the KP_*
+keysym will have to include a [break] or [return -code break]
+in order to avoid having this ''all'' binding fire - and making
+it appear as if both keys had been pressed or released.
+
 The open issue of what to do about the problem on the Macintosh
 platform remains.  The authors of this TIP are too ignorant of
 Macintosh programming to address it.
 
+This proposal has engendered a fair amount of controversy, as
+may be seen in the two threads of messages beginning from
+[http://aspn.activestate.com/ASPN/Mail/Message/1811543] and
+[http://aspn.activestate.com/ASPN/Mail/Message/1820298].
+
 ~ Copyright
 
-Copyright © 2003 by Kevin B. Kenny.  All rights reserved.
+Copyright © 2003, 2004 by Kevin B. Kenny.  All rights reserved.
 
 Permission to use this document in accordance with the terms of Open
 Publication License [http://www.opencontent.org/openpub/] is herewith
