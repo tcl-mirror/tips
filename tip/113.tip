@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -29,9 +29,13 @@ This can be implemented very efficiently, given
 the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
 impact at all on the speed of matching single lines.
 
-In addition, if a new ''-all'' option is given to the ''search'' subcommand, then all matches within the given range will be reported. This means the return result of the command will be a list of indices, and, if a ''-count var'' option was given, ''var'' will be set to a list of match-index-lengths.
+In addition, two new options to the ''search'' subcommand are available:
 
-The text widget man page will need updating to reflect the new ''-all' option, and to remove the "single line" caveat.
+If the new ''-all'' option is given to the ''search'' subcommand, then all matches within the given range will be reported. This means the return result of the command will be a list of indices, and, if a ''-count var'' option was given, ''var'' will be set to a list of match-index-lengths.
+
+If the new ''-nolinestop'' option is given then regexp searches will allow ''.'' and ''[^'' sequences to match newline characters (which is normally not the case).  This is equivalent to ''not'' providing the ''-linestop'' flag to Tcl's ''regexp'' command.
+
+The text widget man page will be updated to reflect the new ''-all'' and ''-nolinestop'' options, and to remove the "single line" caveat.
 
 ~ Reference implementation
 
@@ -42,8 +46,6 @@ http://sourceforge.net/tracker/?func=detail&aid=621901&group_id=12997&atid=31299
 (However, this patch has to workaround a bug in Tcl's unicode string manipulation, so search performance is probably impacted)
 
 ~ Issues
-
-Regexp searches in text widgets always operate as if the ''-lineanchor'' flag has been given.  This is needed for backwards compatibility (so ''^$'' match at the beginning and end of each line respectively).  The current implementation also forces the ''-linestop'' flag, although it is potentially useful to allow user-control over that (so ''.*'' can match across multiple lines).
 
 On the implementation side, it might be interesting to abstract the search interface away from the text widget, so that it could in principle be applied to any line-based textual source.
 
