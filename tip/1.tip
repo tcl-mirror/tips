@@ -1,6 +1,6 @@
 TIP:            1
 Title:          TIP Index
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         TIP Editor <donal.fellows@cs.man.ac.uk>
 State:          Active
 Type:           Informational
@@ -17,11 +17,15 @@ the TCT. It will be continually and automatically updated.
 
 #index:
 
-~ Explanations
+~ Explanations and How To Submit New TIPs
 
 See [2] for a description of the editorial process a TIP has to go
 through and [3] for a description of their structure and the commands
-used to write them.
+used to write them. You submit a TIP to this archive by emailing it
+(preferably in source form) to the TIP editor <donal.fellows@cs.man.ac.uk>
+who will check it for following of the guidelines, style and general
+relevance to Tcl/Tk before checking it into the CVS archive and notifying
+the author, the rest of the Tcl Core Team, and the relevant newsgroups.
 
 ~ Copyright
 
