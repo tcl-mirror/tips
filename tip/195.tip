@@ -1,0 +1,101 @@
+TIP:		195
+Title:		Script Access to Tcl_GetIndexFromObj
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Peter Spjuth <peter.spjuth@space.se>
+Created:	02-May-2004
+Keywords:	Tcl
+Obsoletes:	105
+
+~ Abstract
+
+This TIP adds a new command to support matching of strings to unique
+prefixes of patterns, similar to Tcl's existing subcommand-name
+matching or Tk's option-name matching.
+
+~ Rationale
+
+When code (particularly in script libraries) wants to support shortest
+unique prefix matching in the manner of the Tcl core (as provided by
+''Tcl_GetIndexFromObj'') currently either the prefixes have to be
+precomputed (by hand or by script) or the matching has to be done
+backwards.  In the first case, this is either error-prone or requires
+an extra piece of code that has to be developed by the programmer.  In
+the second case, the code has to be converted into a pattern which is
+matched against the list of supported options in some way, which is
+either inefficient or has hazards if the string being matched contains
+characters that are meaningful to the matching engine being used.
+Instead, it would be far nicer if we could make the core support this
+directly, so that script authors could just say what they mean.
+
+See also [105], which the text above comes from.
+
+~ Proposed Change
+
+To support this, I propose adding a command with the syntax
+
+ * '''prefix''' ?'''-exact'''? ?'''-message''' ''string''? ''list'' ''string''
+
+The command is given a list of possibilities and a string to match,
+and returns the matching element in the list or an error.  Basically
+it does what ''Tcl_GetIndexFromObj'' does except it returns a string
+instead of an index.  The options '''-exact''' and '''-message'''
+corresponds to the ''flags'' and ''msg'' arguments to
+''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
+"option".
+
+~ Examples
+
+Basic use:
+
+|% prefix {apa bepa cepa} apa
+|apa
+|% prefix {apa bepa cepa} a
+|apa
+|% prefix -exact {apa bepa cepa} a
+|bad option "a": must be apa, bepa, or cepa
+|% prefix -message "switch" {apa ada bepa cepa} a
+|ambiguous switch "a": must be apa, ada, bepa, or cepa
+
+Simplifying option matching:
+
+|array set opts {-apa 1 -bepa "" -cepa 0}
+|foreach {arg val} $args {
+|    set opts([prefix {-apa -bepa -cepa} $arg]) $val
+|}
+
+Approximately how the implementation would be done:
+
+|# A limited implementation example
+|proc prefix {table obj} {
+|    set msg "option"
+|    if {[lsearch -exact $table $obj] >= 0} {
+|        return $obj
+|    }
+|
+|    set match [lsearch -glob -all -inline $table $obj*]
+|    if {[llength $match] == 0} {
+|        return -code error -level 2 "bad $msg \"$obj\", must be ..."
+|    }
+|    if {[llength $match] > 1} {
+|        return -code error -level 2 "ambiguous $msg \"$obj\", must be ..."
+|    }
+|
+|    return [lindex $match 0]
+|}
+
+~ Alternatives
+
+I'm not entirely happy with the name '''prefix''' but it is the best I
+can come up with at the moment.
+
+Any name based on ''Tcl_GetIndexFromObj'' feels wrong since this
+command does not get any index.
+
+~ Copyright
+
+This document has been placed in the public domain.
