@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -60,7 +60,7 @@ minimal units.
 
 ~ Proposal
 
-Tcl shall be divided into the following 54 functional units, each to be
+Tcl shall be divided into the following functional units, each to be
 assigned one or more maintainers:
 
    Events: 
