@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -66,6 +66,14 @@ Simplifying option matching:
 |array set opts {-apa 1 -bepa "" -cepa 0}
 |foreach {arg val} $args {
 |    set opts([prefix {-apa -bepa -cepa} $arg]) $val
+|}
+
+Switch similar to [105]:
+
+|switch -- [prefix {apa bepa cepa} $arg] {
+|    apa  { }
+|    bepa { }
+|    cepa { }
 |}
 
 The implementation will of course be in C but this is approximately
