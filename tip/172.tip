@@ -1,0 +1,44 @@
+TIP:		172
+Title:		Improve UNIX Tk Look and Feel
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		David N. Welton <davidw@dedasys.com>
+Created:	08-Mar-2004
+
+~ Abstract
+
+In the spirit of "worse is better", this TIP proposes a simple way to
+notably improve Tk's look and feel for the 8.5 release of Tk.  It does
+not fix all the problems, and won't make Tk look like whatever toolkit
+is "native" on the user's machine (Gtk or Qt), but will at least
+improve the current situation.
+
+~ Rationale
+
+This TIP is needed because people continue to complain about Tk's
+outdated look.  This TIP, being extremely easy to implement, should be
+put into place while we await a technically superior solution such as
+the Tile project.
+
+~ Proposed Change
+
+The two things that ought to happen are as follows:
+
+ 1. The code at http://mini.net/tcl/10424 should be tweaked to further
+    improve its look (for instance Pat Thoyts suggests a few
+    additional improvements at the bottom of the page), and included
+    as the default look for Tk on Unix in the 8.5 release.  Credit
+    goes to Jeremy Collins and the Tk revitalization project for most
+    of the code, I believe.
+
+ 2. A loadable package should be distributed with Tk that reverts the
+    look and feel to "classic Tk", so that "package require classictk"
+    would be the only change necessary to not use the new look.
+
+~ Copyright
+
+This document has been placed in the public domain.
