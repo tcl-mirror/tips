@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -90,11 +90,8 @@ In example.h is this:
 That work is doing the same job, but I prefer the method that I'm proposing.
 
 Is->
-
 |	EXTERN int Foobar_Init (Tcl_Interp *interp);
-
 Want->
-
 |	EXTERN(int) Foobar_Init (Tcl_Interp *interp);
 
 ~ Reference Implementation
@@ -175,6 +172,19 @@ Preprocessor output is the following:
 | ((void *)0) );
 |    return 0 ;
 |};
+
+~ Random Notes
+
+In ''tclInt.h'' starting around line 1916, are prototypes for the internal cmdprocs.  I can't think of any reason why they should be exported.  If 
+
+|EXTERN int	Tcl_AfterObjCmd _ANSI_ARGS_((ClientData clientData,
+|		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+
+was replaced by the simpler
+
+|Tcl_ObjCmdProc  Tcl_AfterObjCmd;
+
+Would it matter?
 
 ~ Copyright
 
