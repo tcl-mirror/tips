@@ -1,8 +1,8 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Kevin Kenny <kennykb@acm.org>
-Author:          <_@_._>
+Author:         <_@_._>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -893,6 +893,33 @@ repository as the Tcl core, and Tcl maintainers can obtain it
 with
 
 |  cvs -d:ext:USER@cvs.sf.net:/cvsroot/tcl co newclock
+
+~ Notes on the cost of implementation
+
+Since it is well known that Tcl code is typically 30-50 times slower
+than the equivalent C, it is to be expected that [[clock scan]],
+[[clock format]], [[clock add]] and [[clock subtract]]
+will be in that performance range.  [[clock seconds]] and
+[[clock clicks]] will still be C code and are not expected to
+suffer a measurable change in performance.  (If they do, the
+implementors plan to address the issue.)
+
+The cost of the time zone data files and the message catalogs
+is not trivial; they occupy about 1.6 megabytes exclusive of file
+system fragmentation and may occupy multiple megabytes depending
+on the minimum size of a file.  The implementors assume (and are
+working to ensure) that some sort of compressed virtual file system
+will be available as core functionality in the 8.5 final release.
+With zlib compression, the message catalogs and time zone data total
+less than half a megabyte.  It is worth noting that a distribution
+that must run in the absolute minimum space may omit both message
+catalogs and time zone data; if this is done, named time zones
+(e.g., :America/New_York) will not be available, and the only
+supported locale will be the root locale.  This combination
+provides functionality comparable to the [[clock]] command prior
+to this TIP.  The Tcl code that implements [[clock]] is less than
+eighty kilobytes with comments and blank lines removed; this
+amount of overhead is thought to be negligible.
 
 ~ Bugs
 
