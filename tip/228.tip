@@ -1,13 +1,14 @@
-TIP:		228
-Title:		Tcl Filesystem Reflection API
-Version:	$Revision: 1.1 $
-Author:		Andreas Kupries <andreas_kupries@users.sf.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	02-Nov-2004
-Post-History:	
+TIP:            228
+Title:          Tcl Filesystem Reflection API
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <andreas_kupries@users.sf.net>
+Author:         Andreas Kupries <akupries@shaw.ca>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        02-Nov-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -137,7 +138,7 @@ filesystem is mounted for that path.
 There is currently no facility to determine the '''filesystem
 interpreter''' (nor its thread).
 
-~~ The posizerror Subcommand
+~~ The posixerror Subcommand
 
  > '''posixerror''' ''error''
 
