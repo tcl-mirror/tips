@@ -1,9 +1,9 @@
 TIP:            129
 Title:          New Format Codes for the [binary] Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Torsten Reincke <reincke@typoscriptics.de>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        14-Mar-2003
