@@ -1,6 +1,6 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -27,6 +27,11 @@ it would be a simple task to allow two (or more) widgets to share this
 data.
 
 ~ Proposed Change
+
+The primary change is the addition of a 'peer' subcommand to any text widget, as follows:
+
+| $text peer create ...
+| $text peer names
 
 The proposed implementation splits the widget structure into two
 pieces, sharable data and widget specific rendering parts.  The text
@@ -55,6 +60,12 @@ Lastly, all text widgets take two new configuration options to specify that the 
 |set peer [$widget peer create .peer -startline 53 -endline 125]
 
 will create a peer which contains lines 53 to 125 of the underlying data store.  The default is for a peer to contain the same range of lines as its 'parent', but one can use '-startline {} -endline {}' to force use of the entire b-tree.
+
+Any peer widget can access a list of all ''other'' peers, via the 'peer names' command:
+
+| set peerlist [$widget peer names]
+
+This list does not include $widget itself.
 
 ~ Detailed Description
 
