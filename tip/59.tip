@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -83,7 +83,7 @@ This function is added to the public stub table of the Tcl core so
 that it can be used by Tcl and extensions to register their own
 configuration information in the system during initialization.
 
-The function takes three (2) arguments; first, the name of the package
+The function takes three (3) arguments; first, the name of the package
 registering its configuration information, second, a pointer to an
 array of structures, and third a string declaring the encoding used by
 the configuration values.  Each element of the array refers to two
@@ -100,7 +100,7 @@ Formalized, name and signature of this new function are
 | }
 
 The string ''valEncoding'' contains the name of an encoding known to
-Tcl. All these names are use only charaqcters in the ASCII subset of
+Tcl. All these names are use only characters in the ASCII subset of
 UTF-8 and are thus implicity in the UTF-8 encoding. It is expected
 that keys are legible english text and therefore using the ASCII
 subset of UTF-8. In other words, they are expected to be in UTF-8
