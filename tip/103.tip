@@ -1,0 +1,124 @@
+TIP:		103
+Title:		Argument Expansion Command
+Version:	$Revision: 1.1 $
+Author:		Peter Spjuth <peter.spjuth@space.se>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	15-Jun-2002
+Post-History:
+
+~ Abstract
+
+This TIP proposes to add a command that can perform argument expansion
+in a safe and efficient manner.
+
+~ Introduction
+
+Many commands take a variable number of arguments and often you find
+yourself with those arguments in a list.  This list must then be
+expanded into individual arguments to the command.  This is currently
+done with eval:
+
+|eval destroy [winfo children .]
+
+This is a bit obscure and also very error prone when the command
+becomes more complex.  It is also inefficient and not object safe, why
+a command specialised in doing this would be better.
+
+~ Rationale
+
+There have been suggestions of introducing some new syntax to Tcl to
+handle argument expansion.  That is a big and controversial step, and
+not anything this TIP wants to meddle in.  A command can improve every
+point where eval has shortcomings and thus give a good result with
+less means.
+
+Such a command can be done in several ways and below the choice in
+this TIP's specification is defended.
+
+As examples three statements are used which will be repeated for
+different alternatives.  This is the eval version:
+
+|eval destroy [winfo children .]
+|eval button .b $stdargs -text \$mytext -bd $border
+|eval exec \$prog $opts1 [getMoreopts] \$file1 \$file2
+
+With the proposed command they become:
+
+|expand { destroy @[winfo children .] }
+|expand { button .b @$stdargs -text $mytext -bd $border }
+|expand { exec $prog @$opts1 @[getMoreopts] $file1 $file2 }
+
+An alternative to having a local syntax is to point at the arguments
+that should be expanded, either by index:
+
+|expand {end} destroy [winfo children .]
+|expand {2} button .b $stdargs -text $mytext -bd $border
+|expand {2 3} exec $prog $opts1 [getMoreopts] $file1 $file2
+
+Or by some flag mechanism:
+
+|expand destroy + [winfo children .]
+|expand button .b + $stdargs -text - $mytext -bd $border
+|expand exec - $prog + $opts1 + [getMoreopts] - $file1 - $file2
+
+Those lack in writability/readability/maintainability in a disturbing
+manner.
+
+For the choice of local syntax the first rule is that it should not
+violate Tcl's rules, which simplifies implementation since Tcl's
+parser can do the job.
+
+Any char that fulfils that could be used but the choice fell on @
+since that char is odd enough to be visible which helps readability.
+
+An alternative syntax could be:
+
+|expand { destroy <[winfo children .]> }
+|expand { button .b <$stdargs> -text $mytext -bd $border }
+|expand { exec $prog <$opts1> <[getMoreopts]> $file1 $file2 }
+
+Using enclosing symbols suggests that they may affect grouping, which
+they would not if Tcl's parser shall be used.  Thus a single char is
+less likely to cause confusion.
+
+~ Specification
+
+A new command "expand" is added.  It takes one argument, which
+contains a Tcl statement.  Only one statement is permitted.
+
+The statement is processed in the following manner:
+
+ 1. Parse into words according to Tcl's standard rules.
+
+ 2. Any word starting with @ is remembered and the @ is removed.
+
+ 3. Perform Tcl's normal execution steps on the new line up to the
+    point where the command should have been called.
+
+ 4. Expand the arguments that should be expanded.
+
+ 5. Execute the command.
+
+''Note 1:'' A word should really start with @ to trigger expansion
+which means that words like these are not expanded:
+
+|cmd "@$temp" {@home} \@[something]
+
+''Note 2:'' Even though it makes most sense to use @ with words like:
+
+|cmd @$var @[somecmd $arg]
+
+the rules allow usages like this:
+
+|cmd @$var$apa @[foo]xy[apa]
+
+~ Reference Implementation
+
+A reference implementation exists and will be uploaded to SF shortly.
+
+~ Copyright
+
+This document has been placed in the public domain.
