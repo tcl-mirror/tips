@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -186,40 +186,18 @@ The following Categories in Tcl's SourceForge Bug Tracker should be
 mapped to new Categories corresponding to a maintained area of Tcl,
 when seeking the appropriate maintainer:
 
-   1. ''Build'' - map to ''Configure and Build Tools''.
+   1. ''I18N'' - map to ???
 
-   2. ''Clock'' - map to ''Time Measurement''.
+   2. ''Other'' - reassign once area is determined.
 
-   3. ''CodeCleanup'' - map to section of code being cleaned up.
+   3. ''Packaging'' - map to ???
 
-   4. ''Commands'' - map to the specific command or one of ''A-H'',
-      ''I-L'', or ''M-Z''.
-
-   5. ''Docs'' - no longer a separate Category.  Map to the section
-      of code being documented.
-
-   6. ''Exec and Pipe'' - map to ''Channel Types''.
-
-   7. ''File System (trash)'' - map to ''File System''.
-
-   8. ''I18N'' - map to ???
-
-   9. ''Installation'' - map to ''Configure and Build Tools''.
-
-   10. ''Other'' - reassign once area is determined.
-
-   11. ''Other IO'' - reassign to appropriate ''Channel'' category.
-
-   12. ''Packaging'' - map to ???
-
-   13. ''Sockets'' - map to ''Channel Types''.
-
-   14. ''Tests'' - no longer a separate Category.  Map to the section
+   4. ''Tests'' - no longer a separate Category.  Map to the section
       of code being tested.
 
-   15. ''Unix'' - map to specific problem on Unix.
+   5. ''Unix'' - map to specific problem on Unix.
 
-   16. ''Windows'' - map to specific problem on Windows.
+   6. ''Windows'' - map to specific problem on Windows.
 
 ~ Sections Without Maintainers
 
