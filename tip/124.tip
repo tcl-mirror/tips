@@ -1,6 +1,6 @@
 TIP:            124
 Title:          Adding "clock microseconds" Subcommand
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Mark Harrison <mh@pixar.com>
 Author:         Kevin Kenny <kennykb@users.sourceforge.net>
 State:          Draft
@@ -77,3 +77,8 @@ we implement the rest of these changes, in order to address the
 Y2038 problem.  Alas, the problem goes deeper; the gettimeofday()
 call (and Tcl's mirroring of it in the Tcl_GetTime interface) is
 not Y2038-ready.
+
+Several people have informally asked whether 64 bits are enough
+to hold the microsecond counter.  Since 2**64 microseconds is
+roughly half a million years, the authors are confident that
+the answer is, "yes."
