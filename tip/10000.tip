@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.103 $
+Version:        $Revision: 1.104 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -43,11 +43,9 @@ Here's a simple edit test.
 
 ~ Copyright
 
-This document is placed in the public domain.
-
 TIP:            
 Title:          Internationalisation and refactoring of the 'clock' command
-Version:        $Revision: 1.103 $string ?-format format? \
+Version:        $Revision: 1.104 $string ?-format format? \
 |                            ?-gmt boolean? \
 |                            ?-locale name? \
 |                            ?-timezone timeZone?
@@ -69,7 +67,7 @@ Version:        $Revision: 1.103 $string ?-format format? \
      The syntax is:
 
 |	clock (add|subtract) time ?count unit?... \
-	    ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
+|	    ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
 
     > > It accepts a time, expressed in seconds from the Posix epoch of
         1 January 1970, 00:00 UTC, and adds or subtracts units of time
