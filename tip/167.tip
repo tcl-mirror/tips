@@ -1,13 +1,14 @@
-TIP:		167
-Title:		Add a New Option for Context Help for Windows
-Version:	$Revision: 1.3 $
-Author:		Ramon Ribó <ramsan@cimne.upc.es>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	19-Nov-2003
-Tcl-Version:	8.5
-Post-History:	
+TIP:            167
+Title:          Add a New Option for Context Help for Windows
+Version:        $Revision: 1.4 $
+Author:         Ramon Ribó <ramsan@cimne.upc.es>
+Author:         Joe English <jenglish@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Nov-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -70,6 +71,10 @@ values.
 ~ Reference Implementation
 
 http://sf.net/tracker/?func=detail&atid=312997&aid=845248&group_id=12997
+
+~ Comments
+
+It would be preferable to use a virtual event '''<<Help>>'' instead of extending the set of X events.  (In particular, adding a new '''<Help>''' event means there has to be a new '''HelpMask''' bit flag to select for it, and we're running out of event mask bits).
 
 ~ Copyright
 
