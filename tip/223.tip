@@ -1,11 +1,11 @@
 TIP:		223
 Title:		Full-Screen Toplevel Support for Tk
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Mo DeJong <mdejong@users.sourceforge.net>
 State:		Draft
 Type:		Project
 Vote:		Pending
-Created:	21-Sept-2004
+Created:	21-Sep-2004
 Post-History:	
 Tcl-Version:	8.5
 
