@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -12,13 +12,10 @@ Tcl-Version:    8.5
 ~ Abstract
 
 Tk's text widget is very powerful, but has a number of known
-limitations.  Foremost amongst these is the way in which, particularly
+limitations.   In particular the entire handling of wrapped lines and 'display/visual entities' versus 'logical entities' is quite limited.  The most obvious side-effect of these inadequacies is the 'scrollbar problem' (in which, particularly
 when there are long wrapped lines in the widget, the vertical
 scrollbar slider changes in size depending on the number of logical
-lines currently displayed.  See http://mini.net/tcl/896 for more
-detail and an example.
-
-This TIP addresses this usability bug and a number of other issues.
+lines currently displayed, see http://mini.net/tcl/896 for example).  This TIP overhauls the widget to provide consistent, complete support for 'display lines', 'display indices' and as a consequence smooth, pixel-based scrolling.
 
 ~ Proposal
 
@@ -83,12 +80,12 @@ In addition, the current implementation provides for a bit more text
 widget objectification and fixes the "very slow deletion of lots of
 text with lots of tags" bug (there was a non-linear slowdown which has
 been removed).  One crashing bug in the text widget has also been
-fixed, and a problem in searches with '-all'.
+fixed, and a bug in searches with '-all'.
 
 ~ Scrollbar Interaction
 
 This is the most complex of the proposed changes, even though solving
-it results in no changes to the actual text-widget's public Tcl or C
+it results in very limited changes to the actual text-widget's public Tcl or C
 interfaces.  The following example illustrates the problem:
 
 | pack [scrollbar .s -command {.t yview}] -side right -fill y
@@ -144,7 +141,7 @@ used because idle callbacks are not allowed to reschedule themselves).
 A thread-based implementation may have some advantages (although it
 certainly has disadvantages too).
 
-Given the pixel calculations are available, they have been used to provide for smooth scrolling of the text widget.  This means even with large images, smooth scrolling off top and bottom of the widget are automatic.  In order for smooth scrolling to be used by Tk's Tcl library, the ''pixels'' unit has been added to the ''.text yview scroll'' command.  This is used to ensure mouse-wheel and scan-drag scrolling are smooth.  It is important that the existing ''pages'' and ''units'' (the latter being display lines) do not change in meaning so that, for example, clicking on a scrollbar's arrow still scrolls the widget by 1 display line.
+Given the pixel calculations are available, they have been used to provide for smooth scrolling of the text widget.  This means even with large images (possibly even larger than the height of the widget itself), smooth scrolling off top and bottom of the widget are automatic.  In order for smooth scrolling to be used by Tk's Tcl library, the ''pixels'' unit has been added to the ''.text yview scroll'' command.  This is used to ensure mouse-wheel and scan-drag scrolling are smooth.  It is important that the existing ''pages'' and ''units'' (the latter being display lines) do not change in meaning so that, for example, clicking on a scrollbar's arrow still scrolls the widget by 1 display line.
 
 ~ Count Subcommand
 
@@ -173,7 +170,7 @@ option given, as follows:
 
  -displaylines: count all displaylines.
 
- -ypixels: count the number of vertical pixels between the two indices. ''.text count -update -ypixels 1.0 end'' will return the number of pixels in the entire widget.
+ -ypixels: count the number of vertical pixels between the two indices. 
 
 If more than one of these counting options is given, the result is a list with one entry for each such option given (''-update'' does not contribute to this result, of course).
 
@@ -192,6 +189,8 @@ and
 | .text compare "$i1 + [.text count -displayindices $i1 $i2] display indices" == $i2
 
 is true under all circumstances.
+
+Lastly, for those who wish to know the required number of vertical pixels a text widget needs, ''.text count -update -ypixels 1.0 end'' will give this (once any borderwidth, highlightthickness and ypad have been added on).
 
 ~ Replace Subcommand
 
