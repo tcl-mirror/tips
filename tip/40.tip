@@ -1,9 +1,9 @@
 TIP:            40
 Title:          Documentation Generator for Tcl Scripts
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        04-Jul-2001
