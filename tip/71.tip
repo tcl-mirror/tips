@@ -1,6 +1,6 @@
 TIP:            71
 Title:          Tk Bitmap Improvements
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Eric Melski <ericm@interwoven.com>
@@ -49,13 +49,12 @@ would look something like:
 
 I propose the following names:
 
-|   u7x4      u5x3      u3x2
-|   d7x4      d5x3      d3x2
-|   l7x4      l5x3      l3x2
-|   r7x4      r5x3      r3x2
+|   arrow_u7x4      arrow_u5x3      arrow_u3x2
+|   arrow_d7x4      arrow_d5x3      arrow_d3x2
+|   arrow_l7x4      arrow_l5x3      arrow_l3x2
+|   arrow_r7x4      arrow_r5x3      arrow_r3x2
 
-I'm considering adding ''arrow_'' at the start of each name.  I'm
-mindful of the fact that adding new predefined bitmaps has the
+I'm mindful of the fact that adding new predefined bitmaps has the
 potential to collide with application-defined bitmaps but unsure of
 the workaround for that.
 
