@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -296,6 +296,13 @@ of a Tcl-level vfs much simpler and more robust:
     removed, and the file is a platform-normalized path (e.g. the
     longname is used on windows).
 
+  * Modify the TclDoGlob implementation so it handles recursion itself,
+    rather than passing it on to the various TclpMatchFilesTypes functions.
+    This simplifies the platform-specific code, and makes vfs support of
+    ''glob'' much more robust, easy, complete, etc.  This has the side-
+    benefit that TclpMatchFilesTypes need not operate directly on
+    the interpreter's result.
+
   * Modify the implementation of ''encoding names'' to use the
     TCL_GLOBMODE_TAILS flag to TclGlob, simplifying that code.
 
@@ -311,10 +318,12 @@ of a Tcl-level vfs much simpler and more robust:
     fails to achieve anything useful.
 
 As mentioned above an implementation of all of this now exists.  The
-modified Tcl core passes all Tcl tests, and works with TclKit.  It has
+modified Tcl core passes all Tcl tests, and works with a new version of
+TclKit (which can itself pass all reasonable tests when executing the
+test suite inside a scripted document).  It has
 been tested with a variety of wrapped demos (tclhttpd, bwidgets,
 widgets, alphatk), and performs very well.  The patch is available
-from: ftp://ftp.ucsd.edu/pub/alpha/tcl/tclobjvfs.diff
+from: ftp://ftp.ucsd.edu/pub/alpha/tcl/tclobjvfs.diff 
 
 ~ Documentation: vfs-aware extensions
 
