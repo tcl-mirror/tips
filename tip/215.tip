@@ -1,0 +1,57 @@
+TIP:		215
+Title:		Make [incr] Auto-Initialize Undefined Variables
+Author:		Andreas Leitgeb <avl@logic.at>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Created:	25-Aug-2004
+Keywords:	Tcl
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+Unlike '''append''' and '''lappend''', '''incr''' currently does not
+auto-create yet-undefined variables.  This TIP proposes to make
+'''incr''''s behaviour in this regard more like the aforementioned
+commands.
+
+~ Rationale
+
+A quite common task is counting the number of occurrences of items in
+a given list.  The usual solution is to iterate the list, and for each
+item, increment the associated value in a tcl-array.  As of now this
+requires a separate step of determining the not-yet-existence and
+eventual initialization to 0 or alternatively '''catch''''ing errors
+from '''incr''' and setting the variable, if an error was raised.
+
+If we instead alter '''incr''' to treat non-existant variables as if
+they contained the value 0, this would be more like the
+auto-initializing behaviour of '''append''' and '''lappend''', and
+would make writing code that does this sort of summing up much
+easier.  It is also very similar to the way that the '''dict incr'''
+subcommand operates.
+
+~ No Change for Variables that Contain Non-Integers
+
+Just as '''lappend''' does complain if passed a variable whose value
+is an invalid list (e.g. a single open-brace), so it appears
+reasonable for '''incr''' to still throw an error if the variable
+contains something that is not a number.
+
+The empty string is invalid as an operand for '''expr''''s integer
+operators, so it should remain illegal to '''incr''' an existing
+variable that contains an empty string.
+
+~ Further Special Cases
+
+If a variable passed to incr is not yet existing, but linked to some
+other not-yet existing var, or if it is traced, then of course it
+would add flesh to that existing husk. Care should be taken that any
+write traces only trigger once (like for '''lappend'''), not twice (as
+in: for initializing and then for incrementing).
+
+~ Copyright
+
+This document has been placed in the public domain.
