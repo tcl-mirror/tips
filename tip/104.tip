@@ -1,14 +1,15 @@
-TIP:		104
-Title:		Generalization of the Tk Undo Subsystem
-Version:	$Revision: 1.1 $
-Author:		Ludwig Callewaert <ludwig.callewaert@belgacom.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	19-Jun-2002
-Post-History:	
-Discussions-To:	news:comp.lang.tcl
-Tcl-Version:	8.4
+TIP:            104
+Title:          Generalization of the Tk Undo Subsystem
+Version:        $Revision: 1.2 $
+Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
+Author:         Larry W. Virden. <lvirden@yahoo.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jun-2002
+Post-History:   
+Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -17,7 +18,7 @@ feature.  The text widget interface is not affected.  No functional
 changes are made at the Tcl level.  The purpose of the
 reimplementation is to move the undo feature from a text only
 implementation to a general implementation also usable by other
-widgets.  This opens the door to undoing also tag, mark or other
+widgets.  This opens the door to undoing also tag, mark and other
 operations, and allows for an exposure of the undo stack at the Tcl
 level.  These new features are however not part of this TIP.
 
@@ -25,7 +26,7 @@ level.  These new features are however not part of this TIP.
 
 As stated in the abstract, the current implementation of the text
 widget undo feature only allows for text changes to be undone.  The
-usefulness of the undo feature would increase tremendously if the also
+usefulness of the undo feature would increase tremendously if
 other operations could be undone (tags, marks, embedded windows, ...).
 This was already part of the [26] discussions.  This TIP deals with
 the generalization of the undo stack to cope with these requirements.
@@ -48,38 +49,38 @@ stack are provided to implement the undo/redo functionality.
 
    1. ''TkUndoInitStack()'': returns a pointer to an initialized
       TkUndoRedoStack.
-   
+
    2. ''TkUndoClearStacks(stack)'': clears both the undo and the redo
       stacks.
-   
+
    3. ''TkUndoFreeStack(stack)'': clears both undo and redo stacks and
-      free any memory allocated to ''stack''.
-   
-   4. ''TkUndoInsertUndoSeparator(stack)'': this function inserts a
+      frees any memory allocated to ''stack''.
+
+   4. ''TkUndoInsertUndoSeparator(stack)'': inserts a
       separator on the undo stack.  Note that there is currently no
       need for a ''TkUndoInsertRedoSeparator'' function, as the redo
       stack is managed by the internals of ''TkUndo''.
-   
-   5. ''TkUndoPushAction(stack, actionScript, revertScript)'': This
-      pushes an action of the undo stack (an atom of type command).
+
+   5. ''TkUndoPushAction(stack, actionScript, revertScript)'': pushes 
+      an action of the undo stack (an atom of type command).
       ''actionScript'' and ''revertScript'' are ''Tcl_DString''
       pointers that provide the script to redo and undo the action
       respectively.  The redo stack is cleared.
-   
+
    6. ''TkUndoRevert(stack, interp)'': undo a compound action.
       Compound means all revert script of action between two
       separators on the undo stack are executed and the actions are
       moved to the redo stack.  ''interp'' is the Tcl interpreter in
       which to execute the scripts.  Returns TCL_ERROR when
       unsuccessful (stack empty for instance), and TCL_OK otherwise.
-   
+
    7. ''TkUndoApply(stack, interp)'': redo a compound action.  The
       apply script of all actions between two separators on the redo
       stack is executed.  The actions are moved to the undo stack.
       ''interp'' is the Tcl interpreter in which to execute the
       scripts.  Returns TCL_ERROR when unsuccessful (stack empty for
       instance), and TCL_OK otherwise.
-   
+
 These functions are sufficient to implement the current undo
 functionality of the text widget, and they have been used for this
 purpose.
