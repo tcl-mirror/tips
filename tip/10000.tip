@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.48 $
+Version:        $Revision: 1.49 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -71,12 +71,16 @@ as unreliable.
 That's it for now. ... I'll add the same comments to [13], they belong
 there more than here.
 </Andreas Kupries>
+
 <note by="Richard Suchenwirth" date="2001-01-30">Whitespace in XML element names won't work.. or is 
 "Kupries" an attribute without value?</note>
 
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.48  2001/01/30 09:40:49  tclhttpd
+| Revision through web from Richard GH Suchenwirth <richard.suchenwirth@kst.siemens.de> (15856)
+|
 | Revision 1.47  2001/01/26 22:36:21  tclhttpd
 | Revision through web from  <dgp@users.sourceforge.net> (6062)
 |
