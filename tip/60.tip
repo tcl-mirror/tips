@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -40,19 +40,7 @@ version 5.5 of the Borland compiler, if EXTERN could swap around the
 order a hair, old Turbo C v5.0 has a better chance to make a DOS
 library :)
 
-The only main issue with doing this change, is that all extensions
-will need to adopt it.  Here is a backward compatibility fix, if this
-change is adopted, so extensions can still use older headerfiles.
-
-|#ifndef TCL_NEWEXTERN
-|#   ifdef __cplusplus
-|#	define OLDEXTERN extern "C" TCL_STORAGE_CLASS
-|#   else
-|#	define OLDEXTERN extern TCL_STORAGE_CLASS
-|#   endif
-|#   undef EXTERN
-|#   define EXTERN(a) OLDEXTERN a
-|#endif
+Let's leave the existing EXTERN macro as-is and just make a new one called TCL_EXTERN to support the new behavior.
 
 MinGW has a small adjustment to support ''__cdecl'' as I found leafing
 through the winapi headers.  So, I replaced it with
@@ -103,11 +91,11 @@ Is>
 
 Want>
 
-|	EXTERN(int) Foobar_Init (Tcl_Interp *interp);
+|	TCL_EXTERN(int) Foobar_Init (Tcl_Interp *interp);
 
 ~ Reference Implementation
 
-http://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=10469&aid=436116
+http://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=30219&aid=436116
 
 ~ Examples
 
@@ -127,7 +115,7 @@ Was:
 
 Proposed:
 
-|EXTERN(int)
+|TCL_EXTERN(int)
 |Foobar_Init (Tcl_Interp *interp)
 |{
 |#ifdef USE_TCL_STUBS
@@ -187,16 +175,7 @@ Preprocessor output is the following:
 
 In ''tclInt.h'' starting around line 1916, are prototypes for the
 internal cmdprocs.  I can't think of any reason why they should be
-exported.  If 
-
-|EXTERN int	Tcl_AfterObjCmd _ANSI_ARGS_((ClientData clientData,
-|		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-
-was replaced by the simpler
-
-|Tcl_ObjCmdProc  Tcl_AfterObjCmd;
-
-Would it matter?
+exported.
 
 ~ Copyright
 
