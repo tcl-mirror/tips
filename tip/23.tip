@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 State:          Draft
@@ -38,7 +38,8 @@ into a set of the smallest sensible functional units.
 
 One other factor, which was not addressed in [16], is that there is considerably more platform dependent code in Tk than in Tcl, and it is unreasonable to expect people to take ownership for pieces of code that run on platforms they don't have access to.  However, we want to make sure that the maintainer structure supports the cross-platform nature of Tk.  
 
-To that end, in any area where there is both generic code, and platform specific code, we propose that maintainers can sign up for the generic code AND code for one or more platforms.  By overlapping the generic code, we ensure that the public interfaces to Tk will stay consistent among the platforms, while not forcing maintainers to presume expertise in code they
+To that end, in any area where there is both generic code, and platform specific code, we propose that maintainers can sign up for the generic code AND code for one or more platforms.  By overlapping the generic code, we ensure that the public interfaces to Tk will stay consistent among the platforms, while not forcing maintainers to presume expertise in code they can't even compile,
+much less test or understand fully.
 
 ~ Proposal
 
