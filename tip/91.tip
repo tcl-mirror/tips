@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.4
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	03-May-2002
 
@@ -56,6 +56,19 @@ operation no longer atomic when using the old interface, since the
 file offset will need to be restored to its old position in such
 cases.)  On 64-bit platforms, both ''seekProc'' and ''wideSeekProc''
 will be the same function.
+
+~ Rejected Alternatives
+
+I considered overloading the ''seekProc'' field to have different
+types depending on the value of the ''version'' field, but that's
+remarkably ugly and forces people to adapt rapidly at a source level.
+I don't know about everyone else, but I don't use a lot of programs at
+the moment that actually need access to files larger than 2GB.
+
+I also considered allowing code to only implement the ''wideSeekProc''
+but it was easier to code the way I ended up doing it and I don't
+think there are that many people writing channel drivers that support
+seeking anway.
 
 ~ Copyright
 
