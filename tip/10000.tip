@@ -1,0 +1,28 @@
+TIP:           10000
+Title:         Dummy Proposal for Testing Editing Interfaces
+Version:       $Revision: 1.1 $
+Author:        Don Porter <dgp@users.sourceforge.net>
+State:         Active
+Type:          Informative
+Vote:          No voting
+Created:       3-Dec-2000
+Post-History:
+
+~ Abstract
+
+This proposal has no content.  It exists only to provide a document
+on which testing of and practice using of the TIP editing interfaces
+can take place.
+
+~ References
+
+This document serves a purpose similar to the Graffiti page
+(http://purl.org/thecliff/tcl/wiki/34.html) at the Tcl'ers
+Wiki (http://purl.org/thecliff/tcl/wiki/).
+
+It will also be useful for testing the web editing interface
+proposed in [16].
+
+~ Copyright
+
+This document has been placed in the public domain.
