@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -49,8 +49,8 @@ functions.  When the last such change was made (in implementing
 to several popular extensions that
 created new math functions ''min'' and ''max''.  Wishing the
 incompatibility introduced by [237] to be the last of the type, he
-decided to obviate '''Tcl_Value''' in place of using the open-ended
-'''Tcl_Obj''' data type.  When he derived the type signature that
+decided to eliminate '''Tcl_Value''' and use the open-ended
+'''Tcl_Obj''' data type in its place.  When he derived the type signature that
 a math function would have if it accepted its parameters in an array
 of '''Tcl_Obj''' pointers, he discovered that it was identical to the
 '''Tcl_ObjCmdProc''' -- making him ask, "what if math functions really
