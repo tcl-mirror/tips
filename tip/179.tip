@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Brian Griffin <bgriffin@model.com>
 Created:	22-Mar-2004
 Keywords:	Tk
@@ -32,7 +32,7 @@ configure -hide]].
 
 ~ Proposed Change
 
-This TIP will add a '''-hide''' option to the '''paneconfigure'' for
+This TIP will add a '''-hide''' option to the '''paneconfigure''' for
 individual panes.  The option will control the visibility of the pane.
 When set to true (as interpreted by ''Tcl_GetBooleanFromObj()''), the
 pane will be unmapped and will not be considered when arranging the
