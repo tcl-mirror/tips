@@ -1,10 +1,10 @@
 TIP:            137
 Title:          Specifying Script Encodings for [source] and tclsh
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Anton Kovalenko <a_kovalenko@fromru.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        29-May-2003
 Post-History:   
 Tcl-Version:    8.5
@@ -35,9 +35,13 @@ script authors will be able to specify the script encoding when
 calling tclsh (either in the first line beginning with ''#!'' or in
 the line where the ''exec tclsh "$0" "$@"'' is located).
 
-This TIP also proposes to use utf-8 for all the standard system scripts, for ''pkgIndex.tcl'' and ''tclIndex'' files. Now they all are supposed
-to be in the system encoding, and it could event prevent Tcl itself
-from running when system encoding is not a compatible superset of ASCII.
+This TIP also proposes to use utf-8 for all the standard system
+scripts, for ''pkgIndex.tcl'' and ''tclIndex'' files. Now they all are
+supposed to be in the system encoding (with the exception of
+''pkgIndex.tcl'' files which are not currently loaded with [[source]]
+as they already have a defined encoding, but could be with this
+change), and it could event prevent Tcl itself from running when
+system encoding is not a compatible superset of ASCII.
 
 ~ Specification
 
