@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Process
@@ -44,12 +44,12 @@ units, each to be assigned one or more maintainers:
 
    >  1. ''Standard bindings'' - library/tk.tcl
 
-   >  1. ''Default appearance'' - generic/default.h,
+   >  2. ''Default appearance'' - generic/default.h,
      mac/tkMacDefault.h,
      unix/tkUnixDefault.h,
      win/tkWinDefault.h
 
-   >  1. ''button, checkbutton, radiobutton, label'' -
+   >  3. ''button, checkbutton, radiobutton, label'' -
      doc/button.n,
      doc/checkbutton.n,
      doc/label.n,
@@ -67,7 +67,7 @@ units, each to be assigned one or more maintainers:
      win/rc/buttons.bmp,
      win/tkWinButton.c
 
-   >  1. ''canvas (Basics)'' -
+   >  4. ''canvas (Basics)'' -
      doc/CanvPsY.3,
      doc/CanvTxtInfo.3,
      doc/CanvTkwin.3,
@@ -79,7 +79,7 @@ units, each to be assigned one or more maintainers:
      generic/tkCanvas.h,
      tests/canvas.test
 
-   >  1. ''canvas (Canvas items)'' -
+   >  5. ''canvas (Canvas items)'' -
      generic/tkCanvArc.c,
      generic/tkCanvBmap.c,
      generic/tkCanvImg.c,
@@ -94,7 +94,7 @@ units, each to be assigned one or more maintainers:
      tests/canvText.test,
      tests/canvWind.test,
 
-   >  1. ''canvas (PostScript printing)'' -
+   >  6. ''canvas (PostScript printing)'' -
      generic/prolog.ps,
      generic/tkCanvPs.c,
      library/prolog.ps,
@@ -105,25 +105,25 @@ units, each to be assigned one or more maintainers:
      tests/canvPsImg.tcl,
      tests/canvPsText.tcl
 
-   >  1. ''entry'' -
+   >  7. ''entry'' -
      doc/entry.n,
      generic/tkEntry.c,
      library/entry.tcl,
      tests/entry.test
 
-   >  1. ''frame and toplevel'' -
+   >  8. ''frame and toplevel'' -
      doc/frame.n,
      doc/toplevel.n,
      generic/tkFrame.c,
      tests/frame.test
 
-   >  1. ''listbox'' -
+   >  9. ''listbox'' -
      doc/listbox.n,
      generic/tkListbox.c,
      library/listbox.tcl,
      tests/listbox.test
 
-   >  1. ''menu, menubutton, and tk_popup (Generic)'' -
+   >  10. ''menu, menubutton, and tk_popup (Generic)'' -
      doc/menu.n,
      doc/menubutton.n,
      doc/popup.n,
@@ -140,7 +140,7 @@ units, each to be assigned one or more maintainers:
      tests/menuDraw.test,
      tests/menubut.test,
 
-   >  1. ''menu, etc. (Macintosh)'' -
+   >  11. ''menu, etc. (Macintosh)'' -
      mac/tkMacMDEF.c,
      mac/tkMacMDEF.r,
      mac/tkMacMenu.c,
@@ -149,21 +149,21 @@ units, each to be assigned one or more maintainers:
      mac/tkMacMenus.c,
      tests/macMenu.test
 
-   >  1. ''menu, etc. (Unix)'' -
+   >  12. ''menu, etc. (Unix)'' -
      tests/unixMenu.test,
      unix/tkUnixMenu.c,
      unix/tkUnixMenubu.c
 
-   >  1. ''menu, etc. (Windows)'' -
+   >  13. ''menu, etc. (Windows)'' -
      tests/winMenu.test,
      win/tkWinMenu.c
 
-   >  1. ''message'' -
+   >  14. ''message'' -
      doc/message.n,
      generic/tkMessage.c,
      tests/message.test
 
-   >  1. ''scale'' -
+   >  15. ''scale'' -
      doc/scale.n,
      generic/tkScale.c,
      generic/tkScale.h,
@@ -172,7 +172,7 @@ units, each to be assigned one or more maintainers:
      tests/scale.test,
      unix/tkUnixScale.c,
 
-   >  1. ''scrollbar'' -
+   >  16. ''scrollbar'' -
      doc/scrollbar.n,
      generic/tkScrollbar.c,
      generic/tkScrollbar.h,
@@ -183,12 +183,12 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixScrlbr.c,
      win/tkWinScrlbr.c
 
-   >  1. ''spinbox'' -
+   >  17. ''spinbox'' -
      doc/spinbox.n,
      library/spinbox.tcl,
      tests/spinbox.test
 
-   >  1. ''text'' -
+   >  18. ''text'' -
      doc/text.n,
      generic/tkText.c,
      generic/tkText.h
@@ -209,11 +209,11 @@ units, each to be assigned one or more maintainers:
      tests/textTag.test,
      tests/textWind.test
 
-   >  1. ''tk_menubar (Deprecated)'' -
+   >  19. ''tk_menubar (Deprecated)'' -
      doc/menubar.n,
      library/obsolete.tcl
 
-   >  1. ''tk_optionMenu'' -
+   >  20. ''tk_optionMenu'' -
      doc/optionMenu.n,
      library/optionMenu.tcl
 
@@ -222,7 +222,7 @@ units, each to be assigned one or more maintainers:
    >  1. ''Standard options'' -
      doc/options.n
 
-   >  1. ''Option parsing'' -
+   >  2. ''Option parsing'' -
      doc/ConfigWidg.3,
      doc/SetOptions.3,
      generic/tkConfig.c,
@@ -232,7 +232,7 @@ units, each to be assigned one or more maintainers:
      tests/config.test,
      win/tkWinConfig.c
 
-   >  1. ''Relief'' -
+   >  3. ''Relief'' -
      doc/3DBorder.3,
      doc/GetRelief.3,
      generic/tk3d.c,
@@ -242,7 +242,7 @@ units, each to be assigned one or more maintainers:
      tests/border.tcl,
      win/tkWin3d.c
 
-   >  1. ''Standard bitmaps'' -
+   >  4. ''Standard bitmaps'' -
      bitmaps/error.bmp,
      bitmaps/gray12.bmp,
      bitmaps/gray25.bmp,
@@ -258,7 +258,7 @@ units, each to be assigned one or more maintainers:
      mac/tkMacBitmap.c,
      tests/bitmap.test
 
-   >  1. ''Anchors, line styles, justification, and metrics'' -
+   >  5. ''Anchors, line styles, justification, and metrics'' -
      doc/GetAnchor.3,
      doc/GetCapStyl.3,
      doc/GetJoinStl.3,
@@ -270,19 +270,19 @@ units, each to be assigned one or more maintainers:
      tests/get.test,
      tests/obj.test
 
-   >  1. ''Focus highlights and scroll quantities'' -
+   >  6. ''Focus highlights and scroll quantities'' -
      doc/DrawFocHlt.3,
      doc/GetScroll.3,
      generic/tkUtil.c,
      tests/util.test
 
-   >  1. ''Colormaps and visuals'' -
+   >  7. ''Colormaps and visuals'' -
      doc/GetClrmap.3,
      doc/GetVisual.3,
      generic/tkVisual.c,
      tests/visual.test
 
-   >  1. ''Color names'' -
+   >  8. ''Color names'' -
      doc/GetColor.3,
      doc/colors.n,
      generic/tkColor.c,
@@ -294,7 +294,7 @@ units, each to be assigned one or more maintainers:
      win/tkWinColor.c,
      xlib/colors.c
 
-   >  1. ''Cursor names'' -
+   >  9. ''Cursor names'' -
      doc/GetCursor.3,
      doc/cursors.n,
      generic/tkCursor.c,
@@ -307,7 +307,7 @@ units, each to be assigned one or more maintainers:
      win/tkWinCursor.c,
      xlib/X11/cursorfont.h
 
-   >  1. ''Key symbols'' -
+   >  10. ''Key symbols'' -
      doc/keysyms.n,
      mac/tkMacKeyboard.c,
      unix/tkUnixKey.c,
@@ -320,12 +320,12 @@ units, each to be assigned one or more maintainers:
    >  1. ''Common code'' -
      library/comdlg.tcl
 
-   >  1. ''Color selection'' -
+   >  2. ''Color selection'' -
      doc/chooseColor.n,
      library/clrpick.tcl,
      tests/clrpick.test
 
-   >  1. ''tk_dialog'' -
+   >  3. ''tk_dialog'' -
      doc/dialog.n,
      library/dialog.tcl,
      mac/tkMacDialog.c,
@@ -333,12 +333,12 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixDialog.c,
      win/tkWinDialog.c
 
-   >  1. ''Directory selection'' -
+   >  4. ''Directory selection'' -
      doc/chooseDirectory.n,
      library/choosedir.tcl,
      tests/choosedir.test
 
-   >  1. ''File selection'' -
+   >  5. ''File selection'' -
      doc/getOpenFile.n,
      generic/tkFileFilter.c,
      generic/tkFileFilter.h,
@@ -347,7 +347,7 @@ units, each to be assigned one or more maintainers:
      tests/filebox.test,
      tests/xmfbox.test
 
-   >  1. ''tk_messageBox'' -
+   >  6. ''tk_messageBox'' -
      doc/messageBox.n,
      library/msgbox.tcl,
      tests/msgbox.test
@@ -366,22 +366,22 @@ units, each to be assigned one or more maintainers:
      generic/tkStubImg.c,
      tests/image.test
 
-   >  1. ''Bitmap images'' -
+   >  2. ''Bitmap images'' -
      doc/bitmap.n,
      generic/tkImgBmap.c,
      tests/imgBmap.test
 
-   >  1. ''Photo images'' -
+   >  3. ''Photo images'' -
      doc/CrtPhImgFmt.3,
      doc/FindPhoto.3,
      doc/photo.n,
      generic/tkImgPhoto.c,
      tests/imgPhoto.test
 
-   >  1. ''GIF support'' -
+   >  4. ''GIF support'' -
      generic/tkImgGIF.c
 
-   >  1. ''PPM support'' -
+   >  5. ''PPM support'' -
      generic/tkImgPPM.c,
      tests/imgPPM.test
 
@@ -397,15 +397,15 @@ units, each to be assigned one or more maintainers:
      generic/tkFont.h,
      tests/font.test
 
-   >  1. ''Macintosh font support'' -
+   >  2. ''Macintosh font support'' -
      mac/tkMacFont.c,
      tests/macFont.test
 
-   >  1. ''Unix font support'' -
+   >  3. ''Unix font support'' -
      tests/unixFont.test,
      unix/tkUnixFont.c
 
-   >  1. ''Windows font support'' -
+   >  4. ''Windows font support'' -
      tests/winFont.test,
      win/tkWinFont.c
 
@@ -418,19 +418,19 @@ units, each to be assigned one or more maintainers:
      generic/tkGeometry.c,
      tests/geometry.test
 
-   >  1. ''grid'' -
+   >  2. ''grid'' -
      doc/grid.n,
      generic/tkGrid.c,
      tests/grid.test
 
-   >  1. ''pack'' -
+   >  3. ''pack'' -
      doc/pack-old.n,
      doc/pack.n,
      generic/tkPack.c,
      tests/oldpack.test,
      tests/pack.test
 
-   >  1. ''place'' -
+   >  4. ''place'' -
      doc/place.n,
      generic/tkPlace.c,
      tests/place.test
@@ -448,7 +448,7 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixSelect.c,
      win/tkWinClipboard.c
 
-   >  1. ''selection'' -
+   >  2. ''selection'' -
      doc/ClrSelect.3,
      doc/CrtSelHdlr.3,
      doc/GetSelect.3,
@@ -464,18 +464,18 @@ units, each to be assigned one or more maintainers:
      generic/tkConsole.c,
      library/console.tcl
 
-    >  1. ''focus'' -
+    >  2. ''focus'' -
      doc/focus.n,
      generic/tkFocus.c,
      tests/focus.test
 
-    >  1. ''grab'' -
+    >  3. ''grab'' -
      doc/Grab.3,
      doc/grab.n,
      generic/tkGrab.c,
      tests/grab.test
 
-    >  1. ''option'' -
+    >  4. ''option'' -
      doc/AddOption.3,
      doc/GetOption.3,
      doc/option.n,
@@ -484,7 +484,7 @@ units, each to be assigned one or more maintainers:
      tests/option.file2,
      tests/option.test
 
-   >  1. ''send'' -
+   >  5. ''send'' -
      doc/SetAppName.3,
      doc/send.n,
      mac/tkMacSend.c,
@@ -494,12 +494,12 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixSend.c,
      win/tkWinSend.c
 
-   >  1. ''tk_focusNext and friends'' -
+   >  6. ''tk_focusNext and friends'' -
      doc/focusNext.n,
      library/focus.tcl,
      tests/focusTcl.test
 
-   >  1. ''tk_palette'' -
+   >  7. ''tk_palette'' -
      doc/palette.n,
      library/palette.tcl
 
@@ -508,7 +508,7 @@ units, each to be assigned one or more maintainers:
    >  1. ''Geometry'' -
      generic/tkTrig.c
 
-   >  1. ''Tk_Win functions'' -
+   >  2. ''Tk_Win functions'' -
      doc/ConfigWind.3,
      doc/CrtWindow.3,
      doc/IdToWindow.3,
@@ -525,11 +525,11 @@ units, each to be assigned one or more maintainers:
      generic/tkWindow.c,
      tests/window.test
 
-   >  1. ''Graphic contexts'' -
+   >  3. ''Graphic contexts'' -
      doc/GetGC.3,
      generic/tkGC.c
 
-   >  1. ''Basic window manipulations'' -
+   >  4. ''Basic window manipulations'' -
      doc/CoordToWin.3,
      doc/FreeXId.3,
      doc/GetHINSTANCE.3,
@@ -560,7 +560,7 @@ units, each to be assigned one or more maintainers:
      tests/winfo.test,
      xlib/xgc.c
 
-   >  1. ''Macintosh window operations'' -
+   >  5. ''Macintosh window operations'' -
      mac/tkMacAppearanceStubs.c,
      mac/tkMacDraw.c,
      mac/tkMacEmbed.c,
@@ -572,7 +572,7 @@ units, each to be assigned one or more maintainers:
      mac/tkMacXStubs.c,
      tests/macEmbed.test
      
-   >  1. ''Unix window operations'' -
+   >  6. ''Unix window operations'' -
      tests/unixEmbed.test,
      tests/unixWm.test,
      unix/tkUnix.c,
@@ -583,7 +583,7 @@ units, each to be assigned one or more maintainers:
      unix/tkUnixWm.c,
      unix/tkUnixXId.c
 
-   >  1. ''Windows window operations'' -
+   >  7. ''Windows window operations'' -
      tests/WinWm.test,
      win/stubs.c,
      win/tkWinDraw.c,
@@ -596,13 +596,13 @@ units, each to be assigned one or more maintainers:
      win/tkWinWm.c,
      win/tkWinX.c
 
-   >  1. ''Events'' -
+   >  8. ''Events'' -
      doc/BindTable.3,
      doc/event.n,
      generic/tkBind.c,
      tests/bind.test
 
-   >  1. ''Event loop'' -
+   >  9. ''Event loop'' -
      doc/CrtCmHdlr.3,
      doc/CrtGenHdlr.3,
      doc/EventHndlr.3,
@@ -613,14 +613,14 @@ units, each to be assigned one or more maintainers:
      generic/tkEvent.c,
      tests/event.test
 
-   >  1. ''Error handling'' -
+   >  10. ''Error handling'' -
      doc/CrtErrHdlr.3,
      doc/tkerror.n,
      generic/tkError.c,
      library/bgerror.tcl,
      tests/bgerror.test
 
-   >  1. ''Atoms'' -
+   >  11. ''Atoms'' -
      doc/InternAtom.3,
      generic/tkAtom.c,
      xlib/X11/Xatom.h
@@ -631,7 +631,7 @@ units, each to be assigned one or more maintainers:
      doc/ParseArgv.3,
      generic/tkArgv.c
 
-   >  1. ''Application embedding'' -
+   >  2. ''Application embedding'' -
      doc/Tk_Main.3,
      doc/loadTk.n,
      generic/tkInitScript.h,
@@ -643,13 +643,13 @@ units, each to be assigned one or more maintainers:
      tests/main.test,
      tests/safe.test
 
-   >  1. ''wish'' -
+   >  3. ''wish'' -
      doc/wish.1,
      mac/tkMacAppInit.c,
      unix/tkAppInit.c,
      win/winMain.c
 
-   >  1. ''Drag and Drop Tclets (Macintosh)'' -
+   >  4. ''Drag and Drop Tclets (Macintosh)'' -
      mac/tclets.r,
      mac/tclets.tcl
 
@@ -705,11 +705,11 @@ units, each to be assigned one or more maintainers:
      library/demos/images/tcllogo.gif,
      library/demos/images/teapot.ppm
 
-   >  1. ''The square extension'' -
+   >  2. ''The square extension'' -
      generic/tkSquare.c,
      library/demos/square
 
-   >  1. ''Miscellaneous demos'' -
+   >  3. ''Miscellaneous demos'' -
      library/demos/browse,
      library/demos/hello,
      library/demos/ixset,
@@ -723,22 +723,22 @@ units, each to be assigned one or more maintainers:
    >  1. ''German'' -
      library/msgs/de.msg
 
-   >  1. ''Greek'' -
+   >  2. ''Greek'' -
      library/msgs/el.msg
 
-   >  1. ''English'' -
+   >  3. ''English'' -
      library/msgs/en.msg
 
-   >  1. ''Spanish'' -
+   >  4. ''Spanish'' -
      library/msgs/es.msg
 
-   >  1. ''French'' -
+   >  5. ''French'' -
      library/msgs/fr.msg
 
-   >  1. ''Italian'' -
+   >  6. ''Italian'' -
      library/msgs/it.msg
 
-   >  1. ''Dutch'' -
+   >  7. ''Dutch'' -
      library/msgs/nl.msg
 
    Release Engineering: 
@@ -751,12 +751,12 @@ units, each to be assigned one or more maintainers:
      mac/bugs.doc,
      tests/bugs.tcl,
 
-   >  1. ''Portability Support'' -
+   >  2. ''Portability Support'' -
      compat/limits.h,
      compat/stdlib.h,
      compat/unistd.h
 
-   >  1. ''X11 Emulation Support'' -,
+   >  3. ''X11 Emulation Support'' -,
      xlib/X11/X.h,
      xlib/X11/Xfuncproto.h,
      xlib/X11/Xlib.h,
@@ -766,7 +766,7 @@ units, each to be assigned one or more maintainers:
      xlib/ximage.c,
      xlib/xutil.c
 
-   >  1. ''Macintosh Configuration and Build Tools'' -
+   >  4. ''Macintosh Configuration and Build Tools'' -
      mac/MW_TkHeader.h,
      mac/MW_TkHeader.pch,
      mac/MW_TkOldImgHeader.h,
@@ -778,7 +778,7 @@ units, each to be assigned one or more maintainers:
      mac/tkMacResource.r,
      mac/tkMacShlib.exp
 
-   >  1. ''Unix configuration and Build Tools'' -
+   >  5. ''Unix configuration and Build Tools'' -
      unix/Makefile.in,
      unix/aclocal.m4,
      unix/configure.in,
@@ -788,7 +788,7 @@ units, each to be assigned one or more maintainers:
      unix/tk.spec,
      unix/tkConfig.sh.in
 
-   >  1. ''Windows Configuration and Build Tools'' -
+   >  6. ''Windows Configuration and Build Tools'' -
      win/Makefile.in,
      win/aclocal.m4,
      win/configure.in,
@@ -802,7 +802,7 @@ units, each to be assigned one or more maintainers:
      win/tkConfig.sh.in,
      win/tkWin.h
 
-   >  1. ''Test Tools'' -
+   >  7. ''Test Tools'' -
      generic/tkTest.c,
      mac/tkMacTest.c,
      win/tkWinTest.c,
@@ -810,7 +810,7 @@ units, each to be assigned one or more maintainers:
      tests/defs.tcl,
      tests/visual_bb.test
 
-   >  1. ''Logos and Branding'' -
+   >  8. ''Logos and Branding'' -
      library/images/logo.eps,
      library/images/logo100.gif,
      library/images/logo64.gif,
