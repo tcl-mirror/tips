@@ -1,6 +1,6 @@
 TIP:            64
 Title:          Improvements to Windows Font Handling
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Deferred
@@ -40,9 +40,9 @@ widgets.  While this was almost OK, it fails in two respects:
    * Windows 2000 and Windows XP use Tahoma, not MS Sans Serif as
      their default font.
 
-SourceForge patch #461442 (Make Tk use the default Windows font) -
-https://sourceforge.net/tracker/index.php?func=detail&aid=461442&group_id=12997&atid=312997
-- attempts to address Tk's deficiency by adding a ''windefault'' font
+SourceForge patch #461442 (Make Tk use the default Windows font)
+[http://sf.net/tracker/?func=detail&aid=461442&group_id=12997&atid=312997]
+attempts to address Tk's deficiency by adding a ''windefault'' font
 based on the Message font configured for the Windows desktop.  This
 appears to be wrong.
 
@@ -50,7 +50,9 @@ This TIP attempts to fix the default Tk font the right way as well as
 giving Tk programmers access to the rest of the fonts configured for
 the 'Windows desktop.
 
-NOTE: RFE 220772 on SourceForge (http://sourceforge.net/tracker/index.php?func=detail&aid=220772&group_id=12997&atid=362997) has a related patch.
+NOTE: RFE 220772 on SourceForge
+[http://sf.net/tracker/?func=detail&aid=220772&group_id=12997&atid=362997]
+has a related patch.
 
 ~ The Default GUI Font
 

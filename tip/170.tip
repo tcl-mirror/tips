@@ -1,6 +1,6 @@
 TIP:		170
 Title:		Better Support for Nested Lists
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Sergey Babkin <babkin@freebsd.org>
 State:		Draft
 Type:		Project
@@ -26,7 +26,7 @@ the "l" command, the name has been selected to be different (such as
 "ldeeprep", not "ldeepreplace").
 
 The commands have been extensively used in the Not A Commander project
-(http://nac.sf.net) and have been adjusted to the observed needs of
+[http://nac.sf.net/] and have been adjusted to the observed needs of
 practical use.
 
 All these command use the concept of "path". The idea is that you can
@@ -220,11 +220,11 @@ nested lists but to the lists in general.
 ~Reference Implementation
 
 The reference implementation is available as part of the Not A
-Commander project (http://nac.sf.net), the source file cutil.c. To
-include the new commands into Tcl, the error messages will have to be
-adjusted to match the style used in Tcl, and the man pages will have
-to be written.  The current implementation has been tested in fair
-amounts for both correctness and efficiency by usage in the Not A
+Commander project [http://nac.sf.net/], the source file ''cutil.c''.
+To include the new commands into Tcl, the error messages will have to
+be adjusted to match the style used in Tcl, and the man pages will
+have to be written.  The current implementation has been tested in
+fair amounts for both correctness and efficiency by usage in the Not A
 Commander project, the formal test suite would have to be written.
 Further progress in this direction depends on acceptance of this
 proposal.

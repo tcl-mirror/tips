@@ -1,6 +1,6 @@
 TIP:            153
 Title:          Enhancing the [winfo toplevel] Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Accepted
 Type:           Project
@@ -31,8 +31,8 @@ so the changes proposed in this TIP would be moot.  However, they are
 now possible due to the incorporation into the Tk core of the changes
 proposed in [47].
 
-As an example, consider the rootwin extension, available from
-http://www.eecs.umich.edu/~mckay/computer/rootwin0.4.tar.gz
+As an example, consider the rootwin extension
+[http://www.eecs.umich.edu/~mckay/computer/rootwin0.4.tar.gz].
 This extension adds a [[rootwin]] widget creation command,
 which turns an X display's root window into a Tk widget. The rootwin
 widget is a top-of-hierarchy widget, but is not an ordinary Tk toplevel.

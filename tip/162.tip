@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Created:	23-Oct-2003
 
@@ -41,8 +41,8 @@ and fconfigure should give detailed info on resulting sockets, as
 |	-peername {2001:800:40:2a05::10 2001:800:40:2a05::10 7} \
 |	-sockname {2001:800:40:2a05:2c0:9fff:fe1d:e518 2001:800:40:2a05:2c0:9fff:fe1d:e518 1050}
 
-A patch is available for UNIX platforms at
-http://www.ngn.euro6ix.org/IPv6/tcl
+A patch is available for UNIX platforms
+[http://www.ngn.euro6ix.org/IPv6/tcl].
 
 ~ Copyright
 

@@ -1,6 +1,6 @@
 TIP:		159
 Title:		Extending Tk 'wm' Command to Support Coloured Icons
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Georgios Petasis <petasis@iit.demokritos.gr>
 State:		Draft
 Type:		Project
@@ -63,7 +63,7 @@ course to follow the second approach, as it does not violate the
 ICCCM.
 
 The window property that should be defined is "_NET_WM_ICON".  From
-the specifications at http://www.freedesktop.org:
+the specifications [http://www.freedesktop.org/]:
 
  > _NET_WM_ICON
 
@@ -101,8 +101,8 @@ icon sizes are preferred, although Xlib offers a relevant function.
 
 ~ Reference Implementation
 
-A reference implementation (initially for just Unix) is available at
-http://sf.net/tracker/?func=detail&aid=815751&group_id=12997&atid=312997
+A reference implementation (initially for just Unix) is available
+[http://sf.net/tracker/?func=detail&aid=815751&group_id=12997&atid=312997].
 
 Note that also I have a reference implementation of the first approach
 (passing a colour pixmap instead of a bitmap), in case we decide to

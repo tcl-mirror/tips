@@ -1,6 +1,6 @@
 TIP:            69
 Title:          Improvements for the Tcl Hash Table
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         George A. Howlett <gah@siliconmetrics.com>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -120,7 +120,7 @@ example of hashing 1 million 3D coordinates,
 
 we get a hash table with an average search distance of 1082.3.  The
 maximum distance is 3324!  Replacing the hash function with Bob
-Jenkins' <http://burtleburtle.net/bob> 32-bit mixing function
+Jenkins' [http://burtleburtle.net/bob] 32-bit mixing function
 
 |   #define MIX32(a,b,c) \
 |	a -= b, a -= c, a ^= (c >> 13), \
@@ -464,10 +464,10 @@ The way to fix this is to use a different hashing function for string
 hashing that varies the exact hashing algorithm on a table-by-table
 basis, and to base that algorithm on a hashing function with better
 spectral properties than Tcl's current (extremely simple) one.  An
-algorithm that might be suitable for such uses is described at
-http://burtleburtle.net/bob/hash/evahash.html though the code would need
-substantial adaption (including the addition of a fairly strong random
-number generator) before being placed in the core.
+algorithm that might be suitable for such uses is described online
+[http://burtleburtle.net/bob/hash/evahash.html] though the code would
+need substantial adaption (including the addition of a fairly strong
+random number generator) before being placed in the core.
 
 ~ Copyright
 

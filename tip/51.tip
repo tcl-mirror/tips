@@ -1,6 +1,6 @@
 TIP:            51
 Title:          Native Menubutton on Macintosh
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:         Mats Bengtsson <matben@privat.utfors.se>
 State:          Draft
 Type:           Project
@@ -29,8 +29,8 @@ on the Macintosh (similar to [25].)
 ~ Reference Implementation
 
 The proposed change is now implemented as a loadable extension (in C)
-on Macintosh, and can be downloaded at
-http://hem.fyristorg.com/matben/download/MacMenuButton.sit This
+on Macintosh, and can be downloaded
+[http://hem.fyristorg.com/matben/download/MacMenuButton.sit]. This
 implementation differs from the other buttons in Mac Tk (button,
 radiobutton, checkbutton), which use a mixture of native Apple drawing
 code and Tk drawing code, since it uses only native Apple code for

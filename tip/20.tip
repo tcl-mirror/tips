@@ -1,6 +1,6 @@
 TIP:		20
 Title:		Add C Locale-Exact CType Functions
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Jeffrey Hobbs <jeff.hobbs@acm.org>
 State:		Deferred
 Type:		Project
@@ -21,7 +21,7 @@ Tcl used to force the C locale everywhere in order to have parsing
 work as expected throughout Tcl, but that prevented certain i18n
 features from working correctly (like native character input).  In
 enabling the i18n features, some bugs (like
-http://sourceforge.net/bugs/?func=detailbug&bug_id=127512&group_id=10894)
+[http://sf.net/bugs/?func=detailbug&bug_id=127512&group_id=10894])
 were exposed that required the C locale to be enabled to function
 properly.  Since we don't want to force that requirement, creating
 ctype functions that work as if they were always in the C locale is

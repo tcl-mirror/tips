@@ -1,6 +1,6 @@
 TIP:            71
 Title:          Tk Bitmap Improvements
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Eric Melski <ericm@interwoven.com>
@@ -30,7 +30,7 @@ bitmaps on buttons.  While newer releases of Tk have added more
 widgets, there will always be some unforeseen need for new or
 customized widgets.  One example is a menubutton which, according to
 the Microsoft Windows User Experience
-(http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwue/html/welcome.asp),
+[http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwue/html/welcome.asp],
 should have a downward arrow on the right side.  With compound
 buttons, it is not hard to do:
 
@@ -71,7 +71,7 @@ bitmaps.
 SourceForge patch 475332 provides a reference implementation of [[tk
 bitmaps]] and a draft of the 12 arrow bitmaps.
 
-https://sourceforge.net/tracker/index.php?func=detail&aid=475332&group_id=12997&atid=312997
+http://sf.net/tracker/?func=detail&aid=475332&group_id=12997&atid=312997
 
 ~ Copyright
 
@@ -89,7 +89,7 @@ As discussed on tcl-core, I've created a simple Tcl script to convert
 ASCII art diagrams like those included in this TIP into XBM format
 data suitable for passing into [[image create bitmap -data ...]].  The
 script and sample usage are attached in the following patch:
-https://sourceforge.net/tracker/?func=detail&aid=516751&group_id=12997&atid=312997
+http://sf.net/tracker/?func=detail&aid=516751&group_id=12997&atid=312997
 - ''Eric Melski <ericm@interwoven.com>''
 
 ''(Summary of objections)''

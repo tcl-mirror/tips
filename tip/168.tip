@@ -1,6 +1,6 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
 State:		Draft
@@ -167,7 +167,7 @@ compiled extension instead, but that seems a waste since almost all of
 the functionality is present in the core anyway.
 
 It would also be possible to use the semantics of the Tkspline package
-[[http://www.graphviz.org/cgi-bin/man?tkspline]] -smooth method
+[http://www.graphviz.org/cgi-bin/man?tkspline] -smooth method
 providing cubic Bezier curves, but that package reverts to using the
 -smooth true method of smoothing if the number of points is not 3N+1,
 which doesn't seem useful and may cause bugs to be less visible.
@@ -178,8 +178,8 @@ curves produced in general aren't splines.
 ~ Implementation
 
 A sample implementation of this proposal (minus the part about
-changing the name of the existing -smooth method) exists at
-http://sf.net/tracker/?func=detail&aid=886240&group_id=12997&atid=312997
+changing the name of the existing -smooth method) exists
+[http://sf.net/tracker/?func=detail&aid=886240&group_id=12997&atid=312997].
 
 ~ Copyright
 
