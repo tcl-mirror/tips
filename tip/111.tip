@@ -1,7 +1,8 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         David S. Cargo <dcargo@marix.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -80,7 +81,9 @@ use, "dictionary" which is rather long for what I believe will be a
 fairly commonly used command, "alist" (association list) which is
 probably too easy to confuse with existing commands, and "map" which
 is probably better reserved for future use as something for applying
-an operation to a list (or other collection of values.)
+an operation to a list (or other collection of values), "hash" (which
+is perhaps too common), and "table" (which is used for this type of
+data structure in the Icon programming language).
 
 Most subcommands operate on either a dictionary value (''exists'',
 ''for'', ''get'', ''info'', ''keys'', ''remove'', ''replace'',
