@@ -1,6 +1,6 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 State:          Draft
 Type:           Informative
@@ -468,13 +468,14 @@ load all of these packages if ''[[package require tcllib]]'' was called.
 
 Possible values for $architecture in the directory structure include:
 
- * the value of ''tcl_platform(platform)'': windows, unix, macintosh
+ * the value of
+   ''tcl_platform(platform)'': windows, unix, macintosh
 
- * a composite of tcl_platform values:
-  ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
+ * a composite of tcl_platform
+   values: ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
 
- * a canonical system name as returned by ''config.guess'':
-   ''i686-pc-linux-gnu''
+ * a canonical system name as returned by
+   ''config.guess'': ''i686-pc-linux-gnu''
 
 ~ Installing Packages
 
