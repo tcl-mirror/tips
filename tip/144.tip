@@ -1,10 +1,10 @@
 TIP:            144
 Title:          Argument Expansion Syntax
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
-Vote:           Done
+Vote:           Pending
 Created:        26-Jul-2003
 Post-History:   
 Tcl-Version:    8.5
