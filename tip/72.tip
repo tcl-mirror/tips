@@ -5,7 +5,7 @@ Created:	05-Nov-2001
 State:		Draft
 Tcl-Version:	8.4
 Type:		Project
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Vote:		Pending
 Post-History:	
 
@@ -35,13 +35,13 @@ Windows platform.)  Such areas include:
 
 However, a number of existing algorithms assume that integer
 arithmetic operations wrap at 32-bits (demonstrating the need for
-''semantic backward-compatability'' so termed because a recompile of
+''semantic backward-compatibility'' so termed because a recompile of
 the C portions of the relevant code will not fix the problem) and
 there are many existing extensions that assume a particular word-size
-too (requiring ''syntactic backward-compatability'' because
+too (requiring ''syntactic backward-compatibility'' because
 recompilation will probably cure the problem.)  Hence any upgrade of
 Tcl's functionality must be done carefully so as to preserve as much
-backward compatability as possible.
+backward compatibility as possible.
 
 ~ Proposed for Changes
 
@@ -53,7 +53,7 @@ To resolve this problem, I will introduce:
     On 64-bit platforms (and 32-bit platforms where there is no
     compiler support for arithmetic 64-bit types) these will be
     typedef'ed to ''long'' to preserve as much inter-platform
-    compatability as possible.
+    compatibility as possible.
 
  >  The type names are based on the term ''Wide'' as opposed to either
     ''Long'' or ''LongLong'' because the first causes a problem with
@@ -63,7 +63,7 @@ To resolve this problem, I will introduce:
     in the first place, and the major factor in its favour at the C
     level was almost certainly the fact that it did not introduce any
     new reserved words into the C syntax which would have had a major
-    backward-compatability impact - we are not bound by such things
+    backward-compatibility impact - we are not bound by such things
     and can choose to suit ourselves.
 
  2. A new field of type ''Tcl_WideInt'' in the internalRep union of
@@ -86,7 +86,7 @@ To resolve this problem, I will introduce:
       to treat it like a wide integer, and if that fails or it doesn't
       look like an integer at all, it will be treated as a double.
       ''Note'' that this will be a source of a potential backwards
-      incompatability with scripts that include values that are meant
+      incompatibility with scripts that include values that are meant
       to be unsigned integers.
 
  >  * With arithmetic operations, the output will be a double if at
@@ -115,7 +115,7 @@ To resolve this problem, I will introduce:
  6. ''Tcl_Seek'' and ''Tcl_Tell'' (together will all channel drivers)
     will be updated to use the new 64-bit type for offsets (which will
     reflect at the Tcl level in the [[seek]] and [[tell]] commands)
-    though a compatability interface for old extensions that do not
+    though a compatibility interface for old extensions that do not
     supply a channel driver will be maintained (though the size of
     offset reportable through the interface will naturally be limited.)
 
@@ -124,7 +124,7 @@ To resolve this problem, I will introduce:
     wide values.  This will enable various [[file]] subcommands (and
     [[glob]] with some options) to work correctly with files over 2GB
     in size.  Note that there is no neat way to do this in a backward
-    compatable way as there is currently no guarantee on which fields
+    compatible way as there is currently no guarantee on which fields
     will actually be present in the structure.
 
  >  Because the name of a suitable structure varies considerably
@@ -145,11 +145,11 @@ To resolve this problem, I will introduce:
     and ''I'' specifiers (i.e. smallest byte to largest, and largest
     byte to smallest respectively.)
 
- 10. New compatability functions will also be provided, because not
+ 10. New compatibility functions will also be provided, because not
      all platforms have convenient equivalent functions to ''strtoll''
      and ''strtoull''.
 
-~ Summary of Incompatabilities and Fixes
+~ Summary of Incompatibilities and Fixes
 
 The behaviour of expressions containing constants that appear positive
 but which have a negative internal representation will change, as
@@ -160,7 +160,7 @@ Extensions creating new channel types or using ''Tcl_Stat'' will need
 to be altered as different types are now in use in those areas.  The
 change to the declaration of ''Tcl_FSStat'' and ''Tcl_FSLstat'' (which
 are the new preferred API in any case) are less serious as no
-non-alphas releases have been made yet with those API functions.
+non-alpha releases have been made yet with those API functions.
 
 Scripts that are lax about the use of the ''l'' modifier in ''format''
 and ''scan'' will probably need to be rewritten.  This should be very
