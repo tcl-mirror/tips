@@ -1,7 +1,8 @@
 TIP:            88
 Title:          Extend Tcl Process Id Control via 'pid'
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
+Author:          <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -62,6 +63,8 @@ functions like these:
 |   pid kill ?-group bool? ?-signal signalType? fileIdOrPid ?fileIdOrPid ...?
 
 This was the original form for [[pid signal send]], but it was noted that we are really sending signals.  While I prefer the specificity of users recognizing ''kill'' as a command, what this really does is send specific signals (ANSI C specifies SIGABRT, SIGINT and SIGTERM, and for Unix we would handle the other POSIX names too).  Thus I changed it to the ''send'' command documented above.
+
+[[process]] rather than [[pid]] seems a more logical name for this command.
 
 ~ Copyright
 
