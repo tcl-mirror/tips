@@ -1,13 +1,13 @@
 TIP:            10
 Title:          Tcl I/O Enhancement: Thread-Aware Channels
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 State:          Draft
 Type:           Project
-Tcl-Version:    8.4
 Vote:           Pending
 Created:        08-Nov-2000
-Post-History:
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -96,6 +96,12 @@ The changes necessary to accomplish this are:
       and implement the function in the file generic/tclIO.c.  I
       propose ''Tcl_GetChannelThread'' as the name of this new API
       function.
+
+A patch implementing all of the changes described above and
+additionally extending the documentation and the testsuite
+was registered at SourceForge. The Id is 103538. A direct
+reference is available:
+http://sourceforge.net/patch/?func=detailpatch&patch_id=103538&group_id=10894
 
 ~ Copyright
 
