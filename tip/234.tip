@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -156,7 +156,7 @@ command, '''stream''' subcommand:
 Returns a command name which will perform the requested operation. Compression
 level is only used when compressing data.
 
-~~~~ Stream worker command
+~~~ Stream worker command
 
 The stream worker command is used to actually compress and decompress in smaller
 chunks than the input and/or output.
@@ -390,8 +390,8 @@ interpreter.
 ~ Reference Implementation
 
 The reference implementation is available at the subversion repository
-http://svn.scheffers.net/zlib . Alternatively, a recent snapshot may be obtained
-from http://svn.scheffers.net/zlib.tar.gz. This reference implementation includes
+http://svn.scheffers.net/zlib Alternatively, a recent snapshot may be obtained
+from http://svn.scheffers.net/zlib.tar.gz This reference implementation includes
 a copy of zlib-1.2.1 from h_ttp://www.gzip.org
 
 ~ Comments
