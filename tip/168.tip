@@ -1,6 +1,6 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
 State:		Draft
@@ -177,10 +177,9 @@ curves produced in general aren't splines.
 
 ~ Implementation
 
-An implementation of this proposal (minus the part about changing the
-name of the existing -smooth method) exists.  I intend to upload it as
-a SourceForge patch as soon as I know what TIP number this proposal
-will get.
+A sample implementation of this proposal (minus the part about
+changing the name of the existing -smooth method) exists at
+http://sf.net/tracker/?func=detail&aid=886240&group_id=12997&atid=312997
 
 ~ Copyright
 
