@@ -1,6 +1,6 @@
 TIP:		218
 Title:		Tcl Channel Driver Thread State Actions
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Andreas Kupries <andreas_kupries@users.sf.net>
 State:		Draft
 Type:		Project
@@ -34,7 +34,7 @@ the core maintains state not only per channel, but on Windows also per
 thread. This thread specific state is initialized during the first
 usage of the '''socket''' command at the script-level,
 i.e. ''Tcl_SocketObjCmd()'' at the C-level. The relevant internal
-function for this is ''TclpHasSockets()'' .
+function for this is ''TclpHasSockets()''.
 
 This causes problems when transferring a socket channel into a thread
 which has not performed any socket operation before, as the per-thread
@@ -141,11 +141,10 @@ The new definition of structure ''Tcl_ChannelType'' is
 | } Tcl_ChannelType;
 
 A new public accessor API is provided as well, returning a pointer to
-the new function.
+the new function (or NULL if it does not exist).
 
 | Tcl_DriverThreadActionProc *
 | Tcl_ChannelThreadActionProc(Tcl_ChannelType* typePtr);
-
 
 ~ Discarded Solutions
 
