@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -136,7 +136,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.3 $. (Initially $Revision: 1.3 $ should be used, which
+	$Revision: 1.4 $. (Initially $Revision: 1.4 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -222,7 +222,7 @@ The following headers are ''proposed'' (by Donald G. Porter
 
    Objector:
 	A person (not necessarily a TCT member) who is opposed to this
-	TIP.  May occur multiple times, once per supporter.
+	TIP.  May occur multiple times, once per objector.
 
 ~ Body Format
 
