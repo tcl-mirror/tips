@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.36 $
+Version:        $Revision: 1.37 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -152,7 +152,8 @@ assigned:
 
    1. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Regexp'' - Pavel Goran <pvgoran@newmail.ru>
+   1. ''Regexp'' - Pavel Goran <pvgoran@newmail.ru>,
+		Colin McCormack <coldstore@users.sourceforge.net>
 
    1. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -185,7 +186,8 @@ assigned:
 	Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>,
-	Lloyd Lim <lloydlim@users.sourceforge.net>
+	Lloyd Lim <lloydlim@users.sourceforge.net>,
+	Acacio Cruz <acacio@users.sf.net> (BSD)
 
    1. ''Configuration Reporting'' - Andreas Kupries <a.kupries@westend.com>
 
