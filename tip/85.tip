@@ -1,0 +1,106 @@
+TIP:		85
+Title:		Custom Comparisons in Tcltest
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	31-Jan-2002
+Post-History:	
+Tcl-Version:	8.4
+Keywords:	test, string comparison, floating-point
+
+~ Abstract
+
+This TIP proposes a simple mechanism to make the ''tcltest'' package
+an even more flexible package than it already is by allowing the
+programmer to define his or her own comparison procedures.  Such
+procedures can deal with issues like allowing a (small) tolerance in
+floating-point results.
+
+~ Rationale
+
+The most recent version of the ''tcltest'' package supports the
+comparison of the actual result with the expected result by a number
+of methods: exact matching, glob-style matching and matching via a
+regular expression.  The flexibility is indeed enhanced as it is now
+much easier to allow for small variations in ''string'' results.  But
+it is nearly impossible to define an accurate test that checks if
+floating-point results are the "same" - exact matching will seldom
+suffice due to platform-specific round-off errors or differences in
+formatting a floating-point number (''0.12'' versus ''.12'' for
+instance).
+
+It is also impossible to compare results that are not easily expressed
+as strings, for instance an application that produces binary files
+that need to be compared or simply very long strings - these could
+easily be stored in an external file, but would be awkward in a file
+with a large number of such tests.
+
+~ Proposal
+
+The ''tcltest'' package defines a comparison procedure,
+''stringCompare'', which takes care of the three cases.  This
+procedure can easily be enhanced by adding a fourth case: invoking a
+custom procedure.  This procedure takes two arguments and returns 1
+for a match and a 0 for failure, just like the other cases.
+
+Such a procedure can be registered by a simple mechanism:
+
+| ::tcltest::customMatchProc mymatchproc
+
+and will be invoked when the match type is set to "custom", so one has
+to specify this per test case, just as in the current situation.  The
+default method will still be "exact".
+
+~ Two Examples
+
+To show how this works, we include two simple examples:
+
+ * Testing a package for calculating mathematical functions like
+   Bessel functions.
+
+ * Testing for negative results, as when providing an alternative, but
+   incompatible implementation of a feature.
+
+First, suppose you have defined a package for calculating the value of
+a general Bessel function, just the sort of function that returns
+floating-point numbers.  Then the results may be imprecise due to
+rounding-off errors, different values of ''tcl_precision'' or, even
+more banally, differences in the formatting of floating-point numbers
+(''0.12'' versus ''.12'' for instance).  A comparison procedure like:
+
+| proc matchFloat { actual expected } {
+|    set absmax [expr {abs($actual)>abs($expected)? \
+|       abs($actual) : abs($expected)}
+|    expr {abs($actual-$expected)<=1.0e-15*$absmax}
+| }
+
+would help to solve this issue.
+
+The second example occurs for instance when testing alternative
+implementation: you want to check that the original standard feature
+is failing whereas the new but incompatible alternative gets it right.
+Then:
+
+| proc matchNegative { actual expected } {
+|    expr {![string equal $actual $expected]}
+| }
+
+makes sure that a mismatch is treated as the expected outcome.
+
+~ Alternatives
+
+Of course, it is possible to achieve these effects within the current
+framework of ''tcltest'', by putting these match procedures inside the
+body of the test case.  There are at least two drawbacks to this
+approach:
+
+ * The result against which we want to match is hidden in the code
+
+ * If the test fails, the actual result is not printed (at least not
+   by the ''tcltest'' framework).
+
+~ Copyright
+
+This document is placed in the public domain.
