@@ -1,6 +1,6 @@
 TIP:            123
 Title:          Adding an Exponentiation Operator to the [expr] Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Final
@@ -34,8 +34,8 @@ drawback of this is twofold:
 
 | 2.0*$x*$x*$x - 1.2*$x*$x + 3.0*$x + 4.0
 
- * The result of raising an integer to an integer power is a double: 2
-   to the power 10 is 1024.0, not 1024.
+ * The result of raising an integer to an integer power is a
+   double: 2 to the power 10 is 1024.0, not 1024.
 
 Other languages, like for instance FORTRAN, use an operator instead of
 a function.  Two operators are commonly found: ** and ^.  As the
