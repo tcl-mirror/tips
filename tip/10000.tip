@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.53 $
+Version:        $Revision: 1.54 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -88,30 +88,62 @@ This document has been placed in the public domain.
 
 ~ ChangeLog
 
-| $Log: not supported by cvs2svn $
-| Revision 1.52  2001/02/25 20:56:32  tclhttpd
-| Revision through web from Kevin B Kenny <kennykb@acm.org> (15111)
-|
-| Revision 1.51  2001/02/25 20:51:14  tclhttpd
-| Revision through web from Kevin B KENNY <kennykb@acm.org> (15024)
-|
-| Revision 1.50  2001/02/13 14:32:19  tclhttpd
-| Revision through web from Donal K. Fellows <fellowsd@cs.man.ac.uk> (10695)
-|
-| Revision 1.49  2001/01/30 09:43:33  tclhttpd
-| Revision through web from  <richard.suchenwirth@kst.siemens.de> (15922)
-|
-| Revision 1.48  2001/01/30 09:40:49  tclhttpd
-| Revision through web from Richard GH Suchenwirth <richard.suchenwirth@kst.siemens.de> (15856)
-|
-| Revision 1.47  2001/01/26 22:36:21  tclhttpd
-| Revision through web from  <dgp@users.sourceforge.net> (6062)
-|
-| Revision 1.46  2001/01/26 22:35:19  tclhttpd
-| Revision through web from  <dgp@users.sourceforge.net> (6043)
-| 
-| Revision 1.45  2001/01/26 22:34:27  tclhttpd
-| Revision through web from  <dgp@user.sourceforge.net> (6023)
+| $Log: not supported by cvs2svn $index)
+|  }
+|  set x [list 1 2 3]
+|  increment x 0
+
+will, of course, work as expected.
+
+~ Discussion
+
+There are several obvious extensions to the proposal that are not
+addressed, and these omissions are intentional.
+
+   * One possibility is to provide a syntax (perhaps negative subscripts)
+     to allow numbering from the end of the list as well as the
+     beginning.
+
+   * Another possibility is to provide a notation for multiple
+     subscripts, to allow surgical changes to be made in lists of
+     lists.
+
+These changes are not addressed primarily because the author of this
+TIP foresees that they are likely to cause undesirable interactions
+with future attempts to implement other types of indexed data
+structure, such as the maps, vectors, and matrices of products
+like BLT and Feather.  In a fully developed Tcl 9.0, it would be
+desirable for all of these objects to support similar interfaces;
+this TIP proposes a minimal first step.
+
+   * The ''array'' command continues to operate only on associative
+     arrays.
+
+Lists are a simple enough structure that the full power of the
+''array'' command is not required to deal with them, and having it
+work on lists as well as arrays seems like needless effort.
+Moreover, existing code may well depend on a combination of
+''[array exists]'' and ''[info exists]'' to distinguish associative
+arrays from scalar variables (including lists).  
+
+   * We might wish to extend ''upvar'' syntax to allow a
+     list element to be designated.
+
+Extending the syntax in this fashion would make ''upvar'' more
+consistent in its behavior, but appears to be expensive, in
+terms of both performance (tracking down the linked references if a
+list is rebuilt) and the effort required for implementation
+(the author of this TIP is unlikely to have the time required to
+implement the necessary changes to ''struct Var'' and the associated
+code).  In fact, the author of this TIP would much rather deprecate
+the use of ''upvar'' to refer to array elements.  A disproportionate
+amount of code goes into supporting this seldom-used feature.
+
+~ Reference Implementation
+
+No reference implementation has yet been developed; the author of this
+TIP wishes to solicit the opinions of the Tcl community before
+spending a lot of time implementing a possibly bad idea.
 
 ~ Copyright
 
