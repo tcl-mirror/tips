@@ -1,0 +1,192 @@
+TIP:            81
+Title:          [incr Tcl] Functional Areas for Maintainer Assignments
+Version:        $Revision: 1.1 $
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
+Type:           Process
+Vote:           Pending
+Created:        07-Jan-2001
+Post-History:   
+
+~ Abstract
+
+This document proposes a division of [[incr Tcl]]'s source code into
+functional areas so that each area may be assigned to one or more
+maintainers.
+
+~ Background
+
+In order for [[incr Tcl]] to be adopted by the Tcl Core Team (see
+[50]), it must be managed by the processes already established for
+handling source (see [0] and [16] for details and rationale.)
+
+~ Functional Areas
+
+[[incr Tcl]] shall be divided into the following 20 functional units
+(the twentieth is the shared part of the source tree), each to be
+assigned one or more maintainers:
+
+ Objects: 
+
+ > 1. ''Built-in Class Methods'' -
+      generic/itcl_bicmds.c,
+      tests/info.test
+
+ > 2. ''Class and Object Management'' -
+      generic/itcl_class.c,
+      generic/itcl_objects.c,
+      tests/inherit.test,
+      tests/interp.test,
+      tests/methods.test,
+      tests/protection.test
+
+ > 3. ''Class-scope Commands'' -
+      generic/itcl_methods.c,
+      doc/body.n,
+      doc/configbody.n,
+      tests/body.test,
+
+ > 4. ''Command Parsing'' -
+      generic/itcl_parse.c,
+      doc/class.n,
+      tests/basic.test,
+
+ Other Generic Source: 
+
+ > 5. ''Package Commands'' -
+      generic/itcl_cmds.c,
+      doc/code.n,
+      doc/delete.n,
+      doc/find.n,
+      doc/local.n,
+      doc/scope.n,
+      tests/chain.test,
+      tests/delete.test,
+      tests/import.test,
+      tests/local.test,
+      tests/namespace.test,
+      tests/scope.test
+
+ > 6. ''Ensembles'' -
+      generic/itcl_ensemble.c,
+      doc/ensemble.n,
+      tests/ensemble.test
+
+ > 7. ''Linking with C'' -
+      generic/itcl_linkage.c
+
+ > 8. ''Utility Code -
+      generic/itcl_util.c
+
+ > 9. ''Stand-alone Application'' -
+      mac/tclMacAppInit.c,
+      unix/tclAppInit.c,
+      win/dllEntryPoint.c,
+      doc/itclsh.1
+
+ > 10. ''Initialisation'' -
+       library/itcl.tcl,
+       tests/mkindex.itcl,
+       tests/mkindex.test,
+       tests/tclIndex
+
+ Build and Install: 
+
+ > 11. ''Mac Build'' -
+       mac/MW_ItclHeader.pch
+
+ > 12. ''Unix Build'' -
+       configure.in,
+       aclocal.m4,
+       Makefile.in,
+       itclConfig.sh.in
+
+ > 13. ''Windows Build'' -
+       win/makefile.bc,
+       win/makefile.vc
+
+ > 14. ''Package Index Files'' -
+       pkgIndex.tcl.in,
+       mac/pkgIndex.tcl
+       ''(see also mac/itclMacLibrary.r and mac/itclStaticApplication.r)''
+
+ Platform Support: 
+
+ > 15. ''Mac Resources'' -
+       mac/itclMacApplication.r,
+       mac/itclMacLibrary.r,
+       mac/itclMacResource.r,
+       mac/itclMacTclCode.r,
+       mac/itclStaticApplication.r
+
+ > 16. ''Windows Resources'' -
+       win/rc/itcl.rc
+
+ Other: 
+
+ > 17. ''Obsolete Commands'' -
+       generic/itcl_obsolete.c,
+       doc/itcl_class.n,
+       doc/itcl_info.n
+
+ > 18. ''Obsolete Tests'' -
+       tests/defs,
+       tests/old/AAA.test,
+       tests/old/Bar.tcl,
+       tests/old/BarFoo.tcl,
+       tests/old/Baz.tcl,
+       tests/old/Foo.tcl,
+       tests/old/FooBar.tcl,
+       tests/old/Geek.tcl,
+       tests/old/Mongrel.tcl,
+       tests/old/VirtualErr.tcl,
+       tests/old/all,
+       tests/old/basic.test,
+       tests/old/inherit.test,
+       tests/old/tclIndex,
+       tests/old/testlib.tcl,
+       tests/old/toaster.test,
+       tests/old/uplevel.test,
+       tests/old/upvar.test,
+       tests/old/toasters/Appliance.tcl,
+       tests/old/toasters/Hazard.tcl,
+       tests/old/toasters/Outlet.tcl,
+       tests/old/toasters/SmartToaster.tcl,
+       tests/old/toasters/Toaster.tcl,
+       tests/old/toasters/tclIndex,
+       tests/old/toasters/usualway.tcl,
+
+ > 19. ''Migration to Core'' -
+       generic/itcl_migrate.c,
+       doc/man.macros
+
+~ Shared Files
+
+The following files are shared by all of [[incr Tcl]].  Any maintainer
+may modify them as necessary to complete changes they are making to
+their portion of [[incr Tcl]].  Some of the following files define
+[[incr Tcl]]'s API and should be changed only in accordance with TCT
+approval.
+
+ * generic/itcl.h,
+   generic/itclInt.h,
+   generic/itcl.decls,
+   generic/itclInt.decls,
+   doc/itcl.n,
+   doc/itclvars.n,
+   tests/all,
+   tests/all.tcl
+
+~ Generated Files
+
+The following files are generated, so they don't need maintainers.
+
+ * generic/itclDecls.h,
+   generic/itclIntDecls.h,
+   generic/itclStubInit.c,
+   generic/itclStubLib.c,
+   configure
+
+~ Copyright
+
+This document has been placed in the public domain.
