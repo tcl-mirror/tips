@@ -1,0 +1,367 @@
+TIP:		70
+Title:		A Relational Switch Control Structure
+Version:	$Revision: 1.1 $
+Author:		Bhushit Joshipura <bhushit@hotmail.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	20-Oct-2001
+Post-History:	
+
+~ Abstract
+
+This TIP proposes the introduction of a new control structure,
+''rswitch'', which is a bimorph relational switch-case parallel to
+switch-case control structure.  It can be bi-conditional, switching
+based on relation (>, !=, etc.) between them or it can be
+mono-conditional, switching based on a relation (<, ==, etc.) with
+other case based condition.
+
+~ Rationale
+
+Theoretically only two controls - ''if'' and ''goto'' - are sufficient
+to implement all algorithms.  However, languages provide more control
+structures for better representation of algorithms.  To many
+structural programmers like me, a ''switch'' statement gives much
+better picture of the program than equivalent ''if-elseif-...-else''
+chain. It pronounces the course of decision of a big chunk of program
+in a single statement: making understanding and maintaining software
+easier. It also helps to optimize the software better if it is written
+in ''switch'' form. However, ''switch'' is strictly data based
+i.e. ''switch'' happens strictly on data value. The proposed
+''rswitch'' command is a control structure similar (and more general)
+to ''switch''.  As such, ''switch'' becomes a very special case of
+mono-conditional ''rswitch''. (As a matter of fact, Tcl's ''foreach''
+control structure is a special case of its for control structure.)
+Using ''rswitch'' it should be possible to take decisions based on
+relations between entities.
+
+I queried about proposal of such a control structure in C to
+Dr. Dennis M. Ritchie in February 2001. (At that time I thought only
+of bi-conditional relational switch.)
+
+ > Absence of relational switch I know this can be odd for other
+   languages - but not for C. C is so near to machine and a relational
+   switch could be ideal for many many machine-cycle saving
+   situations.
+
+ > Apart from machine-orientedness, it could avoid many usages of
+   not-so-structured ''?:'' operator.
+
+ > It could simplify a lot of control and signal processing code too.
+
+ > Why did C become more data-biased for a control structure?
+
+|    relational-switch(expr1,expr2){
+|    case ==: statements;
+|            break;
+|    case > : statements;
+|            break;
+|    case < : statements;
+|            break;
+|    default: statements;
+|            break;
+|    }
+
+TCL need not be so optimized, as C has to be. However, clarity and
+maintainability remain formidable reasons for relational switch
+implementation.
+
+~ Implementation in Other Languages
+
+In a quick reply, Dr. Ritchie wrote back:
+
+ > The relational switch idea is (so far as I know) for C a new
+   suggestion, although I have no idea of all things that were
+   proposed for the 1989 or 1999 C standards.  If seems to hark back
+   to the old Fortran GOTO statement
+
+ > IF (expression) 2, 3, 4
+
+ > which went to various places depending on whether the expression
+   was -, 0 or +.  It's also a bit strange syntactically (though it
+   might work in the grammar) in that the case values aren't
+   expressions, but just operators.
+ 
+ > Regards, Dennis 
+
+Thus the structure is absent from C and its whole
+family. It is absent from Pascal, BASIC, shell scripts - and of
+course, TCL.  Fortran's computed goto is near to bi-conditional
+''rswitch''. (That way Chimpanzees are near to Homo sapiens too.) However,
+clarity of presentation of default and fall through are not achievable
+through computed goto. Mono-conditional ''rswitch'', however, does not
+have a parallel in languages of my knowledge (C, C++, Java, Pascal,
+BASIC, Fortran, shell scripts). 
+
+~ Grammar and Behavior
+
+Overall:
+
+|rswitch <condition(s)> {
+|    <situation-1> {
+|        <reaction-block-1>
+|    }
+|    ...
+|}
+
+If ''<condition(s)>'' is one-item long list, it becomes
+mono-conditional ''rswitch''.  Else if ''<condition(s)>'' is two-item
+long list, it becomes bi-conditional ''rswitch''.  Else it is a syntax
+error.
+
+A condition can be a constant or a variable.  Mono-conditional
+''rswitch'' has situation description as:
+
+ > ''<relation> <another condition>''
+
+Bi-conditional ''rswitch'' has situation description as:
+
+ > ''<relation>''
+
+Under both the cases (mono-conditional and bi-conditional), default is
+a valid situation. Order of occurrence of default as a situation is
+not important. <relation> is any of:
+
+ > ''<='', ''<'', ''=='', ''>'', ''>='', ''!=''
+
+Under both the cases (mono-conditional and bi-conditional), ''-'' (a
+dash) is a valid non-last reaction block. It means to fall through
+until a non-dash reaction block is found. It is a syntax error to have
+last situation with a fall through reaction.
+
+At execution, reaction block following or fell through by the first
+and only the first situation that becomes true, is executed. In case
+no situation becomes true and default situation is present, reaction
+block following or fell through by default statement is executed.
+Default situation is not necessary for operation of ''rswitch''. An
+''rswitch'' without any situation-reaction block is grammatically
+valid.
+
+~ Sample Invocations
+
+Naturally, bi-conditional ''rswitch'' has limited situations (and more
+or less fixed pattern) and is less interesting as a control structure.
+Usefulness, however, does not go with interest.
+
+|# mono-condition, with constant situations
+|rswitch $a {
+|   > 1 {
+|      puts "$a > 1"
+|   }
+|   > 5 {
+|      puts "$a > 5"
+|   }
+|   > 15 {
+|      puts "$a > 15"
+|   }
+|   > 51 {
+|      puts "$a > 51"
+|   }
+|}
+|# mono-conditional with fall through
+|rswitch $a {
+|   > $b {
+|      puts "$a > $b"
+|   }
+|   < $b -
+|   == $b {
+|      puts "falling through"
+|      puts "$a <= $b"
+|   }
+|}
+|# mono-conditional with default and situations with many conditions
+|rswitch $a {
+|   > $b {
+|      puts "$a > $b"
+|   }
+|   < $c {
+|      puts "$a < $c"
+|   }
+|   default {
+|      puts "hit default"
+|   }
+|}
+|# bi-conditional
+|rswitch $a $b {
+|   > {
+|      puts "$a > $b"
+|   }
+|   < {
+|      puts "$a < $b"
+|   }
+|   == {
+|      puts "$a == $b"
+|   }
+|} 
+
+~ Sample Implementation
+
+Apparent shortcomings of this implementation:
+
+ 1. Name hiding - as none of the procedures used here are TCL reserved
+    keywords, cut-pasting this code can have potential conflict with
+    other code.
+
+ 2. Optimization - both, memory and machine time optimization are
+    absent.
+
+ 3. Error handling and grammar checks - may need improvement.
+
+ 4. Coding standards may not match core TCL coding standards.
+
+ 5. Call to ''*ValidityCheck'' may not be necessary and can be removed
+    after review. However, code works as per description above and can
+    serve as a model for testing behavior of better implementations.
+
+|proc rswitch {args} {
+|   switch -exact [llength $args] {
+|      2 {
+|         monoRSwitch [lindex $args 0] [lindex $args 1]
+|      }
+|      3 {
+|         biRSwitch [lindex $args 0] [lindex $args 1] [lindex $args 2]
+|      }
+|      default {
+|         error "usage: rswitch <one or two variables> <action-block>"
+|      }
+|   }
+|}
+|proc monoRSwitch {variable actionBlock} {
+|    set actionBlockLength [llength $actionBlock]
+|    # if actionBlock has odd number of members,
+|    # there is no one to one match between
+|    # situations and reactions
+|    set temp [expr $actionBlockLength % 3]
+|    if {($temp == 1) || (($temp == 2) \
+|            && ([lsearch $actionBlock "default"] == -1))} {
+|        error "Incorrect actionBlock\n$actionBlock"
+|    }
+|    # extract pairs of situation-reactions
+|    for {set index 0} {$index < $actionBlockLength} {incr index} {
+|        set tempList [lindex $actionBlock $index]
+|        if {$tempList != "default"} {
+|            lappend tempList [lindex $actionBlock [incr index]]
+|        }
+|        lappend situationList $tempList
+|        lappend reactionList [lindex $actionBlock [incr index]]
+|    }
+|    set situationListSize [llength $situationList]
+|    # errorhandle dumb situations
+|    monoRSwitchValidityCheck $situationList
+|    # errorHandle last case falling through
+|    if {[lindex $reactionList end] == "-"} {
+|        error "Nowhere to fall through"
+|    }
+|    set defaultCommandList ""
+|    # for all situations
+|    for {set index 0} {($index < $situationListSize) \
+|            && (![info exists someConditionHit])} {incr index 1} {
+|        set tempIndex $index
+|        set commandList "-"
+|        # extract next reaction block falling through
+|        while {($tempIndex < $situationListSize) && ($commandList == "-")} {
+|            set commandList [lindex $reactionList $tempIndex]
+|            incr tempIndex
+|        }
+|        # get the logical condition
+|        set condition [lindex $situationList $index]
+|        if {[lindex $condition 0] != "default"} {
+|            # grasp the situation $a > $b etc.
+|            set situation [string trimright "$variable $condition"]
+|            if {[uplevel 2 expr $situation]} {
+|                 # execute non-fall-through reaction block
+|                 set someConditionHit 1
+|                 uplevel 2 $commandList
+|            }
+|        } else {
+|            # default exists
+|            set defaultExists 1
+|            # remember default reaction
+|            set defaultCommandList $commandList
+|        }
+|    }
+|    if {![info exists someConditionHit]} {
+|        if {[info exists defaultExists]} {
+|            uplevel 2 $defaultCommandList
+|        }
+|    }
+|}
+|proc monoRSwitchValidityCheck {situationList} {
+|    # null for now
+|}
+|proc biRSwitch {variable1 variable2 actionBlock} {
+|    set actionBlockLength [llength $actionBlock]
+|    # if actionBlock has odd number of members,
+|    # there is no one to one match between
+|    # situations and reactions
+|    if {[expr $actionBlockLength % 2] != 0} {
+|         error "Incorrect actionBlock\n$actionBlock"
+|    }    # extract pairs of situation-reactions
+|    # even number of elements are situations
+|    # odd number of elements are reactions
+|    for {set index 0} {$index < $actionBlockLength} {incr index 2} {
+|         lappend situationList [lindex $actionBlock $index]
+|         lappend reactionList [lindex $actionBlock [expr $index + 1]]
+|    }
+|    set situationListSize [llength $situationList]
+|    # errorhandle dumb situations (like issuing != followed by >)
+|    biRSwitchValidityCheck $situationList
+|    # errorHandle last case falling through
+|    if {[lindex $reactionList end] == "-"} {
+|         error "Nowhere to fall through"
+|    }
+|    set defaultCommandList ""
+|    # for all situations
+|    for {set index 0} {($index < $situationListSize) \
+|            && (![info exists someConditionHit])} {incr index 1} {
+|        # if this situation is true,
+|        set tempIndex $index
+|        set commandList "-"
+|        # extract next reaction block falling through
+|        while {($tempIndex < $situationListSize) && ($commandList == "-")} {
+|            set commandList [lindex $reactionList $tempIndex]
+|            incr tempIndex
+|        }
+|        # get the logical condition
+|        set condition  [lindex $situationList $index]
+|        if {$condition != "default"} {
+|            # grasp the situation $a > $b etc.
+|            set situation "$variable1 $condition $variable2"
+|            if {[expr $situation]} {
+|                # execute non-fall-through reaction block
+|                set someConditionHit 1
+|                uplevel 2 $commandList
+|            }
+|        } else {
+|            # default exists
+|            set defaultExists 1
+|            # remember default reaction
+|            set defaultCommandList $commandList
+|        }
+|    }
+|    if {![info exists someConditionHit]} {
+|         if {[info exists defaultExists]} {
+|             uplevel 2 $defaultCommandList
+|         }
+|    }
+|}
+|
+|proc biRSwitchValidityCheck {booleanList} {
+|    if {[lsearch -exact $booleanList "!="] != -1} {set NE 1}
+|    if {[lsearch -exact $booleanList ">="] != -1} {set GE 1}
+|    if {[lsearch -exact $booleanList "<="] != -1} {set LE 1}
+|    if {[lsearch -exact $booleanList ">"] != -1} {set G 1}
+|    if {[lsearch -exact $booleanList "<"] != -1} {set L 1}
+|    if {([info exists NE] && ([info exists GE] || [info exists LE] \
+|            || [info exists G] || [info exists L])) \
+|            || ([info exists GE] && [info exists G]) \
+|            || ([info exists LE] && [info exists L])} {
+|        error "confusing biRSwitch case detected aborting..."
+|    }
+|}
+
+~ Copyright
+
+This document has been placed in the public domain.
