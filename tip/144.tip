@@ -1,14 +1,15 @@
 TIP:            144
 Title:          Argument Expansion Syntax
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         <dgp@users.sf.net>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        26-Jul-2003
 Post-History:   
+Obsoleted-By:	157
 Tcl-Version:    8.5
 
 ~ Abstract
