@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -293,6 +293,14 @@ a significant number of new tests.  The memory requirements of the text
 widget have increased marginally to support the correct vertical
 scrolling behaviour: two new integers must be stored for each logical
 line of text.
+
+~ Open questions
+
+ 1. How to resolve the possible confusion between ''chars'' and ''indices''.
+
+ 2. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.
+
+ 3. Add suitable _-visible_ flags to _get_ and/or _search_ for greater agreement with _count_.
 
 ~ Out of Scope
 
