@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.34 $
+Version:        $Revision: 1.35 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -338,7 +338,7 @@ We confirm that either approach solves the original problem:
 | % catch c
 | 1
 
-Finally, the new feature make possible a utility command that
+Finally, the new features make possible a utility command that
 can be of use to people making simple control structure commands,
 or doing simple wrapping, where there is no need to augment the
 stack trace, or to treat any return codes in a special way:
@@ -382,7 +382,7 @@ to avoid key name conflicts in the return options dictionary.
 
 Reviewers of drafts of this TIP wondered whether the new
 "-level" option to ''return'' raised the possibility of
-trouble with an attempt to return more levels that beyond
+trouble with an attempt to return more levels than beyond
 the top of the call stack.  
 
 It should be understood that ''return -level N'' does not
