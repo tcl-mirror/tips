@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -205,26 +205,33 @@ easier to create as well.
  * int '''Tcl_LimitReady'''(Tcl_Interp *''interp'')
 
  > Test whether a limit is ready to be checked according to its
-   granularity rules.  Result is boolean.
+   granularity rules.  Result is boolean.  Note that this is a cheap
+   call.
 
  * int '''Tcl_LimitCheck'''(Tcl_Interp *''interp'')
 
- > Test whether a limit has been exceeded.  Result is boolean.
+ > Test whether a limit has been exceeded.  Result is boolean.  Note
+   that this call is potentially expensive (checking a time limit
+   requires a minimum of one system call.)
 
  * int '''Tcl_LimitExceeded'''(Tcl_Interp *''interp'')
 
  > Test whether the interpreter is in a state where a limit has been
-   exceeded and not yet reset (by extending the relevant limit.)
-   Result is boolean.
+   previously exceeded (i.e. whether a previous call to
+   '''Tcl_LimitCheck''' had indicated that a limit had been hit) and
+   not yet reset (by extending or removing the relevant limit.)
+   Result is boolean.  Note that this is a cheap call.
 
  * int '''Tcl_LimitTypeEnabled'''(Tcl_Interp *''interp'', int ''type'')
 
  > Test whether the given type of limit is turned on.  Result is boolean.
+   Note that this is a cheap call.
 
  * int '''Tcl_LimitTypeExceeded'''(Tcl_Interp *''interp'', int ''type'')
 
- > Test whether the given type of limit has been hit and not yet
-   reset.  Result is boolean.
+ > Test whether the given type of limit has been hit (in the notion of
+   '''Tcl_LimitExceeded''') and not yet reset.  Result is boolean.
+   Note that this is a cheap call.
 
  * void '''Tcl_LimitTypeSet'''(Tcl_Interp *''interp'', int ''type'')
 
