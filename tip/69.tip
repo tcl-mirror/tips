@@ -1,14 +1,15 @@
-TIP:		69
-Title:		Improvements for the Tcl Hash Table
-Version:        $Revision: 1.4 $
-Author:		George A. Howlett <gah@siliconmetrics.com>
-Created:	16-Oct-2001
-State:		Draft
-Type:		Project
-Vote:		Pending
-Tcl-Version:	8.3
-Post-History: 
+TIP:            69
+Title:          Improvements for the Tcl Hash Table
+Version:        $Revision: 1.5 $
+Author:         George A. Howlett <gah@siliconmetrics.com>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Oct-2001
+Post-History:   
 Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.3
 
 ~ Abstract
 
@@ -230,6 +231,17 @@ value.
 |	}
 |    }
 
+''Don Porter <dgp@users.sf.net>''
+
+ > It appears that the recommendations of this section have already
+   been implemented in Tcl 8.4.  In particular, when the symbol
+   TCL_HASH_KEY_STORE_HASH == 1 (as it does by default), then the
+   hash value is stored in each entry instead of the bucketPtr.
+
+ > If that is correct, then I recommend this section of the TIP be
+   removed.  If not, more detail about how this proposal differs
+   from the 8.4 implementation, and an argument why the proposal
+   is superior are in order.
 
 ~ Better Memory Performance 
 
@@ -333,6 +345,13 @@ means that existing code such as
 can possibly fail because the 32-bit one word hash function can't
 properly hash the 64-bit pointer address.
 
+''Don Porter <dgp@users.sf.net>''
+
+ > Pardon the interruption, but I do not understand what is meant
+   by the assertion that hashing of 64-bit pointers "can possibly
+   fail".  I've used Tcl on a 64-bit Alpha system for years, hashing
+   64-bit pointers the whole time.  What failures should I be seeing?
+
 | #define RANDOM_INDEX(tablePtr, i) \
 |    (((((long) (i))*1103515245) >> (tablePtr)->downShift) & (tablePtr)->mask)
 
@@ -416,7 +435,7 @@ also adds a useful piece to the 64-bit Tcl/Tk port.
 
 I've created and tested a new hash table implementation under the
 following systems.
-	
+
 |	System			32     64
 |	linux-ix86-gcc		x	
 |	Solaris-v9-cc		x	x
