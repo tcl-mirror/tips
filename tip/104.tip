@@ -1,10 +1,10 @@
 TIP:            104
 Title:          Generalization of the Tk Undo Subsystem
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
 Author:         Larry W. Virden. <lvirden@yahoo.com>
-State:          Draft
-Type:           Final
+State:          Final
+Type:           Project
 Vote:           Done
 Created:        19-Jun-2002
 Post-History:   
