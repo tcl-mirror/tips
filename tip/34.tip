@@ -1,0 +1,71 @@
+TIP:           34
+Title:         TEA 2.0
+Version:       $Revision: 1.1 $
+Author:        Mo DeJong <mdejong@cygnus.com>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.4
+Vote:          Pending
+Created:       03-May-2001
+Post-History:
+
+~ Abstract
+
+The original TEA specification, documentation, and implementation have
+fallen out of date.  Numerous complaints about the difficulty of
+creating a TEA compliant package have appeared on news:comp.lang.tcl
+The existing build system works but it is a pain to maintain mostly
+because there are two build systems, one for unix and another for
+windows.  This document describes how some of these concerns can be
+addressed.
+
+~ Rationale
+
+As new software is released, existing documentation becomes obsolete.
+Some of the existing TEA documentation is now so badly out of date
+that suggested software releases are no longer available.  The
+solution to this problem is simple, the TEA documentation and
+implementation must be updated.
+
+The build system itself is in need of an update.  The Unix and Windows
+versions of the build system are not synchronized.  There are a number
+of features that are simply not implemented in the Windows version.
+The most straightforward way of dealing with this problem is to merge
+the two build systems.  Some popular extensions have already taken
+this approach, Itcl for example uses a single ''configure.in'' script
+to build the Unix and Windows versions.  While switching to a single
+''configure.in'' is a big step, it will significantly simplify
+maintenance and make life a lot easier in the long run.
+
+Tcl's build system does not depend on ''config.guess'' and
+''config.sub'' to determine build and host triples.  Instead, it
+depends on the output of ''uname -s'' and ''uname -r''.  That works
+for native builds but makes it very painful to cross compile.  For
+example, a user might want to build Windows binaries under Linux.
+Tcl's existing build system makes this much harder than it needs to
+be.  Upgrading to ''autoconf 2.50'' is the best way to address this
+problem.
+
+Tcl's build system passes a large number of ''-D'' flags to the
+compiler instead of making use of a ''config.h'' file.  Personal
+experience has shown that using a ''config.h'' file is a superior way
+of dealing with configure time defines.
+
+~ Implementation Notes
+
+Implementing this TIP is by no means an easy task.  Build system
+changes are by far the most dangerous since a mistake that breaks
+something on some infrequently used configuration will not be noticed
+until some time in the future.  One can only ask for forgiveness up
+front since it is a virtual certainty that these sorts of changes are
+going to break something.  The needed documentation changes are
+straightforward, but the actual process make take a long time.
+
+~ Alternatives
+
+The alternative is to continue to use the existing system.  Things
+would get no worse but they would also get no better.
+
+~ Copyright
+
+This document has been placed in the public domain.
