@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -264,7 +264,7 @@ These two commands perform arithmetic on dates and times.  The syntax
 is:
 
 | clock (add|subtract) time ?count unit?... \
-|         ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
+|         ?-gmt boolean? ?-timezone timeZone? ?-locale name?
 
 It accepts a time, expressed in seconds from the Posix epoch of 1
 January 1970, 00:00 UTC, and adds or subtracts units of time from it
