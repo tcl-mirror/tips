@@ -1,0 +1,144 @@
+TIP:            60
+Title:          EXTERN Macro Change to Support a Wider Set of Attributes
+Version:        $Revision: 1.1 $
+Author:         David Gravereaux <davygrvy@pobox.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        06-Sep-2001
+Post-History:	
+Tcl-Version:	8.4
+
+~ Abstract
+
+This TIP proposes a change to how the EXTERN macro in ''tcl.h'' works
+to support a wider range of compiler specific attributes.
+
+~ Rationale
+
+With working on Borland support recently, I found that luckily the
+newest "free commandline tools"
+(http://www.borland.com/bcppbuilder/freecompiler/) does support
+Microsoft's ''__declspec(dllexport)'' attribute.  But at the same
+time, the older way with ''__export'' is still valid, but can't be
+used due to the order within the prototype declaration of the EXTERN
+macro.
+
+What's this with the MS compiler:
+
+|	__declspec(dllexport) __cdecl int func (int a, int b);
+
+will have to be this with Borland:
+
+|	int __export __cdecl func (int a, int b);
+
+The order of the attribute needs to be after the return type.
+
+Even though ''__declspec'' is supported in the Microsoft style with
+version 5.5 of the Borland compiler, if EXTERN could swap around the
+order a hair, old Turbo C v5.0 has a better chance to make a DOS
+library :)
+
+The only main issue with doing this change, is that all extensions
+will need to adopt it.  I have yet to ponder the idea of a simple
+backward compatibility macro, but I'm sure it would be easy.
+
+|#ifndef TCL_NEWEXTERN
+|.. something goes here (??) ..
+|#endif
+
+~ Rejected Alternatives
+
+MinGW has a small adjustment to support ''__cdecl'' as I found leafing
+through the winapi headers.  So, I replaced it with
+''__attribute__((cdecl))'' in a #define.
+
+Karl Lembuaer (sp?) did a presentation @ OSCON regarding his recent
+tinytcl project ''%TODO: add link here%'' about his DOS port of Tcl
+6.7 for use in a hand-held device.
+
+Stepping backward for DOS support, may actually be a leap forward in
+an off-beat manner...
+
+~ Reference Implementation
+
+https://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=10469&aid=436116
+
+~ Examples
+
+Was:
+
+|EXTERN int
+|Foobar_Init (Tcl_Interp *interp)
+|{
+|#ifdef USE_TCL_STUBS
+|    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
+|        return TCL_ERROR;
+|    }
+|#endif
+|    Tcl_CreateObjCommand(interp, "foobar", FooBar, NULL, NULL);
+|    return TCL_OK;
+|};
+
+Proposed:
+
+|EXTERN(int)
+|Foobar_Init (Tcl_Interp *interp)
+|{
+|#ifdef USE_TCL_STUBS
+|    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
+|        return TCL_ERROR;
+|    }
+|#endif
+|    Tcl_CreateObjCommand(interp, "foobar", FooBar, NULL, NULL);
+|    return TCL_OK;
+|};
+
+Preprocessor output is the following:
+
+ >	Borland:
+
+|/* foobar.c 14: */extern  int __export __cdecl
+|/* foobar.c 15: */Foobar_Init (Tcl_Interp *interp)
+|/* foobar.c 16: */{
+|/* foobar.c 17: */
+|/* foobar.c 18: */if (Tcl_InitStubs(interp, "8.1", 0) == 0) {
+|/* foobar.c 19: */return 1;
+|/* foobar.c 20: */}
+|/* foobar.c 21: */
+|/* foobar.c 22: */(tclStubsPtr->tcl_CreateObjCommand)(interp, "foobar", FooBar, 0, 0);
+|/* foobar.c 23: */return 0;
+|/* foobar.c 24: */};
+
+ >	VC++:
+
+|extern  __declspec(dllexport) int __cdecl
+|Foobar_Init (Tcl_Interp *interp)
+|{
+|
+|    if (Tcl_InitStubs(interp, "8.1", 0) == ((void *)0)) {
+|        return 1;
+|    }
+|#line 22 "foobar.c"
+|    (tclStubsPtr->tcl_CreateObjCommand)(interp, "foobar", FooBar, ((void *)0), ((void *)0));
+|    return 0;
+|};
+
+ >	MinGW (aka: native gcc on win):
+
+|extern       int
+|Foobar_Init (Tcl_Interp *interp)
+|{
+|
+|    if (Tcl_InitStubs(interp, "8.1", 0) == ((void *)0) ) {
+|        return 1 ;
+|    }
+|
+|    (tclStubsPtr->tcl_CreateObjCommand) (interp, "foobar", FooBar, ((void *)0) ,
+| ((void *)0) );
+|    return 0 ;
+|};
+
+~ Copyright
+
+This document has been placed in the public domain.
