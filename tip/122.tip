@@ -1,18 +1,19 @@
-TIP:		122
-Title:		Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-Author:		Martin Weber <ephaeton@gmx.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	12-Dec-2002
-Post-History:	
+TIP:            122
+Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
+Version:        $Revision: 1.2 $
+Author:         Martin Weber <ephaeton@gmx.net>
+Author:         Martin Weber <Ephaeton@gmx.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Dec-2002
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP shall bring flexible management of word and non-word chars to
-Tcl, to be used throughout the Tcl realm in e.g. [[regexp]]'s \m \M,
+Tcl, to be used throughout the Tcl realm in e.g. [[regexp]]'s \w \W,
 Tk's [[textwidget]], etc.
 
 ~Specification
@@ -41,6 +42,13 @@ being hard-coded, this also means that there is no way to change or
 fix that potentially broken behavior.  Having Tcl lookup the values of
 those variables at runtime allows for the needed flexibility, both
 when dealing with nonstandard demands and nonstandard character sets.
+
+As an example of the breakage, you can assign a regular expression
+to tcl_{,non}wordchars, and the double click binding in the textwidget
+will regard that pattern when marking a "whole word". When you try
+to ask the text widget to deliver the data under a certain coordinate
+with the indices 'wortstart' and 'wordend', the value of
+tcl_{non,}wordchars is not used though.
 
 There may be a problem with the performance of the lookup, but on the
 other hand are C's ''is*()'' functions also implemented via a table
