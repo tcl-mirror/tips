@@ -1,7 +1,8 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         miguel sofer <mig@utdt.edu>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -111,6 +112,8 @@ branch, or they may be rejected.
 
    * core-8-4-win-speedup (Tk) - Work on improving performance of Tk
      on the Windows platforms.
+
+   * msofer-bcEngine (Tcl) - Work on improving performance of the bytecode engine.
 
 ~ Dead Branches
 
