@@ -1,13 +1,13 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.4 $
+Version:        $Revision: 2.5 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        15-Sep-2004
 Post-History:   
-Keywords:       bgerror, return, options
+Keywords:       bgerror,return,options
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -93,7 +93,10 @@ The ''message'' argument is the interp result at the time
 ''Tcl_BackgroundError'' is called.
 The ''returnOptionsDictionary'' argument is a Tcl dict value ([111])
 holding the value of the interp's return options dictionary at the
-time ''Tcl_BackgroundError'' was called.
+time ''Tcl_BackgroundError'' was called.  Specifically,
+the ''returnOptionsDictionary'' argument is the value
+returned by ''Tcl_GetReturnOptions'' [227] at the time
+''Tcl_BackgroundError'' is called.
 
 Stored in the ''returnOptionsDictionary'' argument will be values
 for the ''-level'' and ''-code'' keys, and when those values
