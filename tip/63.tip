@@ -1,13 +1,13 @@
-TIP:           63
-Title:         Add -compound Option to Menu Entries
-Version:       $Revision: 1.1 $
-Author:        Vince Darley <vincentdarley@users.sourceforge.net>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4
-Vote:          Pending
-Created:       27-Sep-2001
-Post-History:
+TIP:            63
+Title:          Add -compound Option to Menu Entries
+Version:        $Revision: 1.2 $
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Sep-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -37,7 +37,7 @@ the relative placement of an image to the text label in the entry.
 A reference implementation exists, and is available from:
 ftp://ftp.ucsd.edu/pub/alpha/tcl/compoundmenu.diff (note this diff has
 Windows-style line endings).  This implementation is known to work on
-Windows, and since the changes are very, very similar on Unix and
+Windows and Unix, and since the changes are very, very similar on
 MacOS I expect it to work there (except perhaps for simple editing
 mistakes).
 
