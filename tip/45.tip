@@ -1,6 +1,6 @@
 TIP:            45
 Title:          Empty index lists for [lindex] and [lset]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -45,7 +45,7 @@ An empty list of indices is a convenient means of specifying the root.
 
 |  lindex list
 
-    and
+ >  and
 
 |  lindex list {}
 
@@ -58,7 +58,7 @@ An empty list of indices is a convenient means of specifying the root.
 
 |  lset var value
 
-    and
+ >  and
 
 |  lset var {} value
 
