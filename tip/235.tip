@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Created:	10-Dec-2004
 
@@ -28,7 +28,7 @@ possible.
 
 This TIP proposes exposing the following functions:
 
- Tcl_MakeEnsembleCmd: Create an ensemble linked to a particular
+ Tcl_CreateEnsemble: Create an ensemble linked to a particular
    namespace.
 
  Tcl_FindEnsemble: Locate a command token for an ensemble. Has an
@@ -58,6 +58,13 @@ This TIP proposes exposing the following functions:
 
  Tcl_GetEnsembleNamespace: Reads the namespace associated with the
    ensemble; this value may not be altered.
+
+~ Reference Implementation
+
+The API is already in the core, but with internal naming and not
+exposed to anyone. Exposure is just renaming a few functions and
+putting them in the stubs table. No new types are exposed. All this
+means that a reference implementation is truly trivial.
 
 ~ Copyright
 
