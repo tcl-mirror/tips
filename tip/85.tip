@@ -1,6 +1,6 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -71,7 +71,7 @@ When the ''test'' command is called with the ''-match mytype'' option,
 the command ''myMatchProc'' will be completed with two arguments,
 the expected and actual results, and will be evaluated in the global
 namespace to determine whether the test result matches the expected
-result.  Likewise, the option ''-match exact'' to ''test'' will
+result.  Likewise, the ''test'' option ''-match exact'' will
 cause matching to be tested by the command ''::string equal''.
 The default value of the ''-match'' option will continue to be ''exact''.
 
