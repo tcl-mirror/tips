@@ -1,28 +1,30 @@
-TIP:           62
-Title:         Add Support for Command Tracing
-Version:       $Revision: 1.1 $
-Author:        Hemang Lavana <HemangLavana@users.sourceforge.net>
-Author:        Vince Darley <vince.darley@eurobios.com>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4
-Vote:          Pending
-Created:       18-Sep-2001
-Post-History:
+TIP:            62
+Title:          Add Support for Command Tracing
+Version:        $Revision: 1.2 $
+Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
+Author:         Vince Darley <vince.darley@eurobios.com>
+Author:         Hemang Lavana <hlavana@cisco.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        18-Sep-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
 This TIP proposes that the Tcl's trace command be extended to include
-tracing of commands for the following four operations: ''before'',
-''after'', ''preinside'' and ''postinside''.
+the following features:
+  1. tracing of command execution for the specified tcl command, and
+  2. step-wise tracing of any command execution within a specified procedure.
 
 ~ Rationale
 
 One of the main strengths of Tcl is the ability to trace ''read'',
 ''write'' or ''delete'' operations on variables.  Moreover, Tcl8.4 has
 already added support for tracing ''rename'' or ''delete'' operations
-on Tcl commands.  Addition of the proposed four operations for command
-tracing will further improve the capabilities of Tcl without any loss
+on Tcl commands.  Addition of the proposed subcommand for tracing
+executions will further improve the capabilities of Tcl without any loss
 of performance (see ''Benchmark Results'' section below).
 
 I can see several applications of this feature, including:
@@ -34,77 +36,202 @@ I can see several applications of this feature, including:
 
   *  profiler module in ''tcllib'' can benefit from this feature
 
-
 ~ Specification
 
-This TIP proposes an enhancement to the following trace command:
+This TIP proposes an enhancement to the trace command with the
+following syntax:
 
-|    trace add command name ops command
+|        trace add execution name ops command
 
-The ''ops'' argument currently accepts ''rename'' and ''delete'' as a
-valid operation.  The following 4 operations will be added to the
-list:
+The type ''execution'' is used to arrange for ''command'' to be executed
+whenever the command ''name'' is invoked for execution.
+''Name'' may refer to any of the tcl commands or procedures that have been
+previously defined. It is an error to create an ''execution'' trace on a 
+non-existant command or a procedure.
 
-   1. ''before'' - Invoke ''command'' whenever the ''command'' is
+The ''ops'' argument can accept ''enter'', ''leave'', ''enterstep'', and
+''leavestep'' as valid operations:
+
+   1. ''enter'' - Invoke ''command'' whenever the command ''name'' is
         executed, just before the actual execution takes place.
 
-   2. ''after'' - Invoke ''command'' whenever the ''command'' is
+   2. ''leave'' - Invoke ''command'' whenever the command ''name'' is
         executed, just after the actual execution takes place.
 
-   3. ''preinside'' - Invoke ''command'' whenever anything is executed
-        inside the ''proc'' being traced, just before that execution
-        takes place.  For example if we have ''proc foo {} {puts
-        "hello"}'', then a preinside trace would be invoked just
-        before ''puts "hello"'' was executed.  Setting a ''preinside''
-        trace on a ''command'' will not result in an error and is
-        simply ignored.
+   3. ''enterstep'' - Invoke ''command'' for every tcl command which is
+        executed inside the procedure ''name'', just before the actual
+	execution takes place. Setting a ''enterstep'' trace on a ''command''
+	will not result in an error and is simply ignored.
 
-   4. ''postinside'' - Invoke ''command'' whenever anything is
-        executed inside the ''proc'' being traced, just after that
-        execution takes place.  Setting a ''postinside'' trace on a
-        ''command'' will not result in an error and is simply ignored.
+   4. ''leavestep'' - Invoke ''command'' for every tcl command which is
+        executed inside the procedure ''name'', just after the actual
+	execution takes place. Setting a ''leavestep'' trace on a ''command''
+	will not result in an error and is simply ignored.
 
 When the trace triggers, depending on the operations being traced, a
 number of arguments are appended to command so that the actual command
 is as follows:
 
-For before and preinside operations:
+For ''enter'' and ''enterstep'' operations:
 
 |    command command-string op
 
-''Command-string'' gives the complete current command being executed
-(the traced command for a before operation, an arbitrary command for a
-preinside operation), including all arguments in their fully expanded
-form.  ''Op'' indicates what operation is being performed on the
-variable, and is one of before or preinside as defined above.  The
-trace operation can be used to stop the command from executing, by
-deleting the command in question.  Of course when the command is
+''command-string'' gives the complete current command being executed,
+including all arguments in their fully expanded form.
+''Op'' indicates what operation is being performed on the
+variable, and is one of ''enter'' or ''enterstep'' here.
+The trace operation can be used to stop the command from executing,
+by deleting the command in question.  Of course when the command is
 subsequently executed, an 'invalid command' error will occur.
 
-For after and postinside operations:
+For ''leave'' and ''leavestep'' operations:
 
 |   command command-string code result op
 
-''Command-string'' gives the complete current command being executed
-(the traced command for a before operation, an arbitrary command for a
-postinside operation), including all arguments in their fully expanded
-form.  Code gives the result code of that execution, and of the result
+''command-string'' gives the complete current command being executed,
+including all arguments in their fully expanded form.  ''code'' gives
+the result code of that execution, and ''result'' gives its result
 string.  ''Op'' indicates what operation is being performed on the
-variable, and is one of after or postinside as defined above.  Note
-that the creation of many preinside or postinside traces can lead to
-unintuitive results, since the invoked commands from one trace can
-themselves lead to further command invocations for other traces.
+variable, and is one of ''leave'' or ''leavestep'' here.
+
+''Command'' executes in the same context as the code that invoked
+the traced operation: thus the ''command'', if invoked from a procedure,
+will have access to the same local variables as code in the procedure.
+This context may be different than the context in which the trace was
+created. If ''command'' invokes a procedure (which it normally does)
+then the procedure will have to use upvar or uplevel commands if it
+wishes to access the local variables of the code which invoked the
+trace operation. Note that if the value of a local variable is passed
+as an argument to the traced command ''name'' and is modified by
+the ''command'' procedure, the traced command ''name'' will still
+be invoked with the old value of the local variable. This is because
+the argument list to ''name'' is formed before the traced ''command''
+is invoked. Please see the section on ''Future Scope'' below on how
+to modify the arguments passed to ''name''.
+
+While ''command'' is executing during an ''execution'' trace, traces
+on ''name'' are temporarily disabled. This allows the ''command'' to
+execute ''name'' in its body without invoking any other traces
+again. If an error occurs while executing the ''command'' body,
+then the command ''name'' as a whole will return that same error.
+Therefore, if ''catch'' command is used for invocation of the
+''name'' command, it will also ignore errors resulting from such traces.
+
+When multiple traces are set on ''name'', then the sequence of trace
+command invocation is as follows:
+
+    1.  For ''enter'' and ''enterstep'' operations, the traced
+        commands are invoked in the reverse order of how these
+	traces were created.
+
+    2.  For ''leave'' and ''leavestep'' operations, the traced
+        commands are invoked in the same order as how these
+	traces were created.
+
+For example, if we have two traces on proc foo:
+
+|    trace add execution foo {enter leave} {barA}
+|    trace add execution foo {enter leave} {barB}
+
+then the trace commands ''barA'' and ''barB'' will be invoked in
+the following sequence:
+
+|    barB {foo x} {enter}
+|    barA {foo x} {enter}
+|      foo x
+|    barA {foo x} 0 {} {leave}
+|    barB {foo x} 0 {} {leave}
+
+The creation of many ''enterstep'' or ''leavestep'' traces can lead
+to unintuitive results, since the invoked commands from one trace
+can themselves lead to further command invocations for other traces.
 However, these unintuitive results are completely predictable and safe
 (and tested in the test suite).  Nevertheless the user will probably
 only want to have one such trace active at a time.
 
-Some people may not be comfortable with the names of the operations,
-especially ''preinside'' and ''postinside''.  So I am open to having
-these called whatever is best acceptable.  Vince Darley has also noted
-that some people preferred this to be added as ''trace add execution''
-instead of ''trace add command''.
+Once created, the trace remains in effect either until the trace is
+removed with the ''trace remove execution'' command, until the ''name''
+is deleted or until the interpreter is deleted. Note that renaming the
+command ''name'' will not remove the execution traces.
+
+~ Examples
+
+The following script defines a procedure ''foo'' and illustrates 
+several cases as to how its execution can be traced.
+
+# Define the proc foo
+proc foo {var} {
+     return [string index $var [expr {$var*2}]]
+}
+
+# Command to invoke on trace activation
+proc print {args} {
+    puts stdout "PRINT: $args"
+}
+
+proc main {} {
+    puts stdout "================CASE 1========================="
+    puts stdout "Trace proc foo only"
+    trace add execution foo {enter leave} {print exec}
+    foo 4
+
+    puts stdout "================CASE 2========================="
+    puts stdout "Trace proc foo as well as all commands within it"
+    trace add execution foo {enterstep leavestep} {print step}
+    foo 4
+
+    # Remove all traces
+    trace remove execution foo {enter leave} {print exec}
+    trace remove execution foo {enterstep leavestep} {print step}
+
+    puts stdout "================CASE 3========================="
+    puts stdout "Add a trace on string command"
+    trace add execution string {enter leave} {print exec}
+    foo 4
+    trace remove execution string {enter leave} {print exec}
+}
+main
+
+The expected output of running the above script would be:
+===================CASE 1========================
+Trace proc foo only
+PRINT: exec {foo 4} enter
+PRINT: exec {foo 4} 0 {} leave
+===================CASE 2=======================
+Trace proc foo as well as all commands within it
+PRINT: exec {foo 4} enter
+PRINT: step {expr {$var*2}} enterstep
+PRINT: step {expr {$var*2}} 0 8 leavestep
+PRINT: step {string index 4 8} enterstep
+PRINT: step {string index 4 8} 0 {} leavestep
+PRINT: step {return {}} enterstep
+PRINT: step {return {}} 2 {} leavestep
+PRINT: exec {foo 4} 0 {} leave
+===================CASE 3=======================
+Add a trace on string command
+PRINT: exec {string index 4 8} enter
+PRINT: exec {string index 4 8} 0 {} leave
+
+Case 1 specifies a enter and leave trace on proc foo.
+Here the proc foo is fully byte-code-compiled.
+
+Case 2 additionally invokes a enterstep and leavestep trace on
+proc foo.  This means that it will trace each command 
+that is inovked within the proc foo.
+Here the proc foo is *not* byte-code-compiled. This is
+implemented by setting the DONT_COMPILE_CMDS_INLINE flag.
+
+Case 3 specifies a trace on string command only.
+Here all commands within proc foo, except string command,
+is byte-code-compiled. This is implemented by modifying
+compilation engine to check for CMD_HAS_EXEC_TRACES flag
+before generating any byte-code.
 
 ~ Reference Implementation
+
+The reference implementation corresponds to ''Revision 1.1'' of the proposal.
+The implementation will be updated upon acceptance of this TIP by the TCT.
+The original text for version 1.1 of this section follows:
 
 This proposal has been implemented by Vince Darley.  Please see
 Feature Request #462580:
@@ -130,14 +257,10 @@ following respects:
 
 Vince Darley fully supports the changes proposed in [[1]] and [[2]].
 
-I just realized (while writing this TIP) that the ''preinside'' and
-''postinside'' traces on a procedure turn on global tracing.  This
-will have side-effects: it will also trace commands executed in
-another procedure that is triggered due to variable tracing or by
-''vwait/update'' commands.  The expected behavior needs further
-thought.
-
 ~ Benchmark Results
+
+The benchmark results also corresponds to ''Version 1.1'' of the reference
+implementation.
 
 One potential objection to this TIP could be that it may affect the
 performance of the Tcl-core.  Therefore, I have run the
@@ -149,6 +272,39 @@ These results show that there is hardly any performance hit, if any,
 by addition of this feature.  Of course when you activate a trace on a
 command, then you will see a performance hit, but since primary uses
 of traces will be in profiling and debugging, that isn't an issue.
+
+~ Future Scope
+
+This proposal does not allow for the trace invocation ''command''
+to do the following:
+
+  1. modify the number of arguments passed to ''name''
+  2. modify the value of arguments passed to ''name''
+  3. modify the result value and result code returned by ''name''
+  4. skip invocation of ''name'' altogether if desired.
+
+Consider the example of adding a sub-command "string reverse ..."
+as shown on http://mini.net/tcl/1570.html.
+Instead of using the rename command, it should be possible to use
+the trace command to do the same, as follows:
+
+|    trace add execution string {enter} {::mylib::stringx}
+|    proc ::mylib::stringx {subcmd args} {
+|        switch -exact -- $subcmd {
+|            "reverse" {
+|                # Hmm ... this is my subcommand, process it here
+|                set returnValue [code_to_reverse_string_value]
+|
+|                # We need a mechansim to return immediately here
+|                # with the processed results and an appropriate
+|                # code value and not invoke the original string command.
+|            }
+|            default {
+|                # This is probably a vaild subcommand, so do nothing
+|                # and let the original string command handle it
+|            }
+|        }
+|    }
 
 ~ Copyright
 
