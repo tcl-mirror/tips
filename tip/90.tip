@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -329,6 +329,13 @@ message.  Or, possibly, ''Tcl_BackgroundError'' and ''bgerror'' need
 extending to detect and handle different non-''TCL_OK'' return codes
 differently.  In the last case, the additional return information
 needs to be passed to ''bgerror''.
+
+~ Prototype
+
+A rough patch that implements the ideas sketched out in the
+Generalization section above, and uses them to add the
+-returncodes argument to ''return'' as proposed in alternative
+4 is available as Tcl Patch 531640 at SourceForge.
 
 ~ Acknowledgment
 
