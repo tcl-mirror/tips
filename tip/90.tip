@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.38 $
+Version:        $Revision: 1.39 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Final
@@ -246,8 +246,7 @@ such a replacement is:
 |         set result [lindex $args end]
 |         set args [lrange $args 0 end-1]
 |     }
-|     set options [dict create -level 1]
-|     eval [list dict replace $options] $args
+|     set options [eval [list dict create -level 1] $args]
 |     dict incr options -level
 |     return -options $options $result
 | }
