@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -135,7 +135,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.5 $. (Initially $Revision: 1.5 $ should be used, which
+	$Revision: 1.6 $. (Initially $Revision: 1.6 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -239,10 +239,13 @@ of each line and the rest of the text will be formatted literally.
 Tab characters will be expanded to 8-character boundaries.  (''Note
 that this is completely incompatible with the Tcl'ers Wiki.'')
 
-If the paragraph consists of a tilde "~" followed by text, then it is
+If the paragraph consists of one or more tildes "~" (which may be
+space-separated) followed by text, then it is
 a section heading.  The text following is the name of the section.  In
 the name of good style, the section heading should have its
-significant words capitalised.
+significant words capitalised.  The number of tildes indicates whether
+this is a section heading, a subsection heading or a subsubsection
+heading (one, two or three tildes respectively.)
 
 If the paragraph consists of the sequence "#index:" followed by some
 optional text, then it is a request to insert an index.  The text
@@ -297,18 +300,17 @@ these continuation paras seem complex at first glance, but seem to
 work out fairly well in practise, especially since they are only
 rarely used.)
 
-Within the body text of a (non-verbatim) paragraph, emphasis is
-indicated by enclosing the text within inside double apostrophes "''".
-(Wiki-style triple-apostrophes for bold are not supported, due to it
-being more trouble than it is worth to implement and the fact that we
-support section headings by a different mechanism.)  Special URLs of
+Within the body text of a (non-verbatim) paragraph, italicised emphasis is
+indicated by enclosing the text within inside double apostrophes "''"
+and emboldened emphasis is indicated by enclosing the text within
+inside triple apostrophes "'''".  They should not be nested.  Special URLs of
 the form tip:tipnumber are expanded into full URLs to the given TIP
 through the current formatting engine (where applicable.)  References
 of the form [tipnumber] are also expanded as links to the given TIP,
 but are not displayed as URLs (the expansion is format dependent, of
 course.)  Doubled up square brackets are converted into matching
 single square brackets.  Email addresses (of the form <email@address>)
-might also be treated specially.
+and ordinary URLs in single square brackets might also be treated specially.
 
 The first paragraph of the body of any TIP must be an abstract section
 title ("~Abstract" or "~ Abstract"), and the second must be an
@@ -413,7 +415,8 @@ Here is the source (itself a demonstration of verbatim text)
 |   this.  As you can see, it is inset somewhat from the surrounding
 |   text. - ''Donal K. Fellows <fellowsd@cs.man.ac.uk>''
 |
-|And back to the top-level yet again.
+|And back to the top-level yet again.  Now we show off both ''italic''
+|and '''bold''' text.
 |
 |----
 
@@ -456,7 +459,8 @@ Top-level paragraph once more.
    this.  As you can see, it is inset somewhat from the surrounding
    text.  - ''Donal K. Fellows <fellowsd@cs.man.ac.uk>''
 
-And back to the top-level yet again.
+And back to the top-level yet again.  Now we show off both ''italic''
+and '''bold''' text.
 
 ----
 
@@ -535,6 +539,36 @@ output-media which support this.
  
  > Others (might not be valid links!) - gopher://info.mcc.ac.uk,
    newsrc:2845823825
+
+----
+
+''Examples of sections and subsections''
+
+|~Section Heading
+|
+|Section text
+|
+|~~Subsection Heading
+|
+|Subsection text
+|
+|~~~Subsubsection Heading
+|
+|Subsubsection text
+
+which renders as...
+
+~Section Heading
+
+Section text
+
+~~Subsection Heading
+
+Subsection text
+
+~~~Subsubsection Heading
+
+Subsubsection text
 
 ----
 
