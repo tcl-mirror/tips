@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.87 $
+Version:        $Revision: 1.88 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -98,7 +98,7 @@ as unreliable.
 
 That's it for now. ... I'll add the same comments to [13], they belong
 there more than here.
-</Andreas Kupries>
+</Andreas>
 
 <note by="Richard Suchenwirth" date="2001-01-30">Whitespace in XML element names won't work.. or is 
 "Kupries" an attribute without value?</note>
@@ -110,6 +110,10 @@ Move along now; nothing to see here...
 ~ TIPs as PostScript and Adobe PDF
 
 http://www.cs.man.ac.uk/~fellowsd/tcl/bitsandpieces/tips_on_20010622.pdf
+
+~ Test on 9/11/2002
+
+Is the system functional?
 
 ~ Copyright
 
