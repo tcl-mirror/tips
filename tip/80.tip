@@ -1,6 +1,6 @@
 TIP:            80
 Title:          Additional Options for 'lsearch'
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Tom Wilkason <tom.wilkason@home.com>
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 State:          Draft
@@ -43,16 +43,16 @@ Option: -all
    (rather than the first one).  The indices are returned low to high
    order.  For a no match condition, a {} (empty list) is returned.
    If the the ''-all'' or ''-data'' switches are not specified, a -1 is
-   returned for a no match condition just as it is done now.
+   returned for a no match condition just as is done now.
 
 Option: -data
 
- > Returns a the data (or list for ''-all'') of the data that matches
-   the search condition rather than the index (or indices with the 
-   ''-all'' option).  An empty list (-all) or empty result is returned
-   for a no match condition.  The data is returned in original list 
-   order.  This option is useful when you want to iterate over
-   the returned data anyway.  e.g.
+ > Returns a single item (or a list of items for ''-all'') of the data 
+   that matches the search condition rather than the index (or 
+   indices).  An empty result or empty list (''-all'')
+   is returned for a no match condition.  The data is returned
+   in original list order.  This option is useful when you want to 
+   iterate over the returned data anyway.  e.g.
 
 |    foreach item [lsearch -all -data -glob $someList *stuff] {
 |       # deal with item
@@ -438,6 +438,7 @@ list changes in [22], [33] or [45].
 This document has been placed in the public domain.
 
 ~ Appendix
+
 The benchmarks below denote the expected speed increase of using the new options vs. tcl only implementations. Your mileage may vary.
 
 |##
