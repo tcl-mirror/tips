@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -16,11 +16,7 @@ a ''file link'' subcommand to allow cross-platform creation of links.
 
 ~ Proposal
 
-Add a new subcommand ''file link source ?target?'' which creates
-links.  The type of link created will, in general, be a symbolic link,
-but is up to the file-system which owns ''source''.
-
-The command will take the syntax:
+Add a new subcommand with the following syntax:
 
 |      file link ?-type linktype? ?--? source ?target?
 
@@ -28,8 +24,10 @@ If ''target'' is not given, then returns the value of the
 link given by ''source'' (i.e. the name of the file it points to).  If
 ''source'' isn't a symbolic link or its value cannot be read, then an
 error is returned.  If ''target'' is given then creates a link from
-''source'' to ''target''.  The type of link created is platform
-specific, but is generally a symbolic or soft link.  Where the user wishes to specify the type of the link, the optional '-type linktype' flags can be given.  Accepted values for linktype will be "soft" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+''source'' to ''target''.  
+
+The type of link created is platform
+specific, but is by default a symbolic or soft link where this is supported.  Where the user wishes to specify the type of the link explicitly, the option '-type linktype' can be given.  Accepted values for linktype will be "soft" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
 do not support any symbolic links at present, but Unix, MacOS
 and Windows NT/2000/XP (on NTFS drives) do).
 
