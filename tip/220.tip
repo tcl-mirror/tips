@@ -1,13 +1,13 @@
-TIP:		220
-Title:		Add Tcl_SetChannelMode
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Colin McCormack <colin@sharedtech.dyndns.org>
-Created:	12-Sep-2004
+TIP:            220
+Title:          Add Tcl_SetChannelMode
+Version:        $Revision: 1.2 $
+Author:         Colin McCormack <colin@sharedtech.dyndns.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Sep-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
