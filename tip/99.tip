@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -18,20 +18,19 @@ a ''file link'' subcommand to allow cross-platform creation of links.
 
 Add a new subcommand with the following syntax:
 
-|      file link source ?target? ?linktype?
+|      file link ?-linktype? source ?target?
 
-If ''target'' is not given, then returns the value of the
+If only one argument is given, that argument is assumed to be ''source'', and this command returns the value of the
 link given by ''source'' (i.e. the name of the file it points to).  If
 ''source'' isn't a link or its value cannot be read, then an
 error is returned.  
 
-If ''target'' is given then creates a link from
-''source'' to ''target'', as follows:
+If 2 arguments are given, then these are assumed to be ''source'' and ''target'', and Tcl then creates a link from
+''source'' to ''target'', where the type of the link is platform-specific (on Unix a symbolic link will be the default).  This is useful for the case where the user wishes to create a link in a cross-platform way, and doesn't care what type of link is created.  If 'source' already exists, an error will be returned.
 
-When the optional third argument ''linktype'' is not given, the type of link created is platform
-specific (i.e. the user is asking "please create any link that is possible in this filesystem"), but is by default a symbolic link where this is supported.  
+If the user wishes to make a link of a ''specific type only'', (and signal an error if for some reason that is not possible), then the optional ''linktype'' argument should be given.  Accepted values for linktype are "-symbolic" and "-hard".  
 
-However, the user may wish to specify the type of the link explicitly with the optional ''linktype'' argument.  Accepted values for linktype are "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+When creating links on filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
 do not support any symbolic links at present, but Unix, MacOS
 and Windows NT/2000/XP (on NTFS drives) do).
 
@@ -43,6 +42,8 @@ The TIP proposes implementing:
 
 This also leaves the avenue open, in the future, for the addition of other link types (e.g. Windows shortcuts) through additions to list of acceptable 'linktype's.  This TIP only proposes adding the above options.
 
+This means that a general 'file link $source $target' should always succeed on the above platforms (for both files and directories), but uses of '-hard' or '-symbolic' could fail, depending on the current platform.
+
 ~ Rationale
 
 There are many requests on comp.lang.tcl for this functionality (see
@@ -50,7 +51,7 @@ http://groups.google.com/groups?dq=&hl=en&lr=&ie=UTF8&oe=UTF8&threadm=4dd3bea3.0
 for a recent thread), and if Tcl can read links (''file readlink'',
 ''file lstat''), it really ought to be able to write them.
 
-Discussion has shown that both symbolic and hard links are desirable.
+Discussion has shown that both symbolic and hard links are desirable, and that for cross-platform use a general-purpose 'file link' which creates ''something'' is useful.
 
 ~ Alternatives
 
@@ -65,7 +66,7 @@ See the 'testfilelink' command in tclTest.c, which is a partial implementation (
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-These implementations need to be updated with the 'linktype' option, but are otherwise fully functional.
+These implementations need to be updated with the '-linktype' option, but are otherwise fully functional.
 
 ~ Copyright
 
