@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -32,7 +32,7 @@ The text widget has a number of limitations:
      visible (non-elided) characters between these two index
      positions, nor the number of valid index positions between them
      (remember that embedded windows or images always take up one unit
-     of index position, but don't correspond to any characters).
+     of index position, but don't correspond to any characters).  A similar difficulty exists in counting the number of display lines between two index positions.
 
   1. Performing a correct text "replace" operation (as used by a text
      editor, for example) is difficult, because combinations of
@@ -58,7 +58,7 @@ This TIP is, therefore, to fix these limitations, as follows:
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
-     positions between two given indices.
+     positions or lines or displaylines between two given indices.
 
   1. Add a ''replace'' widget subcommand, which performs a combined
      delete/insert operation while ensuring that the insertion
@@ -83,7 +83,7 @@ In addition, the current implementation provides for a bit more text
 widget objectification and fixes the "very slow deletion of lots of
 text with lots of tags" bug (there was a non-linear slowdown which has
 been removed).  One crashing bug in the text widget has also been
-fixed.
+fixed, and a problem in searches with '-all'.
 
 ~ Scrollbar Interaction
 
@@ -99,7 +99,7 @@ interfaces.  The following example illustrates the problem:
 | }
 |
 | for {set i 0} {$i < 20} {incr i} {
-|   .t insert insert "$i"
+|   .t insert insert "$i\n"
 | }
 |
 | for {set i 0} {$i < 300} {incr i} {
@@ -168,6 +168,10 @@ option given, as follows:
  -visiblechars: count all non-elided characters.
 
  -visibleindices: count all non-elided characters, windows and images.
+
+ -lines: count all logical lines (this option is only included for completeness since it can be achieved pretty easily in Tk already)
+
+ -displaylines: count all displaylines.
 
 In particular, this means that:
 
