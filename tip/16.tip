@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -88,7 +88,7 @@ assigned one or more maintainers:
      generic/tclTimer.c,
      tests/timer.test
 
-   >   1. ''Asychronous Events'' - doc/Async.3,
+   >   1. ''Asynchronous Events'' - doc/Async.3,
      generic/tclAsync.c,
      tests/async.test
 
