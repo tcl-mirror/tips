@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Process
@@ -40,7 +40,7 @@ into a set of the smallest sensible functional units.
 The Tk toolkit shall be divided into the following ninety-two functional
 units, each to be assigned one or more maintainers:
 
-   Widgets:
+   Widgets: 
 
    >  1. ''Standard bindings'' - library/tk.tcl
 
@@ -217,7 +217,7 @@ units, each to be assigned one or more maintainers:
      doc/optionMenu.n,
      library/optionMenu.tcl
 
-   Widget Options:
+   Widget Options: 
 
    >  1. ''Standard options'' -
      doc/options.n
@@ -315,7 +315,7 @@ units, each to be assigned one or more maintainers:
      xlib/X11/keysym.h,
      xlib/X11/keysymdef.h
 
-   Standard Dialogs:
+   Standard Dialogs: 
 
    >  1. ''Common code'' -
      library/comdlg.tcl
@@ -352,7 +352,7 @@ units, each to be assigned one or more maintainers:
      library/msgbox.tcl,
      tests/msgbox.test
 
-   Images:
+   Images: 
 
    >  1. ''Basic image support'' -
      doc/CrtImgType.3,
@@ -385,7 +385,7 @@ units, each to be assigned one or more maintainers:
      generic/tkImgPPM.c,
      tests/imgPPM.test
 
-   Fonts:
+   Fonts: 
 
    >  1. ''Fonts'' -
      doc/FontId.3,
@@ -409,7 +409,7 @@ units, each to be assigned one or more maintainers:
      tests/winFont.test,
      win/tkWinFont.c
 
-   Geometry management:
+   Geometry management: 
 
    >  1. ''Common geometry management'' -
      doc/GeomReq.3,
@@ -435,7 +435,7 @@ units, each to be assigned one or more maintainers:
      generic/tkPlace.c,
      tests/place.test
 
-   Selection and Clipboard:
+   Selection and Clipboard: 
 
    >  1. ''clipboard'' -
      doc/Clipboard.3,
@@ -458,7 +458,7 @@ units, each to be assigned one or more maintainers:
      generic/tkSelect.h,
      tests/select.test
 
-   Other Tk commands:
+   Other Tk commands: 
 
     >  1. ''console'' --
      generic/tkConsole.c,
@@ -503,7 +503,7 @@ units, each to be assigned one or more maintainers:
      doc/palette.n,
      library/palette.tcl
 
-   Low-level Tk functions:
+   Low-level Tk functions: 
 
    >  1. ''Geometry'' -
      generic/tkTrig.c
@@ -625,7 +625,7 @@ units, each to be assigned one or more maintainers:
      generic/tkAtom.c,
      xlib/X11/Xatom.h
 
-   Shells:
+   Shells: 
 
    >  1. ''Argc/argv parsing'' -
      doc/ParseArgv.3,
@@ -653,7 +653,7 @@ units, each to be assigned one or more maintainers:
      mac/tclets.r,
      mac/tclets.tcl
 
-   Demonstrations:
+   Demonstrations: 
 
    >  1. ''Widget Tour'' -
      library/demos/arrow.tcl,
@@ -718,7 +718,7 @@ units, each to be assigned one or more maintainers:
      library/demos/tcolor,
      library/demos/timer
 
-   Localization:
+   Localization: 
 
    >  1. ''German'' -
      library/msgs/de.msg
@@ -741,7 +741,7 @@ units, each to be assigned one or more maintainers:
    >  1. ''Dutch'' -
      library/msgs/nl.msg
 
-   Release Engineering:
+   Release Engineering: 
 
    >  1. ''Release Notes'' -
      README,
