@@ -1,20 +1,20 @@
-TIP:		232
-Title:		Creating New Math Functions for the 'expr' Command
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	26-Nov-2004
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	math, expr, Tcl
+TIP:            232
+Title:          Creating New Math Functions for the 'expr' Command
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Nov-2004
+Post-History:   
+Keywords:       math,expr,Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to expose the '''Tcl_CreateMathFunc()''' function to
+This TIP proposes to expose the functionality of the '''Tcl_CreateMathFunc()''' function to
 the script level, so that programmers can define new math functions
-using Tcl procedures.
+using Tcl procedures. As this functionality can be implemented in such a way that a number of facilities specific to the [expr] command become obsolete, the Tcl core will actually become a bit simpler, rather than more complicated.
 
 ~ Rationale
 
@@ -28,7 +28,7 @@ There exist one or two extensions that allow this, most notably
 "funcproc" by D. Fellows - <http://wiki.tcl.tk/541>), but as the Tcl
 core does not allow it, it remains a somewhat hidden feature.  The
 current TIP aims at making the functionality of such extensions
-standard by introducing a new command.
+standard, not by introducing a new command (as in the first version of this TIP) but by using a different approach to the mathetical functions known to the [expr] command.
 
 With "scripted" math functions you can simplify such complex and
 error-prone expressions as:
@@ -37,7 +37,7 @@ error-prone expressions as:
 
 or
 
-|  set f [expr { $x*[J0 $x] + [J1 [expr {2.0*$x}] }]
+|  set f [expr { $x*[J0 $x] + [J1 [expr {2.0*$x}]] }]
 
 to the more regular:
 
@@ -61,10 +61,9 @@ To quote Donal Fellows:
    http://www.man.ac.uk/~zzcgudf/tcl/#scripts/funcproc very
    interesting indeed."
 
-~ Proposed New Command
+~ Proposed Changes
 
-The functionality hinted at above can be implemented by a single new
-command:
+In the first version of this TIP, the functionality hinted at above was to be implemented by a single new command:
 
  > '''exprfunc''' ''funcname procname''
 
@@ -75,23 +74,35 @@ where:
 
  * ''procname'' is the Tcl procedure that implements the command
 
-The implementation is to be such that:
+This led to considerable discussion, with arguments both pro and con and several alternatives like a macro facility for [expr]. One particular problem with the first version is that while Tcl_CreateMathFunc() allows you to define a new function, there is no way to remove a function or to rename it. 
 
- * Use is made of the object-style interface to avoid unnecessary
-   string conversions
+A suggestion made by Kevin Kenny leads a more appropriate solution, reformulated:
 
- * The result of the function is either well-defined or an error is
-   raised if the procedure raises an error
+ > Treat mathematical functions as ordinary Tcl commands/procedures 
+   that reside in a specific namespace, ::tcl::mathFunc
 
-There are a few restrictions to procedures used in this way, as the
-'''expr''' command does not deal well with functions that can have a
-variable number of arguments: they can not use the magical "args"
-argument or optional arguments.
+If we implement mathematical functions that way, then:
+
+ * All the usual facilities for manipulating Tcl commands and 
+   procedures become available ''automatically''.
+
+ * There is no need anymore for a lot of special facilities, like 
+   the Tcl_Value type and the existing wrappers can be turned into 
+   regular commands.
+
+ * There is no restriction anymore that functions should return 
+   single numbers as their result, opening the way to functions 
+   for manipulating vectors of numbers or intervals or ...
+
+ * In the evaluation of expressions, calling a function or calling a 
+   command will become the same thing, thus simplifying the 
+   implementation.
+
+The existing function Tcl_CreateMathFunc() will become obsolete and could be removed in Tcl 9.0.
 
 ~ Reference Implementation
 
-A reference implementation does ''not'' yet exist, but Donal Fellows's
-funcproc code is a good starting point.
+A reference implementation does ''not'' yet exist, but it should be possible to introduce this new way of dealing with mathematical functions piecemeal.
 
 ~ Copyright
 
