@@ -24,3 +24,4 @@
 #DEFAULT (echo ""; id; echo %s; date; cat) >> $CVSROOT/CVSROOT/commitlog
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
+^tip (date; cat; (sleep 2; cd /usr/local/web/tip; /usr/bin/cvs -q update -d) &) >> $CVSROOT/CVSROOT/updatelog 2>&1
