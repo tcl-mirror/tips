@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -112,6 +112,7 @@ assigned one or more maintainers:
      doc/array.n,
      doc/global.n,
      doc/lappend.n,
+     doc/lset.n,
      doc/set.n,
      doc/unset.n,
      doc/upvar.n,
@@ -121,6 +122,7 @@ assigned one or more maintainers:
      doc/UpVar.3,
      generic/tclVar.c,
      tests/append.test,
+     tests/lset.test,
      tests/set.test,
      tests/set-old.test,
      tests/upvar.test,
@@ -572,6 +574,7 @@ assigned one or more maintainers:
      tests/for.test,
      tests/if.test,
      tests/incr.test,
+     tests/lsetComp.test,
      tests/stringComp.test,
      tests/while.test
 
