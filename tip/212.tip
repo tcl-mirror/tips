@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
@@ -61,11 +61,20 @@ The semantics of the command are this:
     any existing mapping for ''dictKey'' will be removed.)  Finally,
     the resulting dictionary value is written back to ''dictVarName''.
 
+ >  If the ''dictVarName'' variable was unset (without being set to a
+    new value) or otherwise rendered unreadable during the execution
+    of ''bodyScript'', the updating of the keys and writing back of
+    the resulting dictionary to ''dictVarName'' is skipped. Note that
+    it is only an unreadable ''dictVarName'' that is treated this way;
+    it is an error for the variable to contain a value that is not a
+    valid dictionary.
+
 Note that ''dictVarName'' is read twice (each time, the value read
 must be a valid dictionary or the variable must be unset, which is
-interpreted as an empty dictionary) and written once, and that ''no''
-traces are set up; ''dictVarName'' is completely independent of the
-''varName''s during the execution of ''bodyScript''.
+interpreted as an empty dictionary) and (assuming the second read
+succeeds and returns a valid dictionary value) written once, and that
+''no'' traces are set up; ''dictVarName'' is completely independent of
+the ''varName''s during the execution of ''bodyScript''.
 
 Also note that step 3 is carried out even if ''bodyScript'' completes
 with a result code of TCL_ERROR, TCL_RETURN, TCL_BREAK or
