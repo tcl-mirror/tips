@@ -1,10 +1,10 @@
 TIP:            120
 Title:          Restricted DDE Services
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        04-Dec-2002
 Post-History:   
 Tcl-Version:    8.5

@@ -1,10 +1,10 @@
 TIP:		135
 Title:		Change 'dde servername -exact' Option to -force
 Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
-Type:		Project
+Type:		Accepted
 State:		Draft
-Vote:		In progress
-Version:	$Revision: 1.2 $
+Vote:		Done
+Version:	$Revision: 1.3 $
 Tcl-Version:	8.5
 Keywords:	dde
 Created:	17-May-2003
