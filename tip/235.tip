@@ -1,6 +1,6 @@
 TIP:            235
 Title:          Exposing a C API for Ensembles
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
@@ -86,6 +86,14 @@ This TIP proposes exposing the following functions:
    ensemble; this value may not be altered.
 
  > > int '''Tcl_GetEnsembleNamespace'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Namespace **''namespacePtrPtr'')
+
+~~ Notes
+
+The handle for an ensemble is a normal Tcl_Command handle, and any
+operation valid on such a command (e.g. deleting it or finding its name) 
+is valid. Ensembles are just a special subclass of commands. This allows
+the ensemble API to be considerably sparser than it would otherwise have
+to be.
 
 ~ Reference Implementation
 
