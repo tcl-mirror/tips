@@ -1,11 +1,12 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <a.kupries@westend.com>
+Author:         Don Porter <dgp@cam.nist.gov>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -26,6 +27,11 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+~ Author add test
+
+There seems to be a problem completing the web edit
+submission when adding a new author.  testing...
 
 ~ Reload/caching Test
 
@@ -65,6 +71,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.24  2001/01/17 18:44:27  tclhttpd
+| Revision through web from  <dgp@users.sourceforge.net> (10119)
+|
 | Revision 1.23  2001/01/17 18:43:55  tclhttpd
 | Revision through web from  <dgp@users.sourceforge.net> (10103)
 |
