@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -8,6 +8,7 @@ Author:         Kevin Kenny <kennykb@acm.org>
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -48,6 +49,10 @@ added to the CVS repository.
 
 The following tags in the Tcl and Tk CVS repositories correspond to
 the following releases of Tcl/Tk:
+
+   * ''core-8-4-0'' - Tcl/Tk 8.4.0
+
+   * ''core-8-4-b2'' - Tcl/Tk 8.4b2
 
    * ''core-8-4-b1'' - Tcl/Tk 8.4b1
 
@@ -142,7 +147,8 @@ branch, or they may be rejected.
    * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
      Kupries and the platform maintainers on implementing [59].
 
-   * ''mod-8-3-4-branch'' (Tcl) - Contains the modularization work done by ActiveState for Cisco. Not for public modification.
+   * ''mod-8-3-4-branch'' (Tcl) - Contains the modularization work done
+     by ActiveState for Cisco. Not for public modification.
 
 ~ Dead Branches
 
@@ -150,6 +156,9 @@ The following branch tags label branches that are no longer being
 developed.  Some are old official branches from which releases are no
 longer being spawned.  Others are feature development branches that
 have been merged into an official branch, or rejected.
+
+   * ''macosx-8-4-branch'' - Branch used during MacOSX porting work.
+     Merged into 8.4.0.
 
    * ''dkf-64bit-support-branch'' (Tcl) - Work on supporting 64-bit
      numbers, particularly on 32-bit platforms (including large file
