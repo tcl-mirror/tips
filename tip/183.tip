@@ -1,6 +1,6 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -83,11 +83,16 @@ as loudly :-).
 Another comment was about difficulties to implement "b", because
 lower-level functions (Tcl_FSOpenFileChannelProc was mentioned)
 would have to be changed for that.  That is not true, because 
-the "b" could be recognized and removed at top level (Tcl_OpenObjCmd)
-before passing the remaining string down the levels.
+the "b" could be recognized at top level (Tcl_OpenObjCmd)
+and trigger the call to Tcl_SetChannelOption after returning
+from the lower levels. ("b" is valid already, just currently 
+ignored at all levels).
 
 "open binaryfile r -translation binary" is not really any convenience.
 It's almost as verbose as calling fconfigure explicitly.
+
+To sum up: yes, "b" is a C-ism, but open is, too. Also it's
+not a feature that someone would be required to use.
 
 ~ Copyright
 
