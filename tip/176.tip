@@ -1,15 +1,16 @@
-TIP:		176
-Title:		Add String Index Values
-Author:		Damon Courtney <damon@unreality.com>
-Tcl-Version:	8.5
-Version:	$Revision: 1.1 $
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	16-Mar-2004
-Post-History:	
+TIP:            176
+Title:          Add String Index Values
+Version:        $Revision: 1.2 $
+Author:         Damon Courtney <damon@unreality.com>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP proposes to add small functionality to the standard index
 (end-1) values acceptable by most Tcl commands.
@@ -54,6 +55,8 @@ in ''generic/tclUtil.c''.  Because the core commands in Tcl and Tk
 alredy use this private function for index values, the commands which
 already accept the standard ''end-N'' index will now accept the new
 indexes.
+
+Tcl Patch 1165695 is a draft implementation.
 
 ~Copyright
 
