@@ -1,6 +1,6 @@
 TIP:		68
 Title:		Dynamic Trace Result Handling
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:		Draft
 Type:		Project
@@ -46,8 +46,8 @@ There are several possible fixes, but the two main ones are to:
  > * A dynamically-allocated C string, to be disposed of with
      ''ckfree''.
 
- > * A dynamically-allocated ''Tcl_Obj'', to be disposed of with
-     ''Tcl_DecrRefCount''.
+ > * A dynamically-allocated ''Tcl_Obj'' reference, to be disposed of
+     with a single call to ''Tcl_DecrRefCount''.
 
 Although option 1 is the easiest to implement, it has the disadvantage
 of putting a new ''non-obvious'' requirement on all variable traces,
@@ -58,25 +58,30 @@ to ask of extension writers.
 Instead I prefer option 2, and it is possible to introduce this change
 in such a way that existing software does not see an API change (i.e.
 there are no serious backward-compatibility issues) and both styles of
-result listed above are supported.
+result listed above are supported.  The advantage of supporting both
+of these is that dynamically allocated strings are a very easy
+interface for extension writers to use though not particularly
+efficient, and objects are a very efficient interface well-suited to
+the core itself but are not as easy to use.  (It is far easier to
+adapt existing code to use dynamic strings as no understanding of
+lifespan management is required.)
 
 ~ Changes
 
 To achieve this, the following new flags will be defined:
 
-|#define TCL_TRACE_DYNAMIC_ERROR_MESSAGE  0x2000
-|#define TCL_TRACE_OBJ_ERROR_MESSAGE      0x4000
+|#define TCL_TRACE_RESULT_DYNAMIC  0x2000
+|#define TCL_TRACE_RESULT_OBJECT   0x4000
 
 These flags, when passed to the ''flags'' argument of ''Tcl_TraceVar''
 (and related functions) alter the interpretation of the value returned
 by the call to the ''proc'' parameter from the default behaviour (a
 static string) to be either a string to be deallocated by Tcl as and
-when it sees fit using ''ckfree'' (when
-''TCL_TRACE_DYNAMIC_ERROR_MESSAGE'' is specified) or to be a
-''Tcl_Obj'' (which must be cast to a ''char *'' for type
-compatibility) to be disposed of when the error message is no longer
-required (when ''TCL_TRACE_OBJ_ERROR_MESSAGE'' is specified.)  It is
-an error to specify both flags on the same call.
+when it sees fit using ''ckfree'' (when ''TCL_TRACE_RESULT_DYNAMIC''
+is specified) or to be a ''Tcl_Obj'' (which must be cast to a ''char
+*'' for type compatibility) to be disposed of when the error message
+is no longer required (when ''TCL_TRACE_RESULT_OBJECT'' is specified.)
+It is an error to specify both flags on the same call.
 
 The core will then be modified to use this mechanism for variable
 traces as set up by the ''trace'' command.
