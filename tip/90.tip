@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -15,6 +15,18 @@ Tcl-Version:    8.4
 This TIP analyzes existing limitations on the coding of control
 structure commands as ''proc''s, and presents expanded forms of
 ''catch'' and ''return'' to remove those limitations.
+
+~ Warning
+
+The contents of this TIP are out of date.
+
+The description of the basic problem is still valid, but
+in response to this first draft, I received many e-mails
+with helpful suggestions.  Combining several of them,
+I have in my head
+a better solution than any proposed here.  I no longer
+propose anything here, but will be updating this TIP
+with the new proposal as soon as I can.
 
 ~ Background
 
