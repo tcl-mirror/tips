@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.126 $
+Version:        $Revision: 1.127 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -62,6 +62,32 @@ spong wibble
 ~ Specification
 
  > '''interp''' '''invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
+
+~~Example Usage
+
+|################################################
+|# file inside.tcl
+|################################################
+|
+|set x "this is a test inside \"[namespace current]\"."
+|
+|################################################
+|# end of file
+
+|################################################
+|# file invoke.tcl
+|################################################
+|
+|set i [interp create -safe]
+|
+|interp invokehidden $i -namespace ::test::foo::bar source [file join [file dirname [info script]] inside.tcl]
+|
+|set result [interp eval $i [list set ::test::foo::bar::x]]
+|
+|puts stdout "$result"; # this is a test inside "::test::foo::bar".
+|
+|################################################
+|# end of file
 
 ~ Reference Implementation
 
