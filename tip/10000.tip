@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.114 $
+Version:        $Revision: 1.115 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -39,6 +39,8 @@ It will also be useful for testing the web editing interface
 proposed in [13].
 
 ~ Test
+
+Restored archive test
 
 Here's a simple edit test.
 
