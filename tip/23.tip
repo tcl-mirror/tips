@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -55,7 +55,8 @@ less test or understand fully.
 ~ Proposal
 
 The Tk toolkit shall be divided into the following eighty-six functional
-units, each to be assigned one or more maintainers:
+units, each to be assigned one or more maintainers.  Each area will also
+be a Category in the SourceForge Tracker for Tk:
 
    Widgets: 
 
