@@ -1,0 +1,29 @@
+TIP:		135
+Title:		Change 'dde servername -exact' Option to -force
+Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
+Type:		Project
+State:		Draft
+Vote:		Pending
+Version:	$Revision: 1.1 $
+Tcl-Version:	8.5
+Keywords:	dde
+Created:	17-May-2003
+Post-History:	
+
+~ Abstract
+
+[130] provides for unique DDE server name registration.  This TIP
+renames one of the options it defines to better reflect its
+behaviour.
+
+~ Rationale
+
+The dde extension, as modified by [130], includes an option ''-exact''
+to force the name to be that specified.  This TIP proposes to change
+this options name to ''-force'' which better reflects its purpose.  As
+[130] has only just been implemented, now is the time to make this
+change before it is is included in any public release of Tcl.
+
+~ Copyright
+
+This document is placed in the public domain.
