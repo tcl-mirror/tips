@@ -1,11 +1,11 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        31-Jan-2002
 Post-History:   
 Keywords:       test,string comparison,floating-point
