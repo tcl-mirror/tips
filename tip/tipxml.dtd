@@ -2,7 +2,7 @@
 
 <!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
 
-<!-- $Id: tipxml.dtd,v 1.7 2003-08-29 11:38:22 dkf Exp $ -->
+<!-- $Id: tipxml.dtd,v 1.8 2004-03-25 14:29:34 dkf Exp $ -->
 
 <!-- This document is placed in the Public Domain. -->
 
@@ -119,8 +119,14 @@
 <!-- Elements that are part of the flow of text in a paragraph.         -->
 <!-- ================================================================== -->
 <!ELEMENT emph (%emphtext;)*>		<!-- Emphs may not be nested.	-->
+<!ATTLIST emph
+	style (bold|italic) 'italic'
+	>
 <!ELEMENT url EMPTY>
-<!ATTLIST url ref %url; #REQUIRED>
+<!ATTLIST url
+	ref %url; #REQUIRED
+	style (compact|expanded) 'expanded'
+	>
 <!ELEMENT tipref EMPTY>
 <!ATTLIST tipref
 	tip  %num;       #REQUIRED
