@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Add Tcl_SetChannelMode
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -24,6 +24,7 @@ This can be modelled by the opener of a channel (in this case, the tclvfs code) 
 ~ Safety
 
    * escalation of privilege is controlled with the tcl core, unavailable to extensions.
+
    * privilege is only granted (via its close callback) to the entity which opened the channel.
 
 Since the opening entity can in any case have complete access to any file it can create, and cannot successfully modify any file it couldn't have opened through the core, and because the privileges are only available to the opener, and then only at a point immediately before the tcl core is about to complete channel closing, re-escalation of privileges doesn't expose open channels to any additional risk of interference.
