@@ -1,14 +1,14 @@
 diff -c -r orig_2/tk8.4a2/doc/text.n try/tk8.4a2/doc/text.n
 *** orig_2/tk8.4a2/doc/text.n	Fri Aug 25 08:58:33 2000
---- try/tk8.4a2/doc/text.n	Thu May 31 00:26:28 2001
+--- try/tk8.4a2/doc/text.n	Sat Jul  7 20:04:52 2001
 ***************
 *** 26,31 ****
 --- 26,34 ----
   \-highlightcolor	\-pady	\-yscrollcommand
   .SE
   .SH "WIDGET-SPECIFIC OPTIONS"
-+ .OP \-autosemaphores autoSemaphores AutoSemaphores
-+ Specifies whether semaphores are automatically inserted in the undo
++ .OP \-autoseparators autoSseparators AutoSeparators
++ Specifies whether separators are automatically inserted in the undo
 + stack. Is only active when the \fB\-undo\fR option is true.
   .OP \-height height Height
   Specifies the desired height for the window, in units of characters
@@ -70,19 +70,19 @@ diff -c -r orig_2/tk8.4a2/doc/text.n try/tk8.4a2/doc/text.n
 + Every insert and delete action is recorded on this stack.
 + .PP
 + Boundaries are inserted between edit actions: the so-called 
-+ semaphores. The purpose of these boundaries is to group inserts and
++ separators. The purpose of these separators is to group inserts and
 + deletes into one compound edit action. When undoing a change everything
-+ between two semaphores will be undone. The undone changes are then
++ between two separators will be undone. The undone changes are then
 + moved to the redo stack, so that an undone edit can be redone again.
 + The redo stack is cleared whenever new edit actions are recorded
 + on the undo stack. The undo and redo stacks can be cleared to keep 
 + their depth under control.
 + .PP
-+ Semaphores are inserted automatically when the 
-+ \fB-autosemaphores\fR widget option is true. You can insert semaphores
-+ programatically as well. If a semaphore is already present at the top
++ Separators are inserted automatically when the 
++ \fB-autoseparators\fR widget option is true. You can insert separators
++ programatically as well. If a separator is already present at the top
 + of the undo stack no other will inserted. That means that two 
-+ semaphores on the undo stack are always separated by at least one 
++ separators on the undo stack are always separated by at least one 
 + insert or delete action.
 + .PP
 + The undo mechanism is also linked to the modified flag. This means
@@ -128,14 +128,14 @@ diff -c -r orig_2/tk8.4a2/doc/text.n try/tk8.4a2/doc/text.n
 + \fIpathName \fBedit reset\fR
 + Clears the undo and redo stacks.
 + .TP
-+ \fIpathName \fBedit semaphore\fR
-+ Inserts a semaphore (boundary) on the undo stack. Does nothing
++ \fIpathName \fBedit separator\fR
++ Inserts a separator (boundary) on the undo stack. Does nothing
 + when the \fB-undo\fR option is false.
 + .TP
 + \fIpathName \fBedit undo\fR
 + Undoes the last edit action when the \fB-undo\fR option is true. 
 + An edit action is defined as all the insert and delete commands that are 
-+ recorded on the undo stack in between two semaphores. Generates an error
++ recorded on the undo stack in between two separators. Generates an error
 + when the undo stack is empty.
 + Does nothing when the \fB-undo\fR option is false.
 + .RE
@@ -160,16 +160,16 @@ diff -c -r orig_2/tk8.4a2/doc/text.n try/tk8.4a2/doc/text.n
   view can still be adjusted and text can still be selected,
 diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 *** orig_2/tk8.4a2/generic/tkText.c	Tue Jul 25 02:05:40 2000
---- try/tk8.4a2/generic/tkText.c	Mon Mar  5 23:08:58 2001
+--- try/tk8.4a2/generic/tkText.c	Sun Jul  8 07:48:11 2001
 ***************
 *** 42,47 ****
 --- 42,50 ----
    */
   
   static Tk_ConfigSpec configSpecs[] = {
-+     {TK_CONFIG_BOOLEAN, "-autosemaphores", "autoSemaphores",
-+         "AutoSemaphores", DEF_TEXT_AUTO_SEMAPHORES,
-+         Tk_Offset(TkText, autoSemaphores), 0},
++     {TK_CONFIG_BOOLEAN, "-autoseparators", "autoSeparators",
++         "AutoSeparators", DEF_TEXT_AUTO_SEPARATORS,
++         Tk_Offset(TkText, autoSeparators), 0},
       {TK_CONFIG_BORDER, "-background", "background", "Background",
   	DEF_TEXT_BG_COLOR, Tk_Offset(TkText, border), TK_CONFIG_COLOR_ONLY},
       {TK_CONFIG_BORDER, "-background", "background", "Background",
@@ -214,7 +214,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 + 
 + static void             clearStack _ANSI_ARGS_(( TkTextEditAtom ** stack ));
 + 
-+ static void             insertSema _ANSI_ARGS_(( TkTextEditAtom ** stack ));
++ static void             insertSeparator _ANSI_ARGS_(( TkTextEditAtom ** stack ));
 + 
 + static void             updateDirtyFlag _ANSI_ARGS_((TkText *textPtr));
 + 
@@ -236,7 +236,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     textPtr->isDirtyIncrement = 1;
 +     textPtr->undoStack = NULL;
 +     textPtr->redoStack = NULL;
-+     textPtr->autoSemaphores = 1;
++     textPtr->autoSeparators = 1;
   
       /*
        * Create the "sel" tag and the "current" and "insert" marks.
@@ -349,9 +349,9 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +      */
 + 
 +     if ( textPtr->undo ) {
-+         if (textPtr->autoSemaphores && textPtr->undoStack &&
++         if (textPtr->autoSeparators && textPtr->undoStack &&
 +             textPtr->undoStack->type != INSERT) {
-+             insertSema(&(textPtr->undoStack));
++             insertSeparator(&(textPtr->undoStack));
 +         }
 +         
 +         insertion = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
@@ -396,8 +396,8 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +      */
 + 
 +     if ( textPtr->undo ) {
-+         if (textPtr->autoSemaphores && textPtr->undoStack && textPtr->undoStack->type != DELETE) {
-+            insertSema(&(textPtr->undoStack));
++         if (textPtr->autoSeparators && textPtr->undoStack && textPtr->undoStack->type != DELETE) {
++            insertSeparator(&(textPtr->undoStack));
 +         }
 +         
 +         deletion = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
@@ -440,27 +440,8 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
   }
   
 ***************
-*** 1888,1894 ****
-  		 */
-  
-  		firstByte = indexInDString;
-! 		if ((firstByte >= Tcl_DStringLength(&line))
-  			&& !((Tcl_DStringLength(&line) == 0) && !exact)) {
-  		    goto nextLine;
-  		}
---- 1963,1971 ----
-  		 */
-  
-  		firstByte = indexInDString;
-! 
-! 		/* LC Question: why is this here ?*/
-!                 if ((firstByte >= Tcl_DStringLength(&line))
-  			&& !((Tcl_DStringLength(&line) == 0) && !exact)) {
-  		    goto nextLine;
-  		}
-***************
 *** 2421,2423 ****
---- 2498,2972 ----
+--- 2496,2990 ----
       }
   }
   
@@ -510,8 +491,8 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 + 
 + 
 + /*
-+  * insertSema --
-+  *    insert a semaphore on the stack, indicating a border for
++  * insertSeparator --
++  *    insert a separator on the stack, indicating a border for
 +  *      an undo/redo chunk.
 +  *
 +  * Results:
@@ -521,15 +502,15 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +  *    None.
 +  */
 +  
-+ static void insertSema ( stack )
++ static void insertSeparator ( stack )
 +     TkTextEditAtom ** stack;
 + {
-+     TkTextEditAtom * semaphore;
++     TkTextEditAtom * separator;
 + 
-+     if ( *stack != NULL && (*stack)->type != SEMAPHORE ) {
-+         semaphore = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
-+         semaphore->type = SEMAPHORE;
-+         pushStack(stack,semaphore);
++     if ( *stack != NULL && (*stack)->type != SEPARATOR ) {
++         separator = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
++         separator->type = SEPARATOR;
++         pushStack(stack,separator);
 +     }
 + }
 + 
@@ -551,7 +532,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     TkTextEditAtom * elem;
 + 
 +     while ( (elem = popStack(stack)) ) {
-+         if ( elem->type != SEMAPHORE ) {
++         if ( elem->type != SEPARATOR ) {
 +             ckfree(elem->index);
 +             ckfree(elem->string);
 +         }
@@ -580,6 +561,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     TkTextIndex      fromIndex ;
 +     TkTextIndex      toIndex   ;
 +     char             buffer[TK_POS_CHARS];
++     char             viewIndex[TK_POS_CHARS];
 +     
 +     if ( ! textPtr->undo ) {
 +        return TCL_OK;
@@ -590,11 +572,11 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     
 +     textPtr->undo = 0;
 +     
-+     /* insert a semaphore on the redo stack */
++     /* insert a separator on the redo stack */
 +     
-+     insertSema(&(textPtr->redoStack));
++     insertSeparator(&(textPtr->redoStack));
 +     
-+     /* Pop and skip the first semaphore if there is one*/
++     /* Pop and skip the first separator if there is one*/
 +     
 +     elem = popStack(&(textPtr->undoStack));
 + 
@@ -603,15 +585,16 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +         return TCL_ERROR;
 +     }
 +     
-+     if ( ( elem != NULL ) && ( elem->type == SEMAPHORE ) ) {
++     if ( ( elem != NULL ) && ( elem->type == SEPARATOR ) ) {
 +         ckfree((char *) elem);
 +         elem = popStack(&(textPtr->undoStack));
 +     }
 +     
-+     while ( elem && (elem->type != SEMAPHORE) ) {
++     while ( elem && (elem->type != SEPARATOR) ) {
 +         switch ( elem->type ) {
 +             case INSERT:
 +                 TkTextGetIndex(interp,textPtr,elem->index,&toIndex);
++                 strcpy(viewIndex,elem->index);
 +                 TkTextIndexForwBytes(&toIndex,(int)strlen(elem->string),&toIndex);
 +                 TkTextPrintIndex(&toIndex,buffer);
 +                 textPtr->isDirtyIncrement = -1;
@@ -622,6 +605,8 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +                 TkTextGetIndex(interp,textPtr,elem->index,&fromIndex);
 +                 textPtr->isDirtyIncrement = -1;
 +                 InsertChars(textPtr,&fromIndex,elem->string);
++                 TkTextIndexForwBytes(&fromIndex,(int)strlen(elem->string),&toIndex);
++                 TkTextPrintIndex(&toIndex,viewIndex);
 +                 textPtr->isDirtyIncrement = 1;
 +                 break;
 +             default:
@@ -631,9 +616,14 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +         elem = popStack(&(textPtr->undoStack));
 +     }
 +     
-+     /* insert a semaphore on the undo stack */
++     /* view the last changed position */
 +     
-+     insertSema(&(textPtr->undoStack));
++     TkTextGetIndex(interp,textPtr,viewIndex,&toIndex);
++     TkTextSetMark(textPtr, "insert", &toIndex);
++ 
++     /* insert a separator on the undo stack */
++     
++     insertSeparator(&(textPtr->undoStack));
 +     
 +     /* Turn back on the undo feature */
 +     
@@ -662,6 +652,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     TkTextIndex      fromIndex ;
 +     TkTextIndex      toIndex   ;
 +     char             buffer[TK_POS_CHARS];
++     char             viewIndex[TK_POS_CHARS];
 +     
 +     if ( ! textPtr->undo ) {
 +        return TCL_OK;
@@ -671,11 +662,11 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +     
 +     textPtr->undo = 0;
 +     
-+     /* insert a semaphore on the undo stack */
++     /* insert a separator on the undo stack */
 +     
-+     insertSema(&(textPtr->undoStack));
++     insertSeparator(&(textPtr->undoStack));
 +     
-+     /* Pop and skip the first semaphore if there is one*/
++     /* Pop and skip the first separator if there is one*/
 +     
 +     elem = popStack(&(textPtr->redoStack));
 + 
@@ -684,19 +675,22 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +        return TCL_ERROR;
 +     }
 +     
-+     if ( ( elem != NULL ) && ( elem->type == SEMAPHORE ) ) {
++     if ( ( elem != NULL ) && ( elem->type == SEPARATOR ) ) {
 +         ckfree((char *) elem);
 +         elem = popStack(&(textPtr->redoStack));
 +     }
 +     
-+     while ( elem && (elem->type != SEMAPHORE) ) {
++     while ( elem && (elem->type != SEPARATOR) ) {
 +         switch ( elem->type ) {
 +             case INSERT:
 +                 TkTextGetIndex(interp,textPtr,elem->index,&fromIndex);
 +                 InsertChars(textPtr,&fromIndex,elem->string);
++                 TkTextIndexForwBytes(&fromIndex,(int)strlen(elem->string),&toIndex);
++                 TkTextPrintIndex(&toIndex,viewIndex);
 +                 break;
 +             case DELETE: 
 +                 TkTextGetIndex(interp,textPtr,elem->index,&toIndex);
++                 strcpy(viewIndex,elem->index);
 +                 TkTextIndexForwBytes(&toIndex,(int)strlen(elem->string),&toIndex);
 +                 TkTextPrintIndex(&toIndex,buffer);
 +                 DeleteChars(textPtr,elem->index,buffer);
@@ -708,7 +702,14 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +         elem = popStack(&(textPtr->redoStack));
 +     }
 +     
-+     insertSema(&(textPtr->undoStack));
++     /* view the last changed position */
++     
++     TkTextGetIndex(interp,textPtr,viewIndex,&toIndex);
++     TkTextSetMark(textPtr, "insert", &toIndex);
++ 
++     /* insert a separator on the undo stack */
++     
++     insertSeparator(&(textPtr->undoStack));
 + 
 +     /* Turn back on the undo feature */
 +     
@@ -780,13 +781,13 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +       }
 +         clearStack(&(textPtr->undoStack));
 +         clearStack(&(textPtr->redoStack));
-+     } else if ((c == 's') && (strncmp(argv[2], "semaphore", length) == 0)) {
++     } else if ((c == 's') && (strncmp(argv[2], "separator", length) == 0)) {
 +       if (argc != 3) {
 +           Tcl_AppendResult(interp, "wrong # args: should be \"",
-+                   argv[0], " edit semaphore \"", (char *) NULL);
++                   argv[0], " edit separator \"", (char *) NULL);
 +           return TCL_ERROR;
 +       }
-+         insertSema(&(textPtr->undoStack));
++         insertSeparator(&(textPtr->undoStack));
 +     } else if ((c == 'u') && (strncmp(argv[2], "undo", length) == 0)) {
 +       if (argc != 3) {
 +           Tcl_AppendResult(interp, "wrong # args: should be \"",
@@ -800,7 +801,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +         }
 +     } else {
 +       Tcl_AppendResult(interp, "bad edit option \"", argv[2],
-+               "\": must be modified, redo, reset, semaphore or undo",
++               "\": must be modified, redo, reset, separator or undo",
 +               (char *) NULL);
 +       return TCL_ERROR;
 +     }
@@ -938,7 +939,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.c try/tk8.4a2/generic/tkText.c
 +   
 diff -c -r orig_2/tk8.4a2/generic/tkText.h try/tk8.4a2/generic/tkText.h
 *** orig_2/tk8.4a2/generic/tkText.h	Thu Jan  6 03:18:58 2000
---- try/tk8.4a2/generic/tkText.h	Mon Mar  5 23:03:01 2001
+--- try/tk8.4a2/generic/tkText.h	Sat Jul  7 19:35:34 2001
 ***************
 *** 451,456 ****
 --- 451,473 ----
@@ -948,7 +949,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.h try/tk8.4a2/generic/tkText.h
 + /* enum definining the types used in an edit stack */
 + 
 + typedef enum {
-+     SEMAPHORE,                          /* Marker */
++     SEPARATOR,                          /* Marker */
 +     INSERT,                             /* The undo is an insert */
 +     DELETE                              /* The undo is a delete */
 + } TkTextEditType;
@@ -983,7 +984,7 @@ diff -c -r orig_2/tk8.4a2/generic/tkText.h try/tk8.4a2/generic/tkText.h
 +     int undo;                   /* non zero means the undo/redo behaviour is 
 +                                  * enabled */
 +     
-+     int autoSemaphores;         /* non zero means the semaphores will be 
++     int autoSeparators;         /* non zero means the separatorss will be 
 +                                  * inserted automatically */
 +     
 +     int modifiedSet;            /* Flag indicating that the 'dirtynesss' of
@@ -1045,22 +1046,32 @@ diff -c -r orig_2/tk8.4a2/generic/tkTextTag.c try/tk8.4a2/generic/tkTextTag.c
   		Tk_DeleteAllBindings(textPtr->bindingTable,
 diff -c -r orig_2/tk8.4a2/library/text.tcl try/tk8.4a2/library/text.tcl
 *** orig_2/tk8.4a2/library/text.tcl	Thu Jul 20 01:22:20 2000
---- try/tk8.4a2/library/text.tcl	Wed May 30 22:14:16 2001
+--- try/tk8.4a2/library/text.tcl	Sun Jul  8 07:26:00 2001
+***************
+*** 204,209 ****
+--- 204,210 ----
+  }
+  bind Text <Return> {
+      tkTextInsert %W \n
++     if {[%W cget -autoseparators]} {%W edit separator}
+  }
+  bind Text <Delete> {
+      if {[string compare [%W tag nextrange sel 1.0 end] ""]} {
 ***************
 *** 338,343 ****
---- 338,355 ----
+--- 339,356 ----
       }
   }
   
 + bind Text <<Undo>> {
-+     if { [ catch { %W edit undo } ] } {
-+        bell
++     if { ! [ catch { %W edit undo } ] } {
++        %W see insert
 +     }
 + }
 + 
 + bind Text <<Redo>> {
-+     if { [ catch { %W edit redo } ] } {
-+        bell
++     if { ! [ catch { %W edit redo } ] } {
++        %W see insert
 +     }
 + }
 + 
@@ -1069,11 +1080,11 @@ diff -c -r orig_2/tk8.4a2/library/text.tcl try/tk8.4a2/library/text.tcl
       if {!$tk_strictMotif} {
 ***************
 *** 518,523 ****
---- 530,536 ----
+--- 531,537 ----
       $w mark set insert [tkTextClosestGap $w $x $y]
       $w mark set anchor insert
       if {[string equal [$w cget -state] "normal"]} {focus $w}
-+     if {[$w cget -autosemaphores]} {$w edit semaphore}
++     if {[$w cget -autoseparators]} {$w edit separator}
   }
   
   # tkTextSelectTo --
@@ -1086,20 +1097,20 @@ diff -c -r orig_2/tk8.4a2/library/text.tcl try/tk8.4a2/library/text.tcl
       if {[string equal [$w cget -state] "normal"]} {focus $w}
   }
   
---- 646,663 ----
+--- 647,664 ----
   
   proc tkTextPaste {w x y} {
       $w mark set insert [tkTextClosestGap $w $x $y]
 !     catch {
-!         set oldSema $w cget -autosemaphores
-!         if {$oldSema} {
-!             $w configure -autosemaphores 0
-!             $w edit semaphore
+!         set oldSeparator [$w cget -autoseparators]
+!         if {$oldSeparator} {
+!             $w configure -autoseparators 0
+!             $w edit separator
 !         }
 !         $w insert insert [selection get -displayof $w]
-!         if {$oldSema} {
-!            $w edit semaphore
-!            $w configure -autosemaphores 1
+!         if {$oldSeparator} {
+!            $w edit separator
+!            $w configure -autoseparators 1
 !         }
 !     }
       if {[string equal [$w cget -state] "normal"]} {focus $w}
@@ -1107,51 +1118,52 @@ diff -c -r orig_2/tk8.4a2/library/text.tcl try/tk8.4a2/library/text.tcl
   
 ***************
 *** 685,690 ****
---- 709,715 ----
+--- 710,716 ----
       $w mark set insert $pos
       $w tag remove sel 1.0 end
       $w see insert
-+     if {[$w cget -autosemaphores]} {$w edit semaphore}
++     if {[$w cget -autoseparators]} {$w edit separator}
   }
   
   # tkTextKeySelect
 ***************
-*** 794,799 ****
---- 819,829 ----
+*** 794,807 ****
+--- 820,844 ----
       if {[string equal $s ""] || [string equal [$w cget -state] "disabled"]} {
   	return
       }
-+     set oldSema [$w cget -autosemaphores]
-+     if { $oldSema } {
-+         $w configure -autosemaphores 0
-+         $w edit semaphore
-+     }
++     set compound 0
       catch {
   	if {[$w compare sel.first <= insert] \
   		&& [$w compare sel.last >= insert]} {
-***************
-*** 802,807 ****
---- 832,841 ----
++             set oldSeparator [$w cget -autoseparators]
++             if { $oldSeparator } {
++                 $w configure -autoseparators 0
++                 $w edit separator
++                 set compound 1
++             }
+  	    $w delete sel.first sel.last
+  	}
       }
       $w insert insert $s
       $w see insert
-+     if { $oldSema } {
-+         $w edit semaphore
-+         $w configure -autosemaphores 1
++     if { $compound && $oldSeparator } {
++         $w edit separator
++         $w configure -autoseparators 1
 +     }
   }
   
   # tkTextUpDownLine --
 ***************
 *** 975,986 ****
---- 1009,1029 ----
+--- 1012,1032 ----
   proc tk_textPaste w {
       global tcl_platform
       catch {
-+         set oldSema [$w cget -autosemaphores]
-+         if { $oldSema } {
-+             $w configure -autosemaphores 0
-+             $w edit semaphore
++         set oldSeparator [$w cget -autoseparators]
++         if { $oldSeparator } {
++             $w configure -autoseparators 0
++             $w edit separator
 +         }
   	if {[string compare $tcl_platform(platform) "unix"]} {
   	    catch {
@@ -1159,16 +1171,16 @@ diff -c -r orig_2/tk8.4a2/library/text.tcl try/tk8.4a2/library/text.tcl
   	    }
   	}
   	$w insert insert [selection get -displayof $w -selection CLIPBOARD]
-+         if { $oldSema } {
-+             $w edit semaphore
-+             $w configure -autosemaphores 1
++         if { $oldSeparator } {
++             $w edit separator
++             $w configure -autoseparators 1
 +         }
       }
   }
   
 diff -c -r orig_2/tk8.4a2/library/tk.tcl try/tk8.4a2/library/tk.tcl
 *** orig_2/tk8.4a2/library/tk.tcl	Tue Oct 31 02:12:38 2000
---- try/tk8.4a2/library/tk.tcl	Sat Feb 17 11:27:04 2001
+--- try/tk8.4a2/library/tk.tcl	Sat Jul  7 19:50:09 2001
 ***************
 *** 281,286 ****
 --- 281,288 ----
@@ -1187,7 +1199,7 @@ diff -c -r orig_2/tk8.4a2/library/tk.tcl try/tk8.4a2/library/tk.tcl
   	event add <<Paste>> <Control-Key-v> <Shift-Key-Insert>
   	event add <<PasteSelection>> <ButtonRelease-2>
 +   	event add <<Undo>> <Control-Key-z>
-+ 	event add <<Redo>> <Control-Key-Z>
++ 	event add <<Redo>> <Control-Key-y>
       }
       "macintosh" {
   	event add <<Cut>> <Control-Key-x> <Key-F2> 
@@ -1204,14 +1216,14 @@ diff -c -r orig_2/tk8.4a2/library/tk.tcl try/tk8.4a2/library/tk.tcl
   
 diff -c -r orig_2/tk8.4a2/mac/tkMacDefault.h try/tk8.4a2/mac/tkMacDefault.h
 *** orig_2/tk8.4a2/mac/tkMacDefault.h	Fri Jul 28 18:34:55 2000
---- try/tk8.4a2/mac/tkMacDefault.h	Sat Feb 17 11:27:04 2001
+--- try/tk8.4a2/mac/tkMacDefault.h	Sat Jul  7 19:46:34 2001
 ***************
 *** 419,424 ****
 --- 419,425 ----
    * Defaults for texts:
    */
   
-+ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
++ #define DEF_TEXT_AUTO_SEPARATORS	"1"
   #define DEF_TEXT_BG_COLOR		NORMAL_BG
   #define DEF_TEXT_BG_MONO		WHITE
   #define DEF_TEXT_BORDER_WIDTH		"0"
@@ -1227,14 +1239,14 @@ diff -c -r orig_2/tk8.4a2/mac/tkMacDefault.h try/tk8.4a2/mac/tkMacDefault.h
   #define DEF_TEXT_XSCROLL_COMMAND	""
 diff -c -r orig_2/tk8.4a2/tests/text.test try/tk8.4a2/tests/text.test
 *** orig_2/tk8.4a2/tests/text.test	Tue Jul 25 02:05:40 2000
---- try/tk8.4a2/tests/text.test	Sat Mar 24 11:42:36 2001
+--- try/tk8.4a2/tests/text.test	Sat Jul  7 20:00:20 2001
 ***************
 *** 51,56 ****
 --- 51,57 ----
   text .t2
   set i 0
   foreach test {
-+     {-autosemaphores yes 1 nah}
++     {-autoseparators yes 1 nah}
       {-background #ff00ff #ff00ff <gorp>}
       {-bd 4 4 foo}
       {-bg blue blue #xx}
@@ -1363,7 +1375,7 @@ diff -c -r orig_2/tk8.4a2/tests/text.test try/tk8.4a2/tests/text.test
 + 
 + test text-25.2 {TextEditCmd procedure, argument parsing} {
 +     list [catch {.t edit gorp} msg] $msg
-+ } {1 {bad edit option "gorp": must be modified, redo, reset, semaphore or undo}}
++ } {1 {bad edit option "gorp": must be modified, redo, reset, separator or undo}}
 + 
 + test text-25.3 {TextEditUndo procedure, undoing changes} {
 +     catch {destroy .t}
@@ -1400,20 +1412,20 @@ diff -c -r orig_2/tk8.4a2/tests/text.test try/tk8.4a2/tests/text.test
 +     set msg
 + } "nothing to undo"
 + 
-+ test text-25.6 {TextEditCmd procedure, insert semaphore} {
++ test text-25.6 {TextEditCmd procedure, insert separator} {
 +     catch {destroy .t}
 +     text .t -undo 1
 +     pack .t
 +     .t insert end "line 1\n"
-+     .t edit semaphore
++     .t edit separator
 +     .t insert end "line 2\n"
 +     .t edit undo
 +     .t get 1.0 end
 + } "line 1\n\n"
 + 
-+ test text-25.7 {-autosemaphores configuration option} {
++ test text-25.7 {-autoseparators configuration option} {
 +     catch {destroy .t}
-+     text .t -undo 1 -autosemaphores 0
++     text .t -undo 1 -autoseparators 0
 +     pack .t
 +     .t insert end "line 1\n"
 +     .t delete 1.4 1.6
@@ -1476,97 +1488,17 @@ Only in try/tk8.4a2/unix: Makefile
 Only in try/tk8.4a2/unix: config.cache
 Only in try/tk8.4a2/unix: config.log
 Only in try/tk8.4a2/unix: config.status
-Only in try/tk8.4a2/unix: core
-Only in try/tk8.4a2/unix: edit.tcl
-Only in try/tk8.4a2/unix: libtk8.4.so
-Only in try/tk8.4a2/unix: libtkstub8.4.a
-Only in try/tk8.4a2/unix: perf.tcl
-Only in try/tk8.4a2/unix: tk3d.o
-Only in try/tk8.4a2/unix: tkAppInit.o
-Only in try/tk8.4a2/unix: tkArgv.o
-Only in try/tk8.4a2/unix: tkAtom.o
-Only in try/tk8.4a2/unix: tkBind.o
-Only in try/tk8.4a2/unix: tkBitmap.o
-Only in try/tk8.4a2/unix: tkButton.o
-Only in try/tk8.4a2/unix: tkCanvArc.o
-Only in try/tk8.4a2/unix: tkCanvBmap.o
-Only in try/tk8.4a2/unix: tkCanvImg.o
-Only in try/tk8.4a2/unix: tkCanvLine.o
-Only in try/tk8.4a2/unix: tkCanvPoly.o
-Only in try/tk8.4a2/unix: tkCanvPs.o
-Only in try/tk8.4a2/unix: tkCanvText.o
-Only in try/tk8.4a2/unix: tkCanvUtil.o
-Only in try/tk8.4a2/unix: tkCanvWind.o
-Only in try/tk8.4a2/unix: tkCanvas.o
-Only in try/tk8.4a2/unix: tkClipboard.o
-Only in try/tk8.4a2/unix: tkCmds.o
-Only in try/tk8.4a2/unix: tkColor.o
-Only in try/tk8.4a2/unix: tkConfig.o
 Only in try/tk8.4a2/unix: tkConfig.sh
-Only in try/tk8.4a2/unix: tkConsole.o
-Only in try/tk8.4a2/unix: tkCursor.o
-Only in try/tk8.4a2/unix: tkEntry.o
-Only in try/tk8.4a2/unix: tkError.o
-Only in try/tk8.4a2/unix: tkEvent.o
-Only in try/tk8.4a2/unix: tkFocus.o
-Only in try/tk8.4a2/unix: tkFont.o
-Only in try/tk8.4a2/unix: tkFrame.o
-Only in try/tk8.4a2/unix: tkGC.o
-Only in try/tk8.4a2/unix: tkGeometry.o
-Only in try/tk8.4a2/unix: tkGet.o
-Only in try/tk8.4a2/unix: tkGrab.o
-Only in try/tk8.4a2/unix: tkGrid.o
-Only in try/tk8.4a2/unix: tkImage.o
-Only in try/tk8.4a2/unix: tkImgBmap.o
-Only in try/tk8.4a2/unix: tkImgGIF.o
-Only in try/tk8.4a2/unix: tkImgPPM.o
-Only in try/tk8.4a2/unix: tkImgPhoto.o
-Only in try/tk8.4a2/unix: tkListbox.o
-Only in try/tk8.4a2/unix: tkMain.o
-Only in try/tk8.4a2/unix: tkMenu.o
-Only in try/tk8.4a2/unix: tkMenuDraw.o
-Only in try/tk8.4a2/unix: tkMenubutton.o
-Only in try/tk8.4a2/unix: tkMessage.o
-Only in try/tk8.4a2/unix: tkObj.o
-Only in try/tk8.4a2/unix: tkOldConfig.o
-Only in try/tk8.4a2/unix: tkOption.o
-Only in try/tk8.4a2/unix: tkPack.o
-Only in try/tk8.4a2/unix: tkPlace.o
-Only in try/tk8.4a2/unix: tkRectOval.o
-Only in try/tk8.4a2/unix: tkScale.o
-Only in try/tk8.4a2/unix: tkScrollbar.o
-Only in try/tk8.4a2/unix: tkSelect.o
-Only in try/tk8.4a2/unix: tkSquare.o
-Only in try/tk8.4a2/unix: tkStubImg.o
-Only in try/tk8.4a2/unix: tkStubInit.o
-Only in try/tk8.4a2/unix: tkStubLib.o
-Only in try/tk8.4a2/unix: tkTest.o
-Only in try/tk8.4a2/unix: tkTestInit.o
-Only in try/tk8.4a2/unix: tkText.o
-Only in try/tk8.4a2/unix: tkTextBTree.o
-Only in try/tk8.4a2/unix: tkTextDisp.o
-Only in try/tk8.4a2/unix: tkTextImage.o
-Only in try/tk8.4a2/unix: tkTextIndex.o
-Only in try/tk8.4a2/unix: tkTextMark.o
-Only in try/tk8.4a2/unix: tkTextTag.o
-Only in try/tk8.4a2/unix: tkTextWind.o
-Only in try/tk8.4a2/unix: tkTrig.o
-Only in try/tk8.4a2/unix: tkUnix.o
-Only in try/tk8.4a2/unix: tkUnix3d.o
-Only in try/tk8.4a2/unix: tkUnixButton.o
-Only in try/tk8.4a2/unix: tkUnixColor.o
-Only in try/tk8.4a2/unix: tkUnixConfig.o
-Only in try/tk8.4a2/unix: tkUnixCursor.o
 diff -c -r orig_2/tk8.4a2/unix/tkUnixDefault.h try/tk8.4a2/unix/tkUnixDefault.h
 *** orig_2/tk8.4a2/unix/tkUnixDefault.h	Fri Jul 28 18:34:55 2000
---- try/tk8.4a2/unix/tkUnixDefault.h	Sat Feb 17 11:27:04 2001
+--- try/tk8.4a2/unix/tkUnixDefault.h	Sat Jul  7 19:46:05 2001
 ***************
 *** 409,414 ****
 --- 409,415 ----
    * Defaults for texts:
    */
   
-+ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
++ #define DEF_TEXT_AUTO_SEPARATORS	"1"
   #define DEF_TEXT_BG_COLOR		NORMAL_BG
   #define DEF_TEXT_BG_MONO		WHITE
   #define DEF_TEXT_BORDER_WIDTH		"2"
@@ -1580,36 +1512,16 @@ diff -c -r orig_2/tk8.4a2/unix/tkUnixDefault.h try/tk8.4a2/unix/tkUnixDefault.h
   #define DEF_TEXT_WIDTH			"80"
   #define DEF_TEXT_WRAP			"char"
   #define DEF_TEXT_XSCROLL_COMMAND	""
-Only in try/tk8.4a2/unix: tkUnixDraw.o
-Only in try/tk8.4a2/unix: tkUnixEmbed.o
-Only in try/tk8.4a2/unix: tkUnixEvent.o
-Only in try/tk8.4a2/unix: tkUnixFocus.o
-Only in try/tk8.4a2/unix: tkUnixFont.o
-Only in try/tk8.4a2/unix: tkUnixInit.o
-Only in try/tk8.4a2/unix: tkUnixKey.o
-Only in try/tk8.4a2/unix: tkUnixMenu.o
-Only in try/tk8.4a2/unix: tkUnixMenubu.o
-Only in try/tk8.4a2/unix: tkUnixScale.o
-Only in try/tk8.4a2/unix: tkUnixScrlbr.o
-Only in try/tk8.4a2/unix: tkUnixSelect.o
-Only in try/tk8.4a2/unix: tkUnixSend.o
-Only in try/tk8.4a2/unix: tkUnixWm.o
-Only in try/tk8.4a2/unix: tkUnixXId.o
-Only in try/tk8.4a2/unix: tkUtil.o
-Only in try/tk8.4a2/unix: tkVisual.o
-Only in try/tk8.4a2/unix: tkWindow.o
-Only in try/tk8.4a2/unix: tktest
-Only in try/tk8.4a2/unix: wish
 diff -c -r orig_2/tk8.4a2/win/tkWinDefault.h try/tk8.4a2/win/tkWinDefault.h
 *** orig_2/tk8.4a2/win/tkWinDefault.h	Fri Jul 28 18:34:56 2000
---- try/tk8.4a2/win/tkWinDefault.h	Sat Feb 17 11:27:04 2001
+--- try/tk8.4a2/win/tkWinDefault.h	Sat Jul  7 19:46:57 2001
 ***************
 *** 414,419 ****
 --- 414,420 ----
    * Defaults for texts:
    */
   
-+ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
++ #define DEF_TEXT_AUTO_SEPARATORS	"1"
   #define DEF_TEXT_BG_COLOR		"SystemWindow"
   #define DEF_TEXT_BG_MONO		WHITE
   #define DEF_TEXT_BORDER_WIDTH		"2"
