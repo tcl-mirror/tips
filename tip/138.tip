@@ -1,6 +1,6 @@
 TIP:		138
 Title:		New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Kevin Kenny <kennykb@acm.org>
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Accepted
@@ -38,7 +38,7 @@ managing thread-local storage with calls that manage the
 thread-specific data blocks in a per-thread hash table.
 
 Reviewing and testing the change revealed an unfortunate circular
-dependency.  A call to ''Tcl_CreateHashTable'' would attempt to
+dependency.  A call to ''Tcl_InitCustomHashTable'' would attempt to
 allocate the array of hash buckets by a call to ''ckalloc'' - which
 translates to ''TclpAlloc''.  On a threaded build, the first thing
 done in this routine is to retrieve the allocation cache via
@@ -57,7 +57,7 @@ rather than the thread-specific allocation cache.  Unfortunately,
 
 The ''flags'' word in the ''Tcl_HashKeyType'' data structure shall be
 augmented with an additional value, ''TCL_HASH_KEY_SYSTEM_HASH''.  If
-this bit is set in the structure passed to ''Tcl_CreateHashTable'',
+this bit is set in the structure passed to ''Tcl_InitCustomHashTable'',
 then all memory allocated internally to manage the hash keys shall be
 obtained via direct calls to ''TclpSysAlloc'', ''TclpSysRealloc'', and
 ''TclpSysFree'' rather than ''Tcl_Alloc'', ''Tcl_Realloc'' and
