@@ -1,0 +1,11 @@
++-----------------------------+
+|+-+ Map 'itemHit' (1,2,3) to |
+||?| descriptive text string. |
+|+-+                          |
+| ,-----.  ,----.  ,--------. |
+| | Yes |  | No |  | Cancel | |
+| `-----'  `----'  `--------' |
++-----------------------------+
+
+(This text representation does
+not do justice to the original)
