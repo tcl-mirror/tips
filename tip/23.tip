@@ -1,0 +1,872 @@
+TIP:            23
+Title:          Tk Toolkit Functional Areas for Maintainer Assignments
+Version:        $Revision: 1.1 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Process
+Vote:           In progress
+Created:        22-Jan-2001
+Post-History:   
+
+~ Abstract
+
+This document proposes a division of the Tk toolkit's source code into
+functional areas so that each area may be assigned to one or more
+maintainers.
+
+~ Background
+
+TCT procedures (see [0]) call for each ''maintainer'' to be
+responsible for a portion of the Tk toolkit's source code.  Certain
+portions of the Tk toolkit's source code are naturally associated with
+certain other portions.  (For example, the implementation of a command
+is intimately related to the documentation for that command.)
+Establishing a ''natural'' division of the Tk toolkit's source code
+into units needing maintainers is a useful preliminary effort toward a
+public call for volunteer maintainers.
+
+~ Rationale
+
+[16] provides a convincing rationale for establishing a simple mapping
+from source files to maintainers.  It also breaks out maintainers'
+functional areas for the Tcl core.  This document attempts to develop
+a similar mapping for the Tk toolkit.
+
+Just as with [16], this document attempts to divide the Tk toolkit
+into a set of the smallest sensible functional units.
+
+~ Proposal
+
+The Tk toolkit shall be divided into the following ninety-two functional
+units, each to be assigned one or more maintainers:
+
+   Widgets:
+
+   >  1. ''Standard bindings''
+     library/tk.tcl
+
+   >  1. ''Default appearance''
+     generic/default.h
+     mac/tkMacDefault.h,
+     unix/tkUnixDefault.h,
+     win/tkWinDefault.h
+
+   >  1. ''button, checkbutton, radiobutton, label'' -
+     doc/button.n,
+     doc/checkbutton.n,
+     doc/label.n,
+     doc/radiobutton.n,
+     generic/tkButton.c,
+     generic/tkButton.h,
+     library/button.tcl,
+     mac/tkMacButton.c,
+     unix/tkUnixButton.c,
+     tests/butGeom.tcl,
+     tests/butGeom2.tcl,
+     tests/button.test,
+     tests/unixButton.test,
+     tests/winButton.test,
+     win/rc/buttons.bmp,
+     win/tkWinButton.c
+
+   >  1. ''canvas (Basics)'' -
+     doc/CanvPsY.3,
+     doc/CanvTxtInfo.3,
+     doc/CanvTkwin.3,
+     doc/CrtItemType.3,
+     doc/GetDash.3,
+     doc/canvas.n,
+     generic/tkCanvUtil.c,
+     generic/tkCanvas.c,
+     generic/tkCanvas.h,
+     tests/canvas.test
+
+   >  1. ''canvas (Canvas items)'' -
+     generic/tkCanvArc.c,
+     generic/tkCanvBmap.c,
+     generic/tkCanvImg.c,
+     generic/tkCanvLine.c,
+     generic/tkCanvPoly.c,
+     generic/tkCanvText.c,
+     generic/tkCanvWind.c,
+     generic/tkRectOval.c,
+     tests/arc.tcl,
+     tests/canvImg.test,
+     tests/canvRect.test,
+     tests/canvText.test,
+     tests/canvWind.test,
+
+   >  1. ''canvas (PostScript printing)'' -
+     generic/prolog.ps,
+     generic/tkCanvPs.c,
+     library/prolog.ps,
+     tests/canvPs.test,
+     tests/canvPsArc.tcl,
+     tests/canvPsBmap.tcl,
+     tests/canvPsGrph.tcl,
+     tests/canvPsImg.tcl,
+     tests/canvPsText.tcl
+
+   >  1. ''entry'' -
+     doc/entry.n,
+     generic/tkEntry.c,
+     library/entry.tcl,
+     tests/entry.test
+
+   >  1. ''frame and toplevel'' -
+     doc/frame.n,
+     doc/toplevel.n,
+     generic/tkFrame.c,
+     tests/frame.test
+
+   >  1. ''listbox'' -
+     doc/listbox.n,
+     generic/tkListbox.c,
+     library/listbox.tcl,
+     tests/listbox.test
+
+   >  1. ''menu, menubutton, and tk_popup (Generic)'' -
+     doc/menu.n,
+     doc/menubutton.n,
+     doc/popup.n,
+     generic/tkMacWinMenu.c,
+     generic/tkMenu.c,
+     generic/tkMenu.h,
+     generic/tkMenuDraw.c,
+     generic/tkMenubutton.c,
+     generic/tkMenubutton.h,
+     library/menu.tcl,
+     library/tearoff.tcl,
+     tests/macWinMenu.test,
+     tests/menu.test,
+     tests/menuDraw.test,
+     tests/menubut.test,
+
+   >  1. ''menu, etc. (Macintosh)'' -
+     mac/tkMacMDEF.c,
+     mac/tkMacMDEF.r,
+     mac/tkMacMenu.c,
+     mac/tkMacMenu.r,
+     mac/tkMacMenubutton.c,
+     mac/tkMacMenus.c,
+     tests/macMenu.test
+
+   >  1. ''menu, etc. (Unix)'' -
+     tests/unixMenu.test,
+     unix/tkUnixMenu.c,
+     unix/tkUnixMenubu.c
+
+   >  1. ''menu, etc. (Windows)'' -
+     tests/winMenu.test,
+     win/tkWinMenu.c
+
+   >  1. ''message'' -
+     doc/message.n,
+     generic/tkMessage.c,
+     tests/message.test
+
+   >  1. ''scale'' -
+     doc/scale.n,
+     generic/tkScale.c,
+     generic/tkScale.h,
+     library/scale.tcl,
+     mac/tkMacScale.c,
+     tests/scale.test,
+     unix/tkUnixScale.c,
+
+   >  1. ''scrollbar'' -
+     doc/scrollbar.n,
+     generic/tkScrollbar.c,
+     generic/tkScrollbar.h,
+     library/scrlbar.tcl,
+     mac/tkMacScrlbr.c,
+     tests/macscrollbar.test,
+     tests/scrollbar.test,
+     unix/tkUnixScrlbr.c,
+     win/tkWinScrlbr.c
+
+   >  1. ''spinbox'' -
+     doc/spinbox.n,
+     library/spinbox.tcl,
+     tests/spinbox.test
+
+   >  1. ''text'' -
+     doc/text.n,
+     generic/tkText.c,
+     generic/tkText.h
+     generic/tkTextBTree.c,
+     generic/tkTextDisp.c,
+     generic/tkTextImage.c,
+     generic/tkTextIndex.c,
+     generic/tkTextMark.c,
+     generic/tkTextTag.c,
+     generic/tkTextWind.c,
+     library/text.tcl,
+     tests/text.test,
+     tests/textBTree.test,
+     tests/textDisp.test,
+     tests/textImage.test,
+     tests/textIndex.test,
+     tests/textMark.test,
+     tests/textTag.test,
+     tests/textWind.test
+
+   >  1. ''tk_menubar (Deprecated)'' -
+     doc/menubar.n,
+     library/obsolete.tcl
+
+   >  1. ''tk_optionMenu'' -
+     doc/optionMenu.n,
+     library/optionMenu.tcl
+
+   Widget Options:
+
+   >  1. ''Standard options'' -
+     doc/options.n
+
+   >  1. ''Option parsing'' -
+     doc/ConfigWidg.3,
+     doc/SetOptions.3,
+     generic/tkConfig.c,
+     generic/tkOldConfig.c,
+     mac/tkMacConfig.c,
+     unix/tkUnixConfig.c,
+     tests/config.test,
+     win/tkWinConfig.c
+
+   >  1. ''Relief'' -
+     doc/3DBorder.3,
+     doc/GetRelief.3,
+     generic/tk3d.c,
+     generic/tk3d.h,
+     unix/tkUnix3d.c,
+     tests/bevel.tcl,
+     tests/border.tcl,
+     win/tkWin3d.c
+
+   >  1. ''Standard bitmaps'' -
+     bitmaps/error.bmp,
+     bitmaps/gray12.bmp,
+     bitmaps/gray25.bmp,
+     bitmaps/gray50.bmp,
+     bitmaps/gray75.bmp,
+     bitmaps/hourglass.bmp,
+     bitmaps/info.bmp,
+     bitmaps/questhead.bmp,
+     bitmaps/question.bmp,
+     bitmaps/warning.bmp,
+     doc/GetBitmap.3,
+     generic/tkBitmap.c,
+     mac/tkMacBitmap.c,
+     tests/bitmap.test
+
+   >  1. ''Anchors, line styles, justification, and metrics'' -
+     doc/GetAnchor.3,
+     doc/GetCapStyl.3,
+     doc/GetJoinStl.3,
+     doc/GetJustify.3,
+     doc/GetPixels.3,
+     doc/GetUid.3,
+     generic/tkGet.c,
+     generic/tkObj.c,
+     tests/get.test,
+     tests/obj.test
+
+   >  1. ''Focus highlights and scroll quantities'' -
+     doc/DrawFocHlt.3,
+     doc/GetScroll.3,
+     generic/tkUtil.c,
+     tests/util.test
+
+   >  1. ''Colormaps and visuals'' -
+     doc/GetClrmap.3,
+     doc/GetVisual.3,
+     generic/tkVisual.c,
+     tests/visual.test
+
+   >  1. ''Color names'' -
+     doc/GetColor.3,
+     doc/colors.n,
+     generic/tkColor.c,
+     generic/tkColor.h,
+     mac/tkMacColor.c,
+     unix/tkUnixColor.c,
+     tests/cmap.tcl,
+     tests/color.test,
+     win/tkWinColor.c,
+     xlib/colors.c
+
+   >  1. ''Cursor names'' -
+     doc/GetCursor.3,
+     doc/cursors.n,
+     generic/tkCursor.c,
+     mac/tkMacCursor.c,
+     mac/tkMacCursors.r,
+     mac/tkMacXCursors.r,
+     unix/tkUnixCursor.c,
+     tests/cursor.test,
+     win/rc/cursor*.cur
+     win/tkWinCursor.c,
+     xlib/X11/cursorfont.h
+
+   >  1. ''Key symbols'' -
+     doc/keysyms.n,
+     mac/tkMacKeyboard.c,
+     unix/tkUnixKey.c,
+     win/tkWinKey.c,
+     xlib/X11/keysym.h,
+     xlib/X11/keysymdef.h
+
+   Standard Dialogs:
+
+   >  1. ''Common code'' -
+     library/comdlg.tcl
+
+   >  1. ''Color selection'' -
+     doc/chooseColor.n,
+     library/clrpick.tcl,
+     tests/clrpick.test
+
+   >  1. ''tk_dialog'' -
+     doc/dialog.n,
+     library/dialog.tcl,
+     mac/tkMacDialog.c,
+     tests/winDialog.test,
+     unix/tkUnixDialog.c,
+     win/tkWinDialog.c
+
+   >  1. ''Directory selection'' -
+     doc/chooseDirectory.n,
+     library/choosedir.tcl,
+     tests/choosedir.test
+
+   >  1. ''File selection'' -
+     doc/getOpenFile.n,
+     generic/tkFileFilter.c,
+     generic/tkFileFilter.h,
+     library/tkfbox.tcl,
+     library/xmfbox.tcl,
+     tests/filebox.test,
+     tests/xmfbox.test
+
+   >  1. ''tk_messageBox'' -
+     doc/messageBox.n,
+     library/msgbox.tcl,
+     tests/msgbox.test
+
+   Images:
+
+   >  1. ''Basic image support'' -
+     doc/CrtImgType.3,
+     doc/DeleteImg.3,
+     doc/GetImage.3,
+     doc/ImgChanged.3,
+     doc/NameOfImg.3,
+     doc/image.n,
+     generic/tkImage.c,
+     generic/tkImgUtil.c,
+     generic/tkStubImg.c,
+     tests/image.test
+
+   >  1. ''Bitmap images'' -
+     doc/bitmap.n,
+     generic/tkImgBmap.c,
+     tests/imgBmap.test
+
+   >  1. ''Photo images'' -
+     doc/CrtPhImgFmt.3,
+     doc/FindPhoto.3,
+     doc/photo.n,
+     generic/tkImgPhoto.c,
+     tests/imgPhoto.test
+
+   >  1. ''GIF support'' -
+     generic/tkImgGIF.c
+
+   >  1. ''PPM support'' -
+     generic/tkImgPPM.c,
+     tests/imgPPM.test
+
+   Fonts:
+
+   >  1. ''Fonts'' -
+     doc/FontId.3,
+     doc/GetFont.3,
+     doc/MeasureChar.3,
+     doc/TextLayout.3,
+     doc/font.n,
+     generic/tkFont.c,
+     generic/tkFont.h,
+     tests/font.test
+
+   >  1. ''Macintosh font support'' -
+     mac/tkMacFont.c,
+     tests/macFont.test
+
+   >  1. ''Unix font support'' -
+     tests/unixFont.test,
+     unix/tkUnixFont.c
+
+   >  1. ''Windows font support'' -
+     tests/winFont.test,
+     win/tkWinFont.c
+
+   Geometry management:
+
+   >  1. ''Common geometry management'' -
+     doc/GeomReq.3,
+     doc/MaintGeom.3,
+     doc/ManageGeom.3,
+     generic/tkGeometry.c,
+     tests/geometry.test
+
+   >  1. ''grid'' -
+     doc/grid.n,
+     generic/tkGrid.c,
+     tests/grid.test
+
+   >  1. ''pack'' -
+     doc/pack-old.n,
+     doc/pack.n,
+     generic/tkPack.c,
+     tests/oldpack.test,
+     tests/pack.test
+
+   >  1. ''place'' -
+     doc/place.n,
+     generic/tkPlace.c,
+     tests/place.test
+
+   Selection and Clipboard:
+
+   >  1. ''clipboard'' -
+     doc/Clipboard.3,
+     doc/clipboard.n,
+     generic/tkClipboard.c,
+     mac/tkMacClipboard.c,
+     tests/clipboard.test,
+     tests/unixSelect.test,
+     tests/winClipboard.test,
+     unix/tkUnixSelect.c,
+     win/tkWinClipboard.c
+
+   >  1. ''selection'' -
+     doc/ClrSelect.3,
+     doc/CrtSelHdlr.3,
+     doc/GetSelect.3,
+     doc/OwnSelect.3,
+     doc/selection.n,
+     generic/tkSelect.c,
+     generic/tkSelect.h,
+     tests/select.test
+
+   Other Tk commands:
+
+    >  1. ''console'' --
+     generic/tkConsole.c,
+     library/console.tcl
+
+    >  1. ''focus'' -
+     doc/focus.n,
+     generic/tkFocus.c,
+     tests/focus.test
+
+    >  1. ''grab'' -
+     doc/Grab.3,
+     doc/grab.n,
+     generic/tkGrab.c,
+     tests/grab.test
+
+    >  1. ''option'' -
+     doc/AddOption.3,
+     doc/GetOption.3,
+     doc/option.n,
+     generic/tkOption.c,
+     tests/option.file1,
+     tests/option.file2,
+     tests/option.test
+
+   >  1. ''send'' -
+     doc/SetAppName.3,
+     doc/send.n,
+     mac/tkMacSend.c,
+     tests/send.test,
+     tests/unixSend.test,
+     tests/winSend.test,
+     unix/tkUnixSend.c,
+     win/tkWinSend.c
+
+   >  1. ''tk_focusNext and friends'' -
+     doc/focusNext.n,
+     library/focus.tcl,
+     tests/focusTcl.test
+
+   >  1. ''tk_palette'' -
+     doc/palette.n,
+     library/palette.tcl
+
+   Low-level Tk functions:
+
+   >  1. ''Geometry'' -
+     generic/tkTrig.c
+
+   >  1. ''Tk_Win functions'' -
+     doc/ConfigWind.3,
+     doc/CrtWindow.3,
+     doc/IdToWindow.3,
+     doc/MainWin.3,
+     doc/MapWindow.3,
+     doc/Name.3,
+     doc/Restack.3,
+     doc/SetClass.3,
+     doc/SetClassProcs.3,
+     doc/SetVisual.3,
+     doc/StrictMotif.3,
+     doc/Tk_Init.3,
+     doc/WindowId.3,
+     generic/tkWindow.c,
+     tests/window.test
+
+   >  1. ''Graphic contexts'' -
+     doc/GetGC.3,
+     generic/tkGC.c
+
+   >  1. ''Basic window manipulations'' -
+     doc/CoordToWin.3,
+     doc/FreeXId.3,
+     doc/GetHINSTANCE.3,
+     doc/GetHWND.3,
+     doc/GetPixmap.3,
+     doc/GetRootCrd.3,
+     doc/GetVRoot.3,
+     doc/HWNDToWindow.3,
+     doc/MoveToplev.3,
+     doc/SetGrid.3,
+     doc/bell.n,
+     doc/bind.n,
+     doc/bindtags.n,
+     doc/destroy.n,
+     doc/lower.n,
+     doc/raise.n,
+     doc/tk.n,
+     doc/tkwait.n,
+     doc/winfo.n,
+     doc/wm.n,
+     generic/tkCmds.c,
+     generic/tkPointer.c,
+     tests/bell.test,
+     tests/cmds.test,
+     tests/id.test,
+     tests/raise.test,
+     tests/tk.test,
+     tests/winfo.test,
+     xlib/xgc.c
+
+   >  1. ''Macintosh window operations'' -
+     mac/tkMacAppearanceStubs.c,
+     mac/tkMacDraw.c,
+     mac/tkMacEmbed.c,
+     mac/tkMacHLEvents.c,
+     mac/tkMacRegion.c,
+     mac/tkMacSubwindows.c,
+     mac/tkMacWindowMgr.c,
+     mac/tkMacWm.c,
+     mac/tkMacXStubs.c,
+     tests/macEmbed.test
+     
+   >  1. ''Unix window operations'' -
+     tests/unixEmbed.test,
+     tests/unixWm.test,
+     unix/tkUnix.c,
+     unix/tkUnixDraw.c,
+     unix/tkUnixEmbed.c,
+     unix/tkUnixEvent.c,
+     unix/tkUnixFocus.c,
+     unix/tkUnixWm.c,
+     unix/tkUnixXId.c
+
+   >  1. ''Windows window operations'' -
+     tests/WinWm.test,
+     win/stubs.c,
+     win/tkWinDraw.c,
+     win/tkWinEmbed.c,
+     win/tkWinImage.c,
+     win/tkWinPixmap.c,
+     win/tkWinPointer.c,
+     win/tkWinRegion.c,
+     win/tkWinWindow.c,
+     win/tkWinWm.c,
+     win/tkWinX.c
+
+   >  1. ''Events'' -
+     doc/BindTable.3,
+     doc/event.n,
+     generic/tkBind.c,
+     tests/bind.test
+
+   >  1. ''Event loop'' -
+     doc/CrtCmHdlr.3,
+     doc/CrtGenHdlr.3,
+     doc/EventHndlr.3,
+     doc/HandleEvent.3,
+     doc/MainLoop.3,
+     doc/QWinEvent.3,
+     doc/RestrictEv.3,
+     generic/tkEvent.c,
+     tests/event.test
+
+   >  1. ''Error handling'' -
+     doc/CrtErrHdlr.3,
+     doc/tkerror.n,
+     generic/tkError.c,
+     library/bgerror.tcl,
+     tests/bgerror.test
+
+   >  1. ''Atoms'' -
+     doc/InternAtom.3,
+     generic/tkAtom.c,
+     xlib/X11/Xatom.h
+
+   Shells:
+
+   >  1. ''Argc/argv parsing'' -
+     doc/ParseArgv.3,
+     generic/tkArgv.c
+
+   >  1. ''Application embedding'' -
+     doc/Tk_Main.3,
+     doc/loadTk.n,
+     generic/tkInitScript.h,
+     generic/tkMain.c,
+     mac/tkMacInit.c,
+     unix/tkUnixInit.c,
+     win/tkWin32DLL.c,
+     win/tkWinInit.c,
+     tests/main.test,
+     tests/safe.test
+
+   >  1. ''wish'' -
+     doc/wish.1,
+     mac/tkMacAppInit.c,
+     unix/tkAppInit.c,
+     win/winMain.c
+
+   >  1. ''Drag and Drop Tclets (Macintosh)'' -
+     mac/tclets.r,
+     mac/tclets.tcl
+
+   Demonstrations:
+
+   >  1. ''Widget Tour'' -
+     library/demos/arrow.tcl,
+     library/demos/bind.tcl,
+     library/demos/bitmap.tcl,
+     library/demos/button.tcl,
+     library/demos/check.tcl,
+     library/demos/clrpick.tcl,
+     library/demos/colors.tcl,
+     library/demos/cscroll.tcl,
+     library/demos/ctext.tcl,
+     library/demos/dialog1.tcl,
+     library/demos/dialog2.tcl,
+     library/demos/entry1.tcl,
+     library/demos/entry2.tcl,
+     library/demos/filebox.tcl,
+     library/demos/floor.tcl,
+     library/demos/form.tcl,
+     library/demos/hscale.tcl,
+     library/demos/icon.tcl,
+     library/demos/image1.tcl,
+     library/demos/image2.tcl,
+     library/demos/items.tcl,
+     library/demos/label.tcl,
+     library/demos/menu.tcl,
+     library/demos/menubu.tcl,
+     library/demos/msgbox.tcl,
+     library/demos/plot.tcl,
+     library/demos/puzzle.tcl,
+     library/demos/radio.tcl,
+     library/demos/ruler.tcl,
+     library/demos/sayings.tcl,
+     library/demos/search.tcl,
+     library/demos/states.tcl,
+     library/demos/style.tcl,
+     library/demos/text.tcl,
+     library/demos/twind.tcl,
+     library/demos/vscale.tcl,
+     library/demos/widget,
+     library/demos/images/earth.gif,
+     library/demos/images/earthris.gif,
+     library/demos/images/face.bmp,
+     library/demos/images/flagdown.bmp,
+     library/demos/images/flagup.bmp,
+     library/demos/images/gray25.bmp,
+     library/demos/images/letters.bmp,
+     library/demos/images/noletter.bmp,
+     library/demos/images/pattern.bmp,
+     library/demos/images/tcllogo.gif,
+     library/demos/images/teapot.ppm
+
+   >  1. ''The square extension'' -
+     generic/tkSquare.c,
+     library/demos/square
+
+   >  1. ''Miscellaneous demos'' -
+     library/demos/browse,
+     library/demos/hello,
+     library/demos/ixset,
+     library/demos/rmt,
+     library/demos/rolodex,
+     library/demos/tcolor,
+     library/demos/timer
+
+   Localization:
+
+   >  1. ''German'' -
+     library/msgs/de.msg
+
+   >  1. ''Greek'' -
+     library/msgs/el.msg
+
+   >  1. ''English'' -
+     library/msgs/en.msg
+
+   >  1. ''Spanish'' -
+     library/msgs/es.msg
+
+   >  1. ''French'' -
+     library/msgs/fr.msg
+
+   >  1. ''Italian'' -
+     library/msgs/it.msg
+
+   >  1. ''Dutch'' -
+     library/msgs/nl.msg
+
+   Release Engineering:
+
+   >  1. ''Release Notes'' -
+     README,
+     */README,
+     */*/README,
+     tk4.0.ps,
+     mac/bugs.doc,
+     tests/bugs.tcl,
+
+   >  1. ''Portability Support'' -
+     compat/limits.h,
+     compat/stdlib.h,
+     compat/unistd.h
+
+   >  1. ''X11 Emulation Support'' -,
+     xlib/X11/X.h,
+     xlib/X11/Xfuncproto.h,
+     xlib/X11/Xlib.h,
+     xlib/X11/Xutil.h,
+     xlib/xbytes.h,
+     xlib/xdraw.c,
+     xlib/ximage.c,
+     xlib/xutil.c
+
+   >  1. ''Macintosh Configuration and Build Tools'' -
+     mac/MW_TkHeader.h,
+     mac/MW_TkHeader.pch,
+     mac/MW_TkOldImgHeader.h,
+     mac/MW_TkTestHeader.h,
+     mac/MW_TkTestHeader.pch,
+     mac/tkMacApplication.r,
+     mac/tkMacLibrary.r,
+     mac/tkMacProjects.sea.hqx,
+     mac/tkMacResource.r,
+     mac/tkMacShlib.exp
+
+   >  1. ''Unix configuration and Build Tools'' -
+     unix/Makefile.in,
+     unix/aclocal.m4,
+     unix/configure.in,
+     unix/install-sh,
+     unix/mkLinks,
+     unix/tcl.m4,
+     unix/tk.spec,
+     unix/tkConfig.sh.in
+
+   >  1. ''Windows Configuration and Build Tools'' -
+     win/Makefile.in,
+     win/aclocal.m4,
+     win/configure.in,
+     win/makefile.vc,
+     win/mkd.bat,
+     win/rc/tk.rc,
+     win/rc/tk_base.rc,
+     win/rc/wish.rc,
+     win/rmd.bat,
+     win/tcl.m4,
+     win/tkConfig.sh.in,
+     win/tkWin.h
+
+   >  1. ''Test Tools'' -
+     generic/tkTest.c,
+     mac/tkMacTest.c,
+     win/tkWinTest.c,
+     tests/all.tcl,
+     tests/defs.tcl,
+     tests/visual_bb.test
+
+   >  1. ''Logos and Branding'' -
+     library/images/logo.eps,
+     library/images/logo100.gif,
+     library/images/logo64.gif,
+     library/images/logoLarge.gif,
+     library/images/logoMed.gif,
+     library/images/pwrdLogo.eps,
+     library/images/pwrdLogo100.gif,
+     library/images/pwrdLogo150.gif,
+     library/images/pwrdLogo175.gif,
+     library/images/pwrdLogo200.gif,
+     library/images/pwrdLogo75.gif,
+     library/images/tai-ku.gif,
+     win/rc/tk.ico,
+     win/rc/wish.ico
+
+~ Shared Files
+
+The following files are shared by all of Tk.  Any maintainer may
+modify them as necessary to complete changes they are making to
+their portion of Tk.  Some of the following files define Tk's
+API and should be changed only with TCT approval.
+
+   * ChangeLog,
+     changes,
+     doc/tkvars.n,
+     doc/TkInitStubs.3,
+     generic/tk.decls,
+     generic/tk.h,
+     generic/tkInt.decls,
+     generic/tkInt.h,
+     generic/tkPort.h
+     generic/tkStubLib.c,
+     mac/tkMac.h,
+     mac/tkMacInt.h,
+     mac/tkMacPort.h,
+     unix/tkUnixInt.h,
+     unix/tkUnixPort.h,
+     win/tkWinInt.h,
+     win/tkWinPort.h
+
+~ Generated Files
+
+The following files are generated, so they don't need maintainers.
+
+   * generic/ks_names.h,
+     generic/tkDecls.h,
+     generic/tkIntDecls.h,
+     generic/tkIntPlatDecls.h,
+     generic/tkIntXlibDecls.h,
+     generic/tkPlatDecls.h,
+     generic/tkStubInit.c,
+     unix/configure,
+     win/configure
+
+~ Copyright
+
+This document has been placed in the public domain.
