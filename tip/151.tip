@@ -1,12 +1,12 @@
 TIP:            151
 Title:          Remove -e: Command Line Option from tclsh and wish
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        22-Aug-2003
 Post-History:   
 Tcl-Version:    8.5

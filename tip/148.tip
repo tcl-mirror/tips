@@ -1,10 +1,10 @@
 TIP:		148
 Title:		Correct [list]-Quoting of the '#' Character
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Don Porter <dgp@users.sf.net>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	08-Aug-2003
 Post-History:	
 Tcl-Version:	8.5
