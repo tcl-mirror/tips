@@ -1,7 +1,8 @@
 TIP:            207
 Title:          Add a -namespace Option to [interp invokehidden]
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -114,6 +115,29 @@ The following additions/changes would be made to the private Tcl C API:
 
 A reference implementation of this TIP is availble
 [http://sf.net/tracker/?func=detail&aid=981841&group_id=10894&atid=310894].
+
+~ Comments
+
+''DGP'': Note that the '''interp''' command (including the
+'''interp invokehidden''' subcommand) was added for
+Tcl 7.5.  The '''namespace''' command arrived later
+in Tcl 8.0.  This proposal observes and proposes to
+correct that the '''interp invokehidden''' command
+was not updated to account for the arrival of 
+namespaces.  Clearly the ''-global'' option indicates
+that control over evaluation context is something
+the caller needs.  This command simply failed to
+evolve in a timely manner.  This proposal is an
+overdue correction.
+
+Looking ahead, I'd be happy if the ''-global'' option
+was dropped from the documentation, so that only the
+new ''-namespace'' option is favored, and so that the
+recommended way one
+forces evaluation in the global namespace is with
+''-namespace ::''.  The ''-global'' option would still
+work through the remaining Tcl 8 releases, but no
+longer be recommended for new code.
 
 ~ Copyright
 
