@@ -1,14 +1,15 @@
-TIP:            222
-Title:          Add [wm attributes -alpha] Attribute on Windows
-Version:        $Revision: 1.6 $
-Author:         Jeff Hobbs <jeffh@activestate.com>
-Author:         Andreas Kupries <akupries@shaw.ca>
-State:          Draft
-Type:           Project
-Vote:           In progress
-Created:        16-Sep-2004
-Post-History:   
-Tcl-Version:    8.5
+TIP:		222
+Title:		Add [wm attributes -alpha] Attribute on Windows
+Version:	$Revision: 1.7 $
+Author:		Jeff Hobbs <jeffh@activestate.com>
+Author:		Andreas Kupries <akupries@shaw.ca>
+State:		Draft
+Type:		Project
+Vote:		In progress
+Created:	16-Sep-2004
+Post-History:	
+Tcl-Version:	8.5
+Keywords:	Tk
 
 ~ Abstract
 
