@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -25,8 +25,7 @@ link given by ''source'' (i.e. the name of the file it points to).  If
 ''source'' isn't a link or its value cannot be read, then an
 error is returned.  
 
-If 2 arguments are given, then these are assumed to be ''source'' and ''target'', and Tcl then creates a link from
-''source'' to ''target'', where the type of the link is platform-specific (on Unix a symbolic link will be the default).  This is useful for the case where the user wishes to create a link in a cross-platform way, and doesn't care what type of link is created.  If 'source' already exists, an error will be returned.
+If 2 arguments are given, then these are assumed to be ''source'' and ''target''.  If ''source'' already exists, an error will be returned.  Otherwise, Tcl creates a new link called ''source'' which points to the filesystem object at ''target'', where the type of the link is platform-specific (on Unix a symbolic link will be the default).  This is useful for the case where the user wishes to create a link in a cross-platform way, and doesn't care what type of link is created.  
 
 If the user wishes to make a link of a ''specific type only'', (and signal an error if for some reason that is not possible), then the optional ''linktype'' argument should be given.  Accepted values for linktype are "-symbolic" and "-hard".  
 
