@@ -1,6 +1,6 @@
 TIP:            72
 Title:          64-Bit Value Support for Tcl on 32-Bit Platforms
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -177,6 +177,12 @@ non-alpha releases have been made yet with those API functions.
 Scripts that are lax about the use of the ''l'' modifier in ''format''
 and ''scan'' will probably need to be rewritten.  This should be very
 uncommon though as previously it had absolutely no effect.
+
+Extensions that create new math functions that take more than one
+argument will need to be recompiled (the size of ''Tcl_Value''
+changes), and functions that accept arguments of any type
+(''TCL_EITHER'') will need to be rewritten to handle wide integer
+values.  (I do not expect this to affect many extensions at all.)
 
 ~ Copyright
 
