@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -125,9 +125,11 @@ assigned:
 
    49. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		         Joe English <jenglish@flightlab.com> (Unix)
 
-   51. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   51. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		         Joe English <jenglish@flightlab.com> (Unix)
 
    52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -155,7 +157,8 @@ assigned:
 
    64. ''Mac Window Operations'' -
 
-   65. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
+   65. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
+				    Joe English <jenglish@flightlab.com>
 
    66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
