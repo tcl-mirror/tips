@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -95,14 +95,15 @@ An improved system for archiving and revising TIPs is proposed:
       procedures.
 
    1. An enhanced version of the Fellows TIP rendering engine will
-      display an [[Edit]] link at the bottom of each TIP rendered in
-      HTML.
+      display an [[Edit]] link at the bottom of each TIP eligible
+      for web-editing when that TIP is rendered in HTML.
 
    1. For any TIP in state Draft, and for which a vote is still
       pending, the [[Edit]] link will lead to an HTML form for
-      submitting a revised TIP.  For other TIPs, the [[Edit]] link
-      will lead to a message stating that the TIP may not be edited
-      through the web interface.
+      submitting a revised TIP.  For other TIPs, no [[Edit]] link
+      will appear, and an attempt to directly access web-editing of
+      such a TIP will lead to a message stating that the TIP may not
+      be edited through the web interface.
 
    1. The HTML editing form will display the TIP header, but will not
       make it available for editing.  The HTML form will require that
@@ -129,12 +130,12 @@ An improved system for archiving and revising TIPs is proposed:
 
 ~ Reference Implementation
 
-A patch to the Fellows TIP rendering engine that adds the
-capabilities proposed above is available at
-http://math.nist.gov/~DPorter/tcltk/tipweb/webedit.patch .
-
-The patched TIP renderer/editor is now in operation at
-http://www.scriptics.com:8080/cgi-bin/tct/tip/ .
+The modifications to the Fellows TIP rendering engine that add the
+capabilities proposed above are now merged in.  The TIP rendering
+engine is maintained at
+http://sourceforge.net/projects/tiprender/ .  To enable the
+web-editing features, set the Tcl variable FEATURE(EDIT) to 1 in
+the file config.tcl.
 
 For what it's worth, this TIP was created primarily within a web
 browser, making revisions through the web interface provided by the
@@ -151,8 +152,7 @@ The reference implementation imposes the following requirements on a
 server:
 
    1. The server provides an HTTP server that serves the public
-      Internet, and supports the CGI interface.  (The reference
-      implementation has been tested with tclhttpd).
+      Internet, and supports the CGI interface.
 
    1. CVS client software must be installed on the server.
 
@@ -179,6 +179,14 @@ using cvsweb (http://stud.fh-heilbronn.de/~zeller/cgi/cvsweb.cgi/) to
 allow anyone in the community to browse TIP history.  Another
 ''loginfo'' script could provide e-mail notices when a TIP is revised
 to users who registered their interest in that TIP.
+
+~ Acknowledgments
+
+Thanks to Donal Fellows for the original TIP rendering engine and
+his assistance merging in the changes.  Thanks to Brent Welch for
+providing the server and his assistance getting it configured for
+use.  Thanks to Mark Harrison for his assistance with managing
+browser caching issues.
 
 ----
 
