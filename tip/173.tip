@@ -1,6 +1,6 @@
 TIP:		173
 Title:		Internationalisation and Refactoring of the 'clock' Command
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Kevin Kenny <kennykb@acm.org>
 State:		Draft
 Type:		Project
@@ -579,16 +579,16 @@ subtract]].  In order of preference:
 Once the time zone is obtained by one of these means, it is
 interpreted as follows:
 
- '':localtime'': This specifier requests that the C library functions
-   'localtime' and 'mktime' be used whenever converting times between
-   local and Greenwich.  It is generally used as a last resort if the
-   time zone can be determined in no other way.
+ ":localtime": This specifier requests that the C library functions
+   ''localtime()'' and ''mktime()'' be used whenever converting times
+   between local and Greenwich.  It is generally used as a last resort
+   if the time zone can be determined in no other way.
 
- ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'': These specifiers give
-   the time zone explicitly in terms of hours, minutes and seconds
-   east (+) or west (-) of Greenwich.
+ "+hhmm", "+hhmmss", "-hhmm", "-hhmmss": These specifiers give the
+   time zone explicitly in terms of hours, minutes and seconds east
+   (+) or west (-) of Greenwich.
 
- '':filename'': The given file name is interpreted as a path name
+ ":filename": The given file name is interpreted as a path name
    relative to [[info library]]/tzdata, and the specified file is
    loaded as a Tcl script.  The script is expected to set the
    '':filename'' element in the ''tzdata'' array to a list of
