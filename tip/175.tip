@@ -1,0 +1,86 @@
+TIP:		175
+Title:		Add an -async Option to [open]
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Neil Madden <nem@cs.nott.ac.uk>
+Created:	15-Mar-2004
+
+~ Abstract
+
+This TIP propose to add an ''-async'' option to the [[open]] command,
+with identical semantics to the ''-async'' option to the [[socket]]
+command.
+
+~ Rationale
+
+With the introduction of Virtual File Systems (VFS, see [17]), it is
+now possible to use [[open]] to access resources which are not
+available in the local file system.  However, initial access to these
+resources may take some time (for instance, in an HTTP VFS, this
+requires an HTTP GET request to a remote server).  Currently, while
+this request is being processed, the Tcl application will block
+waiting for a response.  It may take several seconds before the open
+call returns, and control is passed back to the application.  Delays
+of this length can cause problems, especially in applications with a
+Tk graphical user interface, which will not repond to events until the
+call has completed.  Tcl provides mechanisms to avoid this initial
+blocking for the socket command, and in the HTTP package.  However,
+this functionality is missing from the open command.  For VFS to
+become useful for writing network code, this functionality needs to be
+added.
+
+~ Proposed Change
+
+This TIP proposes adding an ''-async'' option to the open command.
+The new syntax for the open command would be:
+
+| open ?-async? ?--? name ?access? ?permissions?
+
+The "--" marker is also proposed to signify "end of options".  This is
+needed as ''name'' can be anything, including the string "-async", and
+so some mechanism is needed to distinguish between the ''-async''
+option, and the name.  This is in line with other commands which take
+multiple options.
+
+When the ''-async'' option is present, the open command will return
+immediately, without waiting for the underlying channel to be created
+and connected.  If the channel is configured for blocking mode, a
+''gets'' or ''flush'' that is done on the channel before the
+connection is made will wait until the connection is completed, or
+fails.  If the channel is configured for nonblocking mode, then a
+''gets'' or ''flush'' on the channel before the connection has been
+made will return immediately and ''fblocked'' on the channel will
+return 1.  This is exactly the same behaviour of the current
+implementation of the ''-async'' option to the ''socket'' command.
+
+In order for this TIP to be implemented, there would have to be
+changes to the VFS layer in Tcl.  In particular, this would involve
+extending ''Tcl_FSOpenFileChannelProc()'' to accept an ''async''
+argument (of type ''int'').
+
+~ Reference Implementation
+
+A reference implementation does ''not'' yet exist.  The TIP author
+would be willing to implement any changes needed, but currently is not
+familiar with the internal workings of the VFS system.
+
+~ Questions
+
+Should the ''-async'' option be supported when a command pipeline is
+being created?
+
+Should a more general option passing mechanism be implemented?  It is
+possible that some VFS implementations may require more information
+than is currently available in order to correctly create a channel
+(the ''-myaddr'' and ''-myport'' options to socket spring to mind).
+Would it be more sensible to consider a proposal for a more general
+option passing mechanism, to avoid further updates to the API in the
+future?
+
+~ Copyright
+
+This document has been placed in the public domain.
