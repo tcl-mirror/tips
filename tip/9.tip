@@ -1,6 +1,6 @@
 TIP:            9
 Title:          Tk Standard Library
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Marty Backe <mgbacke@usa.net>
 Author:         hellins <hellins@263.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
@@ -77,10 +77,10 @@ distribution.
    as Tcl/Tk, i.e., man pages, etc.  Let's continue the tradition of
    Tcl/Tk having the best documentation.
 
- * The tklib components will include one or more demonstration scripts that show 
-   to best effect all of the features and options provided by the
-   component. A picture is worth a thousand words! The Tk, BWidgets,
-   and Iwidgets demos are prime examples to be emulated.
+ * The tklib components will include one or more demonstration scripts
+   that show to best effect all of the features and options provided
+   by the component. A picture is worth a thousand words! The Tk,
+   BWidgets, and Iwidgets demos are prime examples to be emulated.
 
  * Tklib components can be dependent on other tklib components.  If
    tklib and tcllib become coordinated efforts, the tklib components
@@ -103,18 +103,25 @@ distribution.
 
 ~ Notes
 
-A tklib module has been created next to the aforementioned tcllib at http://tcllib.sf.net/.  This creates the basic infrastructure for people to work in, but does not set any status related to the core as yet.
+A tklib module has been created next to the aforementioned tcllib at
+http://tcllib.sf.net/  This creates the basic infrastructure for
+people to work in, but does not set any status related to the core as
+yet.
 
 ----
-Larry W. Virden writes:
-It appears to me that tklib isn't going to be bundled with the tk source code
-distribution any more than tcllib getting distributed with the tcl
-core distribution.
 
-If the TCT concurs that this is the case, then I would propose that this
-TIP be withdrawn.  tklib exists now, and to date, submissions are
-extremely rare.
+''Larry W. Virden writes'':
+
+ > It appears to me that tklib isn't going to be bundled with the tk
+   source code distribution any more than tcllib getting distributed
+   with the tcl core distribution.
+
+ > If the TCT concurs that this is the case, then I would propose that
+   this TIP be withdrawn.  tklib exists now, and to date, submissions
+   are extremely rare.
+
 ----
+
 ~ Copyright
 
 This document has been placed in the public domain.
