@@ -1,6 +1,6 @@
 TIP:            33
 Title:          Add 'lset' command to assign to list elements.
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -106,7 +106,8 @@ where:
 
  > ''value'' is a value that is to be stored as a list element.
 
-The return value of the command is always empty if it is successful.
+The return value of the command, if successful, is the new value
+of ''varName.''
 
 The simplest form of the command:
 
