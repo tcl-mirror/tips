@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -212,12 +212,7 @@ specific portion of Tk.  Reports in these categories should be mapped to
 categories corresponding to a maintained area of Tk, when seeking the
 appropriate maintainer:
 
-   1. ''Code Cleanup'' - map to category for the code cleaned up.
-
-   2. ''Threading'' - map to the category for the code where there are
-      threading issues.
-
-   3. ''Other'' - reassign once appropriate category is determined.
+   1. ''Other'' - Reports that span multiple categories.
 
 ~ Areas Without Maintainers
 
