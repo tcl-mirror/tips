@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -204,7 +204,8 @@ assigned:
    82. ''Mac Build'' - George B. Smith <gbs@k9haven.com>, Daniel Steffen <das@users.sourceforge.net>
 
    83. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			Mo DeJong <mdejong@cygnus.com>
+			Mo DeJong <mdejong@cygnus.com>,
+			Lloyd Lim <lloydlim@users.sourceforge.net>
 
    84. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			Mo DeJong <mdejong@cygnus.com>
