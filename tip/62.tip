@@ -1,6 +1,6 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
@@ -230,18 +230,14 @@ before generating any byte-code.
 
 ~ Reference Implementation
 
-The reference implementation corresponds to ''Revision 1.1'' of the proposal.
-The implementation will be updated upon acceptance of this TIP by the TCT.
-The original text for version 1.1 of this section follows:
-
-This proposal has been implemented by Vince Darley.  Please see
+This proposal was originally implemented by Vince Darley.  Please see
 Feature Request #462580:
 http://sf.net/tracker/?func=detail&aid=462580&group_id=10894&atid=360894
 
 The original patch from Vince Darley has been modified in the
 following respects:
 
-  1.  For ''before'' and ''pre-inside'' operations, the original patch
+  1.  For ''enter'' and ''enterstep'' operations, the original patch
       passed arguments to the ''command'' in its unexpanded form.
       This behavior has been changed to pass the arguments in its
       fully expanded form since it should be more useful for debugging
@@ -253,14 +249,53 @@ following respects:
       modified such that Tcl commands are no longer internally
       compiled if a trace has been set on a command.
 
-  3.  The original patch was created on 2000-Sept-14.  It was updated
+  3.  For multiple traces on same command, the original patch 
+      invoked the traces in the same order as they were created.
+      This behavior was changed so that for ''enter'' and ''enterstep''
+      operations, the traces are invoked in the reverse order of
+      its creation. For ''leave'' and ''leavestep'', the traces are
+      still invoked in the original order.
+
+  4.  The original patch was created on 2000-Sept-14.  It was updated
       to work with the current CVS head.
 
-Vince Darley fully supports the changes proposed in [[1]] and [[2]].
+The latest patch for this tip 62 is available at:
+
+|  http://www.employees.org/~hlavana/tcl/
+
+The ''enterstep'' and ''leavestep'' functionallity does not work
+correctly in the latest patch. The main changes for the patch
+are described in brief next.
+
+Two new flags have been defined in tcl.h:
+
+|  #define TCL_TRACE_ENTER_EXEC          1
+|  #define TCL_TRACE_LEAVE_EXEC          2
+
+These flag values are passed to Tcl_CreateObjTrace and used by command
+execution traces. More internal flags for slots 4, 8, 15, 16, 32 are
+defined in tclCmdMZ.c file: TCL_TRACE_ENTER_DURING_EXEC, 
+TCL_TRACE_LEAVE_DURING_EXEC,  TCL_TRACE_ANY_EXEC, TCL_TRACE_EXEC_IN_PROGRESS
+and TCL_TRACE_EXEC_DIRECT.
+
+A new function TclTraceExecutionObjCmd function implements the
+''trace {add|remove|list} execution ...'' subcommands.
+A new function TclCheckExecutionTraces is defined to check for traces added
+by the execution subcommand. A new function TclCheckInterpTraces is defined
+to check for global traces added by the Tcl_CreateObjTrace command.
+The TclEvalObjvInternal has been modified to call the above
+two functions before as well as after the original command is executed.
+A new function TraceExecutionProc is invoked, when necessary, to execute
+the actual trace command in the interpreter.
+
+A new structure ActiveInterpTrace has been defined for internal use so
+that it behaves reasonably when traces are deleted while active.
+In tclVar.c file, the function CallTraces has been renamed to CallVarTraces
+and iPtr->activeTracePtr has been renamed to iPtr->activeTraceVarPtr.
 
 ~ Benchmark Results
 
-The benchmark results also corresponds to ''Version 1.1'' of the reference
+The benchmark results corresponds to ''Version 1.1'' of the reference
 implementation.
 
 One potential objection to this TIP could be that it may affect the
