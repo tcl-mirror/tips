@@ -1,8 +1,9 @@
 TIP:            57
 Title:          Move TclX's [lassign] into the Tcl Core
-Version:        $Revision: 2.0 $
+Version:        $Revision: 2.1 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Agnar Renolen <agnar.renolen@emap.no>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -54,7 +55,7 @@ command-line option parsing.
 Define a new command in Tcl called [lassign] with the following syntax
 (''$val'' indicates an argument that the caller would supply):
 
-| lassign $listValue $variable ?$variable ...?
+| lassign $listValue $varName ?$varName ...?
 
 The command interprets its first argument as a list value and all
 subsequent arguments as variable names.  The first item in the list
