@@ -1,6 +1,6 @@
 TIP:            208
 Title:          Add a 'chan' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -27,9 +27,9 @@ Tcl 8.5.  This command would centralize them, making it easier for new
 users to see all the related channel commands, much as '''string''' or
 '''file''' operate today.
 
-The name '''chan''' was chosen over ''channel'' because it is a
-clearly recognizable abbreviation, much like ''eval'' vs. ''evaluate''
-and ''interp'' vs ''interpreter''.
+The name '''chan''' was chosen over "channel" because it is a
+clearly recognizable abbreviation, much like '''eval''' vs. "evaluate"
+and '''interp''' vs "interpreter".
 
 ~ Specification
 
