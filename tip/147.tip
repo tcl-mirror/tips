@@ -1,10 +1,10 @@
 TIP:            147
 Title:          Make Grid's Column/Row Configure Easier
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        05-Aug-2003
 Post-History:   
 Tcl-Version:    8.5
