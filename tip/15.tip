@@ -1,6 +1,6 @@
 TIP:            15
 Title:          Functions to List and Detail Math Functions
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
 Type:           Project
@@ -55,7 +55,7 @@ allocated by Tcl, and should be freed with ''Tcl_Free''.
 
 |int Tcl_GetMathFuncInfo(Tcl_Interp *interp, CONST char *name,
 |                        int *numArgsPtr, Tcl_ValueType **argTypesPtr,
-|                        Tcl_MathProc *procPtr,
+|                        Tcl_MathProc **procPtr,
 |                        ClientData *clientDataPtr);
 
 The parameter names are chosen by analogy with ''Tcl_CreateMathFunc''.
