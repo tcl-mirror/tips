@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -318,6 +318,24 @@ more context gymnastics.
 |         return -options $options $result
 |     }
 | }
+
+Note that in the second solution we did not have to strip away the
+contributions of ''uplevel'' to the stack trace, because we captured
+the stack trace before ''uplevel'' added anything.  Then we could add
+our own information (drawing in part on the new "-errorline" value
+available to us now at the script level).
+
+Finally, we confirm that either approach solves the original problem:
+
+| % proc a {} {eval {return -code error}}
+| % proc b {} {myEval {return -code error}}
+| % proc c {} {control::eval {return -code error}}
+| % catch a
+| 1
+| % catch b
+| 1
+| % catch c
+| 1
 
 ~ Potential Concerns
 
