@@ -1,6 +1,6 @@
 TIP:            32
 Title:          Add Tcl_Obj support to traces
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -14,8 +14,8 @@ Tcl-Version:    8.4a2
 
 ~ Abstract
 
-This document proposes to add Tcl_Obj support for trace procedures written
-in C.
+This document proposes to add a counterpart to Tcl_CreateTrace that
+manages callbacks using Tcl_Obj pointers instead of character strings.
 
 ~ Rationale
 
