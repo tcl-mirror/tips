@@ -1,13 +1,13 @@
 TIP:            218
 Title:          Tcl Channel Driver Thread State Actions
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 Author:         David Gravereaux <davygrvy@pobox.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        09-Sep-2004
 Post-History:   
 Tcl-Version:    8.5
