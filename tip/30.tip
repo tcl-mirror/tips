@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -217,7 +217,7 @@ assigned:
 
    68. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				   Chengye Mao <chengye.geo@yahoo.com>
-                                   Vincent Darley <vincentdarley@users.sourceforge.net>
+                                   Vincent Darley <vincentdarley@users.sourceforge.net> (iconbitmap only)
 
    69. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
