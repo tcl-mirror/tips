@@ -1,15 +1,11 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.38 $
+Version:        $Revision: 1.39 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <a.kupries@westend.com>
-Author:         Don Porter <dgp@cam.nist.gov>
-Author:         Don Porter <d.porter@ieee.org>
-Author:         <dgp@user.sourceforge.net>
-Author:         <d.porter@computer.org>
 State:          Draft
 Type:           Informative
 Vote:           Pending
