@@ -2,10 +2,10 @@ TIP:		116
 Title:		More Safety for Large Images
 State:		Draft
 Type:		Project
-Tcl-Version:	9.0
+Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.fellows@man.ac.uk>
 Created:	28-Oct-2002
 
@@ -33,28 +33,49 @@ The problem with this is that for many of the routes through the Tk
 image API, there is no way to report a memory allocation failure;
 currently, the only failure mode is total.  This TIP changes this.
 
-~ Proposed Change
+~ Proposed Changes
 
 I propose making the following functions that currently return
-''void'' return ''int'' instead, with that value being interpreted as
-a standard Tcl return code.  TCL_OK will be returned in the situations
-where these functions return at the moment, and TCL_ERROR will
-indicate a memory-allocation failure.
+''void'' return ''int'' instead and that they should additionally take
+a standard ''Tcl_Interp *interp'' argument to allow an error message
+describing the failure (currently only due to insufficient memory) to
+be added to the current interpreter.  It will not be an error for the
+''interp'' argument to be ''NULL'', though it will be up to the caller
+to guess why the failure happened.
 
- * Tk_PhotoExpand
+ * ''Tk_PhotoExpand'' will become:
 
- * Tk_PhotoPutBlock
+|int
+|Tk_PhotoExpand(Tcl_Interp *interp, Tk_PhotoHandle handle,
+|               int width, int height)
 
- * Tk_PhotoPutZoomedBlock
+ * ''Tk_PhotoPutBlock'' will become:
 
- * Tk_PhotoSetSize
+|int
+|Tk_PhotoPutBlock(Tcl_Interp *interp, Tk_PhotoHandle handle,
+|                 Tk_PhotoImageBlock *blockPtr,
+|                 int x, int y, int width, int height, int compRule)
 
-Note that all code that uses these functions must deal with the
-potential failure; if any extension code prefers the existing
-behaviour of ''panic()'' on insufficient memory (e.g. because it
-cannot be simply re-engineered to pass the failure mode on to its
-caller), it should be fairly easy for the extension to add that
-itself.
+ * ''Tk_PhotoPutZoomedBlock'' will become:
+
+|int
+|Tk_PhotoPutZoomedBlock(Tcl_Interp *interp, Tk_PhotoHandle handle,
+|                       Tk_PhotoImageBlock *blockPtr,
+|                       int x, int y, int width, int height,
+|                       int zoomX, int zoomY, int subsampleX, int subsampleY,
+|                       int compRule)
+
+ * ''Tk_PhotoSetSize'' will become:
+
+|int
+|Tk_PhotoSetSize(Tcl_Interp *interp, Tk_PhotoHandle handle,
+|                int width, int height)
+
+A backward-compatibility interface will be provided so that with a
+suitable ''#define'' (name to be decided) the old interface can be
+used.  This will make it easier for existing code to work with the new
+interface where the alternative (dealing with potential error results)
+is more awkward.
 
 Also note that as a consequence of this, some image-related Tk
 commands will also gain additional error return situations.  Since
