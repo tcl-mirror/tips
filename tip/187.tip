@@ -1,14 +1,14 @@
-TIP:		187
-Title:		Procedures as Values
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		Salvatore Sanfilippo <antirez@invece.org>
-Created:	20-Apr-2004
-Keywords:	Tcl, lambda, anonymous, command, function
+TIP:            187
+Title:          Procedures as Values
+Version:        $Revision: 1.3 $
+Author:         Salvatore Sanfilippo <antirez@invece.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Apr-2004
+Post-History:   
+Keywords:       Tcl,lambda,anonymous,command,function
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -76,7 +76,7 @@ experienced Tcl programmers:
 |        return $res
 |    }
 |
-|    set a [one two three four five]
+|    set a [list one two three four five]
 |    set b [map $a [list lambda x {string length $x}]]
 
 This evaluates to [list 3 3 5 4 4]
@@ -92,7 +92,7 @@ This evaluates to [list 3 3 5 4 4]
 |        }
 |    }
 |
-|    set a [1 10 100 4 5]
+|    set a [list 1 10 100 4 5]
 |    set b [filter $a [list lambda x {expr $x<10}]]
 
 This evaluates to [list 10 100]
