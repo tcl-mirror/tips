@@ -1,0 +1,72 @@
+TIP:		136
+Title:		Large List Initialisation
+Version:	$Revision: 1.1 $
+Author:		Simon Geard <simon.geard@ntlworld.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	25-May-2003
+Tcl-Version:	8.5
+Post-History:	
+
+~Abstract
+
+This TIP proposes the addition of a list initialisation command so
+that large lists can be easily and efficiently initialised.
+
+~Rationale
+
+With the advent of the ''lset'' command in Tcl 8.4 it seems to me that
+we need a method of efficiently initialising large lists that can then
+be used as areas of preallocated memory. From a users point of view it
+can be much easier to preallocate say a 1000 element array and then
+use ''lset'' and ''lindex'' to manipulate it than using ''lappend'' to
+build it up. Having posted the idea to the tcl-core mailing list
+various alternatives were suggested to create a list of 1000 x
+characters:
+
+ 1.	''lappend'' in a loop
+
+| unset -nocomplain s
+| for {set i 0} {$i < 1000} {incr i} {lappend s {x}}
+
+ 2.	''split''ting of a string
+
+| set s [split [string repeat x 1000] ""]
+
+ 3.	Direct construction of the string form
+
+| set s x[string repeat " x" 999]
+
+None of these is particularly satisfactory.  (1) seems inefficient
+since there are 1000 lappend operations, (2) is not general enough
+since it doesn't generalise to more than one character and (3) doesn't
+actually create a list.  (2) and (3) also suffer from the problem that
+they are not at all obvious to new users and do nothing to dispel the
+notion that "everything is a string" in Tcl.
+
+~Implementation
+
+I propose the introduction of a new command, ''linit'':
+
+| linit <number> <value>
+
+which returns a list of length <number> each element with value
+<value>; <number> must be a positive integer and <value> a list or
+string.
+
+Examples:
+
+| linit 100 0               - returns a list of 100 zeros
+| linit 100 [linit 100 0]   - returns a 100x100 matrix (list of lists) of zeros
+
+~Reference Implementation
+
+I have implemented this command.  A patch against the Tcl 8.4.3
+source, which implements the command and provides both tests and
+documentation, is available from
+http://homepage.ntlworld.com/whiteowl/tcl843-linit.patch
+
+~Copyright
+
+This document has been placed in the public domain.
