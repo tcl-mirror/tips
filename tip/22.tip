@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -186,10 +186,10 @@ implementation shall (in the case where ''objc==3'')
     it is ''end'' or ''end-'' followed by an integer.  If so, use it
     as an index.
 
- 4. Attempt to coerce ''objv[[ 2 ]]' to an integer; if successful, use
+ 4. Attempt to coerce ''objv[[ 2 ]]'' to an integer; if successful, use
     the result as an integer.
 
- 5. Attempt to coerce ''objv[[ 2 ]]' to a list; if successful, use
+ 5. Attempt to coerce ''objv[[ 2 ]]'' to a list; if successful, use
     the result as an index list.
 
  6. Report a malformed ''index'' argument; the ''indexList'' parameter
