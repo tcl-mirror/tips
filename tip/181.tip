@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -144,21 +144,6 @@ Setting the unknown handler to {} (an empty string) restores the default
 handler ('''::unknown''' for global namespace, global unknown handler
 for all other namespaces).
 
-As a final note, there is a useful side-effect to always resolving the
-unknown handler itself in the current namespace, in that an unknown
-handler can be registered for the global namespace which is not
-fully qualified, and it will be resolved relative to the namespace in
-which an unknown command is invoked. To illustrate:
-
-| # Set global unknown handler to unqualified name
-| namespace unknown unknown
-| namespace eval foo { proc unknown {args} { puts "FOO" } }
-| proc unknown {args} { puts "GLOBAL" }
-| 
-| bar ;# prints GLOBAL
-| namespace eval foo { bar } ;# prints FOO
-| namespace eval other { bar } ;# prints GLOBAL
-
 ~ Notes on Ensembles
 
 [112] (Namespaces are Ensembles are Commands) added some features
@@ -294,6 +279,21 @@ complicated processing:
 
 This last example is taken from the Radical Language Modification page
 on the wiki[http://wiki.tcl.tk/495].
+
+As a final note, there is a useful side-effect to always resolving the
+unknown handler itself in the current namespace, in that an unknown
+handler can be registered for the global namespace which is not
+fully qualified, and it will be resolved relative to the namespace in
+which an unknown command is invoked. To illustrate:
+
+| # Set global unknown handler to unqualified name
+| namespace unknown unknown
+| namespace eval foo { proc unknown {args} { puts "FOO" } }
+| proc unknown {args} { puts "GLOBAL" }
+| 
+| bar ;# prints GLOBAL
+| namespace eval foo { bar } ;# prints FOO
+| namespace eval other { bar } ;# prints GLOBAL
 
 ~ Reference Implementation
 
