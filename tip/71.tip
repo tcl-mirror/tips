@@ -1,6 +1,6 @@
 TIP:            71
 Title:          Tk Bitmap Improvements
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Eric Melski <ericm@interwoven.com>
@@ -9,7 +9,7 @@ Type:           Project
 Vote:           Pending
 Created:        26-Oct-2001
 Post-History:   
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 
 ~ Abstract
 

@@ -1,6 +1,6 @@
 TIP:            70
 Title:          A Relational Switch Control Structure
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Bhushit Joshipura <bhushit@hotmail.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        20-Oct-2001
 Post-History:   
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 
 ~ Abstract
 

@@ -1,12 +1,12 @@
 TIP:		38
 Title:          Add Support for Default Bindtags
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:         Bryan Oakley <boakley@austin.rr.com>
 State:		Draft
 Type:           Project
 Vote:		Pending
 Created:	27-Jun-2001
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 Post-History:	
 
 ~ Abstract

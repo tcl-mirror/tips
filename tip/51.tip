@@ -1,10 +1,10 @@
 TIP:            51
 Title:          Native Menubutton on Macintosh
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:         Mats Bengtsson <matben@privat.utfors.se>
 State:          Draft
 Type:           Project
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 Vote:           Pending
 Created:        04-Aug-2001
 Post-History:

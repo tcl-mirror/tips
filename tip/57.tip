@@ -1,6 +1,6 @@
 TIP:            57
 Title:          Command to Assign Elements of a List to Multiple Variables
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Agnar Renolen <agnar.renolen@emap.no>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        30-Aug-2001
 Post-History:   
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 
 ~ Abstract
 

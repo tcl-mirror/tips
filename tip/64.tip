@@ -1,9 +1,9 @@
 TIP:            64
 Title:          Improvements to Windows Font Handling
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Accepted
+State:          Deferred
 Type:           Project
 Vote:           Done
 Created:        27-Sep-2001

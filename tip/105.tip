@@ -2,10 +2,10 @@ TIP:		105
 Title:		Add Prefix Matching for Switch
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4
+Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	03-Jul-2002
 

@@ -1,10 +1,10 @@
 TIP:		77
 Title:		Support for Nested Paired Item Lists
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Christian Williams <xian@planetoutpartners.com>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4
+Tcl-Version:	8.5
 Vote:		Pending
 Created:	07-Dec-2001
 Post-History:	

@@ -1,13 +1,13 @@
 TIP:		42
 Title:          Add New Standard Tk Option: -clientdata
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:         Bryan Oakley <boakley@austin.rr.com>
 State:		Draft
 Type:           Project
 Vote:		Pending
 Created:	05-Jul-2001
 Post-History:	
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 
 ~ Abstract
 

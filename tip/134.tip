@@ -1,10 +1,10 @@
 TIP:		134
 Title:		Subsystem Per-Thread Data Interfaces
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Colin McCormack <colin@sharedtech.dyndns.org>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4
+Tcl-Version:	8.5
 Vote:		Pending
 Created:	12-May-2003
 Post-History:	

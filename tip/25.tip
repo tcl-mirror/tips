@@ -1,10 +1,10 @@
 TIP:		25
 Title:		Native tk_messageBox  on Macintosh
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Mats Bengtsson <matben@privat.utfors.se>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4a2
+Tcl-Version:	8.5
 Vote:		Pending
 Created: 	07-Feb-2001
 Post-History:
