@@ -1,6 +1,6 @@
 TIP:		240
 Title:		An Ensemble Command to Manage Processes
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Steve Bold <stevebold@hotmail.com>
 State:		Draft
 Type:		Project
@@ -257,12 +257,12 @@ error handling needed for a robust implementation.
  > * it could even be argued that such commands are more appropriate
      in tcllib rather than the Tcl core
     
- 2. The behaviour of '''status''' and '''wait''' when given an invalid
-    process id may be considered unhelpful. Both will return
-    immediately claiming the process is still running.  This reflects
-    the existing behaviour of ''Tcl_WaitPid()''.  It looks like this
-    may be a Windows specific issue, the author plans to investigate
-    this further.
+ 2. The behaviour of '''process status''' and '''process wait''' when
+    given an invalid process id may be considered unhelpful. Both will
+    return immediately claiming the process is still running.  This
+    reflects the existing behaviour of ''Tcl_WaitPid()''.  It looks
+    like this may be a Windows specific issue, the author plans to
+    investigate this further.
 
  3. As with the current implementation of '''exec''', each channel
     passed to '''process invoke''' must have a valid underlying OS
@@ -292,15 +292,15 @@ error handling needed for a robust implementation.
     invoking a process. This will require changes to
     ''TclpCreateProcess''.
 
- 2. A '''kill''' command would be a useful addition to the
+ 2. A '''kill''' subcommand would be a useful addition to the
     '''process''' ensemble. On Windows, the ability to kill a child
     console process cleanly is related to the choice of console mode,
     so this issue would ideally be addressed in conjunction with item
     (1) above.
 
- 3. A command to categorise an exit status obtained from '''status'''
-    or '''wait''' along similar lines to the data placed in
-    ''$errorCode'' by ''TclCleanupChildren()''.
+ 3. A command to categorise an exit status obtained from '''process
+    status''' or '''process wait''' along similar lines to the data
+    placed in ''$errorCode'' by ''TclCleanupChildren()''.
 
  4. Some aspects of the existing '''exec''' command depend on use of
     temporary files.  Since this TIP transfers the high level
