@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -238,15 +238,15 @@ $idx are both currently displayed on screen, but is not possible(*) if
 the logical line is not currently displayed).  Therefore a new index
 manipulation set are added:
 
-| .text index "$idx displaylinestart"
-| .text index "$idx displaylineend"
+| .text index "$idx display linestart"
+| .text index "$idx display lineend"
 | .text index "$idx +1display lines"
 | .text index "$idx -5display lines"
 
 These work whether or not $idx is currently displayed (when it is not
 displayed, the index is calculated by laying out the geometry of the line
 behind the scenes so this operation is certainly more time-consuming than
-determining the logical line start or end).  The "display" in "+1 display lines" can be abbreviated if it is followed by whitespace.
+determining the logical line start or end).  The "display" in these items can be abbreviated if it is followed by whitespace (if it is not abbreviated then the whitespace is optional).
 
 (*) Perhaps it would be possible, if horribly cumbersome, by copying the
 relevant contents into another text widget which is unmapped and making
@@ -296,7 +296,7 @@ Lastly, "+N chars" is a synonym for "+N indices" for backwards compatibility rea
 
 ~ Implementation
 
-A relatively complete implementation is available at:
+A relatively complete implementation (''not'' a final implementation -- two small issues are still to be addressed) is available at:
 
 http://sf.net/tracker/?func=detail&aid=791292&group_id=12997&atid=312997
 
@@ -305,10 +305,6 @@ a significant number of new tests.  The memory requirements of the text
 widget have increased marginally to support the correct vertical
 scrolling behaviour: two new integers must be stored for each logical
 line of text.
-
-~ Open questions
-
- 1. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.  What does it mean to move ''-1 line'' when we are currently already on a wrapped line?
 
 ~ Out of Scope
 
@@ -322,7 +318,7 @@ these are listed here for completeness:
 
   * Synchronizing/backing the widget contents with a Tcl variable
     (actually not too hard to implement quite efficiently now, given
-    the ''count'' functionality).
+    the ''count'' functionality).  This can be done without too much trouble with pure Tcl.
 
   * Loading data into the widget asynchronously from a channel (easy
     to implement with Tcl procedures, although core support might make
@@ -343,6 +339,8 @@ these are listed here for completeness:
   * The attachment of user-defined data to each logical line in the
     widget (e.g. a code parser's current internal state), which might
     make true parsing for syntax colouring significantly easier.
+
+  * The pre-existing behaviour of ''+/- N lines'' uses byte-indices instead of x-pixel calculations (thereby having the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  Further, the behaviour is quite strange when wrapping is enabled in the widget.  This TIP does not propose any changes in this area other than to suggest that Tcl coders make use of 'displaylines' instead, for more consistent behaviour.
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
