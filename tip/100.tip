@@ -1,0 +1,197 @@
+TIP:		100
+Title:		Add Support for Unloading Dynamic Libraries Loaded with [load]
+Version:	$Revision: 1.1 $
+Author:		George Petasis <petasis@iit.demokritos.gr>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	11-Jun-2002
+Tcl-Version:	8.4
+Discussions-To:	news:comp.lang.tcl
+Post-History:	
+Keywords:	load, unload, dynamic library
+
+~ Abstract
+
+Tcl already provides facilities for loading dynamic libraries, through
+the ''load'' command.  However no facilities are currently offered in
+order to ''unload'' dynamic libraries already loaded with the ''load''
+command.  This TIP tries to add support for unloading libraries, by
+introducing a new Tcl command (''unload'') and the guidelines that
+dynamic libraries must follow, in order to be unloadable.  Note that
+the ''unload'' command will operate only on libraries that are
+designed to be unloadable by their developers.  This way backward
+compatibility with older extensions is maintained, as unload will
+never try to unload libraries unaware of this new functionality.
+
+~ Rationale
+
+Tcl is an ideal language for component-based applications.  Usually
+these applications offer a framework in which components developed by
+the users of the application can be embedded, in order to extend the
+functionality of the framework.  Usually, these extensions are
+implemented as C/C++ dynamic libraries that are loaded through the
+''load'' Tcl command.
+
+However the development of such components can be a time-consuming
+process, as developers have to restart the framework application in
+order to be able to reload the library into it and test its altered
+functionality.  And this can be quite annoying (depending on the
+application of course), as usually processing within the application
+is required in order to bring it into a proper state before testing
+the library.
+
+The development cycle can be significantly shortened if Tcl provides a
+mechanism for unloading a dynamic library.  A new version of the
+library can be created, as its object file can now be written, and the
+updated library can be re-loaded.
+
+~ Introduction
+
+Unload functionality has been left out of the Tcl core, mainly because
+library unloading was poorly implemented in many operating systems.
+But almost all operating systems have been improved in the meantime,
+and as a result most modern operating systems now support library
+unloading.
+
+The main idea of this TIP is to enable dynamic library unloading at
+the Tcl level, in the same sense ''load'' provides dynamic library
+loading.  However, library unloading will be provided only when the
+underlying operating system support this feature (as is also the case
+for ''load'') and only when the library to be unloaded provides a set
+of functions that can "undo" the changes the library has made to the
+interpreter.  In all other cases, unloading a library will result in
+an error.
+
+This TIP proposes the insertion of a new Tcl command named ''unload''
+and two functions ''pkg_Unload'' and ''pkg_SafeUnload'', modelled
+after ''pkg_Init'' and ''pkg_SafeInit'', that libraries which can be
+unloaded should implement.
+
+~ Specification
+
+Actually, all the facilities for unloading dynamic libraries already
+exist in the Tcl core and simply they are not yet exposed at the Tcl
+level.  As a result, the implementation of the unload command should
+be fairly easy.
+
+''load'' as it is currently implemented loads a dynamic library only
+the first time this library is loaded.  It keeps an internal cache of
+all loaded libraries and if an already loaded library is requested
+again, only its initialisation function is called.  This cache should
+be extended to keep some additional information:
+
+   1.  Two reference counts, counting how many times a specific
+       library has been loaded.  This reference count should be
+       increased by each ''load'' and decreased for each ''unload''.
+       When it reaches 0, the library can be unloaded.  Safe
+       interpreters and normal interpreters should have different
+       reference counts.  Both should be 0 in order for a library to
+       be unloaded.
+
+   2.  The addresses of the ''pkg_Unload'' and ''pkg_SafeUnload''
+       functions, if these are implemented by the library.  If both of
+       these functions are missing, the library will never be
+       unloaded.  If only ''pkg_Unload'' is implemented, the library
+       can be unloaded if it never has been loaded in a safe
+       interpreter.  Finally, if ''pkg_SafeUnload'' is implemented,
+       the library can be unloaded if it has never been loaded in a
+       normal interpreter.
+
+   3.  Perhaps it is a good idea to also keep a list of all
+       interpreters that the library has been loaded into.  Its a good
+       idea to also check that a library has been loaded under a
+       specific interpreter, before it is unloaded from this
+       interpreter.
+
+The ''unload'' command will always return an error, if the operating
+system does not support library unloading.  In case the operating
+system supports library unloading:
+
+   1.  ''unload'' will examine the cache of ''load'' to locate the
+       entry for the library to be unloaded.  It is an error to unload
+       a library that has not been loaded with ''load''.
+
+   2.  If the entry in the cache is found, ''unload'' checks whether
+       the corresponding for the interpreter type unload function
+       pointer is NULL or not.  If it is NULL, the library cannot be
+       unloaded under this interpreter and again an error is returned.
+
+   3.  If the unload function pointer is not NULL, it is executed.  If
+       an error is returned by this function, ''unload'' also returns
+       an error.
+
+   4.  If the unload function finishes without errors, the reference
+       count corresponding to the interpreter type is decreased.  If
+       both reference counts reach 0, the library is unloaded.
+
+~ Responsibilities of the Unload Functions
+
+Its up to the developer of the library to decide if its library can be
+unloaded or not.  A library can be unloaded if the function
+''pkg_Unload'' is implemented and exported as a symbol from the
+library, and the library will never be loaded in a safe interpreter.
+A library that can be also loaded in safe interpreters is unloadable
+if the function ''pkg_SafeUnload'' is also available.  These two
+functions will accept two arguments, the interpreter under which the
+library is unloaded and an integer, holding various flags.  Currently,
+the only flag that seems relevant is a flag to signal that the
+function should remove all references to functions within the library.
+This flag will be set only when the library is about to be unloaded,
+i.e. when only one of the reference counts has the value 1 and the
+other is 0.  This flag is to force the library unregister any
+non-interpreter related items, such as object types.  Assume that this
+flag has a name ''TCL_UNLOAD_REMOVE_ALL_REFERENCES''
+
+The main responsibility of these functions is to remove from the
+interpreter they are unloaded under any reference to a function
+residing inside the library.  For example, such a function must:
+
+   1.  Unregister any commands that have been registered by the
+       ''Init()'' function to the ''interpreter'' given by the first
+       argument.  In order to do this, the library should keep
+       internally the tokens returned by each ''Tcl_Create*Command'',
+       as command may have been renamed.
+
+   2.  Unregister any other commands that may have been registered to
+       the interpreter during the use of the library (usually used to
+       represent special special data structures).
+
+If the flag ''TCL_UNLOAD_REMOVE_ALL_REFERENCES'' is defined, the
+developer must do additional task, that are not normally required when
+the library gets unloaded from an interpreter:
+
+   3.  If any object types have been registered, reset the function
+       pointers of this object type to NULL.  Of course, this will
+       make objects of this type totally unusable, until the library
+       is reloaded.
+
+   4.  In general, try to remove any reference to library functions.
+
+If the developer cannot remove all reference to functions to the
+library, its better to not provide at all these two functions, so as
+unload to never attempt to unload the library.
+
+~ Dependencies among Libraries
+
+It is possible that a library A has been loaded that exports some
+symbols.  Then a library B is loaded, that has dependencies (i.e. uses
+some exported symbols) on A.  What if A gets unloaded?
+
+Actually, most modern operating systems seem to provide a solution to
+this problem, as reference counts are hold internally by the operating
+system for each library.  Newer Windows, Solaris and Linux seem to
+provide similar solutions and in reality they don't unload the library
+if such symbols remain, even if the unload system call has been made
+for the library.  Both libraries A and B have to be unloaded in order
+for A to be really removed from the address space.
+
+~ Reference implementation
+
+Currently there isn't any reference implementation.  Such an
+implementation will be provided by the author of this TIP if this TIP
+has some possibility of being accepted.
+
+~ Copyright
+
+This document has been placed in the public domain.
