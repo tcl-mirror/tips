@@ -1,12 +1,12 @@
 TIP:		96
 Title:		Add [tk caret] Command and Tk_SetCaretPos API
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Jeff Hobbs <JeffH@ActiveState.com>
-State:		Draft
+State:		Accepted
 Type:		Project
 Created:	29-May-2002
 Tcl-Version:	8.4
-Vote:		In progress
+Vote:		Done
 Post-History:	
 
 ~ Abstract
