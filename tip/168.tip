@@ -1,9 +1,9 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.9 $
+Version:	$Revision: 1.10 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
-State:		Accepted
+State:		Final
 Tcl-Version:	8.5
 Vote:		Done
 Created:	25-Jan-2004
