@@ -1,10 +1,10 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        05-Aug-2003
 Post-History:   
 Tcl-Version:    8.5
