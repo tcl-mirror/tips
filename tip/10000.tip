@@ -1,9 +1,10 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -52,6 +53,8 @@ TIP. Currently it seems as if I can just edit an existing
 document.
 
 </Andreas Kupries>
+
+Trying this out...
 
 ~ Copyright
 
