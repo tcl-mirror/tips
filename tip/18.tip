@@ -1,10 +1,10 @@
 TIP:            18
 Title:          Add Labels to Frames
-Version:        $Revision: 2.1 $
+Version:        $Revision: 2.2 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        12-Dec-2000
 Post-History:   
 Tcl-Version:    8.4
