@@ -1,7 +1,8 @@
 TIP:            32
 Title:          Add Tcl_Obj support to traces
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         David Cuthbert <dacut@kanga.org>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -99,3 +100,61 @@ Tcl manual pages ''Tcl_TraceVar'' and ''Tcl_CreateTrace''.
 
 Copyright © 2000 by David Cuthbert.  Distribution in whole or part,
 with or without annotations, is unlimited.
+
+~ Comments
+
+Kevin Kenny (2 April 2001):
+
+This proposal is detailing functionality that I've wanted for
+quite some time.  Given, however, that it allows us to make a
+partial break with the past, I'd like to make some minor changes
+to ''Tcl_CmdObjTraceProc.''
+
+In place of the type signature,
+
+|  typedef void Tcl_CmdObjTraceProc(
+|      ClientData clientData,
+|      Tcl_Interp *interp,
+|      int level,
+|      char *command,
+|      Tcl_ObjCmdProc *cmdProc,
+|      ClientData cmdClientData,
+|      int objc,
+|      Tcl_Obj * CONST objv[] );
+
+may I suggest that since the interpreter has the ''Command'' structure
+in hand, it simply deliver a ''Tcl_Command'' with the command's
+information, in place of the command procedure and client data?
+Also, the command name is redundant, since the same information
+is present in ''objv[ 0 ]''.
+
+The signature would then be:
+
+|  typedef void Tcl_CmdObjTraceProc(
+|      ClientData clientData,  /* Client data from Tcl_CreateObjTrace */
+|      Tcl_Interp* interp,     /* Tcl interpreter */
+|      int level,              /* Execution level */
+|      Tcl_Command cmdInfo,    /* Command information */
+|      int objc,               /* Parameter count */
+|      Tcl_Obj *CONST objv[]   /* Parameter vector */
+|  );
+
+This would allow the trace procedure to do interesting things like
+replace the command's ''objCmdProc'' and client data temporarily,
+before the interpreter uses them.  I have a profiler that works
+that way, using the existing API's.  It's awkward at the moment,
+because it needs to use ''Tcl_FindCommand'' to get at the command
+object (''Tcl_GetCommandInfo'' would also work in current releases,
+but I'm in the position of needing bugward compatibility with 8.0).
+It also is a horrible performance drain because of the shimmering
+that's needed to support tracing currently, and the fact that
+tracing defeats the bytecode compiler.
+
+If this change gets approved, and I can get ''TclpGetTime'' exported,
+I'll definitely release the profiler.  (I don't care to release code
+that depends on tclInt.h, because I don't want to track APIs
+that the maintainers don't consider 'stable'.)
+
+By the way, this change should be easier from a political standpoint
+than it was a year ago, when any extension that used this mechanism
+was presumably a competitor of the TclPro tools.
