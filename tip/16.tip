@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -568,7 +568,7 @@ assigned one or more maintainers:
      generic/tclTrace.c,
      tests/trace.test
 
-   >   46. ''Bytecode'' - compat/float.h,
+   >   46. ''Bytecode Compiler'' - compat/float.h,
      generic/tclCompCmds.c,
      generic/tclCompExpr.c,
      generic/tclCompile.c,
