@@ -1,0 +1,76 @@
+TIP:		53
+Title:		Addition of 'assert' Command
+Author: 	Gerald W. Lester <Gerald.Lester@aspentech.com>
+Type:		Project
+Vote:		Pending
+State:		Draft
+Created:	14-Aug-2001
+Post-History:   
+Tcl-Version:	8.4
+Version:	$Revision: 1.1 $
+Keywords:	bytecode,compiler
+
+~ Abstract
+
+This TIP proposes the addition of an ''assert'' command and supporting
+infrastructure to the Tcl core.
+
+~ Rationale
+
+Many languages, including other scripting languages, have assertion
+checking features that can be used to assist in validating program
+correctness.  Typically, these assertion checking features can be
+"compiled out" of production systems so as not to impact performance. 
+To have a similar effect in Tcl, the assertion checking features must
+be implemented at the byte code compiler level.
+
+If, doing byte code compilation, an assert command is encountered the
+byte code stream generated will be dependent on the value of the
+''assert_enabled'' command line option.  If the option is true, a byte
+code stream will be emitted to implement the assert command.  If the
+option is not true, no byte code will be emitted.
+
+Similarly, if the interpreter encounters an ''assert'' command (either
+compiled or uncompiled), it will only execute it if the
+''assert_enabled'' command line option is true.
+
+It is acceptable for the compiler to throw an error if the
+''booleanExpression'' is not brace quoted.
+
+~ Tcl-Level Specification
+
+The manual entry for the ''assert'' command is included here:
+
+----
+
+~NAME
+
+ > assert - Assert a run time validation condition
+
+~SYNOPSIS
+
+|   assert booleanExpression messageText
+
+
+~DESCRIPTION
+
+ > This command has no effect if the assert_enabled command line
+   option is not true at both compile and run time.  If the
+   ''assert_enabled'' command line option is true at both compile and
+   run time, the following behavior will occur:
+
+ > 1. The ''booleanExpression'' will be evaluated
+
+ > 2. If the ''booleanExpression'' evaluates to a true value,
+      ''assert::failed'' will be called at the global level with
+      ''messageText'' as its one and only parameter.
+
+ > The default implementation of ''assert::failed'' will write
+   ''messageText'' to standard out and ''exit'' with a status code of
+   1.
+
+----
+
+~ Copyright
+
+This TIP is in the public domain.
