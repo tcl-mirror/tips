@@ -1,11 +1,11 @@
 TIP:		178
-Title:		[info pid] and [info tid] subcommands
+Title:		[info pid] and [info tid] Subcommands
 State:		Draft
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 Created:	21-Mar-2004
 
