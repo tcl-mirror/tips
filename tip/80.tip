@@ -1,6 +1,6 @@
 TIP:            80
 Title:          Additional Options for 'lsearch'
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Tom Wilkason <tom.wilkason@home.com>
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 State:          Accepted
@@ -42,26 +42,26 @@ Option: ''-all''
  > Returns a list of all indices that match the search condition
    (rather than the first one).  The indices are returned low to high
    order.  For a no match condition, a {} (empty list) is returned.
-   If the the ''-all'' or ''-elements'' switches are not specified, a
+   If the the ''-all'' or ''-inline'' switches are not specified, a
    -1 is returned for a no match condition just as is done now.
 
-Option: ''-elements''
+Option: ''-inline''
 
- > Returns a single item (or a list of items for ''-all'') of the data 
-   that matches the search condition rather than the index (or 
-   indices).  An empty result or empty list (''-all'')
-   is returned for a no match condition.  The data is returned
-   in original list order.  This option is useful when you want to 
-   iterate over the returned data anyway.  e.g.
+ > Returns a single item (or a list of items for ''-all'') of the data
+   that matches the search condition rather than the index (or
+   indices).  An empty result or empty list (''-all'') is returned for
+   a no match condition.  The data is returned in original list order.
+   This option is useful when you want to iterate over the returned
+   data anyway.  e.g.
 
-|    foreach item [lsearch -all -elements -glob $someList *stuff] {
+|    foreach item [lsearch -all -inline -glob $someList *stuff] {
 |       # deal with item
 |    }
 
 Option: ''-not''
 
  > Negates the sense of the search condition (i.e. what doesn't
-   match).  When used with the ''-elements'' or ''-all'' options, the
+   match).  When used with the ''-inline'' or ''-all'' options, the
    return set will be the items that do match.  If all items match
    then a {} is returned.  Without the ''-all'' option, the first item
    in the list that does not match will be returned.
@@ -69,7 +69,7 @@ Option: ''-not''
 These can be combined as needed and yield some powerful capabilities
 when iterating over sub-lists (esp. with the new ''lset'' command).
 
-~ Reference implementation
+~ Reference Implementation
 
 Changes to the ''Tcl_LsearchObjCmd'' command in ''generic/tclCmdIL.c''
 are needed along with documentation and test code.  The changes to the
@@ -100,20 +100,22 @@ are needed along with documentation and test code.  The changes to the
 |    Tcl_Obj *CONST objv[];      /* Argument values. */
 |{
 |    char *bytes, *patternBytes;
-|    int i, match, mode, index, result, listc, length, elemLen, returnElements=0;
-|    int useStart=-1, offset, allData=0;
-|    int dataType, isIncreasing, lower, upper, patInt, objInt, notMatch=FALSE;
+|    int i, match, mode, index, result, listc, length, elemLen;
+|    int useStart=-1, offset, allData=0, returnInline=0;
+|    int dataType, isIncreasing, lower, upper, patInt, objInt, notMatch=0;
 |    double patDouble, objDouble;
-|    Tcl_Obj *patObj, **listv, *listPtr, *startPtr;
+|    Tcl_Obj *patObj, **listv, *listPtr, *startPtr = NULL;
 |    static CONST char *options[] = {
-|        "-all", "-ascii", "-decreasing", "-dictionary", "-elements",
-|            "-exact", "-increasing","-integer", "-glob", "-not",
-|            "-real", "-regexp", "-sorted", "-start", NULL
+|        "-all", "-ascii", "-decreasing", "-dictionary",
+|        "-exact", "-glob", "-increasing", "-inline",
+|        "-integer", "-not", "-real", "-regexp",
+|        "-sorted", "-start", NULL
 |    };
 |    enum options {
-|        LSEARCH_ALL, LSEARCH_ASCII, LSEARCH_DECREASING, LSEARCH_DICTIONARY, LSEARCH_ELEMENTS,
-|            LSEARCH_EXACT,LSEARCH_INCREASING, LSEARCH_INTEGER, LSEARCH_GLOB, LSEARCH_NOT,
-|            LSEARCH_REAL, LSEARCH_REGEXP, LSEARCH_SORTED, LSEARCH_START
+|        LSEARCH_ALL, LSEARCH_ASCII, LSEARCH_DECREASING, LSEARCH_DICTIONARY,
+|        LSEARCH_EXACT, LSEARCH_GLOB, LSEARCH_INCREASING, LSEARCH_INLINE,
+|        LSEARCH_INTEGER, LSEARCH_NOT, LSEARCH_REAL, LSEARCH_REGEXP,
+|        LSEARCH_SORTED, LSEARCH_START
 |    };
 |
 |    enum datatypes {
@@ -142,17 +144,21 @@ are needed along with documentation and test code.  The changes to the
 |                dataType = ASCII;
 |                break;
 |            case LSEARCH_NOT:           /* -not */
-|                notMatch = TRUE;
+|                notMatch = 1;
 |                break;
 |            case LSEARCH_ALL:           /* -all */
-|                allData = TRUE;
+|                allData = 1;
 |                listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 |                break;
-|            case LSEARCH_ELEMENTS:      /* -elements */
-|                returnElements = TRUE;
+|            case LSEARCH_INLINE:        /* -inline */
+|                returnInline = 1;
 |                break;
-|            case LSEARCH_START:         /* -start index*/
-|                useStart = ++i;         /* Pull off next as index for offset */
+|            case LSEARCH_START:         /* -start index */
+|                useStart = ++i;         /* Use next arg as offset index */
+|                if (objc-i < 2) {
+|                    Tcl_SetResult(interp,
+|                            "missing argument to -start option", TCL_STATIC);
+|                }
 |                break;
 |            case LSEARCH_DECREASING:    /* -decreasing */
 |                isIncreasing = 0;
@@ -189,8 +195,7 @@ are needed along with documentation and test code.  The changes to the
 |     * -start option processing:
 |     * Ensure we get a unique copy of command line arg for start index
 |     */
-|    if (useStart > 0)
-|    {
+|    if (useStart > 0) {
 |        startPtr = Tcl_DuplicateObj(objv[useStart]);
 |    }
 |
@@ -198,15 +203,14 @@ are needed along with documentation and test code.  The changes to the
 |     * Make sure the list argument is a list object and get its length and
 |     * a pointer to its array of element pointers.
 |     */
-|    result = Tcl_ListObjGetElements(interp, objv[objc - 2], &listc, &listv);
+|    result = Tcl_ListObjGetInline(interp, objv[objc - 2], &listc, &listv);
 |    if (result != TCL_OK) {
 |        return result;
 |    }
 |    /*
 |     * Retrieve user specified start offset.
 |     */
-|    if (useStart > 0)
-|    {
+|    if (useStart > 0) {
 |        result = TclGetIntForIndex(interp, startPtr, /*end*/ listc-1, &offset);
 |        Tcl_DecrRefCount(startPtr); /* free unneeded obj */
 |
@@ -255,7 +259,11 @@ are needed along with documentation and test code.  The changes to the
 |    index = -1;
 |    match = 0;
 |    if ((enum modes) mode == SORTED && allData == FALSE) {
-|        /* If the data is sorted, we can do a more intelligent search */
+|        /*
+|         * If the data is sorted, we can do a more intelligent search.
+|         * Note that there is no point in being smart when -all was
+|         * specified; in that case, we have to look at all items anyway.
+|         */
 |        lower = offset-1 /*-1*/;
 |        upper = listc;
 |        while (lower + 1 != upper) {
@@ -392,8 +400,8 @@ are needed along with documentation and test code.  The changes to the
 |
 |            /* Process the possible match for this element */
 |            if (match != 0) {
-|                if (allData == TRUE) {
-|                    if (returnElements) {
+|                if (allData) {
+|                    if (returnInline) {
 |                        /* Append data */
 |                        Tcl_ListObjAppendElement(interp, listPtr,listv[i]);
 |                    } else {
@@ -413,7 +421,7 @@ are needed along with documentation and test code.  The changes to the
 |    if (allData) {
 |        Tcl_SetObjResult(interp,listPtr);
 |    } else {
-|        if (returnElements) {
+|        if (returnInline) {
 |            if (index < 0) { /* Return a null */
 |                Tcl_SetObjResult(interp,Tcl_NewObj());
 |            } else {         /* Return one datum */
@@ -439,10 +447,11 @@ This document has been placed in the public domain.
 
 ~ Appendix
 
-The benchmarks below denote the expected speed increase of using the new options vs. tcl only implementations. Your mileage may vary.
+The benchmarks below denote the expected speed increase of using the
+new options vs. tcl only implementations.  Your mileage may vary.
 
 |##
-|# performs a lsearch -all -elements -glob search
+|# performs a lsearch -all -inline -glob search
 |#
 |proc lsearch_dataGLOB {listData pattern} {
 |    set result [list]
@@ -454,7 +463,7 @@ The benchmarks below denote the expected speed increase of using the new options
 |    return $result
 |}
 |##
-|# performs a lsearch -all -elements -regexp search
+|# performs a lsearch -all -inline -regexp search
 |#
 |proc lsearch_dataRE {listData pattern} {
 |    set result [list]
@@ -486,7 +495,7 @@ The benchmarks below denote the expected speed increase of using the new options
 |time {lappend LIST otherStuff} 1000
 |
 |# Case with all data matching in a 2K list 2.8x speedup
-|puts "#C implementation [time {lsearch -glob -all -elements $LIST *Stuff} 100]"
+|puts "#C implementation [time {lsearch -glob -all -inline $LIST *Stuff} 100]"
 |#=> C implementation 3766 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataGLOB $LIST *Stuff} 100]"
 |#=> tcl implementation 10815 microseconds per iteration
@@ -498,20 +507,20 @@ The benchmarks below denote the expected speed increase of using the new options
 |#=> tcl implementation 13277 microseconds per iteration
 |
 |# Case with no matching data 8X speed up
-|puts "#C implementation [time {lsearch -glob -all -elements $LIST none*} 100]"
+|puts "#C implementation [time {lsearch -glob -all -inline $LIST none*} 100]"
 |#=> C implementation 646 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataGLOB $LIST none*} 100]"
 |#=> tcl implementation 5354 microseconds per iteration
 |
 |
 |# Repeat with RE, note more time spent in RE engine 2X speedup
-|puts "#C implementation [time {lsearch -regexp -all -elements $LIST Stuff} 100]"
+|puts "#C implementation [time {lsearch -regexp -all -inline $LIST Stuff} 100]"
 |#=> C implementation 35260 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataRE $LIST Stuff} 100]"
 |#=> tcl implementation 62292 microseconds per iteration
 |
 |# Case with no matching data 2X speedup
-|puts "#C implementation [time {lsearch -regexp -all -elements $LIST none*} 100]"
+|puts "#C implementation [time {lsearch -regexp -all -inline $LIST none*} 100]"
 |#=> C implementation 14815 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataRE $LIST none} 100]"
 |#=> tcl implementation 30553 microseconds per iteration
