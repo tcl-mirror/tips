@@ -1,6 +1,6 @@
 TIP:		185
 Title:		Null Handling
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Tcl-Version:	8.5
 Author:		John H. Harris <JHHarris@valley.net>
 Created:	08-Apr-2004
@@ -8,7 +8,7 @@ Type:		Project
 State:		Draft
 Vote:		Pending
 Post-History:	
-Keywords:	Tcl
+Keywords:	Tcl, absent value
 
 ~ Abstract
 
@@ -431,7 +431,7 @@ not entirely resolved.
 
  * SQL inconsistencies.  The various implementations of SQL are
    inconsistent in their treatment of nulls.  This is well documented
-   on both the SQLite [[1]] and MySQL [[4]] web sites.  I prefer a
+   on both the SQLite [[1]] and MySQL [[3]] web sites.  I prefer a
    conservative, consistent mathematical interpretation.  The
    '''-null''' and '''-nullify''' options go a long way toward
    simulating the inconsistencies of other systems, if necessary.
@@ -444,7 +444,7 @@ not entirely resolved.
 
  [[2]]: IEEE Floating point
 
- [[4]]: MySQL
+ [[3]]: MySQL
 
 ~ Copyright
 
