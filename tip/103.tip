@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -55,9 +55,9 @@ would be:
 
 With the proposed command they become:
 
-|expand { destroy @[winfo children .] }
-|expand { button .b @$stdargs -text $mytext -bd $border }
-|expand { exec $prog @$opts1 @[getMoreopts] $file1 $file2 }
+|expand { destroy `[winfo children .] }
+|expand { button .b `$stdargs -text $mytext -bd $border }
+|expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
 
 An alternative to having a local syntax is to point at the arguments
 that should be expanded, either by index:
@@ -75,23 +75,26 @@ Or by some flag mechanism:
 Those lack in writability/readability/maintainability in a disturbing
 manner.
 
-For the choice of local syntax the first goal is that it should not
+For the choice of local syntax one goal is that it should not
 violate Tcl's rules, which simplifies implementation since Tcl's
 parser can do the job.
 
-Any char that fulfils that could be used but the choice fell on @
-since that char is odd enough to be visible which helps readability.
+Any char that fulfils that could be used but the choice fell on ` for
+forward compatibility reasons.  See below.
 
-An alternative syntax could be something like:
+An alternative syntax could be using enclosing `` or some
+other enclosing construct like:
 
 |expand { destroy <[winfo children .]> }
 |expand { button .b <$stdargs> -text $mytext -bd $border }
 |expand { exec $prog <$opts1> <[getMoreopts]> $file1 $file2 }
 
-Using enclosing symbols might suggest that they affect grouping, but
-since the enclosed part must be a single word in itself this is no
-practical problem.  The selection of a single char is, just as the
-selection of which char, just a preference.
+Paired characters are good for delimiting things.  Here is the
+beginning; here is the end.  But this is not about a new way to
+delimit things.  It is about indicating a boolean choice:  expand
+or do not expand a word into multiple words.  Whatever character
+is chosen to be that indicator, it should be a single, leading
+one.  No pairs.
 
 ~ Specification
 
@@ -103,8 +106,8 @@ The command is processed in the following manner:
 
  1. Parse into words according to Tcl's standard rules.
 
- 2. Any word starting with @ and followed by a single variable or command
-    substitution is remembered and the @ is removed.
+ 2. Any word starting with ` and followed by a single variable or
+    command substitution is remembered and the ` is removed.
 
  3. Perform Tcl's normal execution steps on the new line up to the
     point where the command should have been called.
@@ -115,30 +118,29 @@ The command is processed in the following manner:
 
 The return value of expand is the return value of the command.
 
-''Note 1:'' A word should really start with @ to trigger expansion
+''Note 1:'' A word should really start with ` to trigger expansion
 which means that words like these are not expanded:
 
-|cmd "@$temp" \@[something]
+|cmd "`$temp" \`[something]
 
 ''Note 2:'' Expansion is only performed with words like:
 
-|cmd @$var @[somecmd $arg]
+|cmd `$var `[somecmd $arg]
 
 Words like these are not expanded but still valid code:
 
-|cmd @cursor @$x,$y @[foo]xy[apa]
+|cmd `cursor `$x,$y `[foo]xy[apa]
 
 ~ Forward compatibility
 
 One aspect of choosing a syntax here is to think about the
 future.  Should there later be a wish for a global syntax for argument
 expansion it would be nice if it were the same as the one chosen in
-the expand command.  From this point of view @ may be a bad choise
-since that might not be likely for a global syntax.  If an agreement
+the expand command.  If an agreement
 can be made for what may be acceptable in the future, this should
 affect the specification in this TIP.
 
-If a single character like @ is chosen for a global expand syntax
+If a single character like ` is chosen for a global expand syntax
 it means a backwards compatibility break.  The impact is lessened
 since the expansion is only done when followed by exactly one variable
 or command substitution, but there is still an impact.  So, what chars
@@ -186,12 +188,6 @@ Example usage of those that seem reasonable:
 |expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
 |expand { exec $prog ,$opts1 ,[getMoreopts] $file1 $file2 }
 
-Or, as enclosing
-
-|expand { exec $prog '$opts1' '[getMoreopts]' $file1 $file2 }
-|expand { exec $prog `$opts1` `[getMoreopts]` $file1 $file2 }
-|expand { exec $prog ,$opts1, ,[getMoreopts], $file1 $file2 }
-
 For comparison, the syntax that has been proposed earlier that
 would not break backwards compatibility:
 
@@ -204,6 +200,10 @@ When first issued the TIP caused some discussion on c.l.t.  Until a
 summary is made, here is the thread:
 
 http://groups.google.com/groups?th=9e77d5836b06ab1b
+
+Another thread about it:
+
+http://groups.google.com/groups?th=2ba287be87c2678c
 
 ~ Reference Implementation
 
