@@ -1,6 +1,6 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -42,17 +42,29 @@ with a large number of such tests.
 
 The ''tcltest'' package defines a comparison procedure,
 ''stringCompare'', which takes care of the three cases.  This
-procedure can easily be enhanced by adding a fourth case: invoking a
-custom procedure.  This procedure takes two arguments and returns 1
-for a match and a 0 for failure, just like the other cases.
+procedure can easily be replaced by one that invokes registered 
+commands or procedures. Such a command or procedure takes two 
+arguments and returns 1 for a match and a 0 for failure, 
+just like the current implementation:
+
+| proc mymatchProc { expected actual } { 
+|   if { $expected (is somehow equal) $actual } {
+|      return 1
+|   } else
+|      return 0
+|   }
+| }
 
 Such a procedure can be registered by a simple mechanism:
 
-| ::tcltest::customMatchProc mymatchproc
+| ::tcltest::customMatchProc mytype mymatchproc
 
-and will be invoked when the match type is set to "custom", so one has
+and will be invoked when the match type is set to "mytype", so one has
 to specify this per test case, just as in the current situation.  The
 default method will still be "exact".
+
+Allowing procedures to be invoked by their type names gives us the 
+flexibility to register as many such procedures or commands as required.
 
 ~ Two Examples
 
@@ -69,24 +81,75 @@ a general Bessel function, just the sort of function that returns
 floating-point numbers.  Then the results may be imprecise due to
 rounding-off errors, different values of ''tcl_precision'' or, even
 more banally, differences in the formatting of floating-point numbers
-(''0.12'' versus ''.12'' for instance).  A comparison procedure like:
+(''0.12'' versus ''.12'' for instance). 
 
-| proc matchFloat { actual expected } {
-|    set absmax [expr {abs($actual)>abs($expected)? \
-|       abs($actual) : abs($expected)}
-|    expr {abs($actual-$expected)<=1.0e-15*$absmax}
+The following shows how to do this:
+
+| #
+| # Test implementation of Bessel functions
+| # (Table only provides 4 decimals)
+| #
+| customMatchProc 4decimals matchFloat4Decimals
+|
+| proc matchFloat4Decimals { expected actual } {
+|    return [expr {abs($expected-$actual) <= 0.5e-4}]
 | }
-
-would help to solve this issue.
+|
+| test "J0-1.1" "J0 for x=1.0" -match 4decimals -body {
+|    J0 1.0
+| } -result 0.7652
+|
+| test "J1-1.1" "J0 for x=1.0" -match 4decimals -body {
+|    J1 1.0
+| } -result 0.4401
 
 The second example occurs for instance when testing alternative
 implementation: you want to check that the original standard feature
 is failing whereas the new but incompatible alternative gets it right.
 Then:
 
-| proc matchNegative { actual expected } {
-|    expr {![string equal $actual $expected]}
+| proc matchNegative { expected actual } {
+|    set match 0
+|    foreach a $actual e $expected {
+|       if { $a != $e } {
+|          set match 1
+|          break
+|       }
+|    }
+|    return $match
 | }
+|
+| customMatchProc negative matchNegative
+|
+| #
+| # Floating-point comparisons are imprecise. The following
+| # test returns typically such a list as {643 1357 1921 79 781 1219}
+| # so nothing even close to the expected values.
+| # 
+| test "ManyCompares-1.2" "Compare fails - naive comparison" \
+|    -match negative -body {
+|    set naiv_eq 0
+|    set naiv_ne 0
+|    set naiv_ge 0
+|    set naiv_gt 0
+|    set naiv_le 0
+|    set naiv_lt 0
+|
+|    for { set i -1000 } { $i <= 1000 } { incr i } {
+|       if { $i == 0 } continue
+|
+|       set x [expr {1.01/double($i)}]
+|       set y [expr {(2.1*$x)*(double($i)/2.1)}]
+|
+|       if { $y == 1.01 } { incr naiv_eq }
+|       if { $y != 1.01 } { incr naiv_ne }
+|       if { $y >= 1.01 } { incr naiv_ge }
+|       if { $y >  1.01 } { incr naiv_gt }
+|       if { $y <= 1.01 } { incr naiv_le }
+|       if { $y <  1.01 } { incr naiv_lt }
+|    }
+|    set result [list $naiv_eq $naiv_ne $naiv_ge $naiv_gt $naiv_le $naiv_lt]
+| } -result {2000 0 2000 0 2000 0}
 
 makes sure that a mismatch is treated as the expected outcome.
 
@@ -107,32 +170,18 @@ approach:
 Tcl Feature Request 490298.
 http://sf.net/tracker/?func=detail&aid=490298&group_id=10894&atid=360894
 
-~ Comments
+~ History
 
-''Don Porter <dgp@users.sf.net>''
+''Cameron Laird'' was quite enthousiastic about the idea of providing 
+custom match procedures.
 
- > As written, this TIP adds only one new acceptable value for the
-  ''-match'' option to [[test]], the value ''custom''.  The meaning
-  of ''custom'' is then determined by the routine previously registered
-  with [[customMatchProc]].  Only one custom match routine can be
-  active at a time.
+''Mo DeJong'' requested the explicit examples (the second is actually 
+the situation that triggered this TIP in the first place).
 
- > It would be an improvement to have [[customMatchProc]] take two
-  arguments.  First a new legal value for ''-match'', and second the
-  ''proc'' that implements that matching option.  In this way, any
-  number of custom matching options can be accomodated simultaneously
-  with a mnemonic value for ''-match'' for each one.  It would be
-  trivial to satisfy Tcl Feature Request 490298 with such a mechanism.
-
-| proc listMatcher {l1 l2} {
-|     set s1 [eval list $l1]
-|     set s2 [eval list $l2]
-|     return [string equal $s1 $s2]
-| }
-| tcltest::customMatchProc list listMatcher
-
- > If desired, the existing legal values for ''-match'' could be
-  re-implemented as examples of this extensible matching scheme.
+''Don Porter <dgp@users.sf.net>'' revised the registration mechanism such 
+that an arbitrary set of matching procedures can be supported. His 
+suggestions led to a revision of the TIP. He also revised the draft 
+implementation.
 
 ~ Copyright
 
