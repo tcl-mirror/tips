@@ -1,10 +1,10 @@
 TIP:            27
 Title:          CONST Qualification on Pointers in Tcl API's
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        25-Feb-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
