@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.125 $
+Version:        $Revision: 1.126 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -59,34 +59,9 @@ spong wibble
 
  > some more test stuff
 
-~ Abstract
-
-~ Rationale
-
-In Tcl, there is currently no way to truncate a file while it is open
-even though all modern operating systems support such an operation.
-The current workaround is to close the file and reopen it.  However,
-in cases where the file must be held open (e.g. on Unix where the file
-has already been deleted and is just being used as scratch space) this
-workaround cannot be used.
-
 ~ Specification
 
- > '''interp''' ''invokehidden'' ''path'' ?''-global''? ?''-namespace namespace''? ''hiddenCmdName'' ?''arg ...''?
-
-~~Example Usage
-
-~ Proposed C API Changes
-
-~ Reference Implementation
-
-A reference implementation of this TIP is availble at:
-
-http://sf.net/tracker/?func=detail&aid=981841&group_id=10894&atid=310894
-
-~ Copyright
-
-This document has been placed in the public domain.
+ > '''interp''' '''invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
 
 ~ Reference Implementation
 
