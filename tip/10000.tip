@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -8,7 +8,7 @@ Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Don Porter <dgp@cam.nist.gov>
 Author:         Don Porter <d.porter@ieee.org>
-Author:          <dgp@user.sourceforge.net>
+Author:         <dgp@user.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -34,7 +34,7 @@ proposed in [13].
 
 There seems to be a problem completing the web edit
 submission when adding a new author.  testing... one. two. three.
-four. five.
+four. five. six.
 
 ~ Reload/caching Test
 
@@ -74,6 +74,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.30  2001/01/24 17:52:17  tclhttpd
+| Revision through web from  <dgp@user.sourceforge.net> (8413)
+|
 | Revision 1.29  2001/01/24 17:49:28  tclhttpd
 | Revision through web from  <dgp@users.sourceforge.net> (8374)
 |
