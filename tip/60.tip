@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -175,7 +175,16 @@ Preprocessor output is the following:
 
 In ''tclInt.h'' starting around line 1916, are prototypes for the
 internal cmdprocs.  I can't think of any reason why they should be
-exported.
+exported.  Also note the comment about line:1673, as it states:
+
+|/*
+| *----------------------------------------------------------------
+| * Procedures shared among Tcl modules but not used by the outside
+| * world:
+| *----------------------------------------------------------------
+| */
+
+As the old EXTERN macro placed ""everything"" exportable, the use of EXTERN following this comment in ''tclInt.h'' is contradictory.  In place of the old EXTERN for this purpose I used the new TCL_EXTRNC in the reference implementation.
 
 ~ Copyright
 
