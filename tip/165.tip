@@ -1,10 +1,10 @@
 TIP:            165
 Title:          A User-Data Field for Virtual Events
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        17-Nov-2003
 Post-History:   
 Keywords:       Tk,substitution
