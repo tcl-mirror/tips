@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
 State:          Draft
@@ -133,8 +133,7 @@ existing C code shall be refactored and placed inside a
 ''::tcl::clock'' namespace.  The existing subcommands ''seconds'' and
 ''clicks'' shall be exposed.  The existing ''scan'' shall be hidden
 inside the namespace.  [[clock scan]] and [[clock format]] shall be
-reimplemented in Tcl.  In addition, new [[clock add]] and [[clock
-subtract]] commands shall be added.
+reimplemented in Tcl.  In addition, a new [[clock add]] command shall be added.
 
 The syntax and semantics of the [[clock clicks]] and [[clock seconds]]
 commands will remain unchanged.
@@ -261,12 +260,12 @@ The '''-timezone''', '''-gmt''', and '''-locale''' options are interpreted
 as for [[clock scan]].  See ''TIME ZONES'' and ''LOCALISATION'' below
 for how these options work.
 
-~~~clock add, clock subtract
+~~~clock add
 
-These two commands perform arithmetic on dates and times.  The syntax
+This command performs arithmetic on dates and times.  The syntax
 is:
 
- > '''clock''' ('''add'''|'''subtract''') ''time'' ?''count unit''?...
+ > '''clock add''' ''time'' ?''count unit''?...
    ?'''-gmt''' ''boolean''? ?'''-timezone''' ''timeZone''?
    ?'''-locale''' ''name''?
 
@@ -871,6 +870,10 @@ Several tools are provided for the use of maintainers:
     [ftp://elsie.nci.nih.gov/pub/]), creates the corresponding Tcl
     'tzdata' file.
 
+ makeTestCases.tcl:
+    Makes several thousand auto-generated test cases to exercise
+    the time conversion algorithms.
+
  tclZIC.tcl:
     Given the source code for the Olson time zone descriptions
     (obtainable as the latest 'tzdata' file in
@@ -898,7 +901,7 @@ with
 
 Since it is well known that Tcl code is typically 30-50 times slower
 than the equivalent C, it is to be expected that [[clock scan]],
-[[clock format]], [[clock add]] and [[clock subtract]]
+[[clock format]], and [[clock add]]
 will be in that performance range.  [[clock seconds]] and
 [[clock clicks]] will still be C code and are not expected to
 suffer a measurable change in performance.  (If they do, the
