@@ -1,8 +1,9 @@
 TIP:            151
 Title:          Remove -e: Command Line Option from tclsh and wish
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -52,12 +53,19 @@ the 32-character limit in some Unices for their ''#!'' lines.
 However, the ''-e:'' form does not really solve that problem.
 For example:
 
-| #!/usr/local/bin/tclsh -e:iso8859-15 
+| #!/usr/local/bin/tclsh8.5 -e:iso8859-15 
 | 12345678901234567890123456789012
 
 Here we see that we still run afoul of the 32-character limit
 when tclsh is installed in the default location.  Even longer
-encoding names exist which magnify the problem.
+encoding names exist which magnify the problem, and altering the
+installation location will not necessarily help:
+
+| #!/usr/bin/tclsh8.5 -e:iso8859-15 
+| 12345678901234567890123456789012
+
+(This is actually an insidious failure mode in that it leads to the
+script being sourced with a valid but incorrect encoding.)
 
 Conversely, we already have an effective general workaround
 for the 32-character limit problem:
