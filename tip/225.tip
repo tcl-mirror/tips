@@ -1,13 +1,13 @@
-TIP:		225
-Title:		Arithmetic Series with Optimized Space Complexity
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Salvatore Sanfilippo <antirez@invece.org>
-Created:	25-Oct-2004
+TIP:            225
+Title:          Arithmetic Series with Optimized Space Complexity
+Version:        $Revision: 1.2 $
+Author:         Salvatore Sanfilippo <antirez@invece.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Oct-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -118,7 +118,7 @@ into a Tcl wide integer.
 Note that there is a practical justification for the fact that the
 elements generated never reach the value of the End argument, with the
 effect of [['''range''' 0 10 1]] generating the sequence 0, 1, 2, ...,
-9 and a range with the same value of ''start'' and ''step'' always
+9 and a range with the same value of ''start'' and ''end'' always
 generating an emtpy list. This is needed in order to make it
 comfortable to use '''range''' and '''foreach''' instead of '''for'''
 loops like in the following example:
