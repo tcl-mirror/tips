@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -291,7 +291,7 @@ Some reasons you might give a bug a higher priority include:
     1. Other bug fixes are waiting on this bug fix.
 
     1. Several duplicate reports or "me too" comments about the bug
-       are coming in form the community.
+       are coming in from the community.
 
 Some reasons you might give a bug a lower priority include:
 
