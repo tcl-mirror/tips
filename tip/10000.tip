@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.131 $
+Version:        $Revision: 1.132 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -59,35 +59,10 @@ spong wibble
 
  > some more test stuff
 
-~~Example Usage
+'''interp invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
 
-|################################################
-|# file inside.tcl
-|################################################
-|
-|set x "this is a test from inside [namespace current]."
-|
-|################################################
-|# file invoke.tcl
-|################################################
-|
-|set i [interp create -safe]
-|set file [file join [file dirname [info script]] inside.tcl]
-|
-|interp invokehidden $i -namespace ::test::foo::bar source $file
-|
-|set result [interp eval $i [list set ::test::foo::bar::x]]
-|
-|# should be: "this is a test from inside ::test::foo::bar."
-|puts stdout $result 
-|
-
-~ Specification
-
-'''interp''' '''invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
-
-This command would continue to function exactly the same as the
-current documentation says with the following exceptions:
+The '''interp invokehidden''' subcommand would continue to function as the
+current documentation dictates with the following notable exceptions:
 
    * A new '''-namespace''' option can specify the target namespace in the slave interpreter where the command should be invoked.
 
