@@ -1,14 +1,7 @@
 TIP:            50
 Title:          Bundle [[incr Tcl]] with the Core Tcl distribution
-Version:        $Revision: 1.1 $
-Author:         Kevin Kenny <kennykb@acm.org>,
-		Mark Harrison <markh@asiainfo.com>,
-		Jeff Hobbs <jeffh@ActiveState.com>,
-		Andreas Kupries <andreas@ActiveState.com>,
-		Karl Lehenbauer <karl@procplace.com>,
-		Michael McLennan <mmc@cadence.com>,
-		Don Porter <dgp@nist.gov>,
-		Brent Welch <welch@acm.org>
+Version:        $Revision: 1.2 $
+Author:         Kevin Kenny <kennykb@acm.org>,		Mark Harrison <markh@asiainfo.com>,		Jeff Hobbs <jeffh@ActiveState.com>,		Andreas Kupries <andreas@ActiveState.com>,		Karl Lehenbauer <karl@procplace.com>,		Michael McLennan <mmc@cadence.com>,		Don Porter <dgp@nist.gov>,		Brent Welch <welch@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -27,7 +20,7 @@ present.
 
 ~ Proposal
 
-   * [[incr Tcl]] [http://tcltk.com/itcl/] shall be bundled with the core
+   * [[incr Tcl]] (http://tcltk.com/itcl/) shall be bundled with the core
      Tcl distribution.
 
    * [[incr Tcl]] shall be "included" in the Core in only a weak
@@ -37,7 +30,7 @@ present.
         the discretion of the affected maintainers.  (It appears likely
         that most [[incr Tcl]] source will appear in a separate
         ''itcl'' directory parallel to the ''generic'', ''mac'',
-        ''unix'' and ''win directories in the source.)
+        ''unix'' and ''win'' directories in the source.)
 
       > [[incr Tcl]] shall be built as a separate loadable package, 
         similar to the ''dde'', ''http'', ''msgcat'', and ''registry'' 
@@ -46,6 +39,7 @@ present.
       > The ''::itcl'' namespace shall be the only new component 
         included in the global namespace, and shall appear only when 
         a script executes
+
 |               package require Itcl
 
       > There shall be no ''::class'' command in the Core.
@@ -128,7 +122,7 @@ discuss the individual points in further detail.
      for novel object models must not be compromised.
 
    * Similarly, integrating [[incr Tcl]] closely with commands such as
-     [[::info]] or [[::destroy]] would accord it a privileged status
+     ''::info'' or ''::destroy'' would accord it a privileged status
      that the users of other object systems are reluctant to accept.
 
    * [[incr Tcl]] is what it is.  It would be inappropriate to demand
@@ -160,7 +154,7 @@ discuss the individual points in further detail.
         number of attendees at the 2001 Open Source Convention
         mentioned specifically that they use alternative object
         systems such as OTcl.  These users would be essentially
-        disenfranchised if, for instance, a ::class command were to
+        disenfranchised if, for instance, a ''::class'' command were to
         appear in the Core.
 
 ~ Notes
@@ -173,10 +167,10 @@ vote shall not be considered binding.
 
 ~ References
 
-   * [http://tcltk.com//itcl]
+   * http://tcltk.com//itcl
+
    * [6]
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
