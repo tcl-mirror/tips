@@ -1,15 +1,16 @@
 TIP:            26
 Title:          Enhancements for the Tk Text Widget
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Ludwig Callewaert <ludwig_callewaert@frontierd.com>
+Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        20-Feb-2001
-Tcl-Version:    8.4
+Post-History:   
 Discussions-To: news:comp.lang.tcl
-Obsoletes:	19
-Post-History: 
+Obsoletes:      19
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -68,7 +69,6 @@ removed again.  Doing this is virtually impossible without this
 functionality.  With it, it becomes trivial.  The functionality itself
 adds little or no overhead to the text widget.
 
-
 ~ Specification
 
 The undo/redo mechanism operates by adding two stacks of edit actions
@@ -84,16 +84,16 @@ when the cursor moves.  By turning the autosemaphores off and
 inserting them at the desired points, compound actions can be creates,
 such as search and replace.  The default paste function is an example
 of such an action.
-   
+
 Undoing an action, will re-apply in reverse order all inserts and
 deletes in between two semaphores.  These inserts and deletes will now
 move to the redo stack.  Redoing a change re-applies the inserts and
 deletes, and moves them again to the undo stack.  Normal insertions or
 deletions will clear the redo stack.
-   
+
 It is also possible to clear the undo stack, giving the user control
 over the depth of the stack.
-   
+
 The modified state of the widget is implemented using a counter.
 Every insert or delete action increments this counter also when
 redone.  Every undone insert or delete decrements this counter.  The
@@ -111,10 +111,12 @@ to reset the counter to zero.
        the user (See 6).  The default is one.
 
    3.  ''pathName edit undo'' - undoes the last edit action if undo is
-       enabled (See 1).  Does nothing otherwise.
+       enabled (See 1). Raises an exception if there is nothing to
+       undo. Does nothing otherwise.
 
    4.  ''pathName edit redo'' - redoes the last edit action if undo is
-       enabled (See 1).  Does nothing otherwise.
+       enabled (See 1). Raises an exception if there is nothing to
+       redo.  Does nothing otherwise.
 
    5.  ''pathName edit reset'' - resets the undo and redo stacks
        (clears them).
@@ -137,8 +139,14 @@ to reset the counter to zero.
    9.  ''<<Selection>>'' - this virtual event is generated whenever
        the range tagged with the selection tag changes.
 
+  10.  ''<Control-z>'' - calls pathName edit undo. Issues a bell signal
+       if there is nothing to undo.
+
+  11.  ''<Control-Z>'' - calls pathName edit redo. Issues a bell signal 
+       if there is nothing to redo.
+
 ~ Reference Implementation
-    
+
 http://www.cs.man.ac.uk/fellowsd-bin/TIP/26.patch
 
 ''The patch has received little testing so far, so any testing is
@@ -147,4 +155,3 @@ encouraged.''
 ~ Copyright
 
 This document has been placed in the public domain.
-
