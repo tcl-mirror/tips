@@ -1,17 +1,17 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         David Cuthbert <dacut@kanga.org>
-Author:		Kevin Kenny <kennykb@acm.org>
+Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
-Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        19-Jan-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
-Keywords:       lindex, multiple arguments, sublists
+Keywords:       lindex,multiple arguments,sublists
 Tcl-Version:    8.4a2
 
 ~ Abstract
@@ -160,6 +160,12 @@ allow this more-natural style of coding to be written in Tcl.
    tend to have availability problems if it is an extension.)  It is
    not as if the core is short of syntactic sugar right now (the
    [[foreach]] command is ample demonstration of this.)
+
+''Don Porter <dgp@users.sourceforge.net> follows up''
+
+ > I'll leave the discussion above in place so the history
+   of this TIP is preserved, but I have withdrawn my
+   objection.
 
 ----
 
