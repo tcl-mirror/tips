@@ -1,0 +1,146 @@
+TIP:		223
+Title:		Full-Screen Toplevel Support for Tk
+Version:	$Revision: 1.1 $
+Author:		Mo DeJong <mdejong@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	21-Sept-2004
+Post-History:	
+Tcl-Version:	8.5
+
+~ Abstract
+
+Tk lacks an optimal method for creating a full-screen '''toplevel'''
+under Windows. A full-screen toplevel is one that has no borders and a
+client drawing area that covers the entire screen. Under Unix, one can
+create a normal toplevel that is a little larger than size of the
+screen and place the upper left corner of the client drawing area at
+at (0,0).  This option is not available under Windows as the height of
+the window is limited by the OS to keep the bottom of the window from
+covering up the start menu and task bar. A zoomed toplevel with the
+''overrideredirect'' flag set avoids this size restriction and
+displays with no borders, both desirable properties. Unfortunately,
+setting the ''overrideredirect'' flag also keeps an icon for the
+toplevel from being displayed in the task bar and in the programs list
+accessed via Alt-Tab. This TIP and its associated patch implement
+full-screen functionality that also displays an icon in the taskbar
+and is accessible via Alt-Tab. The implementation was accomplished by
+adding a new '''fullscreen''' state that is set via the '''wm state'''
+command.
+
+~ Motivation
+
+A Tk developer will at some point need to create a full-screen
+application.  Existing Tk commands under Windows can be used to create
+a mostly working full-screen application, but the edge cases where it
+does not work well make the application look unprofessional. The
+example code[http://wiki.tcl.tk/12506] was created to support a native
+looking full-screen Windows application that supports switching from
+regular to full-screen mode via an Alt-Return binding.
+
+The main problem that this example attempts to work around is that a
+toplevel with the overrideredirect flag set does not show an icon in
+the Windows taskbar. To address this issue, a second fake window was
+created and certain events for the fake window are redirected to the
+full-screen window. This approach works for the most part but there
+are some real user visible problems that don't seem to be fixable.
+When a toplevel switched from regular to full-screen mode the user
+observes two resizing operations, first to switch to the zoomed state
+and another to switch to the overrideredirect state. Another user
+visible problem shows when the interpreter is busy processing code
+between the time a focus event is delivered to the fake window and it
+is redirected to the full-screen window. The fake window is mapped
+with a solid color fill for a moment which is visually disruptive.
+
+A similar user visible problem can be seen when the Windows desktop is
+stretched across two monitors. If the toplevel is moved over to the
+second monitor and then placed in full-screen mode, the fake window
+appears in the main desktop. This is especially disruptive because the
+fake window needs to mirror the zoomed state of the full-screen window
+so that the state available via a right click in the Windows taskbar
+match up. The result is that the fake window covers up all the other
+applications on the first monitor.
+
+The final user visible issue shows up when a full-screen window is
+first mapped. The window gets mapped in the normal state and is then
+resized to full-screen instead of being mapped at the size of the
+screen. These application behaviors do not match native Windows apps
+and just look unprofessional. As a result, a project was undertaken to
+create a Tk patch to address these issues.
+
+~ Proposal
+
+The first implementation attempt focused on a modification to the
+'''wm attributes''' command to support a '''fullscreen''' attribute.
+This seemed like a good idea since the flag could be limited to
+Windows and it would be the least invasive way to implement the needed
+functionality. While this approach could have been made to work, it
+made more sense to focus on the '''wm state''' command. Switching from
+a normal to full-screen toplevel is functionality that just fits
+better as a state switch from '''normal''' to '''fullscreen'''. It
+also did not make much sense to have a '''fullscreen''' flag that
+would query as true when the window was in an iconic or withdrawn
+state. It also made sense to add a new state so that full-screen
+functionality could be made easily accessible to Unix and Mac users.
+
+For example, the following code would support switching from
+'''normal''' to '''fullscreen''' mode under Windows, Unix, and Mac.
+
+|proc fullscreen_switch { top } {
+|    if {[wm state $top] == "fullscreen"} {
+|        wm state $top normal
+|    } else {
+|        wm state $top fullscreen
+|    }
+|}
+
+An initial implementation for Windows has been created to support a
+'''fullscreen''' option for '''wm state'''. The list of changed files
+is as follows:
+
+ > ''doc/wm.n, tests/wm.test, win/tkWinWm.c''
+
+Tk patch 1032982 has been created to track these modifications. The
+patch mostly duplicates the way an overrideredirect window is created
+with some modifications so that the window is the proper size and has
+an icon in the taskbar. In ''UpdateWrapper'' the Win32
+''CreateWindowEx'' function is invoked with the WS_EX_APPWINDOW flag
+passed as the ''dwExStyle'' argument and
+(WS_POPUP|WS_CLIPCHILDREN|CS_DBLCLKS) passed as the ''dwStyle''
+argument. Example Win32 code to create such a window is attached to
+the patch in the file ''full_screen.c''.  The patch also includes
+additions to the Tk test suite to cover these modifications and
+modification to the documentation for the wm command.
+
+~ Alternatives
+
+The obvious alternative is to do nothing. The existing pure Tcl
+implementation works for most cases. Reasons for rejecting this
+alternative have already been covered.
+
+Assuming the TIP is accepted and a new '''wm state''' is added, there
+is one implementation alternative that might be useful to explore.
+There may be a way to pass a window manager hint to the Windows OS so
+that it allows the creation of a normal window that is larger than the
+height of the screen minus the height of the task bar.  That would
+mean a regular window class could be used instead of a popup
+class. The only user visible change would be that right clicking on
+the icon in the taskbar would show a context menu with the Restore,
+Minimize, Maximise, and Close options. The current patch creates a
+taskbar icon that always pops the full-screen window to the top on a
+left or right click. It is not clear that this minor detail is
+important enough to worry about.
+
+~ Risks
+
+The complexity of Unix and Mac implementation of this TIP is currently
+not known.
+
+~ See Also
+
+SourceForge patch: 1032982
+
+~ Copyright
+
+This document has been placed in the public domain.
