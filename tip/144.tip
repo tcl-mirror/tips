@@ -1,8 +1,9 @@
 TIP:            144
 Title:          Argument Expansion Syntax
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:          <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -30,9 +31,12 @@ something specialised in doing this would be better.
 
 ~ Rationale
 
-See also [103].
+See also [103].  Please also see a summary of a
+poll of TCLCORE readers taken after [103] was
+rejected.
+http://wiki.tcl.tk/9462
 
-As examples three statements are used.  This is the eval version:
+For examples three statements are used.  This is the eval version:
 
 |eval destroy [winfo children .]
 |eval button .b $stdargs -text \$mytext -bd $border
