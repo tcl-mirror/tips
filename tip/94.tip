@@ -1,0 +1,46 @@
+TIP:		94
+Title:		add listbox -underline option
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <JeffH@ActiveState.com>
+State:		Draft
+Type:		Project
+Created:	29-May-2002
+Tcl-Version:	8.4
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to add a [[-underline]] option to the [[listbox]]
+widget that would control whether the active item gets underlined when
+the widget has focus (currently hard-coded to show the underline).
+
+~ Rationale
+
+Tk has always had an underline on the active item in listboxes, which
+is shown when the listbox has focus.  However this in incompatible
+with the style of listboxes on Windows, especially as used in dropdown
+boxes.  Adding this would allow improved native look and feel.
+
+~ Specification
+
+|    $listbox configure -underline $bool
+
+The default would be on, which stays consistent with the current
+behavior.  [[-underline]] may be confusing since [[button]] has a
+[[-underline]] option that takes an index to underline one character.
+Perhaps [[-underlineactive]] would be better, but I didn't see the
+need for another long option name.
+
+~ Reference Implementation
+
+This implementation is simple and would only extend one check in
+''DisplayListbox'' for whether the underline should be drawn.
+
+File: ''tcl/generix/tkListbox.c''
+
+Function: ''DisplayListbox''
+
+~ Copyright
+
+This document has been placed in the public domain.
