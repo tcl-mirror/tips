@@ -1,6 +1,6 @@
 TIP:            124
-Title:          Adding "clock microseconds" Subcommand
-Version:        $Revision: 1.5 $
+Title:          High-Resolution Absolute Time Values From [clock]
+Version:        $Revision: 1.6 $
 Author:         Mark Harrison <mh@pixar.com>
 Author:         Kevin Kenny <kennykb@users.sourceforge.net>
 State:          Draft
