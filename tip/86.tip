@@ -1,10 +1,10 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        08-Feb-2002
 Post-History:   
 Tcl-Version:    8.4
@@ -59,7 +59,7 @@ number information for a given ''PROC''.  Valid syntax is:
 |        containing line number LINE.  A new nonstatic procedure
 |        TclFindProcByLine() provides this function.
 |
-|  info line relerror ?BOOL?
+|  info line relativeerror ?BOOL?
 |	Set to 1 to disable absolute line number and filename
 |	on error.  This is needed by tcltest.
 
@@ -146,22 +146,29 @@ work with ''tgdb''.  You can test it with:
 Once ''load'' and ''run'' commands are added, ''tgdb'' should probably
 work even with ''emacs'' and ''ddd''.
 
-~ Comments/feedback
+~ Comments and Feedback
 
- Jeff Hobbs asked what about "interp alias", etc.
-   - Updated TIP to document cases
+Jeff Hobbs asked what about ''interp alias'', etc.
 
- Jeff Hobbs notes filename storage is inefficient and finalization
-   - Code changed to just increment ref count
-   - TODO: What needs to be done for Tcl_Finalize?
+   * Updated TIP to document cases
 
- Neil Madden/Stephen Trier comment on info subcommand names "line",
-             "file" and "proc" and possible future uses for "line"
-   - Changed to a single subcommand "line" and use sub-sub commands.
-   - Additional subsubcommands can easily be added.
+Jeff Hobbs notes filename storage is inefficient and finalization
 
- Donal writes: Is there a way to do an equivalent of #line directives in C 
-   - we can now set line number etc of a proc.  Is that enough?
+   * Code changed to just increment ref count
+
+   * ''TODO:'' What needs to be done for ''Tcl_Finalize''?
+
+Neil Madden/Stephen Trier comment on info subcommand names ''line'',
+''file'' and ''proc'' and possible future uses for ''line''
+
+   * Changed to a single subcommand ''line'' and use sub-sub commands.
+
+   * Additional subsubcommands can easily be added.
+
+Donal Fellows writes: Is there a way to do an equivalent of ''#line''
+directives in C
+
+   * we can now set line number etc of a proc.  Is that enough?
 
 ~ Copyright
 
