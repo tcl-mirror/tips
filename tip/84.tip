@@ -1,9 +1,9 @@
 TIP:            84
 Title:          Add control for mouse movement filtering
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jyrki Alakuijala <Jyrki.Alakuijala@iki.fi>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        26-Feb-2002
