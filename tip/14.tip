@@ -1,10 +1,10 @@
 TIP:            14
 Title:          Access to Tk Photo Image Transparency
-Version:        $Revision: 2.2 $
+Version:        $Revision: 2.3 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        22-Nov-2000
 Post-History:   
 Keywords:       Tk,photo,transparency,internal,access
