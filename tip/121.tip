@@ -1,13 +1,13 @@
-TIP:		121
-Title:		Controlled Application Shutdown via Tcl_Exit
-Version:	$Revision: 1.1 $
-Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Created:	05-Dec-2002
-Vote:		Pending
-Post-History:	
+TIP:            121
+Title:          Controlled Application Shutdown via Tcl_Exit
+Version:        $Revision: 1.2 $
+Author:         Joe Mistachkin <joe@mistachkin.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Dec-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -35,17 +35,17 @@ inconsistent state.
 ~ Proposed Changes
 
 Firstly, this TIP proposes a new Tcl API function called
-''Tcl_SetAppExitHandler()'' or something similar.  This function
+''Tcl_SetExitProc()'' or something similar.  This function
 accepts a ''Tcl_ExitProc'' pointer and returns a ''Tcl_ExitProc''
 pointer.  The return value is the old value of the handler.
 
 Secondly, the ''Tcl_Exit()'' Tcl API function would be modified to
 allow for the handler to be called.
 
-~ Tcl_SetAppExitHandler
+~ Tcl_SetExitProc
 
 |Tcl_ExitProc *
-|Tcl_SetAppExitHandler(proc)
+|Tcl_SetExitProc(proc)
 |    Tcl_ExitProc *proc; /* new exit handler for app or NULL */
 |{
 |    Tcl_ExitProc *prevExitHandler; /* return prev exit handler to caller */
@@ -90,12 +90,12 @@ allow for the handler to be called.
 | ... sometime during application initialization ...
 |
 | /* from this point on MyAppExitProc will handle Tcl_Exit requests */
-| Tcl_SetAppExitHandler(MyAppExitProc);
+| Tcl_SetExitProc(MyAppExitProc);
 |
 | ... optionally, sometime later ...
 |
 | /* from this point on the old (default) handling will be used */
-| Tcl_SetAppExitHandler(NULL);
+| Tcl_SetExitProc(NULL);
 
 ~ Reference Implementation
 
