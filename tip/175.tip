@@ -1,6 +1,6 @@
 TIP:            175
 Title:          Add an -async Option to [open]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -62,9 +62,9 @@ In addition, each VFS should support the ''-error'' option to ''fconfigure'' to 
 In order for this TIP to be implemented, there would have to be
 changes to the VFS layer in Tcl.  There are at three ways to accomplish this:
 
-1. Extend Tcl_FSOpenFileChannelProc to accept an ''async'' argument, of type ''int''.
-2. Extend the Tcl_Filesystem structure to add a new callback, alongside T_FSOFCP. For instance, Tcl_FSOpenFileChannelAsyncProc.
-3. (Ab)use the ''mode'' parameter, and add a mask such as TCL_ASYNC.
+   1. Extend Tcl_FSOpenFileChannelProc to accept an ''async'' argument, of type ''int''.
+   2. Extend the Tcl_Filesystem structure to add a new callback, alongside T_FSOFCP. For instance, Tcl_FSOpenFileChannelAsyncProc.
+   3. (Ab)use the ''mode'' parameter, and add a mask such as TCL_ASYNC.
 
 Of these, option 3 is the easiest in terms of maintaining compatibility, but is not the nicest implementation.
 
