@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -18,13 +18,13 @@ a ''file link'' subcommand to allow cross-platform creation of links.
 
 Add a new subcommand with the following syntax:
 
-|      file link ?-linktype? source ?target?
+|      file link ?-linktype? linkName ?target?
 
-If only one argument is given, that argument is assumed to be ''source'', and this command returns the value of the
-link given by ''source'' (i.e. the name of the file it points to).  If
-''source'' isn't a link or its value cannot be read (as, for example, seems to be the case with hard links, which look just like ordinary files), then an error is returned.  
+If only one argument is given, that argument is assumed to be ''linkName'', and this command returns the value of the
+link given by ''linkName'' (i.e. the name of the file it points to).  If
+''linkName'' isn't a link or its value cannot be read (as, for example, seems to be the case with hard links, which look just like ordinary files), then an error is returned.  
 
-If 2 arguments are given, then these are assumed to be ''source'' and ''target''.  If ''source'' already exists, or if ''target'' doesn't exist, an error will be returned.  Otherwise, Tcl creates a new link called ''source'' which points to the existing filesystem object at ''target'', where the type of the link is platform-specific (on Unix a symbolic link will be the default).  This is useful for the case where the user wishes to create a link in a cross-platform way, and doesn't care what type of link is created.  
+If 2 arguments are given, then these are assumed to be ''linkName'' and ''target''.  If ''linkName'' already exists, or if ''target'' doesn't exist, an error will be returned.  Otherwise, Tcl creates a new link called ''linkName'' which points to the existing filesystem object at ''target'', where the type of the link is platform-specific (on Unix a symbolic link will be the default).  This is useful for the case where the user wishes to create a link in a cross-platform way, and doesn't care what type of link is created.  
 
 If the user wishes to make a link of a ''specific type only'', (and signal an error if for some reason that is not possible), then the optional ''linktype'' argument should be given.  Accepted values for linktype are "-symbolic" and "-hard".  
 
@@ -36,11 +36,11 @@ The TIP proposes implementing:
 
 |           Unix,MacOSX       Win-NTFS             MacOS
 |symbolic:      yes        directories-only         yes
-|hard:          yes          files-only              no
+|hard:          files-only   files-only              no
 
 This also leaves the avenue open, in the future, for the addition of other link types (e.g. Windows shortcuts) through additions to list of acceptable 'linktype's.  This TIP only proposes adding the above options.
 
-This means that a general 'file link $source $target' should always succeed on the above platforms (for both files and directories), but uses of '-hard' or '-symbolic' could fail, depending on the current platform.
+This means that a general 'file link $linkname $target' should always succeed on the above platforms (for both files and directories), but uses of '-hard' or '-symbolic' could fail, depending on the current platform, and the type of the path.
 
 ~ Rationale
 
@@ -61,13 +61,13 @@ ln ?-s?'' command to achieve the same effect.
 
 ~ Reference Implementation
 
-Tcl contains a 'testfilelink' command in tclTest.c, which is a partial implementation used by the test suite.  For an implementation of this TIP, including the '-linktype' switch, see:
+Tcl contains a 'testfilelink' command in tclTest.c, which is a partial implementation used by the test suite.  For a full implementation of this TIP, including the '-linktype' switch, see:
 
 ''
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-which includes docs and tests.
+which includes extensive docs and tests.
 
 ~ Copyright
 
