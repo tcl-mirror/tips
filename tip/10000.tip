@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.101 $
+Version:        $Revision: 1.102 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -44,3 +44,189 @@ Here's a simple edit test.
 ~ Copyright
 
 This document is placed in the public domain.
+
+~ Rationale
+
+There is an embarrassing number of open bugs and feature requests against
+the [[clock]] command.  As the maintainer of [[clock]], the author
+of this TIP has also received a number of informal feature requests that
+are not logged at SourceForge.  Unfortunately, many of the requested
+fixes and enhancements cannot be effectively addressed with the current
+architecture of [[clock]].
+
+   1.   Several users have requested additional input formats to
+        [[clock scan]], notably the full range of ISO8601 time formats
+        (including formats based on week number and day-of-week); year
+        and day-of-year; Apache "web log" dates and times; numeric
+        dates placing the month before the day; and localised names of
+        months and days of the week.  Unfortunately, these formats
+        simply cannot be added in the current architecture of
+        [[clock scan]]; in fact, there are several outstanding bugs
+        in [[clock scan]] (for example, the parsing of numeric time
+        zones east of Greenwich) that cannot be fixed without breaking
+        something else.  
+
+   >    The fundamental issue is that [[clock scan]]
+        is asked to process input with too many ambiguities.  An input
+        token such as ''2000'', for example, may be interpreted as
+        a year, a time of day, or a number ("now + 2000 seconds").
+        ''1000'' may (perhaps) not be a year, but could be a time
+        of day, a number, or a time zone.
+        Localisation would only make this problem worse.  Without
+        additional guidance, there is, even in theory, no way to
+        determine whether ''03-11-2004'' represents the third of
+        November or the eleventh of March. 
+
+    >   To solve this problem, a radical redesign of [[clock scan]]
+        is required; the programmer ''must'' be allowed to specify
+        an expected input format (or set of expected formats).
+
+	A side effect of such a redesign would be improved ease of
+	maintenance.  The current [[clock scan]] is a YACC-derived
+	parser; the build process, however, runs a script on the
+	output of YACC to modify its memory management and alter
+	its external symbol names to make it compatible with Tcl's
+	conventions.  This script is fragile; at present, it is
+	known to work only with the version of YACC distributed with
+	Solaris.
+
+   >	There are a number of other issues with [[clock scan]] that
+	could be addressed at the same time with such a redesign.
+	For instance, there is a known problem at present that
+	an input string that specifies time and time zone but not date
+	can return a time that is one day too early or late;
+	this problem arises because the existing parser presumes
+	the current ''local'' date when parsing such a string, rather
+	than the current date in the given time zone.  The problem
+	is difficult to address because of the left-to-right nature
+	of the LALR(1) parser.
+
+   1.   A few enhancements have been requested to [[clock format]];
+        most notably, proper localization on all platforms.  In
+	addition, the documentation of [[clock format]] is at best
+	approximate, because it depends on the ''strftime'' function
+	in the Standard C Library.  This function differs among
+	platforms, because the C standard, the Posix standard, and
+	the Single Unix Specification have gone through evolution
+	over time, and few platforms support all the features of
+	the current generation of any of them.
+
+   >	In addition, the Year 2038 bug looms large on the horizon.
+	On most 32-bit platforms, ''time_t'' (used in the C library
+	funtions) is a 32-bit count of seconds from 1 January 1970;
+	dates beyond 2038 cannot be represented in this format.
+
+   >	The dependence on a complex library function
+	such as ''strftime'' introduces obscure platform-dependent
+	bugs.  Several open bugs in [[clock format]], for instance,
+	fail only on HP-UX, or only on Windows.  
+
+   >	Date formats have been requested (specifically,
+	the Japanese civil calendar) that are beyond the capabilities
+	of the Standard C Library functions.
+
+   >    [[clock format]] does not honor user preferences for
+	date/time format on Windows.
+
+   >	All of these concerns seem to indicate that our current
+	dependency upon vendor-supplied date and time manipulation routines
+	is ill advised.  A single implementation that we control
+	will make the behavior consistent among platforms, allow
+	the localisation to follow Tcl's conventions, and let us lead
+	rather than follow the vendor in fixing bugs.
+
+   1.   Server applications frequently require support of multiple
+	locales and multiple time zones within a single process,
+	because they need to parse input and format output according
+	to the client's environment. The current [[clock]] facilities
+	either do not support localization at all, or else support
+	a change to locale only by changing environment variables.
+	This technique, once again, exposes bugs in the vendor
+	libraries.  It also introduces difficulties with thread
+	safety; Tcl does not have a single mechanism whereby the
+	''TZ'' and ''LC_TIME'' environment variables are protected.
+
+   1.   The only mechanism for performing calculations like "one
+	month after the current date" is [[clock scan]].  While
+	this works well in practice, using a parser to perform
+	arithmetic seems somewhat perverse.	
+
+~ Specification
+
+The [[clock]] command shall be reimplemented as an ensemble [[112]],
+with most of the subcommands implemented in Tcl.  A minimal set of
+the existing C code shall be refactored and placed inside a ''::tcl::clock''
+namespace.  The existing subcommands ''seconds'' and ''clicks'' shall
+be exposed.  The existing ''scan'' shall be hidden inside the namespace.
+[[clock scan]] and [[clock]] format shall be reimplemented in Tcl.
+In addition, new [[clock add]] and [[clock subtract]] commands shall be
+added.
+
+    NEW/MODIFIED [[clock]] SUBCOMMANDS:
+    The following subcommands shall be added or modified in the [[clock]]
+    ensemble.
+
+    > clock scan:
+        The [[clock scan]] command shall have the syntax:
+
+|	clock scan $string ?-base baseTime? \
+|                          ?-format format? \
+|			   ?-gmt boolean? \
+|			   ?-locale name? \
+|	                   ?-timezone timeZone?
+
+    > > It accepts a character string representing a date and time
+        and returns the time that the string represents, expressed
+	as a count of seconds from the Posix epoch (1 January 1970,
+	0000 UTC).
+
+    > > If a ''-format'' option is not supplied, the scan is a
+	''free format'' scan.  The existing YACC parser for ''clock scan''
+	will be used to interpret the input string.  ''This form
+	of the command is explicitly deprecated'' because of the
+	inherent ambiguities in interpreting the input string.
+	If the ''-format'' option is supplied, the ''-locale''
+	and ''-timezone'' options will be forbidden, since the
+	legacy code does not support multiple locales or time zones.
+
+    > > If the ''-format'' options is supplied, it is interpreted
+	as a specification for the expected input form.  If the given
+	string matches the input form, it is converted to a count of
+	seconds and returned; otherwise, an error is thrown. See 
+	''FORMATS'' below for a discussion of the available format
+	groups and their interpretation.
+
+    > > Extraction of the date from the input string is guided
+        by what fields are present in the format.  The order of
+	preference, from highest to lowest, is:
+
+    > > {seconds from epoch}, {starDate}:
+	  Date fields that specify both date and time take highest
+	  precedence.  If format groups for these fields appear multiple
+	  times, the rightmost takes precedence.
+
+    > > {Julian Day Number}:
+	  The Julian Day Number uniquely specifies a calendar date.
+
+    > > {century, year, month, day of month}, {century, year, day of year}, {century, year, week of year, day of year}, {locale era, locale year, month, day of month}:
+	  Formats with complete year are preferred to formats with a two-digit
+	  year.  For a two digit year, the date range is constrained to lie
+          between 1938 and 2037.
+
+    > > {year, month, day of month}, {year, day of year}, {year, week of year, day of week}, {year of locale era, month, day of month}:
+          Formats that specify the year are preferred to those that do not.
+
+    > > {month, day of month}, {day of year}, {week of year, day of week}:
+	  Formats that specify a day within the year are preferred to
+          those that specify merely the day of week or day of month.
+          Formats that do not specify the year are presumed to designate
+	  the base year.
+
+    > > {day of month}, {day of week}:
+          If none of the above rules apply, a day of the month or
+	  day of the week standing alone is interpreted as belonging
+	  to the base month or week.
+
+    > > None of the above:
+	  If no combination of fields that specifies a date is found,
+          the base date is used.
