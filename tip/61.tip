@@ -1,13 +1,14 @@
 TIP:            61
 Title:          Make TK_NO_SECURITY Run-Time Switchable
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        12-Sep-2001
-Tcl-Version:	8.4
 Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -59,6 +60,17 @@ Tcl level command:
 
 It leaves the TK_NO_SECURITY flag alone.  If specified, send is
 insecure by default, otherwise it is secure.
+
+~ Comments
+
+''DKF'' - It should be possible to control the setting of the
+compile-time TK_NO_SECURITY flag from the ''configure'' script; having
+to edit the Makefile by hand to adjust it makes it too easy to
+inadvertently break something by introducing an unfortunate typo. Being
+able to pass a ''--disable-security'' flag would make thing much easier
+from a user's point of view, and will make it less likely that the Tk
+maintainers will have to deal with bug reports that ultimately stem from
+a dumb mistake made in a sensitive spot...
 
 ~ Copyright  
 
