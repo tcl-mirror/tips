@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.10 $
+Version:        $Revision: 2.11 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -78,10 +78,10 @@ The [[namespace ensemble]] command will have the following subcommands:
    ensemble to configure, and then works with either no extra arguments
    (when it retrieves the entire ensemble configuration), one extra
    argument (the name of the option to retrieve), or a list of option
-   value pairs to configure the ensemble with.
+   value pairs to configure the ensemble with.  This command returns an error if applied to anything that is not an ensemble.
 
  exists: This subcommand (which takes a single argument) tests whether
-   a command (with the given name) exists and is an ensemble.
+   a command (with the given name) exists and is an ensemble.  This command only returns an error if the wrong number of arguments are supplied.
 
 The options available for creation and configuring are:
 
@@ -101,7 +101,7 @@ The options available for creation and configuring are:
    empty and the ''-export'' option is empty too, the namespace will use
    the exported commands of the namespace as its command set, dynamically
    determining them (subject to cacheing) every time the ensemble is
-   invoked.
+   ''invoked''.
 
  -prefix: This boolean option (which is on by default) controls whether
    unambiguous prefixes of ensemble commands are recognized as if they
@@ -138,7 +138,7 @@ command will first of all match the subcommand to its implementing
 command (or command/argument list, as derived from the dictionary) in
 a manner that will be recognizably similar to that enforced by
 ''Tcl_GetIndexFromObj()'' (unless the ''-unknown'' option override this
-behaviour.)
+behaviour.)  For details of how the ensemble determines what its subcommands are, please see the -export and -map options above.
 Then the ensemble command will rewrite the command and arguments so
 that the ensemble command and subcommand are replaced by the
 implementing command and any specified arguments, with the resulting
@@ -176,25 +176,25 @@ that the implementing command may itself be an ensemble command.
 |carrot foo                       ;# Prints 1
 |carrot bar                       ;# Prints 2
 |carrot b                         ;# Also prints 2 ("boo" not exported)
-|carrot ?                         ;# Alternatives "bar", "foo" and "potato"
-|carrot potato                    ;# Complains about missing argument
-|carrot potato ?                  ;# Suggests you might try "north" instead
+|carrot ?                         ;# ERROR: Alternatives "bar", "foo" and "potato"
+|carrot potato                    ;# ERROR: Missing argument
+|carrot potato ?                  ;# ERROR: Try "north" instead
 |carrot potato north              ;# Prints 6
-|carrot turnip alpha              ;# Complains about "turnip" being not known
+|carrot turnip alpha              ;# ERROR: "turnip" not known
 |carrot::turnip alpha             ;# Prints 4
 |carrot::turnip::beta             ;# Prints 5
 |
 |rename ::carrot::potato ::spud
 |spud north                       ;# Prints 6
-|spud south                       ;# Complains about "south" being not known
-|carrot potato north              ;# Complains: no ::carrot::potato command
+|spud south                       ;# ERROR: "south" not known
+|carrot potato north              ;# ERROR: No ::carrot::potato command
 |namespace ensemble configure spud -map {
 |   north {puts NORTH} south {puts SOUTH}
 |}
 |spud north                       ;# Prints NORTH
 |spud south                       ;# Prints SOUTH
 |namespace delete carrot
-|spud north                       ;# Illegal: spud command already deleted
+|spud north                       ;# ERROR: spud command already deleted
 |
 |
 |namespace eval A {
