@@ -1,13 +1,13 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        11-Mar-2002
-Post-History:
+Post-History:   
 Discussions-To: news:comp.lang.tcl
 Tcl-Version:    8.4
 
@@ -26,8 +26,7 @@ promote the full use of existing error codes.  Wrapper procedures can
 be written to improve on this, however both a performance and
 compatibility penalty is incurred.
 
-This TIP proposes adding a try/catch command to the Tcl core, not
-unlike those found in C++, C#, Java and Python (to name a few).
+This TIP proposes adding a try/catch command to the Tcl core (or C based Tcl library). This implementation is not unlike those found in C++, C#, Java and Python (to name a few).
 
 ~ Specification
 
@@ -68,24 +67,26 @@ I propose the following two commands be added to Tcl:
 
 |    try body ?catch {type ?var?} body ...? ?finally body?"
 
- > If a one or more ''catch'' blocks are specified, each corresponding
+ > If one or more ''catch'' blocks are specified, each corresponding
    ''body'' represents a required block of code that is evaluated if
    the resulting errorCode matches the ''type'' condition.  The
    required body of the ''finally'' block is evaluated following the
    ''try'' block and ''catch'' block.
 
- > If no ''catch'' blocks are specified, the error is ignored with
+ > If no ''catch'' blocks are specified, the error is consumed with
    execution immediately resuming at the start of the ''finally''
    block (if specified).
 
- > ''type'' represents the errorCode and can be matched using glob
-   style matching, if ''var'' is specified the current error message
-   will be placed in it in the local scope upon a errorCode match.
-   Note, ''catch'', if specified, will catch all remaining errors.  If
-   used, it should be placed last since each of the catch blocks are
-   evaluated in order.  ''type'' is that set in errorCode, and can be
-   any user defined type, or built-in types including POSIX*, ARITH*,
-   CHILD*, CORE, REGEXP, WINDOWS, or NONE.
+ > ''type'' represents a glob style pattern used to match the
+   errorCode condition.
+   If a match occurs, and ''var'' is specified, the current error
+   message will be stored in ''var'' within the local scope prior to
+   executing the ''body''.
+   Note, ''catch {*}'', if specified, will catch all remaining errors.
+   If used, it should be placed last since each of the catch blocks are
+   evaluated in the order specified. ''type'' is that set in 
+   errorCode, and can be any user defined type, or built-in types
+   including POSIX*, ARITH*, CHILD*, CORE, REGEXP, WINDOWS, or NONE.
 
  > If one or more ''catch'' blocks are specified, and no ''catch''
    block matches the errorCode condition, the error will be propagated
@@ -93,10 +94,10 @@ I propose the following two commands be added to Tcl:
    (if specified).  An enclosing ''try'' block (or ''catch'' command)
    can then be used handle the error.
 
- > ''message'' is the same as that issued by the ''catch'' command or
-   returned with
+ > ''var'' is optional, and if specified holds the same string as that
+   issued by the ''catch {body} var'' command or returned with
 
-|    error -code error "message"
+|    return -code error "message"
 
  > The ''finally'' block is used to perform all the clean up code.
    The ''finally'' body is evaluated whether the error occurs or not,
