@@ -1,9 +1,9 @@
 TIP:            123
 Title:          Adding an Exponentiation Operator to the [expr] Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        16-Dec-2002
