@@ -1,7 +1,8 @@
 TIP:            35
 Title:          Enhanced Support for Serial Communications
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
+Author:         Rolf Schroedter <Rolf.Schroedter@dlr.de>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -74,6 +75,13 @@ serial communications:
     operating system default should be DC1 (0x11 hex) and DC3 (0x13
     hex) representing the ASCII standard XON and XOFF characters.  The
     -xchar option cannot be queried.
+
+ -timeout msec: ''(Windows and Unix''. This option is used to set 
+    the timeout for blocking read operations. It specifies the 
+    maximum interval between the receiption of two bytes in
+    milliseconds. For Unix systems the granularity is 100 milliseconds.
+    The -timeout option does not affect write operations or
+    nonblocking reads. This option cannot be queried.
 
  -ttycontrol {signal boolean signal boolean ...}: ''(Windows and
     Unix)''.  This option is used to setup the handshake output lines
@@ -163,12 +171,18 @@ timeout could be used to wait for an expected number of data bytes
 from the serial port.  There are two arguments against timeouts:
 
  1. Adding timeout to blocking I/O at the driver level radically
-    changes the behaviour of read/write operations.  This adds a lot
+    changes the behaviour of write operations.  This adds a lot
     of oddity to serial communications.
 
  2. Timeouts can easily be implemented at Tcl level using non-blocking
     I/O together with Tcl's event loop.  Additional support is given
     by [[fconfigure -queue]].
+
+July 03, 2001:
+On the other hand timeout for read operations can easily be 
+implemented in a cross-platform way by using the VMIN/VTIME settings
+for Unix and the COMTIMEOUTS for Windows.
+That's why the author finally agrees with the -timeout proposal.
 
 ~ Copyright
 
