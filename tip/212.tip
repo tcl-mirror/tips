@@ -1,0 +1,97 @@
+TIP:		212
+Title:		Temporarily Opening out a Dictionary
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	11-Aug-2004
+Keywords:	tcl, dict, update, script
+
+~ Abstract
+
+This TIP proposes a new subcommand of '''dict''' that associates
+variables with dictionary entries while a Tcl script (the "body" of
+the command) runs.
+
+~ Rationale
+
+The standard set of operations provided by the '''dict''' command (see
+[111] and [163]) give a fairly rich set of operations, but there are
+always further things that script authors want to do.  Instead of
+ever-expanding numbers of subcommands offering tiny variants on
+existing operations, this TIP provides a generalized mechanism for
+associating variables and dictionary entries for the duration of a
+script.  This makes writing arbitrary complex manipulations of
+dictionaries much simpler.
+
+~ Proposed Change
+
+This TIP proposes a new subcommand to '''dict''' with the following
+syntax:
+
+ > '''dict update''' ''dictVarName dictKey varName'' ?''dictKey
+   varName'' ...? ''bodyScript''
+
+In prose, the first argument is the name of a variable containing a
+dictionary that will be updated, the last argument is a script to be
+executed with the variables set up and whose effects are expected to
+be to update the associated variables, and the other arguments between
+those two (of which there must be an even number, with a minimum of
+two) are a list of dictionary keys and the names of variables with
+which to associate those keys.
+
+The semantics of the command are this:
+
+ 1. For each dictionary key (''dictKey''), the value from the
+    dictionary contained in the variable named by ''dictVarName''
+    which that key maps to will be written to the variable associated
+    with that key (''varName'').  If the key is not present in the
+    dictionary, the variable will be unset.
+
+ 2. The script (''bodyScript'') is executed.
+
+ 3. The dictionary is read out of ''dictVarName'' again and, for each
+    ''dictKey'', the ''varName'' variable is consulted and the
+    contained value placed in the dictionary (if ''varName'' is unset,
+    any existing mapping for ''dictKey'' will be removed.)  Finally,
+    the resulting dictionary value is written back to ''dictVarName''.
+
+Note that ''dictVarName'' is read twice (each time, the value read
+must be a valid dictionary or the variable must be unset, which is
+interpreted as an empty dictionary) and written once, and that ''no''
+traces are set up; ''dictVarName'' is completely independent of the
+''varName''s during the execution of ''bodyScript''.
+
+~ Examples
+
+A somewhat-less-efficient version of '''dict set''':
+
+| dict update someVar $key local {
+|     set local $value
+| }
+
+Sorting a list inside a nested dictionary:
+
+| dict update someVar OuterKey temp {
+|     dict update temp InnerKey temp2 {
+|         set temp2 [lsort $temp2]
+|     }
+| }
+
+"Renaming" a key:
+
+| dict update someVar oldKey foo newKey bar {
+|     set bar $foo
+|     unset foo
+| }
+
+~ Reference Implementation
+
+Not yet available.
+
+~ Copyright
+
+This document has been placed in the public domain.
