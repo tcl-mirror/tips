@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -57,7 +57,9 @@ a new 'Path' object type, which should be designed with two goals in
 mind:
 
   * allow caching of 'native path representations' (all native Tclp...
-    filesystem calls involve various Utf->Native conversions)
+    filesystem calls involve various Utf->Native conversions).  For example,
+    quick testing for 'file exists' shows that a 20% speed up can be achieved
+    by caching the native representation (Windows 2000sp1).
 
   * allow virtual filesystems to operate very efficiently - this will
     probably require caching of the filesystem to use for a particular
@@ -212,9 +214,12 @@ structure, see Documentation section below):
 |                            /* Function to duplicate internal fs rep */ 
 |    TclfsFreeInternalRep_ *freeInternalRepProc;
 |                            /* Function to free internal fs rep */ 
-|    TclfsNativeToNormalizedProc_ *nativeToNormalizedProc_;
-|                            /* Function to convert native representation
-|                             * to a normalized path */ 
+|    TclfsInternalToNormalizedProc_ *internalToNormalizedProc_;
+|                            /* Function to convert internal representation
+|                             * to a normalized path */
+|    TclfsConvertToInternalProc_ *convertToInternalProc_;
+|			    /* Function to convert object to an
+|			     * internal representation */
 |    TclfsStatProc_ *statProc; /* Function to process a 'Tcl_Stat()' call */
 |    TclfsAccessProc_ *accessProc;            
 |                            /* Function to process a 'Tcl_Access()' call */
@@ -552,8 +557,9 @@ provide a similarly general and efficient filesystem.
 There are actually remarkably few changes required, so the only
 slowdown would occur if additional filesystems are hooked into the
 core.  This is similar to the impact of the 'stacked channels'
-implementation.  Once the filesystem is objectified, this should
-actually speed up Tcl's core.
+implementation.  Once the filesystem is objectified, this does
+actually speed up Tcl's core (as remarked above, 'file exists' is 20% 
+faster on Windows 2000).
 
 ''Won't this break backwards compatibility ("The Tcl question")?''
 
