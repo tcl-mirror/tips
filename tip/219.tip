@@ -1,22 +1,22 @@
-TIP:		219
-Title:		Tcl Channel Reflection API
-Version:	$Revision: 1.1 $
-Author:		Andreas Kupries <andreas_kupries@users.sf.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	09-Sep-2004
-Tcl-Version:	8.5
-Post-History:	
+TIP:            219
+Title:          Tcl Channel Reflection API
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <andreas_kupries@users.sf.net>
+Author:         Andreas Kupries <akupries@shaw.ca>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        09-Sep-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
 This document describes an API which reflects the Channel Driver API
 of the core I/O system up into the Tcl level, for the implementation
 of channel types in Tcl.  It is built on top of [208] ('Add a chan
-command') and also an independent companion to the forthcoming TIPs on
-a 'Tcl Channel Transformation Reflection API' and a Tcl Filesystem
-Reflection API'. As the later TIPs bring the ability of writing
+command') and also an independent companion to [230] ('Tcl Channel Transformation Reflection API') and [228] ('Tcl Filesystem
+Reflection API'). As the later TIPs bring the ability of writing
 channel transformations and filesystems in Tcl itself into the core so
 this TIP provides the facilities for the implementation of new channel
 types in Tcl.  This document specifies version ''1'' of the channel
@@ -210,7 +210,7 @@ tied to the recently introduced 'namespace ensemble's.
    channel driver API is not able to propagate this information.
 
  > The equivalent C-level function is ''Tcl_DriverInputProc''.
- 
+
  * '''write''' ''channel data''
 
  > This method is ''optional''. It is called when the user writes data
