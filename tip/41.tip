@@ -1,14 +1,14 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
-Tcl-Version:    8.4a2
 Vote:           Pending
 Created:        04-Jul-2001
-Keywords:       widget,tk,panedwindow
 Post-History:   
+Keywords:       widget,tk,panedwindow
+Tcl-Version:    8.4a2
 
 ~ Abstract
 
@@ -151,6 +151,13 @@ The manual entry for the paned window widget is included here:
 |
 |              Specifies the width of each sash.  May be any value
 |              accepted by Tk_GetPixels.
+|
+|       Command-Line Name:-showhandle
+|       Database Name:  showHandle
+|       Database Class: ShowHandle
+|
+|              Specifies whether or not sash handles should be shown.
+|              May be any valid Tcl boolean value.
 |
 |DESCRIPTION
 |       The panedwindow command creates a new window (given by the
@@ -386,4 +393,3 @@ http://tktable.sourceforge.net
 ~ Copyright
 
 This document has been placed in the public domain.
-
