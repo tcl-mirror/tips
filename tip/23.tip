@@ -1,7 +1,8 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
+Author:         Jim Ingham <jingham@apple.com>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -34,6 +35,10 @@ a similar mapping for the Tk toolkit.
 
 Just as with [16], this document attempts to divide the Tk toolkit
 into a set of the smallest sensible functional units.
+
+One other factor, which was not addressed in TIP #16, is that there is considerably more platform dependent code in Tk than in Tcl, and it is unreasonable to expect people to take ownership for pieces of code that run on platforms they don't have access to.  However, we want to make sure that the maintainer structure supports the cross-platform nature of Tk.  
+
+To that end, in any area where there is both generic code, and platform specific code, we propose that maintainers can sign up for the generic code AND code for one or more platforms.  By overlapping the generic code, we ensure that the public interfaces to Tk will stay consistent among the platforms, while not forcing maintainers to presume expertise in code they
 
 ~ Proposal
 
@@ -571,7 +576,7 @@ units, each to be assigned one or more maintainers:
      mac/tkMacWm.c,
      mac/tkMacXStubs.c,
      tests/macEmbed.test
-     
+
    >  6. ''Unix window operations'' -
      tests/unixEmbed.test,
      tests/unixWm.test,
@@ -864,6 +869,16 @@ The following files are generated, so they don't need maintainers.
      generic/tkStubInit.c,
      unix/configure,
      win/configure
+
+~ Platform Dependencies
+
+In addition to the division into functional areas, responsibility for a given area can also be qualified by one or more "platform" specifiers.  Some areas, like "Windows Configuration and Build Tools" are obviously platform specific, so the qualification is unnecessary.  Others, like "Canvas Items", are wholly generic.  But others, like "Button", "Scale" or "Scrollbar" contain code for all platforms.
+
+A maintainer can sign up for one of these latter areas, but specify  support for only one platform.  This means that that person will be responsible for the generic code in this area, in conjunction with the other platform maintainers in this area, and the platform specific code in that area.
+
+The point behind sharing the generic code among all the maintainers is so that any changes to the Tk visible face of the widget be designed in concert for all platforms.  Therefore, it is the responsibility of a platform maintainer for one platform who is sponsering a new feature for that area to work with the other platform maintainers to ensure that the feature is implemented on all platforms.  One of the strengths of Tk is its cross-platform nature, and one of the maintainer's jobs is to ensure that this continues.
+
+Procedurally, the maintainer will be listed as "Button Widget -  Macintosh", etc.  A maintainer for a given area can sign up for one  or more platforms.  Due to the good design of the Tk's platform  dependencies, determining which files are generic, and which are platform specific is trivial.  The generic ones are in the "generic" directory, the Mac ones in the "mac" directory, etc.  Similarly, an area which has NO files in the mac, win, or unix directories is a generic area, and no qualifiers are needed. 
 
 ~ Copyright
 
