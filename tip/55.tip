@@ -1,158 +1,380 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        16-Aug-2001
-Tcl-Version:	8.4
 Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
-Defines the contents of a packaged Tcl extension suitable for
-automated installation into an existing Tcl installation.
+This document specifies the contents of a binary distribution of a Tcl
+package, especially directory structure and required files, suitable
+for automated installation into an existing Tcl installation.
 
 ~ Rationale
 
 There is currently no standard way of distributing or installing a Tcl
 extension package.  The TEA document defines a standard interface to
-''building'' extensions and includes an ''install'' target but
-presumes that the extension is being installed on the same machine as
-it was built. This TIP defines a directory structure for an extension
-which can be packaged (as a zip or tar file) and transferred for
+''building'' packages and includes an ''install'' target but
+presumes that the packages is being installed on the same machine as
+it was built. This TIP defines a directory structure and assorted
+files for the binary distribution of a package which can be placed
+into an archive (for example zip or tar file) and transferred for
 installation on another machine.
 
-This TIP does not address the mechanism for the installation of these
-packages and acknowledges that additional information may be required
+This TIP does not address the mechanism for the installation of such
+archives and acknowledges that additional information may be required
 in some cases to install a complex package. Rather than deal with all
 of these issues at once, this TIP is intended to put forward a basic
-package format which is workable for a significant proportion of Tcl
-extensions.
+distribution format which is workable for a significant proportion of
+Tcl packages.
+
+~ Definitions
+
+A ''package'' is an abstract entity providing some functionality to a
+Tcl interpreter when loaded by some means.  A ''distribution'' is a
+collection of files in a specific directory structure which allows the
+transfer of one or more packages between people, either in source or
+executable form.
+
+Alternately, from:  http://mini.net/tcl/28.html 
+
+ distribution: A collection of files and extensions, all distributed
+ together
+
+ extension: A set of related files defining new commands and APIs,
+ either at the C-level or the script level. May contain only tcl
+ scripts, or only source code, or both. The pure forms are called
+ script and code extensions.
+
+ library: A collection of (possibly related) extensions. The term is
+ potentially confusing as other things are called library too, most
+ notably object code libraries. 
+
+ shared library: A piece of binary code that provides a set of
+ operations and datastructures like a normal library, but which does
+ not need to be physically incorporated into the executables that use
+ it until they are actually executed. This is the normal way to
+ distribute binary code for a Tcl extension such that it can be
+ incorporated into a tcl interpreter with the ''load'' command. On
+ Windows, shared libraries are known as DLLs.
+
+ package: An extension containing the necessary baggage to allow the
+ kernel its use via a call to ''package require foo''. To use
+ extensions without that the user has to explicitly set up the
+ ''auto_path'' in his applications, which is error prone and not easily
+ distributable.
 
 ~ References
 
-Much of the required structure for an installable extension is defined
-by the requirements of Tcl's existing package loading methods.  An
-installable package structure should largely mirror that of an
-installed package where possible.
+Much of the required structure for an installable distribution is
+defined by the requirements of Tcl's existing package loading methods.
+The structure of an installable distribution should largely mirror
+the structure of an installed package where possible.
 
 The R system (a statistical package: http://www.r-project.org/) has a
-well defined package format for extensions which enables automatic
-installation of new extensions and integration of documentation and
-demonstration programs for these extensions with that of the main R
-system.
+well defined package format which enables automatic installation of new
+packages and integration of documentation and demonstration programs
+for these with that of the main R system.
 
 ~ Requirements
 
-The simplest case of a Tcl extension is one that contains only Tcl
-code; I will consider these first and look at the additional issues
-raised by compiled extensions later.
+The simplest case of a Tcl package is one that contains only Tcl code;
+these will be considered first, and the additional issues raised by
+packages containing compiled code will be dealt with later.
 
-The minimum contents of a Tcl only extension are defined by the
-requirements of [[package require xyzzy]].  The extensions needs to be
-placed in a directory on the ''auto_path'' and must contain at least
-''pkgIndex.tcl'' and one or more ''.tcl'' files which implement the
-extension.
+The minimum contents of a Tcl only package are defined by the
+requirements of [[package require xyzzy]].  The package needs to be
+placed in a directory on the ''auto_path'' and must contain at least a
+file called ''pkgIndex.tcl'' and one or more ''.tcl'' files which
+implement the functionality provided by the package.
 
 In addition to these files, it is useful to include documentation for
-the commands implemented by the extension and some additional
-meta-information about the package author etc.  Extensions might also
-optionally include demonstration scripts illustrating their use, these
-could either be incorporated into the documentation or included as
-standalone Tcl files.
+the commands implemented by the package and some additional
+meta-information about the author etc.  Distributions might also
+optionally include demonstration scripts and applications illustrating
+their use, these could either be incorporated into the documentation or
+included as standalone Tcl files.
 
-Extensions which include shared libraries add an additional layer of
-complexity since these packages will only run on the platforms for
-which the extension has been compiled.  There are two clear options
-here: either packages are platform specific, intended for installation
-on one platform alone, or the structure of the package is extended to
+Distributions which include shared libraries add an additional layer of
+complexity since these will only run on the platforms for which they
+have been compiled.  There are two clear options here: either
+distributions are platform specific, intended for installation on one
+platform alone, or the structure of the distribution is extended to
 allow the option of including multiple shared libraries.  The latter
 option would allow a single installation to serve multiple platforms
 and so should be preferred.
 
-~ Proposed Structure
+~ Proposed Directory Structure
 
 The following directory structure is proposed for an installable
-package: 
+distribution: 
 
-|  packagename  
-|      + DESCRIPTION      -- Description of the package in "Field: value" format
-|      + pkgIndex.tcl
-|      + *.tcl            -- package source file(s)
-|      + doc/             -- package documentation
-|      + examples/        -- example scripts
-|      + $platform/$os/   -- shared library directories
+|  packagename$version
+|      + DESCRIPTION.txt  -- Meta-information, description of the package
+|      + doc/             -- documentation
+|      + examples/        -- example scripts and applications
+|      + $architecture/   -- shared library directories
 
-In addition, a package may include any additional files or directories
-required for it's operation.
+In addition, a distribution may include any additional files or
+directories required for it's operation.
 
-The formats of the required files is defined as follows.
+''DESCRIPTION'' is a file containing meta-information about the
+package(s) contained in the distribution. It's format will be described
+in a later section of this document.
 
-''DESCRIPTION'' contains a number of records to provide
-meta-information about this package. This should include at least the
-fields illustrated in the following example:
+The file ''pkgIndex.tcl'' currently required by the package-loading
+mechanism of the Tcl core is ''optionally'' distributed. In most cases,
+it will be generated by the installer; all the information which is
+necessary to do this is part of the distribution.  Distribution authors
+should only include pkgIndex.tcl if special features of their
+distribution mean that the generated file would not work. 
+
+ * we should note here what the requirements on pkgIndex.tcl are,
+   eg. should it load files from tcl and $architecture subdirs?
+
+''doc/'' directory contains documentation in an accepted format.
+Currently Tcl documentation is delivered either in source form (nroff
+or TMML) or as HTML files.  Given the lack of a standard cross platform
+solution, this TIP does not require a specific format; however, the
+inclusion of either a text or HTML formatted help file is strongly
+encouraged.  If HTML formatted help is included the main file should be
+named ''index.html'' or ''index.htm'' so that it can be linked to a
+central web page.
+
+''examples/'' directory contains one or more Tcl files giving examples
+of the use of this package. These should be complete scripts
+suitable for either sourcing in tclsh/wish or running from the command
+line. The examples should be self contained and any external data
+should be included in files in this directory or a sub-directory.
+
+''$architecture'' directories contain shared libraries for various
+platforms. The special architecture ''tcl'' is used for tcl script
+files. They either implement the package or contain a companion
+library to the shared libraries of the package.
+
+The distribution need not provide all possible combinations of
+architectures and may only provide one shared library.  This structure
+is proposed to allow shared libraries to co-exist in a multi-platform
+environment and to allow binary packages to be distributed in
+multi-platform distributions.  The architectures included in the
+distribution should be named in the DESCRIPTION.txt file.
+
+The possible values of $architecture and methods for generating them
+are discussed in a later section.
+
+~ Meta-Information
+
+This section defines the meta-information describing the package
+contained in the distribution in a format-neutral way. The information
+listed here is the minimum required by the installer to work properly.
+
+In the following list each piece of information is given a symbolic
+name used later to reference it. This symbolic name is followed by a
+definition of the information itself.
+
+ * Name
+
+ > This information is a string containing the name of the distributed
+   package. The name may consist only of alphanumeric characters,
+   dashes and underscores.
+
+ * Version
+
+ > This information is a string containing the version of the
+  package. It consists of 4 components separated by full stops. The
+  components are ''major version'', ''minor version'', ''maturity''
+  and ''level''; and are written in this order. Each component is an
+  integer number greater than or equal to zero.
+
+ > The component ''maturity'' is restricted to the values 0, 1, and
+   2. The represent the maturity states ''alpha'', ''beta'' and
+   ''production'' respectively. The ''level'' component allows a more
+   fine-grained differentiation of maturity levels.
+
+ > When a package has maturity ''production'' the ''level'' component
+   is often called the ''patchlevel'' of the package.
+
+ * Title
+
+ > This information is a free form string containing a one sentence
+   description of the package contained in the distribution.
+
+ * Author
+
+ > This information is a free form string containing the name of the
+   author of the package. If there is more than one author this
+   information may appear multiple times.
+
+ * EmailAuthor
+
+ > This information is string containing the email address of the
+   author of the package, in a format specified by RFC 822. If there
+   is more than one author this information may appear multiple times.
+
+ * License
+
+ > This information is a string specifying the license under which the
+   package is distributed. This can be a free form string naming the
+   license or an url refering to a document containing the text of the
+   license.
+
+ * URL
+
+ > This information is a string containing an url refering to a
+   document or site at which the information about the package can be
+   found. This url is ''not'' the location of the distribution, as this
+   might be part of a larger repository separate from the package site.
+
+ * ReleaseDate
+
+ > This information is string in the form YEAR-MONTH-DAY.
+
+ > YEAR is a four-digit integer number greater than zero denoting the
+   year the distribution was released.
+
+ > MONTH is a two-digit integer number greater than zero and less than
+   13. It is padded with zero at the front if it less than 10. It
+   denotes the month the distribution was released. The number 1
+   represents January, 2 represents February; and 12 represents December.
+
+ > DAY is a two-digit integer number greater than zero and less than 32.
+   It is and padded with zero at the front if less than 10. It denotes
+   the day in the month the distribution was released.
+
+ * Description
+
+ > This information is a free form string briefly describing the package.
+
+ * Architecture
+
+ > This information is a string describing one of the architectures
+   included in the distribution. As a distribution is allowed to
+   contain the files for several architectures, this information may
+   appear multiple times.
+
+ * Require 
+
+ > Names a package that must be installed for this package to operate
+   properly. This should have the same format as the ''package
+   require'' command, eg. ''?-exact? package ?version?''. 
+
+ * Recommend
+
+ > Declares a strong, but not absolute dependancy on another package.
+   In most cases this package should be installed unless the user has
+   specific reasons not to install them.
+
+ * Suggest
+
+ > Declares a package which would enhance the functionality of this
+   package but which is not a requirement for the basic functionality
+   of the package.
+
+ * Conflict
+
+ > Names a package with which can't be installed alongside this
+   package. The syntax is the same as for Require.  If a conflicting
+   package is present on the system, an installer might offer an option
+   of removing it or not installing this package.
+
+~ Encoding of the Meta-information
+
+The meta-information defined in the preceding section is stored in the
+file ''DESCRIPTION.txt''.
+
+The general format of this file is that of a RFC 822 mail message,
+without body and using custom headers. The available headers are the
+case-independent logical names from the preceding section. Each header
+may appear only once, except for Author, Email, Architecture and
+Require. They are allowed multiple times to reflect the fact that a
+package may have more than one author. The headers are allowed appear
+in any order. Again both Author and Email are an exception. For them
+each Email is associated with the last Author preceding it. If two or
+more email headers follow each other without intervening Author the
+last Author will have multiple email addresses associated with it.
+
+Example:
 
 |  Package: stemmer
-|  Version: 1.0
+|  Version: 1.0.2.0
 |  Title: A stemmer for English.
 |  Author: Steve Cassidy, SHLRC, Macquarie University
 |  Email:  Steve.Cassidy@mq.edu.au
 |  Description:   Provides a function to remove any prefixes or suffixes on
 |	  a word to give the word stem. Uses Porter's algorithm to do this
-|	  in an intelligent manner with an accuracy of around 80%. 
+|	  in an intelligent manner with an accuracy of around 80%.
 |  License: BSD 
 |  URL: http://www.shlrc.mq.edu.au/emu/tcl/
 |  Released: Thu Aug 16 22:29:08 EST 2001  
+|  Architecture: tcl
+|  Architecture: sparc-sun-solaris2.6
+|  Architecture: i686-unknown-linux-libc5-multithreaded
 
-Fields are prefixed by the field name followed by a colon,
-continuation lines begin with a tab character.
+~ Combination Distributions
 
-''pkgIndex.tcl'' is a normal Tcl package index file and may be either
-hand written or automatically generated [[this could be made optional
-since it could be automatically generated if not present in most
-cases]].
+It is often useful to combine a number of related packages so that they
+can be installed together to provide a certain kind of functionality,
+for example, web page production tools or database access.  Perl uses
+the term ''Bundle'' to refer to such a group of related packages.
+There are two alternative mechanisms for distribution of such a package
+within the mechanisms suggested here.  
 
-''*.tcl'' are the Tcl source files implementing the package. There may
-be zero or more of these and they may be stored in a subdirectory. The
-''pkgIndex.tcl'' file should take care of sourcing these files as
-required.
+Firstly, since a distribution may contain more than one package, the
+set of files making up the various packages could be combined together
+and described by a single DESCRIPTION.txt file.  This is similar to the
+way that tcllib is currently distributed.  The disadvantage would be
+that all of the tcl files implementing these packages would have to
+reside in the same directory which could cause name clashes.  
 
-''doc/'' directory contains documentation in an accepted format.
-Currently Tcl documentation is delivered either in source form (nroff
-or TMML) or as HTML files.  Given the lack of a standard cross
-platform solution, this TIP does not require a specific format;
-however, the inclusion of either a text or HTML formatted help file is
-strongly encouraged.
+The second alternative is to create a distribution consisting of only a
+DESCRIPTION.txt file to describe which Requires the component packages
+causing them to be installed from the repository. For example, tcllib
+might be described as follows:
 
-''examples/'' directory contains one or more Tcl files giving examples
-of the use of this extension. These should be complete scripts
-suitable for either sourcing in tclsh/wish or running from the command
-line. The examples should be self contained and any external data
-should be included in files in this directory or a sub-directory.
+|  Package: tcllib
+|  Version: 1.0.2.0
+|  Title: The Standard Tcl Library
+|  Description:  This package is intended to be a collection of Tcl
+|	      packages that provide utility functions useful to a large
+|	      collection of Tcl programmers. 
+|  License: BSD
+|  URL: http://sourceforge.net/projects/tcllib
+|  Maintainer: Andreas Kupries  <andreas_kupries@users.sourceforge.net>
+|  Maintainer: Don Porter <dgp@users.sourceforge.net>
+|  Maintainer: Brent Welch <welch@ajubasolutions.com>
+|  Require: base64
+|  Require: cmdline
+|  Require: csv
+|  ...
 
-''$platform/$os'' directories contain shared libraries for various
-platforms. ''$platform'' refers to the Tcl variable
-''$tcl_platform(platform)'', ''$os'' refers to the Tcl variable
-''$tcl_platform(os)''.  The package need not provide all possible
-combinations of platform and OS and may only provide one shared
-library.  This structure is proposed to allow shared libraries to
-co-exist in a multi-platform environment and to allow binary
-extensions to be distributed in multi-platform packages.  The
-platform/OS pairs included in the package should be referenced in the
-DESCRIPTION file, for example:
+Installing tcllib would cause the installer to fetch base64, cmdline,
+csv etc from the repository and install them in order to satisfy the
+tcllib requirement.  A new pkgIndex.tcl file could be constructed to
+load all of these packages if ''[[package require tcllib]]'' was called.
 
-|   Platform: i686/Linux i686/Windows 
+~ Architecture 
+
+Possible values for $architecture in the directory structure include:
+
+ * the value of tcl_platform(platform): windows, unix, macintosh
+ * a canonical system name as returned by config.guess: i686-pc-linux-gnu
+ * a value taken from the tcl::config array as defined by [tip:59] (ak:
+   expand on this?)
+ * more?
 
 ~ Alternatives
 
-Alternatives might be considered for the package DESCRIPTION file, for
+Alternatives might be considered for the package DESCRIPTION.txt file, for
 the documentation directory and for the location of shared libraries.
 
-An alternative for package DESCRIPTION file is to include a more
+An alternative for package description file is to include a more
 general package description, for example the XML based ``ppd'' format
-used to describe Perl packages on the ActiveState Perl extension
+used to describe Perl packages on the ActiveState Perl package
 repository. The main motivation for the simple format proposed is that
 it is trivial for authors to write and trivial for programs to read.
 The reason for preferring an XML based alternative would have to be to
@@ -162,7 +384,7 @@ tool-set which would make any XML format preferable for this
 application.  I note that the ppd format could still be used to
 describe packages stored in a repository for installation and that
 some of the information required to build the ppd format could be
-derived from the DESCRIPTION file.
+derived from the description file.
 
 In the R package format referenced earlier, documentation is included
 in a standard source form and is converted to HTML or text based help
@@ -177,10 +399,9 @@ standard layout of these files in an installable package.
 The alternative to having shared libraries in specific directories is
 to have separate packages for each new platform. This has the
 advantage of making the packages smaller and more closely correspond
-to the existing directory structure of an installed extension.  The
+to the existing directory structure of an installed package.  The
 main motivation for the suggested directory structure is to allow
 multi-platform packages or to facilitate multi-platform installations.
-
 
 ~ Supporting Tools
 
@@ -191,10 +412,10 @@ to:
 
  * Validate package directories or archive files.
 
- * Read and write the DESCRIPTION file and provide a standard
+ * Read and write the DESCRIPTION.txt file and provide a standard
    interface to the information it contains.
 
- * Install an extension from an appropriately structured archive.
+ * Install a package from an appropriately structured archive.
 
 In addition, the TEA standard should be extended with a ''package''
 makefile target which will act like the current ''install'' target but
