@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.19 $
+Version:        $Revision: 2.20 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -111,33 +111,13 @@ The options available for creation and configuring are:
 
  -unknown: This provides (when non-empty) a partial command to handle
    the case where an ensemble subcommand is not recognized and would
-   otherwise generate an error.  It is executed by concatenating on
-   ''all'' the arguments to the ensemble command (including the ensemble
-   command name, though it is the fully qualified name that is passed)
-   and then invoking the
-   completed command in the scope of the caller; if the script terminates
-   normally, the ensemble engine reparses the subcommand and tries to
-   dispatch it again (which is ideal for when the ensemble's
-   configuration has been updated by the unknown subcommand handler.)
-   The result of the the unknown script is parsed as a list, and all
-   other kinds of result are treated as errors.
-   When the result is an empty list, the ensemble command attempts to
-   look up the original subcommand again and, if it is not found this
-   time, an error will be generated just as if the -unknown handler was
-   not there (i.e. for any particular invokation of an ensemble, its
-   unknown handler will be called at most once.)  When the result is a
-   non-empty list, the words of that list are used to replace the
-   ensemble command and subcommand, just as if they had been looked up
-   in the -map, though the command name itself will be looked up in the
-   context of the code calling the namespace (and hence should be fully
-   specified normally.)
+   otherwise generate an error.  When empty (the default) an error (in
+   the style of Tcl_GetIndexFromObj) is generated whenever the
+   ensemble is unable to determine how to implement a particular
+   subcommand.
 
- > Where an empty -unknown handler is given (the default), the ensemble
-   command will generate an error message based on the list of commands
-   that the ensemble has defined (formatted similarly to the error
-   message from ''Tcl_GetIndexFromObj()'').  This error will also be
-   thrown when the subcommand is still not recognized during reparsing.
-   It is also an error for an -unknown handler to delete its namespace.
+ > See ''Unknown Handler Behaviour'' below for details of how the
+   ensemble interacts with its unknown handler.
 
 Ensemble creation takes an extra option value pair:
 
@@ -168,6 +148,18 @@ direction (i.e. using [[rename $theEnsemble {}]] will not cause the
 namespace to vanish.)  Obviously, any ensemble which has the global
 namespace backing it up will have the same natural lifespan as the
 hosting Tcl interpreter.
+
+~ Unknown Handler Behaviour
+
+If an unknown handler is specified for an ensemble, that handler is called when the ensemble command would otherwise return an error due to it being unable to decide which subcommand to invoke.  The exact conditions under which that occurs are controlled by the -export, -map and -prefix options as described above.
+
+The unknown handler is executed by concatenating on ''all'' the arguments to the ensemble command (including the fully-qualified ensemble command name) and then invoking the completed command in the scope of the caller of the ensemble.  If the execution of the unknown handler terminates normally, the ensemble engine reparses the subcommand (as described below) and tries to dispatch it again, which is ideal for when the ensemble's configuration has been updated by the unknown subcommand handler.  Any other kind of termination of the unknown handler is treated as an error.
+
+The result of the unknown handler is expected to be a list (it is an error if it is not).  If the list is an empty list, the ensemble command attempts to look up the original subcommand again and, if it is not found this time, an error will be generated just as if the -unknown handler was not there (i.e. for any particular invokation of an ensemble, its unknown handler will be called at most once.)  This makes it easy for the unknown handler to update the ensemble or its backing namespace so as to provide an implementation of the desired subcommand and reparse.
+
+When the result is a non-empty list, the words of that list are used to replace the ensemble command and subcommand, just as if they had been looked up in the -map.  It is up to the unknown handler to supply all namespace qualifiers if the implementing subcommand is not in the namespace of the caller of the ensemble command.  Also note that when ensemble commands are chained (e.g. if you make one of the commands that implement an ensemble subcommand into an ensemble, in a manner similar to the text widget's ''tag'' and ''mark'' subcommands) then the rewrite happens in the context of the caller of the outermost ensemble.  That is to say that ensembles do not in themselves place any namespace contexts on the Tcl call stack.
+
+Where an empty -unknown handler is given (the default), the ensemble command will generate an error message based on the list of commands that the ensemble has defined (formatted similarly to the error message from ''Tcl_GetIndexFromObj()'').  This is the error that will be thrown when the subcommand is still not recognized during reparsing. It is also an error for an -unknown handler to delete its namespace.
 
 ~ Examples
 
