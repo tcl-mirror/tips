@@ -3,7 +3,7 @@ Title:		Add a Megawidget Support Core Package
 Author:		Damon Courtney <damon@unreality.com>
 Tcl-Version:	8.5
 Created:	22-Mar-2003
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Type:		Project
 State:		Draft
 Vote:		Pending
@@ -53,7 +53,7 @@ instead of all the homegrown solutions that have been used.
 
 The following commands would be part of the package:
 
-'''::megawidget::class'' ''widgetClass''
+'''::megawidget::class''' ''widgetClass''
 
  > Define a new megawidget class.
 
@@ -69,9 +69,10 @@ The following commands would be part of the package:
 
  > ''type option dbClass dbName defVale''
 
- >	''type'' can be: '''boolean, int, double, string, enum, color,
-	font, bitmap, border, relief, cursor, justify, anchor,
-	synonym, pixels, window'''
+ > ''type'' can be '''boolean''', '''int''', '''double''',
+   '''string''', '''enum''', '''color''', '''font''', '''bitmap''',
+   '''border''', '''relief''', '''cursor''', '''justify''',
+   '''anchor''', '''synonym''', '''pixels''', or '''window'''.
 
 '''::megawidget::create''' ''widgetName widgetClass commandName''
 
@@ -111,14 +112,12 @@ possible.
 
 Porting the BWidget ButtonBox to SNIT and doing some test is what got
 me to this point.  I was simply trying to create a widget and do a
-cget.  The results were pretty disappointing considering the very
-basic cget command.
+'''cget'''.  The results were pretty disappointing considering the
+very basic '''cget''' command.
 
- Native Tk widget: 2 microseconds
-
- BWidget widget:   60 microseconds
-
- SNIT widget:      260 microseconds
+| Native Tk widget: 2 microseconds
+| BWidget widget:   60 microseconds
+| SNIT widget:      260 microseconds
 
 With '''::megawidget::cget''', I get around 4 microseconds, which is
 pretty close to native Tk widgets.
