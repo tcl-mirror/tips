@@ -1,6 +1,6 @@
-TIP:            46 
+TIP:		46
 Title:          Consistent Overlap Behavior of Area-Defining Canvas Items 
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Gerhard Hintermayer <g.hintermayer@inode.at>
 State:          Draft
 Type:           Project
