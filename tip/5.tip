@@ -1,6 +1,6 @@
 TIP:            5
 Title:          Make TkClassProcs and TkSetClassProcs Public and Extensible
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Eric Melski <ericm@ajubasolutions.com>
 State:          Final
 Type:           Project
@@ -26,8 +26,8 @@ proposal offers an extensible means for making that API public.
 
 ~ Rationale:  Why make TkClassProcs and TkSetClassProcs public?
 
-(The following text is adapted from George Howlett -
-http://dev.scriptics.com/lists/tclcore/2000/10/msg00143.html)
+(The following text is adapted from George Howlett
+[http://dev.scriptics.com/lists/tclcore/2000/10/msg00143.html])
 
 The Tk toolkit was originally written strictly for Xlib.  It created
 wrappers for many of the Xlib calls.  A good example is creating a
@@ -150,7 +150,7 @@ when we needed to extend it to handle some new feature that we didn't
 originally anticipate.  In general we should avoid designing new API's
 that preclude making future changes without introducing
 incompatibilities.
-http://dev.scriptics.com/lists/tclcore/2000/10/msg00083.html
+[http://dev.scriptics.com/lists/tclcore/2000/10/msg00083.html]
 
 
 This system is one that seems likely to require extension in the
@@ -158,8 +158,8 @@ future.  There are currently three callbacks: create window, geometry
 change, and modal event.  Already one request to extend the mechanism
 has been made, to support the notion of a "client area" related to
 geometry management and labelled frame widgets
-(http://dev.scriptics.com/lists/tclcore/2000/10/msg00121.html and
-http://dev.scriptics.com/lists/tclcore/2000/10/msg00170.html).
+([http://dev.scriptics.com/lists/tclcore/2000/10/msg00121.html],
+[http://dev.scriptics.com/lists/tclcore/2000/10/msg00170.html]).
 Another possible extension is a focus management callback, to allow
 for smoother focus transitions between native widgets and Tk widgets;
 note that this focus management callback is a purely hypothetical

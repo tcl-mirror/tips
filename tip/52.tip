@@ -1,6 +1,6 @@
 TIP:            52
 Title:          Hierarchical Namespace Lookup of Commands and Variables
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Withdrawn
@@ -174,7 +174,7 @@ with the new behaviour.
 
  * Andreas Kupries:
 
- > Related information: SF entry [ #218101 ] "no man page for library procedures Tcl_AddInterpResolver Tcl" (http://sourceforge.net/tracker/?func=detail&aid=218101&group_id=10894&atid=110894)
+ > Related information: SF entry [[ #218101 ]] "no man page for library procedures Tcl_AddInterpResolver Tcl" [http://sourceforge.net/tracker/?func=detail&aid=218101&group_id=10894&atid=110894]
 
  > Not addressed in this TIP: Impact on speed of the interpreter.
 (Seeking out mail on Tcl core where author of talks about this)

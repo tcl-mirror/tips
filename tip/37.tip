@@ -1,6 +1,6 @@
 TIP:            37
 Title:          Uniform Rows and Columns in Grid
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Final
@@ -133,8 +133,8 @@ slot structure to hold the option, and the CPU overhead is small.
    the behavior of -uniform when insufficient space is available to
    satisfy the request.  The original author added clarification in
    the "Examples" section, and supplied additional examples in
-   discussions on the mailing list, notably
-   http://www.geocrawler.com/archives/3/7375/2001/7/50/6211900/
+   discussions on the mailing list
+   [http://www.geocrawler.com/archives/3/7375/2001/7/50/6211900/].
 
  * George Howlett also asserted that the desired semantics can
    be achieved with Tcl code that either lays out a fixed

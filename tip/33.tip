@@ -1,6 +1,6 @@
 TIP:            33
 Title:          Add 'lset' Command to Assign to List Elements.
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Final
 Type:           Project
@@ -33,7 +33,7 @@ more appropriate structure is still extremely common.  Moreover, it is
 difficult to update lists in place, even if their internal
 representations are known not to be shared.  One example of this
 difficulty is seen in the discussions
-(http://purl.org/thecliff/tcl/wiki/941)
+[http://purl.org/thecliff/tcl/wiki/941]
 of how best to shuffle a list of items.  The discussion began with a
 naïve implementation of Jon Bentley's method of performing random
 swaps:
@@ -86,7 +86,7 @@ Now the performance of the code is ''O(n)'' where ''n'' is the length
 of the list, but the programmer's intent has been seriously obscured!
 Moreover, the performance is still rather poor: Tcl makes an atrocious
 showing, for instance, in Doug Bagley's 'Great Computer Language
-Shootout' (http://www.bagley.org/~doug/shootout/).
+Shootout' [http://www.bagley.org/~doug/shootout/].
 
 ~ Specification
 
@@ -470,7 +470,7 @@ There are several objections that can be foreseen to this proposal.
    > The author of this TIP has yet to see a formal proposal of any
      extensible list manipulation command; the closest thing appears
      to be Andreas Kupries's ''listx'' package
-     (http://www.oche.de/~akupries/tcltk.html).  Given the size and
+     [http://www.oche.de/~akupries/tcltk.html].  Given the size and
      complexity of any such modification, it is unlikely that it will
      be available in the Core in time for an 8.4 release.  The
      performance improvements achievable by the ''lset'' command are
@@ -646,7 +646,7 @@ command.
 
 Bytecoding variadic commands like ''lset'' presents some interesting
 technical challenges; a discussion in progress on the Tcl'ers Wiki
-(http://purl.org/thecliff/tcl/wiki/1604) is recording the design
+[http://wiki.tcl.tk/1604] is recording the design
 decisions being made for bytecoding ''lset'' so that they can be
 applied to similar commands in the future.
 

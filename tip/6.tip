@@ -1,6 +1,6 @@
 TIP:            6
 Title:          Include [Incr Tcl] in the Core Tcl distribution
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Mark Harrison <markh@usai.asiainfo.com>
 State:          Rejected
 Type:           Project
@@ -15,7 +15,7 @@ Include [[Incr Tcl]] in the Core Tcl distribution.
 
 ~ Proposal
 
-[[incr Tcl]] (http://tcltk.com/itcl/) shall be included in the core
+[[incr Tcl]] [http://tcltk.com/itcl/] shall be included in the core
 Tcl distribution.  It shall be included in the Tcl source tree, and
 built as part of the standard Tcl distribution.
 

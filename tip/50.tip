@@ -1,6 +1,6 @@
 TIP:            50
 Title:          Bundle [incr Tcl] with the Core Tcl distribution
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Mark Harrison <markh@asiainfo.com>
 Author:         Jeff Hobbs <jeffh@ActiveState.com>
@@ -27,7 +27,7 @@ present.
 
 ~ Proposal
 
-   * [[incr Tcl]] (http://tcltk.com/itcl/) shall be bundled with the core
+   * [[incr Tcl]] [http://tcltk.com/itcl/] shall be bundled with the core
      Tcl distribution.
 
    * [[incr Tcl]] shall be "included" in the Core in only a weak

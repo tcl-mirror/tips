@@ -1,6 +1,6 @@
 TIP:            29
 Title:          Allow array syntax for Tcl lists
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Rejected
@@ -37,7 +37,7 @@ evolution.  Code that uses hash tables for the purpose is still
 extremely common.  Moreover, it is difficult to update lists in place,
 even if their internal representations are known not to be shared.
 One example of this difficulty is seen in the discussions
-(http://purl.org/thecliff/tcl/wiki/941) of how best to shuffle a list
+[http://purl.org/thecliff/tcl/wiki/941] of how best to shuffle a list
 of items.  The discussion began with a naïve implementation of Jon
 Bentley's method of performing random swaps:
 
@@ -89,7 +89,7 @@ Now the performance of the code is ''O(n)'' where ''n'' is the length
 of the list, but the programmer's intent has been seriously obscured!
 
 These drawbacks have led prominent individuals such as Richard
-Stallman (http://www.vanderburg.org/Tcl/war/0000.html) to assert that
+Stallman [http://www.vanderburg.org/Tcl/war/0000.html] to assert that
 Tcl lacks arrays.
 
 ''This proposal includes the absolute minimum of functionality needed

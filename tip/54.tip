@@ -1,6 +1,6 @@
 TIP:            54
 Title:          Using PURLs to Unite the Tcl Webspace
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 State:          Withdrawn
@@ -149,10 +149,10 @@ scheme used by the domain.
 ~ Management
 
 The ''/tcl'' domain was created by Don Libes which made him
-automatically the maintainer of the domain (see
-http://www.purl.org/maint/search_user.pl.cgi?userid=^LIBES$). He has
-already extended the maintainership to the entity TCLGROUP (see
-http://www.purl.org/maint/search_group.pl.cgi?groupid=^TCLGROUP$),
+automatically the maintainer of the domain
+[http://www.purl.org/maint/search_user.pl.cgi?userid=^LIBES$]. He has
+already extended the maintainership to the entity TCLGROUP
+[http://www.purl.org/maint/search_group.pl.cgi?groupid=^TCLGROUP$],
 currently consisting of
 
    * Gordon Johnstone <gordonjohnstone@earthling.net>

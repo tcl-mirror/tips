@@ -1,6 +1,6 @@
 TIP:            7
 Title:          Increased resolution for TclpGetTime on Windows
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Final
 Type:           Project
@@ -48,7 +48,7 @@ The Windows Platform APIs offer several timers of different accuracy.
 The most precise of these is ''QueryPerformanceCounter'', which
 operates at an unspecified frequency (returned by
 ''QueryPerformanceFrequency'') that is typically about 1.19 MHz.
-http://support.microsoft.com/support/kb/articles/Q172/3/38.asp has
+[http://support.microsoft.com/support/kb/articles/Q172/3/38.asp] has
 details of the call, with sample code.
 
 The documentation for Windows suggests that this function is available
@@ -79,7 +79,7 @@ system clock) as a variable at run time, and use that variable
 together with the value of the performance counter to derive Tcl's
 concept of the time.  This technique is well known to electronic
 engineers as the "phase locked loop" and is used in network protocols
-such as NTP (http://www.eecis.udel.edu/~ntp/).
+such as NTP[http://www.eecis.udel.edu/~ntp/].
 
 One problem that is apparently insurmountable is that certain
 multiprocessor systems have hardware abstraction layers that derive
@@ -166,7 +166,7 @@ This document proposes the following changes to the Tcl core:
 ~ Reference implementation
 
 This change was submitted as a patch to the old bug-tracking system at
-Scriptics (http://www.deja.com/getdoc.xp?AN=666545441&fmt=text).  It
+Scriptics [http://www.deja.com/getdoc.xp?AN=666545441&fmt=text].  It
 is being recycled as a TIP now that the Tcl Core Team is in place,
 since the process for advancing the old patches to the Core is not
 well defined.  The link above should not be used to retrieve
@@ -268,7 +268,7 @@ All tests in the test suite continue to pass with the patch applied.
 If you care about time to the absolute precision that this change can
 achieve, it is of course necessary to discipline the Windows system
 clock as well.  Perhaps the best way is to use one of the available
-NTP packages (see http://www.eecis.udel.edu/~ntp/ for further
+NTP packages ([http://www.eecis.udel.edu/~ntp/] for further
 information).
 
 ~ Copyright

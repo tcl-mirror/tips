@@ -1,6 +1,6 @@
 TIP:            44
 Title:          Move Tk's Private Commands and Variables into ::tk Namespace
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Final
 Type:           Project
@@ -79,7 +79,7 @@ shall also be renamed to ''::tk::HistNum''.
 All commands and variables created by the proposal will be given names
 that begin with an uppercase character (''[[A-Z]]'') to indicate their
 internal status according to the conventions of the Tcl Style Guide
-(http://purl.org/tcl/home/doc/styleGuide.pdf).
+[http://purl.org/tcl/home/doc/styleGuide.pdf].
 
 ~ Compatibility and Migration
 
@@ -151,8 +151,8 @@ In the tktest of the reference implementation:
 
 ~ See Also
 
-Feature Request 220936:
-http://sf.net/tracker/?func=detail&aid=220936&group_id=12997&atid=362997
+Feature Request 220936
+[http://sf.net/tracker/?func=detail&aid=220936&group_id=12997&atid=362997]
 
 ~ Related Ideas / Future Work
 

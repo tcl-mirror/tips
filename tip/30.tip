@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.35 $
+Version:        $Revision: 1.36 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -34,7 +34,7 @@ Listed below are Tk's 86 functional units, in the same order as in
 what area, and how maintainers designate their support for
 platform-specific portions of the code.  The area names listed below
 are also the Categories in the SourceForge Tracker for the Tk Toolkit
-(http://sourceforge.net/tracker/?group_id=12997).
+[http://sourceforge.net/tracker/?group_id=12997].
 
 For each of Tk's functional units, the following maintainers are 
 assigned:
