@@ -1,0 +1,171 @@
+TIP:            114
+Title:          A System for Non-Decimal Numeric Values
+Author:         Donal K. Fellows <donal.fellows@man.ac.uk>
+Created:        14-Oct-2002
+Type:           Project
+State:          Draft
+Vote:           Pending
+Version:        $Revision: 1.1 $
+Tcl-Version:    9.0
+Post-History:   
+Keywords:       octal, binary, hexadecimal, escape
+
+~Abstract
+
+This TIP proposes a new way of defining non-decimal integer values for
+use in Tcl that allows number-strings with a leading zero to be
+treated as decimals.
+
+~History and Rationale
+
+Tcl has used the C functions ''strtol()'' and ''strtoul()'' for
+parsing integers (e.g. for use in the ''expr'' command) for many
+years, and while the audience of developers using it was composed of
+mainly people who already knew C's quirks with respect to number
+parsing, this was fine.  It has been very useful over the years to
+express values as "0x1234abcd" (a hexadecimal value, signified by the
+leading "0x") and "01775" (an octal value, signified by the leading
+"0".)  However, as Tcl has become more widely used and has increased
+in functionality, this generally useful behaviour has been found to
+have some limitations.
+
+ 1. When doing date and time manipulation with the ''clock'' command,
+    numeric values are often produced which are in many senses
+    dual-purpose, being both digit strings for presentation to people,
+    and numeric values to be further manipulated.  The problem with
+    this is that some of the values produced have leading zeroes
+    (indicating an octal value) but contain the digits "8" or "9".
+
+ 2. When reading numeric values written by users, there may well also
+    be leading zeroes on numbers containing "8" or "9", as the
+    majority of people see no reason why this might be harmful (as
+    they are not C programmers!)
+
+In both cases, it is possible to use the ''scan'' command to work
+around this (forcing a decimal interpretation of the string) but this
+extra work that people seem to prefer to skip.
+
+Now, it seems that hexadecimal values are far more popular these days
+(and never confused in practise) so it seems sensible to me to alter
+the syntax for octal values to be more similar to that for hex values.
+This would then free up all strings of digits to be interpreted as
+decimal numbers, which is more intuitive to the wider community.
+
+While this is being done, this TIP will also propose some additional
+functionality and fixes in related areas.
+
+Note that extension to arbitrary bases is not done.  It is the view of
+the author that the additional use enabled would not be justified by
+the additional effort required to implement and document it.
+
+~Proposal - Values
+
+This TIP proposes that all strings consisting of nothing but the
+digits from the set [[0123456789]] (using [[string match]] notation)
+will be interpreted as decimal integer values.
+
+If a string consists of a "0" followed by an "o" (for Octal) in either
+case, followed by digits from the set [[01234567]], then those digits
+will be interpreted as an octal integer value.
+
+If a string consists of a "0" followed by a "b" (for Binary) in either
+case, followed by digits from the set [[01]], then those digits will
+be interpreted as a binary integer value.
+
+If a string consists of a "0" followed by an "x" (for heXadecimal) in
+either case, followed by digits from the set
+[[0123456789abcdefABCDEF]], then those digits will be interpreted as a
+hexadecimal integer value (this is the current behaviour for hex
+constants.)
+
+(Implementation of this will involve reviewing each use of the
+functions ''strtol()'', ''strtoul()'', ''strtoll()'' and
+''strtoull()'' throughout the core.)
+
+~Proposal - Character Escapes
+
+As an adjunct to the above, this TIP states that octal character
+escapes (a backslash followed by up to three octal digits) will remain
+exactly as they are presently.  They do not seem to be ever
+misinterpreted in practise.  Similar for UNICODE character escapes
+(backslash, "u", and four hex digits.)  However, this TIP does propose
+''altering the meaning of hex escapes'' (backslash, "x", and hex
+digits) to ''limit the number of digits in the hex escape to two''.
+This is just to make the behaviour more predictable than it is at
+present (where Tcl can currently read more than two hex digits, but in
+effect ignores all but the last two digits, which is not generally
+useful to anyone.)
+
+~Consequences for Tcl Commands
+
+The only common use of octal values in both the core and a number of
+important extensions seems to be in the manipulation of UNIX
+permission strings.  Now, permissions are conventionally displayed as
+octal (when they aren't encoded as bits) but they also may need to be
+manipulated arithmetically to enable applications and libraries to
+change the permissions of files.  Enabling arithmetic manipulation
+forces the use of standard integer rules.
+
+There are three specific commands in Tcl that deal with permissions:
+[[open]], [[file stat]] and [[file attributes]].
+
+The permissions argument to [[open]] is only very rarely used; the
+default is typically good enough for most people.  Also, [[file stat]]
+is not a problem because it cannot modify any permissions and returns
+a decimal value for the mode field anyway.  The key problem is [[file
+attributes]], and in particular the ''-permissions'' attribute (only
+available on Unix, of course.)  This is a potential problem because it
+returns its value as an octal string, and might well be needed as a
+value in a computation, or displayed to a user.
+
+Still, since it just takes an integer when setting, the resolution is
+simply to make the command return a new-format octal value instead.
+Anyone who needs old-format octals can achieve this with suitable
+application of the ''%o'' substitution in [[format]].
+
+It has been requested that it should take strings like "666" to
+indicate that read and write bits should be set for all three
+permission groups, but this has always been at odds with performing
+computations on permission strings.  The problem is that "120" does
+not have a canonical meaning, and even trying to guess from the type
+of the underlying ''Tcl_Obj'' is not a way forward because of the
+degree of sharing of literals that the bytecode compiler may perform.
+Hence, this TIP does ''not'' seek to implement the feature.  In any
+case, it is easy enough to use the [[scan]] command to do the
+conversion, especially now that the scanned value does not need to be
+assigned to an intermediate variable.
+
+Extensions (notably TclX as it has a [[chmod]] command) may need to
+review this matter separately, but this lies outside the scope of this
+TIP.
+
+~Impact on Tcl Users
+
+Most code should not be affected, but anything using octal values
+directly (instead of via [[format]] and [[scan]]) will be vulnerable
+and potentially require separate code review (informally, this seems
+to be rare but that may depend on coding style.)  Fortunately,
+searching for character sequences that indicate possible problems
+should be pretty easy; a pattern that matches all problems will
+consist of a leading zero, possibly followed by an "o" of either case,
+and then followed by another digit.  For example:
+
+|egrep -wi '0[bo]?[0-9].*' *.tcl
+
+Note that mechanical replacement of all the potential problems is not
+possible, each case will need to be hand reviewed.  The reason for
+this can be illustrated by what happens when this search is run on the
+Tcl library and test suite: the command finds a great many embedded
+dates and octal escape sequences in addition to a few genuine
+problems.
+
+Two possible workarounds are possible for octal constants: either
+insert a "o" after the leading zero, or use [[scan ''value'' %o]] to
+force interpretation of the string as octal.  Existing "binary"
+constants will currently be converted into numbers by code anyway
+instead of being interpreted directly, so they should not be a major
+issue when it comes to converting.
+
+~Copyright
+
+This document is placed in the public domain.
