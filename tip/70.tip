@@ -1,13 +1,13 @@
-TIP:		70
-Title:		A Relational Switch Control Structure
-Version:	$Revision: 1.1 $
-Author:		Bhushit Joshipura <bhushit@hotmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	20-Oct-2001
-Post-History:	
+TIP:            70
+Title:          A Relational Switch Control Structure
+Version:        $Revision: 1.2 $
+Author:         Bhushit Joshipura <bhushit@hotmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Oct-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -29,8 +29,9 @@ chain. It pronounces the course of decision of a big chunk of program
 in a single statement: making understanding and maintaining software
 easier. It also helps to optimize the software better if it is written
 in ''switch'' form. However, ''switch'' is strictly data based
-i.e. ''switch'' happens strictly on data value. The proposed
-''rswitch'' command is a control structure similar (and more general)
+i.e. ''switch'' happens strictly on data value. 
+
+The proposed ''rswitch'' command is a control structure similar (and more general)
 to ''switch''.  As such, ''switch'' becomes a very special case of
 mono-conditional ''rswitch''. (As a matter of fact, Tcl's ''foreach''
 control structure is a special case of its for control structure.)
@@ -83,13 +84,14 @@ In a quick reply, Dr. Ritchie wrote back:
    was -, 0 or +.  It's also a bit strange syntactically (though it
    might work in the grammar) in that the case values aren't
    expressions, but just operators.
- 
+
  > Regards, Dennis 
 
 Thus the structure is absent from C and its whole
 family. It is absent from Pascal, BASIC, shell scripts - and of
-course, TCL.  Fortran's computed goto is near to bi-conditional
-''rswitch''. (That way Chimpanzees are near to Homo sapiens too.) However,
+course, TCL.
+
+Fortran's computed goto is near to bi-conditional ''rswitch''. (That way Chimpanzees are near to Homo sapiens too.) However,
 clarity of presentation of default and fall through are not achievable
 through computed goto. Mono-conditional ''rswitch'', however, does not
 have a parallel in languages of my knowledge (C, C++, Java, Pascal,
@@ -107,9 +109,10 @@ Overall:
 |}
 
 If ''<condition(s)>'' is one-item long list, it becomes
-mono-conditional ''rswitch''.  Else if ''<condition(s)>'' is two-item
-long list, it becomes bi-conditional ''rswitch''.  Else it is a syntax
-error.
+mono-conditional ''rswitch''.
+Else if ''<condition(s)>'' is two-item
+long list, it becomes bi-conditional ''rswitch''.
+Else it is a syntax error.
 
 A condition can be a constant or a variable.  Mono-conditional
 ''rswitch'' has situation description as:
