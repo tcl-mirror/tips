@@ -1,8 +1,8 @@
 TIP:            235
 Title:          Exposing a C API for Ensembles
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        10-Dec-2004
