@@ -1,6 +1,6 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Final
@@ -461,16 +461,18 @@ This document has been placed in the public domain.
 
 ----
 
+~ Appendices
+
 ''These appendices are not formally part of the proposal and exist
 merely to help understanding.''
 
-~ Appendix: Implementation Notes
+~ ~ Implementation Notes
 
 Implement using hash tables (of course.)  Need efficient ways to
 convert to/from lists, perhaps making lists know what's going on
 underneath the covers?
 
-~ Appendix: Future Directions
+~ ~ Future Directions
 
 Alternate implementations of mappings, like trees or disk-backed
 databases?
