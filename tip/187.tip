@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Salvatore Sanfilippo <antirez@invece.org>
 Created:	20-Apr-2004
 Keywords:	Tcl, lambda, anonymous, command, function
@@ -20,7 +20,7 @@ in particular as three element lists.
 
 The Tcl programming language is an homoiconic-form language. Program
 and data are both presented as strings. A Tcl procedure's arguments
-list and body are not an exception to this rule, but the procudure
+list and body are not an exception to this rule, but the procedure
 itself is handled as a name bound to a particular couple of arguments
 list and body. This name lives in a separated namespace and does not
 collide with variables names.
@@ -97,7 +97,7 @@ This evaluates to [list 3 3 5 4 4]
 
 This evaluates to [list 10 100]
 
-Note: In pratice, defining an alias, '''lambda''', for '''list
+Note: In practice, defining an alias, '''lambda''', for '''list
 lambda''' leads to more natural-looking code.
 
 The author of this TIP thinks that many Tcl programmers will enjoy the
@@ -106,7 +106,7 @@ implemented different versions of '''lambda''' in the past, but no one
 is suitable for prime time.
 
 Still, the ability to manipulate lists in a simpler way can make Tcl
-more enjoinable.
+more enjoyable.
 
 The new semantic introduced by this TIP is not only needed to use
 operators like ''map'' and ''filter'', but generally makes Tcl able to
