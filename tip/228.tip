@@ -1,6 +1,6 @@
 TIP:            228
 Title:          Tcl Filesystem Reflection API
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -16,8 +16,8 @@ This document describes an API which reflects the Filesystem Driver
 API of the core Virtual Filesystem Layer up into the Tcl level, for
 the implementation of filesystems in Tcl. It is built on top of [208]
 ('Add a chan command') and is also an independent companion to [219]
-('Tcl Channel Reflection API') and the forthcoming TIP on a 'Tcl
-Channel Transformation Reflection API'. As the latter TIPs bring the
+('Tcl Channel Reflection API') and [230] ('Tcl
+Channel Transformation Reflection API'). As the latter TIPs bring the
 ability of writing channel drivers and transformations in Tcl itself
 into the core so this TIP provides the facilities for the
 implementation of filesystems in Tcl. This document specifies version
