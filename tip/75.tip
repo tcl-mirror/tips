@@ -1,6 +1,6 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         János Holányi <csani@lme.linux.hu>
 Author:         <m13666@maidfnzgnl.ru>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -100,7 +100,7 @@ the second the list of vars like in the [regexp] command, and the
 last the script to execute.
 
 |set string [getSomeComplexProtocolLine]
-|switch -regexp -submatches {
+|switch -regexp -submatches -- $string {
 |    {EHLO (.*)} {match heloarg} {
 |       puts "Helo $heloarg"
 |    }
