@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -36,6 +36,8 @@ The TIP proposes implementing:
 |           Unix,MacOSX       Win-NTFS             MacOS
 |symbolic:      yes        directories-only         yes
 |hard:          yes          files-only              no
+
+This also leaves the avenue open, in the future, for the addition of other link types (e.g. Windows shortcuts) through additions to list of acceptable 'linktype's.  This TIP only proposes adding the above options.
 
 ~ Rationale
 
