@@ -1,12 +1,11 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Mo DeJong <no@spam.com>
 Author:         Larry W. Virden <lvirden@yahoo.com>
-Author:         John Ousterhout <ouster@pacbell.net>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -203,7 +202,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.18 $
+|Version:       $Revision: 1.19 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
