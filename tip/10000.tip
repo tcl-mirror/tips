@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.117 $
+Version:        $Revision: 1.118 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -40,7 +40,7 @@ proposed in [13].
 
 ~ Test
 
-re-edit test.
+re-edit test. times 2.
 
 Permissions test...
 
