@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -14,7 +14,7 @@ Tcl-Version:    8.5
 
 This TIP proposes saving the file path and line number information for
 each user defined [[proc]] definition contained within a [[source]]d
-file, and providing a new subcommand [[line]] to [[info]] 
+file, and providing a new subcommand, '''line''', to [[info]] 
 that can return this new information.
 
 ~ Rationale
@@ -37,34 +37,39 @@ a future TIP.
 
 ~ Specification
 
-The new [[line]] subcommand to [[info]]  gives access to the file path and line
-number information for a given ''PROC''.  Valid syntax is:
+The new '''line''' subcommand to '''info''' gives access to the file
+path and line number information for a given ''PROC''.  It takes
+subcommands of its own in turn:
 
-|  info line number PROC ?LINE?
-|        Get/set the line number for PROC.  In get mode, returns the
-|        definition line number in the message body. 
-|
-|  info line newlines PROC ?NEWLINES?
-|        Get/set the count of newlines in the body of PROC.  In
-|        set mode, changes the count of the number of
-|        newlines in the message body.  This provides a fairly speedy
-|        way of determining if a given line number is included in a
-|        specific proc.
-|
-|  info line file ?PROC ?FILE??
-|        Get/set the sourced file path for PROC.  If PROC is not
-|        specified, dump all known sourced file paths.
-|
-|  info line find FILE LINE
-|        Given a file path and line number, return the PROC name
-|        containing line number LINE.  A new nonstatic procedure
-|        TclFindProcByLine() provides this function.
-|
-|  info line relativeerror ?BOOL?
-| Set to 1 to disable absolute line number and file path
-|       on a procedure error.  This demotes procedure traceback errors
-|       to the same format as all other traceback errors, that is,
-|       using the relative the line number and file name.
+ * '''info line number''' ''PROC'' ?''LINE''?
+
+ > Get/set the line number for the start of ''PROC''.  In get mode,
+   returns the definition line number in the message body.
+
+ * '''info line newlines''' ''PROC'' ?''NEWLINES''?
+
+ > Get/set the count of newlines in the body of ''PROC''.  In set
+   mode, changes the count of the number of newlines in the message
+   body.  This provides a fairly speedy way of determining if a given
+   line number is included in a specific proc.
+
+ * '''info line file''' ?''PROC'' ?''FILE''??
+
+ > Get/set the sourced file path for PROC.  If PROC is not specified,
+   dump all known sourced file paths.
+
+ * '''info line find''' ''FILE LINE''
+
+ > Given a file path and line number, return the ''PROC'' name
+   containing line number ''LINE''.  A new nonstatic procedure
+   ''TclFindProcByLine()'' provides this function.
+
+ * '''info line relativeerror''' ?''BOOL''?
+
+ > Set to 1 to disable absolute line number and file path on a
+   procedure error.  This demotes procedure traceback errors to the
+   same format as all other traceback errors, that is, using the
+   relative the line number and file name.
 
 These exhibit the following behavior:
 
@@ -84,9 +89,9 @@ These exhibit the following behavior:
 
 ~ Changes
 
-Sourced file paths are stored per interp in a hash table.  Line numbering
-information is saved in the ''Proc'' structure.  Several line number
-variables are added to Interp to track newlines.
+Sourced file paths are stored per interp in a hash table.  Line
+numbering information is saved in the ''Proc'' structure.  Several
+line number variables are added to Interp to track newlines.
 
 The bulk of the changes occur in ''generic/tclParse.c'' where the
 number of line feeds seen is tracked.
@@ -102,8 +107,8 @@ from a large system:
 |  100 sourced files * 100 bytes = 10K.
 
 The other space overhead adds up to 2 words (8 bytes on a 32-bit
-platform) per defined procedure, plus an additional several words in the
-''Interp'' structure.
+platform) per defined procedure, plus an additional several words in
+the ''Interp'' structure.
 
 Runtime processing overhead should be negligible.
 
@@ -146,7 +151,7 @@ work even with ''emacs'' and ''ddd''.
 
 ~ Comments and Feedback
 
-Jeff Hobbs asked what about ''interp alias'', etc.
+Jeff Hobbs asked what about '''interp alias''', etc.
 
    * Updated TIP to document cases
 
@@ -154,7 +159,7 @@ Jeff Hobbs notes filename storage is inefficient and finalization
 
    * Code changed to just increment ref count
 
-   * ''TODO:'' What needs to be done for ''Tcl_Finalize''?
+   * '''TODO:''' What needs to be done for ''Tcl_Finalize''?
 
 Neil Madden/Stephen Trier comment on info subcommand names ''line'',
 ''file'' and ''proc'' and possible future uses for ''line''
@@ -186,9 +191,10 @@ Mo DeJong suggests to maybe use TclpObjNormalizePath(fileName)
    * No action yet
 
 Donal Fellows objects to no support for [proc]s in subevals and
-Andreas Kupries suggests defining a line number Tcl_Token type.
+Andreas Kupries suggests defining a line number ''Tcl_Token'' type.
 
-   * Add support for [proc] in subeval by addition to ResolvedCmdName
+   * Add support for '''proc''' in subeval by addition to
+     ''ResolvedCmdName''
 
 ~ Copyright
 

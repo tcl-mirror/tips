@@ -1,6 +1,6 @@
 TIP:		97
 Title:		Moving Vertices of Canvas Items
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Agnar Renolen <agnar.renolen@emap.no>
 State:		Draft
 Type:		Project
@@ -38,7 +38,7 @@ polygons and text items, hence ''rchars'' should do that as well.
 Two canvas widget commands are proposed: ''imove'' and ''rchars''.
 The following command is proposed to move a vertex of any canvas item:
 
- > ''canvas'' imove ''tagOrID index x y''
+ > ''canvas'' '''imove''' ''tagOrID index x y''
 
 This command will move the ''index''th point of the item identified by
 ''tagOrID'' to the new position given by ''x'' and ''y''.  The command
@@ -47,7 +47,7 @@ should work for all canvas items.
 The following command provides a similar functionality, but conforms
 to the current ''insert'' and ''dchars'' commands.
 
- > ''canvas'' rchars ''tagOrID first last string''
+ > ''canvas'' '''rchars''' ''tagOrID first last string''
 
 This command will:
 

@@ -1,6 +1,6 @@
 TIP:            117
 Title:          Object Type Introspection
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -27,7 +27,7 @@ A new package called "Debug" is created as part of the core.
 A new command, ''objtype'', is added to the Debug package.
 The command has the syntax:
 
-|Debug::objtype ?value?
+ > '''Debug::objtype''' ?''value''?
 
 If no value is submitted, a list of all currently registered object
 types are returned.

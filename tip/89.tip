@@ -1,6 +1,6 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
 State:          Draft
@@ -13,56 +13,58 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes the addition of a ''try''...''catch''...''finally''
-command to provide a more robust and powerful exception handling
-mechanism.
+This TIP proposes the addition of a
+'''try'''...'''catch'''...'''finally''' command to provide a more
+robust and powerful exception handling mechanism.
 
 ~ Rationale
 
 Exceptions are currently supported very well in Tcl, in fact they are
-a major advantage over many other languages. However the mechanism to
-''catch'' and handle the errors is someone limited and does not
+a major advantage over many other languages.  However the mechanism to
+'''catch''' and handle the errors is someone limited and does not
 promote the full use of existing error codes.  Wrapper procedures can
 be written to improve on this, however both a performance and
 compatibility penalty is incurred.
 
-This TIP proposes adding a try/catch command to the Tcl core (or C based
-Tcl library).  This implementation is not unlike those found in C++, C#,
-Java and Python (to name a few).
+This TIP proposes adding a '''try/catch''' command to the Tcl core (or
+C based Tcl library).  This implementation is not unlike those found
+in C++, C#, Java and Python (to name a few languages).
 
 An argument to add this to the core is that it modernizes the Tcl
 exception handling without impacting performance in any other way.
-Try/Catch are isolated commands that can easily be added, and do not
-interact with other commands or require other changes.  Try/Catch is not
-an isolated extension that is useful for special purposes only.  These
-commands, if implemented into the core, will be useful for any script
-currently using the catch construct.
+'''try/catch''' are isolated commands that can easily be added, and do
+not interact with other commands or require other changes.
+'''try/catch''' is not an isolated extension that is useful for
+special purposes only.  These commands, if implemented into the core,
+will be useful for any script currently using the catch construct.
 
 ~ Specification
 
 I propose the following two commands be added to Tcl:
 
-''throw'' statement
+ * '''throw''' command.
 
-|    throw ?<type> ?<message>? ?<info>?
+ > '''throw''' ?''type''? ?''message''? ?''info''?
 
- > A ''throw'' statement with ''type'' throws an error exception with
-   the errorCode ''type''. The ''throw'' statement works as the
-   ''error'' statement, but the arguments are reordered to encourage
-   the use of errorCodes. The optional ''message'' and ''info'' parameters
-   work as they do in the ''error'' statement.
+ > A '''throw''' command with ''type'' throws an error exception with
+   the errorCode ''type''. The '''throw''' command works as the
+   '''error''' command, but the arguments are reordered to encourage
+   the use of error-codes. The optional ''message'' and ''info''
+   parameters work as they do in the '''error''' command.
 
  > The throw ''type'' can be any user defined or built in type,
-   built-in types include POSIX, ARITH, CORE, REGEXP, WINDOWS , NONE,
-   ...  The ''message'' is optional, and is the same as that issued by the
-   catch command, error -code error "message"
+   built-in types include POSIX, ARITH, CORE, REGEXP, WINDOWS, NONE,
+   ...  The ''message'' is optional, and is the same as that issued by
+   the '''catch''' command, '''error -code error''' "''message''"
 
- > An instance of ''throw'' with no arguments can be used within a
-   ''catch'' block to immediately re-throw the current
-   exception that is being handled by the ''catch'' block.  When an
-   error is re-thrown in the catch block, the current error is
-   propagated up one level following the evaluation of the ''finally''
-   block (if on exists). Surround error handlers can then deal with the error.
+ > An instance of '''throw''' with no arguments can be used within a
+   '''catch''' block to immediately re-throw the current exception
+   that is being handled by the '''catch''' block.  When an error is
+   re-thrown in the catch block, the current error is propagated up
+   one level following the evaluation of the '''finally''' block (if
+   on exists).  Enclosing error handlers can then deal with the error.
+
+ > Note that
 
 |    throw type message info
 
@@ -70,67 +72,69 @@ I propose the following two commands be added to Tcl:
 
 |    error message info type
 
-''try'' statement
+ * '''try''' command.
 
-|    try body ?catch {{type_list} ?ecvar? ?msgvar? ?infovar?} body ...? ?finally body?"
+ > '''try''' ''body'' ?'''catch''' {{''type_list''} ?''ecvar''? ?''msgvar''? ?''infovar''?} ''body ...''? ?'''finally''' ''body''?
 
- > If one or more ''catch'' blocks are specified, each corresponding
+ > If one or more '''catch''' blocks are specified, each corresponding
    ''body'' represents a required block of code that is evaluated if
    the resulting errorCode matches the ''type'' condition.  The
-   required body of the ''finally'' block is evaluated following the
-   ''try'' block and ''catch'' block.
+   required body of the '''finally''' block is evaluated following the
+   '''try''' block and '''catch''' block (if any matches).
 
- > ''type_list'' represents a list of glob style patterns used to match eache
-   of the errorCode list conditions.  A match is declared if the type_list
-   patterns or errorCode elements are exhausted (whichever comes first) and a
-   mismatch has not occurred.  If a match occurs, and ''ecvar'' is specified,
-   the errorCode list will be stored in ''ecvar'' within the local
-   scope prior to executing the ''body''. Moreover, if a ''msgvar'' or ''infovar''
-   are specified, the error message and errorInfo contents will be stored in
-   the local context.
+ > ''type_list'' represents a list of glob style patterns used to
+   match eache of the error-code list conditions.  A match is declared
+   if the ''type_list'' patterns or errorCode elements are exhausted
+   (whichever comes first) and a mismatch has not occurred.  If a
+   match occurs, and ''ecvar'' is specified, the errorCode list will
+   be stored in ''ecvar'' within the local scope prior to executing
+   the ''body''.  Moreover, if a ''msgvar'' or ''infovar'' are
+   specified, the error message and errorInfo contents will be stored
+   in the local context.
 
- > If an error occurs during the try, and no ''catch'' blocks are specified,
-   the offending error is rethrown following execution of the ''finally''
-   block (if specified).
+ > If an error occurs during the '''try''', and no ''catch'' blocks
+   are specified, the offending error is rethrown following execution
+   of the ''finally'' block (if specified).
 
- > If an error occurs during execution of a catch or finally block, this
-   error will take precedence and will propagate upwards with a new stack
-   trace. If an error is rethrown within a catch block, the existing
-   stack trace will be preserved with the rethrown error. This allows
-   later discrimination of the two different error conditions (rethrown
-   vs. unintended).
+ > If an error occurs during execution of a '''catch''' or
+   '''finally''' block, this error will take precedence and will
+   propagate upwards with a new stack trace.  If an error is rethrown
+   within a catch block, the existing stack trace will be preserved
+   with the rethrown error.  This allows later discrimination of the
+   two different error conditions (rethrown vs. unintended).
 
- > Note, ''catch {*}'', if specified, will catch all remaining errors.
-   If used, it should be placed last since each of the catch blocks are
-   evaluated in the order specified. ''type'' is that set in
-   errorCode, and can be any user defined type, or built-in types
-   including POSIX *, ARITH *, CHILD *, CORE, REGEXP, WINDOWS, or NONE.
+ > Note, '''catch''' {''*''}, if specified, will catch all remaining
+   errors.  If used, it should be placed last since each of the catch
+   blocks are evaluated in the order specified.  ''type'' is that set
+   in errorCode, and can be any user defined type, or built-in types
+   including POSIX *, ARITH *, CHILD *, CORE, REGEXP, WINDOWS, or
+   NONE.
 
- > If one or more ''catch'' blocks are specified, and no ''catch''
+ > If one or more '''catch''' blocks are specified, and no '''catch'''
    block matches the errorCode condition, the error will be propagated
-   up to the next level following evaluation of the ''finally'' clause
-   (if specified).  An enclosing ''try'' block (or ''catch'' command)
-   can then be used to handle the error.
+   up to the next level following evaluation of the '''finally'''
+   clause (if specified).  An enclosing '''try''' block (or
+   '''catch''' command) can then be used to handle the error.
 
- > The ''finally'' block is used to perform all the clean up code.
-   The ''finally'' body is evaluated whether the error occurs or not,
-   or whether a ''catch'' block matched the errorCode.  It is also
-   evaluated if a ''throw'' statement occurs within the ''catch''
-   clause.
+ > The '''finally''' block is used to perform all the clean up code.
+   The '''finally''' body is evaluated whether the error occurs or
+   not, or whether a '''catch''' block matched the errorCode.  It is
+   also evaluated if a ''throw'' statement occurs within the
+   '''catch''' clause.
 
 ~ Examples
 
-''throw''
+'''throw'''
 
 |    throw DEVICE "Could not write to device"
 
-'try'' only (no practical use)
+'''try''' only (no practical use)
 
 |    try {
 |       incr i
 |    }
 
-''try - catch ''
+'''try - catch'''
 
 |    try {
 |       incr i
@@ -138,7 +142,7 @@ I propose the following two commands be added to Tcl:
 |       set i 0
 |    }
 
-''try - finally ''
+'''try - finally'''
 
 |    try {
 |       . config -cursor watch
@@ -147,7 +151,7 @@ I propose the following two commands be added to Tcl:
 |       . config -cursor arrow
 |    }
 
-''try - catch - catch ''
+'''try - catch - catch'''
 
 |    try {
 |       ;# Some code that will cause an error
@@ -159,7 +163,7 @@ I propose the following two commands be added to Tcl:
 |       ;# Statements to handle all other errors
 |    }
 
-''try - catch - catch - finally ''
+'''try - catch - catch - finally'''
 
 |    try {
 |       ;# Some code that will cause an error
@@ -171,7 +175,7 @@ I propose the following two commands be added to Tcl:
 |       ;# Statements to execute whether an error occurred or not
 |    }
 
-Re-throw ''try - catch - finally ''
+Re-throw '''try - catch - finally'''
 
 |    try {
 |       try {
@@ -188,18 +192,19 @@ Re-throw ''try - catch - finally ''
 |       puts "$res"
 |    }
 
-~ Revisions : Tom Wilkason March 26, 2002
+~ Revisions: Tom Wilkason March 26, 2002
 
-  * Added additional ''ecvar'' and ''infovar'' optional arguments to the catch
-  statement.
+  * Added additional ''ecvar'' and ''infovar'' optional arguments to
+    the '''catch''' clause.
 
-  * All uncaught errors are propagated up after execution of the finally block
-  (if specified).
+  * All uncaught errors are propagated up after execution of the
+    finally block (if specified).
 
-  * Unanticipated errors within a catch or finally block start a new stack trace
-  and are propagated up.
+  * Unanticipated errors within a '''catch''' or '''finally''' block
+    start a new stack trace and are propagated up.
 
-  * Additional ''info'' optional argument added to throw for completeness.
+  * Additional ''info'' optional argument added to '''throw''' for
+    completeness.
 
 ~ Reference Implementation
 
