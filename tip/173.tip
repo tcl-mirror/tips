@@ -1,7 +1,8 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Kevin Kenny <kennykb@acm.org>
+Author:          <_@_._>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -859,7 +860,7 @@ Several tools are provided for the use of maintainers:
 
  loadICU.tcl:
     Given a distribution of IBM's ''icu4c''
-    [http://www-124.ibm.com/developerworks/oss/icu/project/index.html],
+    [http://oss.software.ibm.com/icu/index.html],
     this program analyzes the source code of the message catalogs and
     extracts appropriate Tcl-based messages for the date and time
     formats in the supported locales.
