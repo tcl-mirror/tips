@@ -1,0 +1,96 @@
+TIP:		32
+Title:		Add Tcl_Obj support to traces
+Version:	$Revision: 1.1 $
+Author:		David Cuthbert <dacut@kanga.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	23-Mar-2001
+Post-History:
+Discussions-To: news:comp.lang.tcl
+Keywords:	trace,Tcl_Obj
+Tcl-Version:	8.4a2
+
+
+~ Abstract
+
+This document proposes to add Tcl_Obj support for trace procedures written
+in C.
+
+~ Rationale
+
+The ''Tcl_Obj'' system was introduced in version 8.0, making
+computations (potentially) much more efficient by eliminating many
+type conversions to and from strings.  However, the trace API
+continues to require character strings in both command and variable
+traces.
+
+~ Specification
+
+Add the following functions to the Tcl core:
+
+ * Tcl_Trace ''Tcl_CreateObjTrace''(interp, level, objProc,
+   clientData)
+
+ > ''Tcl_CreateObjTrace'' behaves in the same manner as
+   ''Tcl_CreateTrace'', except the trace procedure (objProc) should
+   have arguments and result that match type type
+   ''Tcl_CmdObjTraceProc'':
+
+|typedef void Tcl_CmdObjTraceProc(
+|    ClientData clientData,
+|    Tcl_Interp *interp,
+|    int level,
+|    char *command,
+|    Tcl_ObjCmdProc *cmdProc,
+|    ClientData cmdClientData,
+|    int objc,
+|    Tcl_Obj * CONST objv[] );
+
+ > Trace tokens returned by ''Tcl_CreateObjTrace'' can be used in
+   ''Tcl_DeleteTrace'' to remove the trace.
+
+ * int ''Tcl_ObjTraceVar2''(interp, part1Ptr, part2Ptr, flags,
+   objProc, clientData)
+
+ > ''Tcl_ObjTraceVar2'' behaves in the same manner as
+   ''Tcl_TraceVar2'', except the variable name is passed as Tcl_Obj
+   pointers (in the same manner as ''Tcl_ObjSetVar2'', q.v.), and the
+   trace procedure (objProc) should have arguments and result that
+   match the type ''Tcl_VarObjTraceProc'':
+
+|typedef int Tcl_VarObjTraceProc(
+|    ClientData clientData,
+|    Tcl_Interp *interp,
+|    Tcl_Obj *part1Ptr,
+|    Tcl_Obj *part2Ptr,
+|    int flags );
+
+ > Under normal conditions, the trace procedure should return TCL_OK,
+   indicating successful completion.  If objProc returns a value other
+   than TCL_OK it signifies that an error occurred.  An error message
+   should be returned via the ''Tcl_SetResult'' or
+   ''Tcl_SetObjResult'' mechanism.
+
+ * void ''Tcl_ObjUntraceVar2''(interp, part1Ptr, part2Ptr, flags,
+   objProc, clientData)
+
+ > ''Tcl_ObjUntraceVar2'' behaves in the same manner as
+   ''Tcl_UntraceVar2'', except it is used to remove trace procedures
+   registered with ''Tcl_ObjTraceVar2''.
+
+ * ClientData ''Tcl_ObjVarTraceInfo2''(interp, part1Ptr, part2Ptr,
+   flags, objProc, prevClientData)
+
+ > ''Tcl_ObjVarTraceInfo2'' behaves in the same manner as
+   ''Tcl_VarTraceInfo2'', except it is used to iterate through trace
+   procedures registered with ''Tcl_ObjTraceVar2''.
+
+~ See Also
+
+Tcl manual pages ''Tcl_TraceVar'' and ''Tcl_CreateTrace''.
+
+~ Copyright
+
+Copyright © 2000 by David Cuthbert.  Distribution in whole or part,
+with or without annotations, is unlimited.
