@@ -1,6 +1,6 @@
 TIP:		168
 Title:		Cubic Bezier Curves on the Canvas
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Lars Hellström <Lars.Hellstrom@math.umu.se>
 Type:		Project
 State:		Draft
@@ -78,7 +78,7 @@ The only reason for the ''3N-1'' point rule is that it fits a simple
 scheme (when at the end of the list of coordinates, continue from the
 start) that supports the ''3N'' and ''3N+1'' cases.
 
-The reason for deprecating the name "''bezier''" for the traditional
+The reason for deprecating the name "'''bezier'''" for the traditional
 smoothing method is that it is at best confusing, and according to
 many authorities simply wrong.  The term "Bezier curve" is very often
 used as a synonym of "cubic Bezier curve", whence the majority of
