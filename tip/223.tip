@@ -1,33 +1,34 @@
-TIP:		223
-Title:		Full-Screen Toplevel Support for Tk
-Version:	$Revision: 1.2 $
-Author:		Mo DeJong <mdejong@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	21-Sep-2004
-Post-History:	
-Tcl-Version:	8.5
+TIP:            223
+Title:          Full-Screen Toplevel Support for Tk
+Version:        $Revision: 1.3 $
+Author:         Mo DeJong <mdejong@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Sep-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
-Tk lacks an optimal method for creating a full-screen '''toplevel'''
-under Windows. A full-screen toplevel is one that has no borders and a
-client drawing area that covers the entire screen. Under Unix, one can
+Tk lacks an optimal method for creating a full-screen '''toplevel'''.
+A full-screen toplevel is one that has no borders and a client drawing
+area that covers the entire screen.  On some UNIX systems, one can
 create a normal toplevel that is a little larger than size of the
 screen and place the upper left corner of the client drawing area at
-at (0,0).  This option is not available under Windows as the height of
-the window is limited by the OS to keep the bottom of the window from
-covering up the start menu and task bar. A zoomed toplevel with the
-''overrideredirect'' flag set avoids this size restriction and
+at (0,0).  This option is not available under Windows as the position
+and dimensions of normal windows are constrained to keep them from
+covering up the start menu and task bar. Under Windows, a zoomed toplevel
+with the ''overrideredirect'' flag set avoids this size restriction and
 displays with no borders, both desirable properties. Unfortunately,
 setting the ''overrideredirect'' flag also keeps an icon for the
 toplevel from being displayed in the task bar and in the programs list
-accessed via Alt-Tab. This TIP and its associated patch implement
-full-screen functionality that also displays an icon in the taskbar
-and is accessible via Alt-Tab. The implementation was accomplished by
-adding a new '''fullscreen''' state that is set via the '''wm state'''
-command.
+accessed via Alt-Tab. There are also some UNIX systems that restrict
+the placement of a normal toplevel window. For example, the default
+window manager for the KDE desktop restricts size and placement of a
+normal toplevel in much the same way as Windows. This TIP and its associated patch implement full-screen functionality that also
+displays an icon in the taskbar and is accessible via Alt-Tab.
+The implementation adds a new '''-fullscreen''' option to the '''wm attributes''' subcommand.
 
 ~ Motivation
 
@@ -36,10 +37,9 @@ application.  Existing Tk commands under Windows can be used to create
 a mostly working full-screen application, but the edge cases where it
 does not work well make the application look unprofessional. The
 example code[http://wiki.tcl.tk/12506] was created to support a native
-looking full-screen Windows application that supports switching from
-regular to full-screen mode via an Alt-Return binding.
+looking full-screen Windows application using only existing Tk commands.
 
-The main problem that this example attempts to work around is that a
+The main problem this example attempts to work around is that a
 toplevel with the overrideredirect flag set does not show an icon in
 the Windows taskbar. To address this issue, a second fake window was
 created and certain events for the fake window are redirected to the
@@ -71,35 +71,23 @@ create a Tk patch to address these issues.
 
 ~ Proposal
 
-The first implementation attempt focused on a modification to the
-'''wm attributes''' command to support a '''fullscreen''' attribute.
-This seemed like a good idea since the flag could be limited to
-Windows and it would be the least invasive way to implement the needed
-functionality. While this approach could have been made to work, it
-made more sense to focus on the '''wm state''' command. Switching from
-a normal to full-screen toplevel is functionality that just fits
-better as a state switch from '''normal''' to '''fullscreen'''. It
-also did not make much sense to have a '''fullscreen''' flag that
-would query as true when the window was in an iconic or withdrawn
-state. It also made sense to add a new state so that full-screen
-functionality could be made easily accessible to Unix and Mac users.
-
-For example, the following code would support switching from
-'''normal''' to '''fullscreen''' mode under Windows, Unix, and Mac.
+The implementation adds a '''-fullscreen''' attribute that can be
+set to a boolean value of 0 or 1. Example code to switch a window
+from normal to full-screen mode is as follows.
 
 |proc fullscreen_switch { top } {
-|    if {[wm state $top] == "fullscreen"} {
-|        wm state $top normal
+|    if {[wm attributes $top -fullscreen]} {
+|        wm attributes $top -fullscreen 0
 |    } else {
-|        wm state $top fullscreen
+|        wm attributes $top -fullscreen 0
 |    }
 |}
 
-An initial implementation for Windows has been created to support a
-'''fullscreen''' option for '''wm state'''. The list of changed files
+An implementation for Windows has been created to support this
+new '''-fullscreen''' attribute. The list of changed files
 is as follows:
 
- > ''doc/wm.n, tests/wm.test, win/tkWinWm.c''
+ > ''doc/wm.n, tests/winWm.test, tests/wm.test, win/tkWinWm.c''
 
 Tk patch 1032982 has been created to track these modifications. The
 patch mostly duplicates the way an overrideredirect window is created
@@ -108,18 +96,23 @@ an icon in the taskbar. In ''UpdateWrapper'' the Win32
 ''CreateWindowEx'' function is invoked with the WS_EX_APPWINDOW flag
 passed as the ''dwExStyle'' argument and
 (WS_POPUP|WS_CLIPCHILDREN|CS_DBLCLKS) passed as the ''dwStyle''
-argument. Example Win32 code to create such a window is attached to
-the patch in the file ''full_screen.c''.  The patch also includes
-additions to the Tk test suite to cover these modifications and
-modification to the documentation for the wm command.
+argument. Example Win32 code to create a standalone example
+of such a window is also attached and can be found in the file
+named ''full_screen.c''. The patch also includes additions to the
+Tk test suite and documentation to cover these modifications.
 
 ~ Alternatives
 
-The obvious alternative is to do nothing. The existing pure Tcl
-implementation works for most cases. Reasons for rejecting this
-alternative have already been covered.
+One alternative is to do nothing. The existing pure Tcl implementation
+works for most cases. Reasons for rejecting this alternative have
+already been covered in this TIP.
 
-Assuming the TIP is accepted and a new '''wm state''' is added, there
+An earlier approach that added a new '''fullscreen''' state available
+via the '''wm state''' subcommand was abandoned based on advice
+from Joe English. After implementing it both ways, both the Tk,
+and the end user code seemed cleaner using the attributes approach.
+
+Assuming the TIP is accepted and a new attribute is added, there
 is one implementation alternative that might be useful to explore.
 There may be a way to pass a window manager hint to the Windows OS so
 that it allows the creation of a normal window that is larger than the
