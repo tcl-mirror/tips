@@ -1,0 +1,62 @@
+TIP:		91
+Title:		Backward Compatibility for Channel Types with 32-bit SeekProcs
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Created:	03-May-2002
+
+~ Abstract
+
+[72] broke backward-compatibility for channels that supported the
+[[seek]] command, and this TIP adds the ability for old-style channels
+to work with the underlying 64-bit architecture.
+
+~ Rationale
+
+Although the ability to work with large files (as added by [72]) is
+crucially useful in many situations, it has introduced a few problems,
+one of which being that it broke backward compatibility for channel
+types (see
+http://sourceforge.net/tracker/?func=detail&atid=410295&aid=551677&group_id=34191
+for details.)  Following discussion with the people concerned, I
+believe it is possible to modify the channel type structure so that
+old-style channels - i.e. those compiled against Tcl 8.3 - can still
+be supported (though with a limited range of operation.)
+
+~ Proposed Change
+
+The ''Tcl_ChannelType'' structure will have an extra field appended of
+type ''Tcl_DriverWideSeekProc'' called ''wideSeekProc'', which shall
+be guaranteed to be present (though possibly NULL) whenever the
+version of the ''Tcl_ChannelType'' structure is at least
+''TCL_CHANNEL_VERSION_3''.  The type ''Tcl_DriverSeekProc'' shall be
+reverted to its pre-[72] version, with the current type of
+''Tcl_DriverSeekProc'' being transferred to the type
+''Tcl_DriverWideSeekProc''.  In order to facilitate stacked channels,
+an additional requirement shall be imposed that if a channel driver
+implements a ''wideSeekProc'', then it shall also implement a
+''seekProc'', so allowing stacked channels to work entirely in one
+domain or the other (well, in simple cases at least.)
+
+Semantically, the core will handle seeks by preferring to use a
+''wideSeekProc'' if present, and using the ''seekProc'' otherwise.
+Considering just the case where the ''seekProc'' is used, if the
+offset argument exceeds that which is representable in a ''long'',
+''Tcl_Seek'' will fail, simulating a system error of EOVERFLOW.
+
+The only Tcl core channel which will need modification is the ''file''
+channel; this will be adapted to generate an error of EOVERFLOW when
+the resulting offset in a file would otherwise exceed that which can
+be expressed in a ''long'' (which has the downside of making the seek
+operation no longer atomic when using the old interface, since the
+file offset will need to be restored to its old position in such
+cases.)  On 64-bit platforms, both ''seekProc'' and ''wideSeekProc''
+will be the same function.
+
+~ Copyright
+
+This document has been placed in the public domain.
