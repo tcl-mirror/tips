@@ -1,6 +1,6 @@
 TIP:            1
 Title:          TIP Index
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         TIP Editor <donal.fellows@cs.man.ac.uk>
 State:          Active
 Type:           Informational
@@ -20,7 +20,10 @@ the TCT. It will be continually and automatically updated.
 White backgrounds indicate that the TIP is still a draft, yellow
 backgrounds highlight TIPs being voted on, and where a TIP has been
 rejected, withdrawn or obsoleted its index entry has a dark grey
-background.
+background.  Blue backgrounds indicate a TIP has been accepted,
+but still needs an implementation approved by maintainers.  Green
+backgrounds indicate that the TIP is deferred, waiting for someone
+to work on it.
 
 ~ Explanations and How To Submit New TIPs
 
