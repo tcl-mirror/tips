@@ -1,0 +1,42 @@
+TIP:		238
+Title:		Fire Event when Widget Created
+Version:	$Revision: 1.1 $
+Author:		Gerald W. Lester <Gerald.Lester@cox.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Tcl-Version:	8.5
+Created:	25-Jan-2005
+Post-History:   
+Keywords:	Tk
+
+~ Abstract
+
+This TIP arranged for a new virtual event to be fired every time a
+widget is created. This allows class bindings to automatically
+discover new widget instances and act on their creation.
+
+~ Rationale
+
+This event would be particularly useful on class bindings to allow
+custom code to be run when a widget of a particular class is created.
+
+~ Example
+
+|% bind Toplevel <<Create>> {
+|    puts stdout {New toplevel called {%W} was created!}
+|}
+|% toplevel .foo
+|New toplevel called {.foo} was created!
+
+~ Proposed C API Changes
+
+No changes would be requried, this change is for the Tcl layer API.
+
+~ Reference Implementation
+
+A reference implementation does ''not'' yet exist.
+
+~ Copyright
+
+This document has been placed in the public domain.
