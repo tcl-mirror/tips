@@ -1,19 +1,19 @@
-TIP:		113
-Title:		Multi-Line Searches in the Text Widget
-Version:	$Revision: 1.1 $
-Author:		Vince Darley <vincentdarley@users.sourceforge.net>
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	11-Oct-2002
-State:		Draft
-Post-History:	
+TIP:            113
+Title:          Multi-Line Searches in the Text Widget
+Version:        $Revision: 1.2 $
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Oct-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes extending the implementation of the ''$textwidget
+This TIP proposes enhancing the implementation of the ''$textwidget
 search'' subcommand to allow matching of both exact strings and regexp
-patterns which span multiple lines.
+patterns which span multiple lines, and to allow reporting on all matches.
 
 ~ Proposal
 
@@ -29,11 +29,17 @@ This should be able to be implemented reasonably efficiently, given
 the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
 impact at all on the speed of matching single lines.
 
-No additional flags or options are required, so there is no visible
-change to the Tcl language (beyond a minor change to the text widget
-man page to remove the "single line" caveat)
+In addition, if a new ''-all'' option is given to the ''search'' subcommand, then all matches within the given range will be reported. This means the return result of the command will be a list of indices, and, if a ''-count var'' option was given, ''var'' will be set to a list of match-lengths.
+
+The text widget man page will need updating to reflect the new ''-all' option, and to remove the "single line" caveat.
 
 There is as yet no reference implementation.
+
+~ Issues
+
+It isn't yet clear to me whether it would be useful to add equivalents to some or all of the ''-line'', ''-lineanchor'', ''-linestop'' regexp options.  These may be helpful when matching across multiple lines, but at first glance I don't think they are quite as useful when searching in text widgets as for the standard regexp command (but, if only for consistency, it may be sensible to add them so as not to have an unnatural distinction between searching a string and searching in a widget).
+
+On the implementation side, it might be interesting to abstract the search interface away from the text widget, so that it could in principle be applied to any line-based textual source.
 
 ~ Copyright
 
