@@ -1,15 +1,16 @@
-TIP:		198
-Title:		Image Command XPM Extension
-Version:	$Revision: 1.1 $
-Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	12-May-2004
-Post-History:
+TIP:            198
+Title:          Image Command XPM Extension
+Version:        $Revision: 1.2 $
+Author:         R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-May-2004
+Post-History:   
+Tcl-Version:    8.4
 
-~Abstract
+~ Abstract
 
 This TIP proposes an extension to the Tk '''image''' command to
 incorporate color pixmap images based on the XPM format.  The format
@@ -42,6 +43,13 @@ such an extension.
 There is an implementation in the source for
 XCircuit[http://xcircuit.ece.jhu.edu/].  The source file is
 "tkPixmap.c".
+
+~Comments
+
+I'd like to see more justification in this proposal
+as to why a new image type is needed, rather than
+implementing a suitable format for either the existing
+bitmap or photo image types.  
 
 ~Copyright
 
