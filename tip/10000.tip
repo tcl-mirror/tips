@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.144 $
+Version:        $Revision: 1.145 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -69,7 +69,6 @@ A reference implementation does ''not'' yet exist.
 
 Public domain
 
-----------------------------------
 ~ Abstract
 
 This TIP proposes a '''-nocase''' option for the '''lsearch'''
@@ -91,8 +90,8 @@ operations, including '''string compare''', '''string match''', and '''regexp'''
 
  > '''lsearch''' ?'''-nocase'''? ''list'' ''pattern''
 
-The '''-nocase''' option can be used with '''-ascii''', '''-glob''', and 
-'''-regexp''' options.  The '''-nocase''' option has no effect when used with 
+The '''-nocase''' option can be used with '''-ascii''', '''-exact''', '''-glob''', 
+and '''-regexp''' options.  The '''-nocase''' option has no effect when used with 
 the '''-dictionary''', '''-integer''', or '''-real''' options.
 
 ~ Reference Implementation
