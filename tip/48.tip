@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -331,11 +331,11 @@ free-form. However, conventions should be defined, such as capitalized widget
 classes, and lower case elements. Since whole widgets can act as elements, one 
 can therefore register an element named "Scrollbar".
 
-> The given pointer is not stored into internal structures, but is intead used
+ > The given pointer is not stored into internal structures, but is intead used
 to fill them. Styled element specs can thus be allocated on the stack or 
 dynamically, but in most cases they will be statically defined.
 
-> This procedure is actually a macro that calls another proc passing the 
+ > This procedure is actually a macro that calls another proc passing the 
 compile-time version number along with the other parameters. This scheme ensures 
 better compatibility of stub-enabled extensions with future versions that could
 extend the Tk_ElementSpec structure.
