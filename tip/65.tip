@@ -1,13 +1,13 @@
 TIP:		65
 Title:		Enhanced [info args]
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Glenn Jackman <glennj@nortelnetworks.com>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	18-Sep-2001
 Post-History:	
-Tcl-Version:	8.4
+Tcl-Version:	8.5
 
 ~ Abstract
 
