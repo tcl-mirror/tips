@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
@@ -29,8 +29,10 @@ dictionaries much simpler.
 
 ~ Proposed Change
 
-This TIP proposes a new subcommand to '''dict''' with the following
-syntax:
+This TIP proposes two new subcommands to '''dict''', '''update''' and
+'''with''', with the following syntaxes and semantics.
+
+~~ The 'dict update' Subcommand
 
  > '''dict update''' ''dictVarName dictKey varName'' ?''dictKey
    varName'' ...? ''bodyScript''
@@ -65,13 +67,30 @@ interpreted as an empty dictionary) and written once, and that ''no''
 traces are set up; ''dictVarName'' is completely independent of the
 ''varName''s during the execution of ''bodyScript''.
 
-Also note that step 3 is only carried out if ''bodyScript'' completes
-with a result code of TCL_OK, TCL_RETURN, TCL_BREAK or TCL_CONTINUE,
-and that the result code of the overall command will be the result
-code of the script (or TCL_ERROR if something else goes wrong of
-course, e.g. with reading or writing the variable containing the
-dictionary.)  The result of the command (in the TCL_OK case) will be
-the empty string.
+Also note that step 3 is carried out even if ''bodyScript'' completes
+with a result code of TCL_ERROR, TCL_RETURN, TCL_BREAK or
+TCL_CONTINUE, and that the result code of the overall command will be
+the result code of the script unless TCL_ERROR was the result of the
+write-back stage, which might happen if the variable ''dictVarName''
+is updated (during the execution of ''bodyScript'') to contain a
+non-dictionary value, or if the variable ''dictVarName'' is either
+unset or cannot be written to (which can happen if a write trace
+throws an error); note that this mandates that any errors from the
+''bodyScript'' are lost if the write-back phase also throws an error.
+If the result code is TCL_OK, the result will be the empty string.
+
+~~ The 'dict with' Subcommand
+
+ > '''dict with''' ''dictVarName bodyScript''
+
+This is a shorthand version of '''dict update''' (named after the
+Pascal ''with'' keyword) which maps ''all'' of the keys in the
+dictionary in the variable ''dictVarName'' to variables during the
+evaluation of ''bodyScript''. Note that it builds a list of all the
+keys in the dictionary before ''bodyScript'' runs and only those
+variables which are created are mapped back at the end; if extra keys
+are defined in the dictionary in the variable during the execution of
+''bodyScript'', they will be left alone when ''bodyScript'' finishes.
 
 ~ Examples
 
