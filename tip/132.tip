@@ -1,8 +1,9 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -78,11 +79,12 @@ proposes a solution to both problems.
 This TIP proposes the following changes to the floating point
 conversions in the Tcl library:
 
- 1. The default value of ''::tcl_precision'' shall be changed to be
+ 1. The default value of ''::tcl_precision'' shall be changed to 0.
+    A value of 0 (currently an error) shall be interpreted to mean
+    that a number shall be formatted using
     the smallest number of decimal digits required to distinguish
-    any two floating point numbers; on the nearly-ubiquitous
-    IEEE-754 system of floating point arithmetic, the default
-    value of ''::tcl_precision'' shall be ''17''.
+    it from the next floating point number above it and the next
+    floating point number below.
     The documentation shall formally deprecate changing
     ''::tcl_precision'' to any other value, warning that doing so
     risks both loss of precision and inconsistency between string
@@ -94,11 +96,13 @@ conversions in the Tcl library:
     significant place [[1/2 ULP]]).  IEEE-754 rounding semantics are
     correct for this input.  The ''strtod'' procedure from the
     standard C library shall ''not'' be used for this conversion,
-    since so many implementations are buggy; instead, a suitably
-    modified version of David Gay's input conversion code shall be
-    added to the Tcl library.  (It is worthy of note that several
-    platforms already use a ''strtod'' from the ''compat/'' library in
-    place of the native one, because of known bugs.)
+    since so many implementations are buggy; instead, a Tcl
+    implementation shall be developed from scratch based on
+    the algorithms developed by Burger and Dybvig
+    [http://citeseer.ist.psu.edu/28233.html].
+    (It is worthy of note that several
+    platforms already eschew the native ''strtod'' in favour of
+    one provided in the ''compat/'' library, because of known bugs.)
 
  1. The default output conversion of floating-point numbers,
     ''UpdateStringOfDouble'' shall be implemented to convert a
@@ -133,7 +137,7 @@ conversions in the Tcl library:
 |              0.20000000000000001
 
  > > even though that number is closer to the actual floating
-          point value of 
+          point value of
 
 |              0.200000000000000011102230246251565404236316680908203125
 
@@ -144,64 +148,20 @@ conversions in the Tcl library:
      point number, and all such strings are equally long, then the one
      closest to the given floating point number is chosen.
 
- > > The ''dtoa'' function in David Gay's floating-point conversion
-     library already has a collection of options that implement these
-     semantics.
-
  1. The test suite for Tcl shall be upgraded to include suitable test
     vectors for assessing correct rounding behavior.  The paper by
     Verdonk, Cuyt and Verschaeren in the References, and the
     associated software, present a suitable data set for inclusion.
 
-~ Additional Possibilities
+ 1. The input and output conversions shall allow for the IEEE special
+    values +Inf, -Inf, and NaN (and for denormalized numbers).  The
+    [[expr]] command shall be changed to allow +Inf and -Inf as
+    the result of an expression; NaN shall still cause an error.
+    Tcl_GetDoubleFromObj shall treat +Inf and -Inf as it does any
+    ordinary floating point number, and return an error for NaN.
 
-As long as we're changing floating-point conversions anyway, we may
-also want to address the correct handling of infinities and "not a
-number" conditions.  The current code contains some peculiar
-surprises. Tcl tries hard not to present these exceptions to the Tcl
-script.  It does not return Not a Number:
-
-| % expr { 1. / 0. }
-| divide by zero
-| % expr { asin( 1.5 ) }
-| domain error: argument not in valid range
-
-nor Infinity:
-
-| % expr { pow( 2., 512 ) * pow( 2., 512 ) }
-| floating-point value too large to represent
-
-Some cases even cause it to consider arithmetic underflow an error:
-
-| % expr { pow( 2., -1075 ) }
-| floating-point value too small to represent
-
-Worst of all, these errors can occur when a Not-a-Number or Infinity
-arrives in the Tcl script by other means:
-
-| % binary scan \x7f\xf8\x00\x00\x00\x00\x00\x00 d num
-| 1
-| % set num
-| NaN
-| % expr $num
-| domain error: argument not in valid range
-
-and even can happen because of conversions from strings:
-
-| % expr { "NaN" }
-| domain error: argument not in valid range
-| % expr "Inf"
-| floating-point value too large to represent
-
-I would therefore be inclined to allow output conversion of "Not a
-Number" and "Infinity", rather than simply signalling Tcl errors.  At
-the very least, the documentation should warn that certain alphabetic
-strings are "numbers":
-
-| % string is double NaN
-| 1
-| % string is double Inf
-| 1
+ 1. The [[binary scan]] and [[binary format]] commands shall explicitly
+    permit infinities and NaN as values.
 
 ''Donal K. Fellows notes that...'' the '''expr''' command will handle Inf and NaN quite well if asked nicely; it just won't return them.
 
@@ -243,23 +203,28 @@ for rounding conversions is documented in:
 
 ~ Reference Implementation
 
-The updates described herein have not yet been integrated into the Tcl
-library, but most of the groundwork has been laid. In particular,
-Gay's codes are available from Netlib
-[http://www.netlib.org/fp/index.html], and Verdonk's test vectors to
-assess IEEE-754 compliance are available from her Web site at
-[http://win-www.uia.ac.be/u/cant/ieeecc754.html].  Both have license
-agreements that are sufficiently liberal to permit incorporating them
-into the Tcl library.
+A partial reference implementation of this TIP is available in CVS on the
+''kennykb-tcl-numerics'' branch.  Since it requires additional third-party
+code that is not yet in the core, a different module name is required
+to check it out:
+
+| export CVSROOT=:ext:yourname@cvs.sourceforge.net:/cvsroot/tcl
+| cvs -q checkout -rkennykb-numerics-branch tcl_numerics
+
+As of 2 March 2005, the input and output conversions are implemented,
+and rounding tests are in the test suite.  Work still needs to be done
+to update [expr] to handle Inf and NaN appropriately, to update [binary]
+to handle them without throwing errors in ''Tcl_GetDoubleFromObj'', and
+to adjust the test suite accordingly.
 
 ~ Acknowledgments
 
 The discussion of just why 17 is magical was prompted by a suggestion
-from Lars Hellstrøm.
+from Lars Hellstr
 
 ~ Copyright
 
-Copyright (c) 2003 by Kevin B. Kenny.  All rights reserved.  
+Copyright (c) 2005 by Kevin B. Kenny.  All rights reserved.
 
 This document may be distributed subject to the terms and conditions
 set forth in the Open Publication License, version 1.0
