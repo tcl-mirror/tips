@@ -1,13 +1,14 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Process
 Vote:           Pending
 Created:        12-Sep-2000
-Post-History:
+Post-History:   
 
 ~ Abstract
 
@@ -186,11 +187,11 @@ TIPs are written in plain ASCII text with an RFC822-like header and
 embedded sequences suitable for Wiki-like processing as indicated in
 [3].
 
-There are Tcl scripts that converts the TIP into HTML for viewing on
+There are Tcl scripts that convert the TIP into HTML for viewing on
 the web.  Scripts for producing other formats are available too, for
 example LaTeX and plain ASCII.
 
-~ Sample Process TIP
+~ Sample Project TIP
 
 (With thanks to William H. Duquette <William.H.Duquette@jpl.nasa.gov>
 for suggesting this.)  Note that the TIP Editor is responsible for
@@ -198,7 +199,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.2 $
+|Version:       $Revision: 1.3 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -243,6 +244,45 @@ website or submitted as a separate file.  This is because (quite
 rightly) the news:comp.lang.tcl.announce moderator does not allow
 patches to be posted on that newsgroup.  If you want a patch to be
 incorporated into the archive, please contact the TIP Editor.
+
+----
+
+~ Comments
+
+ > 1. It is confusing that ``project'' TIPs defined here do not
+      correspond to ``projects'' defined in [0].
+
+ > 2. The TIP Workflow section should mention the web-based
+      drafting service [13] as another way for members of the
+      community to add their comments to a draft TIP.
+
+ > 3. The TIP Workflow section calls for TCT acceptance of a
+      project TIP implementation to move it from state Accepted
+      to state Final.  TCT procedures [0] now delegate that
+      acceptance task to maintainers.
+
+ > 4. It is not clear how the TIP workflow state diagram applies
+      to non-project TIPs.  Non-project TIPs do not have an
+      implementation.  Do they move straight from state Draft to
+      state Final when they receive TCT approval?  Or do they
+      just stay in state Accepted forever with no need to move to
+      state Final?
+
+ > 5. It should be noted in the TIP Workflow section that according
+      to [0] a project TIP cannot be approved (and therefore should
+      not be sponsored) until the TIP names a committed implementor.
+
+ > 6. The Patches section indicates that patches in the TIP are
+      incompatible with posting to comp.lang.tcl.announce, so
+      earlier sections of this TIP should not indicate that including
+      patches in the TIP is an acceptable practice.
+
+ > 7. Should process TIPs be reserved for those proposals that
+      revise [0] and require 2/3 support of the entire TCT?
+
+ > ''Don Porter  <dgp@users.sourceforge.net>
+
+----
 
 ~ Copyright
 
