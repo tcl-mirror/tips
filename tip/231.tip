@@ -1,6 +1,6 @@
 TIP:		231
 Title:		Support for [wm attributes] on X11
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Joe English <jenglish@flightlab.com>
 State:		Draft
 Type:		Project
@@ -23,7 +23,7 @@ under X11 in the '''wm attributes''' command:
  * '''-fullscreen'''
 
  > This attribute has the same meaning as the equivalent option for
-   Windows (see [223]).
+   Windows (see [223]) with one restriction (outlined below).
 
  * '''-topmost'''
 
@@ -33,7 +33,8 @@ under X11 in the '''wm attributes''' command:
  * '''-zoomed'''
 
  > This attribute requests that the window be maximized; it is the
-   same as [['''wm state''' ''win'' '''zoomed''']] on Windows.
+   same as [['''wm state''' ''win'' '''zoomed''']] on Windows, subject
+   to the restriction outlined below.
 
 ~ Restrictions
 
