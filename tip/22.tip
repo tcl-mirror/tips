@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        19-Jan-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
-Keywords:       {{{lindex {multiple arguments} sublists}}}
+Keywords:       {{{{lindex {multiple arguments} sublists}}}}
 Tcl-Version:    8.4a2
 
 ~ Abstract
@@ -134,6 +134,43 @@ allow this more-natural style of coding to be written in Tcl.
 
  > ''Don Porter <dgp@users.sourceforge.net>''
 
+ > > Reply:
+
+ > > Don makes a good point: with a good set of data structures in
+     tcllib, the need for this TIP is lessened or even eliminated.
+     Nonetheless, I see this as a way of implementing the structures
+     he describes.  In other words, a more powerful primitive (which,
+     in reality, adds fairly little complexity when measured in number
+     of lines of code changed) would benefit these structures.
+
+ > > As for the [[listx]] overhaul, there are many competing proposals
+     for the specification it is difficult to come up with a metric.
+     In writing this TIP, I assumed a vacuum -- that is, a listx
+     command would not be added to the core in the near future.
+
+ > > ''Dave Cuthbert <dacut@kanga.org>''
+
+----
+
+ > There was quite a discussion on comp.lang.tcl about using lindex
+   to return multiple arguments.  For example:
+
+| % set list {a {b1 b2} c d e}
+| % lindex $list 1
+| b1 b2
+| % lindex $list 1 0
+| {b1 b2} a
+| % lindex $list {1 0}
+| b1
+
+ > In other words, the list index arguments can, themselves, be lists.
+   Only when the argument is a list would the "recursive selection"
+   procedure of the TIP be used.  For multiple arguments, the behaviour
+   is akin to
+
+| lindex $list a b c  ->  list [lindex $list a] [lindex $list b] [lindex $list c]
+
+ > ''Summarised by Dave Cuthbert <dacut@kanga.org>''
 ----
 
 ~ Copyright
