@@ -1,8 +1,8 @@
 TIP:            227
 Title:          Interface to Get and Set the Return Options of an Interpreter
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        30-Oct-2004
