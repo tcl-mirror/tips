@@ -1,12 +1,12 @@
 TIP:            93
 Title:          Get/Delete Enhancement for the Tk Text Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Craig Votava <craig@lucent.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        28-Dec-2001
 Post-History:   
 Tcl-Version:    8.4
