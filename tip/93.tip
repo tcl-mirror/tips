@@ -1,8 +1,9 @@
 TIP:            93
 Title:          Get Enhancement for the Tk Text Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Craig Votava <craig@lucent.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Jeff Hobbs <JeffH@ActiveState.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -212,7 +213,7 @@ text window with 2000 entries), run on my computer are as follows:
 
 I believe that both the CPU the efficiency, and the coding efficiency
 that this reference implementation provides, merit the change to the
-Tk Widget.
+Tk Widget.  In addition to the ''get'' enhancement, the symmetrical changes would be make to the ''delete'' subcommand.
 
 ''The patch has received little testing so far, so any testing is
 encouraged.''
