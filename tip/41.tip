@@ -1,6 +1,6 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
@@ -391,6 +391,21 @@ The widget described here has already been implemented, with
 documentation and a full test suite.  The widget is included with the
 Vu widget extension, part of the ''tktable'' SourceForge project at
 http://tktable.sourceforge.net
+
+~ Notes
+
+Suggestions for possible future enhancements:
+
+ * Allow specification of a weight for each pane, similar to the -weight option supported by
+grid, to be used when allocating space from a resize to panes in the
+widget.
+
+ * Allow a bindable image to be placed on the window sash, a la 
+Netscape's Messenger, or Java Swing, to allow one-click expand and
+collapse of the pane.
+
+Neither of these are prohibited by the current design, and could be 
+implemented at a later date as enhancements to the widget.
 
 ~ Copyright
 
