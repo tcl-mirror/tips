@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -201,7 +201,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.15 $
+|Version:       $Revision: 1.16 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -291,18 +291,18 @@ respect to how a TIP becomes "un-rejected".
 
 The text says:
 
-"... may accept or reject a TIP or send it back to the author(s)
-for revision"
+ > ... may accept or reject a TIP or send it back to the author(s)
+   for revision"
 
 But the state transition diagram shows no way to go from
-"Rejected" to "Draft". What becomes of a TIP after it
+''Rejected'' to ''Draft''. What becomes of a TIP after it
 is put up for a vote? If it is rejected, should the
 author create a new TIP number or can they rewrite
 the original TIP?
 
 ----
 
-Larry W. Virden writes:  I would really find it useful
+''Larry W. Virden writes:''  I would really find it useful
 if upon submission of a TIP, a web page, perhaps on
 the Tcl'ers Wiki or elsewhere, would be referenced in
 the TIP itself.  This web page would contain a summary
@@ -312,6 +312,7 @@ This page could be used by those looking at the
 archive to quickly determine the state of the discussion,
 as well as the reasons for the final disposition of the
 TIP.
+
 ----
 
 ~ Copyright
