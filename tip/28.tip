@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -416,7 +416,7 @@ that alternative implementation reasonably quickly, then propose it as
 a revision to the patch.  However, be careful not to let the perfect
 be the enemy of the good.  If a patch works, do not reject just
 because you can imagine a better way it could be done.  Provide the
-the better way, or accept the less good way in the patch, and leave
+better way, or accept the less good way in the patch, and leave
 migration to the better way for later when you have the time.
 
 To approve the patch's changes to your area, simply note your approval
