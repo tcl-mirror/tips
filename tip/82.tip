@@ -1,8 +1,8 @@
 TIP:		82
 Title:		Add -offrelief Option to Checkbutton and Radiobutton
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		D. Richard Hipp <drh@hwaci.com>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	10-Jan-2002
