@@ -1,8 +1,9 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Don Porter <dgp@users.sourceforge.net>
-Author:          <nobody@nowhere.com>
+Author:         <nobody@nowhere.com>
+Author:         Andreas Kupries <akupries@westend.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -36,6 +37,21 @@ proposed in [13].
 Attempt to add a new section via the web interface (in a frame).
 
 Are anonymous changes possible?
+
+~ Testing the interface
+
+<Andreas Kupries>
+Just my first try at the new web editing interface for TIPs.
+
+Hm ... Maybe we could add a direkt reference to [3] to the
+edit page for easy/quick lookup of the formatting (rules|definition).
+It should open into its own window, immediately, when following the link.
+
+I miss a button or some such which allows me to enter a new
+TIP. Currently it seems as if I can just edit an existing
+document.
+
+</Andreas Kupries>
 
 ~ Copyright
 
