@@ -1,0 +1,74 @@
+TIP:		213
+Title:		A Standard Dialog for Font Selection
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	21-Aug-2004
+Keywords:	Tk
+
+~ Abstract
+
+This TIP proposes a new command that pops up a dialog box that allows
+the selection of a font.  Where possible, this dialog will be
+implemented using the host platform's standard dialogs.
+
+~ Rationale
+
+A number of platforms (Windows and MacOSX) have standard dialogs for
+common user-oriented tasks, and Tk provides an interface to these
+dialogs through commands such as ''tk_getOpenFile'' and
+''tk_chooseColor''. However, another dialog that they provide and
+which some programs would find useful is a font selector.  This TIP
+proposes adding a command to do just that; where a platform does not
+provide such a standard dialog, one implemented using a Tcl script
+will be used instead.
+
+~ Proposed Change
+
+Tk shall have a new command, '''tk_chooseFont''', with the syntax
+described below (which should be recognizably similar to
+'''tk_chooseColor''').  If the dialog is cancelled, the result of the
+command will be an empty string.  Otherwise, if a font is chosen the
+result will be a font string suitable for use with any widget's
+''-font'' option.
+
+ > '''tk_chooseFont''' ?''-option value -option value ...''?
+
+Permitted options are:
+
+ -parent: This specifies the parent window of the dialog (similarly to
+  the '''-parent''' option to other dialogs).
+
+ -title: This specifies the title of the dialog.
+
+ -initialfont: This specifies (in any form suitable for a ''-font''
+  option to a widget) the font that is selected when the dialog is
+  displayed.
+
+ -updatefont: This specifies the name of a font created with '''font
+  create''' which will be updated to reflect the details of the users
+  selection; if this option is specified, it provides the result of
+  '''tk_chooseFont''' if the dialog is not cancelled.  Where the
+  dialog implementation supports it, the font will also be updated
+  during the selection process. This allows the effects of changing
+  the font to be reflected immediately in other Tk widgets.
+
+Whenever a platform provides a suitable font dialog in its own API, Tk
+should not use a script-based alternative, even if this means missing
+out on features like the title or dynamic updating of the font during
+the selection process.
+
+User code should not assume that the event loop will not be running
+during the processing of the '''tk_chooseFont''' command.
+
+~ Reference Implementation
+
+Not yet available.
+
+~ Copyright
+
+This document has been placed in the public domain.
