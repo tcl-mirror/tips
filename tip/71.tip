@@ -1,9 +1,10 @@
 TIP:            71
-Title:          Tk Bitmap Improvements
-Version:        $Revision: 1.11 $
+Title:          Tk Bitmap Image Improvements
+Version:        $Revision: 1.12 $
 Author:         Chris Nelson <chris@pinebush.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Eric Melski <ericm@interwoven.com>
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,20 +14,14 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP improves handling of bitmaps in Tk.
-
-~ Background
-
-Tk has a number of pre-defined bitmaps (10 on all platforms, and 16
-more on Macs) but it lacks a number of useful bitmaps and there is no
-way to programmatically list the predefined bitmaps.  This TIP adds a
-number of useful, basic bitmaps and provides for introspection of
-bitmap names.
+Tk has a number of pre-defined bitmaps (10 on all platforms) but it
+lacks a number of bitmaps useful for creating GUI elements.  This TIP
+adds several such bitmaps (as bitmap images).
 
 ~ New Bitmaps
 
 Many complex widgets like comboboxes, spinboxes, etc. require arrows
-bitmaps on buttons.  While newer releases of Tk have added more
+pictures on buttons.  While newer releases of Tk have added more
 widgets, there will always be some unforeseen need for new or
 customized widgets.  One example is a menubutton which, according to
 the Microsoft Windows User Experience
@@ -34,13 +29,13 @@ the Microsoft Windows User Experience
 should have a downward arrow on the right side.  With compound
 buttons, it is not hard to do:
 
-|   button .mb -text Tools -bitmap downarrow -compound right
+|   button .mb -text Tools -image downarrow -compound right
 
-but there is no stock down-arrow bitmap.  
+but there is no stock down-arrow image.  
 
-I propose to add 12 bitmaps providing all four directions (up, down,
-left, and right) in three sizes (3x2, 5x3, and 7x4).  The down arrows
-would look something like:
+I propose to add 12 bitmap images providing all four directions (up,
+down, left, and right) in three sizes (3x2, 5x3, and 7x4) in black.
+The down arrows would look something like:
 
 |   @@@@@@@   @@@@@      @@@
 |   .@@@@@.   .@@@.      .@.
@@ -54,49 +49,27 @@ I propose the following names:
 |   arrow_l7x4      arrow_l5x3      arrow_l3x2
 |   arrow_r7x4      arrow_r5x3      arrow_r3x2
 
-I'm mindful of the fact that adding new predefined bitmaps has the
-potential to collide with application-defined bitmaps but unsure of
-the workaround for that.
-
-~ Introspection
-
-Many (most?) parts of Tcl/Tk can be inspected.  You can list font
-names and families, list windows and find their children, etc.,
-etc. but you need a manual to determine which bitmaps are predefined.
-I propose to add a [[tk bitmaps]] command which lists the predefined
-bitmaps.
+I'm mindful of the fact that adding new predefined bitmap images has
+the potential to collide with application-defined images or other
+commands but I'm unsure of the workaround for that.
 
 ~ Reference Implementation
 
-SourceForge patch 475332 provides a reference implementation of [[tk
-bitmaps]] and a draft of the 12 arrow bitmaps.
+SourceForge patch 475332 provided a reference implementation of a
+previous version of this proposal
+[http://sf.net/tracker/?func=detail&aid=475332&group_id=12997&atid=312997].
+This version is not implemented yet.
 
-http://sf.net/tracker/?func=detail&aid=475332&group_id=12997&atid=312997
+~ Commentary
+
+''Donal K. Fellows <donal.k.fellows@man.ac.uk> writes:''
+Previous versions of this TIP proposed fixing the problem using
+bitmaps instead of bitmap images and added an infrastructure for
+tracking those bitmaps.  Since I think that ultimately we should be
+getting rid of bitmaps and instead using something based on the image
+infrastructure (which already has proper introspection support) those
+parts of this TIP have been removed.
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
-----
-
-~ Comments
-
-Given that Chris implements his own suggestion about adding
-'arrow_' at the end of the bitmap names, I find this a fine
-idea.  - ''KBK <kennykb@acm.org>''
-
-As discussed on tcl-core, I've created a simple Tcl script to convert
-ASCII art diagrams like those included in this TIP into XBM format
-data suitable for passing into [[image create bitmap -data ...]].  The
-script and sample usage are attached in the following patch:
-http://sf.net/tracker/?func=detail&aid=516751&group_id=12997&atid=312997
-- ''Eric Melski <ericm@interwoven.com>''
-
-''(Summary of objections)''
-
-''KBK:'' Several TCT members posted comments to the tcl-core list,
-essentially regretting that the TIP doesn't go far enough; many wanted
-named bitmaps to be extensible from the Tcl script.  The sponsor of
-the TIP (KBK) believes that the extension proposed here is small and
-useful, irrespective of how we address the larger issues of bitmap
-management, and that this TIP ought not to be blocked on those issues.
