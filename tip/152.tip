@@ -1,6 +1,6 @@
 TIP:		152
 Title:		New -detail Option for tk_messageBox
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Mats Bengtsson <matben@privat.utfors.se>
 State:		Draft
 Type:		Project
@@ -34,7 +34,7 @@ The proposed change is now implemented as a loadable extension (in C)
 on Mac OS X
 [http://hem.fyristorg.com/matben/download/MovableAlerts.dmg].
 
-The follwing images show the present (8.4.4) message box on AquaTk,
+The following images show the present (8.4.4) message box on AquaTk,
 and the proposed one.
 
 #image:152before	This is the present tk_messageBox.
