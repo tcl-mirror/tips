@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.147 $
+Version:        $Revision: 1.148 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -108,6 +108,7 @@ A reference implementation of this TIP is availble
 
 from Lars Hellstrøm.    
 
+Kevin tries to enter the mælstrøm of encoding tests.
 ~ Copyright
 
 This document has been placed in the public domain.
