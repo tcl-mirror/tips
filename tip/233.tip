@@ -1,13 +1,14 @@
-TIP:		233
-Title:		Virtualization of Tcl's Sense of Time
-Version:	$Revision: 1.1 $
-Author:		Andreas Kupries <andreas_kupries@users.sf.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	30-Nov-2004
-Post-History:	
+TIP:            233
+Title:          Virtualization of Tcl's Sense of Time
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <andreas_kupries@users.sf.net>
+Author:         Andreas Kupries <akupries@shaw.ca>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        30-Nov-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -33,7 +34,7 @@ possible, and this TIP proposes to change this, and how.
 At the Tcl level nothing changes. All changes are at the C level,
 extending and changing existing APIs.
 
-One new function, '''Tcl_SetGetTimeProc''', is added to the public API
+One new function, '''Tcl_SetTimeProc''', is added to the public API
 of the core. Its signature is:
 
 | void Tcl_SetTimeProc(Tcl_GetTimeProc *getProc,
