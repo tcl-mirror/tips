@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -18,16 +18,27 @@ time.
 
 ~ Rationale
 
-A new [trace execution] option enables Tcl to track line number
+Currently, although Tcl provides quite reasonable information to users
+in error traces, the line numbers within those traces are always
+relative to the evaluation context containing them (often the
+procedure, but not always) and not to the script file containing the
+procedure.  This is substantially different to virtually every other
+computer language and makes correlating errors with the source line
+that caused them much more difficult.  This also makes coupling a Tcl
+interpreter to an external debugging tool more difficult.  This TIP
+proposes adding new interfaces to the Tcl core to make such debugging
+activity easier.
+
+A new '''trace execution''' option enables Tcl to track line number
 and source file information associated with statements being executed
 and call a single callback.
-A new [info line] option provides access to line number information.
+A new '''info line'' option provides access to line number information.
 As a result, it becomes a simple matter to implement a debugger for
 Tcl, in Tcl.  Furthermore, the implementation also serves as example usage of
 the C interface, enabling similar capabilities at the lower level.
 
-A simple Tcl debugger, ''tgdb'', written in Tcl, and emulating ''gdb'',
-is included with this Tip to demonstrate the
+A simple Tcl debugger, ''tgdb'', written in Tcl and emulating ''gdb'',
+is included with this TIP to demonstrate the
 use of this interface.  ''tgdb'' supports breakpoints on lines/procs/vars/etc,
 single-stepping, up/down stack and evals.  It is designed to work both as a
 commandline and a slave process (see ''Reference Implementation'').
@@ -69,7 +80,7 @@ traced command, the following data will be produced:
 
  * stacklevel
 
- > The stack call level as per [info level].
+ > The stack call level as per '''info level'''.
 
  * curnsproc
 
@@ -224,7 +235,7 @@ Build and store a line number table internally during parse?
 
 Line number lookup via the source string.
 A simple way to implement this might be to lookup string against the
-codePtr->source+bestSrcOffset as returned by GetSrcInfoForPc().
+''codePtr->source+bestSrcOffset'' as returned by ''GetSrcInfoForPc()''.
 
 Add special handling for eval.  Cases like ''eval $str'' should eventually
 be changed to report a line number of 0 (or more likely the line number
@@ -276,11 +287,11 @@ Mo DeJong notes: file path should be used in place of file name
 
    * TIP updated to use path where appropriate
 
-Mo DeJong suggests to maybe use TclpObjNormalizePath(fileName)
+Mo DeJong suggests to maybe use ''TclpObjNormalizePath(fileName)''
 
    * No action yet
 
-Donal Fellows objects to no support for [proc]s in subevals and
+Donal Fellows objects to no support for '''proc'''s in subevals and
 Andreas Kupries suggests defining a line number ''Tcl_Token'' type.
 
    * Add support for '''proc''' in subeval by addition to
