@@ -1,6 +1,6 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
@@ -76,6 +76,8 @@ belong in the core.  This question could be made irrelevant with the
 introduction of a proper "Batteries Included" distribution, but like
 the proper megawidget system, this seems like a goal far from reality
 at this time.
+
+#image:41example Example Panedwindow Widget
 
 ~ Specification
 
