@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -149,7 +149,11 @@ associated with that key.
 
 ~ How to Gather the Embedded Information
 
-The information to be embedded is gathered in a platform-specific way and written into the file ''generic/tclConfig.c''. The different platforms may employ platform specific intermediate files to hold the information, but in the compilation phase only ''tclConfig.c'' will be used.
+The information to be embedded is gathered in a platform-specific way
+and written into the file ''generic/tclPkgConfig.c''. The different
+platforms may employ platform specific intermediate files to hold the
+information, but in the compilation phase only ''tclPkgConfig.c'' will
+be used.
 
    * Under unix it is determined primarily by the existing
      ''configure'' script. The configuration information coming
