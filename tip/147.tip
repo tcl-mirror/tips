@@ -1,13 +1,13 @@
-TIP:		147
-Title:		Make Grid's Column/Row Configure Easier
-Version:	$Revision: 1.1 $
-Author:		Peter Spjuth <peter.spjuth@space.se>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	05-Aug-2003
-Tcl-Version:	8.5
-Post-History:	
+TIP:            147
+Title:          Make Grid's Column/Row Configure Easier
+Version:        $Revision: 1.2 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Aug-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -75,8 +75,13 @@ if a widget is moved in the grid or if more widgets are added.
 
 ~ Other Possibilities
 
-One thing that could be added is to also recognise the end-style
-indexing that indices in Tcl support (through ''TclGetIntForIndex()''.)
+One possibility that is not proposed in this TIP is to also recognise
+the end-style indexing that indices in Tcl support (through
+''TclGetIntForIndex()''.)
+
+Comment: "Personally, I think that end-index handling will be quite
+tricky since it would require knowing what the *user* thinks is the
+last column."
 
 ~ Reference Implementation
 
