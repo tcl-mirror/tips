@@ -1,8 +1,8 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Vince Darley <vince@santafe.edu>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        08-Sep-2003
