@@ -1,0 +1,71 @@
+TIP:		236
+Title:		Absolute Positioning of Canvas Items
+Version:	$Revision: 1.1 $
+Author:		Neil McKay <mckay@eecs.umich.edu>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	25-Dec-2004
+Post-History:	
+Tcl-Version:	8.5
+
+~Abstract
+
+This TIP proposes adding a canvas widget command to set the absolute
+position of canvas items.
+
+~Rationale
+
+There are many situations where it is desirable to move a group of
+canvas items to a given position. Currently, this can be done by
+getting the items' bounding box, calculating the offset required to
+move the items to the desired position, and using the canvas
+'''move''' command to translate the items to where we want them. This
+is tedious and inefficient.
+
+~The 'place' Canvas Command
+
+This TIP proposes adding a subcommand called '''place''' to the canvas
+widget command. It is analogous to the canvas '''move''' command,
+except that it accepts an absolute position instead of a relative
+displacement. It also allows the specification of an anchor point for
+the moved set of items. For instance, the command
+
+|	.c place stuff 100 200
+
+will displace all items tagged with ''stuff'' so that the center of
+their bounding box lies at the point (100,200). Likewise,
+
+|	.c place stuff 100 200 -anchor sw
+
+will do the same, except that it will place the lower left corner of
+the bounding box at (100,200).
+
+The result of the command will be the empty string.	
+
+~~Formal Syntax
+
+ > ''canvas'' '''place''' ''tagOrId'' ''x'' ''y'' ?'''-anchor''' ''anchor''?
+
+Argument description:
+
+ canvas: The canvas instance's command.
+
+ tagOrId: A specifier that selects one or more items. If no items are
+ selected, the command does nothing.
+
+ x, y: The absolute coordinates of the target location.
+
+ anchor: Which corner of the bounding box of the item(s) is to be
+ placed at the target location, in the usual format for anchors.
+ Defaults to '''center'''.
+
+~Patches
+
+A patch (against tcl8.5a2) that implements the '''place''' canvas
+subcommand is available
+[http://www.eecs.umich.edu/~mckay/canvplace.patch.gz].
+
+~Copyright
+
+This document is in the public domain.
