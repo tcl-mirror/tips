@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:    8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Neil Madden <nem@cs.nott.ac.uk>
 Created:	23-Mar-2004
 
@@ -80,14 +80,15 @@ This TIP proposes that the handling of unknown commands be done on a
 per-namespace basis through the introduction of an '''unknown'''
 subcommand of the '''namespace''' command.
 
- > '''namespace unknown''' ?''namespaceName''? ''commandName''
+ > '''namespace unknown''' ?''namespaceName''? ''commandPrefix''
 
 The subcommand would accept either one or two arguments.  If two
 arguments are given, then the first must be the fully qualified name
 of a namespace which the command is to operate on.  If only one
 argument is given, then this defaults to the current namespace.  The
 other argument (or only argument in the one argument case) is a
-command to execute if command lookup in the given namespace fails.
+command (strictly a prefix list consisting of a command and optional
+arguments) to execute if command lookup in the given namespace fails.
 The command will be concatenated with the full invocation line of the
 command being searched for (i.e. the command name and all arguments),
 and evaluated in the scope of the current namespace.  The command name
@@ -155,8 +156,8 @@ handler:
 |   proc useful {args} { ... }
 |
 |   namespace eval bar {
-|      # Note that the namespace command must be fully qualified
-|      namespace unknown [list ::namespace eval ::foo]
+|      namespace unknown [list resolve]
+|      proc resolve {args} { namespace eval ::foo $args }
 |      proc carrot {arg1 args} {
 |         useful $arg1
 |      }
@@ -186,7 +187,10 @@ public/protected methods, showing how ''''namespace unknown''' and
 |   # Public methods
 |   namespace export do
 |   # Handler to delegate to superclass
-|   namespace unknown [list ::namespace eval ::SuperClass]
+|   namespace unknown [list delegateSuper ::SuperClass]
+|   proc delegateSuper {superclass args} {
+|      ::namespace eval $superclass $args
+|   }
 |
 |   proc create {name} {
 |      # Create superclass instance
