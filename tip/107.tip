@@ -1,12 +1,12 @@
 TIP:		107
 Title:		Fix the 2-second "raise delay" in Tk
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Joe English <jenglish@flightlab.com>
-State:		Draft
+State:		Final
 Type:		Project
 Created:	28-Aug-2002
 Tcl-Version:	8.4
-Vote:		In progress
+Vote:		Done
 Post-History:	
 
 ~ Abstract
