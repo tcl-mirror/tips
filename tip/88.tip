@@ -1,6 +1,6 @@
 TIP:            88
 Title:          Extend Tcl Process Id Control via 'pid'
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
 Author:         <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -28,9 +28,9 @@ enhanced with new syntax.  This TIP proposes adding subcommands to
 ~ Specification
 
 |   pid ?fileId?
-|   pid terminate pid ?pid ...?
+|   pid terminate ?-force? ?--? pid ?pid ...?
 
-The first line is the current definition for [[pid]], which is to return the name of the current process id, or that attached to a ''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add only ''terminate'' initially.  This command is adapted almost directly from TclX's signal handling, but changed to work as a subcommand of [[pid]].  This is to satisfy one of the most common requests from users regarding process management - killing a known process.  It also establishes the framework of extending [[pid]] for future modifications.
+The first line is the current definition for [[pid]], which is to return the name of the current process id, or that attached to a ''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add only ''terminate'' initially.  This command is adapted almost directly from TclX's signal handling, but changed to work as a subcommand of [[pid]].  This is to satisfy one of the most common requests from users regarding process management - killing a known process.  It also establishes the framework of extending [[pid]] for future modifications.  The ?-force? argument causes a forceful termination (the usage of SIGKILL on Unix, for Windows and Mac termination is already forceful).
 
 ~ Reference Implementation
 
