@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -28,10 +28,10 @@ error is returned.
 If ''target'' is given then creates a link from
 ''source'' to ''target'', as follows:
 
-When the ''target'' argument is given, an optional third argument ''linktype'' is allowed.  When this third argument is not given, the type of link created is platform
+When the optional third argument ''linktype'' is not given, the type of link created is platform
 specific (i.e. the user is asking "please create any link that is possible in this filesystem"), but is by default a symbolic link where this is supported.  
 
-However, the user may wish to specify the type of the link explicitly with the optional ''linktype'' argument.  Accepted values for linktype will be "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+However, the user may wish to specify the type of the link explicitly with the optional ''linktype'' argument.  Accepted values for linktype are "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
 do not support any symbolic links at present, but Unix, MacOS
 and Windows NT/2000/XP (on NTFS drives) do).
 
