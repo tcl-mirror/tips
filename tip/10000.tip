@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.128 $
+Version:        $Revision: 1.129 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -69,7 +69,6 @@ spong wibble
 |
 |set x "this is a test inside \"[namespace current]\"."
 |
-
 |################################################
 |# file invoke.tcl
 |################################################
