@@ -1,8 +1,9 @@
 TIP:            122
 Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Martin Weber <ephaeton@gmx.net>
 Author:         Martin Weber <Ephaeton@gmx.net>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -54,6 +55,33 @@ There may be a problem with the performance of the lookup, but on the
 other hand are C's ''is*()'' functions also implemented via a table
 lookup.  An installation of a caching static character table could
 guarantee the needed performance.
+
+~Example of current word confusion
+
+Tk's text widget uses "word" in several ways:
+
+1. selection by word (double-click + drag),
+2. movement by word ('insert wordstart'),
+3. regexp searching with \m\M wordmatching.
+4. line breaks when wrapping (-wrap word)
+
+It is not at all clear from reading Tcl or Tk's documentation what the
+behaviour of the above options will be.  It turns out that:
+
+1. after a convoluted call-chain, ends up calling
+tcl_wordBreakAfter/Before which use tcl_wordchars and tcl_nonwordchars.
+
+2. uses 'isalnum(char)' or '_' to define a word (hard-coded in Tk's
+tkTextIndex.c)
+
+3. uses Tcl's regexp engine's definition of a word.
+
+4. Anything separated by white-space from something else, used with '-wrap word' to define line-wrapping in text widgets (and canvases).
+
+It is quite likely that all four of the above are different under some
+circumstances or some platforms/locales, and certainly if the
+user/developer wants to create a text widget with a different word
+definition, they basically can't in any consistent way.
 
 ~Implementation
 
