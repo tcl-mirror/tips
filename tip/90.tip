@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.29 $
+Version:        $Revision: 1.30 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -444,9 +444,45 @@ further improved with more substantial bytecompiling of [return].
 
 ~ Future considerations
 
-::errorInfo and ::errorCode could go away...
+The main reason the global variables ''::errorInfo'' and
+''::errorCode'' exist is to give the script level access to
+stack and error code information following the ''catch''
+of a script that raises an error.  After this proposal, the
+''catch'' command itself provides access to that information,
+so the global variables are not required.  One can imagine
+deprecating them, asking users of Tcl 8.5 to stop writing
+code that accesses them.  They could still have apparent
+existence, to satisfy the needs of scripts written for earlier
+Tcl 8.X releases, by means of read traces.  In time,
+Tcl 9 could either continue the read trace scheme, or not
+provide these global variables at all.
 
-''bgerror'' improvements.
+One part of Tcl itself that currently makes use of the
+''::errorCode'' and ''::errorInfo'' variables is the
+''bgerror'' command.  Currently, ''bgerror'' accepts exactly
+one argument, the error message.  To make use of stack or
+error code information, ''bgerror'' must retrieve them from
+the global variables.  The proper values of these global
+variables are re-set by ''Tcl_BackgroundError()'' prior to
+evaluation of ''bgerror''.
+
+As an alternative, ''Tcl_BackgroundError()'' could first attempt
+to call ''bgerror'' with ''two'' arguments, first the message,
+then a dictionary of options.  If that call returned TCL_ERROR,
+then a second attempt could be made with a single message
+argument.  In that way, cleaner ''bgerror'' commands that get
+all data from arguments could be supported, while still keeping
+support for those ''bgerror'' commands that were defined for
+single argument use.
+
+It has been noted several times that the processing of the
+value of ''::errorInfo'' is rather difficult because it is
+an arbitrary string with no documented structure.  A different,
+more structured way of representing stack trace information would
+be an improvement.  This proposal does not propose an alternative,
+but because it offers an extensible dictionary for storing arbitrary
+return options data, it does provie an infrastructure where such
+approaches might be tried out.
 
 ~ Acknowledgments
 
