@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -54,7 +54,7 @@ This TIP is, therefore, to fix these limitations, as follows:
   1. Make internal changes to the text widget so it keeps track of the
      number of vertical display pixels in each logical line, and uses
      that information to calculate scrollbar interactions, to provide
-     a better user experience, including smooth scrolling.
+     a better user experience, including smooth scrolling.  This requires an extension to the text widget's yview command to do smooth scrolling: ''.text yview scroll N pixels''
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
@@ -144,7 +144,7 @@ used because idle callbacks are not allowed to reschedule themselves).
 A thread-based implementation may have some advantages (although it
 certainly has disadvantages too).
 
-Given the pixel calculations are available, they have been used to provide for smooth scrolling of the text widget.  This means even with large images, smooth scrolling off top and bottom of the widget are automatic.
+Given the pixel calculations are available, they have been used to provide for smooth scrolling of the text widget.  This means even with large images, smooth scrolling off top and bottom of the widget are automatic.  In order for smooth scrolling to be used by Tk's Tcl library, the ''pixels'' unit has been added to the ''.text yview scroll'' command.  This is used to ensure mouse-wheel and scan-drag scrolling are smooth.  It is important that the existing ''pages'' and ''units'' (the latter being display lines) do not change in meaning so that, for example, clicking on a scrollbar's arrow still scrolls the widget by 1 display line.
 
 ~ Count Subcommand
 
@@ -271,8 +271,8 @@ Previously, achieving something like the second line was quite complex.
 ~ Backward Compatibility
 
 All of the above changes simply extend the functionality of the text
-widget in new ways, and therefore have no possible backward
-compatibility problems, except one:
+widget in new ways, and therefore have no significant backward
+compatibility problems.  It is possible that some existing Tk code may notice some behavioural differences:
 
 Since the interaction between text widget and vertical scrollbar is now
 slightly different, any code which assumed that a particular scrollbar
@@ -296,12 +296,14 @@ always have used:
 
 which works correctly no matter how the scrollbar operates.
 
+In addition, with the new ''pixels'' unit for the scrollbar, the command ''.text yview scroll 1 p'' is now ambiguous and will throw an error.  This incompatibility is similar to those which have previously been introduced in, e.g., Tk 8.4 (with -padx, -pady).
+
 Lastly, with this proposal as it stands, due to the unfortunate use of
 ''chars'' to mean ''indices'' in the current text widget, there may be
 some user-confusion between this and the new ''-chars'' and
 ''-visiblechars'' count options.  It may be better to use ''glyphs''
 or something else instead.  Hopefully discussion will clear up the
-desired behaviour and nomenclature.
+desired behaviour and nomenclature.  
 
 ~ Implementation
 
