@@ -1,0 +1,70 @@
+TIP:		37
+Title:          Uniform Rows and Columns in Grid
+Version:        $Revision: 1.1 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jun-2001
+Post-History:
+Tcl-Version:    8.4
+
+~ Abstract
+
+This TIP proposes to add a ''-uniform'' option to ''grid
+rowconfigure'' and ''grid columnconfigure'' so as to make it easier to
+create layouts where cells are constrained to have identical
+dimensions.
+
+~ Introduction
+
+The geometry managers in Tk are very powerful and can do most things
+needed to layout a GUI.  One thing that is tricky to do though is to
+put widgets in rows or columns of the same width.  This would be
+useful for example to layout a row of buttons symmetrically.  This
+could easily be done with the grid manager if an additional option is
+added.
+
+~ Specification
+
+Anywhere ''column'' is used below, the same applies to ''row'' too.
+
+A new option, ''-uniform'', is added to ''grid columnconfigure''.  The
+option takes an arbitrary string, the default value being the empty
+string.  Any column with a non-empty value will be grouped with other
+columns with the same value.  All columns in a group will get the size
+of the group's smallest member.
+
+In the grid algorithm, ''-uniform'' will be used before ''-weight''.
+Thus the requested size will be affected by ''-uniform'', but the
+distribution of extra size will only take ''-weight'' into
+consideration.
+
+A consequence is that the columns in a ''-uniform'' group should have
+the same ''-weight'' to ensure that they have the same width after a
+resize.
+
+~ Rationale
+
+To put ''-uniform'' before ''-weight'' in the algorithm was based
+mainly on simplicity.  It gives a simpler algorithm that is both
+easier to explain to the user and to code.
+
+The alternative would be to force the ''-weight'' value to be same for
+all columns in a group before doing the resize calculations.  The only
+benefit for the user would be to only have to specify ''-weight'' for
+one column in a group, but in practice this is hardly no gain at all
+since a typical usage looks like this:
+
+|grid columnconfigure . {0 1 2} -uniform a -weight 1
+
+~ Implementation
+
+A quick try shows that this is fairly straightforward to implement.
+The memory cost for the change is a ''Tk_Uid'' field in the column
+slot structure to hold the option, and the CPU overhead is small for a
+grid that don't use the option.
+
+~ Copyright
+
+This document has been placed in the public domain.
