@@ -1,12 +1,12 @@
 TIP:		130
 Title:		Unique DDE server names.
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
 State:		Draft
 Tcl-Version:	8.5
 Created:	23-Mar-2003
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Post-History:	
 
 ~ Abstract
