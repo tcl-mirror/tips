@@ -1,13 +1,13 @@
-TIP:		146
-Title:		Add Overall Anchoring to the Grid Geometry Manager
-Version:	$Revision: 1.1 $
-Author:		Peter Spjuth <peter.spjuth@space.se>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	05-Aug-2003
-Tcl-Version:	8.5
-Post-History:	
+TIP:            146
+Title:          Add Overall Anchoring to the Grid Geometry Manager
+Version:        $Revision: 1.2 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Aug-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -74,6 +74,39 @@ specified, the entire grid is placed according to the anchor value.
 I believe it would make more sense to have "nw" as default anchor but
 that feels like too big a compatibility breach, so maybe it can be
 done in 9.0.
+
+~ Shrink example
+
+To clarify the shrinking options here is an example.
+
+ a: Current behaviour or, "1" with anchor "center".
+ b: "2" with anchor "center"
+ c: "2" with anchor "nw"
+ d: "3" with anchor "nw"
+
+|foreach top {.a .b .c .d} {
+|    toplevel $top
+|    frame $top.f
+|    for {set row 0} {$row < 2} {incr row} {
+|        for {set col 0} {$col < 4} {incr col} {
+|            set w $top.f.b${row}x$col
+|            button $w -text HejHopp
+|            grid $w -row $row -column $col
+|        }                       
+|    }                           
+|}                               
+|
+|# Current behaviour
+|pack .a.f -fill both -expand 1
+|# Anchor "center" with clipping
+|place .b.f -relx 0.5 -rely 0.5 -anchor center
+|wm geometry .b 150x50
+|# Anchor "nw" with clipping
+|pack .c.f -side top -anchor w
+|# Anchor "nw" with shrinking
+|pack .d.f -side top -anchor w
+|grid rowconfigure .d.f {0 1} -weight 1
+|grid columnconfigure .d.f {0 1 2 3} -weight 1
 
 ~ Reference Implementation
 
