@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -79,7 +79,6 @@ implementation.
 
   > This TIP seeks to provide a ''complete'' implementation of virtual
     file system support, rather than these piecemeal functions.
-
   > Fortunately, since Tcl is already abstracted across three
     different filesystem types (through the Tclp...) functions, it is
     not that big a task to abstract away to any generic filesystem.
@@ -118,20 +117,23 @@ implementation.
     cached information).  Mounting/unmounting filesystems will
     obviously modify the filesystemEpoch.
 
-  > A partial implementation of this TIP, and a sample "vfs" extension
+> A relatively complete implementation of this TIP, and a sample "vfs"
+    extension
     now exist, and have been tested through TclKit.  On the "virtual"
     half of this tip, the implementation is known to be reasonably
     stable and complete: TclKit can operate through this new vfs
     implementation without the need to override a single Tcl core
     command at the script level.  Commands which operate on files
     (image, source, etc.)  and extensions like Image, Winico can be
-    made to work in a TclKit automatically!  The part of this TIP
-    which has not yet been implemented is the objectification of the
-    filesystem.  This will have additional efficiency gains for vfs's
+    made to work in a TclKit automatically!  The objectification is
+    also now relatively complete, although there is still room for
+    further optimisation in some parts of the code (which wasn't
+    possible in the old string-based API).  This has
+    additional efficiency gains for vfs's
     implemented at the script level, since the same Path objects can
     be passed through the entire process, without an intermediate
     conversion (and string duplication which is currently required).
-    The combination of caching and objectification will change the
+    The combination of caching and objectification changes the
     existing list of steps from
 
 |Tcl_Obj -> string -> filesystem -> convert-to-native -> native-call
@@ -172,7 +174,7 @@ way to do that seems (to me) to be along the lines of this TIP.
 ~ Proposal
 
 The changes to Tcl's core for virtual filesystem support are actually
-very minor (these have been implemented).  Every occurrence of a
+very minor.  Every occurrence of a
 Tclp-filesystem call must be replaced by a call to a hookable
 procedure.  The current filesystem structure (defined in tclInt.h) and
 hookable procedure list is as follows (for documentation on this
