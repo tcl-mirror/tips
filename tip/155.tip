@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -192,7 +192,30 @@ and
 
 is true under all circumstances.
 
-Lastly, for those who wish to know the required number of vertical pixels a text widget needs, ''.text count -update -ypixels 1.0 end'' will give this (once any borderwidth, highlightthickness and ypad have been added on).
+Lastly, for those who wish to know the required number of vertical pixels a text widget needs, ''.text count -update -ypixels 1.0 end'' will give this (once any borderwidth, highlightthickness and ypad have been added on).  For example, the following procedure will give the
+smallest possible size in pixels which a given text widget would desire to have no scrollbars:
+
+|proc textDetermineDimensions {text} {
+|    set border [$text cget -highlightthickness]
+|    incr border [$text cget -borderwidth]
+|    set y [expr {2* ($border + [$text cget -pady])}]
+|    set x [expr {2* ($border + [$text cget -padx])}]
+|    
+|    incr y [$text count -update -ypixels 1.0 end]
+|    if {[$text cget -wrap] eq "none"} {
+|	set max_x 0
+|	for {set i 0} {$i < int([$text index end])} {incr i} {
+|	    set xpix [$text count -xpixels ${i}.0 "${i}.0 linend"]
+|	    if {$xpix > $max_x} {
+|		set max_x $xpix
+|	    }
+|	}
+|	incr max_x $x
+|	return [list $x $y]
+|    } else {
+|	return [list [winfo reqwidth $text] $y]
+|    }
+|}
 
 ~ Replace Subcommand
 
