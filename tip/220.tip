@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -37,7 +37,8 @@ is, immediately before the ''tclvfs'' close callback is invoked.
 ~ Safety
 
    * Escalation of privilege is controlled with the Tcl core, and is
-     unavailable to extensions.
+     unavailable to extensions except in their role as vfs
+     implementations.
 
    * Privilege is only granted to the entity which opened the channel,
      because only that entity implements the close callback.
