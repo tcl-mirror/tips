@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -47,39 +47,45 @@ been sorted had the '''-indices''' option not been specified.
 
 This means an alternative (though less efficient for single lists) mechanism for producing a sorted list could be:
 
-|set resultList {}
-|foreach idx [lsort -indices $sourceList] {
+|  set resultList [list]
+|  foreach idx [lsort -indices $sourceList] {
 |    lappend resultList [lindex $sourceList $idx]
-|}
+|  }
 
 ~ Reference Implementation
 
-The reference implementation is available on SourceForge [http://sourceforge.net/tracker/index.php?func=detail&aid=1017532&group_id=10894&atid=310894] 
+The reference implementation is available from SourceForge [http://sourceforge.net/tracker/index.php?func=detail&aid=1017532&group_id=10894&atid=310894] 
 and at: http://www.bovik.org/lsort-indices-diff.txt  It should be 
 applied with '''patch -l''' or '''patch --ignore-whitespace''' or it 
-may not fully apply.
+may not apply entirely.
 
 That reference implementation is a 109-line context diff, involving 
-adding 20 lines of code to ''tclCmdIL.c'', only one additional int 
-of data memory overhead, and just one additional integer comparison 
-at run time if the new option is not invoked.
+adding 20 lines of code to ''tclCmdIL.c'', a single auto int of
+new variable memory overhead, and no more than three additional integer 
+comparisons and one integer assignment per use of '''lsort''' if the 
+new option is not invoked.
 
-Compared to the following pure Tcl implementation, the reference 
+Compared to an initial pure Tcl implementation, the reference 
 implementation takes 15% of the execution time for a list of 50,000 
 random real numbers, and just 9% of the execution time for a list 
 of 5,000 random reals.  
 
-This pure Tcl implementation was adapted by Richard Suchenwirth from 
-an earlier version by the author:
+This pure Tcl implementation was provided by Lars Hellström.  It is
+considerably faster from an earlier version proposed by by the author:
 
-| proc lsort-indices list {
-|   if [llength $list] {
-|     set i -1
-|     foreach e $list {lappend tmp [list [incr i] $e]}
-|     foreach e [lsort -index 1 -real $tmp] {lappend res [lindex $e 0]}
-|     set res
-|   }
-| }
+|  proc lsort-indices {itemL} {
+|    set pairL [list]
+|    foreach item $itemL {
+|      lappend pairL [list $item [llength $pairL]]
+|    }
+|    set indexL [list]
+|    foreach pair [lsort -index 0 -real $pairL] {
+|      lappend indexL [lindex $pair 1]
+|    }
+|    set indexL
+|  } 
+
+[editorial note:  timing data in comparison to Lars' version will appear here very shortly, for list sizes 100, 200, 400, 800, 1600, 5000.]
 
 ~ Proposed Documentation
 
