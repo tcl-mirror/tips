@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -35,13 +35,13 @@ assigned:
 
    1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>
 
-   1. ''Variables'' - 
+   1. ''Variables'' - Miguel Sofer <mig@utdt.edu>
 
    1. ''Environment Variables'' - 
 
    1. ''Linked C Variables'' - 
 
-   1. ''Compiler and Objects'' - 
+   1. ''Compiler and Objects'' - Miguel Sofer <mig@utdt.edu>
 
    1. ''Conversions from String'' - 
 
@@ -61,9 +61,9 @@ assigned:
 
    1. ''Interp Command'' - 
 
-   1. ''Namespaces'' - 
+   1. ''Namespaces'' - Miguel Sofer <mig@utdt.edu>
 
-   1. ''Procedures'' - 
+   1. ''Procedures'' - Miguel Sofer <mig@utdt.edu>
 
    1. ''Scan Command'' - 
 
@@ -108,9 +108,9 @@ Rolf Schroedter <Rolf.Schroedter@dlr.de>
 
    1. ''UTF-8 Strings'' -
 
-   1. ''Parsing and Eval'' -
+   1. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>
 
-   1. ''Bytecodes'' -
+   1. ''Bytecodes'' - Miguel Sofer <mig@utdt.edu>
 
    1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>
 
