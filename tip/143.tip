@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -99,9 +99,8 @@ properties is limit-specific, but always includes the following:
    script in those foreign interpreters, of course.)  The order of
    calling of the callbacks is not defined by this TIP.
 
- > ''Still to be defined - the result of an exceptional return of a
-   callback command, especially in the manner of the cases outlined in
-   [90].''
+ > Where a callback returns any kind of exceptional condition
+   (i.e. the result isn't TCL_OK) a background error is flagged up.
 
  -granularity: Limits will always be checked in locations where the
    ''Tcl_Async*()'' API is called, as this is called regularly by the Tcl
