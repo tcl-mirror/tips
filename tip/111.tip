@@ -1,6 +1,6 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Draft
@@ -109,7 +109,7 @@ Proposed subcommands:
 
  dict get:	Get value for given key.
 
-|	dict get $dictionaryValue $key ?$key ...?
+|	dict get $dictionaryValue ?$key ...?
 
  > Given a dictionary value (first argument) and a key (second
    argument), this will retrieve the value for that key.  Where
@@ -122,6 +122,11 @@ Proposed subcommands:
 
 |	dict get $dict foo bar spong
 |	dict get [dict get [dict get $dict foo] bar] spong
+
+ > If no keys are provided, dict would return a list containing pairs
+   of elements in a manner similar to [[array get]].  That is, the
+   first element of each pair would be the key and the second element
+   would be the value for that key.
 
  > It is an error to attempt to retrieve a value for a key that is not
    present in the dictionary.
