@@ -1,14 +1,15 @@
-TIP:		211
-Title:		Add Full Stack Trace Capability
-Version:	$Revision: 1.1 $
-Author:		Robert Seeger <robert_seeger@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	10-Aug-2004
-Post-History:	
-Keywords:	Tcl
+TIP:            211
+Title:          Add Full Stack Trace Capability
+Version:        $Revision: 1.2 $
+Author:         Robert Seeger <robert_seeger@users.sourceforge.net>
+Author:         Robert Seeger <rseeger00@aol.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        10-Aug-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -84,7 +85,7 @@ entire stack would have been particularly useful.
     the test is '''uplevel'''ed and, hence, not visible via '''info
     level'''.
 
- 2. TestStubs Package
+ 2. '''TestStubs Package'''
 
   > The TestStubs package provides the ability to temporarily redefine
     commands, in particular for stubbing out or replacing
@@ -126,6 +127,12 @@ code needed to expose it differs in only a few aspects from that of
 
 This TIP does ''not'' propose to alter '''uplevel''' or '''upvar''' so
 that they can see these hidden levels.
+
+~~ Child Interps
+
+The current implementation of ''info level'' only returns levels up to the top of the stack for the current interpreter. Such an approach puts limitations on what information can be retrieved, but allows for a certain level of ''"security"'' when running code in child interps, especially safe interps.
+
+Given the security considerations of safe interps, and consistancy with regards to what information is returned across multiple circumstances, the stack trace returned will only return information up to the top level of the current interp, the same limit ''info level'' is bound by. 
 
 ~ Copyright
 
