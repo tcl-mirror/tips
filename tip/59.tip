@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -12,7 +12,7 @@ Tcl-Version:    8.4
 ~ Abstract
 
 This TIP provides an interface through which Tcl may be queried for
-information on its own compilation flags and requirements, in order to
+information on its own configuration, in order to
 extract the information directly instead of reading it from a Bourne
 shell file.  An important reason to do this is to have the information
 not only available but also tightly bound to the binary configured by
@@ -40,6 +40,10 @@ the current way of storing the configuration of Tcl, namely in the file
    * It is a separate file, easily lost or not installed at all,
      making it difficult for extension developers to access this
      information.
+
+   > Note: The non-installation of development files like ''tclConfig.sh''
+     might even be required by through vendor policies and such and
+     thus not under the control of the package author or builder.
 
    * The name does not convey that ''tclConfig.sh'' contains platform
      and build specific information. When installing different builds
@@ -269,14 +273,10 @@ future.
 This should be enough reasoning to allow the acceptance of even this
 admittedly simple system.
 
-The configuration information registered by Tcl bears a semblance to
-the information in ''tclConfig.sh'' but is not identical. Instead of
-providing only small pieces of information which have to be assembled
-(in a platform-dependent way) by the user of the information to be
-actually useful (like in ''tclConfig.sh'') the embedded information
-provides larger components nearly complete for use in actions like the
-compilation of a single source file. There are no current plans to add
-this information to ''tclConfig.sh''.
+The configuration information registered by Tcl is currently a very
+small subset of the information in ''tclConfig.sh''. A future TIP is
+planned to provide the missing information in a regular and generalized
+manner.
 
 If an extension requires more information than provided by the Tcl
 configuration it will have to obtain this information itself. For
