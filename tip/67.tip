@@ -1,9 +1,9 @@
 TIP:           67
 Title:         Allow Subclassing of tk_getOpenFile, tk_getSaveFile on UNIX
-Version:       $Revision: 1.3 $
+Version:       $Revision: 1.4 $
 Author:        Chris Nelson <nelson@pinebush.com>
 Author:        Al Zielaskowski <zielasko@pinebush.com>
-State:         Draft
+State:         Withdrawn
 Type:          Project
 Tcl-Version:   8.5
 Vote:          Pending
