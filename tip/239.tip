@@ -1,0 +1,94 @@
+TIP:		239
+Title:		Enhance the 'load' Command
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <jeffh@activestate.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	26-Jan-2005
+Post-History:	
+
+~ Abstract
+
+This TIP proposes enhancing the Tcl '''load''' command with the
+ability to load arbitrary libraries and functions.
+
+~ Rationale
+
+The current Tcl '''load''' command limits itself operating within the
+context of loading Tcl extension libraries and nothing else, even
+though all the code is there for general library loading.  With the
+introduction of the VFS and more extensions having prerequisite
+library dependencies, the ability to load arbitrary libraries would
+ease development of StarKits with these extensions.  It will also
+provide a general mechanism to assist other developers get around the
+difficult process of cross-platform library loading.
+
+~ Specification
+
+Current specification:
+
+ > '''load''' ''fileName'' ?''packageName'' ?''interp''??
+
+Recommended specification:
+
+ > '''load''' ?'''-function''' ''funcName''? ?'''-interp'''
+   ''interp''?  ?'''-call''' ''initName''? ?'''--'''? fileName
+
+The '''-interp''' option takes the place of the optional final
+''interp'' argument.
+
+The '''-call''' option replaces the ''packageName'' argument.  The
+user specifies just the partial function name without the "_Init" or
+"_SafeInit", as before.  If the user specifies {}, no init call will
+be made.
+
+The '''-function''' option takes a C function name to find the symbol
+of (via dlsym(), GetProcAddress(), or related function).  If
+'''-function''' is specified, '''-call''' and '''-interp''' are
+ignored and the return value is the pointer location to the function,
+or 0 if it is not found.  When this is used, the library is not closed
+upon success, it remains open until a call to '''unload''' is made.
+
+An error is thrown if the library cannot be loaded.
+
+I will also recommend obsoleting the existing '''unload''' call to use
+this new functional spec style.  Current spec, to be unsupported (it's
+new in 8.5):
+
+ > '''unload''' ''fileName'' ?''packageName'' ?''interp''??
+
+New specification:
+
+ > '''unload''' ?'''-interp''' ''interp''? ?'''-call'''
+   ''uninitName''? ?'''-nocomplain'''? ?'''-keeplibrary'''? ?'''--'''?
+   ''fileName''
+
+I think that C functions should be made available as well for
+cross-platform access to the load functionality, but that is not
+specified in this TIP.  This would need to account for users that may
+configure Tcl with --disable-load (does anybody need that anymore?).
+
+~ Examples
+
+For a package in a starkit, tls example with shared OpenSSL library
+shipped in package:
+
+| # $dir set by package mechanism
+| if {[package provide starkit] ne ""} {
+|     load -call {} $dir/libopenssl.so
+| }
+| load $dir/libtls1.5.so
+
+Another example would be Oratcl 4.3's use of dynamic Oracle library
+callouts, which it has to do by hand due to the lack of this
+functionality in the core.
+
+~ Reference Implementation
+
+[[To be uploaded to SourceForge and URL added to this TIP.]]
+
+~ Copyright
+
+This document has been placed in the public domain.
