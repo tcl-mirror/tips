@@ -1,6 +1,6 @@
 TIP:            70
 Title:          A Relational Switch Control Structure
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Bhushit Joshipura <bhushit@hotmail.com>
 State:          Draft
 Type:           Project
@@ -11,501 +11,277 @@ Tcl-Version:    8.4
 
 ~ Abstract
 
-This TIP proposes the introduction of a new control structure,
-''rswitch'', which is a bimorph relational switch-case parallel to
-switch-case control structure.  It can be bi-conditional, switching
-based on relation (>, !=, etc.) between them or it can be
-mono-conditional, switching based on a relation (<, ==, etc.) with
-other case based condition.
+~Abstract
+This TIP proposes the introduction of a new control structure, rswitch, which is a relational parallel to switch-case control structure. It consists of two lists: condition list and situation-reaction list At the maximum two conditions can be specified. Based on situation, reaction is executed. The situation is selected on "first true and only the first true" basis.
 
-~ Rationale
+~Abstract
 
-Theoretically only two controls - ''if'' and ''goto'' - are sufficient
-to implement all algorithms.  However, languages provide more control
-structures for better representation of algorithms.  To many
-structural programmers like me, a ''switch'' statement gives much
-better picture of the program than equivalent ''if-elseif-...-else''
-chain. It pronounces the course of decision of a big chunk of program
-in a single statement: making understanding and maintaining software
-easier. It also helps to optimize the software better if it is written
-in ''switch'' form. However, ''switch'' is strictly data based
-i.e. ''switch'' happens strictly on data value. 
+This TIP proposes the introduction of a new control structure, rswitch, which is a relational parallel to switch-case control structure. It consists of two lists: conditional list and situation-reaction list. At the maximum two conditions can be specified. Based on situation, reaction is executed. The situation is selected on "first and only the first" basis.
 
-The proposed ''rswitch'' command is a control structure similar (and more general)
-to ''switch''.  As such, ''switch'' becomes a very special case of
-mono-conditional ''rswitch''. (As a matter of fact, Tcl's ''foreach''
-control structure is a special case of its for control structure.)
-Using ''rswitch'' it should be possible to take decisions based on
-relations between entities.
+~Rationale
 
-I queried about proposal of such a control structure in C to
-Dr. Dennis M. Ritchie in February 2001. (At that time I thought only
-of bi-conditional relational switch.)
+Theoretically only two controls - if and goto - are sufficient to implement all algorithms. However, languages provide more control structures for better representation of algorithms. To many structural programmers like me, a switch statement gives much better picture of the program than equivalent if-elseif-...-else chain. It pronounces the course of decision of a big chunk of program in a single statement: making understanding and maintaining software easier. It also helps to optimize the software better if it is written in switch form. However, switch is strictly data based i.e. switch happens strictly on data value. 
 
- > Absence of relational switch I know this can be odd for other
-   languages - but not for C. C is so near to machine and a relational
-   switch could be ideal for many many machine-cycle saving
-   situations.
+The proposed rswitch command is a control structure similar (and more general) to switch. (As a matter of fact, Tcl's foreach control structure is a special case of its for control structure.) Using rswitch it should be possible to take decisions based on relations between entities.
 
- > Apart from machine-orientedness, it could avoid many usages of
-   not-so-structured ''?:'' operator.
+In response to comments on Revision: 1.2 of the draft, Bhushit Joshipura wrote [Re-edited]:
 
- > It could simplify a lot of control and signal processing code too.
+"Why rswitch? [Re-written] 
 
- > Why did C become more data-biased for a control structure?
+ 1.if..elseif..else contains elements of surprize spread in the code. From maintenance point of
+    view, once the if..elseif..else code goes beyond horizon (one display length), burden of
+    reference retention comes on human brain making maintenance bug-prone.
 
-|    relational-switch(expr1,expr2){
-|    case ==: statements;
-|            break;
-|    case > : statements;
-|            break;
-|    case < : statements;
-|            break;
-|    default: statements;
-|            break;
-|    }
+ 2.In case of rswitch, if a situation refers to one or more conditions, we had reduced this
+    burden by stating upfront which variable is in the spotlight. The maintainer can then
+    easily jump irrelavant cases. 
 
-TCL need not be so optimized, as C has to be. However, clarity and
-maintainability remain formidable reasons for relational switch
-implementation.
+ 3.In if..elseif..else, a string of three conditions (with one of them being a `not' string) can
+    mystify me for at least an hour. 
 
-~ Implementation in Other Languages
+ 4. In case of an rswitch
+
+    (even in a situation which does not refer to any conditions):
+    4.1 `and' is nested rswitch
+    4.2 `or' is a fall through case
+    4.3 `not' could be written as "default" case. `not' free from `and' and `or' is less confusing. We
+    can write almost a `not-less' code using "default". 
+
+    Logical connectives result into visual presentation.
+
+ 5.Object Oriented Programming is trying to eliminate switch-case statements by identifying
+    localization of references and finding a heirarchy of data-actions. 
+
+ 6.In similar way one can think of rswitch cases (situations). Identifying localized references
+    (wrt situations) and a heirarchy of situations-reactions. However, this is a research issue."
+
+Moreover, the writer does not need to be an artist to be able to write understandable code.
+
+~Implementation in Other Languages
+
+I queried about proposal of such a control structure in C to Dr. Dennis M. Ritchie in February 2001. (At that time I thought only of bi-conditional relational switch. See a few pages down for currently proposed control structure.)
+
+    "Absence of relational switch I know this can be odd for other languages - but not for C.
+    C is so near to machine and a relational switch could be ideal for many many
+    machine-cycle saving situations.
+
+    Apart from machine-orientedness, it could avoid many usages of not-so-structured ?:
+    operator.
+
+    It could simplify a lot of control and signal processing code too.
+
+    Why did C become more data-biased for a control structure?
+
+    relational-switch(expr1,expr2){
+    case ==: statements;
+            break;
+    case > : statements;
+            break;
+    case < : statements;
+            break;
+    default: statements;
+            break;
+    }
+"
+
+TCL need not be so optimized, as C has to be. However, clarity and maintainability remain formidable reasons for relational switch implementation.
 
 In a quick reply, Dr. Ritchie wrote back:
 
- > The relational switch idea is (so far as I know) for C a new
-   suggestion, although I have no idea of all things that were
-   proposed for the 1989 or 1999 C standards.  If seems to hark back
-   to the old Fortran GOTO statement
+    "The relational switch idea is (so far as I know) for C a new suggestion, although I have
+    no idea of all things that were proposed for the 1989 or 1999 C standards. If seems to
+    hark back to the old Fortran GOTO statement
 
- > IF (expression) 2, 3, 4
+    IF (expression) 2, 3, 4
 
- > which went to various places depending on whether the expression
-   was -, 0 or +.  It's also a bit strange syntactically (though it
-   might work in the grammar) in that the case values aren't
-   expressions, but just operators.
+    which went to various places depending on whether the expression was -, 0 or +. It's
+    also a bit strange syntactically (though it might work in the grammar) in that the case
+    values aren't expressions, but just operators.
 
- > Regards, Dennis 
+    Regards, Dennis"
 
-Thus the structure is absent from C and its whole
-family. It is absent from Pascal, BASIC, shell scripts - and of
-course, TCL.
+Thus the structure is absent from C and its whole family. It is absent from Pascal, PERL, BASIC, shell scripts - and of course, TCL.
 
-Fortran's computed goto is near to bi-conditional ''rswitch''. (That way Chimpanzees are near to Homo sapiens too.) However,
-clarity of presentation of default and fall through are not achievable
-through computed goto. Mono-conditional ''rswitch'', however, does not
-have a parallel in languages of my knowledge (C, C++, Java, Pascal,
-BASIC, Fortran, shell scripts). 
+Fortran's computed goto is near to bi-conditional rswitch. (That way Chimpanzees are near to Homo sapiens too.) However, clarity of presentation of default and fall through are not achievable through computed goto. Mono-conditional rswitch, however, does not have a parallel in languages of my knowledge (C, C++, Java, Pascal, BASIC, Fortran, shell scripts). 
 
-~ Grammar and Behavior
+~Grammar and Behavior
 
 Overall:
 
-|rswitch <condition(s)> {
-|    <situation-1> {
-|        <reaction-block-1>
-|    }
-|    ...
-|}
+rswitch {[condition(s)]} {
+    <situation-1> {
+        <reaction-block-1>
+    }
+    ...
+}
 
-If ''<condition(s)>'' is one-item long list, it becomes
-mono-conditional ''rswitch''.
-Else if ''<condition(s)>'' is two-item
-long list, it becomes bi-conditional ''rswitch''.
-Else it is a syntax error.
+The condition list may have no, one or two variables.
 
-A condition can be a constant or a variable.  Mono-conditional
-''rswitch'' has situation description as:
+A situation is legal if:
+1. It is a valid expression or
 
- > ''<relation> <another condition>''
+2. If the condition list had at least one element 'x', {$x $situation} is a valid expression or
+2.2 If the condition list had exactly one element 'x', {$situation $x} is a valid expression or
+2.1 If the condition list had two elements 'x' and 'y', {$x $situation $y} is a valid expression or
 
-Bi-conditional ''rswitch'' has situation description as:
+3. If the condition list had two elements 'x' and 'y' and {$situation $y} is a valid expression or
 
- > ''<relation>''
+4. If $situation == "default"
 
-Under both the cases (mono-conditional and bi-conditional), default is
-a valid situation. Order of occurrence of default as a situation is
-not important. <relation> is any of:
+A reaction block is legal if:
+1. It is not the last block and $reactionBlock == "-" (fall through) or
 
- > ''<='', ''<'', ''=='', ''>'', ''>='', ''!=''
+2. It is a valid TCL action block
 
-Under both the cases (mono-conditional and bi-conditional), ''-'' (a
-dash) is a valid non-last reaction block. It means to fall through
-until a non-dash reaction block is found. It is a syntax error to have
-last situation with a fall through reaction.
+Let us call a non-default extracted valid expression a SITUATION.
 
-At execution, reaction block following or fell through by the first
-and only the first situation that becomes true, is executed. In case
-no situation becomes true and default situation is present, reaction
-block following or fell through by default statement is executed.
-Default situation is not necessary for operation of ''rswitch''. An
-''rswitch'' without any situation-reaction block is grammatically
-valid.
+At execution, reaction block following or fell through by the first and only the first SITUATION that becomes true, is executed. In case no SITUATION becomes true and default situation is present, reaction block following or fell through by default statement is executed. Default situation is not necessary for operation of rswitch. An rswitch without any situation-reaction block is grammatically valid.
 
-~ Sample Invocations
+~Sample Invocations
 
-Naturally, bi-conditional ''rswitch'' has limited situations (and more
-or less fixed pattern) and is less interesting as a control structure.
-Usefulness, however, does not go with interest.
+# Full length condition block. Second condition perhaps got redundant with maintenance.
+rswitch {$a $b} {
+	{> $c} -
+	{< $d} {
+		puts "$a is either > $c or < $d or both"
+	}
+	{< $c} {
+		# Full length condition block. Second condition is used.
+		rswitch {$a $d} {
+			> {
+				puts "$a is < $c AND > $d"
+			}
+			== {
+				puts "$a and $d are equal and they are < $c"
+			}
+			default {
+				puts "$a is < $c BUT <= $d"
+				puts "should never come here"
+			}
+		}
+	}
+	{3 > } {
+		puts "$a == $c, $a >= $d and $b <= 3"
+	}
+	default {
+		puts "$a == $c, $a >= $d and $b >= 3"
+	}
+}
 
-|# mono-condition, with constant situations
-|rswitch $a {
-|   > 51 {
-|      puts "$a > 51"
-|   }
-|   > 15 {
-|      puts "$a > 15"
-|   }
-|   > 5 {
-|      puts "$a > 5"
-|   }
-|   > 1 {
-|      puts "$a > 1"
-|   }
-|}
-|# mono-conditional with fall through
-|rswitch $a {
-|   > $b {
-|      puts "$a > $b"
-|   }
-|   < $b -
-|   == $b {
-|      puts "falling through"
-|      puts "$a <= $b"
-|   }
-|}
-|# mono-conditional with default and situations with many conditions
-|rswitch $a {
-|   > $b {
-|      puts "$a > $b"
-|   }
-|   < $c {
-|      puts "$a < $c"
-|   }
-|   default {
-|      puts "hit default"
-|   }
-|}
-|# bi-conditional
-|rswitch $a $b {
-|   > {
-|      puts "$a > $b"
-|   }
-|   < {
-|      puts "$a < $b"
-|   }
-|   == {
-|      puts "$a == $b"
-|   }
-|} 
+~Contrast
 
-~ Sample Implementation
+Contrast above code with its if-elseif-else equivalent. Notice that:
+1. Both the examples have same effect.
+2. Both examples are indented with the same style.
 
-Apparent shortcomings of this implementation:
+if {($a > $c) || ($a < $d)} {
+	# could you see a maintenance nightmare that could have arisen when
+	# reference to $b were eliminated?
+	puts "$a is either > $c or < $d or both"
+} elseif {$a < $c} {
+	if {$a > $d} {
+		puts "$a is < $c AND > $d"
+	} elseif {$a == $d} {
+		puts "$a and $d are equal and they are < $c"
+	} else {
+		puts "Pop-up question: What should we have here?
+		puts "$a is < $c BUT <= $d"
+		puts "should never come here"
+	}
+} elseif {3 > $b} {
+		puts "$a == $c, $a >= $d and $b <= 3"
+} else {
+		puts "$a == $c, $a >= $d and $b >= 3"
+}
 
- 1. Name hiding - as none of the procedures used here are TCL reserved
-    keywords, cut-pasting this code can have potential conflict with
-    other code.
+~Responses to Revision 1.2
 
- 2. Optimization - both, memory and machine time optimization are
-    absent.
+Revision 1.3 tries to reflect suggestions from various of the following contributors. Thanks.
 
- 3. Error handling and grammar checks - may need improvement.
-
- 4. Coding standards may not match core TCL coding standards.
-
- 5. Call to ''*ValidityCheck'' may not be necessary and can be removed
-    after review. However, code works as per description above and can
-    serve as a model for testing behavior of better implementations.
-
-|proc rswitch {args} {
-|   switch -exact [llength $args] {
-|      2 {
-|         monoRSwitch [lindex $args 0] [lindex $args 1]
-|      }
-|      3 {
-|         biRSwitch [lindex $args 0] [lindex $args 1] [lindex $args 2]
-|      }
-|      default {
-|         error "usage: rswitch <one or two variables> <action-block>"
-|      }
-|   }
-|}
-|proc monoRSwitch {variable actionBlock} {
-|    set actionBlockLength [llength $actionBlock]
-|    # if actionBlock has odd number of members,
-|    # there is no one to one match between
-|    # situations and reactions
-|    set temp [expr $actionBlockLength % 3]
-|    if {($temp == 1) || (($temp == 2) \
-|            && ([lsearch $actionBlock "default"] == -1))} {
-|        error "Incorrect actionBlock\n$actionBlock"
-|    }
-|    # extract pairs of situation-reactions
-|    for {set index 0} {$index < $actionBlockLength} {incr index} {
-|        set tempList [lindex $actionBlock $index]
-|        if {$tempList != "default"} {
-|            lappend tempList [lindex $actionBlock [incr index]]
-|        }
-|        lappend situationList $tempList
-|        lappend reactionList [lindex $actionBlock [incr index]]
-|    }
-|    set situationListSize [llength $situationList]
-|    # errorhandle dumb situations
-|    monoRSwitchValidityCheck $situationList
-|    # errorHandle last case falling through
-|    if {[lindex $reactionList end] == "-"} {
-|        error "Nowhere to fall through"
-|    }
-|    set defaultCommandList ""
-|    # for all situations
-|    for {set index 0} {($index < $situationListSize) \
-|            && (![info exists someConditionHit])} {incr index 1} {
-|        set tempIndex $index
-|        set commandList "-"
-|        # extract next reaction block falling through
-|        while {($tempIndex < $situationListSize) && ($commandList == "-")} {
-|            set commandList [lindex $reactionList $tempIndex]
-|            incr tempIndex
-|        }
-|        # get the logical condition
-|        set condition [lindex $situationList $index]
-|        if {[lindex $condition 0] != "default"} {
-|            # grasp the situation $a > $b etc.
-|            set situation [string trimright "$variable $condition"]
-|            if {[uplevel 2 expr $situation]} {
-|                 # execute non-fall-through reaction block
-|                 set someConditionHit 1
-|                 uplevel 2 $commandList
-|            }
-|        } else {
-|            # default exists
-|            set defaultExists 1
-|            # remember default reaction
-|            set defaultCommandList $commandList
-|        }
-|    }
-|    if {![info exists someConditionHit]} {
-|        if {[info exists defaultExists]} {
-|            uplevel 2 $defaultCommandList
-|        }
-|    }
-|}
-|proc monoRSwitchValidityCheck {situationList} {
-|    # null for now
-|}
-|proc biRSwitch {variable1 variable2 actionBlock} {
-|    set actionBlockLength [llength $actionBlock]
-|    # if actionBlock has odd number of members,
-|    # there is no one to one match between
-|    # situations and reactions
-|    if {[expr $actionBlockLength % 2] != 0} {
-|         error "Incorrect actionBlock\n$actionBlock"
-|    }    # extract pairs of situation-reactions
-|    # even number of elements are situations
-|    # odd number of elements are reactions
-|    for {set index 0} {$index < $actionBlockLength} {incr index 2} {
-|         lappend situationList [lindex $actionBlock $index]
-|         lappend reactionList [lindex $actionBlock [expr $index + 1]]
-|    }
-|    set situationListSize [llength $situationList]
-|    # errorhandle dumb situations (like issuing != followed by >)
-|    biRSwitchValidityCheck $situationList
-|    # errorHandle last case falling through
-|    if {[lindex $reactionList end] == "-"} {
-|         error "Nowhere to fall through"
-|    }
-|    set defaultCommandList ""
-|    # for all situations
-|    for {set index 0} {($index < $situationListSize) \
-|            && (![info exists someConditionHit])} {incr index 1} {
-|        # if this situation is true,
-|        set tempIndex $index
-|        set commandList "-"
-|        # extract next reaction block falling through
-|        while {($tempIndex < $situationListSize) && ($commandList == "-")} {
-|            set commandList [lindex $reactionList $tempIndex]
-|            incr tempIndex
-|        }
-|        # get the logical condition
-|        set condition  [lindex $situationList $index]
-|        if {$condition != "default"} {
-|            # grasp the situation $a > $b etc.
-|            set situation "$variable1 $condition $variable2"
-|            if {[expr $situation]} {
-|                # execute non-fall-through reaction block
-|                set someConditionHit 1
-|                uplevel 2 $commandList
-|            }
-|        } else {
-|            # default exists
-|            set defaultExists 1
-|            # remember default reaction
-|            set defaultCommandList $commandList
-|        }
-|    }
-|    if {![info exists someConditionHit]} {
-|         if {[info exists defaultExists]} {
-|             uplevel 2 $defaultCommandList
-|         }
-|    }
-|}
-|
-|proc biRSwitchValidityCheck {booleanList} {
-|    if {[lsearch -exact $booleanList "!="] != -1} {set NE 1}
-|    if {[lsearch -exact $booleanList ">="] != -1} {set GE 1}
-|    if {[lsearch -exact $booleanList "<="] != -1} {set LE 1}
-|    if {[lsearch -exact $booleanList ">"] != -1} {set G 1}
-|    if {[lsearch -exact $booleanList "<"] != -1} {set L 1}
-|    if {([info exists NE] && ([info exists GE] || [info exists LE] \
-|            || [info exists G] || [info exists L])) \
-|            || ([info exists GE] && [info exists G]) \
-|            || ([info exists LE] && [info exists L])} {
-|        error "confusing biRSwitch case detected aborting..."
-|    }
-|}
-
-~ responses
 John Ousterhaut wrote:
 
-This is certainly a novel suggestion, but I'm not sure how useful it is.
- The proposed new command doesn't seem much clearer or much more
- efficient than an "if... elseif ... elseif..." statement.  One of the
- arguments for a "switch" statement over "if ... elseif ..." is that
- there can be many branches in a "switch" statement.  However, it seems
- unlikely to me that there would be more than a couple of branches in the
- proposed new "rswitch" statement, so its value seems marginal to me.
- In the absence of compelling value, I'd suggest leaving it out to avoid
- language bloat.
+"This is certainly a novel suggestion, but I'm not sure how useful it is. The proposed new command doesn't seem much clearer or much more efficient than an "if... elseif ... elseif..." statement. One of the arguments for a "switch" statement over "if ... elseif ..." is that there can be many branches in a "switch" statement. However, it seems unlikely to me that there would be more than a couple of branches in the proposed new "rswitch" statement, so its value seems marginal to me. In the absence of compelling value, I'd suggest leaving it out to avoid language bloat."
 
 Kevin B. Kenny wrote:
 
-I don't want to discourage language experimentation, but I question
- whether the Tcl core is the right place to do it.  The 'rswitch' that
- is being requested can be done just as well with an extension -- except
- for bytecode compilation, which can come later -- and exposed to
- programmers that way.  If it becomes sufficiently popular, it can then
- be integrated into the core.
+"I don't want to discourage language experimentation, but I question whether the Tcl core is the right place to do it. The 'rswitch' that is being requested can be done just as well with an extension -- except for bytecode compilation, which can come later -- and exposed to programmers that way. If it becomes sufficiently popular, it can then be integrated into the core."
 
-Don Porter wrote:
-Agreed. A natural place to offer this command would be in the
- control package of tcllib.  Let's put it there, and if it proves to
- be indispensible, we can consider moving it into Tcl itself at that
- time.
+Don Porter wrote: 
 
-Mohan L. Gundu wrote:
-What I had in mind is to extend the 'rswitch' case block so that it can
- accept multiple conditional relationships in a single statement.
+"Agreed. A natural place to offer this command would be in the control package of tcllib. Let's put it there, and if it proves to be indispensible, we can consider moving it into Tcl itself at that time."
 
-I can also think of another usage of 'rswitch' which doesn't take any
- arguments at all. A vanilla version which is just replacement to
- if-elseif-elseif-..-else structure but only that  code is more easier to
- read..
+Mohan L. Gundu wrote: 
 
-rswitch {
-    ($a > 4):
-                     /* block 1 */
-    ($b < 100):
-                    /* block 2 */
-    ($c > 5 ):
-                   /* block 3 */
-    ($d == 10):
-                 /* block 4 */
- }
+"What I had in mind is to extend the 'rswitch' case block so that it can accept multiple conditional relationships in a single statement.
+
+I can also think of another usage of 'rswitch' which doesn't take any arguments at all. A vanilla version which is just replacement to if-elseif-elseif-..-else structure but only that code is more easier to read..
+
+rswitch { 
+	($a > 4): /* block 1 */ 
+	($b < 100): /* block 2 */
+	($c > 5 ): /* block 3 */ 
+	($d == 10): /*block 4 */ 
+}
+"
 
 Don Porter wrote:
 
->
-  > Rather than defining two forms of the command, mono-conditional
-  > and bi-conditional, why not use the power of Tcl to allow for both
-  > and even more possibilities within a single form?
-  >
-  > Consider:
-  >
-  > rswitch $formatString {
-  >     $sub1 $body1
-  >     ...
-  >     $subN $bodyN
-  > }
-  >
-  > Then have [rswitch] construct the Tcl expressions to be tested
-  > using [format]:
-  >
-  >      format $formatString $sub1
-  >
-  > So you could have:
-  >
-  > rswitch {$a %s $b} {
-  >     > {puts "$a is greater than $b"}
-  >     < {puts "$a is less than $b"}
-  >     == {puts "$a equals $b"}
-  > }
-  >
-  > or
-  >
-  > rswitch {$a %s} {
-  >     >1 {puts "$a > 1"}
-  >     >5 {puts "$a > 5"}
-  >     >15 {puts "$a > 15"}
-  >     {>$b} {puts "$a > $b"}
-  >     {<$b} -
-  >     {==$b} {puts "$a <= $b"}
-  > }
-  >
-  > Extending this idea further, consider the possibility of using
-  > [format] to create the expression like so:
-  >
-  >      eval [linsert $sub1 0 format $formatString]
-  >
-  > Then the substitutions could be lists of multiple values to substitute
-  > into multiple %-conversion specifiers in the format string, allowing
-  > for the construction of quite elaborate expressions.
-  >
+"Rather than defining two forms of the command, mono-conditional and bi-conditional, why not use the power of Tcl to allow for both and even more possibilities within a singleform? 
+Consider: 
+rswitch $formatString { 
+	$sub1 $body1
+	...
+	$subN $bodyN 
+} 
 
- Brent Welch wrote:
- I like Don's suggestion.  I'm reminded of the switch statement
- in the tclhttpd state machine, crafted by Steve Uhler:
+Then have [rswitch] construct the Tcl expressions to be tested 
+using [format]: 
 
-     set state [string compare $readCount 0],$data(state)
-     switch -glob -- $state {
-         1,start { # Read something in the start state }
-         0,start { # Read empty line in the start state }
-         1,mime  { # Read something in the mime state }
-         0,mime  { # Read blank line in the mime state }
-         -1,* { # Read error in any state }
-         default { # Unexpected condition }
-     }
+format $formatString $sub1 
 
- I had had a bunch of nested if-then-else's, of course.  With an
- artful creation of the switch value and the power of things like
- glob, you can really create compact, expressive switch statements already.
+So you could have: 
 
- Bhushit Joshipura wrote:
+rswitch {$a %s $b} { 
+	> {puts "$a is greater than $b"} 
+	< {puts "$a is less than $b"} 
+	== {puts "$a equals $b"} 
+} 
 
- Why rswitch? [Re-written] 
+or
 
- 1. if..elseif..else contains elements of surprize spread in the code. From maintenance point of
- view, once the if..elseif..else code goes beyond horizon (one display length), burden of
- reference retention comes on human brain making maintenance bug-prone. 
+rswitch {$a %s} {
+	1 {puts "$a > 1"}
+	5 {puts "$a > 5"}
+	15 {puts "$a > 15"}
+	{>$b} {puts "$a > $b"}
+	{<$b} - > {==$b} {puts "$a <= $b"} 
+} 
 
- 2. In case of monoconditional and biconditional rswitch, we reduce this burden by stating upfront
- which variable is in the spotlight. The maintainer can then easily jump irrelavant cases. 
+Extending this idea further, consider the possibility of using [format] to create the expression like so:
 
- 3. In if..elseif..else, a string of three conditions (with one of them being a `not' string) can
- mystify me for at least an hour. 
+eval [linsert $sub1 0 format $formatString] 
 
- 4. In case of an rswitch: (even a non-conditional rswitch): 
- 4.1 `and' is nested rswitch 
- 4.2 `or' is a fall through case 
- 4.3 `not', not chained with `and' and `or' is less confusing. However, using default case, we can
- write almost a `not-less' code. 
+Then the substitutions could be lists of multiple values to substitute into multiple %-conversion specifiers in the format string, allowing for the construction of quite elaborate expressions."
 
- 5. Object Oriented Programming is trying to eliminate switch-case statements by identifying
- localization of references and finding a heirarchy of data-actions. 
+Brent Welch wrote
 
- 6. In similar way one can think of rswitch cases (situations). Identifying localized references
- (wrt situations) and a heirarchy of situations-reactions. However, this is a research issue.  
+"I like Don's suggestion. I'm reminded of the switch statement in the tclhttpd state machine, crafted by Steve Uhler:
 
-~ Copyright
+set state [string compare $readCount 0],$data(state) 
+switch -glob -- $state {
+	1,start { # Read something in the start state } 
+	0,start { # Read empty line in the start state 
+	1,mime { # Read something in the mime state }
+	0,mime { # Read blank line in the mime state }
+	-1,* { # Read error in any state }
+	default { # Unexpected condition }
+}
 
-This document has been placed in the public domain.
+I had had a bunch of nested if-then-else's, of course. With an artful creation of the switch value and the power of things like glob, you can really create compact, expressive switch statements already."
+
+~Sample Implementation
+
+Will be provided later.
+
+~Copyright
+This document is placed in public domain.
