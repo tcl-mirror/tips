@@ -3,9 +3,9 @@ Title:		Standardize Call Interface to Tcl_Eval* Functions
 State:		Draft
 Type:		Project
 Tcl-Version:	8.4
-Vote:		Pending
+Vote:		In progress
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 Created:	28-Aug-2001
 
