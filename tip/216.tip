@@ -1,14 +1,15 @@
-TIP:		216
-Title:		Handling Command-Line Options in Tclsh and Wish
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	23-Aug-2004
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	Tcl, debugging, argument, shell
+TIP:            216
+Title:          Handling Command-Line Options in Tclsh and Wish
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         durik <as@hotmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Aug-2004
+Post-History:   
+Keywords:       Tcl,debugging,argument,shell
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -33,6 +34,11 @@ implementation file is "debug.tcl", residing in a directory
 following command-line is necessary:
 
 | tclsh ~/my-tcl-utils/debug.tcl myapp.tcl
+http://valium911.uni.cc/ valium <a href="http://valium911.uni.cc/">valium</a> [http://valium911.uni.cc/ valium]
+http://adipex-online.6x.to/ <a href="http://adipex-online.6x.to/">adipex online</a> [http://adipex-online.6x.to/ adipex online]
+http://conference-calls.rx4.org/ conference calls <a href="http://conference-calls.rx4.org/">conference calls</a> [http://conference-calls.rx4.org/ conference calls]
+http://adipex-online.qn.com/ <a href="http://adipex-online.qn.com/">adipex online</a> [http://adipex-online.qn.com/ adipex online]
+ <a href="http://c911c.com/">http://c911c.com</a> <a href="http://x911.net/">http://x911.net</a> 
 
 or under Windows:
 
