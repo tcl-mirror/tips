@@ -1,8 +1,8 @@
 TIP:           8
 Title:         Add Winico support to the wm command on windows
-Version:       $Revision: 1.5 $
+Version:       $Revision: 1.6 $
 Author:        Vince Darley <vince.darley@eurobios.com>
-State:         Approved
+State:         Accepted
 Type:          Project
 Tcl-Version:   8.4.0
 Vote:          Done
