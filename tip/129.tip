@@ -1,19 +1,19 @@
 TIP:            129
 Title:          New Format Codes for the [binary] Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Torsten Reincke <reincke@typoscriptics.de>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        14-Mar-2003
 Post-History:   
-Keywords:       IEEE,binary data
+Keywords:       IEEE,binary data,Tcl
 Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to add a set of new format codes to the [[binary]]
+This TIP proposes to add a set of new format codes to the '''binary'''
 command to enhance its ability to deal with especially non-native
 floating-point data.  The assumption is that current limitations are
 due to the distinction between little-endian and big-endian storage of
@@ -21,7 +21,7 @@ such data.
 
 ~ Introduction
 
-The current [[binary]] command can manipulate little-endian and
+The current '''binary''' command can manipulate little-endian and
 big-endian ''integer'' data, but only ''native'' floating-point data.
 This means that binary data from other computer systems that use a
 different representation of floating-point data can not be directly
@@ -29,7 +29,7 @@ handled.
 
 The lack of format codes to handle "native" integer data means that
 one has to distinguish the current platform's byte ordering to be
-platform-independent, whenever the [[binary]] command is used.
+platform-independent, whenever the '''binary''' command is used.
 
 Most current computer systems use either little-endian or big-endian
 byte order and the so-called IEEE representation for the exponent and
@@ -51,17 +51,17 @@ practical purposes, also be a full set to deal with "native" data.
 
 For integer types there are no codes to deal with native ordering. So:
 
- * t (tiny) for short integers, using native ordering.
+ * '''t''' (tiny) for short integers, using native ordering.
 
- * n (normal) for ordinary integers, using native ordering.
+ * '''n''' (normal) for ordinary integers, using native ordering.
 
- * m (mirror of "w") for wide integers, using native ordering.
+ * '''m''' (mirror of "w") for wide integers, using native ordering.
 
 The floating-point types will be handled via:
 
- * r/R (real) for single-precision reals.
+ * '''r'''/'''R''' (real) for single-precision reals.
 
- * q/Q (mirror of "d") for double-precision reals.
+ * '''q'''/'''Q''' (mirror of "d") for double-precision reals.
 
 where the lower-case is associated with little-endian order and the
 upper-case with big-endian order.
@@ -76,8 +76,6 @@ The implementation for the integer types is simple:
 The implementation for the floating-point types is somewhat more
 complicated, this involves adding byte swapping, if the ordering of
 the platform does not correspond to that of the format code.
-
-A reference implementation does ''not'' yet exist.
 
 ~ Copyright
 

@@ -1,19 +1,20 @@
 TIP:		152
 Title:		New -detail Option for tk_messageBox
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Mats Bengtsson <matben@privat.utfors.se>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.5
-Vote:		Pending
+Vote:		In progress
 Created: 	26-Aug-2003
 Obsoletes:	25
 Post-History:	
+Keywords:	Tk
 
 ~ Abstract
 
-This TIP proposes a new option for the tk_messageBox for text that is
-less significant than the -message text.
+This TIP proposes a new option for the '''tk_messageBox''' for text
+that is less significant than the '''-message''' text.
 
 ~ Rationale
 
@@ -22,9 +23,9 @@ messages with both a bold or large font, and a text in fine print,
 which gives more detail to the actual message.  Both Mac OS 8/9 and
 Mac OS X include such a feature.  This TIP suggests that this should
 be intruduced on all platforms, with the text to be displayed in that
-format specified using a new option ''-detail''.  In those cases where
-it is not straightforward to distinguish between the -message and
--detail option contents, they should be combined into a single piece
+format specified using a new option '''-detail'''.  In those cases where
+it is not straightforward to distinguish between the '''-message''' and
+'''-detail''' option contents, they should be combined into a single piece
 of text in a way that makes sense on the platform.
 
 ~ Reference Implementation
@@ -39,10 +40,6 @@ and the proposed one.
 #image:152before	This is the present tk_messageBox.
 
 #image:152after		This is the native tk_messageBox.
-
-~Open Questions
-
- * Name of extra option ''-detail'' (-finemessage perhaps?)
 
 ~ Copyright
 
