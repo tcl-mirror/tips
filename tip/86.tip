@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
@@ -34,12 +34,16 @@ debugger could even be included in the core distribution.
 
 ~ Specification
 
-The new [[line]] subcommand to [[info]]  give saccess to the file name and line
+The new [[line]] subcommand to [[info]]  gives access to the file name and line
 number information for a given ''PROC''.  Valid syntax is:
 
-|  info line proc PROC ?LINE NEWLINES?
-|        Get/set the line number and number of newlines for PROC.  In
-|        get mode, returns the definition line number and number of
+|  info line number PROC ?LINE?
+|        Get/set the line number for PROC.  In get mode, returns the
+|        definition line number in the message body. 
+|
+|  info line newlines PROC ?NEWLINES?
+|        Get/set the count of newlines in the body of PROC.  In
+|        set mode, changes the count of the number of
 |        newlines in the message body.  This provides a fairly speedy
 |        way of determining if a given line number is included in a
 |        specific proc.
@@ -114,20 +118,21 @@ There is also an initial version of a debugger: ''tgdb''.
 http://dev.browsex.com/tgdb.tgz
 
 ''tgdb'' emulates some of the basic commands of ''gdb'' (''s'', ''n'',
-''c'', ''f'', ''bt'', ''break'' and ''info locals'').  The basic
-''tgdb'' strategy is to determine the line number by looking for the
-currently executing command:
+''c'', ''f'', ''bt'', ''break'' and ''info locals'').  This newest
+version also supports watchpoints and display variables.
+
+The ''tgdb'' strategy is to determine the line number by searching 
+from the reported line number forward for  the currently executing 
+command.  Although not foolproof, in practice this is almost
+always accurate.
 
  * When in a function, search in the procedure body
 
  * When at global level, search in the file source starting from
    reported line.
 
-Although not foolproof, it is accurate enough the majority of the
-time.
-
 Also bundled is ''tdb'', a GUI front-end to ''gdb'', modified to also
-work with ''tgdb''.  You can test it against the patched Tcl with
+work with ''tgdb''.  You can test it with:
 
 |  make 
 |  ./tdb test.tcl 
