@@ -1,8 +1,8 @@
 TIP:           10000
 Title:         Dummy Proposal for Testing Editing Interfaces
-Version:       $Revision: 1.2 $
+Version:       $Revision: 1.3 $
 Author:        Don Porter <dgp@users.sourceforge.net>
-State:         Active
+State:         Draft
 Type:          Informative
 Vote:          No voting
 Created:       03-Dec-2000
@@ -21,7 +21,7 @@ This document serves a purpose similar to the Graffiti page
 Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
-proposed in [16].
+proposed in [13].
 
 ~ Copyright
 
