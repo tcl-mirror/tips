@@ -1,8 +1,8 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        04-Sep-2001
