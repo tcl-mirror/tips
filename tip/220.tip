@@ -1,8 +1,9 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -118,7 +119,9 @@ A reference implementation will be provided at SourceForge
 
 ~ Comments
 
-''[[ Add comments on the document here ]]''
+It may be preferable for the new function to be in tclInt.h and therefore in the non-public interfaces (tclvfs already makes use of tclInt.h anyway): TclRemoveChannelMode.
+
+''[[ Add more comments on the document here ]]''
 
 ~ Copyright
 
