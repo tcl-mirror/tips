@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -26,177 +26,177 @@ are also the Categories in the SourceForge Tracker for the Tk Toolkit
 For each of Tk's functional units, the following maintainers are 
 assigned:
 
-   1. ''Bindings'' -
+   1. ''Bindings'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Appearance'' -
+   2. ''Appearance'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>
+   3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Canvas Basics'' -
+   4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Canvas Items'' -
+   5. ''Canvas Items'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Canvas PostScript'' -
+   6. ''Canvas PostScript'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[entry]'' - Allen Flick <allenflick@home.com>
+   7. ''[entry]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[frame] and [toplevel]'' -
+   8. ''[frame] and [toplevel]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[listbox]'' - Allen Flick <allenflick@home.com>
+   9. ''[listbox]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Generic Menus'' -
+   10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Mac Menus'' -
+   11. ''Mac Menus'' -
 
-   1. ''Unix Menus'' -
+   12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Win Menus'' -
+   13. ''Win Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[message]'' -
+   14. ''[message]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[scale]'' -
+   15. ''[scale]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[scrollbar]'' -
+   16. ''[scrollbar]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[spinbox]'' -
+   17. ''[spinbox]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[text]'' -
+   18. ''[text]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Menubars (obsolete)'' -
+   19. ''Menubars (obsolete)'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_optionMenu]'' -
+   20. ''[tk_optionMenu]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Option Parsing'' -
+   21. ''Option Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Relief'' -
+   22. ''Relief'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Built-in Bitmaps'' -
+   23. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Conversions From String'' -
+   24. ''Conversions From String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Objects'' - 
+   25. ''Objects'' -  Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Utility Functions'' -
+   26. ''Utility Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Colormaps and Visuals'' -
+   27. ''Colormaps and Visuals'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Color Names'' -
+   28. ''Color Names'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Cursor Names'' -
+   29. ''Cursor Names'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Key Symbols'' -
+   30. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Generic Dialog Support'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   31. ''Generic Dialog Support'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_chooseColor]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)''
+   32. ''[tk_chooseColor]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_dialog]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)''
+   33. ''[tk_dialog]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_chooseDirectory]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)''
+   34. ''[tk_chooseDirectory]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_get*File]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)''
+   35. ''[tk_get*File]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)''
+   36. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Image Basics'' -
+   37. ''Image Basics'' -
 
-   1. ''Bitmap Images'' -
+   38. ''Bitmap Images'' -
 
-   1. ''Photo Images'' -
+   39. ''Photo Images'' -
 
-   1. ''Photo Image|GIF'' -
+   40. ''Photo Image|GIF'' -
 
-   1. ''Photo Image|PPM'' -
+   41. ''Photo Image|PPM'' -
 
-   1. ''Generic Fonts'' -
+   42. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Mac Fonts'' -
+   43. ''Mac Fonts'' -
 
-   1. ''Unix Fonts'' -
+   44. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Win Fonts'' -
+   45. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Geometry Management'' -
+   46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[grid]'' -
+   47. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[pack]'' -
+   48. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[place]'' -
+   49. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[clipboard]'' -
+   50. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[selection]'' -
+   51. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[console]'' -
+   52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[focus]'' -
+   53. ''[focus]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[grab]'' -
+   54. ''[grab]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[option]'' - Allen Flick <allenflick@home.com>
+   55. ''[option]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[send]'' - Allen Flick <allenflick@home.com>
+   56. ''[send]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_focus*]'' -
+   57. ''[tk_focus*]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[tk_setPalette]'' -
+   58. ''[tk_setPalette]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Safe Tk'' -
+   59. ''Safe Tk'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Geometry Functions'' -
+   60. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Tk_Win Functions'' -
+   61. ''Tk_Win Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Graphic Contexts'' -
+   62. ''Graphic Contexts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Generic Window Operations'' -
+   63. ''Generic Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Mac Window Operations'' -
+   64. ''Mac Window Operations'' -
 
-   1. ''Unix Window Operations'' -
+   65. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Win Window Operations'' -
+   66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Events'' -
+   67. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Event Loop'' -
+   68. ''Event Loop'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Error Handling'' -
+   69. ''Error Handling'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Atoms'' -
+   70. ''Atoms'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Argv Parsing'' -
+   71. ''Argv Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Embedding'' -
+   72. ''Embedding'' -
 
-   1. ''wish'' -
+   73. ''wish'' -
 
-   1. ''Mac DND Tclets'' -
+   74. ''Mac DND Tclets'' -
 
-   1. ''Widget Tour'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   75. ''Widget Tour'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Square Demo'' -
+   76. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   77. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''L10N'' -
+   78. ''L10N'' -
 
-   1. ''Release Notes'' -
+   79. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Portability'' -
+   80. ''Portability'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''X11 Emulation'' -
+   81. ''X11 Emulation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Mac Build'' -
+   82. ''Mac Build'' -
 
-   1. ''Unix Build'' -
+   83. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Win Build'' -
+   84. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Test Tools'' - Allen Flick <allenflick@home.com>
+   85. ''Test Tools'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Logos'' -
+   86. ''Logos'' - Jeff Hobbs <JeffH@ActiveState.com>
 
 ~ General Categories
 
@@ -207,10 +207,10 @@ appropriate maintainer:
 
    1. ''Code Cleanup'' - map to category for the code cleaned up.
 
-   1. ''Threading'' - map to the category for the code where there are
+   2. ''Threading'' - map to the category for the code where there are
       threading issues.
 
-   1. ''Other'' - reassign once appropriate category is determined.
+   3. ''Other'' - reassign once appropriate category is determined.
 
 ~ Areas Without Maintainers
 
