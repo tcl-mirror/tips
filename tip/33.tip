@@ -1,6 +1,6 @@
 TIP:            33
 Title:          Add 'lset' command to assign to list elements.
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -525,7 +525,7 @@ sort of usage might be the naïve matrix multiplication shown below.
 |     return $product
 | }
 
-Note how we have an [lset] operation in the innermost loop, executed
+Note how we have an [[lset]] operation in the innermost loop, executed
 (m*n*k) times.
 
 If in this instance, we have to write:
@@ -534,16 +534,17 @@ If in this instance, we have to write:
 |                 lset product $indices \
 |                     [expr { [lindex $product $indices] + $term }]
 
-in place of the [lset] shown above, we add the cost of forming the list
-of indices to the cost of the inner loop.  This cost is not to be
+in place of the [[lset]] shown above, we add the cost of forming the
+list of indices to the cost of the inner loop.  This cost is not to be
 sneezed at -- it's two expensive calls to ckalloc.
 
-Richard Suchenwirth further suggested a compromise: that if the [lset]
-command has objc > 4, then treat objv[[ 2 ]] .. objv[objc-2] as 'index'
-arguments, and otherwise treat objv[[ 2 ]] as a list of indices.  This
-scheme, too, is perilous to performance.  If we have the implementation
-of [lset] take the approach of simply calling Tcl_ListObjGetElements,
-look what happens to the inner loop of our 'shuffle1b' procedure:
+Richard Suchenwirth further suggested a compromise: that if the
+[[lset]] command has objc > 4, then treat objv[[2]] .. objv[[objc-2]]
+as ''index'' arguments, and otherwise treat objv[[2]] as a list of
+indices.  This scheme, too, is perilous to performance.  If we have
+the implementation of [[lset]] take the approach of simply calling
+''Tcl_ListObjGetElements'', look what happens to the inner loop of our
+''shuffle1b'' procedure:
 
 |      for { set i 0 } { $i < $n } { incr i } {
 |          set j [expr {int(rand()*$n)}]
@@ -557,10 +558,10 @@ look what happens to the inner loop of our 'shuffle1b' procedure:
    * Evaluating the conditional {$i < $n} will shimmer i to an integer;
      now it's an integer.  (We had to do a call to strtol here.)
 
-   * The [lindex $list $i] call now has to consider $i as a list of
-     indices, and shimmers it to the list.  This discards the internal rep,
-     parses the string rep into a list, and then reconverts its first
-     element to an integer.
+   * The [[lindex $list $i]] call now has to consider $i as a list of
+     indices, and shimmers it to the list.  This discards the internal
+     rep, parses the string rep into a list, and then reconverts its
+     first element to an integer.
 
    * OK, now the 'lset' is happy, and no further shimmering occurs...
 
@@ -568,23 +569,25 @@ look what happens to the inner loop of our 'shuffle1b' procedure:
      once again, shimmer it to an integer (yet another call to strtol),
      and invalidate the string rep because we've incremented the integer.
 
-   * Now we get back into the [lindex] once again, and need a list rep.
-     This time, we have to format the integer as a string, parse it as
-     a list, take the object representing element 0, and reparse that as
-     an integer.
+   * Now we get back into the [[lindex]] once again, and need a list
+     rep.  This time, we have to format the integer as a string, parse
+     it as a list, take the object representing element 0, and reparse
+     that as an integer.
 
-Now, it is possible for a sufficiently smart compromise implementation to
-avoid all this shimmering by having [lset] say (in the objc==4 case):
+Now, it is possible for a sufficiently smart compromise implementation
+to avoid all this shimmering by having [[lset]] say (in the
+''objc==4'' case):
 
-   * if objv[[ 2 ]] is already an integer, just use it as the index.
+   * if objv[[2]] is already an integer, just use it as the index.
 
-   * if objv[[ 2 ]] is already a list, just use it as the list of indices.
+   * if objv[[2]] is already a list, just use it as the list of
+     indices.
 
-   * try to shimmer objv[[ 2 ]] into an integer.  If that is successful, use
-     the result as the index.
+   * try to shimmer objv[[2]] into an integer.  If that is successful,
+     use the result as the index.
 
-   * try to shimmer objv[[ 2 ]] into a list, and use the result as the list
-     of indices.
+   * try to shimmer objv[[2]] into a list, and use the result as the
+     list of indices.
 
 But now this code is getting complicated enough, with several tests
 of the internal rep's type, that the tests themselves promise to be
