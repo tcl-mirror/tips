@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -248,8 +248,7 @@ effect on existing functionality.
 	New ''Tk_OptionType'' usually associated with the ''-style''
 	widget option.
 
- TK_STYLE_VERSION_1:
- TK_STYLE_VERSION:
+ TK_STYLE_VERSION_1, TK_STYLE_VERSION:
 	Version numbers of Tk style support. The former matches the 
 	implementation described in this proposal. The latter is a shortcut to
 	the current version. Future extensions may introduce new version numbers.
