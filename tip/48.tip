@@ -1,6 +1,6 @@
 TIP:            48
-Title:          Basic themeing infrastructure for Tk
-Version:        $Revision: 1.8 $
+Title:          Tk Widget Styling Support
+Version:        $Revision: 1.9 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
