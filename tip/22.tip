@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Withdrawn
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        19-Jan-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
-Keywords:       {{{{{{lindex {multiple arguments} sublists}}}}}}
+Keywords:       lindex, multiple arguments, sublists
 Tcl-Version:    8.4a2
 
 ~ Abstract
