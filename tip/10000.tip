@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -44,7 +44,7 @@ Are anonymous changes possible?
 <Andreas Kupries>
 Just my first try at the new web editing interface for TIPs.
 
-Hm ... Maybe we could add a direkt reference to [3] to the
+Hm ... Maybe we could add a direct reference to [3] to the
 edit page for easy/quick lookup of the formatting (rules|definition).
 It should open into its own window, immediately, when following the link.
 
@@ -58,7 +58,7 @@ think we should add a note to the edit page about this, or people might
 assume that their changes were lost in some way, and perceive the service
 as unreliable.
 
-That's it for now. ... I'll add the same comments to [14], they belong
+That's it for now. ... I'll add the same comments to [13], they belong
 there more than here.
 </Andreas Kupries>
 
@@ -67,6 +67,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.17  2000/12/08 14:42:55  tclhttpd
+| Revision through web from Andreas Kupries <akupries@westend.com> (25143)
+|
 | Revision 1.16  2000/12/08 09:43:08  tclhttpd
 | Revision through web from Donal K. Fellows <fellowsd@cs.man.ac.uk> (17272)
 |
