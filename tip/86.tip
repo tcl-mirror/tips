@@ -1,0 +1,109 @@
+TIP:		86
+Title:		Saving [proc] File and Line Number Information in [source]
+Version:	$Revision: 1.1 $
+Author:		Peter MacDonald <peter@browsex.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	08-Feb-2002
+Post-History:	
+
+~ Abstract
+
+This TIP proposes saving the file name and line number information for
+each user defined [[proc]] definition contained within a [[source]]d
+file, and providing two new subcommands to [[info]]: [[file]] and
+[[line]] that can return this new information.
+
+~ Rationale
+
+With this change, upon error within a procedure, the filename and
+absolute (as opposed to relative) line number are printed out when
+available, even in the case where called from an after or callback
+invocation.  Aside from aiding the user in more easily locating and
+dealing with errors, the message is machine parseable so that it is
+possible so that automated processing is possible.  For example:
+automatically bring the user into an editor at the offending line.
+
+Second, a debugger (such as Don Libes's ''tcl-debug'') can be readily
+extended to make use of this new information to provide, for example,
+breakpoints on lines, and displaying/locating source.  Ultimately it
+could be used via a full screen or GUI interface ala ''gdb''.
+
+~ Specification
+ 
+The new [[info]] subcommands return respectively the file name and
+line number information for a given ''PROC''.  Valid syntax is:
+
+|  info line PROC 
+|  info file PROC 
+|  info file
+ 
+These exhibit the following behaviors:
+
+ * ''If proc was defined in a sourced file'', [[line]] returns the
+   line number, [[file]] returns the file name.
+
+ * ''What does this do when you redefine a proc?''
+   
+ > You get the values from the latest definition.
+   
+ * ''What about when you use interp aliases?''
+   
+ > You get an error, as it is not considered a proc.
+   
+ * ''And if proc itself gets redefined by someone's special
+   debugger?''
+   
+ > If the definition is not the result of a source, the file/line come
+   back as an empty string.
+
+ * ''What if No PROC name is given to [[info file]]?''
+
+ > It returns all known sourced file names.
+
+~ Changes
+
+Sourced file names are stored in a global hash table.  Line numbering
+information is saved in the ''Command'' structure.  The ''Tcl_Parse''
+structure gets two additional ints which are updated during the parse
+phase prior to command creation.  A temporary ''lineNum'' int is also
+employed for passing the current line number down to
+''Tcl_CreateCommand''.
+
+The bulk of the changes occur in ''generic/tclParse.c'' where the
+number of line feeds seen is tracked.
+
+~ Overhead/Impact
+
+This is a change impacting binary compatibility as it adds to
+''Tcl_Interp''.
+
+The runtime footprint of Tcl should not increase by more than a few
+kilobytes, even for really large programs.  Most of the space impact
+occurs in storing the file names, however, these are stored only once
+each for each file sourced, not per interp.  A typical example from a
+large system:
+
+|  100 sourced files * 100 bytes = 10K.
+
+The other space overhead adds up to 2 words (8 bytes on a 32-bit
+platform) per defined command proc, plus an additional word in the
+Interp.
+
+Runtime processing overhead should be negligible.
+
+However, there have been no benchmarks done to validate these
+assertions.
+
+~ Reference Implementation
+
+http://dev.browsex.com/tclline.diff.gz
+
+This is a patch against tcl8.4a3.  It has been tested lightly against
+small and large Tcl programs.
+
+~ Copyright
+
+This document has been placed in the public domain.
