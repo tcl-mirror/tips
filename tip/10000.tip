@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.112 $
+Version:        $Revision: 1.113 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -50,8 +50,6 @@ foobar
 ~~~Subsubsection test
 
 spong wibble
-
-submit
 
 ~ Copyright
 
