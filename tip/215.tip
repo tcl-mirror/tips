@@ -1,7 +1,8 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Leitgeb <avl@logic.at>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -67,15 +68,17 @@ Nevertheless, this shouldn't exclude discussion about less
 typo-forgiving alternatives:
 
 Proposed (by others) alternative #1: make  '''incr''' accept a second
-optional argument /init/ which, if specified, will cause '''incr''' to 
-accept non-existent variables and initialize them with the value /init/.
+optional argument ''init'' which, if specified, will cause '''incr''' to 
+accept non-existent variables and initialize them
+with the value ''init''.
 One disadvantage of this behaviour is, that it is at odds with append
 and lappend behaviour, which would rather imply that if more than
 one argument is given after the varname, then each of them would
 be added in row. Another con would be, that it would not be intuitive,
-whether the resulting value would be /init/ or (/init/ + /step/).
-Similar alternatives mentioning new option -initValue are over-verbose
-imho.
+whether the resulting value would be ''init'' or
+(''init'' + ''increment'').
+Similar alternatives mentioning new option '''-initValue'''
+are over-verbose imho.
 
 Another way to partially reduce this proposal's forgiveness would be
 to allow autoinitialization only for array-elements. This looks
