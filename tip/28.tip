@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -52,11 +52,10 @@ what it takes to be a Tcl/Tk maintainer.
 
 ~ What can I maintain?
 
-The Tcl Core Team (TCT) has divided up the Tcl source code into
-functional areas as described in [16].  The division of Tk source code
-is in progress ([23]).  You can volunteer to help maintain as many
-areas as you think you can handle.  Select those you have experience
-with or an interest in.
+The Tcl Core Team (TCT) has divided up the Tcl/Tk source code into
+functional areas as described in [16] and [23].  You can volunteer to
+help maintain as many areas as you think you can handle.  Select those
+you have experience with or an interest in.
 
 ~ What does a maintainer do?
 
@@ -135,7 +134,7 @@ code.
 A maintainer examines the state of Tcl Improvement Proposals (TIPs) and
 adds his comments to them at the TIP Document Collection.
 
-   http://www.scriptics.com:8080/cgi-bin/tct/tip/
+   http://dev.scriptics.com:8080/cgi-bin/tct/tip/
 
 A maintainer may follow and participate in TCT discussions about TIPs
 and other matters concerning Tcl/Tk development on the TCLCORE mailing
