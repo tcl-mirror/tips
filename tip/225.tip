@@ -1,7 +1,8 @@
 TIP:            225
 Title:          Arithmetic Series with Optimized Space Complexity
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
+Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -238,3 +239,8 @@ in O(1) space.
 |    }
 |    return $result
 |}
+
+----
+~ Discussion
+
+Does the TIP include a C-level api to ranges, or are they transparent also in C - in the sense that they are addressable with any of the list-oriented functions of the Tcl api? What if any changes and caveats are necessary in the documentation of Tcl's C api? ''Miguel''
