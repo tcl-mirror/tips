@@ -1,8 +1,9 @@
 TIP:            69
 Title:          Improvements for the Tcl Hash Table
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         George A. Howlett <gah@siliconmetrics.com>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -445,6 +446,28 @@ following systems.
 |	Win2k			x
 
 It will be made publicly available on SourceForge.
+
+~ Hashing of Malicious Strings
+
+''Donal K. Fellows adds:''
+
+In 2003 a possible denial-of-service attack on hash tables was published
+that operated by making a majority of keys map to the same bucket.  While
+this would not make the hashes function incorrectly - there would be no
+extra memory consumed or incorrect accesses to memory - it still permits
+an attacker to escalate the cost of hash accesses from O(1) to O(n) in
+the normal case (and with obvious knock-on effects for the order of other
+algorithms) and so mount an attack out-of-scale with the effort required
+to set the attack up.
+
+The way to fix this is to use a different hashing function for string
+hashing that varies the exact hashing algorithm on a table-by-table
+basis, and to base that algorithm on a hashing function with better
+spectral properties than Tcl's current (extremely simple) one.  An
+algorithm that might be suitable for such uses is described at
+http://burtleburtle.net/bob/hash/evahash.html though the code would need
+substantial adaption (including the addition of a fairly strong random
+number generator) before being placed in the core.
 
 ~ Copyright
 
