@@ -1,13 +1,14 @@
-TIP:		237
-Title:		Arbitrary-Precision Integers for Tcl
-Version:	$Revision: 1.1 $
-Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	14-Jan-2004
-Post-History:	
-Tcl-Version:	8.5
+TIP:            237
+Title:          Arbitrary-Precision Integers for Tcl
+Version:        $Revision: 1.2 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+Author:         Kevin Kenny <kennykb@acm.org >
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Jan-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -138,7 +139,7 @@ arbitrary precision.  Specifically:
     without needing to do any memory management.
 
  3. The ''internalRep'' union in the ''Tcl_Obj'' structure
-    shall be augmented with a ''bignumRep'' field.  This field shall
+    shall be augmented with a ''ptrAndIntRep'' field.  This field shall
     be a structure comprising a pointer and a long integer.  The
     pointer will designate an array of digits (the ''dp'' member of
     an ''mp_int'' structure in ''libtommath'').  The integer
@@ -157,12 +158,13 @@ arbitrary precision.  Specifically:
     operations and shifts rather than needing to use a pointer
     internal representation and dynamically allocated memory to store
     the ''mp_int''.  The drawback is that it is limited to integers of
-    2**15 digits (or 917,504 bits).  Since cryptographic algorithms,
+    2**15 digits (or 917,504 bits, since libtommath does its
+    arithmetic in base 2**28).  Since cryptographic algorithms,
     floating point conversions, and most number theoretic work will
     not exceed this length, it is thought to be adequate in practice.
 
  4. A new ''tclBignumType'' shall be added to the set of registered
-    object types; it will have the ''bignumRep'' internal
+    object types; it will have the ''ptrAndLongRep'' internal
     representation, and the usual four conversion routines.
 
  5. The ''wideIntRep'' field in the ''internalRep'' union shall remain
@@ -352,22 +354,39 @@ arbitrary precision.  Specifically:
  > * The abs(), ceil(), double(), floor(), int(), round(), sqrt(), and
      wide() math functions shall all be modified to accept
      arbitrary-precision integers as parameters.  The sqrt() function
-     will return the greatest integer less than the square root when
+     will return the greatest integer less than 
+     or equal to the square root when
      its result is greater than the largest odd integer exactly
      represented in a floating-point number.
+
+ > * A new function, ''entier($x)'' will be introduced; the
+     function coerces ''$x'' to an integer of appropriate size.
+     ''entier()'' is distinguished from ''int()'' in that
+     ''int()'' results in a 32-bit integer always, while
+     ''entier()'' results in whatever size of integer is needed
+     to hold the full value.
 
  7. The '''incr''' and '''dict incr''' commands shall work on
     arbitary-precision values.  Specifically, [[incr a $n]] will
     behave like [[set a [[expr { $a + $n }]]]] with the constraint
     that ''$a'' and ''$b'' must both be integers.
 
- 8. The '''format''' and '''scan''' commands will acquire ''D'', ''O''
-    and ''X'' specifiers that format their arguments as
+ 8. The '''format''' and '''scan''' commands will acquire ''%lld'', 
+    ''%llo'', ''%llx''
+    and ''%llX'' specifiers that format their arguments as
     arbitrary-precision decimal, octal, and hexadecimal integers,
-    respectively.  The ''O'' and ''X'' specifiers will both format the
-    ''absolute value'' of an integer; another specifier, ''S'', will
-    format its signum. (This is done so that hexadecimal numbers can
-    be rendered with the sign preceding a leading literal 'Ox'.)
+    respectively.  The ''%llo'' and ''%llx'' specifiers, unlike
+    their native-integer counterparts, will format ''signed''
+    numbers; the result of [[format %#llx 12345]] will not be
+    0xffffcfc7, but rather -0x3039.  (If an application requires
+    hexadecimal numbers in two's complement notation, it can
+    get them by forcing a number to be positive:
+
+    | set x -0x12345
+    | set x64bit [expr { $x & ((1<<64) - 1) }]
+    | puts [format %llx $x]
+
+ >  will yield '0xffffffffffffcfc7'.
 
  9. User defined math functions will be able to gain access to a
     ''bignumValue'' in the ''Tcl_Value'' structure, and a TCL_BIGNUM
@@ -433,6 +452,10 @@ possible third-party bignum codes.  Among the ones considered were:
   distributors, and so OpenSSL is not suitable. (The OpenSSL
   developers are not amenable to removing the Advertising Clause from
   the license.)
+
+Several libraries implemented in C++ were dismissed out of hand,
+because of the deployment issues associated with C++ runtime libraries
+and static constructors.
 
 The ''libtommath'' code is released to the Public Domain.  Its author,
 Tom St. Denis, explicitly and irrevocably authorizes its use for any
