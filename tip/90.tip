@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -283,7 +283,9 @@ illustrates the technique.
 
 The first approach assumes one knows
 the internal details of how the ''uplevel'' command adds to
-the stack trace. 
+the stack trace. This is straightforward, but will require a
+rewrite if ''uplevel'' ever changes how it manipulates the
+stack trace.
 
 | proc myEval script {
 |     if {[catch {uplevel 1 $script} result options] == 1} {
@@ -295,6 +297,26 @@ the stack trace.
 |     }
 |     dict incr options -level
 |     return -options $options $result
+| }
+
+A second, more robust solution is possible, but requires a bit
+more context gymnastics.
+
+| namespace eval control {
+|     proc eval script {
+|         variable result
+|         variable options
+|         set code [uplevel 1 \
+|                 [list ::catch $script [namespace which -variable result] \
+|                         [namespace which -variable options]]]
+|         if {$code == 1} {
+|             set line [dict get $options -errorline]
+|             dict append options -errorinfo \
+|                     "\n    (\"[lindex [info level 0] 0]\" body line $line)"
+|         }
+|         dict incr options -level
+|         return -options $options $result
+|     }
 | }
 
 ~ Potential Concerns
