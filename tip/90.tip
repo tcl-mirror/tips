@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -207,6 +207,25 @@ This specification may seem a bit complex, but it makes possible
 very simple solutions to the problems posed above.
 
 ~ Examples
+
+First lets revisit the analysis:
+
+|   %  set code [catch {
+|          return -code error -errorinfo foo -errorcode bar baz
+|      } message options]
+
+After evaluation, ''code'' contains "2" (''TCL_RETURN''), ''message''
+contains "baz", and now ''options'' contains:
+
+| -errorcode bar -errorinfo foo -code 1 -level 1
+
+So, the ''options'' variable now contains the information that
+was previously inaccessible.  We can now
+
+| return -options $options $message
+
+to get the same results as if the ''catch'' had never been
+there in the first place.
 
 In 8.4 Tcl, it is not possible to implement a replacement
 for the ''return'' command as a proc.  After this proposal,
