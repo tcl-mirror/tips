@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.16 $
+Version:        $Revision: 2.17 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -119,12 +119,18 @@ The options available for creation and configuring are:
    normally, the ensemble engine reparses the subcommand and tries to
    dispatch it again (which is ideal for when the ensemble's
    configuration has been updated by the unknown subcommand handler.)
-   The result of the the unknown script is discarded, and all other
-   kinds of result are treated as errors.  If during reparsing the
-   ensemble command still cannot find anything to implement a
-   subcommand, an error will be thrown (i.e. for any particular
-   invokation of an ensemble, its unknown handler will be called at
-   most once.)
+   The result of the the unknown script is parsed as a list, and all
+   other kinds of result are treated as errors.
+   When the result is an empty list, the ensemble command attempts to
+   look up the original subcommand again and, if it is not found this
+   time, an error will be generated just as if the -unknown handler was
+   not there (i.e. for any particular invokation of an ensemble, its
+   unknown handler will be called at most once.)  When the result is a
+   non-empty list, the words of that list are used to replace the
+   ensemble command and subcommand, just as if they had been looked up
+   in the -map, though the command name itself will be looked up in the
+   context of the code calling the namespace (and hence should be fully
+   specified normally.)
 
  > Where an empty -unknown handler is given (the default), the ensemble
    command will generate an error message based on the list of commands
@@ -241,6 +247,8 @@ that the implementing command may itself be an ensemble command.
 |   dict set map $subcmd [list $target $subcmd]
 |   # Install back into the ensemble
 |   namespace ensemble configure $ensemble -map $map
+|   # Result is empty string, so we reparse
+|   return {}
 |}
 |# Our new subcommand implementation
 |proc flash w {
