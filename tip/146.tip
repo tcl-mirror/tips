@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -52,8 +52,8 @@ For shrinking a grid without weight there are three options.
 I think 2. makes more sense than 1., but it does mean a minor
 compatiblity breach.
 
-Also, with 2., behaviour 3. can be emulated but the other way
-is harder.
+Also, with 2., behaviour 1. and 3. can be emulated but the other
+way around is harder.
 
 In this TIP's specification it is still undecided what to do with
 shrinking.
@@ -73,8 +73,11 @@ master's anchor value.
 ~ Future Work
 
 I believe it would make more sense to have "nw" as default anchor but
-that feels like too big a compatibility breach, so maybe it can be
-done in 9.0.
+if shinking behaviour #1 is chosen for compatibility it can't be.
+Maybe it can be done in 9.0.
+
+Though, if shrinking #2 is chosen, default anchor could just as
+well be "nw".
 
 ~ Shrink example
 
