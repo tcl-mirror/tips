@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.92 $
+Version:        $Revision: 1.93 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -144,7 +144,7 @@ in the Tcl library:
 |              0.20000000000000001
 
         > even though that number is closer to the actual floating
-        > point value of 
+          point value of 
 
 |              0.200000000000000011102230246251565404236316680908203125
 
