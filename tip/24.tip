@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -20,6 +20,18 @@ Listed below are Tcl's 52 functional units, in the same order as
 in [16].  See [16] for the precise definition of what code belongs to
 what area.  The area names are changed to match the Categories in Tcl's
 SourceForge Bug Manager (http://sourceforge.net/bugs/?group_id=10894).
+
+Note that an area can have more than one maintainer.  When the
+maintenance of the entire area requires several types of
+expertise, it is desirable to have more than one maintainer.
+
+In several of the areas below, there are maintainers who have
+volunteered to provide special expertise (for example, assistance
+with programming and testing for the Mac platform) to assist
+in maintaining an area, but who have not taken on the whole area.
+These maintainers are indicated by a parenthesized designation
+of their expertise.
+
 For each of Tcl's functional units, the following maintainers are
 assigned:
 
