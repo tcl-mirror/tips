@@ -1,13 +1,13 @@
-TIP:		172
-Title:		Improve UNIX Tk Look and Feel
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		David N. Welton <davidw@dedasys.com>
-Created:	08-Mar-2004
+TIP:            172
+Title:          Improve UNIX Tk Look and Feel
+Version:        $Revision: 1.3 $
+Author:         David N. Welton <davidw@dedasys.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -28,7 +28,7 @@ the Tile project.
 
 The two things that ought to happen are as follows:
 
- 1. The code at http://wiki.tcl.tk/10424 should be tweaked to further
+ 1. The code now located in the tklib "style" module should be tweaked to       further
     improve its look (for instance Pat Thoyts suggests a few
     additional improvements at the bottom of the page), and included
     as the default look for Tk on Unix in the 8.5 release.  Credit
