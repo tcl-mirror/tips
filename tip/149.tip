@@ -1,0 +1,45 @@
+TIP:		149
+Title:		Allow "enabled" as Synonym for "normal" in -state Option
+Author:		Michael A. Cleverly <michael@cleverly.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	13-Aug-2003
+Tcl-Version:	8.5
+Version:	$Revision: 1.1 $
+Post-History:	
+
+~ Abstract
+
+This TIP allows Tk widgets which have a configurable ''-state'' option
+to accept ''enabled'' as a synonym for ''normal''.
+
+~ Rationale
+
+Tk widgets which have a configurable ''-state'' option have (at a
+minimum) ''normal'' and ''disabled'' states.  In common usage,
+however, the antonym of ''disabled'' is ''enabled'', not ''normal''.
+
+Even experienced Tcl/Tk programmers sometimes forget, though they
+usually won't come out and admit it explicitly.  (Cf.
+http://groups.google.com/groups?th=66e286d7efc3bbb6)
+
+~ Proposed Changes
+
+Modify all Tk widgets which have a configurable ''-state'' option to
+accept ''enabled'' as a synonym for ''normal''.  The value returned by
+a widget's ''cget'' method would continue to be ''normal''.  The
+appropriate man pages and test suite will be updated to document and
+test the use of ''enabled'' as a synonym.
+
+|% $w configure -state enabled
+|% puts [$w cget -state]
+|normal
+
+~ Implementation
+
+A reference implementation will be provided shortly.
+
+~ Copyright
+
+This document is placed in the public domain.
