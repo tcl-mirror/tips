@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -134,6 +134,9 @@ branch, or they may be rejected.
      they can be easily removed at compile-time.  First step towards
      a 'tinytcl' on the HEAD rather than starting with an older
      version.  (maintained by davygrvy@pobox.com)
+
+   * dkf-64bit-support-branch - Work on supporting 64-bit numbers,
+     particularly on 32-bit platforms (including large file support.)
 
 ~ Dead Branches
 
