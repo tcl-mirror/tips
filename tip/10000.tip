@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.106 $
+Version:        $Revision: 1.107 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -653,6 +653,7 @@ added.
         -hhmmss, and alphanumeric strings.  The numeric representations
         are self explanatory; an alphanumeric string must be the
         one of:
+
 |               gmt     ut      utc     bst     wet     wat     at
 |               nft     nst     ndt     ast     adt     est     edt
 |               cst     cdt     mst     mdt     pst     pdt     yst
@@ -662,6 +663,7 @@ added.
 |               zp6     wast    wadt    jt      cct     jst     cast
 |               cadt    east    eadt    gst     nzt     nzst    nzdt
 |               idle
+
     > > or a single letter other than J.  Generally speaking, numeric
         time zones should be preferred for communication among computers;
         the alphanumeric time zones are provided primarily for the parsing
