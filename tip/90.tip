@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -203,7 +203,28 @@ particular, any values of the "::errorCode" and "::errorInfo"
 variables are the same as if there were never a ''catch'' in
 the first place.
 
+This specification may seem a bit complex, but it makes possible
+very simple solutions to the problems posed above.
+
 ~ Examples
+
+In 8.4 Tcl, it is not possible to implement a replacement
+for the ''return'' command as a proc.  After this proposal,
+such a replacement is:
+
+| proc myReturn args {
+|     set result ""
+|     if {[llength $args] % 2} {
+|         set result [lindex $args end]
+|         set args [lrange $args 0 end-1]
+|     }
+|     set options [dict create -level 1]
+|     eval [list dict replace $options] $args
+|     dict incr options -level
+|     return -options $options $result
+| }
+
+In every way [myReturn] should be an equivalent to [return].
 
 ~ Prototype
 
