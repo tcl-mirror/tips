@@ -1,9 +1,9 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        19-Jan-2001
