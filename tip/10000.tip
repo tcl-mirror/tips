@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -16,7 +16,7 @@ Post-History:
 
 This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
-can take place.
+can take place.  ''Testing separate abstract editing...''
 
 ~ Notes
 
@@ -72,6 +72,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.21  2000/12/12 17:42:07  tclhttpd
+| Revision through web from Andreas Kupries <a.kupries@westend.com> (26183)
+|
 | Revision 1.20  2000/12/08 21:57:15  tclhttpd
 | Revision through web from  <dgp@users.sourceforge.net> (3037)
 |
