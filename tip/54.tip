@@ -1,0 +1,207 @@
+TIP:		54
+Title:		Using PURLs to Unite the Tcl Webspace
+Version:	$Revision: 1.1 $
+Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
+State:		Draft
+Type:		Process
+Vote:		Pending
+Created:	16-Aug-2001
+Post-History:   
+
+~ Abstract
+
+This TIP proposes the use of PURLs to unify the scattered landscape of
+Tcl URLs into a coherent set of information about the language, the
+community, extensions, etc.
+
+~ Background & Rationale
+
+One of the recurring themes in the community in general (and
+news:comp.lang.tcl in particular) is the lack of central website
+people can turn to for an introduction to the language, the community,
+search for extensions and packages, et cetera.
+
+Most of the solutions proposed so far have the distinctive
+disadvantage of not being able to use the existing sites and bind them
+into a whole. This is further aggravated by the fact that the
+'natural' domain names, like for example http:://www.tcl.com/ and
+http://www.tcl.org are already taken by other entities, commercial and
+not, and thus not available anymore.
+
+Instead of giving up at this point I propose to use PURLs aka
+''Persistent URLs'' to construct a virtual website (the ''Tcl space'')
+out of all the existing independent efforts. See http://www.purl.org/
+for more explanations of PURLs.
+
+Note that PURLs not only can refer to single URLs but to entire
+sites. The latter is done through a technique called 'partial
+redirection'. This ... is emphasized here because partially redirected
+PURL have to be used with a trailing slash whereas PURLs refering to
+single URL must not have a trailing slash.
+
+In the lists below partially redirected PURLs are indicated by a
+trailing slash.
+
+A restriction we face is that PURLs are case insensitive. This means
+that the names we will have to come up with have to be unique even
+with case removed.
+
+One of the most important features is the persistency. In real life
+however organizations, people, websites, etc. can disappear. According
+to http://www.purl.org/OCLC/PURL/FAQ#toc3.14 the PURL stays in
+existence but can be redirected to a page detailing the history of the
+purl. This would include the decomission. We could also do our own
+scheme and redirect the purl to a page explaining the history in a
+more tcl-specific manner (like: Company went out of business, was
+aquired, etc.).
+
+
+~ Specification
+
+This TIP is driven by several conflicting needs:
+
+   * The names will be persistent, so give them some thought before
+     creating them; they cannot be undone. This also implies that we
+     to set up a simple and minimal structure first so as not to block
+     future enhancements and flexibility.
+
+   * Define the structure now before the URN space gets as scattered
+     as the URL space is. Note that this process has already
+     begun. The PURL resolver at http://www.purl.org/ currently has
+     registered 24 tcl-related PURLs which are not bound together in
+     the framework proposed here. Action is necessary to prevent
+     further confusion.
+
+Of the existing PURLs the PURL domain ''/tcl'' created by Don Libes is
+the most promising one for the unification of the Tcl space. Six of
+the 24 aforementionend PURLs are defined below this domain too,
+providing a (good) framework on which to build.
+
+The existing PURLs and subdomains in the ''/tcl'' domain are:
+
+   * ''expect''	- reference to the homepage of the expect extension
+
+   * ''faq''	- reference to the main FAQ
+
+   * ''faqs''	- introduction to the available FAQ documents.
+
+   * ''home/''	- refers to the Tcl Developers Xchange
+
+   * ''tip/''	- refers to the TIP archives
+
+   * ''wiki''	- refers to the entry page of the Tcl'ers WIKI
+
+With the exception of ''expect'' all of these are general classes
+and/or refer to important sites. They are used as is, except for
+''expect'' which has to be redirected into the proposed subdomain
+''package''.
+
+The following new subdomains covering the most important general
+classes of information and/or websites are proposed here. Please note
+that the examples used in the list below are using purely informal
+everyday names to refer to entities in the proposed domain. These
+examples should not be seen as suggestions for the concrete naming
+scheme used by the domain.
+
+   * ''package/'' - Subdomain to contain references to the homepages
+     of the known packages. This TIP makes no distinction between
+     C-level extensions and script libraries. From the point of view
+     of the core these are all packages to be required.
+
+   > Examples of packages are ''Expect'', ''tcllib'', etc.
+
+   * ''application/'' - Subdomain to contain references to the
+     homepages of applications related to tcl, written in tcl or using
+     it internally.
+
+   > Examples of applications are ''frink'', ''tclHttpd'',
+     ''AOLServer'', etc.
+
+   * ''person/'' - Subdomain to contain references to the homepages of
+     people active in the community, as far as they are interested in
+     such a reference. References in this domain shall be personal and
+     not organization-related. The latter will go into their own
+     domain.
+
+   > Examples of people are ''Larry Virden'', ''Cameron Laird'', etc.
+
+   * ''org/'' - Subdomain to contain references to organizations
+     important to the tcl community.
+
+   > Examples are the Tcl Core Team, the Tcl Core Maintainers,
+     Tcl-based based companies (PhaseIt, ActiveState), companies and
+     organizations using tcl (NIST, CAS), etc.
+
+~ Management
+
+The ''/tcl'' domain was created by Don Libes which made him
+automatically the maintainer of the domain (see
+http://www.purl.org/maint/search_user.pl.cgi?userid=^LIBES$). He has
+already extended the maintainership to the entity TCLGROUP (see
+http://www.purl.org/maint/search_group.pl.cgi?groupid=^TCLGROUP$),
+currently consisting of
+
+   * Gordon Johnstone <gordonjohnstone@earthling.net>
+
+   * Jeffrey Hobbs <jeff@hobbs.com>
+
+   * Don Libes <libes@nist.gov>
+
+   * Andreas Kupries <andreas_kupries@users.sourceforge.net>
+
+   * Larry Virden <lvirden@yahoo.com>
+
+   * Don G. Porter <dgp@nist.giv>
+
+   * Jean-Claude Wippler <jcw@equi4.com>
+
+For the future I propose that
+
+   * Highlevel changes to the tcl space, like new subdomains, have to
+     go through the TCT and the TIP process for approval. This is also
+     in line with [0] declaring the responsibility of the TCT for the
+     Tcl webspace.
+
+   * The day-to-day routine of adding new packages, persons,
+     organizations, etc. is delegated to a new group, the ''Tcl
+     Namespace Maintainers''.
+
+   > Initially this group would consist of the people mentioned above,
+     with membership open to volunteers from the community.
+
+
+~ Discussion
+
+   * All of the newly proposed subdomains will be simple listings
+     mapping from the names of the entities contained in them to the
+     proper locations. Further categorization of the entities by
+     topic, gender or other attributes is out of the scope of this
+     TIP. This type of categorization rather is in the domain of
+     general and specialized catalogs which can be set up later and
+     then bound into the unified webspace proposed here.
+
+   > Note that such catalogs can and should make use of the proposed
+     domains to reduce the effort necessary by them to stay current
+     with respect to the location of the referenced entities (people,
+     packages, etc).
+
+   * The first pre-draft of this TIP contained definitions for the
+     names to use in the various domains. These definitions have been
+     removed on the grounds that their format and other issues like
+     resolution of naming conflicts, order of precedence, etc. are
+     best handled in one or more separate documents. The role of this
+     TIP is to lay down a framework within which the community can
+     operate and not to fill in every conceivable detail.
+
+   > These details can be discussed and decided upon by the group of
+     maintainers proposed in the last section.
+
+
+   * This proposal makes the Tcl community dependent on an external
+     entity, namely the maintainers of http://www.purl.org/. This is
+     considered acceptable.
+
+
+~ Copyright
+
+This document is in the public domain.
