@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.105 $
+Version:        $Revision: 1.106 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -42,6 +42,8 @@ proposed in [13].
 Here's a simple edit test.
 
 ~ Copyright
+
+~ Abstract
 
 ~ Abstract
 
@@ -91,7 +93,7 @@ architecture of [[clock]].
         is required; the programmer ''must'' be allowed to specify
         an expected input format (or set of expected formats).
 
-        A side effect of such a redesign would be improved ease of
+    >   A side effect of such a redesign would be improved ease of
         maintenance.  The current [[clock scan]] is a YACC-derived
         parser; the build process, however, runs a script on the
         output of YACC to modify its memory management and alter
@@ -241,61 +243,61 @@ added.
           If no combination of fields that specifies a date is found,
           the base date is used.
 
-    > > In all of the foregoing discussion, the 'base date', 'base month',
-        'base week', and 'base year' refer to the day, month, week or year
-        designated by the ''-base'' parameter, which is a count of
-        seconds from the Posix epoch.  If no ''-base'' parameter is supplied,
-        the current date is used as the base date.  The year, month,
-	week and day are obtained by interpreting the base date in the
-	time zone specified by the date/time string.  If the
-	given format does not include a time zone, then the
-	base time is interpreted in the default time zone; see
-	''TIME ZONES'' below for the way that the default time zone
-	is determined.
+    > In all of the foregoing discussion, the 'base date', 'base month',
+      'base week', and 'base year' refer to the day, month, week or year
+      designated by the ''-base'' parameter, which is a count of
+      seconds from the Posix epoch.  If no ''-base'' parameter is supplied,
+      the current date is used as the base date.  The year, month,
+      week and day are obtained by interpreting the base date in the
+      time zone specified by the date/time string.  If the
+      given format does not include a time zone, then the
+      base time is interpreted in the default time zone; see
+      ''TIME ZONES'' below for the way that the default time zone
+      is determined.
 
-    > > The time of day returned by [[clock scan]] is determined
-	by the presence of fields in the format string, in the
-	following order of preference.
+    > The time of day returned by [[clock scan]] is determined
+      by the presence of fields in the format string, in the
+      following order of preference.
 
     > > {seconds from epoch, StarDate}:
-	If either of these fields is present, it uniquely determines date
-	and time.
+        If either of these fields is present, it uniquely determines date
+        and time.
 
     > > {am/pm indicator, hour am/pm, minute, second}, {hour, minute, second}:
-	Time with seconds is preferred to time without seconds.
+        Time with seconds is preferred to time without seconds.
 
     > > {am/pm indicator, hour am/pm, minute}, {hour, minute}:
-	Time can be interpreted without the seconds.
+        Time can be interpreted without the seconds.
 
     > > {am/pm indicator, hour am/pm}, {hour}:
-	Time can be expressed as an hour alone, ''e.g.'',
-|		clock scan "6 pm" -format "%I %p"
+        Time can be expressed as an hour alone, ''e.g.'',
+|               clock scan "6 pm" -format "%I %p"
 
     > > None of the above:
-	If none of the above indicators is present, midnight in the
-	given time zone is used.
+        If none of the above indicators is present, midnight in the
+        given time zone is used.
 
     > > In all of the foregoing discussion, the 'base date', 'base month',
         'base week', and 'base year' refer to the day, month, week or year
         designated by the ''-base'' parameter, which is a count of
         seconds from the Posix epoch.  If no ''-base'' parameter is supplied,
         the current date is used as the base date.  The year, month,
-	week and day are obtained by interpreting the base date in the
-	time zone specified by the date/time string.  If the
-	given format does not include a time zone, then the
-	base time is interpreted in the default time zone; see
-	''TIME ZONES'' below for the way that the default time zone
-	is determined, and the interpretation of the ''-timezone'' and
-	'' -gmt'' options.
+        week and day are obtained by interpreting the base date in the
+        time zone specified by the date/time string.  If the
+        given format does not include a time zone, then the
+        base time is interpreted in the default time zone; see
+        ''TIME ZONES'' below for the way that the default time zone
+        is determined, and the interpretation of the ''-timezone'' and
+        '' -gmt'' options.
 
     > > The locale is used to determine the spelling of native language
         words such as the names of months, names of weekdays, am/pm indicators,
-	and locale eras.  It is also used in the interpretation of the
-	format groups, '%X', '%x', and '%c'.  In addition, the locale
+        and locale eras.  It is also used in the interpretation of the
+        format groups, '%X', '%x', and '%c'.  In addition, the locale
         determines the date at which the calendar in use changes from
-	the Julian calendar to the Gregorian.  If no ''-locale'' parameter
-	is supplied, the default is to use the root locale.  See 
-	''LOCALISATION'' below for more information.
+        the Julian calendar to the Gregorian.  If no ''-locale'' parameter
+        is supplied, the default is to use the root locale.  See 
+        ''LOCALISATION'' below for more information.
 
     > clock format:
       The [[clock format]] command shall have the syntax:
@@ -321,42 +323,42 @@ added.
      These two commands perform arithmetic on dates and times.
      The syntax is:
 
-|	clock (add|subtract) time ?count unit?... \
-|	    ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
+|       clock (add|subtract) time ?count unit?... \
+|           ?-gmt boolean? ?-timezone timeZone? ?-locale name? ?-
 
     > > It accepts a time, expressed in seconds from the Posix epoch of
         1 January 1970, 00:00 UTC, and adds or subtracts units of time
-	from it according to the alternating ''count'' and ''unit'' parameters.
-	Each ''count'' must be a wide integer; each ''unit'' is one of
-	the following:
+        from it according to the alternating ''count'' and ''unit'' parameters.
+        Each ''count'' must be a wide integer; each ''unit'' is one of
+        the following:
 
-|		years	year	months	month
-|				weeks	week	days	day
-|		hours	hour	minutes	minute	seconds	second
+|               years   year    months  month
+|                               weeks   week    days    day
+|               hours   hour    minutes minute  seconds second
 
     > > The command works by converting the given time to
-	a calendar day and time of day in the given locale and
-	time zone.  To that day and time of day, it adds or subtracts
-	the given offsets ''in sequence''.  It reconverts the
-	resulting time to a count of seconds, again using the
-	given locale and time zone, and returns that
-	count of seconds.
+        a calendar day and time of day in the given locale and
+        time zone.  To that day and time of day, it adds or subtracts
+        the given offsets ''in sequence''.  It reconverts the
+        resulting time to a count of seconds, again using the
+        given locale and time zone, and returns that
+        count of seconds.
 
     > > There are subtle differences in many cases between adding
-	seemingly similar offsets.  For instance, on the day before
-	Daylight Saving Time goes into effect, adding 24 hours will
-	give "the time 24 hours from the base time, irrespective of
-	any clock change", while adding 1 day will give "the time
-	it will be at the same time of day on the following day."
-	Similarly, adding 1 month on 30 January will give either
-	28 or 29 February.  There are equally strange effects
+        seemingly similar offsets.  For instance, on the day before
+        Daylight Saving Time goes into effect, adding 24 hours will
+        give "the time 24 hours from the base time, irrespective of
+        any clock change", while adding 1 day will give "the time
+        it will be at the same time of day on the following day."
+        Similarly, adding 1 month on 30 January will give either
+        28 or 29 February.  There are equally strange effects
         when performing date/time arithmetic across the change
-	between the Julian and Gregorian calendars.
+        between the Julian and Gregorian calendars.
 
     > > The ''-timezone'', ''-gmt'', and ''-locale'' options are
-	used to control the interpretation of the count of seconds
-	as a calendar day and time.  Refer to ''TIME ZONES'' and
-	''LOCALIZATION'' below for a fuller discussion.
+        used to control the interpretation of the count of seconds
+        as a calendar day and time.  Refer to ''TIME ZONES'' and
+        ''LOCALIZATION'' below for a fuller discussion.
 
     UNCHANGED [[clock]] SUBCOMMANDS:
 
@@ -651,15 +653,15 @@ added.
         -hhmmss, and alphanumeric strings.  The numeric representations
         are self explanatory; an alphanumeric string must be the
         one of:
-|		gmt	ut	utc	bst	wet	wat	at
-|		nft	nst	ndt	ast	adt	est	edt
-|		cst	cdt	mst	mdt	pst	pdt	yst
-|		ydt	hst	hdt	cat	ahst	nt	idlw
-|		cet	cest	met	mewt	mest	swt	sst
-|		eet	eest	bt	it	zp4	zp5	ist
-|		zp6	wast	wadt	jt	cct	jst	cast
-|		cadt	east	eadt	gst	nzt	nzst	nzdt
-|		idle
+|               gmt     ut      utc     bst     wet     wat     at
+|               nft     nst     ndt     ast     adt     est     edt
+|               cst     cdt     mst     mdt     pst     pdt     yst
+|               ydt     hst     hdt     cat     ahst    nt      idlw
+|               cet     cest    met     mewt    mest    swt     sst
+|               eet     eest    bt      it      zp4     zp5     ist
+|               zp6     wast    wadt    jt      cct     jst     cast
+|               cadt    east    eadt    gst     nzt     nzst    nzdt
+|               idle
     > > or a single letter other than J.  Generally speaking, numeric
         time zones should be preferred for communication among computers;
         the alphanumeric time zones are provided primarily for the parsing
@@ -729,15 +731,15 @@ added.
         -hhmmss, and alphanumeric strings.  The numeric representations
         are self explanatory; an alphanumeric string must be the
         one of:
-|		gmt	ut	utc	bst	wet	wat	at
-|		nft	nst	ndt	ast	adt	est	edt
-|		cst	cdt	mst	mdt	pst	pdt	yst
-|		ydt	hst	hdt	cat	ahst	nt	idlw
-|		cet	cest	met	mewt	mest	swt	sst
-|		eet	eest	bt	it	zp4	zp5	ist
-|		zp6	wast	wadt	jt	cct	jst	cast
-|		cadt	east	eadt	gst	nzt	nzst	nzdt
-|		idle
+|               gmt     ut      utc     bst     wet     wat     at
+|               nft     nst     ndt     ast     adt     est     edt
+|               cst     cdt     mst     mdt     pst     pdt     yst
+|               ydt     hst     hdt     cat     ahst    nt      idlw
+|               cet     cest    met     mewt    mest    swt     sst
+|               eet     eest    bt      it      zp4     zp5     ist
+|               zp6     wast    wadt    jt      cct     jst     cast
+|               cadt    east    eadt    gst     nzt     nzst    nzdt
+|               idle
     > > or a single letter other than J.  Generally speaking, numeric
         time zones should be preferred for communication among computers;
         the alphanumeric time zones are provided primarily for the parsing
@@ -807,15 +809,15 @@ added.
         -hhmmss, and alphanumeric strings.  The numeric representations
         are self explanatory; an alphanumeric string must be the
         one of:
-|		gmt	ut	utc	bst	wet	wat	at
-|		nft	nst	ndt	ast	adt	est	edt
-|		cst	cdt	mst	mdt	pst	pdt	yst
-|		ydt	hst	hdt	cat	ahst	nt	idlw
-|		cet	cest	met	mewt	mest	swt	sst
-|		eet	eest	bt	it	zp4	zp5	ist
-|		zp6	wast	wadt	jt	cct	jst	cast
-|		cadt	east	eadt	gst	nzt	nzst	nzdt
-|		idle
+|               gmt     ut      utc     bst     wet     wat     at
+|               nft     nst     ndt     ast     adt     est     edt
+|               cst     cdt     mst     mdt     pst     pdt     yst
+|               ydt     hst     hdt     cat     ahst    nt      idlw
+|               cet     cest    met     mewt    mest    swt     sst
+|               eet     eest    bt      it      zp4     zp5     ist
+|               zp6     wast    wadt    jt      cct     jst     cast
+|               cadt    east    eadt    gst     nzt     nzst    nzdt
+|               idle
     > > or a single letter other than J.  Generally speaking, numeric
         time zones should be preferred for communication among computers;
         the alphanumeric time zones are provided primarily for the parsing
@@ -885,15 +887,15 @@ added.
         -hhmmss, and alphanumeric strings.  The numeric representations
         are self explanatory; an alphanumeric string must be the
         one of:
-|		gmt	ut	utc	bst	wet	wat	at
-|		nft	nst	ndt	ast	adt	est	edt
-|		cst	cdt	mst	mdt	pst	pdt	yst
-|		ydt	hst	hdt	cat	ahst	nt	idlw
-|		cet	cest	met	mewt	mest	swt	sst
-|		eet	eest	bt	it	zp4	zp5	ist
-|		zp6	wast	wadt	jt	cct	jst	cast
-|		cadt	east	eadt	gst	nzt	nzst	nzdt
-|		idle
+|               gmt     ut      utc     bst     wet     wat     at
+|               nft     nst     ndt     ast     adt     est     edt
+|               cst     cdt     mst     mdt     pst     pdt     yst
+|               ydt     hst     hdt     cat     ahst    nt      idlw
+|               cet     cest    met     mewt    mest    swt     sst
+|               eet     eest    bt      it      zp4     zp5     ist
+|               zp6     wast    wadt    jt      cct     jst     cast
+|               cadt    east    eadt    gst     nzt     nzst    nzdt
+|               idle
     > > or a single letter other than J.  Generally speaking, numeric
         time zones should be preferred for communication among computers;
         the alphanumeric time zones are provided primarily for the parsing
@@ -1016,7 +1018,7 @@ added.
         In a locale where a calendar with multiple eras is in use,
         gives a list of triples.  The first element of each triple
         is the time (in seconds from the Posix epoch of 1 January 1970,
-	00:00 UTC) at which the era begins; the second is the name of the
+        00:00 UTC) at which the era begins; the second is the name of the
         era, and the third is a constant offset to be subtracted from
         the Gregorian year to give the year of the era.
 
@@ -1120,45 +1122,45 @@ added.
 |        ::msgcat::mcset ja TIME_FORMAT "%k:%M:%S"
 |        ::msgcat::mcset ja DATE_TIME_FORMAT "%Y/%m/%d %k:%M:%S %z"
 |        ::msgcat::mcset ja LOCALE_NUMERALS "\u3007 \u4e00 \u4e8c \u4e09 \u56db
-|    	    \u4e94 \u516d \u4e03 \u516b \u4e5d \u5341 \u5341\u4e00 \u5341\u4e8c
-|    	    \u5341\u4e09 \u5341\u56db \u5341\u4e94 \u5341\u516d \u5341\u4e03 
-|    	    \u5341\u516b \u5341\u4e5d \u4e8c\u5341 \u5eff\u4e00 \u5eff\u4e8c 
-|    	    \u5eff\u4e09 \u5eff\u56db \u5eff\u4e94 \u5eff\u516d \u5eff\u4e03 
-|    	    \u5eff\u516b \u5eff\u4e5d \u4e09\u5341 \u5345\u4e00 \u5345\u4e8c 
-|    	    \u5345\u4e09 \u5345\u56db \u5345\u4e94 \u5345\u516d \u5345\u4e03 
-|    	    \u5345\u516b \u5345\u4e5d \u56db\u5341 \u56db\u5341\u4e00 
-|    	    \u56db\u5341\u4e8c \u56db\u5341\u4e09 \u56db\u5341\u56db 
-|    	    \u56db\u5341\u4e94 \u56db\u5341\u516d \u56db\u5341\u4e03 
-|    	    \u56db\u5341\u516b \u56db\u5341\u4e5d \u4e94\u5341 
+|           \u4e94 \u516d \u4e03 \u516b \u4e5d \u5341 \u5341\u4e00 \u5341\u4e8c
+|           \u5341\u4e09 \u5341\u56db \u5341\u4e94 \u5341\u516d \u5341\u4e03 
+|           \u5341\u516b \u5341\u4e5d \u4e8c\u5341 \u5eff\u4e00 \u5eff\u4e8c 
+|           \u5eff\u4e09 \u5eff\u56db \u5eff\u4e94 \u5eff\u516d \u5eff\u4e03 
+|           \u5eff\u516b \u5eff\u4e5d \u4e09\u5341 \u5345\u4e00 \u5345\u4e8c 
+|           \u5345\u4e09 \u5345\u56db \u5345\u4e94 \u5345\u516d \u5345\u4e03 
+|           \u5345\u516b \u5345\u4e5d \u56db\u5341 \u56db\u5341\u4e00 
+|           \u56db\u5341\u4e8c \u56db\u5341\u4e09 \u56db\u5341\u56db 
+|           \u56db\u5341\u4e94 \u56db\u5341\u516d \u56db\u5341\u4e03 
+|           \u56db\u5341\u516b \u56db\u5341\u4e5d \u4e94\u5341 
 |           \u4e94\u5341\u4e00 
-|    	    \u4e94\u5341\u4e8c \u4e94\u5341\u4e09 \u4e94\u5341\u56db 
-|    	    \u4e94\u5341\u4e94 \u4e94\u5341\u516d \u4e94\u5341\u4e03 
-|    	    \u4e94\u5341\u516b \u4e94\u5341\u4e5d \u516d\u5341 
-|    	    \u516d\u5341\u4e00 \u516d\u5341\u4e8c \u516d\u5341\u4e09 
-|    	    \u516d\u5341\u56db \u516d\u5341\u4e94 \u516d\u5341\u516d 
-|    	    \u516d\u5341\u4e03 \u516d\u5341\u516b \u516d\u5341\u4e5d
+|           \u4e94\u5341\u4e8c \u4e94\u5341\u4e09 \u4e94\u5341\u56db 
+|           \u4e94\u5341\u4e94 \u4e94\u5341\u516d \u4e94\u5341\u4e03 
+|           \u4e94\u5341\u516b \u4e94\u5341\u4e5d \u516d\u5341 
+|           \u516d\u5341\u4e00 \u516d\u5341\u4e8c \u516d\u5341\u4e09 
+|           \u516d\u5341\u56db \u516d\u5341\u4e94 \u516d\u5341\u516d 
+|           \u516d\u5341\u4e03 \u516d\u5341\u516b \u516d\u5341\u4e5d
 |           \u4e03\u5341 
-|    	    \u4e03\u5341\u4e00 \u4e03\u5341\u4e8c \u4e03\u5341\u4e09 
-|    	    \u4e03\u5341\u56db \u4e03\u5341\u4e94 \u4e03\u5341\u516d 
-|    	    \u4e03\u5341\u4e03 \u4e03\u5341\u516b \u4e03\u5341\u4e5d
+|           \u4e03\u5341\u4e00 \u4e03\u5341\u4e8c \u4e03\u5341\u4e09 
+|           \u4e03\u5341\u56db \u4e03\u5341\u4e94 \u4e03\u5341\u516d 
+|           \u4e03\u5341\u4e03 \u4e03\u5341\u516b \u4e03\u5341\u4e5d
 |           \u516b\u5341 
-|      	    \u516b\u5341\u4e00 \u516b\u5341\u4e8c \u516b\u5341\u4e09 
-|    	    \u516b\u5341\u56db \u516b\u5341\u4e94 \u516b\u5341\u516d 
-|    	    \u516b\u5341\u4e03 \u516b\u5341\u516b \u516b\u5341\u4e5d 
+|           \u516b\u5341\u4e00 \u516b\u5341\u4e8c \u516b\u5341\u4e09 
+|           \u516b\u5341\u56db \u516b\u5341\u4e94 \u516b\u5341\u516d 
+|           \u516b\u5341\u4e03 \u516b\u5341\u516b \u516b\u5341\u4e5d 
 |           \u4e5d\u5341 
-|    	    \u4e5d\u5341\u4e00 \u4e5d\u5341\u4e8c \u4e5d\u5341\u4e09 
-|    	    \u4e5d\u5341\u56db \u4e5d\u5341\u4e94 \u4e5d\u5341\u516d 
-|    	    \u4e5d\u5341\u4e03 \u4e5d\u5341\u516b \u4e5d\u5341\u4e5d"
+|           \u4e5d\u5341\u4e00 \u4e5d\u5341\u4e8c \u4e5d\u5341\u4e09 
+|           \u4e5d\u5341\u56db \u4e5d\u5341\u4e94 \u4e5d\u5341\u516d 
+|           \u4e5d\u5341\u4e03 \u4e5d\u5341\u516b \u4e5d\u5341\u4e5d"
 |        ::msgcat::mcset ja LOCALE_DATE_FORMAT "%EY\u5e74%B%Od\u65e5"
 |        ::msgcat::mcset ja LOCALE_TIME_FORMAT "%OH\u6642%OM\u5206%OS\u79d2"
 |        ::msgcat::mcset ja LOCALE_DATE_TIME_FORMAT \
 |            "%A %EY\u5e74%B%Od\u65e5%OH\u6642%OM\u5206%OS\u79d2 %z"
 |        ::msgcat::mcset ja LOCALE_ERAS "
-|    	     {-9223372036854775808 \u897f\u66a6 0} 
-|    	     {-3060979200 \u660e\u6cbb 1867} 
-|    	     {-1812153600 \u5927\u6b63 1911} 
-|    	     {-1357603200 \u662d\u548c 1925} 
-|    	     {568512000 \u5e73\u6210 1987}"
+|            {-9223372036854775808 \u897f\u66a6 0} 
+|            {-3060979200 \u660e\u6cbb 1867} 
+|            {-1812153600 \u5927\u6b63 1911} 
+|            {-1357603200 \u662d\u548c 1925} 
+|            {568512000 \u5e73\u6210 1987}"
 |    }
 
 ~ Build system
