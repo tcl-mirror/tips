@@ -1,14 +1,15 @@
-TIP:		129
-Title:		New Format Codes for the [binary] Command
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	14-Mar-2003
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	IEEE, binary data
+TIP:            129
+Title:          New Format Codes for the [binary] Command
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Torsten Reincke <reincke@typoscriptics.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Mar-2003
+Post-History:   
+Keywords:       IEEE,binary data
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -34,7 +35,7 @@ Most current computer systems use either little-endian or big-endian
 byte order and the so-called IEEE representation for the exponent and
 mantissa.  So, the main variation to deal with is the endian-ness.
 
-Some popular file formats, like ESRI's ArcInfo shape files, use both
+Some popular file formats, like ESRI's ArcView shape files, use both
 types of byte order.  It is difficult (though not impossible) to
 handle these files with the current set of format codes.
 
