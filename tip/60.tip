@@ -1,13 +1,13 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        06-Sep-2001
-Post-History:	
-Tcl-Version:	8.4
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -47,8 +47,6 @@ backward compatibility macro, but I'm sure it would be easy.
 |.. something goes here (??) ..
 |#endif
 
-~ Rejected Alternatives
-
 MinGW has a small adjustment to support ''__cdecl'' as I found leafing
 through the winapi headers.  So, I replaced it with
 ''__attribute__((cdecl))'' in a #define.
@@ -60,9 +58,40 @@ tinytcl project ''%TODO: add link here%'' about his DOS port of Tcl
 Stepping backward for DOS support, may actually be a leap forward in
 an off-beat manner...
 
+~ Rejected Alternatives
+
+I saw something like this in a very old DDE extension that someone at Sun wrote.  It was used as an example windows extension for years.
+
+ftp://tcl.activestate.com/pub/tcl/misc/example.zip
+
+In example.h is this ugly bit:
+
+|#if defined(__WIN32__)
+|#   if defined(_MSC_VER)
+|#	define EXPORT(a,b) __declspec(dllexport) a b
+|#   else
+|#	if defined(__BORLANDC__)
+|#	    define EXPORT(a,b) a _export b
+|#	else
+|#	    define EXPORT(a,b) a b
+|#	endif
+|#   endif
+|#else
+|#   define EXPORT(a,b) a b
+|#endif
+
+|EXTERN EXPORT(int,Example_Init) _ANSI_ARGS_((Tcl_Interp *interp));
+
+That work is doing the same job, but I prefer the method that I'm proposing.
+
+* Is:
+|	EXTERN int Foobar_Init (Tcl_Interp *interp);
+* Want:
+|	EXTERN(int) Foobar_Init (Tcl_Interp *interp);
+
 ~ Reference Implementation
 
-https://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=10469&aid=436116
+http://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=10469&aid=436116
 
 ~ Examples
 
