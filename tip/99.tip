@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -22,9 +22,11 @@ Add a new subcommand with the following syntax:
 
 If ''target'' is not given, then returns the value of the
 link given by ''source'' (i.e. the name of the file it points to).  If
-''source'' isn't a symbolic link or its value cannot be read, then an
-error is returned.  If ''target'' is given then creates a link from
-''source'' to ''target''.  
+''source'' isn't a link or its value cannot be read, then an
+error is returned.  
+
+If ''target'' is given then creates a link from
+''source'' to ''target'', as follows:
 
 When the ''target'' argument is given, an optional third argument ''linktype'' is allowed.  When this third argument is not given, the type of link created is platform
 specific (i.e. the user is asking "please create any link that is possible in this filesystem"), but is by default a symbolic link where this is supported.  
