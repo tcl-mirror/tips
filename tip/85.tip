@@ -1,6 +1,6 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -83,6 +83,7 @@ package, the version will be incremented to 2.1.
 
 A patch to the current HEAD that implements this proposal is
 available as Tcl Patch 521362 at the Tcl project at SourceForge.
+http://sf.net/tracker/?func=detail&aid=521362&group_id=10894&atid=310894
 
 ~ Two Examples
 
