@@ -1,6 +1,6 @@
 TIP:            87
 Title:          Allow Tcl Access to the Recursion Limit
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Stephen Trier <sct@po.cwru.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -72,7 +72,7 @@ http://groups.google.com/groups?hl=en&threadm=3C6D0A88.5DC9D8B4%40utdt.edu
 
 http://groups.google.com/groups?hl=en&threadm=3C73E98A.8ED9DDE6%40cisco.com
 
-Some discussion also took place on the tcl-core mailing list.
+http://www.geocrawler.com/mail/thread.php3?subject=%5BTCLCORE%5D+TIP+%2387%3A+Allow+Tcl+Access+to+the+Recursion+Limit&list=7375
 
 Using a command or variable ''::tcl::recursionLimit'' to manipulate
 the limit was initially considered, but Miguel Sofer suggested making
@@ -85,11 +85,161 @@ comp.lang.tcl saw some discussion of whether it would be appropriate to have a w
 
 The initial version of this TIP did not provide for a diagnostic error message for the case where the nesting is already deeper than the new recursion level. Ken Fitch, Don Porter, Miguel Sofer, and Donal Fellows discussed whether this was a problem. This version of the TIP uses Donal Fellow's suggestion of changing the recursion limit as requested, but providing a meaningful error message if the nesting is then too deep.
 
-On the tcl-core mailing list, Donal Fellows suggested that slave interpreters should inherit their parent's recursion limit. As it turns out, this behavior was already present but undocumented. The patch for this TIP will document it.
+On the tcl-core mailing list, Donal Fellows suggested that slave interpreters should inherit their parent's recursion limit. As it turns out, this behavior was already present but undocumented. The patch for this TIP documents it.
 
 ~ Reference Implementation
 
-An implementation is in progress.
+The following is the core of the implementation.  The full
+implementation, with tests and documentation, is patch number
+nnn on SourceForge.
+
+|*** generic/tclInterp.c.virgin Fri Feb 22 22:04:54 2002
+|--- generic/tclInterp.c        Tue Feb 26 00:09:08 2002
+|***************
+|*** 351,364 ****
+|          "alias",     "aliases",      "create",       "delete", 
+|       "eval",         "exists",       "expose",       "hide", 
+|       "hidden",       "issafe",       "invokehidden", "marktrusted", 
+|!      "slaves",       "share",        "target",       "transfer",
+|          NULL
+|      };
+|      enum option {
+|       OPT_ALIAS,      OPT_ALIASES,    OPT_CREATE,     OPT_DELETE,
+|       OPT_EVAL,       OPT_EXISTS,     OPT_EXPOSE,     OPT_HIDE,
+|       OPT_HIDDEN,     OPT_ISSAFE,     OPT_INVOKEHID,  OPT_MARKTRUSTED,
+|!      OPT_SLAVES,     OPT_SHARE,      OPT_TARGET,     OPT_TRANSFER
+|      };
+|  
+|  
+|--- 351,366 ----
+|          "alias",     "aliases",      "create",       "delete", 
+|       "eval",         "exists",       "expose",       "hide", 
+|       "hidden",       "issafe",       "invokehidden", "marktrusted", 
+|!      "recursionlimit",               "slaves",       "share",
+|!      "target",       "transfer",
+|          NULL
+|      };
+|      enum option {
+|       OPT_ALIAS,      OPT_ALIASES,    OPT_CREATE,     OPT_DELETE,
+|       OPT_EVAL,       OPT_EXISTS,     OPT_EXPOSE,     OPT_HIDE,
+|       OPT_HIDDEN,     OPT_ISSAFE,     OPT_INVOKEHID,  OPT_MARKTRUSTED,
+|!      OPT_RECLIMIT,                   OPT_SLAVES,     OPT_SHARE,
+|!      OPT_TARGET,     OPT_TRANSFER
+|      };
+|  
+|  
+|***************
+|*** 630,635 ****
+|--- 632,673 ----
+|           }
+|           return SlaveMarkTrusted(interp, slaveInterp);
+|       }
+|+      case OPT_RECLIMIT: {
+|+          Tcl_Interp *slaveInterp;
+|+          int limit;
+|+ 
+|+          if (objc != 3 && objc != 4) {
+|+              Tcl_WrongNumArgs(interp, 2, objv, "path ?newlimit?");
+|+              return TCL_ERROR;
+|+          }
+|+          slaveInterp = GetInterp(interp, objv[2]);
+|+          if (slaveInterp == NULL) {
+|+              return TCL_ERROR;
+|+          }
+|+          if (objc == 4) {
+|+              if (Tcl_GetIntFromObj(interp, objv[3],
+|+                      &limit) == TCL_ERROR) {
+|+                  return TCL_ERROR;
+|+              }
+|+              if (limit <= 0) {
+|+                     Tcl_SetObjResult(interp,
+|+                         Tcl_NewStringObj("recursion limit must be > 0", -1));
+|+                  return TCL_ERROR;
+|+              }
+|+              Tcl_SetRecursionLimit(slaveInterp, limit);
+|+              if (((Interp *)slaveInterp)->numLevels > limit) {
+|+                  Tcl_SetObjResult(interp, Tcl_NewStringObj(
+|+                      "falling back due to new recursion limit", -1));
+|+                  return TCL_ERROR;
+|+              }
+|+              Tcl_SetObjResult(interp, objv[3]);
+|+              return TCL_OK;
+|+          } else {
+|+              limit = Tcl_SetRecursionLimit(slaveInterp, 0);
+|+              Tcl_SetObjResult(interp, Tcl_NewIntObj(limit));
+|+              return TCL_OK;
+|+          }
+|+      }
+|       case OPT_SLAVES: {
+|           Tcl_Interp *slaveInterp;
+|           InterpInfo *iiPtr;
+|***************
+|*** 1832,1843 ****
+|      static CONST char *options[] = {
+|          "alias",     "aliases",      "eval",         "expose",
+|          "hide",              "hidden",       "issafe",       "invokehidden",
+|!         "marktrusted",       NULL
+|      };
+|      enum options {
+|       OPT_ALIAS,      OPT_ALIASES,    OPT_EVAL,       OPT_EXPOSE,
+|       OPT_HIDE,       OPT_HIDDEN,     OPT_ISSAFE,     OPT_INVOKEHIDDEN,
+|!      OPT_MARKTRUSTED
+|      };
+|      
+|      slaveInterp = (Tcl_Interp *) clientData;
+|--- 1870,1881 ----
+|      static CONST char *options[] = {
+|          "alias",     "aliases",      "eval",         "expose",
+|          "hide",              "hidden",       "issafe",       "invokehidden",
+|!         "marktrusted",       "recursionlimit", NULL
+|      };
+|      enum options {
+|       OPT_ALIAS,      OPT_ALIASES,    OPT_EVAL,       OPT_EXPOSE,
+|       OPT_HIDE,       OPT_HIDDEN,     OPT_ISSAFE,     OPT_INVOKEHIDDEN,
+|!      OPT_MARKTRUSTED, OPT_RECLIMIT
+|      };
+|      
+|      slaveInterp = (Tcl_Interp *) clientData;
+|***************
+|*** 1954,1959 ****
+|--- 1992,2028 ----
+|               return TCL_ERROR;
+|           }
+|              return SlaveMarkTrusted(interp, slaveInterp);
+|+      }
+|+      case OPT_RECLIMIT: {
+|+          int limit;
+|+ 
+|+          if (objc != 2 && objc != 3) {
+|+              Tcl_WrongNumArgs(interp, 2, objv, "?newlimit?");
+|+              return TCL_ERROR;
+|+          }
+|+          if (objc == 3) {
+|+              if (Tcl_GetIntFromObj(interp, objv[2],
+|+                      &limit) == TCL_ERROR) {
+|+                  return TCL_ERROR;
+|+              }
+|+              if (limit <= 0) {
+|+                     Tcl_SetObjResult(interp,
+|+                         Tcl_NewStringObj("recursion limit must be > 0", -1));
+|+                  return TCL_ERROR;
+|+              }
+|+              Tcl_SetRecursionLimit(slaveInterp, limit);
+|+              if (((Interp *)slaveInterp)->numLevels > limit) {
+|+                  Tcl_SetObjResult(interp, Tcl_NewStringObj(
+|+                      "falling back due to new recursion limit", -1));
+|+                  return TCL_ERROR;
+|+              }
+|+              Tcl_SetObjResult(interp, objv[2]);
+|+              return TCL_OK;
+|+          } else {
+|+              limit = Tcl_SetRecursionLimit(slaveInterp, 0);
+|+              Tcl_SetObjResult(interp, Tcl_NewIntObj(limit));
+|+              return TCL_OK;
+|+          }
+|       }
+|      }
+|  
 
 ~ Copyright
 
