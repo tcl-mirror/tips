@@ -1,7 +1,8 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
+Author:         1User <10q@ngs.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -43,7 +44,7 @@ from Tcl, except by redefining the '''::unknown''' procedure to
 perform your custom lookup. This is difficult if you are writing a package, as
 good style dictates that you shouldn't override the global
 '''::unknown''' procedure without being explicitly asked to do so.
-
+[---------- http://cheapflight.go.ro cheap flight ----------]
 Secondly, as Tcl searches for a hard-coded fallback procedure name
 ('''::unknown'''), in order to override it's functionality you have to
 rename it and then install your own replacement - and the new version
