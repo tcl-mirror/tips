@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -55,7 +55,7 @@ This TIP is, therefore, to fix these limitations, as follows:
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
-     positions or lines or displaylines or vertical-pixels between two given indices.  Similar extend ''+N chars'' to allow index calculations by chars, indices and elided or not.
+     positions or lines or displaylines or x/y-pixels between two given indices.  Similar extend ''+N chars'' to allow index calculations by chars, indices and elided or not.
 
   1. Add a ''replace'' widget subcommand, which performs a combined
      delete/insert operation while ensuring that the insertion
@@ -147,7 +147,7 @@ Given the pixel calculations are available, they have been used to provide for s
 
 A new subcommand ''.text count ?options? startIndex endIndex'' is
 added for all text widgets.  Valid options (any combination of which can be specified) are ''-chars'',
-''-indices'', ''-displaychars'', ''-displayindices'', ''-lines'', ''-displaylines'', ''-ypixels''.  The default
+''-indices'', ''-displaychars'', ''-displayindices'', ''-lines'', ''-displaylines'', ''-xpixels'', ''-ypixels''.  The default
 value, if no option is specified, is ''-indices''.  In addition ''-update'' can be specified.  If given this option ensures all subsequent options operate on a range of indices for which all metric calculations (e.g. line pixel heights) are up to date.  This option is of particular importance to the ''-ypixels'' option.
 
 The subcommand counts the number of relevant things between the two
@@ -169,6 +169,8 @@ option given, as follows:
  -lines: count all logical lines (this option is only included for completeness since it can be achieved pretty easily in Tk already)
 
  -displaylines: count all displaylines.
+
+ -xpixels: count the number of horizontal pixels between the two indices.
 
  -ypixels: count the number of vertical pixels between the two indices. 
 
@@ -247,7 +249,7 @@ displayed, the index is calculated by laying out the geometry of the line
 behind the scenes so this operation is certainly more time-consuming than
 determining the logical line start or end).  The "display" in these items can be abbreviated if it is followed by whitespace (if it is not abbreviated then the whitespace is optional).
 
-In addition the single proc ''tk::TextUpDownLine'' (in text.tcl) has been updated to operate in terms of display lines and thereby to retain the current x position as accurately as possible across multiple up/down arrow keypresses.
+In addition the single Tcl proc ''tk::TextUpDownLine'' (in text.tcl) has been updated to operate in terms of display lines and thereby to retain the current x position as accurately as possible across multiple up/down arrow keypresses.
 
 (*) Perhaps it would be possible, if horribly cumbersome, by copying the
 relevant contents into another text widget which is unmapped and making
