@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -32,7 +32,7 @@ The text widget has a number of limitations:
      visible (non-elided) characters between these two index
      positions, nor the number of valid index positions between them
      (remember that embedded windows or images always take up one unit
-     of index position, but don't correspond to any characters).  A similar difficulty exists in counting the number of display lines between two index positions.
+     of index position, but don't correspond to any characters).  A similar difficulty exists in counting the number of display lines between two index positions, and in counting the number of pixels between two index positions (or in the entire widget).
 
   1. Performing a correct text "replace" operation (as used by a text
      editor, for example) is difficult, because combinations of
@@ -58,7 +58,7 @@ This TIP is, therefore, to fix these limitations, as follows:
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
-     positions or lines or displaylines between two given indices.
+     positions or lines or displaylines or vertical-pixels between two given indices.
 
   1. Add a ''replace'' widget subcommand, which performs a combined
      delete/insert operation while ensuring that the insertion
@@ -149,9 +149,9 @@ Given the pixel calculations are available, they have been used to provide for s
 ~ Count Subcommand
 
 A new subcommand ''.text count ?options? startIndex endIndex'' is
-added for all text widgets.  Valid options are ''-chars'',
-''-indices'', ''-visiblechars'' and ''-visibleindices''.  The default
-value, if no option is specified, is ''-indices''.
+added for all text widgets.  Valid options (any combination of which can be specified) are ''-chars'',
+''-indices'', ''-visiblechars'', ''-visibleindices'', ''-lines'', ''-displaylines'', ''-ypixels''.  The default
+value, if no option is specified, is ''-indices''.  In addition ''-update'' can be specified.  If given this option ensures all subsequent options operate on a range of indices for which all metric calculations (e.g. line pixel heights) are up to date.  This option is of particular importance to the ''-ypixels'' option.
 
 The subcommand counts the number of relevant things between the two
 indices.  If startIndex is after endIndex, the result will be a
@@ -172,6 +172,10 @@ option given, as follows:
  -lines: count all logical lines (this option is only included for completeness since it can be achieved pretty easily in Tk already)
 
  -displaylines: count all displaylines.
+
+ -ypixels: count the number of vertical pixels between the two indices. ''.text count -update -ypixels 1.0 end'' will return the number of pixels in the entire widget.
+
+If more than one of these counting options is given, the result is a list with one entry for each such option given (''-update'' does not contribute to this result, of course).
 
 In particular, this means that:
 
@@ -350,8 +354,6 @@ these are listed here for completeness:
   * The attachment of user-defined data to each logical line in the
     widget (e.g. a code parser's current internal state), which might
     make true parsing for syntax colouring significantly easier.
-
-  * Pixel calculations.  None of the pixel-calculation machinery is exposed in the text widget's public API (C or Tcl).  It might be useful to be able to ask 'How many pixels are in this text widget?', or 'What text index is 37597 pixels from the top?', etc.  Of course given the machinery available actually caches positions and is not guaranteed to be up to date, it is questionable what value would be gained from exposing these.
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
