@@ -1,8 +1,9 @@
 TIP:            125
 Title:          Adding [wm toplevel] Subcommand
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Sacha Schär <sacha.schaer@unibas.ch>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -70,6 +71,18 @@ I suppose another alternative is to follow the precedent of the geometry manager
  * wm $w ?-transient <parent>? ?-overrideredirect <boolean>? ...
 
  * wm forget $w
+
+----
+
+~ Comments
+
+From Sacha Schär <sacha.schaer@unibas.ch>:
+
+The way the TIP and its alternatives are proposed, a frame can be made into a toplevel and vice versa. However, it is not possible, to move a frame from one toplevel to another. This is of importance even for the most common motivation for this TIP, the possibility to implement a tear-off behaviour. If a frame is going to be teared out of a toplevel window, it might be desirable that it becomes part of another toplevel window, together with some extra decoration.
+
+I see, that with this more general behaviour, the path name becomes a problem. Therefore I propose the alternative approach, of making the -container and -use options dynamically configurable as already discussed in the past
+
+----
 
 ~ Copyright
 
