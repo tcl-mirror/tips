@@ -1,6 +1,6 @@
 TIP:            117
 Title:          Object Type Introspection
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -81,7 +81,7 @@ Examples:
 |        Tcl_ListObjAppendElement(interp, listPtr, Tcl_NewStringObj(
 |                (objv[2]->typePtr != NULL) ? objv[2]->typePtr->name : "none", -1));
 |        Tcl_ListObjAppendElement(interp, listPtr,
-|                Tcl_NewBooleanObj(objv[2]->bytes != NULL);
+|                Tcl_NewBooleanObj(objv[2]->bytes != NULL));
 |    }
 |    Tcl_SetObjResult(interp, listPtr);
 |    return TCL_OK;
