@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -137,10 +137,6 @@ branch, or they may be rejected.
      a 'tinytcl' on the HEAD rather than starting with an older
      version.  (maintained by davygrvy@pobox.com)
 
-   * ''dkf-64bit-support-branch'' (Tcl) - Work on supporting 64-bit
-     numbers, particularly on 32-bit platforms (including large file
-     support.)  See [72] for overview.
-
    * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
      Kupries and the platform maintainers on implementing [59].
 
@@ -152,6 +148,10 @@ The following branch tags label branches that are no longer being
 developed.  Some are old official branches from which releases are no
 longer being spawned.  Others are feature development branches that
 have been merged into an official branch, or rejected.
+
+   * ''dkf-64bit-support-branch'' (Tcl) - Work on supporting 64-bit
+     numbers, particularly on 32-bit platforms (including large file
+     support.)  See [72] for overview.  Results merged into HEAD.
 
    * ''kennykb-tip-22-33'' (Tcl) - Work on implementing the changes
      described in [22] and [33].  Abandoned.
