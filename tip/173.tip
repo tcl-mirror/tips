@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -156,7 +156,8 @@ If a ''-format'' option is not supplied, the scan is a ''free format''
 scan.  The existing YACC parser for ''clock scan'' will be used to
 interpret the input string.  ''This form of the command is explicitly
 deprecated'' because of the inherent ambiguities in interpreting the
-input string.  If the ''-format'' option is supplied, the ''-locale''
+input string.  If the ''-format'' option is not
+supplied, the ''-locale''
 and ''-timezone'' options will be forbidden, since the legacy code
 does not support multiple locales or time zones.
 
