@@ -1,12 +1,13 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -142,6 +143,8 @@ branch, or they may be rejected.
 
    * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
      Kupries and the platform maintainers on implementing [59].
+
+   * ''mod-8-3-4-branch'' (Tcl) - Contains the modularization work done by ActiveState for Cisco. Not for public modification.
 
 ~ Dead Branches
 
