@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -42,11 +42,11 @@ greatly matter.
 
 How about converting this proposal into
 a proposal listing the values found in
-''tclConfig.sh'' and propsing that Tcl
+''tclConfig.sh'' and proposing that Tcl
 should pass those values into
 '''Tcl_RegisterConfig''' during initialization?
 That would make all the values available
-to scripts via the ''::tcl::pkgconfig'' command.
+to scripts via the '''::tcl::pkgconfig''' command.
 
 ~ Copyright
 
