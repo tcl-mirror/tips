@@ -1,6 +1,6 @@
 TIP:            218
 Title:          Tcl Channel Driver Thread State Actions
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Larry W. Virden <lvirden@yahoo.com>
@@ -178,7 +178,7 @@ A reference implementation is provided at SourceForge
 ~ Comments
 
 David Gravereaux has recently tested this with his IOCPSOCK extension (11/26) and found no problems.  If it hastens the acceptance of the TIP, 
-David does not need the one export in the patch (''Tcl_DriverThreadActionProc'') to be exported for his extension to work.  Other that does channel chaining, will most likely need it.
+David does not need the one export in the patch (''Tcl_DriverThreadActionProc'') to be exported for his extension to work.  Others that do channel chaining (windows expect, for example), will most likely need it.
 
 ~ Copyright
 
