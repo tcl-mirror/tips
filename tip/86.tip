@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -12,46 +12,95 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes saving the file path and line number information for
-each user defined [[proc]] definition contained within a [[source]]d
-file, and providing a new subcommand, '''line''', to [[info]] 
-that can return this new information.
+This TIP proposes the addition to Tcl of source code file-name and line-numbering information, making it available at script execution time.
 
 ~ Rationale
 
-With this change, upon error within a procedure, the file path and
+A new [trace execution] option enables Tcl to track line number
+and source file information associated with statements being executed
+and call a single callback.
+A new [info line] option provides access to line number information.
+As a result, it becomes a simple matter to implement a debugger for
+Tcl, in Tcl.  Furthermore, the implementation also serves as an example of
+for the C interface, enabling similar capabilities at the lower level.
+
+A simple Tcl debugger, ''tgdb'', written in Tcl, and emulating ''gdb'',
+is included with this Tip to demonstrate the
+use of this interface.  ''tgdb'' supports breakpoints on lines/procs/vars/etc,
+single-stepping, up/down stack and evals.  It is designed to work as a
+slave under GUI's written in Tk (see ''Reference Implementation'').
+
+Finally, upon error within a procedure, the file path and
 absolute (as opposed to relative) line number are printed out when
 available, even in the case where called from an after or callback
 invocation.  Aside from aiding the user in more easily locating and
 dealing with errors, the message is machine parseable  For example:
 automatically bring the user into an editor at the offending line.
 
-Second, a simple/small debugger emulating ''gdb'' is being developed
-that can use this interface.  (This debugger is not part of this TIP
-but has been used to validate the interface)
-It allows breakpoints on lines,
-single-stepping and displaying/locating source and even works as a
-slave under a GUI written in Tk.  Ultimately, at some point this
-debugger might be included in the core distribution via
-a future TIP.
-
 ~ Specification
 
-The new '''line''' subcommand to '''info''' gives access to the file
-path and line number information for a given ''PROC''.  It takes
+A new '''execution''' subcommand to the '''trace''' command.
+
+* trace execution TARGET ?LEVEL?
+
+This arranges for an execution trace to be setup for commands at nesting
+''LEVEL'' or above, thereby providing a simple Tcl interface for tracing
+commands to say, implement a  debugger.  With no arguments,  the current
+target is returned.  If target is the empty string, the execution trace
+is removed.  Unless the ''TARGET''argument is a valid output channel
+such as ''stdout'', it is assumed to be a command string to be
+executed.  When level is
+not specified, it defaults to 0, meaning trace all  commands.  For  each
+traced command, the following data will be produced:
+
+ * linenumber
+ >  The  line number the instruction begins on.
+
+ * filename
+ > The fully normalized file name.
+
+ * nestlevel
+ > The nesting level of the command.
+
+ * stacklevel
+ > The stack call level as per [info level].
+
+ * curnsproc
+ > The current fully qualified namespace/function.
+
+ * cmdname
+ > The fully qualified command name of the command to be invoked.
+
+ * command
+ > The command line to be executed including arguments.
+
+If target is a valid Tcl channel opened for output, the trace data is
+output to it with an appended newline. Otherwise target is presumed
+to be a valid Tcl command onto which is appended the above arguments
+before evaluation. For channels, any error on output causes the trace to
+be removed and a tcl error to be generated. For commands, any return
+from the command other than a normal return results in the command not
+being executed.
+
+Second, a new '''line''' subcommand to '''info''' gives access to the file
+path and line number information.  It takes
 subcommands of its own in turn:
+
+ * '''info line current'''
+
+ > Returns a list with two items: the line number and file name of
+   the current statement.
 
  * '''info line number''' ''PROC'' ?''LINE''?
 
  > Get/set the line number for the start of ''PROC''.  In get mode,
    returns the definition line number in the message body.
 
- * '''info line newlines''' ''PROC'' ?''NEWLINES''?
+ * '''info line level''' ''NUMBER''
 
- > Get/set the count of newlines in the body of ''PROC''.  In set
-   mode, changes the count of the number of newlines in the message
-   body.  This provides a fairly speedy way of determining if a given
-   line number is included in a specific proc.
+ > Like the info level command, but returns the line number and
+  file name from which the call at level number originates.
+  For use with ''trace execution''.
 
  * '''info line file''' ?''PROC'' ?''FILE''??
 
@@ -87,27 +136,48 @@ These exhibit the following behavior:
  > If the definition is not the result of a source, the file/line come
    back as an empty string.
 
+Third, a new ''info'' subcommand ''return''.
+
+ * '''info return'''
+
+ > When in ''trace execution'' mode, returns the saved last result of
+  the previously executed command. Otherwise returns an empty string.
+  Commands executed as part of a trace handler do not affect or change
+  the saved last result. 
+
+Forth, an additional flag option ''debug'' to ''trace add variable''
+
+  * '''trace add variable {write debug}'''
+
+  > Used in conjuction with ''read'', ''write'', and ''unset'',
+   this option allows a debugger to set read/write traces that do
+   not trigger the execution trace.
+
 ~ Changes
 
-Sourced file paths are stored per interp in a hash table.  Line
-numbering information is saved in the ''Proc'' structure.  Several
-line number variables are added to Interp to track newlines.
+Sourced file paths are stored per interp in a hash table.  File/line
+numbering information is also stored in the ''Interp'', ''Proc'', ''After'',
+and ''CallFrame'' structures.  Newline counting/shifting code was
+added to ''proc'', ''while'', ''for'', ''foreach'', and ''if''.
+All but the non-trivial code is active
+only when the new TRACE_LINE_NUMBERS interp flag is active,
+which is the case when using ''trace execution''.
 
-The bulk of the changes occur in ''generic/tclParse.c'' where the
-number of line feeds seen is tracked.
+Most new variables within Interp are in the struct subfield sourceInfo
+of type ''Tcl_SourceInfo'', which can be retrieved via the new
+''Tcl_GetSourceInfo(interp)'' stubbed/public call.
 
 ~ Overhead/Impact
 
-The runtime footprint of Tcl should be modest: a few 10's of
-kilobytes, even for moderately large programs.  Most of the space
-impact occurs in storing the file paths, but these are stored only
-once each for each file sourced, not per interp.  A typical example
-from a large system:
+The runtime impact to Tcl should be modest: a few 10's of
+kilobytes of memory, even for moderately large programs.  Most of the space
+impact occurs in storing the file paths.
+A typical example from a large system:
 
 |  100 sourced files * 100 bytes = 10K.
 
-The other space overhead adds up to 2 words (8 bytes on a 32-bit
-platform) per defined procedure, plus an additional several words in
+The other space overhead adds up to several words (8 bytes on a 32-bit
+platform) per defined procedure, plus an additional words in
 the ''Interp'' structure.
 
 Runtime processing overhead should be negligible.
@@ -117,37 +187,46 @@ assertions.
 
 ~ Reference Implementation
 
-http://browsex.com/tclline.diff.gz
+http://pdqi.com/download/tclline-cvs.diff.gz - Patch against CVS head.
+http://pdqi.com/download/tclline-8.4.6.diff.gz - Patch against Tcl 8.4.6
 
-This is a patch against tcl8.4a4.  It has been tested lightly against
-small and large Tcl programs.
+The patch against the CVS head is as of June 13/2004 and should
+be considered the definitive patch.  The 8.4.6 patch is provided
+for convienience and may or may not be updated.
+These have been lightly tested against numerous small Tcl programs.
 
 There is also an initial version of a debugger: ''tgdb''.
 
-http://browsex.com/tgdb.tgz
+http://pdqi.com/download/tgdb-2.0.tgz
 
-''tgdb'' emulates some of the basic commands of ''gdb'' (''s'', ''n'',
-''c'', ''f'', ''bt'', ''break'' and ''info locals'').  This newest
+''tgdb'' emulates the basic commands of ''gdb'' (''s'', ''n'',
+''c'', ''f'', ''bt'', ''break'', ''info locals'', etc).  This newest
 version also supports watchpoints and display variables.
-
-The ''tgdb'' strategy is to determine the line number by searching 
-from the reported line number forward for  the currently executing 
-command.  Although not foolproof, in practice this is almost
-always accurate.
-
- * When in a function, search in the procedure body
-
- * When at global level, search in the file source starting from
-   reported line.
-
-Also bundled is ''tdb'', a GUI front-end to ''gdb'', modified to also
-work with ''tgdb''.  You can test it with:
-
-|  make 
-|  ./tdb test.tcl 
-
-Once ''load'' and ''run'' commands are added, ''tgdb'' should probably
+With ''load'' and ''run'' commands added, ''tgdb'' should probably
 work even with ''emacs'' and ''ddd''.
+
+An additional package ''pdqi'' provides ''tdb'', a GUI front-end to
+''gdb'', modified to also work with ''tgdb''.
+
+~ Possible Future Enhancements
+Build and store a line number table internally during parse?
+
+Line number lookup via the source string.
+A simple way to implement this might be to lookup string against the
+codePtr->source+bestSrcOffset as returned by GetSrcInfoForPc().
+
+Add special handling for eval.  Cases like ''eval $str'' should eventually
+be changed to report a line number of 0 (or more likely the line number
+of the original statement) for all statements with any argument involving
+a sub-eval. 
+
+Possibly implement character offsets within a line.
+
+~ Notes
+
+A test has been added to the tests/trace.test.
+A utility ''trcline.tcl'' is provided that the test uses to
+provide some measure of the accuracy of the line number tracing.
 
 ~ Comments and Feedback
 
@@ -196,6 +275,11 @@ Andreas Kupries suggests defining a line number ''Tcl_Token'' type.
    * Add support for '''proc''' in subeval by addition to
      ''ResolvedCmdName''
 
+   * This is now fixed.
+
 ~ Copyright
 
 This document has been placed in the public domain.
+
+''tgdb' and ''pdqi'' have a BSD copyright by Peter MacDonald and
+ PDQ Interfaces Inc.
