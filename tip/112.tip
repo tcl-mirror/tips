@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.17 $
+Version:        $Revision: 2.18 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -161,6 +161,13 @@ implementing command and any specified arguments, with the resulting
 word list being fed to ''Tcl_EvalObjv()'' for execution.  Note that
 this does not increase the stack depth in terms of [[uplevel]], and
 that the implementing command may itself be an ensemble command.
+
+Note that if the namespace for an ensemble is deleted, the ensemble will
+also be deleted though there is no lifetime constraint in the other
+direction (i.e. using [[rename $theEnsemble {}]] will not cause the
+namespace to vanish.)  Obviously, any ensemble which has the global
+namespace backing it up will have the same natural lifespan as the
+hosting Tcl interpreter.
 
 ~ Examples
 
