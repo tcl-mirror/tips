@@ -1,9 +1,9 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Jul-2001
