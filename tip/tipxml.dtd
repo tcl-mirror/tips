@@ -2,7 +2,7 @@
 
 <!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
 
-<!-- $Id: tipxml.dtd,v 1.5 2001-10-31 13:28:14 dkf Exp $ -->
+<!-- $Id: tipxml.dtd,v 1.6 2003-08-29 09:55:22 dkf Exp $ -->
 
 <!-- This document is placed in the Public Domain. -->
 
@@ -21,8 +21,8 @@
 <!ENTITY % header.opt "discussions*, keyword*, obsoletes*, obsoleted*">
 
 <!-- Kinds of 'paragraphs': only inner can go inside lists.		-->
-<!ENTITY % in.par     "enumerate | para | pre   | itemize | describe" >
-<!ENTITY % out.par    "%in.par;  | rule | quote | index   | image" >
+<!ENTITY % in.par    "enumerate | para | pre | verbatim | itemize | describe" >
+<!ENTITY % out.par   "%in.par; | rule | quote | index | image" >
 
 <!-- Mixed content for conventional paragraphs.				-->
 <!ENTITY % emphtext   "#PCDATA | url | tipref">
@@ -91,6 +91,9 @@
 <!ELEMENT quote (%text;)*>
 <!ELEMENT pre   (#PCDATA)>
 <!ATTLIST pre   xml:space (default|preserve) 'preserve'>
+<!ELEMENT verbatim (vline)+>
+<!ELEMENT vline (#PCDATA)>
+<!ATTLIST vline encoding CDATA #REQUIRED>
 <!ELEMENT rule  EMPTY>
 <!ELEMENT index ANY>		<!-- Actually a processing instruction. -->
 <!ATTLIST index kind (short|medium|long) 'medium'>
