@@ -1,0 +1,133 @@
+TIP:		64
+Title:		Improvements to Windows Font Handling
+Version:	$Revision: 1.1 $
+Author:		Chris Nelson <chris@pinebush.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	27-Sep-2001
+Post-History:	
+
+~ Abstract
+
+This TIP improves handling of native fonts in Tk under Microsoft
+Windows making Tk applications more aesthetic and more consistent with
+users' expectations of Windows applications.
+
+~ Background
+
+Tk 8.4 includes platform-specific system font names which relate to
+configurable aspects of the native system.
+
+  * On UNIX, this includes all X font names (e.g. as listed by
+    ''xlsfonts'').
+
+  * On Macintosh, this includes ''system'' and ''application''.
+
+  * On Microsoft Windows, this includes ''system'', ''systemfixed'',
+    ''ansi'', ''ansifixed'', ''device'', and ''oemfixed''.
+
+Through v8.4a2, Tk used 8pt MS Sans Serif as the default font for
+widgets.  While this was almost OK, it fails in two respects:
+
+   * Users can change the font used for various Windows desktop
+     features so MS Sans Serif may not be the correct font for, for
+     example, menus.
+
+   * Windows 2000 and Windows XP use Tahoma, not MS Sans Serif as
+     their default font.
+
+SourceForge patch #461442 (Make Tk use the default Windows font) -
+https://sourceforge.net/tracker/index.php?func=detail&aid=461442&group_id=12997&atid=312997
+- attempts to address Tk's deficiency by adding a ''windefault'' font
+based on the Message font configured for the Windows desktop.  This
+appears to be wrong.
+
+This TIP attempts to fix the default Tk font the right way as well as
+giving Tk programmers access to the rest of the fonts configure for
+the Windows desktop.
+
+~ The Default GUI Font
+
+The Win API call ''GetStockObject()'' accesses brushes, pens, and
+fonts which are pre-configured on the system.  The available fonts
+are:
+
+    1. ANSI_FIXED_FONT
+
+    2. ANSI_VAR_FONT
+    
+    3. DEVICE_DEFAULT_FONT
+    
+    4. DEFAULT_GUI_FONT
+    
+    5. OEM_FIXED_FONT
+    
+    6. SYSTEM_FIXED_FONT
+
+    7. SYSTEM_FONT
+
+The ''TkStateMap systemMap'' in ''tkWinFont.c'' listed all but one of
+these, DEFAULT_GUI_FONT.  As it turns out, this is the most important
+as it is the one that Windows uses as it's default font (for example,
+in Control Panel Applets).
+
+I propose to add DEFAULT_GUI_FONT to the ''systemMap'' with a font
+name of ''defaultgui'' and to change CTL_FONT in ''tkWinDefault.h''
+from ''{MS Sans Serif} 8'' to ''defaultgui''.  This will require a
+change in documentation to list the new system font name but is
+otherwise simple and painless.  Furthermore, it makes Tk GUIs look
+right on W2k.
+
+A reference implementation for this is available in patch 461442
+(referenced above).
+
+~ Access to Desktop Fonts
+
+The original implementation of ''windefault'' as a new font, accessed
+the message font from the NONCLIENTMETRICS structure.  While this is
+not, in fact, the correct default GUI font, it is an important system
+font, as are the others on the NONCLIENTMETRICS structure.  The
+structure lists:
+
+   *  Caption (title bar) font
+
+   *  Small Caption (palette title bar) font
+
+   *  Menu font
+
+   *  Tooltip (and status bar) font
+
+   *  Message box font 
+
+The Windows Desktop Properties also include a font for icon labels on
+the desktop.  This font is accesses with ''SystemParametersInfo()''.
+
+I propose to add 6 desktop fonts as system fonts on Windows.  The
+names would be derived from their Desktop Properties entries:
+''dtIcon'', ''dtTitleBar'', ''dtMenu'', ''dtMessageBox'',
+''dtPaletteTitle'', ''dtToolTip''.  The "dt" prefix associates the
+fonts with the desktop properties.  (Can or should font names have
+internal capital letters?)
+
+We might also add synonyms which relate to the structure field names
+and/or customary use of the font.  I'd propose adding ''dtCaption'' as
+equivalent to ''dtTitleBar'', ''dtSmallCaption'' as equivalent to
+''dtPaletteTitle'', and ''dtStatus'' as equivalent to ''dtToolTip''.
+
+A reference implementation for this is available in Patch #461442
+(referenced above) albeit with different font names.
+
+~ Dynamic fonts
+
+Many Windows applications respond on-the-fly to changes in the desktop
+fonts.  Tk responds to changes in Tk fonts via [[font configure]].  I
+propose that Tk respond to the WM_SETTINGCHANGE message from Windows
+to propagate changes to the desktop fonts enumerated above as it
+propagates changes to Tk fonts when they are reconfigured.  I have yet
+to prototype these changes.
+
+~ Copyright
+
+This document has been placed in the public domain.
