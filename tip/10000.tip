@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.62 $
+Version:        $Revision: 1.63 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -35,6 +35,7 @@ proposed in [13].
 Gotta try the log message...
 ...and the cookies...
 Hmmm... no cookies!
+Donal says it's better now...
 
 ~ Submission Test
 
@@ -95,6 +96,10 @@ This document has been placed in the public domain.
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.62  2001/04/17 17:17:01  tclhttpd
+| Revision through web from Don Porter <dgp@users.sourceforge.net> (27185)
+| Failed.
+|
 | Revision 1.61  2001/04/17 17:16:01  tclhttpd
 | Revision through web from Don Porter <dgp@users.sourceforge.net> (27159)
 | cookie test
