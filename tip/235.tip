@@ -1,0 +1,64 @@
+TIP:		235
+Title:		Exposing a C API for Ensembles
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	10-Dec-2004
+
+~ Abstract
+
+This TIP exposes a C API for the ensembles of [112].
+
+~ Rationale
+
+As the Tcl core moves to make more use of ensembles, it becomes more
+necessary for there to be an API available to allow control over those
+ensembles from the C level so that it is not necessary for such
+manipulation to be done through the evaluation of Tcl scripts
+(e.g. because this interferes with the interpreter's command count and
+that may be limited in that particular interpreter). Given such an
+API, it should be exposed to code outside the Tcl core if at all
+possible.
+
+~ Proposed Change
+
+This TIP proposes exposing the following functions:
+
+ Tcl_MakeEnsembleCmd: Create an ensemble linked to a particular
+   namespace.
+
+ Tcl_FindEnsemble: Locate a command token for an ensemble. Has an
+   argument that controls whether failure to find an ensemble is an
+   error.
+
+ Tcl_IsEnsemble: Test whether a command token refers to an ensemble.
+
+ Tcl_GetEnsembleSubcommandList, Tcl_SetEnsembleSubcommandList: Read
+   and write the (fixed) list of subcommands of the ensemble.
+   Equivalent to manipulating the '''-subcommands''' option.
+
+ Tcl_GetEnsembleMappingDict, Tcl_SetEnsembleMappingDict: Read and
+   write the dictionary that maps subcommands to prefixes of
+   implementation commands. Equivalent to manipulating the '''-map'''
+   option.
+
+ Tcl_GetEnsembleUnknownHandler, Tcl_SetEnsembleUnknownHandler: Read
+   and write the command prefix list that is used to implement the
+   unknown-subcommand handler. Equivalent to manipulating the
+   '''-unknown''' option.
+
+ Tcl_GetEnsembleFlags, Tcl_SetEnsembleFlags: Read and write the flags
+   for the ensemble. Currently there is only one settable flag bit,
+   TCL_ENSEMBLE_PREFIX, which is present exactly when '''-prefix'''
+   option is true.
+
+ Tcl_GetEnsembleNamespace: Reads the namespace associated with the
+   ensemble; this value may not be altered.
+
+~ Copyright
+
+This document has been placed in the public domain.
