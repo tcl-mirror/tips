@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -10,7 +10,7 @@ Author:         Daniel A. Steffen <das@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        24-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
