@@ -1,6 +1,6 @@
 TIP:		19
 Title:		Add a Text Changed Flag to Tk's Text Widget
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Neil McKay <mckay@eecs.umich.edu>
 State:		Draft
 Type:		Project
@@ -94,4 +94,5 @@ This document is in the public domain.
 ~Patch
 
 The ''changed'' text widget command, as described above, may be added
-to Tk8.4a2 by applying the patch at http:19.patch
+to Tk8.4a2 by applying the patch at
+http://www.cs.man.ac.uk/fellowsd-bin/TIP/19.patch
