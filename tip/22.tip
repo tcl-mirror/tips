@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        19-Jan-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
-Keywords:       {{{{{lindex {multiple arguments} sublists}}}}}
+Keywords:       {{{{{{lindex {multiple arguments} sublists}}}}}}
 Tcl-Version:    8.4a2
 
 ~ Abstract
@@ -134,7 +134,7 @@ allow this more-natural style of coding to be written in Tcl.
 
  > ''Don Porter <dgp@users.sourceforge.net>''
 
- > > Don makes a good point: with a good set of data structures in
+ > > Don makes a good point -- with a good set of data structures in
      tcllib, the need for this TIP is lessened or even eliminated.
      Nonetheless, I see this as a way of implementing the structures
      he describes.  In other words, a more powerful primitive (which,
