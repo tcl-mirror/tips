@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.21 $
+Version:        $Revision: 2.22 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -154,7 +154,7 @@ hosting Tcl interpreter.
 
 If an unknown handler is specified for an ensemble, that handler is called when the ensemble command would otherwise return an error due to it being unable to decide which subcommand to invoke.  The exact conditions under which that occurs are controlled by the -export, -map and -prefix options as described above.
 
-The unknown handler is executed by concatenating on ''all'' the arguments to the ensemble command (including the fully-qualified ensemble command name) and then invoking the completed command in the scope of the caller of the ensemble.  If the execution of the unknown handler terminates normally, the ensemble engine reparses the subcommand (as described below) and tries to dispatch it again, which is ideal for when the ensemble's configuration has been updated by the unknown subcommand handler.  Any other kind of termination of the unknown handler is treated as an error.
+To execute the unknown handler, the ensemble mechanism takes the specified -unknown option and appends each argument of the attempted ensemble command invocation (including the ensemble command itself, expressed as a fully qualified name). It invokes the resulting command in the scope of the attempted call. If the execution of the unknown handler terminates normally, the ensemble engine reparses the subcommand (as described below) and tries to dispatch it again, which is ideal for when the ensemble's configuration has been updated by the unknown subcommand handler.  Any other kind of termination of the unknown handler is treated as an error.
 
 The result of the unknown handler is expected to be a list (it is an error if it is not).  If the list is an empty list, the ensemble command attempts to look up the original subcommand again and, if it is not found this time, an error will be generated just as if the -unknown handler was not there (i.e. for any particular invokation of an ensemble, its unknown handler will be called at most once.)  This makes it easy for the unknown handler to update the ensemble or its backing namespace so as to provide an implementation of the desired subcommand and reparse.
 
