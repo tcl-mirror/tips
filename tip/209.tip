@@ -1,14 +1,14 @@
-TIP:		209
-Title:		Add [clock milliseconds], and [clock microseconds]
-Version:	$Revision: 1.1 $
-Author:		Reinhard Max <max@tclers.tk>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	12-Jul-2004
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	clock milliseconds microseconds
+TIP:            209
+Title:          Add [clock milliseconds], and [clock microseconds]
+Version:        $Revision: 1.2 $
+Author:         Reinhard Max <max@tclers.tk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Jul-2004
+Post-History:   
+Keywords:       clock milliseconds microseconds
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -41,12 +41,9 @@ backwards compatibility.
 
 ~ Reference Implementation
 
-A reference implementation does not yet exist, but the proposed changes
-should be rather trivial to implement, as they only change command names,
-but keep the functionality.
+A reference implementation has been added to the Tcl patch tracker
+at SourceForge, item #991742 .
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
-
