@@ -1,0 +1,49 @@
+TIP:		162
+Title:		IPv6 Sockets for Tcl
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Rafael Martínez Torres <rafael.martinez@novagnet.com>
+Created:	23-Oct-2003
+
+~ Abstract
+
+This TIP is about allowing Tcl to use IPv6 sockets in virtually the
+same way that you would use the current (IPv4) sockets.
+
+~ Rationale
+
+IPv6 is the next generation of the IP protocol that underlies Internet
+sockets.  IPv6 advantages include a wider address space (128 bits
+instead current 32 bits), improved mobility, mandatory security at IP
+layer (IPsec...), etc.  Tcl should allow the programmers try both
+protocols at their networking programs without too much effort
+(dependant on underlying operating system support, of course), just
+accepting the literal address (2001:80:2aff::24, 192.23.56.3) or the
+DNS names (www.server.com).
+
+~ Proposed Change
+
+The interpreter should understand:
+
+|socket 2001:800:4a01::2 echo
+|socket 192.168.34.43 http
+|socket -server accept 9999
+|socket www.euro6ix.org
+
+and fconfigure should give detailed info on resulting sockets, as
+
+|fconfigure sock3 -blocking 1 -buffering full -buffersize 4096 \
+|	-encoding iso8859-1 -eofchar {{} {}} -translation {auto crlf} \
+|	-peername {2001:800:40:2a05::10 2001:800:40:2a05::10 7} \
+|	-sockname {2001:800:40:2a05:2c0:9fff:fe1d:e518 2001:800:40:2a05:2c0:9fff:fe1d:e518 1050}
+
+A patch is available for UNIX platforms at
+http://www.ngn.euro6ix.org/IPv6/tcl
+
+~ Copyright
+
+This document has been placed in the public domain.
