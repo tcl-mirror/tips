@@ -1,6 +1,6 @@
 TIP:            9
 Title:          Tk Standard Library
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Marty Backe <mgbacke@usa.net>
 Author:         hellins <hellins@263.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
@@ -119,6 +119,10 @@ yet.
  > If the TCT concurs that this is the case, then I would propose that
    this TIP be withdrawn.  tklib exists now, and to date, submissions
    are extremely rare.
+
+ > Here we are, some time later, and no action still on either
+   withdrawing or rejecting this TIP.  Perhaps some action could be
+   taken on this TIP?
 
 ----
 
