@@ -1,6 +1,6 @@
 TIP:		236
 Title:		Absolute Positioning of Canvas Items
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Neil McKay <mckay@eecs.umich.edu>
 State:		Draft
 Type:		Project
@@ -8,6 +8,7 @@ Vote:		Pending
 Created:	25-Dec-2004
 Post-History:	
 Tcl-Version:	8.5
+Keywords:	Tk, anchor, place
 
 ~Abstract
 
