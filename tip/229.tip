@@ -1,0 +1,58 @@
+TIP:		229
+Title:		Scripted Control of Name Resolution in Namespaces
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	03-Nov-2004
+
+~ Abstract
+
+This TIP proposes extensions to the '''namespace''' command to allow
+scripts to control how individual namespaces map names to commands and
+variables.
+
+~ Rationale
+
+Tcl has, for historic reasons, attracted many different styles of
+object system, and a favoured mechanism for implementing objects is on
+top of namespaces (which were introduced in Tcl 8.0 based on work done
+previously in [[incr Tcl]]).  However, a common problem that these OO
+systems face is the inability to make namespaces efficiently map names
+of entities within classes etc. into the object instances.  This TIP
+provides a simple mechanism for doing this.
+
+~ Proposed Change
+
+The '''namespace''' command will gain a new subcommand, '''path''',
+with the following syntax:
+
+ > '''namespace path''' ''type'' ?'''-append'''/'''-prepend'''? ?''list''?
+
+The ''type'' argument specifies which name resolution path will be
+manipulated.  Two types will be supported: '''command''' (which
+describes how commands in the namespace are looked up) and
+'''variable''' (which does the same for variables).
+
+If the ''list'' argument is missing, the result of the command will be
+the current path for the given type. No update will be performed.
+Neither option argument will be allowed.
+
+If the ''list'' argument is present, it will be a list of namespaces
+to search when looking up an a named entity of the given type. The
+current namespace will always be searched first. By default, the path
+will be set, but if the '''-prepend''' option is passed, the given
+''list'' of namespaces will be inserted at the front of the path, and
+similarly if the '''-append''' option is passed, the ''list'' will be
+appended to the path.  The result of the command will be the resulting
+path.
+
+The default path for both commands and variables will be "::" (the
+root namespace) only.
+
+~ Copyright
+
+This document has been placed in the public domain.
