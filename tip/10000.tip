@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.70 $
+Version:        $Revision: 1.71 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -33,6 +33,8 @@ proposed in [13].
 ~ ActiveState Server Test
 
 Things still working after the move?  Looking good.
+
+Now editing "from" dev.scriptics.com.
 
 ~ New Features Test
 
