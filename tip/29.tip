@@ -1,6 +1,6 @@
 TIP:            29
 Title:          Allow array syntax for Tcl lists
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -142,7 +142,9 @@ string into an empty list.  Nowhere does this proposal introduce
 behavior that depends on a specific internal representation for any
 variable.
 
-In the proposed syntax, negative subscripts shall cause errors.  Read
+In the proposed syntax, negative or non-numeric subscripts
+shall cause errors, as shall referring to variables that
+do not contain well-formed lists.  Read
 operations shall support subscripts ranging from zero to one less than
 the length of the list.  Write operations shall support subscripts
 ranging from zero to the length of the list, that is, it shall be
@@ -192,7 +194,7 @@ will ''not'' be supported.  However, the commoner form:
 |      incr array($index)
 |  }
 |  set x [list 1 2 3]
-|  increment x 0
+|  incrementElement x 0
 
 will, of course, work as expected.
 
@@ -351,6 +353,10 @@ example of creating an empty list so as to avoid any misapprehension that
 these changes depend on list variables' having a particular representation
 at any given time; in fact, every detail of this proposal is tolerant of
 shimmering.
+
+''13 March 2001:'' Fixed a copy-and-paste error in the 'incrementElement'
+example, and added to the discussion the fact that all operations will
+throw errors in the event of a malformed list.
 
 ~ Copyright
 
