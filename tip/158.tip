@@ -1,15 +1,15 @@
-TIP:		158
-Title:		Distinguish the two 'Enter' keys on Windows
-Version:	$Revision: 1.1 $
-Author:		Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
+TIP:            158
+Title:          Distinguish the two 'Enter' keys on Windows
+Version:        $Revision: 1.2 $
+Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
 Vote:           Pending
-Created:	20-Sep-2003
-Tcl-Version:	8.5
-Discussions-To:	news:comp.lang.tcl
-Post-History:	
+Created:        20-Sep-2003
+Post-History:   
+Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -44,8 +44,8 @@ modifier 4 is not generated on Windows today.  A binding to
 unless there is also a binding to ''<Mod4-Return>'' which will then
 take precedence.
 
-Existing Unix or Mac code that binds ''<Return>'' and ''<KP_Enter>''
-to identical functionality (and does not bind ''<Mod4-Enter>'') will
+Existing Unix code that binds ''<Return>'' and ''<KP_Enter>''
+to identical functionality (and does not bind ''<Mod4-Return>'') will
 also not need to change.  Again, the existing ''<Return>'' binding
 will fire for the ''Enter'' keys on both the main keyboard and the
 numeric pad.
@@ -57,6 +57,16 @@ such code to Windows once this change is in place, a developer will
 have to add bindings to ''<Mod4-Return>'' that mirror those for
 ''<KP_Enter>''. Once the developer has done this, the application will
 distinguish the two keys and fire the appropriate binding for each.
+
+Although the immediate purpose of the change is to deal with the
+numeric ''Enter'' key, the effect of the change will be to deal with
+the rest of the numeric pad the same way; rather than generating
+events such as ''<KeyPress-KP_0>'' or ''<Keypress-KP_Multiply>'',
+the system will generate events representing the corresponding
+keys on the main keyboard, with modifier 4 set to distinguish
+them.  These events are less likely to need to be rebound, since
+they correspond to printing characters and seldom if ever have
+different bindings between the numeric pad and the main keyboard.
 
 ~ Reference Implementation
 
@@ -82,6 +92,10 @@ greater drawback than the need for those porting Unix applications
 guidelines) to add an additional binding, particularly in light of the
 fact that those applications today can't implement the desired
 functionality on Windows at all.
+
+The open issue of what to do about the problem on the Macintosh
+platform remains.  The authors of this TIP are too ignorant of
+Macintosh programming to address it.
 
 ~ Copyright
 
