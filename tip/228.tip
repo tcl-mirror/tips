@@ -1,8 +1,9 @@
 TIP:            228
 Title:          Tcl Filesystem Reflection API
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -805,6 +806,8 @@ Patch Tracker. The exact url will be added here when it becomes
 available.
 
 ~ Comments
+
+Comments on [http://mini.net/tcl/12328] suggest it might be a good idea to modify the 'file attributes' callback to make it more efficient for vfs writers, especially across a network and when vfs's are stacked.  Currently one needs to make multiple calls to accomplish anything. 
 
   [[ Add comments on the document here ]]
 
