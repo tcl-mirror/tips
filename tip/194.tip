@@ -1,7 +1,8 @@
 TIP:            194
 Title:          Procedures as Values via '''apply'''
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -106,7 +107,7 @@ to other FP functions. For example one might define a constructor
 '''lambda''' and a '''curry''' command like this:
 
 | proc lambda {arglist body {ns {}}} {
-|     list ::apply [list $arglist $body $ns]]
+|     list ::apply [list $arglist $body $ns]
 | }
 |
 | proc curry {lam args} {
