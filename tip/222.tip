@@ -1,6 +1,6 @@
 TIP:            222
 Title:          Add [wm attributes -alpha] Attribute on Windows
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -47,7 +47,7 @@ Efforts have been made to reduce calls to ''UpdateWrapper''.
 See Tk Patch 892194 [http://sf.net/support/tracker.php?aid=892194]
 
 The reference patch implements the functionality along with one bug fix to
-UpdateWrapper - correct setting of the Z order of the window based on the
+''UpdateWrapper'' - correct setting of the Z order of the window based on the
 previous wrapper window.
 
 ~ Comments
