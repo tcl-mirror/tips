@@ -1,0 +1,64 @@
+TIP:           119
+Title:         Angled Text on a Canvas
+Version:       $Revision: 1.1 $
+Author:        Simon Geard <simon.geard@ntlworld.com>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.5
+Vote:          Pending
+Created:       18-Nov-2002
+Post-History:
+
+~ Abstract
+
+The current text object on a canvas does not support the creation of
+text strings at an arbitrary angle.  For some applications this is
+limitation is sufficiently serious to disqualify Tk from use.  This
+TIP removes this restriction.
+
+~ Rationale
+
+Using a Tk canvas to display e.g. an engineering drawing from a CAD
+application is limited - such applications will output angled text and
+there is simply no way of displaying such text on a canvas.
+
+Another consideration is the competition.  Both Qt and Java canvas
+objects support angled text on their canvas object - most new users
+would I believe be surprised to discover that this functionality is not
+supported.
+
+Due to the internal architecture of Tk a side effect of this work
+would be to enable buttons (and possibly other widgets) to have their
+text written at an angle as well.  This TIP does not expose that
+functionality.
+
+~ Implementation
+
+At the command level there would be an extra attribute, ''-angle'',
+added to the canvas's text object:
+
+|<canvas> create text <x> <y> -text <str> ?-angle <angle>? ...
+
+where the angle is specified in degrees.  Manipulation of the angle
+would be done in the usual way through the ''itemconfigure'' and
+''itemcget'' subcommands:
+
+|<canvas> itemconfigure <tag> -angle <angle>
+
+Note that PostScript naturally supports rotation of text.
+
+~ Reference Implementation
+
+I have done an initial assessment of the amount of work required and
+have amended Tk 8.4.1 with the above syntax for the X version (on
+Linux).  This initial work was fairly straightforward but the internal
+housekeeping work maintaining and interacting with an angled box will
+be more substantial.  The patch is located at
+http://homepage.ntlworld.com/tk841_at_patch.gz
+The X version can be done with the ''xvertex.5.0'' extension which is
+included in the above patch.  I don't know how it would be done on
+non-X systems.
+
+~ Copyright
+
+This document has been placed in the public domain.
