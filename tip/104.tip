@@ -1,11 +1,11 @@
 TIP:            104
 Title:          Generalization of the Tk Undo Subsystem
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
 Author:         Larry W. Virden. <lvirden@yahoo.com>
 State:          Draft
-Type:           Project
-Vote:           In progress
+Type:           Accepted
+Vote:           Done
 Created:        19-Jun-2002
 Post-History:   
 Discussions-To: news:comp.lang.tcl
@@ -47,8 +47,9 @@ redo.  The revert action is for the undo.  Both are pointers to a
 The following functions all operating on a ''TkUndoRedoStack''
 stack are provided to implement the undo/redo functionality.
 
-   1. ''TkUndoInitStack()'': returns a pointer to an initialized
-      TkUndoRedoStack.
+   1. ''TkUndoInitStack(interp)'': returns a pointer to an initialized
+      TkUndoRedoStack and stores ''interp'' in that stack for script
+      evaluation.
 
    2. ''TkUndoClearStacks(stack)'': clears both the undo and the redo
       stacks.
@@ -67,19 +68,27 @@ stack are provided to implement the undo/redo functionality.
       pointers that provide the script to redo and undo the action
       respectively.  The redo stack is cleared.
 
-   6. ''TkUndoRevert(stack, interp)'': undo a compound action.
+   6. ''TkUndoRevert(stack)'': undo a compound action.
       Compound means all revert script of action between two
-      separators on the undo stack are executed and the actions are
-      moved to the redo stack.  ''interp'' is the Tcl interpreter in
-      which to execute the scripts.  Returns TCL_ERROR when
-      unsuccessful (stack empty for instance), and TCL_OK otherwise.
+      separators on the undo stack are evaluated in the stack's 
+      interpreter and the actions are moved to the redo stack.
+      Returns TCL_ERROR when unsuccessful (stack empty for instance),
+      and TCL_OK otherwise.
 
-   7. ''TkUndoApply(stack, interp)'': redo a compound action.  The
+   7. ''TkUndoApply(stack)'': redo a compound action.  The
       apply script of all actions between two separators on the redo
-      stack is executed.  The actions are moved to the undo stack.
-      ''interp'' is the Tcl interpreter in which to execute the
-      scripts.  Returns TCL_ERROR when unsuccessful (stack empty for
-      instance), and TCL_OK otherwise.
+      stack is evaluated in the stack's interpreter.  The actions are
+      moved to the undo stack.  Returns TCL_ERROR when unsuccessful
+      (stack empty for instance), and TCL_OK otherwise.
+
+   8. ''TkUndoSetDepth(stack, maxDepth)'': sets the maximum number
+      of compound actions stored on the stack to ''maxDepth''.  By
+      default, stacks are unlimited, and a value of ''maxDepth'' <= 0
+      resets the stack to be unlimited.
+
+   9. The option ''-maxundo'' is added to the text widget to access the
+      stack limit feature of the text widget's undo stack from the
+      script level.
 
 These functions are sufficient to implement the current undo
 functionality of the text widget, and they have been used for this
