@@ -1,13 +1,13 @@
-TIP:		224
-Title:		Add New [array] Subcommands 'incr' and 'value'
-Version:	$Revision: 1.1 $
-Author:		Peter MacDonald <peter@pdqi.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	28-Sep-2004
-Post-History:	
-Tcl-Version:	8.5
+TIP:            224
+Title:          Add New [array] Subcommands 'incr' and 'value'
+Version:        $Revision: 1.2 $
+Author:         Peter MacDonald <peter@pdqi.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Sep-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -83,6 +83,15 @@ subcommands:
 |   }
 |}
 
-~ Copyright
+~Discussion
 
+*Wangnic notes:
+
+''array value var elem "" false''  can be written as
+''array get var elem''
+
+Array get returns name/value pairs.  Array value returns just the value.
+Also if elem has a * in it, there may be multiple matches.
+
+~ Copyright
 This document has been placed in the public domain.
