@@ -5,7 +5,7 @@ Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	07-Jul-2001
 State:		Draft
 Vote:		Pending
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Post-History:	
 
 ~ Abstract
@@ -146,7 +146,7 @@ yourself.
    been distributed to the wider community.  The ''postnews.tcl''
    script that comes with the TIP renderer distribution is designed to
    do all this with a minimum of fuss.  A quick "Thank You" note is
-   also curteous.
+   also courteous.
 
 ''I need to write something here about the production of PS and PDF
 versions of the whole TIP archive, but that side of the code is not
