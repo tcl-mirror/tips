@@ -1,0 +1,99 @@
+TIP:		123
+Title:		Adding an Exponentiation Operator to the [expr] Command
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	16-Dec-2002
+Post-History:	
+Tcl-Version:	8.5
+Keywords:	mathematics, evaluation
+
+~ Abstract
+
+This TIP proposes to add a new operator to the operators recognised by
+the [[expr]] command: the exponentiation operator.  This operator will
+enhance the functionality of the current ''pow()'' function by
+returning a result that depends on the type of its operands.  It will
+also make complicated formulae more readable.
+
+~ Introduction
+
+Currently Tcl's [[expr]] command uses the exponentiation function
+''pow()'' to calculate such expressions as "2 to the power 10".  The
+drawback of this is twofold:
+
+ * Expressions using several exponentiations become difficult to read.
+   For instance, a third-degree polynomial looks like:
+
+| 2.0*pow($x,3) - 1.2*pow($x,2) + 3.0*$x + 4.0
+
+ > or:
+
+| 2.0*$x*$x*$x - 1.2*$x*$x + 3.0*$x + 4.0
+
+ * The result of raising an integer to an integer power is a double: 2
+   to the power 10 is 1024.0, not 1024.
+
+Other languages, like for instance FORTRAN, use an operator instead of
+a function.  Two operators are commonly found: ** and ^.  As the
+latter already has a meaning within the [[expr]] command, we propose
+to add the "**" operator instead.  The above example would become:
+
+| 2.0*$x**3 - 1.2*$x**2 + 3.0*$x + 4.0
+
+~ Mathematical Details
+
+The implementation of the exponentiation operator will have the
+following properties (below we refer to the expression ''$x**$y''):
+
+If ''x'' and ''y'' are both integers (ordinary or wide):
+
+ * The result is of the same type as the widest operand
+
+ * An error is raised if the operation makes no mathematical sense,
+   ''0**(-1)'' for instance.
+
+ * If ''x'' has the value 0, then:
+
+ > * if ''y > 0'', the result is 0
+
+ > * if ''y < 0'', the result is an error
+
+ > * if ''y == 0'', the result is 1
+
+ * If ''x'' has the value 1, then the result is always 1
+
+ * If ''y'' has the value 0, the result is always 1
+
+ * If ''x'' has a negative value lower than -1 and ''y < 0'', the
+   result is 0
+
+ * If ''x'' has the value -1, then depending on whether ''y'' is even
+   or odd, the result is 1 or -1 (respectively.)
+
+ * For all other combinations, the value is "''x'' raised to the power
+   ''y''"
+
+ * When evaluating this, no attention is paid to overflow, even though
+   the result might fit into a wide integer (though of course the
+   result will be a wide integer if either operand was wide.)  This is
+   in accordance with the type model used in other [[expr]] operators.
+
+If either ''x'' or ''y'' is a double, the C function ''pow()'' is used
+to compute the result.
+
+The following expressions are parsed and evaluated in accordance with
+all other operators:
+
+| $x ** $y ** $z ==> ($x ** $y ) ** $z
+| $x ** -1       ==> ($x ** (-1))
+
+The precedence of the exponentiation operator is thus ''higher'' than
+the multiplication, division and remainder operations and lower than
+the unary operations, in accordance with common definitions.
+
+~ Copyright
+
+This document is placed in the public domain.
