@@ -1,8 +1,8 @@
 TIP:            63
 Title:          Add -compound Option to Menu Entries
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        27-Sep-2001
