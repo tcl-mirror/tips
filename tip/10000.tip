@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.72 $
+Version:        $Revision: 1.73 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -37,6 +37,8 @@ Things still working after the move?  Looking good.
 Now editing "from" dev.scriptics.com.
 
 redirected!
+
+Checking cron update at scriptics.com.
 
 ~ New Features Test
 
