@@ -1,0 +1,227 @@
+TIP:		29
+Title:		Allow array syntax for Tcl lists
+Version:	$Revision: 1.1 $
+Author:		Kevin Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	07-Mar-2001
+Post-History:	
+Tcl-Version:	9.0
+Discussions-To:	news:comp.lang.tcl,mailto:kennykb@acm.org
+
+~ Abstract
+
+Most popular programming languages provide some sort of indexed array
+construct, where array subscripts are integers.  Tcl's lists are, in
+fact, arrays, but the existing syntax obscures the fact.  Moreover,
+the existing list commands make it difficult to manipulate lists as
+arrays without running into peculiar performance issues.  This TIP
+proposes that the syntax of ''variableName(value)'' be extended to
+function as an array selector if ''variableName'' designates a list.
+This change is upward compatible with existing Tcl scripts, because
+the proposed syntax results in a runtime error in every extant Tcl
+release.
+
+~ Rationale
+
+The implementation of lists in Tcl has evolved far beyond the original
+conception.  While lists were originally conceived to be strings with
+a particular syntax that allowed them to be parsed as lists, the
+internal representation of a list is now an array of pointers to
+''Tcl_Obj'' structures.
+
+Tcl programmers, for the most part, have not taken advantage of this
+evolution.  Code that uses hash tables for the purpose is still
+extremely common.  Moreover, it is difficult to update lists in place,
+even if their internal representations are known not to be shared.
+One example of this difficulty is seen in the discussions
+(http://purl.org/thecliff/tcl/wiki/941) of how best to shuffle a list
+of items.  The discussion began with a naïve implementation of Jon
+Bentley's method of performing random swaps:
+
+|  proc shuffle1 { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp [lindex $list $j]
+|          set list [lreplace $list $j $j [lindex $list $i]]
+|          set list [lreplace $list $i $i $temp]
+|      }
+|      return $list
+|  }
+
+Aside from the fact that the syntax obscures what the program is
+doing, the implementation suffers from an obscure performance problem.
+When the ''lreplace'' calls in the ''shuffle1'' procedure are
+executed, the internal representation of ''list'' has two references:
+the value of the variable, and the parameter passed to ''lreplace''.
+The multiple references force ''lreplace'' to copy the list, leading
+to quadratic performance when large lists are shuffled.
+
+It is possible, albeit difficult, to alleviate this problem by careful
+management of the lifetime of ''Tcl_Obj'' structures, but this change
+complicates the code.  The simplest way to fix the performance is
+probably to use Donal Fellows's implementation of the ''K''
+combinator:
+
+| proc K { x y } { set x }
+
+which allows the caller of ''lreplace'' to extract the value of
+''list'', change the value of ''list'' so that the extracted value is
+unshared, and then pass the extracted value as a parameter to
+''lreplace:''
+
+|  proc shuffle1a { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp1 [lindex $list $j]
+|          set temp2 [lindex $list $i]
+|          set list [lreplace [K $list [set list {}]] $j $j $temp2]
+|          set list [lreplace [K $list [set list {}]] $i $i $temp1]
+|      }
+|      return $list
+|  }
+
+Now the performance of the code is ''O(n)'' where ''n'' is the length
+of the list, but the programmer's intent has been seriously obscured!
+
+These drawbacks have led prominent individuals such as Richard
+Stallman (http://www.vanderburg.org/Tcl/war/0000.html) to assert that
+Tcl lacks arrays.
+
+~ Specification
+
+This TIP's proposed change can be stated succinctly:
+
+ > Wherever the notation ''a(x)'' may be used to refer to an array
+   element in the language, allow it also to refer to an element of a
+   list, provided that the variable ''a'' is scalar and the value
+   ''x'' is a non-negative integer.
+
+Note that this change is backward compatible with existing Tcl
+scripts!  If a notation like ''a(x)'' is used to refer to a scalar
+variable in today's Tcl, the result is an error:
+
+| % set a [list foo bar grill]
+| foo bar grill
+| % set a(2)
+| can't read "a(2)": variable isn't array
+| % puts $a(2)
+| can't read "a(2)": variable isn't array
+| % set a(2) zot
+| can't set "a(2)": variable isn't array
+
+The default behavior, if ''a'' is not set, and a script executes
+
+| set a(2) zot
+
+will still be to create an associative array.  If a script wishes to
+perform such actions on a list, it will be necessary first to
+initialize the list:
+
+| set a [list]
+| set a(0) foo
+
+In the proposed syntax, negative subscripts shall cause errors, and
+subscripts greater than the length of the list shall cause the list to
+be expanded, filling in the gaps with empty ''Tcl_Obj'' structures
+(the result of ''Tcl_NewObj()'').
+
+With the proposed change in syntax, the procedure to shuffle a list
+becomes much more straightforward:
+
+|  proc shuffle1 { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp $list($j)
+|          set list($j) $list($i)
+|          set list($i) $temp
+|      }
+|      return $list
+|  }
+
+The given implementation copies the list only once, the first time
+that the line:
+
+|          set list($j) $list($i)
+
+is executed.  Thereafter, the list is an unshared object, and the
+replacements are performed in place.
+
+It shall be illegal to pass a list element as the parameter to
+''upvar;'' that is, the following usage:
+
+|  proc increment { varName } {
+|      upvar 1 $varName v
+|      incr v
+|  }
+|  set x [list 1 2 3]
+|  increment x(0)
+
+will ''not'' be supported.  However, the commoner form:
+
+|  proc incrementElement { arrayName index } {
+|      upvar 1 $arrayName array
+|      incr array($index)
+|  }
+|  set x [list 1 2 3]
+|  increment x 0
+
+will, of course, work as expected.
+
+~ Discussion
+
+There are several obvious extensions to the proposal that are not
+addressed, and these omissions are intentional.
+
+   * One possibility is to provide a syntax (perhaps negative
+     subscripts) to allow numbering from the end of the list as well
+     as the beginning.
+
+   * Another possibility is to provide a notation for multiple
+     subscripts, to allow surgical changes to be made in lists of
+     lists.
+
+These changes are not addressed primarily because the author of this
+TIP foresees that they are likely to cause undesirable interactions
+with future attempts to implement other types of indexed data
+structure, such as the maps, vectors, and matrices of products like
+BLT and Feather.  In a fully developed Tcl 9.0, it would be desirable
+for all of these objects to support similar interfaces; this TIP
+proposes a minimal first step.
+
+   * The ''array'' command continues to operate only on associative
+     arrays.
+
+Lists are a simple enough structure that the full power of the
+''array'' command is not required to deal with them, and having it
+work on lists as well as arrays seems like needless effort.  Moreover,
+existing code may well depend on a combination of ''[array exists]''
+and ''[info exists]'' to distinguish associative arrays from scalar
+variables (including lists).
+
+   * We might wish to extend ''upvar'' syntax to allow a list element
+     to be designated.
+
+Extending the syntax in this fashion would make ''upvar'' more
+consistent in its behavior, but appears to be expensive, in terms of
+both performance (tracking down the linked references if a list is
+rebuilt) and the effort required for implementation (the author of
+this TIP is unlikely to have the time required to implement the
+necessary changes to ''struct Var'' and the associated code).  In
+fact, the author of this TIP would much rather deprecate the use of
+''upvar'' to refer to array elements.  A disproportionate amount of
+code goes into supporting this seldom-used feature.
+
+~ Reference Implementation
+
+No reference implementation has yet been developed; the author of this
+TIP wishes to solicit the opinions of the Tcl community before
+spending a lot of time implementing a possibly bad idea.
+
+~ Copyright
+
+This document has been placed in the public domain.
