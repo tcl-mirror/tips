@@ -1,9 +1,9 @@
 TIP:            54
 Title:          Using PURLs to Unite the Tcl Webspace
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
-State:          Draft
+State:          Withdrawn
 Type:           Process
 Vote:           Pending
 Created:        16-Aug-2001
