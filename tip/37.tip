@@ -1,6 +1,6 @@
 TIP:            37
 Title:          Uniform Rows and Columns in Grid
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -38,11 +38,22 @@ k*''-weight'' (in this aspect a ''-weight'' value of 0 is used as 1)
 in a group have the same ''-weight'' they will all get the size of the
 largest member.
 
-In the grid algorithm ''-uniform'' and ''-weight'' will be used in
-the calculation of the requested size, but for the distribution of
-extra size only ''-weight'' will be considered.
+In the grid algorithm ''-uniform'' and ''-weight'' will be used as
+specified above in the calculation of the requested size (the first step in
+the description of the grid algorithm in grid(n)), but for the distribution
+of extra size (second step) only ''-weight'' will be considered.  This
+means that the second step is not altered at all by this.
 
 ~ Rationale
+
+Getting symmetry in a layout today is possible but even for a simple
+case it gets tricky if you want more than a half decent result.  Message
+catalogs changing strings and options databases changing appearances
+can make a GUI very dynamic and normally you never need to count pixels
+since geometry managers do that for you.  For symmetry though you suddenly
+have to handle pixel details yourself, details that are handled so much
+better by a geometry manager.  With a ''-uniform'' option, grid can do
+symmetry for you in a simple way that takes care of all the details.
 
 To only consider ''-weight'' in the extra size distribution is mainly
 a matter of simplicity.  It gives a simpler algorithm that is both
@@ -61,12 +72,45 @@ I'm not sure if someone would have a use for the effect you would get
 by mixing zero and non-zero weights in a group but this leaves you
 the freedom to do so.
 
+~ Examples
+
+To clarify how -uniform affects a grid here are some examples.
+
+|button .b1 -text a
+|button .b2 -text b
+|button .b3 -text example
+|button .b4 -text xyzzy
+|grid .b1 .b2 .b3 .b4 -sticky news
+|grid columnconfigure . {0 1 2 3} -uniform a -weight 1
+
+Initially all columns will be equal and if resized, all columns will
+change equally.
+
+|Initial: |[   a   ]|[   b   ]|[example]|[ xyzzy ]|
+|Shrunk:  |[  a  ]|[  b  ]|[xampl]|[xyzzy]|
+
+Another example. Instead we do:
+
+|grid columnconfigure . {0 2} -uniform a -weight 1
+|grid columnconfigure . {2}   -weight 2
+|grid columnconfigure . {1 3} -uniform b -weight 0
+|grid columnconfigure . {1}   -weight 1
+
+Initially column 0 will be half the size of column 2, columns 1
+and 3 will be equal.
+Resizing will affect colums 0 and 1 half of how column 2 is
+affected. Column 3 is static.
+
+|Initial:  |[ a ]|[  b  ]|[example]|[xyzzy]|
+|Shrunk:   |[a]|[ b ]|[amp]|[xyzzy]|
+|Expanded: |[  a  ]|[   b   ]|[  example  ]|[xyzzy]|
+
 ~ Implementation
 
 A quick try shows that this is fairly straightforward to implement.
-The memory cost for the change is a ''Tk_Uid'' field in the column
-slot structure to hold the option, and the CPU overhead is small for a
-grid that don't use the option.
+If the option is not used the memory cost is a ''Tk_Uid'' field (or
+similar if some other mechanism than ''Tk_Uid'' is used) in the column
+slot structure to hold the option, and the CPU overhead is small.
 
 ~ Copyright
 
