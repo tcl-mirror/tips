@@ -1,6 +1,6 @@
 TIP:            26
 Title:          Enhancements for the Tk Text Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Ludwig Callewaert <ludwig_callewaert@frontierd.com>
 Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
 State:          Draft
@@ -49,7 +49,7 @@ to bind to that event and for instance give a visual indication of the
 modified state of the widget.
 
 Finally, a virtual event has been added that is triggered whenever the
-selection in the widget changes.  At first is may seem not so useful,
+selection in the widget changes.  At first it may seem not so useful,
 but there are a number of situations where this functionality is
 needed.  A couple of examples where I ran into the need for this may
 clarify this.  On Windows, if the text widget does not have the focus,
@@ -73,65 +73,76 @@ adds little or no overhead to the text widget.
 
 The undo/redo mechanism operates by adding two stacks of edit actions
 to the text widget.  Every insert or delete operation is added to the
-undo stack in normal operation.  At certain times a semaphore (a
-marker if you will) is added onto the stack.  All insert and delete
-actions in between two semaphores are considered to be one edit
-action, and will be undone or redone as one.  The insertion of the
-semaphores is under user control.  There is a default operation
-however.  This will insert semaphores whenever the mode changes from
-insertion to deletion, or vise versa.  Semaphores are also inserted
-when the cursor moves.  By turning the autosemaphores off and
-inserting them at the desired points, compound actions can be creates,
-such as search and replace.  The default paste function is an example
-of such an action.
+undo stack in normal operation.  At certain times a separator is added 
+onto the stack.  All insert and delete actions in between two separators
+are considered to be one edit action, and will be undone or redone as one.  
+The insertion of the separators is under user control.  There is a 
+default operation however.  This will insert separators whenever the 
+mode changes from insertion to deletion, or vise versa.  Separators are
+also inserted when the keyboard or the mouse are used to move the insert
+mark. Finally, pressing the <Return> key also inserts a separator. 
+By turning the autoseparators off and inserting them at the desired 
+points, compound actions, such as search and replace, can be created.  
+The default paste function is an example of such an action.
 
 Undoing an action, will re-apply in reverse order all inserts and
-deletes in between two semaphores.  These inserts and deletes will now
+deletes in between two separators.  These inserts and deletes will now
 move to the redo stack.  Redoing a change re-applies the inserts and
 deletes, and moves them again to the undo stack.  Normal insertions or
 deletions will clear the redo stack.
 
-It is also possible to clear the undo stack, giving the user control
+It is also possible to clear the undo stack, giving the user some control
 over the depth of the stack.
 
+Currently only text inserts and deletes can be undone. All other changes
+to the widget, such as the adding or deleting of tags, cannot be undone.
+
 The modified state of the widget is implemented using a counter.
-Every insert or delete action increments this counter also when
-redone.  Every undone insert or delete decrements this counter.  The
-widget is considered to be modified if the counter is not zero.  A
-virtual event ''<<Modified>>'' is generated whenever this counter
-changes from zero to non-zero or vice versa.  A mechanism is provided
-to reset the counter to zero. The modified state can also be explicitely
-set by the user. In that case, the counter mechansim is not operational
-until the modified state has been reset again.
+Every insert or delete action, and every time such an action is redone,
+increments this counter. Every undone insert or delete decrements this 
+counter.  The widget is considered to be modified if the counter is not
+zero.  A virtual event ''<<Modified>>'' is generated whenever this 
+counter changes from zero to non-zero or vice versa.  A mechanism is 
+provided to reset the counter to zero. The modified state can also be 
+explicitely set by the user. In that case, the counter mechanism is not 
+operational until the modified state has been reset again.
 
    1.  ''pathName configure -undo 0|1'' - this enables or disables the
        undo/redo mechanism.  The default is zero.
 
-   2.  ''pathName configure -autosemaphores 0|1'' - when one inserts
-       semaphore automatically whenever insert changes to delete or
-       vice versa.  When off, no semaphores are inserted, except by
+   2.  ''pathName configure -autoseparators 0|1'' - when one inserts
+       a separator automatically whenever insert changes to delete or
+       vice versa. Separators are also inserted when the keyboard or
+       the mouse is used to move the insert mark, or when the <Return>
+       key is pressed. When off, no separators are inserted, except by
        the user (See 6).  The default is one.
 
    3.  ''pathName edit undo'' - undoes the last edit action if undo is
-       enabled (See 1). Raises an exception if there is nothing to
-       undo. Does nothing otherwise.
+       enabled (See 1). The insert mark will be positioned at the last
+       undone edit action. When undo deletes text, that is the index
+       where the text was. When undo inserts text, the insert mark
+       will be positioned at the end of the inserted text. The view will
+       be adapted to make the insert mark visible. Raises an exception 
+       if there is nothing to undo. Does nothing if undo is disabled.
 
    4.  ''pathName edit redo'' - redoes the last edit action if undo is
-       enabled (See 1). Raises an exception if there is nothing to
-       redo.  Does nothing otherwise.
+       enabled (See 1). The insert mark and widget view will be updated
+       similar to what is done for the edit undo command. Raises an 
+       exception if there is nothing to redo.  Does nothing if undo is 
+       disabled.
 
    5.  ''pathName edit reset'' - resets the undo and redo stacks
        (clears them).
 
-   6.  ''pathName edit semaphore'' - inserts a semaphore (marker) on
-       the undo stack, indicating an undo boundary.  If a semaphore is
+   6.  ''pathName edit separator'' - inserts a separator on
+       the undo stack, indicating an undo boundary.  If a separator is
        already present, this will do nothing.  This means that it is
        safe to issue the command several times, without any inserts or
        deletes occurring in between.
 
-   7.  ''pathName edit modified ?booelan?'' - If boolean is not 
+   7.  ''pathName edit modified ?boolean?'' - If boolean is not 
        specified returns the modified state of the widget 
-      (either 1 or zero).
+       (either 1 or zero).
        If boolean is specified, sets the modified state of the widget 
        to that value.
 
@@ -148,7 +159,10 @@ until the modified state has been reset again.
 
   12.  ''<Control-z>'' - is bound to the <<Undo>> virtual event.
 
-  13.  ''<Control-Z>'' - is bound to the <<Redo>> virtual event.
+  13.  ''<Control-Z>'' - is bound to the <<Redo>> virtual event on all
+       platforms except Win32.
+
+  14.  ''<Control-y>'' - is bound to the <<Redo>> virtual event on Win32.
 
 ~ Example
 
@@ -170,9 +184,6 @@ until the modified state has been reset again.
 |   # Example 2: The Selection event will create a tag that
 |   #            duplicates the selection
 |   bind .t <<Selection>> duplicateSelection
-|   # Pressing the return key should also mark a boundary
-|   # in the undo stack
-|   bind .t <Return> ".t edit semaphore"
 |   
 |   frame .l
 |   label .l.l -text "File: "
@@ -289,9 +300,9 @@ until the modified state has been reset again.
 |   
 |      # Saving clears the modified state
 |      .t edit modified 0
-|      # Make sure there is a semaphore on the undo stack
+|      # Make sure there is a separator on the undo stack
 |      # So we can get back to this point with the undo
-|      .t edit semaphore
+|      .t edit separator
 |   }
 |   
 |   proc blockIndent {} {
@@ -308,20 +319,20 @@ until the modified state has been reset again.
 |            incr stopline -1
 |         }
 |         
-|         # Get the original autosemaphores state
-|         set oldSema [.t cget -autosemaphores]
-|         # Turn of automatic insertion of semaphores
-|         .t configure -autosemaphores 0
-|         # insert a semaphore before the edit operation
-|         .t edit semaphore
+|         # Get the original autoseparators state
+|         set oldSep [.t cget -autoseparators]
+|         # Turn of automatic insertion of separators
+|         .t configure -autoseparators 0
+|         # insert a separator before the edit operation
+|         .t edit separator
 |         for {set i $startline} { $i <= $stopline} {incr i} {
 |            .t insert "$i.0" $indent
 |         }
 |         .t tag add sel $startline.0 "$stopline.end + 1 char"
-|         # insert a semaphore after the edit operation
-|         .t edit semaphore
-|         # put the autosemaphores back in their original state
-|         .t configure -autosemaphores $oldSema
+|         # insert a separator after the edit operation
+|         .t edit separator
+|         # put the autoseparators back in their original state
+|         .t configure -autoseparators $oldSep
 |      }
 |   }
 |   
