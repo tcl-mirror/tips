@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.121 $
+Version:        $Revision: 1.122 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -59,17 +59,9 @@ spong wibble
 
  > some more test stuff
 
-TIP:            206
-Title:          Add an [ftruncate] Command
-Version:        $Revision: 1.121 $file
-
 ~ Reference Implementation
 
 A reference implementation does ''not'' yet exist.
-
-~ Copyright
-
-This document has been placed in the public domain.
 
 ~ Copyright
 
