@@ -1,14 +1,14 @@
 TIP:            39
 Title:          Add New Standard Tk Option: -component
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Bryan Oakley <boakley@austin.rr.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        04-Jul-2001
 Post-History:   
+Keywords:       compound,megawidget
 Tcl-Version:    8.4
-Keywords:	compound, megawidget
 
 ~ Abstract
 
@@ -32,8 +32,8 @@ made up of a frame (.f), and entry widget (.f.e) and a label (.f.l).
 These might be defined as follows:
 
 | frame .f -class LabelledEntry 
-| entry .f.e -compound .f
-| label .f.l -compound .f
+| entry .f.e -component .f
+| label .f.l -component .f
 
 Internal commands that act upon widgets could use this information to
 alter their behavior for component widgets.  For example,
