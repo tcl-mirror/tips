@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -103,7 +103,8 @@ assigned:
                           Jim Ingham <jingham@apple.com> (Mac),
 			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   27. ''dde Package'' - Kevin Kenny <kennykb@acm.org>
+   27. ''dde Package'' - Pat Thoyts <patthoyts@users.sourceforge.net>,
+                         Kevin Kenny <kennykb@acm.org>
 
    28. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
 
