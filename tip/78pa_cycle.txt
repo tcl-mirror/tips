@@ -1,0 +1,15 @@
+,---------------.  New packages  ,-------------.
+| P/A Developer | -------------> | P/A Builder |
+`---------------'                `-------------'
+        ^                               |
+Comments|                         New   |
+Bug Reports                       distributions
+Feature Requests                        |
+        |         ,----------.          |
+        `-------- | P/A User | <--------'
+                  `----------'    
+================================================
+,---------.   ,---------------.   ,------------.
+| Catalog |   | System        |   | Repository |
+| Manager |   | Administrator |   | Manager    |
+`---------'   `---------------'   `------------'

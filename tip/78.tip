@@ -1,0 +1,475 @@
+TIP:		78
+Title:		TEA 2.0 Definitions
+Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Type:		Informational
+State:		Draft
+Vote:		Pending
+Created:	15-Dec-2001
+Version:	$Revision: 1.1 $
+Post-History:	
+
+~ Abstract
+
+This document is an informational TIP providing definitions for
+commonly used terms (like package, extension, core, distribution,
+etc.) to make future communication among people in the community
+easier.  It is recommended that future and past documents specifying
+details inside of the greater context of TEA refer to this document to
+ensure a consistent usage of terms.
+
+~ Background
+
+This document is an adjunct to the [[TIP <<vision>>]].  ''(DKF - Is
+this meant to be a reference to [34]?  Edit to such if so...)''
+
+To facilitate the specification and adoption of clearly defined
+interfaces to various activities and technologies it specifies a
+number of terms used by the community at large to create a greater
+unity and coherence in the usage of these terms.  In other words, by
+creating generally accepted definitions for important terms the risk
+of misunderstanding each other is reduced.
+
+~ Specification of Technical Terms
+
+This section specifies a number of important technical terms in
+alphabetical order.  Terms used inside of a specification are
+highlighted.
+
+ * Application
+
+ > An entity implementing some functionality required by a ''P/A
+   User'' (see section ''Roles'') to perform his work.  Consists of
+   one more files.  May make use of ''packages'' to implement its
+   functionality.
+
+ * Archive
+
+ > Encapsulation of a ''distribution'' in a single file.  Well-known
+   formats for archives are tar, gzipped tar, bzipped tar, and zip.
+
+ * Binary generation
+
+ > The process of wrapping up a built package into a binary
+   ''distribution''.  See ''building'' too.
+
+ * Building
+
+ > The process of ''configuring'' and ''transforming'' a source
+   ''distribution'' into a set of files which can be either
+   immediately installed on the site which built them or wrapped into
+   a binary ''distribution'' for shipment to other sites.  This also
+   includes the execution of a test-suite coming with the package.
+
+ * Bundle
+
+ > A ''distribution'' encapsulating more than one ''package''.
+
+ * Catalog
+
+ > A catalog is a site providing an index of the packages.
+
+ * Configuration
+
+ > The process of customizing a source distribution for a particular
+   architecture and/or site.  A part of ''Building''.
+
+ * Conflict
+
+ > Two or more packages are said to be in conflict if the usage of one of them
+   excludes the usage of the others.
+
+ > In a ''strong conflict'' installing one of the packages disallows
+   even the installation of the others.
+
+ * Core
+
+ > A shorthand for ''Tcl core''.
+
+ * Core distribution.
+
+ > See ''Tcl core distribution''.
+
+ * Dependency
+
+ > A relationship between packages.  A package X is said dependent on
+   another package Y if said package Y is required to allow X to work.
+
+ > There are several types of dependencies:
+
+ > * Build-time dependency
+
+ > > Y is required to allow X to be build.
+
+ > * Run-time dependency
+
+ > > Y is required to allow the usage of an installed X.
+
+ * Distribution
+
+ > An encapsulation of one or more ''packages'' for transport between
+   places, machines, organizations, and people.  Several types of
+   distributions are possible, explained below.
+
+ > 1. binary
+  
+ > > A binary distribution is in a state and format allowing the
+     installation of the contained packages on a particular platform.
+  
+ > > It contains at least all the files
+  
+ > > * implementing the functionality of the distributed packages and
+  
+ > > * required to allow the package management of the Tcl core to
+       handle the packages.
+  
+ > > A binary distribution usually contains just the files for a
+     single architecture.  This is not a explicit requirement however.
+     In other words, a binary distribution is allowed to contain the
+     files for several architectures.  Such a binary distribution will
+     be called a ''fat binary distribution''.
+  
+ > > We distinguish between three sub-types:
+  
+ > > * installable
+  
+ > > > This is the minimal binary distribution we spoke of before.
+  
+ > > * auto-installable
+  
+ > > > Like ''installable''', but additionally contains an application
+       whose execution will perform all the steps which are necessary
+       to install the contained packages at a site.  The installation
+       to add the packages to (and thus the location of the installed
+       packages) can be freely chosen by the caller of the executable.
+  
+ > > * auto-image
+  
+ > > > Like ''auto-installable'', but the final location of the
+       packages is hard-wired into the distribution.  This means that
+       a site using auto-images is restricted to one installation per
+       architecture for which files are contained in the binary
+       distribution.
+  
+ > > > Some of the existing archive formats restrict their contained
+       distributions to this type.  Examples of such archive formats
+       are
+  
+ > > > * RPM (RedHat Package Manager)
+  
+ > > > * DEB (DEBian Linux package format)
+  
+ > > See [TIP 55] for the specification of a proposed layout for
+     binary distributions.
+  
+ > 1. bundle
+  
+ > > A distribution which either contains the distributions of more
+     than one package or a list of references to packages.  The
+     references are done by specifying the name and version of the
+     packages contained in the bundle.
+  
+ > 1. buildable
+  
+ > > See ''source''.
+  
+ > 1. compileable
+  
+ > > See ''source''.
+  
+ > 1. raw
+  
+ > > A raw distribution is the most fundamental distribution.  Its
+     format is nearly completely unspecified.  Its contents are
+     straight from a source repository.  The process of converting a
+     raw distribution into a source distribution is called
+     ''Preparation''.
+  
+ > > Because of the unformatted nature of a raw distribution the
+     commands for its conversion into a source distribution have to be
+     part of it.  This is the only part of a raw distribution which
+     can and has to be specified.
+  
+ > > Example: The execution of ''autoconf'' to generate a
+     ''configure'' script from its ''configure.in'' file can be a
+     single step in a complex preparation.
+  
+ > 1. source
+  
+ > > A source distribution is in a format and state where tools can be
+     used to build its contents.
+  
+ > > The format needs further specification but for now we can assume
+     that it is governed by the current TEA specification.
+  
+ > > Alternate name for this type of distribution are ''compileable''
+     and ''buildable''.
+
+ * Distribution repository
+
+ > See ''repository''
+
+ * Extension
+
+ > Alternate name for a ''package'', generally used for packages
+   requiring compilation to become functional.
+
+ > This term is ''deprecated''.
+
+ * Installation
+
+ > A special type of ''distribution repository, binary'' (see
+   ''repository'') containing all ''packages'' which were installed on
+   a site.  A site may host several installations differing in version
+   and/or configuration of Tcl, and/or the platform Tcl was built for,
+   etc.
+
+ > Currently difficult to do but in the future it should made be
+   possible for an installation to refer and use another installation,
+   provided both are configured identically.  This allows a site to
+   build a hierarchy of installations from the most general containing
+   the common packages down to installations associated with one or
+   more ''P/A Developers''.
+
+ * Installing
+
+ > The process of unpacking a binary distribution and adding the
+   contained packages to an ''installation''.  The latter may include
+   moving files to their proper places.
+
+ > Also the process of adding a built package to an ''installation''.
+
+ * Package
+
+ > A collection of files providing additional functionality to a user
+   of a Tcl interpreter when loaded into said interpreter.
+
+ > Some files in a package implement the provided functionality
+   whereas other files contain meta-information required by the
+   package management of Tcl to be able to use the package.
+
+ * Preparation
+
+ > The process of converting a raw ''distribution'' into a source
+   ''distribution'' suitable as input to ''building''.  This includes
+   actions like:
+
+ > * Retrieval of sources from a source repository
+
+ > * Creating a ''configure'' file from its ''configure.in''.
+
+ > * Creating the distributed documentation from internal sources.
+
+ > * Removal of internal files containing notes, scratch info and the like.
+
+ > * Inserting version information into files.
+
+ > * ...
+
+ > The tool ''makedist'' (which I wrote) is in my mind when thinking
+   about this step.
+
+ * Raw retrieval
+
+ > The process of retrieving a raw ''distribution'' from a ''source
+   repository''.
+
+ * Repository
+
+ > General term with two possible meanings.
+
+ > 1. A collection of ''archives''.  The exact term for this type of
+     repository is "distribution repository".
+
+ > > If a distribution repository is restricted to one type of
+     distributions this type can be added to the term as further
+     specification of the type of repository.  Thus
+
+ > > * ''distribution repository, binary'', or
+
+ > > * ''distribution repository, source''.
+
+ > 2. A collection of directories, developer files and control files
+      containing version control information.  The exact term for this
+      type of repository is ''source repository''.
+
+ > > A repository can either be internal to an organization or public.
+
+ * Source repository
+
+ > See ''repository''
+
+ * Tcl core
+
+ > The most fundamental part in the Tcl world; the interpreter engine
+   and the builtin commands coming with it.  These are all commands
+   and procedures reported by ''info commands'' for a ''tclsh'' which
+   was started with an empty ''.tclshrc'' file and after sourcing all
+   ''.tcl'' files in the directory returned by ''info library''.
+
+ * Tcl core distribution
+
+ > The most fundamental distribution there is.  Contains the ''Tcl
+   core'' and a number of packages.
+
+
+~ Roles
+
+The terms in the preceding section specified both passive data
+structures and actions upon them.  This section specifies the possible
+actors, i.e. entities which perform one or more of these actions.
+
+To make the specification easier, related actions are grouped into
+roles of behavior.  The mapping from roles to actual actors,
+i.e. people and organizations is n:m.  On other words, one actor may
+have several roles, either at once or changing over time and one role
+can be held by several distinct actors.
+
+Examples are given at the end of this section.
+
+ 1. Catalog manager
+
+ > A catalog manager handles one or more catalogs.  He is responsible
+   for
+
+ > * the final name arbitration for packages with conflicting names
+
+ > * and the categorization of the packages indexed by the catalog.
+
+ 1. P/A Builder
+
+ > A package and/or application builder is a person and/or organization
+
+ > * who retrieves raw distributions from source repositories and (in
+     a sequence of several steps) generates binary distributions from
+     them.
+
+ > * or who retrieves source distributions from distribution
+     repositories and (in a sequence of several steps) generates
+     binary distributions from them.
+
+ > * uploads the generated binary distributions into one or more
+     distribution repositories.
+
+ > * uploads the generated source distributions into one or more
+     distribution repositories.
+
+ > The intermediate steps performed by a builder are ''Preparation'',
+   ''Building'', and ''Binary generation''.
+
+ > If ''System administrator'' and ''P/A Builder'' coordinate with each other
+   it is also possible to install a package directly from the built
+   package.
+
+ > ''NOTE'': Think about splitting P/A Builder into two roles; one for
+   the preparation of source ''distributions'' and a second role for
+   the generation of binary ''distributions''.
+
+|         TODO Find some nice names for the split roles.
+
+ 1. P/A Developer
+
+ > A developer is a ''P/A User'' whose tasks include the creation of
+   new packages and/or applications.  A workspace contains the raw
+   sources of these new packages and applications.  For posterity and
+   version control it is kept synchronized with one or more ''source
+   repositories''.
+
+ > During development, at least one installation has to be accessible,
+   containing the initial packages, the new packages and the
+   applications built upon the packages.
+
+ 1. P/A User
+
+ > A person or organization which uses Tcl based tools but does not
+   develop new code.  Its workspace contains the files required for
+   the tasks at hand.
+
+ > The border between the roles of P/A Developer and P/A User blurs if
+   the tool being used allows one to customize/program/extend it in
+   Tcl.
+
+ 1. Repository manager
+
+ > This role handles the management of all types of ''repositories''.
+   This role is not part of the development process ''per se'' and has
+   no direct actions for with regards to distributions, packages,
+   sources, etc.
+
+ > Repository managers are responsible for keeping the system up and
+   running, doing adequate backups, supporting mirrors, providing
+   browsing and download capabilities, providing confidence that
+   updates to items in the repository are being done by the approved
+   person or persons, etc.
+
+ > The role is related to ''System administrator'', but not the same.
+   It was split out of that role because a ''System-Administrator'' is
+   usually internal to an organization whereas a repository and its
+   management can be provided by an entity external to the
+   organization.
+
+ 1. System administrator
+
+ > A system administrator manages
+
+ > * one or more ''installations'' of the Tcl core and additional
+     packages.  Each installation may be configured differently (Tcl
+     version, installed packages, platform, ...).
+
+ > * Installed packages are taken either from a ''distribution
+     repository'' or directly from a built package.  The latter has to
+     be done in coordination with a ''P/A Builder''.
+
+ > Her responsibilities include
+
+ > * the creation of empty installations, 
+
+ > * the destruction of installations,
+
+ > * the addition and removal of packages to/from an existing
+     installation.
+
+The three P/A roles are central to the development process and bound
+together in a tight loop of information flowing between them.  The
+other three roles handle the support structure without which the other
+roles would be unable to communicate and collaborate.
+
+#image:78pa_cycle
+
+Examples:
+
+ * Larry Virden is ''System-Administrator'', ''P/A Builder'' and ''P/A
+   User'' for his organization.
+
+ * I (the author of this TIP) am all roles, on my system at home.
+
+ * ActiveState is ''Repository Manager'' for the Perl community and
+   plans to become one for the Tcl community.
+
+ * SourceForge is a combination of ''Repository Manager'' and
+   ''Catalog Manager''.
+
+ * Most people with a windows machine at home are
+   ''System-Administration'' and ''P/A User'' for this machine.
+
+~ Visual Representation
+
+The following drawings are a visual adjunct to the terms in the last
+sections to aid in the understanding of the terms and their relations.
+
+Legend:
+
+ * Blue rounded boxes - Areas of responsibility for roles.  The
+   responsible role is written in gold text inside of the box.
+
+ * White rounded boxes with a black border - Data, like packages,
+   distributions, etc.
+
+ * White boxes with a red border - Actions on data.
+
+#image:78tea_terms_relations_1 Roles, Data and Actions
+
+#image:78tea_terms_relations_2 Relationships Between Data Entities
+
+~ Copyright  
+
+This document has been placed in the public domain.

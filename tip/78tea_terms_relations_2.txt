@@ -1,0 +1,28 @@
+,-------------------. ,-------------------------.
+| Source Repository | | Distribution Repository |
+`-------------------' `-------------------------'
+          |                         |
+          | contains                | contains
+          V                         V
+,-------------------.          ,---------.
+| Distribution, raw |          | Archive |
+`-------------------'           ---------'
+                                    |
+                                    | encapsulates
+                                    V
+                          ,------------------.
+                          | Distribution     |
+                          | (binary, source) |
+                          `------------------'
+                                 |  |
+                      ,----------'  | encapsulates
+                      V             V
+                 ,---------. ,-------------.
+                 | Package | | Application |
+                 `---------' `-------------'
+                      |             |
+                      `---------.   | consists of
+                                V   V
+                              ,-------.
+                              | Files |
+                              `-------'
