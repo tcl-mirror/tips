@@ -1,0 +1,268 @@
+TIP:            30
+Title:          Tk Toolkit Maintainer Assignments
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        09-Mar-2001
+Post-History:   
+
+~ Abstract
+
+This document keeps a record of who maintains each functional area
+of Tk ([23]).
+
+~ Assignments
+
+Listed below are Tk's 92 functional units, in the same order as in
+[23].  See [23] for the precise definition of what code belongs to
+what area, and how maintainers designate their support for
+platform-specific portions of the code.  The area names listed below
+are also the Categories in the SourceForge Tracker for the Tk Toolkit
+(http://sourceforge.net/tracker/?group_id=12997).
+
+For each of Tk's functional units, the following maintainers are 
+assigned:
+
+   1. ''Bindings'' -
+
+   1. ''Appearance'' -
+
+   1. ''[*button] and [label]'' -
+
+   1. ''Canvas Basics'' -
+
+   1. ''Canvas Items'' -
+
+   1. ''Canvas PostScript'' -
+
+   1. ''[entry]'' -
+
+   1. ''[frame] and [toplevel]'' -
+
+   1. ''[listbox]'' -
+
+   1. ''Generic Menus'' -
+
+   1. ''Mac Menus'' -
+
+   1. ''Unix Menus'' -
+
+   1. ''Win Menus'' -
+
+   1. ''[message]'' -
+
+   1. ''[scale]'' -
+
+   1. ''[scrollbar]'' -
+
+   1. ''[spinbox]'' -
+
+   1. ''Text Widget'' -
+
+   1. ''Menubars (obsolete)'' -
+
+   1. ''[tk_optionMenu]'' -
+
+   1. ''Option Parsing'' -
+
+   1. ''Relief'' -
+
+   1. ''Built-in Bitmaps'' -
+
+   1. ''Conversions From String'' -
+
+   1. ''Objects'' - 
+
+   1. ''Utility Functions'' -
+
+   1. ''Colormaps and Visuals'' -
+
+   1. ''Color Names'' -
+
+   1. ''Cursor Names'' -
+
+   1. ''Key Symbols'' -
+
+   1. ''Generic Dialog Support'' -
+
+   1. ''[tk_chooseColor]'' -
+
+   1. ''[tk_dialog]'' -
+
+   1. ''[tk_chooseDirectory]'' -
+
+   1. ''[tk_get*File]'' -
+
+   1. ''[tk_messageBox]'' -
+
+   1. ''Image Basics'' -
+
+   1. ''Bitmap Images'' -
+
+   1. ''Photo Images'' -
+
+   1. ''Photo Image|GIF'' -
+
+   1. ''Photo Image|PPM'' -
+
+   1. ''Generic Fonts'' -
+
+   1. ''Mac Fonts'' -
+
+   1. ''Unix Fonts'' -
+
+   1. ''Win Fonts'' -
+
+   1. ''Geometry Management'' -
+
+   1. ''[grid]'' -
+
+   1. ''[pack]'' -
+
+   1. ''[place]'' -
+
+   1. ''[clipboard]'' -
+
+   1. ''[selection]'' -
+
+   1. ''[console]'' -
+
+   1. ''[focus]'' -
+
+   1. ''[grab]'' -
+
+   1. ''[option]'' -
+
+   1. ''[send]'' -
+
+   1. ''[tk_focus*]'' -
+
+   1. ''[tk_setPalette]'' -
+
+   1. ''Safe Tk'' -
+
+   1. ''Geometry'' -
+
+   1. ''Tk_Win Functions'' -
+
+   1. ''Graphic Contexts'' -
+
+   1. ''Generic Window Operations'' -
+
+   1. ''Mac Window Operations'' -
+
+   1. ''Unix Window Operations'' -
+
+   1. ''Win Window Operations'' -
+
+   1. ''Events'' -
+
+   1. ''Event Loop'' -
+
+   1. ''Error Handling'' -
+
+   1. ''Atoms'' -
+
+   1. ''Argv Parsing'' -
+
+   1. ''Embedding'' -
+
+   1. ''wish'' -
+
+   1. ''Mac DND Tclets'' -
+
+   1. ''Widget Tour'' -
+
+   1. ''Square Demo'' -
+
+   1. ''Other Demos'' -
+
+   1. ''L10N|German'' -
+
+   1. ''L10N|Greek'' -
+
+   1. ''L10N|English'' -
+
+   1. ''L10N|Spanish'' -
+
+   1. ''L10N|French'' -
+
+   1. ''L10N|Italian'' -
+
+   1. ''L10N|Dutch'' -
+
+   1. ''Release Notes'' -
+
+   1. ''Portability'' -
+
+   1. ''X11 Emulation'' -
+
+   1. ''Macintosh Build'' -
+
+   1. ''Unix Build'' -
+
+   1. ''Windows Build'' -
+
+   1. ''Test Tools'' -
+
+   1. ''Logos'' -
+
+~ Orphaned Categories
+
+The following categories in Tk's SourceForge Tracker should be mapped to
+new categories corresponding to a maintained area of Tk, when seeking 
+the appropriate maintainer:
+
+   1. ''Build'' - map to platform specific Build category.
+
+   1. ''Canvas'' - map to appropriate Canvas subcategory.
+
+   1. ''Code Cleanup'' - map to category for the code cleaned up.
+
+   1. ''Dialogs'' - map to particular Dialog category.
+
+   1. ''Display and cosmetics'' - ???
+
+   1. ''Docs'' - no longer a separate category.  Map to the category for
+      the code being documented.
+
+   1. ''Fonts'' - map to Generic Fonts, or platform-specific Font
+      category.
+
+   1. ''GUI'' - ???
+
+   1. ''I18N'' - map to appropriate L10N category.
+
+   1. ''Images'' - map to appropriate Image subcategory.
+
+   1. ''Installation'' - map to appropriate Build category.
+
+   1. ''Macintosh'' - no longer a separate category.  Map to the
+      particular category where there is a Mac-specific problem.
+
+   1. ''Menu'' - map to Generic Menus, or platform-specific Menu
+      category.
+
+   1. ''Other'' - reassign once appropriate category is determined.
+
+   1. ''Other widgets'' - map to a particular Widget category.
+
+   1. ''Tests'' - map to Test Tools, or particular category being
+      tested.
+
+   1. ''Threading'' - no longer a separate category.  Map to the
+      category for the code where there are threading issues.
+
+   1. ''Window Manager'' - map to Generic Window Operations, or other
+      appropriate category.
+
+~ Areas Without Maintainers
+
+Those funcational areas without a maintainer are maintained by the Tcl 
+Core Team with each change requiring TYANNOTT review.
+
+~ Copyright
+
+This document has been placed in the public domain.
