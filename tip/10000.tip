@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.130 $
+Version:        $Revision: 1.131 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -81,6 +81,17 @@ spong wibble
 |# should be: "this is a test from inside ::test::foo::bar."
 |puts stdout $result 
 |
+
+~ Specification
+
+'''interp''' '''invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
+
+This command would continue to function exactly the same as the
+current documentation says with the following exceptions:
+
+   * A new '''-namespace''' option can specify the target namespace in the slave interpreter where the command should be invoked.
+
+   * If both the '''-global''' and '''-namespace''' options are present, the '''-namespace''' option is ignored.
 
 ~ Reference Implementation
 
