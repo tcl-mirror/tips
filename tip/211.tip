@@ -1,0 +1,138 @@
+TIP:		211
+Title:		Add Full Stack Trace Capability
+Version:	$Revision: 1.1 $
+Author:		Robert Seeger <robert_seeger@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	10-Aug-2004
+Post-History:	
+Keywords:	Tcl
+
+~ Abstract
+
+This TIP proposes adding a new subcommand to the '''info''' command,
+or a flag to the '''level''' subcommand, to get a list of all the
+current stack levels, rather than the limited list currently returned
+by '''info level'''.
+
+~ Rationale
+
+Currently, there is no way to get a list of all the stack levels of
+the current scope. The '''info level''' command does not contain
+levels that have been '''uplevel'''ed out of, reporting only the
+levels code would normally be able to access via another '''uplevel'''
+command. There are times when the lack of information can have a
+negative impact on code design. The difference in information can be
+seen with the following code snippets:
+
+|% proc bob {args} { 
+|    joe $args
+|  }
+|% proc joe {args} {
+|    uplevel 1 [list dave $args]
+|  }
+|% proc dave {args} {
+|    puts "Level: [info level]"
+|    for {set i [info level]} { $i > 0 } {incr i -1 } {
+|      puts "${i}: [info level $i]"
+|    }
+|  }
+|% bob
+|Level: 2
+|2: dave {{}}
+|1: bob
+|% proc dave {args} {
+|    puts "Level: [info stacklevel]" 
+|    for {set i [info stacklevel]} { $i > 0 } {incr i -1 } {
+|      puts "${i}: [info stacklevel $i]"
+|    }
+|  }
+|% bob
+|Level: 3
+|3: dave {{}}
+|2: joe {}
+|1: bob
+
+There are 3 reasons I see for bringing forth this TIP: 
+
+   1. Its an introspection ability that is currently lacking, with no
+      good reason for that lack.
+
+   2. The more information that is available to the programmer, the
+      easier it is to accomplish a goal in a straightforward, easily
+      maintainable way.
+
+   3. I have code in which the impact of not having this information
+      available is visible.
+
+~~Use Cases
+
+There are two cases I have run into where the information to query the
+entire stack would have been particularly useful.
+
+ 1. '''TclTest'''
+
+  > The first case is with Tcltest, where the complete lack of ability
+    to gain access to that information means it is impossible to gain
+    information about a test without modifying the Tcltest code
+    itself. Being able to find out the name of the current test would
+    be very handy, especially in naming test procs and logging
+    information. Currently, there is no way to find out the name of
+    the currently executing test, due to the fact that the code for
+    the test is '''uplevel'''ed and, hence, not visible via '''info
+    level'''.
+
+ 2. TestStubs Package
+
+  > The TestStubs package provides the ability to temporarily redefine
+    commands, in particular for stubbing out or replacing
+    functionality in a test case. There is a command in the package
+    called '''chain''', which is used within the code replacing a
+    command (or part of a command) to call the original definition of
+    the command. For example, one could do:
+
+|stubs::stub ensemble array names {
+|    return [lsort [uplevel 1 chain names $args]]
+|}
+
+  > However, since the '''chain''' command is (and should be) limited
+    to only running from within a stub definition, it needs to call
+    '''info level''' to find out if its caller is one of the stubbed
+    commands, and what the name of that command is. With '''info
+    level''', it would not have access to the level that is running
+    inside the stubbed procedure. Hence, either it cannot check this
+    constraint, or stubs cannot be allowed to use '''uplevel''' when
+    calling it (which means things like the above either cannot work,
+    or need to be rewritten in a considerably less clear manner).
+
+~ Proposed Change
+
+I propose to either add a new subcommand to the info command with the
+following syntax:
+
+ > '''info stacklevel''' ?''level''?
+
+Or to add a new flag to the '''info level''' subcommand:
+
+ > '''info level''' ?'''-full'''? ?''level''?
+
+The new functionality will include all the stack information, rather
+than the current limited subset. The information to do so already
+exists within the Interp object that all commands are passed, and the
+code needed to expose it differs in only a few aspects from that of
+'''info level'''.
+
+This TIP does ''not'' propose to alter '''uplevel''' or '''upvar''' so
+that they can see these hidden levels.
+
+~ Copyright
+
+This document has been placed in the public domain.
+
+Please note that any correspondence to the author concerning this TIP
+is considered in the public domain unless otherwise specifically
+requested by the individual(s) authoring said correspondence. This is
+to allow information about the TIP to be placed in a public forum for
+discussion.
