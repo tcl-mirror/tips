@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -128,7 +128,12 @@ branch, or they may be rejected.
      windows makefiles.  One top-root makefile.win will serve as the
      starting point for MSVC++, BCC, and Watcom.  Extreme use of
      shared info will highlight this new system.  This is not TEA -
-     this is anti-TEA.
+     this is anti-TEA. (maintained by davygrvy@pobox.com)
+
+   * daves-chop-branch (Tcl) - Attempts to modularize subsystems so
+     they can be easily removed at compile-time.  First step towards
+     a 'tinytcl' on the HEAD rather than starting with an older
+     version.  (maintained by davygrvy@pobox.com)
 
 ~ Dead Branches
 
