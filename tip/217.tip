@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -37,10 +37,10 @@ to this problem can take more than 10 times as long as the given
 reference implementation, which adds virtually no overhead when it is
 not invoked.
 
-~ Proposed Specification
+~ Specification
 
-The '''lsort''' command shall accept a new option, '''-indices'''.
-When '''lsort''' is invoked with this option, it shall return a list 
+The '''lsort''' command may accept a new option, '''-indices'''.
+When '''lsort''' is invoked with this option, it will return a list 
 of integer indices of the elements of the list given as the final
 argument to '''lsort''', in the order that the elements would have
 been sorted had the '''-indices''' option not been specified.
@@ -93,7 +93,7 @@ The following timing data are the mean '''time''' returned from 20 different lis
 |     1600      486.2    1150.0      2.4
 |     5000     1582.5    4847.6      3.1 
 
-~ Proposed Documentation
+~ Suggested Documentation
 
 In the '''lsort''' man page, under '''DESCRIPTION''', change the 
 first sentence:
@@ -135,11 +135,11 @@ keys generated on-the-fly.  Finally, he pointed out a flaw concerning
 the example in the Rationale from the original version of this TIP, 
 which has since been corrected.
 
-In reply to Lars, the author
+In reply to Lars, James Salsman
 [http://sourceforge.net/mailarchive/message.php?msg_id=9348381]
 provided the timing data given above, and an efficient alternative to 
 the '''-keycommand''' idea using this TIP's '''-indices''' proposal.
 
 ~ Copyright
 
-This document has been placed in the public domain by the author.
+This document has been placed in the public domain.
