@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -16,9 +16,8 @@ Post-History:
 
 This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
-can take place.  ''Testing separate abstract editing...''
-
-~ Notes
+can take place.
+foo
 
 Note that the State of this TIP is Draft and the Vote of this
 TIP is Pending only because those values are required to enable
@@ -72,6 +71,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.22  2001/01/08 09:55:38  tclhttpd
+| Revision through web from Donal K. Fellows <fellowsd@cs.man.ac.uk> (9610)
+|
 | Revision 1.21  2000/12/12 17:42:07  tclhttpd
 | Revision through web from Andreas Kupries <a.kupries@westend.com> (26183)
 |
