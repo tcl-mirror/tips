@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.85 $
+Version:        $Revision: 1.86 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -12,6 +12,7 @@ Author:         Kevin B KENNY <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Test User <test@example.com>
 Author:         New User <newbie@example.com>
+Author:         Working User <thisworks@example.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -38,6 +39,9 @@ proposed in [13].
 Testing after Tcl upgrade... Do I see these changes?
 
 How about these changes?
+
+The Working User will be able to make these changes,
+since the broken contents caching is now fixed!
 
 Quick check after TIP software update.
 
