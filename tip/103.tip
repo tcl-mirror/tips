@@ -1,7 +1,8 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -165,13 +166,12 @@ Some food for thought about different chars:
 |-   
 |%
 |&   
+|?
 |/   open /$path   
 
 |'     # Makes more sense as enclosing?
 |`     # Makes more sense as enclosing?
-
 |>   
-|?
 |,   append recipients ,[join $header($ccL) ,]
 
 Example usage of those that seem reasonable:
@@ -179,7 +179,6 @@ Example usage of those that seem reasonable:
 |expand { exec $prog '$opts1 '[getMoreopts] $file1 $file2 }
 |expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
 |expand { exec $prog ,$opts1 ,[getMoreopts] $file1 $file2 }
-|expand { exec $prog ?$opts1 ?[getMoreopts] $file1 $file2 }
 |expand { exec $prog >$opts1 >[getMoreopts] $file1 $file2 }
 
 Or, as enclosing
@@ -187,7 +186,6 @@ Or, as enclosing
 |expand { exec $prog '$opts1' '[getMoreopts]' $file1 $file2 }
 |expand { exec $prog `$opts1` `[getMoreopts]` $file1 $file2 }
 |expand { exec $prog ,$opts1, ,[getMoreopts], $file1 $file2 }
-|expand { exec $prog ?$opts1? ?[getMoreopts]? $file1 $file2 }
 |expand { exec $prog >$opts1< >[getMoreopts]< $file1 $file2 }
 
 For comparison, the syntax that has been proposed earlier that
