@@ -1,6 +1,6 @@
 TIP:            29
 Title:          Allow array syntax for Tcl lists
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -101,6 +101,9 @@ This TIP's proposed change can be stated succinctly:
    list, provided that the variable ''a'' is scalar and the value
    ''x'' is a non-negative integer.
 
+   ''Exception:'' Read traces and ''upvar'' calls designating
+   individual list elements shall not be supported.
+
 Note that this change is backward compatible with existing Tcl
 scripts!  If a notation like ''a(x)'' is used to refer to a scalar
 variable in today's Tcl, the result is an error:
@@ -120,15 +123,35 @@ The default behavior, if ''a'' is not set, and a script executes
 
 will still be to create an associative array.  If a script wishes to
 perform such actions on a list, it will be necessary first to
-initialize the list:
+initialize the variable:
 
 | set a [list]
 | set a(0) foo
 
-In the proposed syntax, negative subscripts shall cause errors, and
-subscripts greater than the length of the list shall cause the list to
-be expanded, filling in the gaps with empty ''Tcl_Obj'' structures
-(the result of ''Tcl_NewObj()'').
+Note that in the example above, there is no requirement that the
+internal representation of ''a'' be a list; the line,
+
+| set a [list]
+
+could have been replaced with
+
+| set a {}
+
+with the only impact being the run-time cost of shimmering the empty
+string into an empty list.  Nowhere does this proposal introduce
+behavior that depends on a specific internal representation for any
+variable.
+
+In the proposed syntax, negative subscripts shall cause errors.  Read
+operations shall support subscripts ranging from zero to one less than
+the length of the list.  Write operations shall support subscripts
+ranging from zero to the length of the list, that is, it shall be
+legal to store into the element one space beyond the current last
+element (which shall have the effect of expanding the list length by
+one).  Unset operations may use only a subscript equal to one less
+than the length of the list, that is, it shall be legal to unset only
+the last element of the list.  Unsetting this element shall have the
+effect of shrinking the list by one member.
 
 With the proposed change in syntax, the procedure to shuffle a list
 becomes much more straightforward:
@@ -172,6 +195,67 @@ will ''not'' be supported.  However, the commoner form:
 |  increment x 0
 
 will, of course, work as expected.
+
+Write and unset traces on list elements shall be supported; it shall
+be permissible to write:
+
+|    trace add variable x(1) write writeCallback
+
+or
+
+|    trace add variable x(1) unset unsetCallback
+
+The ''write'' callback shall be invoked whenever the given list
+element changes value; the ''unset'' callback shall be invoked
+whenever the variable is unset or when its length shrinks to the point
+that it no longer has a member with the given index.
+
+Read traces on list elements shall ''not'' be supported.  It is
+too difficult at this point to define what their semantics should be.
+For instance, if a program executes
+
+|   trace add variable x(0) read readCallback
+|   set x [list foo bar grill]
+|   set y [string range $x 4 end]
+
+should the callback fire?  By one argument, the program has not
+read element zero of the list; by another, using the list as a string
+has read every element, and all read traces should fire.  In any case,
+the read trace on a variable fires before its usage is known; it appears
+impossible in existing code to implement selective read tracing on list
+elements.
+
+The implementation of write and unset traces on list elements will be
+done by establishing a C-level write trace on the variable as a whole.
+The client data of the trace will designate a structure containing the
+ordinal number of the element being traced, and a ''Tcl_Obj'' pointer
+designating its old value.  The reference count of the ''Tcl_Obj''
+will be incremented when this pointer is stored.  Note that this
+increment operation makes the object shared.  Any change to the
+designated element will thus need to copy the object.
+
+When the write trace fires, the list representation of the variable
+will be extracted, reconstituting it from the string representation if
+necessary.  If extracting the list representation fails, the trace
+will be considered to have failed as well, and the trace callback will
+return ''TCL_ERROR''.  If extracting the list representation succeeds,
+the list length will be compared with the ordinal number of the
+element being traced.  If the element number is no longer within the
+list, an unset trace fires if one exists.  If the element number is
+within the list, the two ''Tcl_Obj'' pointers are compared.  If they
+are identical, the list element in question is unchanged, and nothing
+need be done.  Otherwise, the write trace fires.  
+
+This behavior is conservative in that an operation that spoils the
+list representation of the object is considered to have written every
+element of the list.  This rule is consistent with the rule that write
+traces on ordinary Tcl variables fire whenever the variable is set,
+even if it is being set to an identical value.
+
+In any event, after the conclusion of a trace callback, the saved
+Tcl_Obj will have its reference count decremented and be replaced with
+the current element of the list (with reference count appropriately
+incremented, of course).
 
 ~ Discussion
 
@@ -217,6 +301,35 @@ fact, the author of this TIP would much rather deprecate the use of
 ''upvar'' to refer to array elements.  A disproportionate amount of
 code goes into supporting this seldom-used feature.
 
+   * We might wish to extend ''unset'' so that
+
+|     unset x(2)
+
+     would be synonymous with
+
+|     set x [lreplace $x 2 2]
+
+     that is, to allow deletion of interior elements of a list.
+
+   * We might wish to allow writing to elements beyond the end
+     of the list, so that
+
+|     set x [list foo]
+|     set x(2) bar
+
+     would result in a three-element list,
+
+|     foo {} bar
+
+The author of this TIP rejects the last two alternatives because they
+conflict with most users' expectations of how arrays behave.  Allowing
+''write'' and ''unset'' operations to create lists having unspecified
+elements suggests an implementation of sparse arrays.  While sparse
+arrays are a useful concept, and there are efficient and elegant data
+structures to support them, they have distinctly different semantics
+from Tcl lists and it seems likely that the conceptual conflict will
+cause trouble over time.
+
 ~ See Also
 
 [22]
@@ -226,6 +339,18 @@ code goes into supporting this seldom-used feature.
 No reference implementation has yet been developed; the author of this
 TIP wishes to solicit the opinions of the Tcl community before
 spending a lot of time implementing a possibly bad idea.
+
+~ Change history
+
+''12 March 2001:'' Added detailed discussion of the specific subscript
+ranges supported by read, write and unset operations.  Changed the discussion
+to reject the alternative of padding an array when setting an index beyond
+the end.  Added discussion of the details of write and unset traces, and
+rejecting read traces as being infeasible to implement.  Clarified the
+example of creating an empty list so as to avoid any misapprehension that
+these changes depend on list variables' having a particular representation
+at any given time; in fact, every detail of this proposal is tolerant of
+shimmering.
 
 ~ Copyright
 
