@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.96 $
+Version:        $Revision: 1.97 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -14,6 +14,7 @@ Author:         Test User <test@example.com>
 Author:         New User <newbie@example.com>
 Author:         Working User <thisworks@example.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
+Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -34,3 +35,5 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+To test "required e-mail address" behaviour.
