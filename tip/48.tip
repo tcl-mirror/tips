@@ -1,11 +1,11 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        23-Jul-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
