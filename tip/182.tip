@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -16,12 +16,26 @@ This TIP proposes a new function '''bool()''' for use with the
 
 ~ Rationale
 
-This math function would be very useful in a number of different
-situations, such as:
+This TIP proposes a new function, '''bool()''', that does casting to
+boolean much as '''int()''', '''double()''' and '''wide()''' cast to
+their respective types.  This is firstly for reasons of symmetry
+between the types, secondly because it allows for clearer expression
+of what is happening than the alternative (based on the conditional
+operator), and thirdly because it may also allow for conversion of
+values that are not strictly boolean under any interpretation, and so
+make certain kinds of user interface more robust.  For example:
 
- * if {bool(true)} then { puts "True" }
-
- * if (bool(0x1)} then { puts "True" }
+|# See if they want to enable an option...
+|puts stdout "Do you want to enable option X?"
+|# Read their response.
+|gets stdin response
+|# Convert "yes/no", "true/false", "on/off" to 1/0.
+|set Options(X) [expr {bool($response)}]
+|
+|# ... Write the options to a file ...
+|set configFile [open "config.file" "w"]
+|puts $configFile "array set \{[array get Options]\}"
+|close $configFile
 
 ~ Proposed Change
 
