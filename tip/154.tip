@@ -1,13 +1,13 @@
-TIP:		154
-Title:		Add Named Colors to Tk
-Version:	$Revision: 1.1 $
-Author:		Damon Courtney <damon@unreality.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Tcl-Version:	8.5
-Created:	03-Sep-2003
-Post-History:	
+TIP:            154
+Title:          Add Named Colors to Tk
+Version:        $Revision: 1.2 $
+Author:         Damon Courtney <damon@unreality.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Sep-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -17,48 +17,68 @@ both fonts and images.
 
 ~ Rationale
 
-Named fonts and images go a long way toward making Tk able to modify a
-lot of options on a global scale simply by adjusting a single item.
+Named fonts and images go a long way toward making Tk able to modify
+a lot of options on a global scale simply by adjusting a single item.
 Tk already simulates some version of named colors on Windows with the
-use of values like ''SystemButtonFace'' and ''SystemWindowFrame''.
-These color names map to values predefined in Windows.  On UNIX, we
-have to kind of fake these things around.
+use of values like 'SystemButtonFace' and 'SystemWindowFrame'.  These
+color names map to values pre-defined in Windows.  On UNIX, we have to
+kind of fake these things around.
 
-With the addition of a color command, we can simply define default
-colors in UNIX that correspond to existing named colors on Windows.
-So, we could create ''SystemButtonFace'' as a named color on UNIX, and
-any Windows program using those color names would port to UNIX without
-a change (we may do this already.  I haven't run Tk on UNIX in some
-time).
+With the addition of a color command, we can simply define default olors
+in UNIX that correspond to existing named colors on Windows.  So, we could create 'SystemButtonFace' as a named color on UNIX, and any Windows program using those color names would port to UNIX without a change (we may do this already.  I haven't run Tk on UNIX in some time).
 
 ~ Implementation
 
-I propose the introduction of a new command, ''color'':
+I propose the introduction of a new command, 'color':
 
-|color <subcommand> ?arg ..?
+color <option> ?arg ..?
 
-To create a new named color in terms of an existing color (either
-named or in one of the #RGB formats), the ''create'' subcommand would
-be used:
+color create <colorName> ?option ..?
+    Creates a new named color.
 
-|color create <colorName> <color>
+    Options (for now):
+	-color <color>
 
-The currently defined named colors (including those defined by Tk) can
-be retrieved using the ''names'' subcommand:
+color cget <colorName> <option>
+    Standard function to get an option value.
 
-|color names
+color configure <colorName> ?option ..?
+    Standard function to configure a color's values.
 
-A named color can also be deleted using the ''delete'' subcommand:
+color exists <colorName>
+    Determine if a named color exists.
 
-|color delete <colorName>
+color names ?pattern?
+    Returns a list of all named colors, including ones created by Tk.
 
-~ Author's Note
+color delete <colorName>
+    Deletes a named color.
 
-I have already managed to implement most of this command with just an
-hour of work.  Most of that time was spent familiarizing myself with
-Tk's color code.  Tk already has code at the C level to implement
-named colors.  This TIP mostly just proposes exposing control of that
-layer at the Tk level.
+Beyond the color command, we need to implement a default set of standard
+colors that will exist across all platforms.  As proposed by some, I think these should be named Tk*.  The current list (reflected in the Windows color list) would be:
+
+TkButtonFace
+TkButtonText
+TkDisabledText
+TkHighlight
+TkHighlightText
+TkMenu
+TkMenuText
+TkScrollbar
+TkWindow
+TkWindowFrame
+TkWindowText
+
+If there are others, I'm not sure what they are.  This list can easily be expanded over time as most of them will be created at the Tcl-level.
+I also think we need to consider a default color scheme on the UNIX platforms until we work out a way to support the user's native theme.  The "Griffin" theme seems a likely candidate.  UNIX platforms then need
+to specify their colors as named colors instead of the hard-coded values
+they have now (as Windows already does).
+
+I think over time named colors will be enhanced to support a lot more
+options.  I'd really like to have options like -light1, -light2, -dark1,
+-dark2 to support defining a single color AND its border shadings.  This
+would allow for a lot of flexibility in defining a color, applying it to
+a button and have all the borders change with it.  I think this is out of my skills right now and therefore not part of this TIP.
 
 ~ Copyright
 
