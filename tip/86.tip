@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -21,14 +21,14 @@ and source file information associated with statements being executed
 and call a single callback.
 A new [info line] option provides access to line number information.
 As a result, it becomes a simple matter to implement a debugger for
-Tcl, in Tcl.  Furthermore, the implementation also serves as an example of
-for the C interface, enabling similar capabilities at the lower level.
+Tcl, in Tcl.  Furthermore, the implementation also serves as example usage of
+the C interface, enabling similar capabilities at the lower level.
 
 A simple Tcl debugger, ''tgdb'', written in Tcl, and emulating ''gdb'',
 is included with this Tip to demonstrate the
 use of this interface.  ''tgdb'' supports breakpoints on lines/procs/vars/etc,
-single-stepping, up/down stack and evals.  It is designed to work as a
-slave under GUI's written in Tk (see ''Reference Implementation'').
+single-stepping, up/down stack and evals.  It is designed to work both as a
+commandline and a slave process (see ''Reference Implementation'').
 
 Finally, upon error within a procedure, the file path and
 absolute (as opposed to relative) line number are printed out when
@@ -188,6 +188,7 @@ assertions.
 ~ Reference Implementation
 
 http://pdqi.com/download/tclline-cvs.diff.gz - Patch against CVS head.
+
 http://pdqi.com/download/tclline-8.4.6.diff.gz - Patch against Tcl 8.4.6
 
 The patch against the CVS head is as of June 13/2004 and should
@@ -197,7 +198,7 @@ These have been lightly tested against numerous small Tcl programs.
 
 There is also an initial version of a debugger: ''tgdb''.
 
-http://pdqi.com/download/tgdb-2.0.tgz
+http://pdqi.com/download/tgdb-2.0.tar.gz
 
 ''tgdb'' emulates the basic commands of ''gdb'' (''s'', ''n'',
 ''c'', ''f'', ''bt'', ''break'', ''info locals'', etc).  This newest
@@ -209,6 +210,7 @@ An additional package ''pdqi'' provides ''tdb'', a GUI front-end to
 ''gdb'', modified to also work with ''tgdb''.
 
 ~ Possible Future Enhancements
+
 Build and store a line number table internally during parse?
 
 Line number lookup via the source string.
