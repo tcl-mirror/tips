@@ -1,0 +1,110 @@
+TIP:		22
+Title:		Multiple Index Arguments to lindex
+Version:	$Revision: 1.1 $
+Author:		David Cuthbert <dacut@kanga.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	19-Jan-2001
+Tcl-Version:	8.4a2
+Keywords:	lindex, multiple arguments, sublists
+Discussions-To: news:comp.lang.tcl
+Post-History:
+
+~ Abstract
+
+Obtaining access to elements of sublists in Tcl often requires nested
+calls to the ''lindex'' command.  The indices are syntactically listed
+in most-nested to least-nested order, which is the reverse from other
+notations.  In addition, the nesting of command substitution brackets
+further decreases readability.  This proposal describes an extension
+to the ''lindex'' command that allows it to accept multiple index
+arguments, in least-nested to most-nested order, to automatically
+extract elements of sublists.
+
+~ Rationale
+
+The heterogeneous nature of Tcl lists allows them to be applied to a
+number of useful data structures.  In particular, lists can contain
+elements that are, themselves, valid lists.  In this document, these
+elements are referred to as ''sublists.''
+
+Extracting elements from sublists often requires nested calls to
+''lindex.''  Consider, for example, the following Tcl script that
+prints the center element of a 3-by-3 matrix:
+
+|    set A {{1 2 3} {4 5 6} {7 8 9}}
+|    puts [lindex [lindex $A 2] 2]
+
+When these calls are deeply nested - e.g., embedded in an ''expr''
+arithmetic expression, having results extracted through ''lrange,''
+etc. - the results are difficult to read:
+
+|# Print the sum of the center indices of two 3x3 matrices
+|set p [expr {[lindex [lindex $A 2] 2] + [lindex [lindex $A 2] 2]}]
+|
+|# Get all but the last font in the following parsed structure:
+|set pstruct {text {ignored-data
+|                      { ... }
+|		       }
+|		       {valid-styles
+|			   {justifiction {left centered right full}}
+|			   {font {courier helvetica times}}
+|		       }
+|		 }
+|return [lrange [lindex [lindex [lindex $pstruct 1] 2] 2] 0 end-1]
+
+Note that the list of indices in the latter example is listed in the
+reverse order of vector indices.  In most other languages/domains, the
+last line might take on one of the following forms:
+
+|return list_range(pstruct[2][2][1], 0, end-1);
+|
+|return pstruct[[2, 2, 1]][[0:-1]]
+|
+|temp = pstruct(2, 2, 1);
+|result = range(temp, 0, length(temp) - 1);
+
+Allowing the ''lindex'' command to accept multiple arguments would
+allow this more-natural style of coding to be written in Tcl.
+
+~ Specification
+
+ 1. Allow ''lindex'' to accept an arbitrary number of arguments.
+
+  > 1. The first argument (the ''list argument'') must be a proper Tcl
+       list.  No change is required from current behaviour.
+
+  > 2. The remaining arguments (the ''index arguments'') must be
+       proper list indices (either ''integer'', end, or
+       end-''integer'').
+
+ 2. When only one index argument is given, the behaviour is unchanged
+    from the current ''lindex'' command.
+
+ 3. When multiple index arguments are given, the behaviour is defined
+    recursively as:
+
+|lindex alist i0 i1 i2 ... === lindex [lindex alist i0] i1 i2 ...
+
+  > Note that this does not define any restrictions on the
+    implementation, which may be recursive or iterative.
+
+ 4. When an invalid index is given, an error of the form, ''bad index
+    "invalid_index": must be integer or end?-integer?'', where
+    ''invalid_index'' is the first invalid index encountered, must be
+    returned.
+
+ 5. If the list argument is malformed, the error resulting from an
+    attempt to convert the list argument to a list must be returned.
+    This behaviour is unchanged from the current implementation.
+
+~ Side Effects
+
+ 1. Whether the result of the ''lindex'' operation is successful, the
+    underlying Tcl_Obj that represents the list argument may have its
+    internal representation invalidated or changed to that of a list.
+
+~ Copyright
+
+This document has been placed in the public domain.
