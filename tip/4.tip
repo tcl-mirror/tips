@@ -1,13 +1,14 @@
 TIP:            4
 Title:          Tcl Release and Distribution Philosophy
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Brent Welch <welch@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Larry W. Virden <lvirden@cas.org>
 State:          Draft
-Type:           Informational
+Type:           Informative
 Vote:           Pending
 Created:        26-Oct-2000
-Post-History:
+Post-History:   
 Discussions-To: news:comp.lang.tcl
 
 ~ Abstract
@@ -105,7 +106,9 @@ The bundled distribution must include (but is not limited to):
 
  1. The TclX extension.  There are some historical features of
     TclX that should not necessarily be included, including the
-    tclx shell and its alternate library format.
+    tclx shell and its alternate library format.  However, the
+    TclX help system should not only be included, but updated to
+    include info on all commands included in the distribution.
 
  1. The Expect extension for UNIX platforms.
 
@@ -155,6 +158,8 @@ others not listed.
  1. [[incr Tk]] and [[incr Widgets]].
 
  1. TkTable.
+
+ 1. BWidgets
 
 ~ Rationale
 
