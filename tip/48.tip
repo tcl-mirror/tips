@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -284,10 +284,6 @@ effect on existing functionality.
 | 	char *recordPtr, CONST Tk_OptionSpec **optionsPtr, Tk_Window tkwin,
 | 	Drawable d, int x, int y, int width, int height, int state));
 
- Tk_ElementSpec:
-	Static styled element definition. The version field must be set to 
-	TK_STYLE_VERSION_1 in order to match the following structure.
-
  Tk_ElementOptionSpec:
 	Used to specify a list of required widget options, along with
 	their type.  This info will be subsequently used to get option
@@ -297,6 +293,10 @@ effect on existing functionality.
 |     char *name;
 |     Tk_OptionType type;
 | } Tk_ElementOptionSpec;
+
+ Tk_ElementSpec:
+	Static styled element definition. The version field must be set to 
+	TK_STYLE_VERSION_1 in order to match the following structure.
 
 | typedef struct Tk_ElementSpec {
 |     int version;
