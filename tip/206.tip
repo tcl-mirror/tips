@@ -1,6 +1,6 @@
 TIP:            206
 Title:          Add an [ftruncate] Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Rejected
 Type:           Project
@@ -14,6 +14,10 @@ Obsoleted-By:	208
 
 This TIP proposes a new command '''ftruncate''' for truncating open
 files.
+
+~ Note
+
+This TIP has been effectively rolled into [208].
 
 ~ Rationale
 
