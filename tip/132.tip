@@ -1,6 +1,6 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin Kenny <kennykb@acm.org >
@@ -104,10 +104,9 @@ conversions in the Tcl library:
     platforms already eschew the native ''strtod'' in favour of
     one provided in the ''compat/'' library, because of known bugs.)
 
- 1. The default output conversion of floating-point numbers,
-    ''UpdateStringOfDouble'' shall be implemented to convert a
-    floating-point number to the string having at most
-    ''$::tcl_precision'' significant digits that satisfies the
+ 1. When ''tcl_precision'' is zero, the output conversion 
+    of floating-point numbers, ''UpdateStringOfDouble,'' shall convert a
+    floating-point number to the unique string that satisfies the
     following constraints:
 
  > * if reconverted to a binary floating point number, it yields a
@@ -117,36 +116,27 @@ conversions in the Tcl library:
  > * if there is more than one string that is equally close but
      neither string yields the given number exactly, then the string
      with the even digit in the least significant place is
-     chosen. Examples:
-
-|              % set tcl_precision 2 ; expr 0.125
-|              0.12
-|              % set tcl_precision 2 ; expr 0.375
-|              0.38
+     chosen. 
 
  > * if there is more than one string with at most the given number of
      significant digits that yields the given floating-point number,
      but one has fewer significant digits than the other, then the
-     shorter one is chosen.  Example:
+     shorter one is chosen. For example,
 
-|              % expr 0.2
-|              0.2
+|              % expr 1e23
 
- > > Note that the case above does ''not'' return
-
-|              0.20000000000000001
-
- > > even though that number is closer to the actual floating
-          point value of
-
-|              0.200000000000000011102230246251565404236316680908203125
-
- > > because 0.2 is the shorter representation.
+ > > returns ''1e+23'', not ''9.9999999999999992e+22'', even though
+     the latter is a nearer representation of the exact floating-point
+     value.
 
  > * if there is more than one string with at most the given number of
      significant digits that reconverts exactly to the same floating
      point number, and all such strings are equally long, then the one
      closest to the given floating point number is chosen.
+
+ > * if a floating point number lies exactly at the midpoint of two
+     strings with the same number of significant digits, the one
+     with an even digit in the least significant place is chosen.
 
  1. The test suite for Tcl shall be upgraded to include suitable test
     vectors for assessing correct rounding behavior.  The paper by
@@ -192,6 +182,14 @@ correct rounding in floating point input and output conversions:
    Laboratories, Murray Hill, New Jersey, November 1990.
    [http://citeseer.nj.nec.com/gay90correctly.html]
 
+The algorithms for output conversion that appear in the reference
+implmentation are a hybrid of Gay's and the ones presented in:
+
+ > Robert G. Burger and R. Kent Dybvig, ''Printing Floating-Point Numbers
+   Quickly and Accurately'', SIGPLAN Conf. on Programming Language Design
+   and Implementation, 1996, pp. 108-116.
+   [http://citeseer.ist.psu.edu/28233.html]
+
 A reasonably comprehensive set of test vectors detailing problem cases
 for rounding conversions is documented in:
 
@@ -211,16 +209,13 @@ to check it out:
 | export CVSROOT=:ext:yourname@cvs.sourceforge.net:/cvsroot/tcl
 | cvs -q checkout -rkennykb-numerics-branch tcl_numerics
 
-As of 2 March 2005, the input and output conversions are implemented,
-and rounding tests are in the test suite.  Work still needs to be done
-to update [expr] to handle Inf and NaN appropriately, to update [binary]
-to handle them without throwing errors in ''Tcl_GetDoubleFromObj'', and
-to adjust the test suite accordingly.
+The implementation is essentially complete; it includes changes to
+the documentation and test suite needed for this TIP.
 
 ~ Acknowledgments
 
 The discussion of just why 17 is magical was prompted by a suggestion
-from Lars Hellstrøm.
+from Lars Hellstroem.
 
 ~ Copyright
 
