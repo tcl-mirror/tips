@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -292,6 +292,23 @@ through the following public commands:
 
  > Returns a list containing all registered module paths, in the order
    that they are searched for modules.
+
+ * '''::tcl::tm::roots''' ''PATH_LIST''
+
+ > Similar to ''path add'', and layered on top of it. This command
+   takes a list of paths, extends each with ''tclX/site-tcl'', and
+   ''tclX/X.y'', for major version X of the tcl interpreter and minor
+   version y less than or equal to the minor version of the
+   interpreter, and adds the resulting set of paths to the list of
+   paths to search.
+
+ > This command is used internally by the system to set up the
+   system-specific default paths. See section ''Defaults'' for their
+   definition, and that their structure matches what this command
+   does.
+
+ > The command has been exposed to allow a buildsystem to define
+   additional root paths beyond those defined by this document.
 
 We do ''not'' provide APIs for rescanning directories, clearing
 internal state and such.  The official interface to this functionality
