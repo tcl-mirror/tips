@@ -1,8 +1,8 @@
 TIP:            33
 Title:          Add 'lset' Command to Assign to List Elements.
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        15-May-2001

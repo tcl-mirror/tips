@@ -1,9 +1,9 @@
 TIP:            45
 Title:          Empty index lists for [lindex] and [lset]
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        18-Jul-2001
