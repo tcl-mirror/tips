@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.9 $
+Version:        $Revision: 2.10 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -70,7 +70,8 @@ The [[namespace ensemble]] command will have the following subcommands:
    is exactly the name of the namespace, but any other name may be
    supplied (via the -command option); if it does not start with a
    namespace separator, the name will be taken as being relative to
-   the current namespace.
+   the current namespace.  If another command with the same name exists,
+   it is deleted as part of the creation of the ensemble.
 
  configure: For reading and writing the configuration of a particular
    ensemble.  The command takes an argument specifying the name of the
