@@ -1,0 +1,177 @@
+TIP:            24
+Title:          Tcl Maintainer Assignments
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        29-Jan-2001
+Post-History:   
+
+~ Abstract
+
+This document keeps a record of who maintains each functional area
+of Tcl ([16]).
+
+~ Assignments
+
+Listed below are Tcl's 52 functional units, in the same order as
+in [16].  See [16] for the precise definition of what code belongs to
+what area.  The area names are changed to match the Categories in Tcl's
+SourceForge Bug Manager (http://sourceforge.net/bugs/?group_id=10894).
+For each of Tcl's functional units, the following maintainers are
+assigned:
+
+   1. ''Notifier'' - 
+
+   1. ''Event Loops'' -
+
+   1. ''Timer Events'' -
+
+   1. ''Async Events'' - 
+
+   1. ''XT Notifier'' - 
+
+   1. ''Time Measurement'' - 
+
+   1. ''Variables'' - 
+
+   1. ''Environment Variables'' - 
+
+   1. ''Linked C Variables'' - 
+
+   1. ''Compiler and Objects'' - 
+
+   1. ''Conversions from String'' - 
+
+   1. ''ByteArray Objects'' - 
+
+   1. ''Index Object'' - 
+
+   1. ''List Object'' - 
+
+   1. ''Commands A-H'' - 
+
+   1. ''Commands I-L'' - 
+
+   1. ''Commands M-Z'' - 
+
+   1. ''History'' - 
+
+   1. ''Interp Command'' - 
+
+   1. ''Namespaces'' - 
+
+   1. ''Procedures'' - 
+
+   1. ''Scan Command'' - 
+
+   1. ''Channel Commands'' - 
+
+   1. ''Channel System'' - 
+
+   1. ''Channel Transforms'' - 
+
+   1. ''Channel Types'' - 
+
+   1. ''dde Package'' - 
+
+   1. ''http Package'' - 
+
+   1. ''msgcat Package'' - 
+
+   1. ''opt Package'' - 
+
+   1. ''registry Package'' - 
+
+   1. ''Safe Base'' - 
+
+   1. ''Tcltest'' - 
+
+   1. ''Pathname Management'' - 
+
+   1. ''File System'' - 
+
+   1. ''Init - Library - Autoload'' -
+
+   1. ''Package Manager'' - 
+
+   1. ''Dynamic Loading'' - 
+
+   1. ''Memory Allocation'' - 
+
+   1. ''Memory Preservation'' - 
+
+   1. ''Regexp'' -
+
+   1. ''UTF-8 Strings'' -
+
+   1. ''Parsing and Eval'' -
+
+   1. ''Bytecodes'' -
+
+   1. ''Threading'' -
+
+   1. ''Embedding Support'' -
+
+   1. ''Release Notes'' - 
+
+   1. ''Portability Support'' - 
+
+   1. ''Configure and Build Tools'' - 
+
+   1. ''Other Tools'' - 
+
+   1. ''resource Command'' - 
+
+   1. ''Macintosh'' -
+
+~ Orphaned Categories
+
+The following Categories in Tcl's SourceForge Bug Tracker should be
+mapped to new Categories corresponding to a maintained area of Tcl,
+when seeking the appropriate maintainer:
+
+   1. ''Build'' - map to ''Configure and Build Tools''.
+
+   1. ''Clock'' - map to ''Time Measurement''.
+
+   1. ''CodeCleanup'' - map to section of code being cleaned up.
+
+   1. ''Commands'' - map to the specific command or one of ''A-H'',
+      ''I-L'', or ''M-Z''.
+
+   1. ''Docs'' - no longer a separate Category.  Map to the section
+      of code being documented.
+
+   1. ''Exec and Pipe'' - map to ''Channel Types''.
+
+   1. ''File System (trash)'' - map to ''File System''.
+
+   1. ''I18N'' - map to ???
+
+   1. ''Installation'' - map to ''Configure and Build Tools''.
+
+   1. ''Other'' - reassign once area is determined.
+
+   1. ''Other IO'' - reassign to appropriate ''Channel'' category.
+
+   1. ''Packaging'' - map to ???
+
+   1. ''Sockets'' - map to ''Channel Types''.
+
+   1. ''Tests'' - no longer a separate Category.  Map to the section
+      of code being tested.
+
+   1. ''Unix'' - map to specific problem on Unix.
+
+   1. ''Windows'' - map to specific problem on Windows.
+
+~ Sections Without Maintainers
+
+Those sections without a maintainer are maintained by the Tcl Core
+Team with each change requiring TYANNOTT review.
+
+~ Copyright
+
+This document has been placed in the public domain.
