@@ -1,7 +1,8 @@
 TIP:            40
 Title:          Documentation Generator for Tcl Scripts
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -97,18 +98,19 @@ it is consistent with the Tcl style guide by Ray Johnson)
 
 The requirements are simple to describe:
 
-* Implementation shall be in Tcl, to guarantee availability and
-  portability.
+ * Implementation shall be in Tcl, to guarantee availability and
+   portability.
 
-* The system shall be easy to extend to new documentation formats
-  (Implementation note:  small procedures that register the
-  information piece by piece)
+ * The system shall be easy to extend to new documentation formats
+   (Implementation note:  small procedures that register the
+   information piece by piece)
 
-* It shall be easy to extend to new output formats
-  (Implementation note: small procedures that format the registered information)
+ * It shall be easy to extend to new output formats
+   (Implementation note: small procedures that format the registered
+   information)
 
-* It shall properly deal with organisational aspects:  source file,
-  package, namespace.
+ * It shall properly deal with organisational aspects:  source file,
+   package, namespace.
 
 ~ Summary of reactions
 
@@ -134,32 +136,33 @@ but that should not be the first goal.
 The technique for representing the information structure he proposes, is
 quite useable (and akin to the rendering process of TIPs):
 
-* Parse the script and store the pieces in "qualified lists".
+ * Parse the script and store the pieces in "qualified lists".
 
-* Such qualified lists are an intermediate format, either in memory or
-  stored in a suitable format on disk.
+ * Such qualified lists are an intermediate format, either in memory or
+   stored in a suitable format on disk.
 
-* These lists and lists of lists are then passed to the output
-  renderers.
+ * These lists and lists of lists are then passed to the output
+   renderers.
 
 The first problem to solve is then finding a suitable structure for the
 information we need to extract. This is the subject of the next section.
 
 Will Duquette and Andreas Kupries mentioned the frequent use of
 specialised commands that introduce new commands (rather than a
-straightforward call to "proc"). This feature will have to be looked into,
-because if you only look for lines like "proc some-command { ... } {",
-you might well miss the essentials of such applications.
+straightforward call to "proc"). This feature will have to be looked
+into, because if you only look for lines like
+"proc some-command { ... } {", you might well miss the essentials of
+such applications.
 
 ~ Information in a Tcl script
 
 Tcl scripts are organised in three essentially unrelated ways:
 
-* Individual files contain the code
+ * Individual files contain the code
 
-* Programs consist of one or several files of code
+ * Programs consist of one or several files of code
 
-* Packages are used to identify code that belongs together
+ * Packages are used to identify code that belongs together
 
 In practice these methods will be used in accord with each other, but
 there is no guarantee for instance, that a source file contains only one
@@ -168,35 +171,36 @@ package.
 
 On a smaller scale, the following items are of importance:
 
-* Procedures or commands defined inside some namespace (exported or not)
+ * Procedures or commands defined inside some namespace (exported or
+   not)
 
-* Variables local to the enclosing namespace or global to the
-  application
+ * Variables local to the enclosing namespace or global to the
+   application
 
 For a user it will be important to know what a program or package has to
 offer and how to get this functionality:
 
-* A description of the program (with its command-line arguments,
-  if any, the packages it uses, if they come separately)
+ * A description of the program (with its command-line arguments,
+   if any, the packages it uses, if they come separately)
 
-* A description of the package or packages (assuming it is properly
-  installed, its name and version should be enough to load the
-  scripts and binaries)
+ * A description of the package or packages (assuming it is properly
+   installed, its name and version should be enough to load the
+   scripts and binaries)
 
-* A description of each public procedure and a description of the
-  arguments and the result, if any
+ * A description of each public procedure and a description of the
+   arguments and the result, if any
 
-* A list of all other requirements (other packages or the Tcl version?)
+ * A list of all other requirements (other packages or the Tcl version?)
 
 For a maintainer of the code, additional information would include:
 
-* A list of all variables (local to the namespace and global) that are
-  used in the various procedures
+ * A list of all variables (local to the namespace and global) that are
+   used in the various procedures
 
-* The contents of each source file (so where does each procedure live?)
+ * The contents of each source file (so where does each procedure live?)
 
-* Detailed maintenance issues that have been written down in comments in the
-  code
+ * Detailed maintenance issues that have been written down in comments
+   in the code
 
 A possible structure in which all this information can be stored and
 retrieved is sketched below:
