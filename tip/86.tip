@@ -1,7 +1,8 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter MacDonald <peter@browsex.com>
+Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -60,7 +61,7 @@ number information for a given ''PROC''.  Valid syntax is:
 |        TclFindProcByLine() provides this function.
 |
 |  info line relativeerror ?BOOL?
-|	Set to 1 to disable absolute line number and file path
+| Set to 1 to disable absolute line number and file path
 |       on a procedure error.  This demotes procedure traceback errors
 |       to the same format as all other traceback errors, that is,
 |       using the relative the line number and file name.
@@ -111,14 +112,14 @@ assertions.
 
 ~ Reference Implementation
 
-http://dev.browsex.com/tclline.diff.gz
+http://browsex.com/tclline.diff.gz
 
 This is a patch against tcl8.4a4.  It has been tested lightly against
 small and large Tcl programs.
 
 There is also an initial version of a debugger: ''tgdb''.
 
-http://dev.browsex.com/tgdb.tgz
+http://browsex.com/tgdb.tgz
 
 ''tgdb'' emulates some of the basic commands of ''gdb'' (''s'', ''n'',
 ''c'', ''f'', ''bt'', ''break'' and ''info locals'').  This newest
