@@ -1,0 +1,58 @@
+TIP:		183
+Title:		Add a Binary Flag to [open]
+Version:	$Revision: 1.1 $
+Author:		Andreas Leitgeb <avl@logic.at>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	24-Mar-2004
+Keywords:	Tcl
+Post-History:	
+
+~ Abstract
+
+To handle binary files, one currently has to open the file, and then
+in a second step '''fconfigure''' it with '''-translation binary'''.
+This TIP proposes to add a flag "b" to open's ''access''-argument to
+set initial translation to binary (rather than auto).
+
+~ Rationale
+
+ANSI-C ''fopen()'' supports an additional flag "b" in the mode-
+parameter especially for non-POSIX platforms, where it makes sure that
+no conversion takes place at reading or writing.  The manual page for
+open mentions that [[fconfigure]] should be used as a substitute for
+the missing "b"-flag but I don't see anything wrong with a "b" flag as
+a possible shortcut for this [[fconfigure]]-call, so this TIP proposes
+that the ''access'' argument to '''open''' should support '''b''' as
+an additional letter (anywhere within the argument when used in the
+first form documented on the manual page) which will cause the initial
+configuration of the channel to be suitable for reading and/or writing
+binary data.
+
+Thus, for an expectedly very little implementation effort, we can
+simplify:
+
+|  set fd [open $fname "w"]; fconfigure $fd -translation binary
+
+to:
+
+|  set fd [open $fname "wb"]
+
+which looks much more concise for such a common task.
+
+This extra flag would only affect the initial translation state.
+
+~ Enhancement
+
+Tcl's [[open]] also tries to adopt the POSIX ''open()'' parameters
+(i.e. the second form documented for the ''access'' parameter on the
+manual page.)  POSIX's ''open()'' doesn't know about binary or
+non-binary files, but Tcl does, so a new keyword "BINARY" could be
+introduced to offer this feature also to those who prefer
+list-of-flags syntax.
+
+~ Copyright
+
+This document has been placed in the public domain.
