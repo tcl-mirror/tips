@@ -1,8 +1,8 @@
 TIP:            57
-Title:          Command to Assign Elements of a List to Multiple Variables
-Version:        $Revision: 1.6 $
-Author:         Agnar Renolen <agnar.renolen@emap.no>
+Title:          Move TclX's [lassign] into the Tcl Core
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Agnar Renolen <agnar.renolen@emap.no>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -12,10 +12,11 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes a new function ''mset'' (or a modification to
-''set'') to perform multiple assignment.
+This TIP proposes to move the ''lassign'' command from the TclX
+extension into the Tcl core to make multiple assignment a much easier
+process for people.
 
-~Introduction
+~Rationale
 
 In many cases, a command needs to return more than one return value to
 the caller.  For example, suppose that the statement:
@@ -40,144 +41,46 @@ or
 
 | mset {x y} [LocateFeature $featureID]
 
-~Design Alternatives
+However, there is already a command in TclX for doing this kind of
+operation: [lassign].  Given that many people already know TclX,
+importing the command from there makes a great deal of sense.  It also
+has the nice feature of returning those list items that were not
+assigned, making it easy to strip a few words off the front of a list.
+That sort of operation is useful when performing tasks like
+command-line option parsing.
 
-~~mset command
+~Proposal
 
-The following Tcl code is an implementation I have made myself for
-''mset''.  Because it returns the remaining elements in the list that
-were not assigned to a value, the proposed specification is not
-suitable as an extension to ''set'', but rather as a new command
-''mset''.
+Define a new command in Tcl called [lassign] with the following syntax
+(''$val'' indicates an argument that the caller would supply):
 
-| ##
-| #   mset - set multiple variables with values from a list
-| #
-| # SYNOPSIS
-| #   [mset <varlist> <valuelist>]
-| #
-| # DESCRIPTION
-| #   Sets multiple variables with values from a list.  The <varlist>
-| #   contains variable names and each variable will be assigned the
-| #   corresponding value in <valuelist>.  For example
-| #
-| #   [mset \{name age sex\} \{Bill 42 male\}]
-| #
-| #   It is an error if <valuelist> contains fewer elements than the
-| #   <varlist>.  If the valuelist contains more elements than the
-| #   <varlist> the exceeding values will not be assigned to any
-| #   variable.
-| #
-| #   The procedure returns the a list containing the remaining 
-| #   elements in <valuelist> that were no assigned to a variable.
-| ##
-| 
-| proc misc::mset {varList valueList} {
-|     if {[llength $varList] > [llength $valueList]} {
-| 	error "mset error: more variables than values"
-|     }
-|     set i 0
-|     foreach varName $varList {
-| 	upvar $varName var
-| 	set var [lindex $valueList $i]
-| 	incr i
-|     }
-|     return [lrange $valueList 0 [expr $i - 1]]
-| }
+| lassign $listValue $variable ?$variable ...?
 
-Following this definition the command 
+The command interprets its first argument as a list value and all
+subsequent arguments as variable names.  The first item in the list
+value (i.e. at index 0) will be assigned to the first variable named,
+the second item in the list value will be assigned to the second
+variable named (if present), etc.  When there are more variables than
+list items, the remaining variables will be assigned the empty string.
+The result of the command is a sublist of the input list-value that
+contains only items that were not assigned to a variable; if all
+values were assigned, the result is an empty list.
 
-| mset {name age} {Bill 42 male developer}
+This is exactly the specification of the behaviour of the
+correspondingly-named command in TclX.
 
-will set ''name'' to "Bill" and ''age'' to "42" and return the list
+~Notes
 
-| {male developer}
+It should be possible to efficiently compile [lassign] in many cases,
+which would make a tremendous difference in execution speed over not
+only the TclX version of [lassign], but also over the [foreach]
+"idiom", especially when assigning to variables that are not simple
+local variables (the case which [foreach] compilation is optimized
+for.)  For this reason, I'm not committing to implementing [lassign]
+using the TclX code.
 
-~~Extended set command
-
-If ''set'' is extended rather than introducing a new ''mset'' command,
-it should return a list comprising the elements that were set, so
-
-| set {name age} {Bill 42 male developer}
-
-would return the list,
-
-| {Bill 42}
-
-However, this is incompatible with the current set function, as it
-would set a variable named "{name age}" to the entire list.  This
-alternative must therefore be rejected.
-
-~~lassign command
-
-There is an ''lassign'' command evailable in TclX, The author is unaware
-of its definition, but expect the functionality described for extended
-''set'' command above.
-
-Can somebody fill me inn(?)
-
-~~other alternatives
-
-So far, we have described two types of multiple assignment functions,
-one that returns the list containing the values that were assigned to
-variables, and one that would return the remaining values of the input
-list.  A third alternatvie would be to define the command such that
-the user actually can specify what he'd like to have returned.  Let's
-call the new command ''assign'', and define it like this:
-
-| assign ?switches? <varList> <valueList>
-
-Suggested switches:
-
- --nocomplain: prevents ''assign'' from throwing an error if the
-   <valueList> is shorter than the <varList>.
-
- --count: makes ''assign'' return the number of variables set.
-
- --ecount: makes ''assign'' return the number of items in the
-   <valueList> minus the number of items in th <varList>.
-
- --exceed: makes ''assign'' return the exceeding values in <valueList>
-   that were not assigned to variables in the list (same as ''mseet''
-   above).
-
- ---: marks the end of switches.
-
-Default behaviour is that ''assign'' returns the list of the variables
-set.
-
-Hence:
-
-| assign {name age} {Bill 42 male developer}
-
-returns "{Bill 42}"
-
-| assign -count {name age} {Bill 42 male developer}
-
-returns "2"
-
-| assign -ecount {name age sex} {Bill 42 male developer}
-
-returns "1"
-
-| assign -exceed {name age {Bill 42 male developer}
-
-returns "{male developer}"
-
-~Evaluation of Alternatives
-
-The advantage of the ''mset'' command is that it provides a convenient
-way to take care of exceeding values when you have assigned the first
-values to variables.  The ''-exceed'' switch of ''assign'' would
-handle this.  ''assign'' provides  the most flexibility and also
-provides extensibilty since switches are implemented into the
-function (Hence it is possible to add more switches and options).
-
-~ Feedback
-
-''dkf'' - This is, of course, [[lassign]] from TclX, and it is a really
-bad idea to change the syntax of [[set]] as it is our only mechanism for
-handling wierdly-named variables.
+This TIP was substantially different in the past.  Please view the CVS
+history for details.
 
 ~ Copyright
 
