@@ -1,8 +1,8 @@
 TIP:            11
 Title:          Tk Menubutton Enhancement: -compound option for menubutton
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Todd Helfter <tmh@purdue.edu>
-State:          Accepted
+State:          Final
 Type:           Project
 Tcl-Version:    8.4
 Vote:           Done
