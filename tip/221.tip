@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.5 $
+Version:        $Revision: 2.6 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -95,7 +95,7 @@ The ''returnOptionsDictionary'' argument is a Tcl dict value ([111])
 holding the value of the interp's return options dictionary at the
 time ''Tcl_BackgroundError'' was called.  Specifically,
 the ''returnOptionsDictionary'' argument is the value
-returned by ''Tcl_GetReturnOptions'' [227] at the time
+returned by ''Tcl_GetReturnOptions'' ([227]) at the time
 ''Tcl_BackgroundError'' is called.
 
 Stored in the ''returnOptionsDictionary'' argument will be values
@@ -109,27 +109,6 @@ is called will also be available in the ''returnOptionsDictionary'' argument.
 Note that after this change, applications will be able to
 register a background error handling command that has no need
 to consult the variables '''::errorInfo''' or '''::errorCode''' at all.
-
-~ Detailed Internal Changes
-
-The private '''BgError''' struct will be re-written.  The '''errorMsg'''
-field will be changed to type ''(Tcl_Obj *)''.  The '''errorInfo''' and
-'''errorCode''' fields will be dropped.  A '''returnOpts''' field
-of type ''(Tcl_Obj *)'' will be added.
-
-The ''Tcl_BackgroundError'' routine will fill the '''errorMsg'''
-and '''returnOpts''' fields of a '''BgError''' with the
-result and return options dictionary of the interp, respectively,
-and arrange for idle handling just as it does now.
-
-The ''HandleBgErrors'' routine will pull the '''errorMsg'''
-and '''returnOpts''' fields from each '''BgError''' struct
-and lappend them as additional arguments to the registered
-background error handling command prefix.
-The resulting  command will be invoked by a call to ''TclObjInvoke''.
-During this command invocation,
-the variables '''::errorInfo''' and '''::errorCode''' will ''not''
-be set to match the entries in the return options dictionary.
 
 ~ Compatibility
 
