@@ -1,9 +1,10 @@
 TIP:            9
 Title:          Tk Standard Library
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Marty Backe <mgbacke@usa.net>
 Author:         hellins <hellins@263.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
+Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -99,6 +100,10 @@ distribution.
 
  * The tklib shall not contain applications, IDEs, or development
    tools.
+
+~ Notes
+
+A tklib module has been created next to the aforementioned tcllib at http://tcllib.sf.net/.  This creates the basic infrastructure for people to work in, but does not set any status related to the core as yet.
 
 ~ Copyright
 
