@@ -1,0 +1,43 @@
+TIP:		197
+Title:		Text Widget Persistant Cursor
+Version:	$Revision: 1.1 $
+Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	12-May-2004
+Post-History:	
+Keywords:	Tk
+
+~Abstract
+
+This TIP proposes a simple extension to the Tk text widget to allow
+the insertion cursor to persist when the window containing the text
+widget does not have focus.
+
+~Rationale
+
+In some cases it is useful to redirect text from one top-level window
+into a separate top-level window containing a text widget.  In such a
+case, it is helpful to be able to see the cursor in the text widget.
+However, as implemented, the Tk text widget always erases the insert
+cursor when the window loses focus.  It is a trivial fix to add an
+option '''-insertpersist''' to the text widget that keeps the text
+cursor in the window.
+
+~Specification
+
+The extension would provide a global '''text''' widget option
+'''-insertpersist''' with a boolean value.  The current behaviour
+would be the default.
+
+ > '''text''' ''tk_path'' '''-insertpersist''' [['''true'''|'''false''']]
+
+~Reference Implementation
+
+[[To come.]]
+
+~Copyright
+
+This document has been placed in the public domain.
