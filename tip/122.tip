@@ -1,6 +1,6 @@
 TIP:            122
 Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Martin Weber <ephaeton@gmx.net>
 Author:         Martin Weber <Ephaeton@gmx.net>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
@@ -61,8 +61,11 @@ guarantee the needed performance.
 Tk's text widget uses "word" in several ways:
 
 1. selection by word (double-click + drag),
+
 2. movement by word ('insert wordstart'),
+
 3. regexp searching with \m\M wordmatching.
+
 4. line breaks when wrapping (-wrap word)
 
 It is not at all clear from reading Tcl or Tk's documentation what the
