@@ -1,6 +1,6 @@
 TIP:            47
 Title:          Modifying Tk to Allow Writing X Window managers
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
@@ -95,13 +95,13 @@ several macros, or just eliminate it entirely.
 
 One possible set of flag names is:
 
- ''TK_TOP_LEVEL'': this is a toplevel widget
+ TK_TOP_LEVEL: this is a toplevel widget
 
- ''TK_HAS_WRAPPER'': this window has a wrapper window
+ TK_HAS_WRAPPER: this window has a wrapper window
 
- ''TK_WIN_MANAGED'': this window is controlled by the window manager
+ TK_WIN_MANAGED: this window is controlled by the window manager
 
- ''TK_TOP_HIERARCHY'': this window is at the top of a physical window hierarchy
+ TK_TOP_HIERARCHY: this window is at the top of a physical window hierarchy
 
 ~ New Event Bindings and Substitutions
 
@@ -123,9 +123,9 @@ required to handle ''<CreateNotify>'' events, and the property name,
 for handling ''<PropertyNotify>'' events. This information could be
 obtained by adding two new %-substitutions:
 
- ''%i'': substitute the numerical window ID for the event
+ %i: substitute the numerical window ID for the event
 
- ''%P'': substitute the atom name for the property being changed
+ %P: substitute the atom name for the property being changed
 
 ~ Propagating <PropertyNotify> Events
 
