@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.2 $
+Version:        $Revision: 2.3 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -225,3 +225,11 @@ exposure of ensemble-like commands in safe interpreters much easier.
 ~ Copyright
 
 This document has been placed in the public domain.
+
+~ Acknowledgements
+
+Thanks very much to Joe English, Don Porter and Kevin Kenny for their
+suggestions in the development of this TIP.  Without them, it would have
+been a far worse suggestion.  And thanks to Will Duquette for writing a
+piece of software (Snit) that would benefit immensely from pushing the
+ensemble stuff as hard as possible and then a bit.  :^)
