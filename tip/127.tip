@@ -1,13 +1,14 @@
-TIP:		127
-Title:		Add an -index Option to [lsearch]
-Version:	$Revision: 1.1 $
-Author:		Michael Schlenker <schlenk@uni-oldenburg.de>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	26-Feb-2003
-Post-History:	
-Tcl-Version:	8.5
+TIP:            127
+Title:          Add an -index Option to [lsearch]
+Version:        $Revision: 1.2 $
+Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
+Author:          <BNDAR_27_SA@YAHOO.COM>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Feb-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -21,7 +22,7 @@ Under this proposal the syntax of the ''lsearch'' is to be modified to
 accept an extra option:
 
 |    lsearch -index index 
-	
+
 The ''-index'' option should work exactly like the ''-index'' option
 in the ''lsort'' command.
 
