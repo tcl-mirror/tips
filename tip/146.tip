@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -56,11 +56,11 @@ but the other way around is harder.
 With 2, there are also two choises how to break compatibility depending
 on the default anchor.
 
- 2a. With default anchor ''center'':  Anyone relying on the bottom/left
+ 2a: With default anchor ''center'':  Anyone relying on the bottom/left
 clipping will find things clip all around.  Potentially an important
 widget in the nw corner can end up outside.
 
- 2b. With default anchor ''nw'':  Anyone relying on the centering will
+ 2b: With default anchor ''nw'':  Anyone relying on the centering will
 find things ending up in the nw corner.  Probably just a visual
 difference.
 
