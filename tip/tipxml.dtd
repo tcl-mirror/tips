@@ -14,7 +14,7 @@
 
 <!-- simplify header declaration (later) by partitioning -->
 <!ENTITY % header.req "title, author+, status, history, created">
-<!ENTITY % header.opt "discussions?, keyword*, obsoletes*, obsoleted*">
+<!ENTITY % header.opt "discussions*, keyword*, obsoletes*, obsoleted*">
 
 <!-- kinds of 'paragraphs': only inner can go inside lists -->
 <!ENTITY % in.par     "para     | pre   | itemize | enumerate | describe" >
