@@ -1,6 +1,6 @@
 TIP:            26
 Title:          Enhancements for the Tk Text Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Ludwig Callewaert <ludwig_callewaert@frontierd.com>
 Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
 State:          Draft
@@ -139,11 +139,15 @@ to reset the counter to zero.
    9.  ''<<Selection>>'' - this virtual event is generated whenever
        the range tagged with the selection tag changes.
 
-  10.  ''<Control-z>'' - calls pathName edit undo. Issues a bell signal
-       if there is nothing to undo.
+  10. ''<<Undo>>'' - this virtual event calls pathName edit undo. Issues
+      a bell signal if there is nothing to undo.
 
-  11.  ''<Control-Z>'' - calls pathName edit redo. Issues a bell signal 
-       if there is nothing to redo.
+  11. ''<<Redo>>'' - this virtual event calls pathName edit redo. Issues
+      a bell signal if there is nothing to redo.
+
+  12.  ''<Control-z>'' - is bound to the <<Undo>> virtual event.
+
+  13.  ''<Control-Z>'' - is bound to the <<Redo>> virtual event.
 
 ~ Reference Implementation
 
