@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -38,7 +38,7 @@ See also [105], which the text above comes from.
 
 To support this, I propose adding a command with the syntax
 
- * '''prefix''' ?'''-exact'''? ?'''-message''' ''string''? ''list'' ''string''
+ * '''string''' '''prefix''' ?'''-exact'''? ?'''-message''' ''string''? ''list'' ''string''
 
 The command is given a list of possibilities and a string to match,
 and returns the matching element in the list or an error.  Basically
@@ -48,29 +48,32 @@ corresponds to the ''flags'' and ''msg'' arguments to
 ''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
 "option".
 
+The error message is returned so that it shows up as an error from
+the caller, i.e. it behaves like [[return -code error -level 2]]
+
 ~ Examples
 
 Basic use:
 
-|% prefix {apa bepa cepa} apa
+|% string prefix {apa bepa cepa} apa
 |apa
-|% prefix {apa bepa cepa} a
+|% string prefix {apa bepa cepa} a
 |apa
-|% prefix -exact {apa bepa cepa} a
+|% string prefix -exact {apa bepa cepa} a
 |bad option "a": must be apa, bepa, or cepa
-|% prefix -message "switch" {apa ada bepa cepa} a
+|% string prefix -message "switch" {apa ada bepa cepa} a
 |ambiguous switch "a": must be apa, ada, bepa, or cepa
 
 Simplifying option matching:
 
 |array set opts {-apa 1 -bepa "" -cepa 0}
 |foreach {arg val} $args {
-|    set opts([prefix {-apa -bepa -cepa} $arg]) $val
+|    set opts([string prefix {-apa -bepa -cepa} $arg]) $val
 |}
 
 Switch similar to [105]:
 
-|switch -- [prefix {apa bepa cepa} $arg] {
+|switch -- [string prefix {apa bepa cepa} $arg] {
 |    apa  { }
 |    bepa { }
 |    cepa { }
@@ -97,13 +100,46 @@ how it would be done in Tcl:
 |    return [lindex $match 0]
 |}
 
-~ Alternatives
+~ Alternative names
 
-I'm not entirely happy with the name '''prefix''' but it is the best I
-can come up with at the moment.
+Alternative names for the command that have been suggsted are
+ '''prefix''', '''tcl::prefix''' and '''lsearch -prefix'''.
 
 Any name based on ''Tcl_GetIndexFromObj'' feels wrong since this
 command does not get any index.
+
+~ Discussion
+
+Pascal Scheffers wrote:
+
+I am not very fond of new toplevel commands, as they have a habit
+of breaking existing code, or, more likely, being redefined by
+existing code.  How about '''string prefix ...''' or
+'''lsearch -prefix'''? It feels like something that
+could logically reside inside string handling or list handling.
+
+Donal Fellows wrote:
+
+Hmm, a new matching style for '''lsearch''' could work (yet another
+option for an overly scary command!) especially in conjunction with
+some of the other options like -inline, but I suspect it'll have to be
+'''string prefix''' or something like that since then we can easily
+state that the behaviour is not to necessarily return the first
+matching element. That was what scuppered #105 after all (much to my
+annoyance.)
+
+Peter Spjuth: TIP has been altered to suggest '''string prefix'''.
+
+Donal Fellows wrote:
+
+I'd suggest that the '''-exact''' option be dropped, as it is trivially
+implementable using '''lsearch -exact''', '''dict exists''', '''info exists''',
+'''switch''', etc. It's also corresponding to a very rarely used flag to
+Tcl_GetIndexFromObj.
+
+Peter Spjuth: Other ways to do '''-exact'' doesn't give the
+standardized error message so it has some value for those that want
+that functionality.  The Core uses TCL_EXACT in a few places where it makes sense so the flag can be useful.
 
 ~ Copyright
 
