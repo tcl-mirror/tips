@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -15,7 +15,7 @@ of Tk ([23]).
 
 ~ Assignments
 
-Listed below are Tk's 92 functional units, in the same order as in
+Listed below are Tk's 86 functional units, in the same order as in
 [23].  See [23] for the precise definition of what code belongs to
 what area, and how maintainers designate their support for
 platform-specific portions of the code.  The area names listed below
@@ -179,19 +179,7 @@ assigned:
 
    1. ''Other Demos'' -
 
-   1. ''L10N|German'' -
-
-   1. ''L10N|Greek'' -
-
-   1. ''L10N|English'' -
-
-   1. ''L10N|Spanish'' -
-
-   1. ''L10N|French'' -
-
-   1. ''L10N|Italian'' -
-
-   1. ''L10N|Dutch'' -
+   1. ''L10N'' -
 
    1. ''Release Notes'' -
 
@@ -233,7 +221,7 @@ the appropriate maintainer:
 
    1. ''GUI'' - ???
 
-   1. ''I18N'' - map to appropriate L10N category.
+   1. ''I18N'' - map to L10N.
 
    1. ''Images'' - map to appropriate Image subcategory.
 
