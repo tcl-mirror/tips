@@ -1,14 +1,15 @@
-TIP:		85
-Title:		Custom Comparisons in Tcltest
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	31-Jan-2002
-Post-History:	
-Tcl-Version:	8.4
-Keywords:	test, string comparison, floating-point
+TIP:            85
+Title:          Custom Comparisons in Tcltest
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        31-Jan-2002
+Post-History:   
+Keywords:       test,string comparison,floating-point
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -101,6 +102,10 @@ approach:
  * If the test fails, the actual result is not printed (at least not
    by the ''tcltest'' framework).
 
+~ See Also
+
+Tcl Feature Request 490298.
+http://sf.net/tracker/?func=detail&aid=490298&group_id=10894&atid=360894
 ~ Copyright
 
 This document is placed in the public domain.
