@@ -1,13 +1,14 @@
-TIP:           34
-Title:         TEA 2.0
-Version:       $Revision: 1.1 $
-Author:        Mo DeJong <mdejong@cygnus.com>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4
-Vote:          Pending
-Created:       03-May-2001
-Post-History:
+TIP:            34
+Title:          TEA 2.0
+Version:        $Revision: 1.2 $
+Author:         Mo DeJong <mdejong@cygnus.com>
+Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-May-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
