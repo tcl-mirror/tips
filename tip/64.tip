@@ -1,6 +1,6 @@
 TIP:            64
 Title:          Improvements to Windows Font Handling
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Chris Nelson <chris@pinebush.com>
 State:          Draft
 Type:           Project
@@ -47,6 +47,8 @@ appears to be wrong.
 This TIP attempts to fix the default Tk font the right way as well as
 giving Tk programmers access to the rest of the fonts configured for
 the 'Windows desktop.
+
+NOTE: RFE 220772 on SourceForge (http://sourceforge.net/tracker/index.php?func=detail&aid=220772&group_id=12997&atid=362997) has a related patch.
 
 ~ The Default GUI Font
 
