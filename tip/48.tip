@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Tk Widget Styling Support
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -248,6 +248,12 @@ effect on existing functionality.
 	New ''Tk_OptionType'' usually associated with the ''-style''
 	widget option.
 
+ TK_STYLE_VERSION_1:
+ TK_STYLE_VERSION:
+	Version numbers of Tk style support. The former matches the 
+	implementation described in this proposal. The latter is a shortcut to
+	the current version. Future extensions may introduce new version numbers.
+
  Tk_StyleEngine:
 	Opaque token for handling style engines.  May be NULL, meaning
 	the default system engine.
@@ -259,16 +265,6 @@ effect on existing functionality.
  Tk_Style:
 	Opaque token for handling styles.  May be NULL, meaning the
 	default system style.
-
- Tk_ElementOptionSpec:
-	Used to specify a list of required widget options, along with
-	their type.  This info will be subsequently used to get option
-	values from the widget record using its option table.
-
-| typedef struct Tk_ElementOptionSpec {
-|     char *name;
-|     Tk_OptionType type;
-| } Tk_ElementOptionSpec;
 
  Tk_GetElementSizeProc, Tk_GetElementBoxProc, Tk_GetElementBorderWidthProc, Tk_DrawElementProc:
 	Implementations of various element operations.
@@ -290,11 +286,22 @@ effect on existing functionality.
 | 	Drawable d, int x, int y, int width, int height, int state));
 
  Tk_ElementSpec:
-	Static styled element definition.
+	Static styled element definition. The version field must be set to 
+	TK_STYLE_VERSION_1 in order to match the following structure.
+
+ Tk_ElementOptionSpec:
+	Used to specify a list of required widget options, along with
+	their type.  This info will be subsequently used to get option
+	values from the widget record using its option table.
+
+| typedef struct Tk_ElementOptionSpec {
+|     char *name;
+|     Tk_OptionType type;
+| } Tk_ElementOptionSpec;
 
 | typedef struct Tk_ElementSpec {
+|     int version;
 |     char *name;
-|     Tk_ElementOptionSpec *options;
 |     Tk_ElementOptionSpec *options;
 |     Tk_GetElementSizeProc *getSize;
 |     Tk_GetElementBoxProc *getBox;
@@ -363,12 +370,6 @@ effect on existing functionality.
 	is instead used to fill them.  Styled element specs can thus
 	be allocated on the stack or dynamically, but in most cases
 	they will be statically defined.
-
- >	This procedure is actually a macro that calls another proc
-	passing the compile-time version number along with the other
-	parameters.  This scheme ensures better compatibility of
-	stub-enabled extensions with future versions that could extend
-	the ''Tk_ElementSpec'' structure.
 
  Tk_GetElementId:
 	Returns the unique numerical ID for an already registered
