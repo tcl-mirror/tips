@@ -1,6 +1,6 @@
 TIP:            115
 Title:          Making Tcl Truly 64-Bit Ready
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -93,19 +93,19 @@ too, though there are more backward-compatibility issues there.
 These changes will force many of the types used in the public API to
 change as well.  Notable highlights:
 
- * ''Tcl_Alloc'' will now take an ''unsigned long''.
+ * ''Tcl_Alloc'' will now take an ''size_t''.
 
- * ''Tcl_GetByteArrayFromObj'' will now take a pointer to a ''long''.
+ * ''Tcl_GetByteArrayFromObj'' will now take a pointer to a ''ssize_t''.
 
- * ''Tcl_GetStringFromObj'' will now take a pointer to a ''long''.
+ * ''Tcl_GetStringFromObj'' will now take a pointer to a ''ssize_t''.
 
- * ''Tcl_ListObjLength'' will now take a pointer to a ''long''.
+ * ''Tcl_ListObjLength'' will now take a pointer to a ''ssize_t''.
 
- * ''Tcl_GetUnicodeFromObj'' will now take a pointer to a ''long''.
+ * ''Tcl_GetUnicodeFromObj'' will now take a pointer to a ''ssize_t''.
 
 In the internal API, the following notable change will happen:
 
- * ''TclGetIntForIndex'' will now take a pointer to a ''long''.
+ * ''TclGetIntForIndex'' will now take a pointer to a ''ssize_t''.
 
 There are probably other similar API changes required.
 
