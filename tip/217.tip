@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        26-Aug-2004
 Post-History:   
 Keywords:       Tcl,lsort,parallel lists
-Tcl-Version:    8.4
+Tcl-Version:    8.5
 
 ~ Abstract
 
