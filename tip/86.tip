@@ -1,6 +1,6 @@
 TIP:            86
-Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.20 $
+Title:          Improved Debugger Support
+Version:        $Revision: 1.21 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -12,9 +12,11 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes the addition to Tcl of source code file-name and
+This TIP proposes the storage by Tcl of source code file-name and
 line-numbering information, making it available at script execution
-time.
+time. It also adds additional '''trace''' and '''info''' subcommands
+to make it easier for a debugger to control a Tcl script much as
+''gdb'' can control a C program.
 
 ~ Rationale
 
@@ -321,5 +323,5 @@ Andreas Kupries suggests defining a line number ''Tcl_Token'' type.
 
 This document has been placed in the public domain.
 
-''tgdb' and ''pdqi'' have a BSD copyright by Peter MacDonald and
+''tgdb'' and ''pdqi'' have a BSD copyright by Peter MacDonald and
  PDQ Interfaces Inc.
