@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.31 $
+Version:        $Revision: 1.32 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -12,6 +12,7 @@ Author:         Daniel Steffen <das@users.sourceforge.net>
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -121,35 +122,38 @@ assigned:
    32. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   33. ''Generic Dialog Support'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+   33. ''Generic Dialog Support'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 				    Jeff Hobbs <JeffH@ActiveState.com>
 
-   34. ''[tk_chooseColor]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+   34. ''[tk_chooseColor]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   35. ''[tk_dialog]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+   35. ''[tk_dialog]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 			 Jeff Hobbs <JeffH@ActiveState.com>,
 			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   36. ''[tk_chooseDirectory]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+   36. ''[tk_chooseDirectory]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 				  Jeff Hobbs <JeffH@ActiveState.com>
 
-   37. ''[tk_get*File]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+   37. ''[tk_get*File]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 			   Jeff Hobbs <JeffH@ActiveState.com>
 
-   38. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+   38. ''[tk_messageBox]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 			     Jeff Hobbs <JeffH@ActiveState.com>
 
-   39. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   39. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+			  Donal K. Fellows <donal.k.fellows@man.ac.uk>
 
    40. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>,
 			   Kevin Griffin <vertov@artstar.com>
 
-   41. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   41. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+			  Donal K. Fellows <donal.k.fellows@man.ac.uk>
 
    42. ''Photo Image|GIF'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   43. ''Photo Image|PPM'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   43. ''Photo Image|PPM'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+			     Donal K. Fellows <donal.k.fellows@man.ac.uk>
 
    44. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -236,12 +240,12 @@ assigned:
 
    76. ''Mac DND Tclets'' - Daniel Steffen <das@users.sourceforge.net>
 
-   77. ''Widget Tour'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+   77. ''Widget Tour'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 			 Jeff Hobbs <JeffH@ActiveState.com>
 
    78. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   79. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+   79. ''Other Demos'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 			 Jeff Hobbs <JeffH@ActiveState.com>
 
    80. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>,
