@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.8 $
+Version:        $Revision: 2.9 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Accepted
 Type:           Project
@@ -163,7 +163,7 @@ be handled by a command evaluation in a different interp.
 
 ~ Reference Implementation
 
-Pending...
+See Tcl Patch 1060579.
 
 ~ Comments
 
