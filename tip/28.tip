@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -197,7 +197,7 @@ action:
      comment asking them to reassign to the correct project.  Assigned
      To: ''an Admin of the other project''.
 
-     If no Developer is an Admin of the other project, or the other
+  >  If no Developer is an Admin of the other project, or the other
      project isn't hosted by SourceForge, note the error in a comment,
      and mark the report invalid.  Resolution: Invalid; Status:
      Closed; Assigned To: ''yourself''.
@@ -570,6 +570,10 @@ TIPs that propose changes to your area for this reason.
 ~ Comments
 
 Please add your comments here.
+
+   > Well, since I drafted this SourceForge has replaced the
+     Bug Tracker and Patch Manager with a ''Tracker''.  This
+     TIP ''really'' needs revision now.
 
 ~ Copyright
 
