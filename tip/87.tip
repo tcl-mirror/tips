@@ -1,15 +1,16 @@
-TIP:		87
-Title:		Allow Tcl Access to the Recursion Limit
-Version:	$Revision: 1.1 $
-Author:		Stephen Trier <sct@po.cwru.edu>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	19-Feb-2002
-Post-History:	
+TIP:            87
+Title:          Allow Tcl Access to the Recursion Limit
+Version:        $Revision: 1.2 $
+Author:         Stephen Trier <sct@po.cwru.edu>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Feb-2002
+Post-History:   
 Discussions-To: news:comp.lang.tcl
-Keywords:	Tcl_SetRecusionLimit, recursion limit
+Keywords:       Tcl_SetRecusionLimit,recursion limit
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -26,7 +27,6 @@ resort to C code to change the limit.  Nevertheless, Tcl programmers
 may find it useful to reduce the limit when debugging or to increase
 it for scripts that include deeply recursive functions.  The changes
 proposed in this TIP will make this possible in pure Tcl code.
-
 
 ~ Specification
 
