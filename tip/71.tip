@@ -1,13 +1,13 @@
-TIP:		71
-Title:		Tk Bitmap Improvements
-Version:	$Revision: 1.1 $
-Author:		Chris Nelson <chris@pinebush.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	26-Oct-2001
-Post-History:	
+TIP:            71
+Title:          Tk Bitmap Improvements
+Version:        $Revision: 1.2 $
+Author:         Chris Nelson <chris@pinebush.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Oct-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -16,7 +16,7 @@ This TIP improves handling of bitmaps in Tk.
 ~ Background
 
 Tk has a number of pre-defined bitmaps (10 on all platforms, and 16
-more on Macs) but it lacks a number of useful bitmaps and there no way
+more on Macs) but it lacks a number of useful bitmaps and there is no way
 to programmatically list the predefined bitmaps.  This TIP adds a
 number of useful, basic bitmaps and provides for introspection of
 bitmap names.
@@ -26,7 +26,7 @@ bitmap names.
 Many complex widgets like comboboxes, spinboxes, etc. require arrows
 bitmaps on buttons.  While newer releases of Tk have added more
 widgets, there will always be some unforeseen need for new or
-customized widgets.  On example is a menubutton which, according to
+customized widgets.  One example is a menubutton which, according to
 the Microsoft Windows User Experience
 (http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwue/html/welcome.asp),
 should have a downward arrow on the right side.  With compound
@@ -47,14 +47,12 @@ would look something like:
 
 I propose the following names:
 
-|   up7x4     up5x3      up3x2
-|   down7x4   down5x3    down3x2
-|   left7x4   left5x3    left3x2
-|   right7x4  right5x3   right3x2
-  
-I'd accept arguments that uniform length names like "u7x4" or
-"uarrow7x4" would be better and I'm mindful of the fact that adding
-new predefined bitmaps has the potential to collide with
+|   u7x4      u5x3      u3x2
+|   d7x4      d5x3      d3x2
+|   l7x4      l5x3      l3x2
+|   r7x4      r5x3      r3x2
+
+I'm considering adding "arrow_" at the start of each name.  I'm mindful of the fact that adding new predefined bitmaps has the potential to collide with
 application-defined bitmaps but unsure of the workaround for that.
 
 ~ Introspection
@@ -68,7 +66,7 @@ bitmaps.
 ~ Reference Implementation
 
 SourceForge patch 475332 provides a reference implementation of [[tk
-bitmaps]] and a draft of four new bitmaps (8x4 arrows).
+bitmaps]] and a draft of the 12 arrow bitmaps.
 
 https://sourceforge.net/tracker/index.php?func=detail&aid=475332&group_id=12997&atid=312997
 
