@@ -1,9 +1,10 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -110,11 +111,14 @@ devloped and tested.  No releases of Tcl/Tk will be spawned from these
 branches.  As the features mature, they will be merged onto the HEAD
 branch, or they may be rejected.
 
+   * core-8-4-win-speedup (Tk) - Work on improving performance of Tk
+     on the Windows platforms.
+
    * dgp-privates-into-namespace (Tk) - Work on moving Tk's private
      commands and variables into the ::tk namespace and its children.
 
-   * core-8-4-win-speedup (Tk) - Work on improving performance of Tk
-     on the Windows platforms.
+   * kennykb-tip-22-33 (Tcl) - Work on implementing the changes
+     described in TIP's #22 and #33.
 
    * msofer-bcEngine (Tcl) - Work on improving performance of the bytecode engine.
 
