@@ -1,13 +1,13 @@
-TIP:		205
-Title:		Use pkgconfig Database to Register Xft Support
-Version:	$Revision: 1.1 $
-Author:		Joe English <jenglish@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	23-Jun-2004
-Post-History:	
+TIP:            205
+Title:          Use pkgconfig Database to Register Xft Support
+Version:        $Revision: 1.2 $
+Author:         Joe English <jenglish@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Jun-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -37,6 +37,8 @@ The change as currently proposed is the minimum necessary to satisfy
 the requirement listed in the Rationale.  In particular: nothing else
 in Tk currently calls ''Tcl_RegisterConfig()'', so if Xft support is
 not enabled the '''tk::pkgconfig''' command will remain undefined.
+
+This TIP (or something like it) is a prerequisite for a script-level implementation of [145], which will need to distinguish whether or not Xft is in use.
 
 ~ Implementation
 
