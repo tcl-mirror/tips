@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -52,6 +52,8 @@ for a recent thread), and if Tcl can read links (''file readlink'',
 
 Discussion has shown that both symbolic and hard links are desirable, and that for cross-platform use a general-purpose 'file link' which creates ''something'' is useful.
 
+Some users would prefer hard links to be the default, but on balance most people commenting seemed to prefer symbolic links as default.  This has the added benefit that symbolic links will then be the default on MacOS, Unix and Windows for everything, ''except'' files on WinTcl (where hard-links are required).
+
 ~ Alternatives
 
 There is no cross-platform alternative available.  TclX provides a
@@ -60,12 +62,13 @@ ln ?-s?'' command to achieve the same effect.
 
 ~ Reference Implementation
 
-See the 'testfilelink' command in tclTest.c, which is a partial implementation (used by the test suite), also see:
+Tcl contains a 'testfilelink' command in tclTest.c, which is a partial implementation used by the test suite.  For an implementation of this TIP, including the '-linktype' switch, see:
+
 ''
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-this final implementation on sourceforge includes the '-linktype' option, some docs and tests.  Some further tests will also be added.
+which includes docs and tests.
 
 ~ Copyright
 
