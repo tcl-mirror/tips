@@ -1,8 +1,8 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        11-Jun-2002
