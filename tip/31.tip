@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -145,7 +145,7 @@ longer being spawned.  Others are feature development branches that
 have been merged into an official branch, or rejected.
 
    * kennykb-tip-22-33 (Tcl) - Work on implementing the changes
-     described in TIP's #22 and #33.
+     described in TIP's #22 and #33.  Abandoned.
 
    * dgp-privates-into-namespace (Tk) - Work on moving Tk's private
      commands and variables into the ::tk namespace and its children.
