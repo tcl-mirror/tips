@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.108 $
+Version:        $Revision: 1.109 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -316,6 +316,7 @@ added.
         below for how these options work.
 
    > clock add:
+     and
 
    > clock subtract:
      These two commands perform arithmetic on dates and times.
@@ -679,44 +680,44 @@ added.
 
     > * As a last resort, the time zone is set to ':localtime'.
 
-    > Once the time zone is obtained by one of these means, it is interpreted
-      as follows:
+    Once the time zone is obtained by one of these means, it is interpreted
+    as follows:
 
-    > '':localtime'' --
+    '':localtime'' --
       This specifier requests that the C library functions 'localtime' and
       'mktime' be used whenever converting times between local and
       Greenwich.  It is generally used as a last resort if the time
       zone can be determined in no other way.
 
-    > ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'' --
+    ''+hhmm'', ''+hhmmss'', ''-hhmm'', ''-hhmmss'' --
       These specifiers give the time zone explicitly in terms of hours,
       minutes and seconds east (+) or west (-) of Greenwich.
 
-    > ':filename' --
+    ':filename' --
       The given file name is interpreted as a path name relative to
       [[info library]]/tzdata, and the specified file is loaded as a
       Tcl script.  The script is expected to set the '':filename''
       element in the ''tzdata'' array to a list of transitions.  Each
       transition is a four-element list comprising:
 
-    > > * the time at which the transition takes place, expressed in
+    > * the time at which the transition takes place, expressed in
           seconds from the Posix Epoch (1 January 1970, 00:00 UTC)
 
-    > > * the offset (in seconds east of Greenwich) to apply.
+    > * the offset (in seconds east of Greenwich) to apply.
 
-    > > * an indicator (0=Standard Time, 1=Daylight Saving Time)
+    > * an indicator (0=Standard Time, 1=Daylight Saving Time)
 
-    > > * the name to use when displaying the given time zone in the
+    > * the name to use when displaying the given time zone in the
           root locale.
 
-    > > The first transition is expected to take place at
+    > The first transition is expected to take place at
         time -9223372036854775808, the smallest value of a wide integer.
 
-    > Any string recognizable as a Posix time zone specifier (see [http://www.opengroup.org/onlinepubs/007904975/basedefs/xbd_chap08.html]):
+    Any string recognizable as a Posix time zone specifier (see [http://www.opengroup.org/onlinepubs/007904975/basedefs/xbd_chap08.html]):
       A time zone may be specified in Posix syntax, for example
       ''EST5EDT'' or ''EST+05:00EDT+04:00,M4.1.0/01:00,M10.5.0/02:00''.
 
-    > Any other string is processed by prefixing a colon and attempting
+    Any other string is processed by prefixing a colon and attempting
       to load the given file, as shown above.
 
     LOCALISATION:
@@ -725,19 +726,19 @@ added.
       the namespace, ::tcl::clock.  The possible strings to be translated
       include:
 
-    > > AM:
+    > AM:
         The string that identifies ''ante meridiem'' times when expressing
         a time of day in the given locale.  This string has the value,
         {am} in the root locale.
 
-    > > BCE:
+    > BCE:
         The string that identifies dates before the Common Era in
         the given locale.  This string has the value, {B.C.E.} in the
         root locale.  Those localising this string should be aware
         that, depending on local culture, a name such as "B.C."
         (before Christ) may be offensive.
 
-    > > CE:
+    > CE:
         The string that identifies dates of the Common Era in the
         given locale.  This string has the value, {C.E.} in the
         root locale.  Those localising this string should be aware that,
@@ -745,29 +746,29 @@ added.
         (Latin, ''anno Domini'', "in the year of Our Lord") may
         be offensive.
 
-    > > DATE_FORMAT:
+    > DATE_FORMAT:
         The format specifier for calendar dates in the given locale.
         In the root locale, %m/%d/%Y is used for compatibility with
         earlier versions of the [[clock]] command, even though
         %Y-%m-%d would probably be preferable.
 
-    > > DATE_TIME_FORMAT:
+    > DATE_TIME_FORMAT:
         The format specifier for combined date and time in the
         given locale.  In the root locale, {%a %b %e %H:%M:%S %Y}
         is used for compatibility with earlier versions of the [[clock]]
         command, even though %Y-%m-%dT%H:%M:%S would be preferable.
 
-    > > DAYS_OF_WEEK_ABBREV:
+    > DAYS_OF_WEEK_ABBREV:
         Abbreviations of the days of the week in the given locale.
         In the root locale, this string has the value,
         {Sun Mon Tue Wed Thu Fri Sat}
 
-    > > DAYS_OF_WEEK_FULL:
+    > DAYS_OF_WEEK_FULL:
         Full names of the days of the week in the given locale.
         In the root locale, this string has the value,
         {Sunday Monday Tuesday Wednesday Thursday Friday Saturday}
 
-    > > GREGORIAN_CHANGE_DATE:
+    > GREGORIAN_CHANGE_DATE:
         The date on which the change from the Julian to the Gregorian
         calendar takes place, expressed as a Julian Day Number.
         In the root locale, this string has the value, {2299161},
@@ -775,12 +776,12 @@ added.
         'en' locale, this value is {2361222}, 14 September 1752
         New Style.
 
-    > > LOCALE_DATE_FORMAT:
+    > LOCALE_DATE_FORMAT:
         The format to use when formatting dates in the locale's
         alternative calendar.  In the root locale, LOCALE_DATE_FORMAT
         is the same as DATE_FORMAT.
 
-    > > LOCALE_ERAS:
+    > LOCALE_ERAS:
         In a locale where a calendar with multiple eras is in use,
         gives a list of triples.  The first element of each triple
         is the time (in seconds from the Posix epoch of 1 January 1970,
@@ -788,7 +789,7 @@ added.
         era, and the third is a constant offset to be subtracted from
         the Gregorian year to give the year of the era.
 
-    > > LOCALE_NUMERALS:
+    > LOCALE_NUMERALS:
         In a locale where alternative numerals may be used, gives
         a list containing the numerals that represent the numbers from
         zero to ninety-nine.  Note that these numerals are the ones
@@ -796,43 +797,43 @@ added.
         or quantities.  For instance, in a Han locale, the number
         twenty-one is represented by \u5eff\u4e00, not by \u4e8c\u5341\u4e00.
 
-    > > LOCALE_TIME_FORMAT
+    > LOCALE_TIME_FORMAT
         The time format to use when formatting a time of day using
         a locale's alternative numerals. In the root locale, this
         string is the same as TIME_FORMAT.
 
-    > > LOCALE_YEAR_FORMAT
+    > LOCALE_YEAR_FORMAT
         The time format to use when formatting a year in the locale's
         alternative calendar.  In the root locale, this string is %Y.
 
-    > > MONTHS_ABBREV
+    > MONTHS_ABBREV
         Abbreviated names of the months in the given locale.
         In the root locale, consists of three-letter abbreviations
         for the English months: Jan-Dec.
 
-    > > MONTHS_FULL
+    > MONTHS_FULL
         Full names of the months in the given locale.  In the root
         locale, consists of the names of the English months in order
         from 'January' to 'December'.
 
-    > > PM
+    > PM
         The string that identifies ''post meridiem'' times when expressing
         a time of day in the given locale.  This string has the value,
         {pm} in the root locale.
 
-    > > TIME_FORMAT:
+    > TIME_FORMAT:
         String that specifies the default time format in the given locale.
         In the root locale, this string is {%H:%M:%S}
 
-    > > TIME_FORMAT_12:
+    > TIME_FORMAT_12:
         String that formats time on a 12-hour clock in the given locale.
         In the root locale, this string is {%I:%M:%S %p}.
 
-    > > TIME_FORMAT_24:
+    > TIME_FORMAT_24:
         String that formats time on a 24-hour clock in the given locale.
         In the root locale, this string is {%H:%M}.
 
-    > > ''Example.'' The following file is "ja.msg", which localises
+    > ''Example.'' The following file is "ja.msg", which localises
         the [[clock]] command to a Japanese locale.
 
 |    namespace eval ::tcl::clock {
