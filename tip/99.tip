@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -35,9 +35,9 @@ and Windows NT/2000/XP (on NTFS drives) do).
 
 The TIP proposes implementing:
 
->           Unix,MacOSX       Win-NTFS             MacOS
->soft:          yes        directories-only         yes
->hard:          yes          files-only              no
+|           Unix,MacOSX       Win-NTFS             MacOS
+|soft:          yes        directories-only         yes
+|hard:          yes          files-only              no
 
 ~ Rationale
 
@@ -45,6 +45,8 @@ There are many requests on comp.lang.tcl for this functionality (see
 http://groups.google.com/groups?dq=&hl=en&lr=&ie=UTF8&oe=UTF8&threadm=4dd3bea3.0206100250.95eeb4e%40posting.google.com&rnum=1&prev=/&frame=on
 for a recent thread), and if Tcl can read links (''file readlink'',
 ''file lstat''), it really ought to be able to write them.
+
+Discussion has shown that both soft and hard links are desirable.
 
 ~ Alternatives
 
