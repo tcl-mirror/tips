@@ -1,9 +1,9 @@
 TIP:            144
 Title:          Argument Expansion Syntax
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Author:          <dgp@users.sf.net>
+Author:         <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -29,12 +29,14 @@ This is a bit obscure and also very error prone when the command
 becomes more complex.  It is also inefficient and not object safe, why
 something specialised in doing this would be better.
 
-~ Rationale
+~ Background
 
 See also [103].  Please also see a summary of a
 poll of TCLCORE readers taken after [103] was
 rejected.
 http://wiki.tcl.tk/9462
+
+~ Rationale
 
 For examples three statements are used.  This is the eval version:
 
