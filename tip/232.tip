@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -77,6 +77,10 @@ This TIP proposes that:
     be removed (the general consensus among Core maintainers is that
     compile-time checks of this sort are a bad idea anyway).
 
+ >  Note that the call to ''tcl::mathfunc::f'' has no leading namespace
+    delimiter.  A search for the function will try to resolve it first
+    relative to the current namespace.
+
  1. The current math functions in Tcl shall be reimplemented as ordinary
     Tcl commands in the '''::tcl::mathfunc''' namespace; a Tcl interpreter
     will contain commands '''::tcl::mathfunc::abs''', 
@@ -149,6 +153,15 @@ math functions operate:
     compile if ''f'' is not known at compile time, something that
     runs contrary to the dynamic nature of Tcl.)
 
+ 1. Namespaces will be able to define their own math functions that
+    are not visible outside those namespaces.  If a namespace defines
+    a function '''[namespace current]]::tcl::mathfunc::f''', then calls to
+    '''f''' in  expressions evaluated in that namespace will resolve
+    to it in preference to '''::tcl::mathfunc::f'''.  Not only does
+    this rule allow two extensions both to define functions '''f''' without
+    collision, but it also allows an extension to override a builtin
+    function such as '''sin'''.
+
 Alas, all these improvements come at some cost of performance.  On
 Kevin Kenny's machine, the command
 
@@ -163,6 +176,14 @@ real-life expressions, the additional cost tends to vanish quickly into
 statistical noise; variable access (with corresponding checks for traces)
 and bytecode overhead quickly comes to dominate the performance for
 all but the simplest expressions.
+
+~ Safe interpreters
+
+It is not anticipated that exposing this functionality in a safe interpreter
+will present any new problems for safety.  Any functionality that the
+interpreter can access by defining or overriding math functions
+is functionality that would have been available to it by calling
+the functions as commands.
 
 ~ Impact on C-coded Extensions
 
@@ -182,6 +203,9 @@ compiled modules built against earlier versions of Tcl.  The reason
 is that two bytecodes, '''INST_INVOKE_BUILTIN1''' and
 '''INST_INVOKE_FUNC1''' have been eliminated from
 '''Tcl_ExecuteByteCode''' since the compiler no longer emits them.
+If this change for some reason should prove infeasible, we
+can always put the bytecodes back into '''Tcl_ExecuteByteCode''',
+but the authors of this TIP would prefer to avoid the code bloat.
 
 ~ Reference Implementation
 
