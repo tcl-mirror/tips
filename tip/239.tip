@@ -1,6 +1,6 @@
 TIP:		239
 Title:		Enhance the 'load' Command
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Jeff Hobbs <jeffh@activestate.com>
 State:		Draft
 Type:		Project
@@ -34,7 +34,7 @@ Current specification:
 Recommended specification:
 
  > '''load''' ?'''-function''' ''funcName''? ?'''-interp'''
-   ''interp''?  ?'''-call''' ''initName''? ?'''--'''? fileName
+   ''interp''?  ?'''-call''' ''initName''? ?'''--'''? ''fileName''
 
 The '''-interp''' option takes the place of the optional final
 ''interp'' argument.
