@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.93 $
+Version:        $Revision: 1.94 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -218,32 +218,32 @@ The basic principles of correctly-rounded floating point conversions
 have been known for a good many years.  Perhaps the two most seminal papers
 on modern floating point conversion are:
 
-William D Clinger, "How to Read Floating Point Numbers Accurately,"
-Proceedings of the ACM Conference on Programming Language Design and
-Implementation, June 20-22 1990, pp. 92-101.
-[http://citeseer.nj.nec.com/clinger90how.html]
+> William D Clinger, "How to Read Floating Point Numbers Accurately,"
+  Proceedings of the ACM Conference on Programming Language Design and
+  Implementation, June 20-22 1990, pp. 92-101.
+  [http://citeseer.nj.nec.com/clinger90how.html]
 
-Guy L. Steele Jr. and Jon L. White. "How to print floating-point numbers
-accurately." In Proceedings of the ACM Conference on Programming
-Language Design and Implementation, June 20-22 1990, pp. 112-126.
-[http://doi.acm.org/10.1145/93542.93559]
+> Guy L. Steele Jr. and Jon L. White. "How to print floating-point numbers
+  accurately." In Proceedings of the ACM Conference on Programming
+  Language Design and Implementation, June 20-22 1990, pp. 112-126.
+  [http://doi.acm.org/10.1145/93542.93559]
 
 Both of these papers inspired David Gay to implement a library to do
 correct rounding in floating point input and output conversions:
 
-Gay, David M. "Correctly rounded binary-decimal and decimal-binary
-conversions." Numerical Analysis Manuscript 90-10, AT&T Bell Laboratories,
-Murray Hill, New Jersey, November 1990. 
-[http://citeseer.nj.nec.com/gay90correctly.html]
+> Gay, David M. "Correctly rounded binary-decimal and decimal-binary
+  conversions." Numerical Analysis Manuscript 90-10, AT&T Bell Laboratories,
+  Murray Hill, New Jersey, November 1990. 
+  [http://citeseer.nj.nec.com/gay90correctly.html]
 
 A reasonably comprehensive set of test vectors detailing problem cases
 for rounding conversions is documented in:
 
-Brigitte Verdonk, Annie Cuyt, Dennis Verschaeren. "A precision and
-range independent tool for testing floating-point arithmetic II:
-Conversions." ACM Transactions on Mathematical Software 27:2 (March
-2001), pp. 119-140.
-[http://citeseer.nj.nec.com/verdonk99precision.html]
+> Brigitte Verdonk, Annie Cuyt, Dennis Verschaeren. "A precision and
+  range independent tool for testing floating-point arithmetic II:
+  Conversions." ACM Transactions on Mathematical Software 27:2 (March
+  2001), pp. 119-140.
+  [http://citeseer.nj.nec.com/verdonk99precision.html]
 
 ~ Reference Implementation
 
