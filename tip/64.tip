@@ -1,7 +1,8 @@
 TIP:            64
 Title:          Improvements to Windows Font Handling
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Chris Nelson <chris@pinebush.com>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -129,6 +130,14 @@ propose that Tk respond to the WM_SETTINGCHANGE message from Windows
 to propagate changes to the desktop fonts enumerated above as it
 propagates changes to Tk fonts when they are reconfigured.  I have yet
 to prototype these changes.
+
+~ Comments
+
+''KBK'' wonders whether the dt* fonts have logical counterparts on the
+other platforms (KDE, Gnome/Gtk, Macintosh, HP-VUE, ...) and if
+implementors on those platforms might want to try to mirror this
+functionality.  Since nobody has commented, he assumes that they
+at least do not find the idea objectionable.
 
 ~ Copyright
 
