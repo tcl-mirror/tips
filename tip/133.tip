@@ -1,13 +1,14 @@
-TIP:		133
-Title:		Extending [expr] Operators
-Version:        $Revision: 1.1 $
-Author:		Richard Suchenwirth <Richard.Suchenwirth-Bauersachs@siemens.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	08-Apr-2003
-Post-History:	
-Tcl-Version:	8.5
+TIP:            133
+Title:          Extending [expr] Operators
+Version:        $Revision: 1.2 $
+Author:         Richard Suchenwirth <Richard.Suchenwirth-Bauersachs@siemens.com>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Apr-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -85,6 +86,9 @@ A feature sometimes discussed in news:comp.lang.tcl, an assignment
 operator, could in the same way easily be added by users who so want:
 
 | expr operator = {varName value} {upvar 1 $varName var; set var $value}
+
+Reinhard Max has also proposed a unary ''empty'' operator:
+| expr operator empty {list} {expr {[llength $list]==0}}
 
 ~ Copyright
 
