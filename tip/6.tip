@@ -1,6 +1,6 @@
 TIP:           6
 Title:         Include [Incr Tcl] in the Core Tcl distribution
-Version:       $Id: 6.tip,v 1.1 2000-11-30 13:07:35 fellowsd Exp $
+Version:       $Revision: 1.2 $
 Author:        Mark Harrison <markh@usai.asiainfo.com>
 State:         Draft
 Type:          Project
