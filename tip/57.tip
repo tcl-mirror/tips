@@ -1,0 +1,123 @@
+TIP:		57
+Title:		Multiple Assignment Command
+Version:	$Revision: 1.1 $
+Author:		Agnar Renolen <agnar.renolen@emap.no>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Created:	30-Aug-2001
+Post-History:	
+
+~Abstract
+
+This TIP proposes a new function ''mset'' (or a modification to
+''set'') to perform multiple assignment.
+
+~Introduction
+
+In many cases, a command needs to return more than one return value to
+the caller.  For example, suppose that the statement:
+
+| set coords [LocateFeature $featureID]
+
+would set the variable "coords" to a list containing two elements "x"
+and "y".  Assume that you need to set the "x" and "y" components
+directly, you can do this today using the following statement:
+
+| foreach {x y} [LocateFeature $featureID] {}
+
+Now, this is not what the ''foreach'' command was designed for, and it
+is not obvious at first glance from the source code what the statement
+does.  Although it is quite useful for the purpose described in this
+TIP, It would be more logical if the developer could write the
+following:
+
+| set {x y} [LocateFeature $featureID]
+
+or
+
+| mset {x y} [LocateFeature $featureID]
+
+~Design Alternatives
+
+The following Tcl code is an implementation I have made myself for
+''mset''.  Because it returns the remaining elements in the list that
+were not assigned to a value, the proposed specification is not
+suitable as an extension to ''set'', but rather as a new command
+''mset''.
+
+| ##
+| #   mset - set multiple variables with values from a list
+| #
+| # SYNOPSIS
+| #   [mset <varlist> <valuelist>]
+| #
+| # DESCRIPTION
+| #   Sets multiple variables with values from a list.  The <varlist>
+| #   contains variable names and each variable will be assigned the
+| #   corresponding value in <valuelist>.  For example
+| #
+| #   [mset \{name age sex\} \{Bill 42 male\}]
+| #
+| #   It is an error if <valuelist> contains fewer elements than the
+| #   <varlist>.  If the valuelist contains more elements than the
+| #   <varlist> the exceeding values will not be assigned to any
+| #   variable.
+| #
+| #   The procedure returns the a list containing the remaining 
+| #   elements in <valuelist> that were no assigned to a variable.
+| ##
+| 
+| proc misc::mset {varList valueList} {
+|     if {[llength $varList] > [llength $valueList]} {
+| 	error "mset error: more variables than values"
+|     }
+|     set i 0
+|     foreach varName $varList {
+| 	upvar $varName var
+| 	set var [lindex $valueList $i]
+| 	incr i
+|     }
+|     return [lrange $valueList 0 [expr $i - 1]]
+| }
+
+If ''set'' is extended rather than introducing a new ''mset'' command,
+it should return a list comprising the elements that were set, so
+
+| set {name age} {Bill 42 male developer}
+
+would return the list,
+
+| {Bill 42}
+
+while
+
+| mset {name age} {Bill 42 male developer}
+
+as specified above, would return:
+
+| {male developer}
+
+~Evaluation of Alternatives
+
+Since the syntax proposed for an extended ''set'' command would
+produce an error in its current form, it will create no problems of
+backward compatibility.  Returning the list of the elements that were
+assigned to variables would also be consistent with the current
+''set'' command.
+
+The advantage of the ''mset'' command is that it provides a convenient
+way to take care of exceeding values when you have assigned the first
+values to variables.  However, because it is inconsistent with the
+''set'' command in terms of the returned vale, it should be
+implemented as a different command.
+
+A third theoretical alternative is to implement a new ''mset'' command
+having the specification outlined for the extended ''set'' command.
+Personally, I think it is unnecessary to introduce a new command when
+you can extend an existing function consistently and without problems
+with backward compatibility.
+
+~ Copyright
+
+This document is placed in the public domain.
