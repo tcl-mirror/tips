@@ -1,8 +1,9 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Kevin B KENNY <kennykb@acm.org>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -36,7 +37,8 @@ For each of Tcl's functional units, the following maintainers are
 assigned:
 
    1. ''Notifier'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                     Jim Ingham <jingham@apple.com> (Mac)
+                     Jim Ingham <jingham@apple.com> (Mac),
+                     Kevin Kenny <kennykb@acm.org> (Win32)
 
    1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
@@ -95,7 +97,7 @@ assigned:
                           Daniel Steffen <das@users.sourceforge.net> (Mac),
                           Jim Ingham <jingham@apple.com> (Mac)
 
-   1. ''dde Package'' - 
+   1. ''dde Package'' - Kevin Kenny <kennykb@acm.org>
 
    1. ''http Package'' - 
 
@@ -103,7 +105,7 @@ assigned:
 
    1. ''opt Package'' - 
 
-   1. ''registry Package'' - 
+   1. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
 
    1. ''Safe Base'' - 
 
