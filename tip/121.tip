@@ -1,10 +1,10 @@
 TIP:            121
 Title:          Controlled Application Shutdown via Tcl_Exit
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        05-Dec-2002
 Post-History:   
 Tcl-Version:    8.5
