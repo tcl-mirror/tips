@@ -1,13 +1,14 @@
 TIP:            9
 Title:          Tk Standard Library
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Marty Backe <mgbacke@usa.net>
+Author:         hellins <hellins@263.net>
 State:          Draft
 Type:           Project
-Tcl-Version:    8.4
 Vote:           Pending
 Created:        07-Nov-2000
-Post-History: 
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -95,7 +96,6 @@ distribution.
 
  * The tklib shall not contain applications, IDE's, or development
    tools.
-
 
 ~ Copyright
 
