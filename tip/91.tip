@@ -1,11 +1,11 @@
 TIP:		91
 Title:		Backward Compatibility for Channel Types with 32-bit SeekProcs
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.4
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	03-May-2002
 
