@@ -1,6 +1,6 @@
 TIP:            117
 Title:          Object Type Introspection
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -11,7 +11,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to add a subcommand to ''info'' to give information
+This TIP proposes to add a command to give information
 on the current internal representation of an object.
 
 ~ Rationale
@@ -20,14 +20,14 @@ When trying to understand the internals of objects and when trying to
 track down shimmering problems it is very helpful to be able to see
 what type an object currently has.
 
-This small gap in Tcl's introspection abilities can be filled with a
-simple addition to the ''info'' command.
-
 ~ Specification
 
-A new subcommand, ''objtype'', is added to ''info'' with the syntax:
+A new package called "Debug" is created as part of the core.
 
-|info objtype ?value?
+A new command, ''objtype'', is added to the Debug package.
+The command has the syntax:
+
+|Debug::objtype ?value?
 
 If no value is submitted, a list of all currently registered object
 types are returned.
@@ -39,28 +39,37 @@ if the object has a valid string representation.
 
 Examples:
 
-|% info objtype
+|% Debug::objtype
 |boolean index double end-offset wideInt list cmdName bytecode
 |nsName procbody bytearray int {array search} string
 |% set apa hejsan
 |hejsan
-|% info objtype $apa
+|% Debug::objtype $apa
 |none 1
 |% string length $apa
 |6
-|% info objtype $apa
+|% Debug::objtype $apa
 |string 1
 |% regexp $apa hoppsan
 |0
-|% info objtype $apa
+|% Debug::objtype $apa
 |regexp 1
-|% info objtype [expr 1+1]
+|% Debug::objtype [expr 1+1]
 |int 0
+
+~ Discussion
+
+The first proposal was to add this as a subcommand to info.  This
+was considered bad since this should be a pure debug command
+and should never be used in live code.  Thus the proposition
+came up to create a Debug package and put it in there to emphasise
+its debug nature.  The Debug package can also be extended in the
+future with other utilities.
 
 ~ Reference Implementation
 
 |static int
-|InfoObjTypeCmd(dummy, interp, objc, objv)
+|ObjTypeCmd(dummy, interp, objc, objv)
 |    ClientData dummy;		/* Not used. */
 |    Tcl_Interp *interp;	/* Current interpreter. */
 |    int objc;			/* Number of arguments. */
