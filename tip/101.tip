@@ -1,10 +1,10 @@
 TIP:		101
 Title:		Export Tcltest Configuration
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Don Porter <dgp@users.sf.net>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	11-Jun-2002
 Post-History:	
 Tcl-Version:	8.4
