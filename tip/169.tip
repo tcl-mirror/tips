@@ -1,6 +1,6 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -90,6 +90,10 @@ the following test works nicely:
 All top-level text configuration options are widget-specific except
 those which involve the undo/redo/modified status of the widget, which
 are shared.
+
+~ Further changes
+
+It has been pointed out that some uses of the 'sel' tag in existing Tk-based editors require an additional tag for use when a given widget does not have the input focus (a 'background sel' tag), particularly on Windows/MacOS X where [https://sourceforge.net/tracker/?func=detail&atid=112997&aid=1014213&group_id=12997] applies (selection is never shown in text widgets which don't have the focus).  Such an approach would not work with peer widgets, because the 'background sel' tag would show up on all peers.  This means the cited problem needs to be fixed, and we need programmatic control over the visualization of the "sel" tag in text widgets that don't have the focus.  The proposed solution is the addition of a 'inactiveSelectionBackground' option to each text overall widget.
 
 ~ To Do
 
