@@ -1,14 +1,14 @@
-TIP:		210
-Title:		Add 'tempname' Subcommand to 'file'
-Version:	$Revision: 1.1 $
-Author:		Bob Techentin <techentin.robert@mayo.edu>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	19-Jul-2004
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	Tcl, filename
+TIP:            210
+Title:          Add 'tempname' Subcommand to 'file'
+Version:        $Revision: 1.2 $
+Author:         Bob Techentin <techentin.robert@mayo.edu>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jul-2004
+Post-History:   
+Keywords:       Tcl,filename
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -38,27 +38,19 @@ Iwidgets, the Tcl plugin, tcllib, and tclx all appear to have this
 sort of code, and not all are correct.
 
 This TIP proposes to extend the '''file''' command with one subcommand
-to generate temporary file names.  By extending the core command,
-application programmers and extension writers will be able to depend
-on this functionality for their code, without resorting to copying or
-depending on tcllib.
+to generate temporary files and file names.  By extending the core command, application programmers and extension writers will be able to depend on this functionality for their code, without resorting to copying or depending on tcllib.
 
 ~ Specification
 
-This TIP proposes the most straight forward extension to the ''file''
-command, directly exposing the functionality of the ANSI standard
-tmpnam() function.  The new subcommand will be called ''tempname'',
-adding vowels, but staying true to the ANSI naming convention.
-
-Programmers wishing to have a more sophisticated implementation, such
-as that found in tcllib, will still be free to use that code.
+This TIP proposes an extension to the ''file''
+command, implementing the functionality of the POSIX standard
+mkstemp() function.  The new subcommand will be called ''tempfile''.  It will return an open file channel, and (optionally) the name of the temporary file.
 
 ~ Synopsis
 
- > '''file tempname'''
+ > '''file tempname''' ''?template?'' ''?namevar?''
 
-Returns a valid temporary file name that does not yet exist.  The
-function will return a different file name each time it is called.
+Opens a unique temporary file and returns an open file channel.  If the ''template'' string is specified, then characters will be appended to create the unique filename.  If ''namevar'' is specified, then the command will set the variable to the name of the temporary file.
 
 ~ Copyright
 
