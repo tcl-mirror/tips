@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
@@ -77,8 +77,8 @@ succeeds and returns a valid dictionary value) written once, and that
 the ''varName''s during the execution of ''bodyScript''.
 
 Also note that step 3 is carried out even if ''bodyScript'' completes
-with a result code of TCL_ERROR, TCL_RETURN, TCL_BREAK or
-TCL_CONTINUE, and that the result code of the overall command will be
+with a result code other than TCL_OK, and that the result code of the
+overall command will be
 the result code of the script unless TCL_ERROR was the result of the
 write-back stage, which might happen if the variable ''dictVarName''
 is updated (during the execution of ''bodyScript'') to contain a
@@ -86,7 +86,8 @@ non-dictionary value, or if the variable ''dictVarName'' is either
 unset or cannot be written to (which can happen if a write trace
 throws an error); note that this mandates that any errors from the
 ''bodyScript'' are lost if the write-back phase also throws an error.
-If the result code is TCL_OK, the result will be the empty string.
+If the result code is TCL_OK, the result string/object will be
+whatever the result string/object of ''bodyScript'' was.
 
 ~~ The 'dict with' Subcommand
 
@@ -100,6 +101,10 @@ keys in the dictionary before ''bodyScript'' runs and only those
 variables which are created are mapped back at the end; if extra keys
 are defined in the dictionary in the variable during the execution of
 ''bodyScript'', they will be left alone when ''bodyScript'' finishes.
+
+The variables will be written to and read from in the natural order of
+the keys of the dictionary in the variable ''dictVarName'' when the
+'''dict with''' command starts.
 
 ~ Examples
 
