@@ -1,12 +1,13 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 Author:         Daniel A. Steffen <das@users.sourceforge.net>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -513,6 +514,8 @@ A reference implementation is available in Patch 942881
 ~ Comments
 
 [[ Add comments on the document here ]]
+
+[[EDITING TEST]]
 
 ~ Copyright
 
