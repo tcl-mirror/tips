@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -48,8 +48,8 @@ This means an alternative (though less efficient for single lists) mechanism for
 
 Available at http://www.bovik.org/lsort-indices-diff.txt
 
-This reference implementation is a 99-line context diff, involving 
-adding 14 lines of code to ''tclCmdIL.c'', no additional memory overhead
+This reference implementation is a 109-line context diff, involving 
+adding 20 lines of code to ''tclCmdIL.c'', no additional memory overhead
 and only one additional integer comparison if the new option is not
 invoked.
 
