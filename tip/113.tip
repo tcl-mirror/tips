@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -25,7 +25,7 @@ lines, the first such match will be found, and the length of the match
 will follow the usual regexp rules, as documented in the regexp man
 page.
 
-This should be able to be implemented reasonably efficiently, given
+This can be implemented very efficiently, given
 the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
 impact at all on the speed of matching single lines.
 
@@ -39,13 +39,15 @@ This is available from:
 
 http://sourceforge.net/tracker/?func=detail&aid=621901&group_id=12997&atid=312997
 
-(However, this patch has to workaround a bug in Tcl's unicode string manipulation, so search performance is impacted)
+(However, this patch has to workaround a bug in Tcl's unicode string manipulation, so search performance is probably impacted)
 
 ~ Issues
 
-It isn't yet clear to me whether it would be useful to add equivalents to some or all of the ''-line'', ''-lineanchor'', ''-linestop'' regexp options.  These may be helpful when matching across multiple lines, but at first glance I don't think they are quite as useful when searching in text widgets as for the standard regexp command (but, if only for consistency, it may be sensible to add them so as not to have an unnatural distinction between searching a string and searching in a widget).
+Regexp searches in text widgets always operate as if the ''-lineanchor'' flag has been given.  This is needed for backwards compatibility (so ''^$'' match at the beginning and end of each line respectively).  The current implementation also forces the ''-linestop'' flag, although it is potentially useful to allow user-control over that (so ''.*'' can match across multiple lines).
 
 On the implementation side, it might be interesting to abstract the search interface away from the text widget, so that it could in principle be applied to any line-based textual source.
+
+As in the single-line matching implementation in Tcl 8.x, the lack of support for backwards matching in Tcl's regexp library means that backwards matching can only be implemented as repeated forward matches, with a commensurate performance penalty (the solution to which is outside the scope of this tip).
 
 ~ Copyright
 
