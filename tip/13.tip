@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -249,8 +249,7 @@ Some comments I see above, or received in e-mail:
 
  * ''A separate <TEXTAREA> for the Abstract''
 
- > Seems like a good idea.  I'll look into how difficult that change is
-   to make.
+ > I'm working on this now.
 
 ~ Copyright
 
