@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -29,11 +29,17 @@ This should be able to be implemented reasonably efficiently, given
 the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
 impact at all on the speed of matching single lines.
 
-In addition, if a new ''-all'' option is given to the ''search'' subcommand, then all matches within the given range will be reported. This means the return result of the command will be a list of indices, and, if a ''-count var'' option was given, ''var'' will be set to a list of match-lengths.
+In addition, if a new ''-all'' option is given to the ''search'' subcommand, then all matches within the given range will be reported. This means the return result of the command will be a list of indices, and, if a ''-count var'' option was given, ''var'' will be set to a list of match-index-lengths.
 
 The text widget man page will need updating to reflect the new ''-all' option, and to remove the "single line" caveat.
 
-There is as yet no reference implementation.
+~ Reference implementation
+
+This is available from:
+
+ftp://ftp.ucsd.edu/pub/alpha/tcl/tip113.diff.gz
+
+(However, this patch has to workaround a bug in Tcl's unicode string manipulation, so search performance is impacted)
 
 ~ Issues
 
