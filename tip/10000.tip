@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.113 $
+Version:        $Revision: 1.114 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -16,6 +16,7 @@ Author:         Working User <thisworks@example.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -50,6 +51,12 @@ foobar
 ~~~Subsubsection test
 
 spong wibble
+
+ depth test: depth test
+
+ > > foo ''bar'' '''spong'''
+
+ > some more test stuff
 
 ~ Copyright
 
