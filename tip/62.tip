@@ -1,6 +1,6 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
@@ -280,8 +280,11 @@ This proposal does not allow for the trace invocation ''command''
 to do the following:
 
   1. modify the number of arguments passed to ''name''
+
   2. modify the value of arguments passed to ''name''
+
   3. modify the result value and result code returned by ''name''
+
   4. skip invocation of ''name'' altogether if desired.
 
 Consider the example of adding a sub-command "string reverse ..."
