@@ -1,7 +1,8 @@
 TIP:            222
 Title:          Add [wm attributes -alpha] Attribute on Windows
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
+Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -31,7 +32,7 @@ toplevel 10% transparent (mostly visible).
 There are some special considerations for this feature.  It only works on
 Windows 2000/XP+.  The code handles the dynamic lookup of the necessary
 functionality.  If you do not have the functionality, then any attempt to
-set the '''-alpha''' value will be ignores, and queries to '''-alpha'''
+set the '''-alpha''' value will be ignored, and queries to '''-alpha'''
 will always return 0 (opaque).
 
 Layered windows cannot use the CS_CLASSDC class style, so an alternative
@@ -57,4 +58,3 @@ Please make any comments here.
 ~ Copyright
 
 This document has been placed in the public domain.
-
