@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Accepted
 Type:           Project
@@ -339,6 +339,11 @@ A naming convention for keys returned by the ''config'' command would
 have been possible but would also require quite a lot more text, both
 in careful definition of the general categories and in explanations of
 the choices made.
+
+~ Implementation
+
+Work on implementing this feature is tracked at Tcl Patch 507083 at
+the Tcl project at SourceForge.
 
 ~ Copyright
 
