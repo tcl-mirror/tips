@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -175,7 +175,7 @@ assigned:
 
    71. ''Argv Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   72. ''Embedding'' -
+   72. ''Application Embedding'' -
 
    73. ''wish'' -
 
