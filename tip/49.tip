@@ -1,8 +1,8 @@
 TIP:          49
 Title:        I/O Subsystem: Add API Tcl_OutputBuffered(chan)
-Version:      $Revision: 1.3 $
+Version:      $Revision: 1.4 $
 Author:       Rolf Schroedter <rolf.schroedter@dlr.de>
-State:        Accepted
+State:        Final
 Type:         Project
 Vote:         Done
 Created:      25-Jul-2001
