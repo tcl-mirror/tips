@@ -1,12 +1,12 @@
-TIP:		37
+TIP:            37
 Title:          Uniform Rows and Columns in Grid
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        19-Jun-2001
-Post-History:
+Post-History:   
 Tcl-Version:    8.4
 
 ~ Abstract
@@ -32,31 +32,34 @@ Anywhere ''column'' is used below, the same applies to ''row'' too.
 A new option, ''-uniform'', is added to ''grid columnconfigure''.  The
 option takes an arbitrary string, the default value being the empty
 string.  Any column with a non-empty value will be grouped with other
-columns with the same value.  All columns in a group will get the size
-of the group's smallest member.
+columns with the same value.  Each column in a group will get the size
+k*''-weight'' (in this aspect a ''-weight'' value of 0 is used as 1)
+, where k is set so that no column becomes smaller.  E.g., if all columns
+in a group have the same ''-weight'' they will all get the size of the
+largest member.
 
-In the grid algorithm, ''-uniform'' will be used before ''-weight''.
-Thus the requested size will be affected by ''-uniform'', but the
-distribution of extra size will only take ''-weight'' into
-consideration.
-
-A consequence is that the columns in a ''-uniform'' group should have
-the same ''-weight'' to ensure that they have the same width after a
-resize.
+In the grid algorithm ''-uniform'' and ''-weight'' will be used in
+the calculation of the requested size, but for the distribution of
+extra size only ''-weight'' will be considered.
 
 ~ Rationale
 
-To put ''-uniform'' before ''-weight'' in the algorithm was based
-mainly on simplicity.  It gives a simpler algorithm that is both
+To only consider ''-weight'' in the extra size distribution is mainly
+a matter of simplicity.  It gives a simpler algorithm that is both
 easier to explain to the user and to code.
 
-The alternative would be to force the ''-weight'' value to be same for
-all columns in a group before doing the resize calculations.  The only
-benefit for the user would be to only have to specify ''-weight'' for
-one column in a group, but in practice this is hardly no gain at all
-since a typical usage looks like this:
+To uphold the uniform property it would be needed to force any zero
+''-weight'' value in a group where any non-zero ''-weight'' exists to
+be set to one before doing the resize calculations.  A bit complicated
+and the only benefit for the user would be to only have to specify
+''-weight'' for one column in a group. But in practice this is hardly
+no gain at all since a typical usage looks like this:
 
 |grid columnconfigure . {0 1 2} -uniform a -weight 1
+
+I'm not sure if someone would have a use for the effect you would get
+by mixing zero and non-zero weights in a group but this leaves you
+the freedom to do so.
 
 ~ Implementation
 
