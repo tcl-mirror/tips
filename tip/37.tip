@@ -1,6 +1,6 @@
 TIP:            37
 Title:          Uniform Rows and Columns in Grid
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -115,12 +115,34 @@ slot structure to hold the option, and the CPU overhead is small.
 
 ~ Summary of Objections
 
- * Lack of compelling examples.
+ * Kevin Kenny raised the issue that the proposed implementation
+   uses a Tk_Uid for the "uniform" key, leading to potential resource
+   leaks.  Subsequent discussion has convinced him that the potential
+   for trouble is small; in any case, it need not block approval.
+   The ensuing discussion veered off into a long thread about
+   reclaiming the memory used for Tcl_Obj structures; the thread
+   is not pertinent to this TIP.
 
- * Can be done in Tcl.
+ * George Howlett questioned the need for this feature, citing the
+   lack of compelling examples.  The original author replied with
+   the example of a dialog holding multiple buttons containing
+   text of different widths, and showed how the Tcl code to manage
+   such a dialog is clumsy.
 
- * Risk of breaking existing grid semantics is greater than the
-foreseeable rewards.
+ * George Howlett raised the issue of a detailed specification of
+   the behavior of -uniform when insufficient space is available to
+   satisfy the request.  The original author added clarification in
+   the "Examples" section, and supplied additional examples in
+   discussions on the mailing list, notably
+   http://www.geocrawler.com/archives/3/7375/2001/7/50/6211900/
+
+ * George Howlett also asserted that the desired semantics can
+   be achieved with Tcl code that either lays out a fixed
+   configuration of the widget (with, for example, the ''-minsize''
+   option of ''grid columnconfigure'') or responds to the
+   ''<Configure>'' event.  Probably the best summary of the ensuing
+   discussion is that we need to strike a balance between
+   richness of the API and simplicity of the implementation.
 
 ~ Copyright
 
