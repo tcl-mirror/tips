@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -26,6 +26,7 @@ In order to facilitate such future build tools, the build information
 should be made available to Tcl scripts.
 
 ~ Specification
+
 Every variable defined in the unix tclConfig.sh should be registered using '''Tcl_RegisterConfig''', with the possible exception of obviously redundant variables such as THREAD.
 
 Because Windows and other platforms don't have a tclConfig.sh, the following fields are desirable for hand construction:
