@@ -1,11 +1,11 @@
 TIP:		36
 Title:		Library Access to 'Subst' Functionality
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.4
-Vote:		Pending
+Vote:		In progress
 Created:	13-Jun-2001
 Post-History:	
 
