@@ -1,0 +1,83 @@
+TIP:		129
+Title:		New Format Codes for the [binary] Command
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	14-Mar-2003
+Post-History:	
+Tcl-Version:	8.5
+Keywords:	IEEE, binary data
+
+~ Abstract
+
+This TIP proposes to add a set of new format codes to the [[binary]]
+command to enhance its ability to deal with especially non-native
+floating-point data.  The assumption is that current limitations are
+due to the distinction between little-endian and big-endian storage of
+such data.
+
+~ Introduction
+
+The current [[binary]] command can manipulate little-endian and
+big-endian ''integer'' data, but only ''native'' floating-point data.
+This means that binary data from other computer systems that use a
+different representation of floating-point data can not be directly
+handled.
+
+The lack of format codes to handle "native" integer data means that
+one has to distinguish the current platform's byte ordering to be
+platform-independent, whenever the [[binary]] command is used.
+
+Most current computer systems use either little-endian or big-endian
+byte order and the so-called IEEE representation for the exponent and
+mantissa.  So, the main variation to deal with is the endian-ness.
+
+Some popular file formats, like ESRI's ArcInfo shape files, use both
+types of byte order.  It is difficult (though not impossible) to
+handle these files with the current set of format codes.
+
+It should be noted that there ''is'' more variety among floating-point
+representation than just the byte order.  This TIP will not solve this
+more general problem.
+
+~ Proposed Format Codes
+
+Format codes should be available to catch the two main varieties of
+byte ordering.  There should, both for reasons of symmetry and for
+practical purposes, also be a full set to deal with "native" data.
+
+For integer types there are no codes to deal with native ordering. So:
+
+ * t (tiny) for short integers, using native ordering.
+
+ * n (normal) for ordinary integers, using native ordering.
+
+ * m (mirror of "w") for wide integers, using native ordering.
+
+The floating-point types will be handled via:
+
+ * r/R (real) for single-precision reals.
+
+ * q/Q (mirror of "d") for double-precision reals.
+
+where the lower-case is associated with little-endian order and the
+upper-case with big-endian order.
+
+~ Implementation Notes
+
+The implementation for the integer types is simple:
+
+ * The new format codes are synonyms for the current ones, but
+   different ones for each endian-ness.
+
+The implementation for the floating-point types is somewhat more
+complicated, this involves adding byte swapping, if the ordering of
+the platform does not correspond to that of the format code.
+
+A reference implementation does ''not'' yet exist.
+
+~ Copyright
+
+This document is placed in the public domain.
