@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.31 $
+Version:        $Revision: 1.32 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -488,8 +488,9 @@ approaches might be tried out.
 
 This proposal is a synthesis of ideas from many sources.  As best
 I can recall, major contributions came from Joe English, Andreas
-Leitgeb, and Kevin Kenny.  If you like the idea, give them some
-credit; it you don't, blame me for combining the ideas badly.
+Leitgeb, Reinhard Max, and Kevin Kenny.  If you like the idea,
+give them some credit; it you don't, blame me for combining the
+ideas badly.
 
 ~ See also
 
