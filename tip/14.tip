@@ -1,6 +1,6 @@
 TIP:            14
-Title:          Access (via tkInt) to Tk Photo Image Transparency
-Version:        $Revision: 1.3 $
+Title:          Access to Tk Photo Image Transparency
+Version:        $Revision: 2.0 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -12,11 +12,12 @@ Post-History:
 
 ~ Abstract
 
-It is useful for some extensions to have access to the transparency
-information in photo images for various reasons, but this is not
-currently available, even via an internal structure defined in
-''generic/tkInt.h''.  This TIP is aimed at making the information
-available in a way that can be kept backwardly compatible even if the
+It is useful for some code (both extensions and scripts) to have
+access to the transparency information in photo images for various
+reasons, but this is not currently available, even via an internal
+structure defined in ''generic/tkInt.h''.  This TIP is aimed at making
+the information available, and in such a way at the C level that
+backward compatibility is maintained in the future even if the
 internal structure definitions change.
 
 ~ Rationale
@@ -37,6 +38,12 @@ that uses colour data instead to do this sort of trick,
 http://www.sys.uea.ac.uk/~fuzz/tktrans/default.html, but this is a
 slow process and frankly a little strange if we already have
 transparency data available.)
+
+There is also a more general need for scripts to be able to discover
+more about the transparent areas of a photo image; at the moment,
+there is no access at all to that information at the script level.
+
+~ Changes to the C-Level API
 
 To get around this problem, the data member ''validRegion'' of the
 ''PhotoMaster'' structure needs to be made available by some
@@ -67,12 +74,25 @@ member is (currently) internal, I propose adding the function to the
 ''tkInt'' stub interface, and I propose calling the function
 ''TkPhotoGetValidRegion''.
 
-This TIP is not a substitute for a more sophisticated proposal that
-would offer script-level and sophisticated extension-level access to
-photo transparency, I accept, but at the time of writing I do not see
-how such an interface would be structured.
+~ Changes to the Tcl-Level API
 
-~ Sample Implementation Patch
+I propose to add an extra subcommand to photo image instances which
+will provide all the access to transparency data, and eventually allow
+for manipulation of it as well.  I propose to call this subcommand
+''transparency'' and it will have subsubcommands to provide access to
+the various facilities it provides.  Initially I will provide a
+''get'' subsubcommand to allow the testing of the transparency of a
+single pixel (returned as a boolean value); I anticipate that this
+will be expanded in the future to allow the manipulation of
+transparencies of rectangular regions (both getting and setting) but I
+do not supply such at this stage.
+
+|   image create photo phImg -file thingy.gif
+|   if {[phImg transparency get 0 0]} {
+|      # Top-left pixel is transparent...
+|   }
+
+~ Partial Sample Implementation Patch
 
 http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch
 
@@ -81,6 +101,9 @@ This applies a patch to ''tkImgPhoto.c'', ''tkInt.h'',
 ''generic'' directory of the Tk distribution.  Due to the fact that
 the patch as it stands has no computational component, and it is an
 internal interface anyway, it includes no documentation or tests.
+
+''(Need to expand it to include the code for the Tcl-level API as
+well...)''
 
 ~ Copyright
 
