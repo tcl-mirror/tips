@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -655,7 +655,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/ParseArgv.3,
      generic/tkArgv.c
 
-   >  2. ''Embedding'' -
+   >  2. ''Application Embedding'' -
      doc/Tk_Main.3,
      generic/tkInitScript.h,
      generic/tkMain.c,
