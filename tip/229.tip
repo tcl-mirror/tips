@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
@@ -30,7 +30,11 @@ provides a simple mechanism for doing this.
 The '''namespace''' command will gain a new subcommand, '''path''',
 with the following syntax:
 
- > '''namespace path''' ''type'' ?'''-append'''/'''-prepend'''? ?''list''?
+ > '''namespace path''' ''namespace type''
+   ?'''-append'''/'''-prepend'''? ?''list''?
+
+The ''namespace'' argument specifies which namespace's resolution path
+is to be manipulated.
 
 The ''type'' argument specifies which name resolution path will be
 manipulated.  Two types will be supported: '''command''' (which
