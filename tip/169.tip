@@ -1,6 +1,6 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -100,6 +100,10 @@ includes tag bindings (but see below).
 I think it would be better if tag bindings were shared (given that tags 
 are shared).  Unless anyone has a use-case showing why they should be
 independent, I'll update the implementation accordingly.
+
+~ Alternatives
+
+This does not preclude a future TIP from going further and making the B-tree data structure a fully-fledged Tcl structure (like an array or a dict or whatever), of which the text widget is just one example of a client.  However, such issues are beyond the scope of this TIP (except to point out that the implementation is, by necessity, many steps in the same direction).
 
 ~ Reference Implementation
 
