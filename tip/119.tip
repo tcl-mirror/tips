@@ -1,13 +1,13 @@
-TIP:           119
-Title:         Angled Text on a Canvas
-Version:       $Revision: 1.2 $
-Author:        Simon Geard <simon.geard@ntlworld.com>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.5
-Vote:          Pending
-Created:       18-Nov-2002
-Post-History:
+TIP:            119
+Title:          Angled Text on a Canvas
+Version:        $Revision: 1.3 $
+Author:         Simon Geard <simon.geard@ntlworld.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        18-Nov-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -24,8 +24,7 @@ there is simply no way of displaying such text on a canvas.
 
 Another consideration is the competition.  Both Qt and Java canvas
 objects support angled text on their canvas object - most new users
-would I believe be surprised to discover that this functionality is not
-supported.
+would I believe be surprised to discover that this functionality is not supported.
 
 Due to the internal architecture of Tk a side effect of this work
 would be to enable buttons (and possibly other widgets) to have their
@@ -50,14 +49,11 @@ Note that PostScript naturally supports rotation of text.
 ~ Reference Implementation
 
 I have done an initial assessment of the amount of work required and
-have amended Tk 8.4.1 with the above syntax for the X version (on
-Linux).  This initial work was fairly straightforward but the internal
-housekeeping work maintaining and interacting with an angled box will
-be more substantial.  The patch is located at
-http://homepage.ntlworld.com/whiteowl/tk841_at_patch.gz
-The X version can be done with the ''xvertex.5.0'' extension which is
-included in the above patch.  I don't know how it would be done on
-non-X systems.
+have and have created a patch to implement it in Tk 8.4.5 .
+This initial work was fairly straightforward but the internal housekeeping work maintaining and interacting with an angled box will
+be more substantial. The patch is located at
+http://homepage.ntlworld.com/whiteowl/angledText/patchinfo.html
+and is for X only. It doesn't use any X extensions and should work for X11R3 and above. I don't know how it would be done on non-X systems but hopefully they'll (Win & MacOS at least) provide native tools to make their implementation straightforward as well.
 
 ~ Copyright
 
