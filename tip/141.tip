@@ -1,6 +1,6 @@
 TIP:		141
 Title:		Multiple Initial-Files in [tk_getOpenFile]
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		David N. Welton <davidw@dedasys.com>
 State:		Accepted
 Type:		Project
@@ -78,7 +78,7 @@ part is checked:
    the tail part of the file name is added to a list of files to
    select within the initial directory.
 
-Once '''-initialdir''' and ''-initialfile''' have both been parsed,
+Once '''-initialdir''' and '''-initialfile''' have both been parsed,
 the initial directory is known, and the list of initial files is
 identified; the files are known to be relative to the initial
 directory, and (for '''tk_getOpenFile''') are known to exist.
