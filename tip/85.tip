@@ -1,6 +1,6 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -57,7 +57,11 @@ just like the current implementation:
 
 Such a procedure can be registered by a simple mechanism:
 
-| ::tcltest::customMatchProc mytype mymatchproc
+| ::tcltest::customMatch mytype mymatchproc
+
+or, as in the sample implementation, an incomplete command:
+
+| ::tcltest::customMatch exact [list ::string equal]
 
 and will be invoked when the match type is set to "mytype", so one has
 to specify this per test case, just as in the current situation.  The
@@ -89,7 +93,7 @@ The following shows how to do this:
 | # Test implementation of Bessel functions
 | # (Table only provides 4 decimals)
 | #
-| customMatchProc 4decimals matchFloat4Decimals
+| customMatch 4decimals matchFloat4Decimals
 |
 | proc matchFloat4Decimals { expected actual } {
 |    return [expr {abs($expected-$actual) <= 0.5e-4}]
@@ -104,7 +108,7 @@ The following shows how to do this:
 | } -result 0.4401
 
 The second example occurs for instance when testing alternative
-implementation: you want to check that the original standard feature
+implementations: you want to check that the original standard feature
 is failing whereas the new but incompatible alternative gets it right.
 Then:
 
@@ -119,7 +123,7 @@ Then:
 |    return $match
 | }
 |
-| customMatchProc negative matchNegative
+| customMatch negative matchNegative
 |
 | #
 | # Floating-point comparisons are imprecise. The following
@@ -153,17 +157,22 @@ Then:
 
 makes sure that a mismatch is treated as the expected outcome.
 
-~ Alternatives
+~ Alternatives and objections
 
 Of course, it is possible to achieve these effects within the current
 framework of ''tcltest'', by putting these match procedures inside the
-body of the test case.  There are at least two drawbacks to this
-approach:
+body of the test case. No extra user command would be necessary then.
+
+There are at least two drawbacks to this approach:
 
  * The result against which we want to match is hidden in the code
 
  * If the test fails, the actual result is not printed (at least not
    by the ''tcltest'' framework).
+
+As a matter of fact, the proposed mechanism actually simplifies the 
+current implementation of the three match types to a certain degree by 
+turning a switch between the three types into an array index.
 
 ~ See Also
 
@@ -178,10 +187,9 @@ custom match procedures.
 ''Mo DeJong'' requested the explicit examples (the second is actually 
 the situation that triggered this TIP in the first place).
 
-''Don Porter <dgp@users.sf.net>'' revised the registration mechanism such 
-that an arbitrary set of matching procedures can be supported. His 
-suggestions led to a revision of the TIP. He also revised the draft 
-implementation.
+''Don Porter <dgp@users.sf.net>'' revised the registration mechanism 
+such that an arbitrary set of matching commands or procedures can be supported. His suggestions led to a revision of the TIP. He also 
+revised the draft implementation.
 
 ~ Copyright
 
