@@ -1,11 +1,11 @@
 TIP:            233
 Title:          Virtualization of Tcl's Sense of Time
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        30-Nov-2004
 Post-History:   
 Tcl-Version:    8.5
