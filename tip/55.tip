@@ -1,0 +1,206 @@
+TIP:            55
+Title:          Package Format for Tcl Extensions
+Version:        $Revision: 1.1 $
+Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Aug-2001
+Tcl-Version:	8.4
+Post-History:   
+
+~ Abstract
+
+Defines the contents of a packaged Tcl extension suitable for
+automated installation into an existing Tcl installation.
+
+~ Rationale
+
+There is currently no standard way of distributing or installing a Tcl
+extension package.  The TEA document defines a standard interface to
+''building'' extensions and includes an ''install'' target but
+presumes that the extension is being installed on the same machine as
+it was built. This TIP defines a directory structure for an extension
+which can be packaged (as a zip or tar file) and transferred for
+installation on another machine.
+
+This TIP does not address the mechanism for the installation of these
+packages and acknowledges that additional information may be required
+in some cases to install a complex package. Rather than deal with all
+of these issues at once, this TIP is intended to put forward a basic
+package format which is workable for a significant proportion of Tcl
+extensions.
+
+~ References
+
+Much of the required structure for an installable extension is defined
+by the requirements of Tcl's existing package loading methods.  An
+installable package structure should largely mirror that of an
+installed package where possible.
+
+The R system (a statistical package: http://www.r-project.org/) has a
+well defined package format for extensions which enables automatic
+installation of new extensions and integration of documentation and
+demonstration programs for these extensions with that of the main R
+system.
+
+~ Requirements
+
+The simplest case of a Tcl extension is one that contains only Tcl
+code; I will consider these first and look at the additional issues
+raised by compiled extensions later.
+
+The minimum contents of a Tcl only extension are defined by the
+requirements of [[package require xyzzy]].  The extensions needs to be
+placed in a directory on the ''auto_path'' and must contain at least
+''pkgIndex.tcl'' and one or more ''.tcl'' files which implement the
+extension.
+
+In addition to these files, it is useful to include documentation for
+the commands implemented by the extension and some additional
+meta-information about the package author etc.  Extensions might also
+optionally include demonstration scripts illustrating their use, these
+could either be incorporated into the documentation or included as
+standalone Tcl files.
+
+Extensions which include shared libraries add an additional layer of
+complexity since these packages will only run on the platforms for
+which the extension has been compiled.  There are two clear options
+here: either packages are platform specific, intended for installation
+on one platform alone, or the structure of the package is extended to
+allow the option of including multiple shared libraries.  The latter
+option would allow a single installation to serve multiple platforms
+and so should be preferred.
+
+~ Proposed Structure
+
+The following directory structure is proposed for an installable
+package: 
+
+|  packagename  
+|      + DESCRIPTION      -- Description of the package in "Field: value" format
+|      + pkgIndex.tcl
+|      + *.tcl            -- package source file(s)
+|      + doc/             -- package documentation
+|      + examples/        -- example scripts
+|      + $platform/$os/   -- shared library directories
+
+In addition, a package may include any additional files or directories
+required for it's operation.
+
+The formats of the required files is defined as follows.
+
+''DESCRIPTION'' contains a number of records to provide
+meta-information about this package. This should include at least the
+fields illustrated in the following example:
+
+|  Package: stemmer
+|  Version: 1.0
+|  Title: A stemmer for English.
+|  Author: Steve Cassidy, SHLRC, Macquarie University
+|  Email:  Steve.Cassidy@mq.edu.au
+|  Description:   Provides a function to remove any prefixes or suffixes on
+|	  a word to give the word stem. Uses Porter's algorithm to do this
+|	  in an intelligent manner with an accuracy of around 80%. 
+|  License: BSD 
+|  URL: http://www.shlrc.mq.edu.au/emu/tcl/
+|  Released: Thu Aug 16 22:29:08 EST 2001  
+
+Fields are prefixed by the field name followed by a colon,
+continuation lines begin with a tab character.
+
+''pkgIndex.tcl'' is a normal Tcl package index file and may be either
+hand written or automatically generated [[this could be made optional
+since it could be automatically generated if not present in most
+cases]].
+
+''*.tcl'' are the Tcl source files implementing the package. There may
+be zero or more of these and they may be stored in a subdirectory. The
+''pkgIndex.tcl'' file should take care of sourcing these files as
+required.
+
+''doc/'' directory contains documentation in an accepted format.
+Currently Tcl documentation is delivered either in source form (nroff
+or TMML) or as HTML files.  Given the lack of a standard cross
+platform solution, this TIP does not require a specific format;
+however, the inclusion of either a text or HTML formatted help file is
+strongly encouraged.
+
+''examples/'' directory contains one or more Tcl files giving examples
+of the use of this extension. These should be complete scripts
+suitable for either sourcing in tclsh/wish or running from the command
+line. The examples should be self contained and any external data
+should be included in files in this directory or a sub-directory.
+
+''$platform/$os'' directories contain shared libraries for various
+platforms. ''$platform'' refers to the Tcl variable
+''$tcl_platform(platform)'', ''$os'' refers to the Tcl variable
+''$tcl_platform(os)''.  The package need not provide all possible
+combinations of platform and OS and may only provide one shared
+library.  This structure is proposed to allow shared libraries to
+co-exist in a multi-platform environment and to allow binary
+extensions to be distributed in multi-platform packages.  The
+platform/OS pairs included in the package should be referenced in the
+DESCRIPTION file, for example:
+
+|   Platform: i686/Linux i686/Windows 
+
+~ Alternatives
+
+Alternatives might be considered for the package DESCRIPTION file, for
+the documentation directory and for the location of shared libraries.
+
+An alternative for package DESCRIPTION file is to include a more
+general package description, for example the XML based ``ppd'' format
+used to describe Perl packages on the ActiveState Perl extension
+repository. The main motivation for the simple format proposed is that
+it is trivial for authors to write and trivial for programs to read.
+The reason for preferring an XML based alternative would have to be to
+take advantage of existing standards (e.g. ppd) and existing tools
+associated with those standards.  I am not aware of any extensive
+tool-set which would make any XML format preferable for this
+application.  I note that the ppd format could still be used to
+describe packages stored in a repository for installation and that
+some of the information required to build the ppd format could be
+derived from the DESCRIPTION file.
+
+In the R package format referenced earlier, documentation is included
+in a standard source form and is converted to HTML or text based help
+pages; these might be included in the package or derived from the
+source forms on installation. The closest option for Tcl would be to
+require nroff format help files which can be converted to HTML or text
+files on installation.  Unfortunately there is no guaranteed tool to
+do nroff->X conversion on Windows or Macintosh platforms.  Until there
+is an accepted way of authoring Tcl documentation this TIP defers any
+standard layout of these files in an installable package.
+
+The alternative to having shared libraries in specific directories is
+to have separate packages for each new platform. This has the
+advantage of making the packages smaller and more closely correspond
+to the existing directory structure of an installed extension.  The
+main motivation for the suggested directory structure is to allow
+multi-platform packages or to facilitate multi-platform installations.
+
+
+~ Supporting Tools
+
+The standards outlined in this TIP should be supported by Tcl scripts
+to:
+
+ * Generate empty package templates for new projects.
+
+ * Validate package directories or archive files.
+
+ * Read and write the DESCRIPTION file and provide a standard
+   interface to the information it contains.
+
+ * Install an extension from an appropriately structured archive.
+
+In addition, the TEA standard should be extended with a ''package''
+makefile target which will act like the current ''install'' target but
+which will copy files to a local directory and optionally build an
+archive of the package for distribution.
+
+~ Copyright  
+
+This document has been placed in the public domain.
