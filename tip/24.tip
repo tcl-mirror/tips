@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -59,6 +59,7 @@ assigned:
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac)
 	Jeff Hobbs <JeffH@ActiveState.com>
+
    9. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    10. ''Compiler and Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
