@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -172,6 +172,19 @@ Forth, an additional flag option ''debug'' to ''trace add variable''
   > Used in conjuction with ''read'', ''write'', and ''unset'',
    this option allows a debugger to set read/write traces that do
    not trigger the execution trace.
+
+Fifth,  a new '''breakpoint''' subcommand to the '''trace''' command.
+
+ > '''trace breakpoint''' ??''line file'' ?''level'' ...??
+
+The ''trace breakpoint'' manages a list of breakpoints that cause an
+''execution trace'' to trigger, even when the nestlevel is exceeded.
+With no arguments it returns a ternery list of all breakpoints in sets
+of the triples: line, file, and state.  With two arguments, the
+current state for the breakpoint is returned.  With three or more arguments,
+new breakpoints are created.  If created with a state of zero,
+the breakpoint is considered inactive.  Setting the state of a
+breakpoint to the empty string effectively deletes the breakpoint.
 
 ~ Changes
 
