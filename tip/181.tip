@@ -1,13 +1,13 @@
-TIP:		181
-Title:		Add a [namespace unknown] Command
-State:		Draft
-Type:		Project
+TIP:            181
+Title:          Add a [namespace unknown] Command
+Version:        $Revision: 1.3 $
+Author:         Neil Madden <nem@cs.nott.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Mar-2004
+Post-History:   
 Tcl-Version:    8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		Neil Madden <nem@cs.nott.ac.uk>
-Created:	23-Mar-2004
 
 ~ Abstract
 
@@ -80,19 +80,18 @@ This TIP proposes that the handling of unknown commands be done on a
 per-namespace basis through the introduction of an '''unknown'''
 subcommand of the '''namespace''' command.
 
- > '''namespace unknown''' ?''namespaceName''? ''commandPrefix''
+ > '''namespace unknown''' ?''commandPrefix''?
 
-The subcommand would accept either one or two arguments.  If two
-arguments are given, then the first must be the fully qualified name
-of a namespace which the command is to operate on.  If only one
-argument is given, then this defaults to the current namespace.  The
-other argument (or only argument in the one argument case) is a
+The subcommand would accept either zero or one argument(s).  If no 
+arguments are given, the command returns the handler for the current
+namespace. The optional argument ''commandPrefix'' is a
 command (strictly a prefix list consisting of a command and optional
-arguments) to execute if command lookup in the given namespace fails.
+arguments) to execute if command lookup in the current namespace fails.
 The command will be concatenated with the full invocation line of the
 command being searched for (i.e. the command name and all arguments),
-and evaluated in the scope of the current namespace.  The command name
-given must be able to be resolved without resorting to the unknown
+and evaluated in the scope of the current namespace.  The first word in the
+list given must be a command name which
+must be able to be resolved without resorting to the unknown
 mechanism (i.e. it must either be a command in the current namespace,
 or be fully-qualified).  If this cannot be done, an error will be
 generated.
