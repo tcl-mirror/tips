@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -65,9 +65,25 @@ format will be up to the particular image format code, as always.)
    channel respectively in that order.  An absent alpha channel is to
    be interpreted as full opacity.
 
-~Open Questions
+Additionally, the ''photoImageInstance'' '''transparency''' command's
+subcommands will be updated in the following way:
 
-What about the ''photoImageInstance'' '''transparency''' subcommand?
+ * The '''get''' subcommand will be modified to take an extra option,
+   '''-alpha''' (to be placed after the coordinates), that modifies the
+   result to be the integral alpha value (in the range 0 to 255) for the
+   specified pixel. Without the option, the result shall continue to be
+   a boolean that is true exactly when the pixel is wholly transparent.
+   Also supported will be a '''-boolean''' option (in the same position)
+   which will be interpreted as meaning the current behaviour.  Only one
+   of the two options will be allowed.
+
+ * The '''set''' subcommand will be modified to take an extra option,
+   '''-alpha''' (to be placed after the coordinates), that modifies the
+   interpretation of the following value so that it is the integral
+   alpha value to be set for the pixel.  Similarly to the '''get'''
+   command, there will also be a '''-booolean''' option to indicate the
+   current behaviour, and which will mutually exclusive with the
+   '''-alpha''' option.
 
 ~Reference Implementation
 
