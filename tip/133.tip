@@ -1,8 +1,7 @@
 TIP:            133
 Title:          Extending [expr] Operators
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Richard Suchenwirth <Richard.Suchenwirth-Bauersachs@siemens.com>
-Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,9 +12,9 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes a way to define new operators for conditions and the
-[expr] command.  It also includes demonstrations of how it might work
-in the examples: ''in'' tests inclusion in a list, and ''and'',
-''or'', and ''not'' are aliases for "&&", "||", "!".
+'''expr''' command.  It also includes demonstrations of how it might work
+in the examples: '''in''' tests inclusion in a list, and '''and''',
+'''or''', and '''not''' are aliases for "'''&&'''", "'''||'''", "'''!'''".
 
 ~ Rationale
 
@@ -24,19 +23,20 @@ Inclusion of a value in a list is frequently tested with the construct
 |   if {[lsearch -exact $list $value] >= 0} {...}
 
 The proposal, first brought by Reinhard Max in the Tcl Chatroom, is to
-allow an ''in'' operator in the language understood by [expr], and the
-condition parts of [for], [if] and [while], so that the above can be
-written as
+allow an ''in'' operator in the language understood by '''expr''', and
+the condition parts of '''for''', '''if''' and '''while''', so that
+the above can be written as
 
 |   if {$value in $list} {...}
 
 This is shorter to type and much better to read.
 
-In the same vein, I propose to allow operators "and", "or", "not" to
-be resolved exactly like the current "&&", "||" resp "!"  The new
-"operator aliases" are not shorter than the original operators, but
-definitely better readable - and easier typed too, as no Shift or
-Alt-Gr key is needed.
+In the same vein, I propose to allow operators "'''and'''",
+"'''or'''", "'''not'''" to be resolved exactly like the current
+"'''&&'''", "'''||'''" resp "'''!'''"  The new "operator aliases" are
+not shorter than the original operators, but definitely better
+readable - and easier typed too, as no Shift (or Alt-Gr on German
+keyboards) key is needed.
 
 When Tcl was young, almost all users knew C, so the C style operators
 were a good choice.  In recent years, there is tendency that Tcl is
@@ -49,11 +49,11 @@ easier.
 ~ Implementation Proposals
 
 Donal K. Fellows remarked (on an earlier proposal relating to just an
-''in'' operator) in the Tcl Chatroom: "On the plus side, it shouldn't
-be hard to implement (might need an extra opcode for ''lsearch'', but
-that's pretty straightforward.)"
+'''in''' operator) in the Tcl Chatroom: "On the plus side, it
+shouldn't be hard to implement (might need an extra opcode for
+'''lsearch''', but that's pretty straightforward.)"
 
-Pascal Scheffers proposed an extension mechanism for expr and
+Pascal Scheffers proposed an extension mechanism for '''expr''' and
 conditions, so the proposed extensions to the expression language can
 be done in Tcl, with the commands:
 
@@ -68,7 +68,7 @@ argument is a body that is evaluated, with local variables from the
 argument list substituted, and returns the resulting value, to be
 substituted for the operator and its operands.
 
-Alternatively, one could stipulate that [expr] interprets its
+Alternatively, one could stipulate that '''expr''' interprets its
 arguments in the above sense when called like this:
 
 | expr operator in  {val list} {expr {[lsearch -exact $list $val]>=0}}
@@ -87,7 +87,7 @@ operator, could in the same way easily be added by users who so want:
 
 | expr operator = {varName value} {upvar 1 $varName var; set var $value}
 
-Reinhard Max has also proposed a unary ''empty'' operator:
+Reinhard Max has also proposed a unary '''empty''' operator:
 
 |  expr operator empty {list} {expr {[llength $list]==0}}
 
