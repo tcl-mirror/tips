@@ -1,13 +1,13 @@
-TIP:         58
-Title:       Multiple Assignment Command (Take 2)
-Version:     $Revision: 1.1 $
-Author:      Anselm Lingnau <anselm@strathspey.org>
-State:       Draft
-Type:        Project
-Tcl-Version: 8.4
-Vote:        Pending
-Created:     02-Sep-2001
-Post-History:
+TIP:            58
+Title:          Multiple Assignment Command (Take 2)
+Version:        $Revision: 1.2 $
+Author:         Anselm Lingnau <anselm@strathspey.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        02-Sep-2001
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -49,7 +49,16 @@ of arguments.  The behaviour in the case of one argument remains the
 one documented in the ''set'' manual page; when an even number of
 arguments is specified, the behaviour of ''set v0 e0 ... vn en'' is
 identical to that of the sequence of commands ''set v0 e0; ...; set vn
-en'' according to the traditional semantics.
+en'' according to the traditional semantics, except that the way
+Tcl processes commands means that ''e0'' ... ''en'' are all
+evaluated before any assignments are performed. I.e., the commands
+
+|  set a 1
+|  set a 2 b $a
+|  puts $b
+
+print ''1'', not ''2''. If this is an issue you must use separate
+''set'' statements.
 
 The command ''set v0 e0 ... vn en'' returns the value of ''en''.
 
