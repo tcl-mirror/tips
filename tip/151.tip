@@ -1,13 +1,14 @@
 TIP:            151
 Title:          Remove -e: Command Line Option from tclsh and wish
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        22-Aug-2003
-Tcl-Version:	8.5
 Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -17,7 +18,8 @@ tclsh and wish that was Accepted as part of [137].
 ~ Background
 
 [137] was Accepted today.  However, there were a few NO votes
-objecting to the new ''-e:'' command line option for tclsh
+objecting to the new ''-e:'' form of the ''-encoding'' command
+line option for specifying the encoding of a startup script to tclsh
 and wish.  Those voting NO only objected to that part of [137]
 while supporting the rest as a solid proposal that will improve
 Tcl.  Among those voting YES, no one explicitly embraced the
