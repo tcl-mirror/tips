@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -79,7 +79,7 @@ kinds of limits:
    hit at exactly the time given, but will not be hit before then.
 
  command: Specifies a maximum number of commands (see '''info
-   commandcount''') to be executed.
+   cmdcount''') to be executed.
 
 The third and subsequent arguments specify a series of properties
 (each of which has a name that begins with a hyphen) which may be set
@@ -176,7 +176,7 @@ slave will get the same time-limit as the creating master interpreter.
 ~~Command Limits
 
 Command limits are specified in terms of the number of commands (see
-'''info commandcount''' for a definition of the metric) that may be
+'''info cmdcount''' for a definition of the metric) that may be
 executed before the limit is hit.  Command limits have the following
 extra option for specifying and inspecting the limit.
 
