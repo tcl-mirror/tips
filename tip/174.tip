@@ -1,13 +1,14 @@
-TIP:		174
-Title:		Math Operators as Commands
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Kristoffer Lawson <setok@altparty.org>
-Created:	15-Mar-2004
+TIP:            174
+Title:          Math Operators as Commands
+Version:        $Revision: 1.2 $
+Author:         Kristoffer Lawson <setok@altparty.org>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -52,7 +53,7 @@ elegance of Tcl as a whole.
 |     }
 |     return $r
 | }
- 
+
  2. The exceptions to rule number 1 are the operators ! (logical NOT),
     ~ (bitwise NOT) and x?y:z (if-then-else).  The first two only
     accept one argument while if-then-else accepts three.
@@ -69,18 +70,8 @@ elegance of Tcl as a whole.
  5. Each mathematical command will be kept in the tcl::math namespace.
     Alternatively the math namespace could be used.
 
- 6. As a result of 4 and 5, current [[expr]] functions will be marked
-    in the documentation as deprecated and that the Tcl commands
-    should be used instead, with a warning in the documentation that
-    they may be removed at some future time.  They will, however, be
-    kept in the language for as long as deemed necessary for purposes
-    of backwards compatibility.  [[expr]] functions offer no benefit
-    over their command counterparts and only result in extra
-    complexity and redundancy, which is something Tcl has done well to
-    avoid.
+ 6. The other aspects of the [[expr]] command will not be affected.
 
- 7. The other aspects of the [[expr]] command will not be affected.
- 
 As an example use, let us change the lrange line from above:
 
 | set newList [lrange $list [- $idx 5] [+ $idx 5]]
@@ -94,7 +85,7 @@ above interface we could possibly build a mechanism for doing this, by
 adding new commands to the appropriate namespace.  This would offer an
 alternative to [133].  Problems of precedence etc. that may result in
 such a facility are beyond the scope of this TIP.
- 
+
 ~ Copyright
 
 This document has been placed in the public domain.
