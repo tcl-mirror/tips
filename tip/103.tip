@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
@@ -171,7 +171,7 @@ Some food for thought about different chars:
 
 |'     # Makes more sense as enclosing?
 |`     # Makes more sense as enclosing?
-|>   
+|>   exec foobar >/some/file
 |,   append recipients ,[join $header($ccL) ,]
 
 Example usage of those that seem reasonable:
@@ -179,14 +179,12 @@ Example usage of those that seem reasonable:
 |expand { exec $prog '$opts1 '[getMoreopts] $file1 $file2 }
 |expand { exec $prog `$opts1 `[getMoreopts] $file1 $file2 }
 |expand { exec $prog ,$opts1 ,[getMoreopts] $file1 $file2 }
-|expand { exec $prog >$opts1 >[getMoreopts] $file1 $file2 }
 
 Or, as enclosing
 
 |expand { exec $prog '$opts1' '[getMoreopts]' $file1 $file2 }
 |expand { exec $prog `$opts1` `[getMoreopts]` $file1 $file2 }
 |expand { exec $prog ,$opts1, ,[getMoreopts], $file1 $file2 }
-|expand { exec $prog >$opts1< >[getMoreopts]< $file1 $file2 }
 
 For comparison, the syntax that has been proposed earlier that
 would not break backwards compatibility:
