@@ -1,0 +1,253 @@
+TIP:            90
+Title:          Enable [return -code] in Control Structure Procs
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Mar-2002
+Post-History:	
+Tcl-Version:	8.4
+
+~ Abstract
+
+This TIP analyzes existing limitations on the coding of control
+structure commands as ''proc''s, and presents expanded forms of
+''catch'' and ''return'' to remove those limitations.
+
+~ Background
+
+It is a distinguishing feature of Tcl that everything is a command,
+including control structure functionality that in many other languages
+are part of the language itself, such as ''if'', ''for'', and
+''switch''.  The command interface of Tcl, including both a return
+code and a result, allows extensions to create their own control
+structure commands.
+
+Control structure commands have the feature that one or more of their
+arguments is a script, often called a ''body'', meant to be evaluated
+in the caller's context.  The control structure command exists to
+control whether, when, in what context, or how many times that script
+is evaluated.  When the body is evaluated, however, it is intended to
+behave as if it were interpreted directly in the place of the control
+structure command.
+
+The built-in commands of Tcl provide the ability for scripts
+themselves to define new commands.  Notably, the ''proc'' command
+makes this possible.  In addition, other commands such as ''catch'',
+''return'', ''uplevel'', and ''upvar'' offer enough control and access
+to the caller's context that it is possible to create new control
+structure commands for Tcl, entirely at the script level.
+
+Almost.
+
+There is one limitation that separates control structure commands
+created by ''proc'' from those created in C by a direct call to
+''Tcl_Create(Obj)Command''.  It is most easily seen in the following
+example that compares the built-in command ''while'' to the command
+''control::do'' created by ''proc'' in the control package of tcllib.
+
+|  % package require control
+|  % proc a {} {while 1 {return -code error}}
+|  % proc b {} {control::do {return -code error} while 1}
+|  % catch a
+|  1
+|  % catch b
+|  0
+
+The control structure command ''control::do'' fails to evaluate
+''return -code error'' in such a way that it acts the same as if
+''return -code error'' was evaluated directly within proc ''b''.
+
+~ Analysis
+
+There are two deficiencies in Tcl's built-in commands that lead to
+this incapacity in control structure commands defined by ''proc''.
+
+First, ''catch'' is not able to capture the information.  Consider:
+
+|   %  set code [catch {
+|          return -code error -errorinfo foo -errorcode bar baz
+|      } message]
+
+After evaluation, ''code'' contains "2" (''TCL_RETURN''), ''message''
+contains "baz", ''::errorInfo'' contains "foo", and ''::errorCode''
+contains "bar".  But there's is nothing accessible at the script level
+that contains the value passed to the ''-code'' option.  That code is
+stored internally in the ''Tcl_Interp'' structure as
+''interp->returnCode'', but scripts cannot access that value.
+
+Second, even if the information were available, there is no built-in
+command in Tcl that can be evaluated within the body of a proc to make
+the proc itself act as if it were the command ''return -code''.
+Stated another way, it is not possible to create a command with
+''proc'' that behaves exactly the same as ''return -code''.  Because
+of that, it is also not possible to create a command with ''proc''
+that behaves exactly the same as ''while'', ''if'', etc. - any
+command that evaluates any of its arguments as a script in the
+caller's context.
+
+This is a curious, and likely unintentional, limitation.  Tcl goes to
+great lengths to be sure I can create my own ''break'' replacement
+with ''proc''.
+
+| proc myBreak {} {return -code break}
+
+It would be a welcome completion of Tcl's built-in commands to be able
+to create a replacement for every one of them using ''proc''.
+
+~ Alternatives
+
+For now, I will present a few alternatives, without proposing any one
+of them in particular, to elicit comments.  Later revisions of this
+Draft TIP will select and propose one of the alternatives on the basis
+of community discussion.
+
+ 1. Do nothing.
+
+ > We can maintain the status quo, and just accept that it is not
+   possible to create fully functional control structure commands with
+   ''proc''.  If you want to create such a command, it must be coded
+   in C.
+
+ > Note that this limitation is one of the main reasons that [89]
+   proposes to add a ''try'' command directly to Tcl, rather than
+   implementing it in a package.  This limitation forces ''try'' to be
+   coded in C, and then the lack of good distribution mechanisms for
+   C-coded packages motivates inclusion in Tcl itself.  If we choose
+   to do nothing, we can expect more proposals to fill Tcl with more
+   control structure commands.
+
+ 2. Extend ''catch''
+
+ > Dealing with the deficiency in ''catch'' is not difficult, and may
+   be desirable even if we choose not to correct the other deficiency.
+   An optional additional argument to ''catch'' can be a variable name
+   in which to store the ''interp->returnCode'' value that is
+   currently not accessible.  Syntax would be:
+
+|   catch script ?msgVarName? ?returnCodeVarName?
+
+ > Only when ''catch'' is returning 2 (''TCL_RETURN''), and when the
+   ''returnCodeVarName'' argument is provided, then ''catch'' would
+   store the value of ''interp->returnCode'' in the variable named
+   ''$returnCodeVarName''.
+
+ 3. Add a scalar-valued switch/argument to ''return -code return''.
+
+ > This would be in addition to alternative 2.
+
+ > The built-in commands of Tcl enable ''proc'' to create a
+   replacement for the ''return'' command with no arguments or only
+   the result argument.
+
+|   proc myReturn {{message {}}} {return -code return $message}
+
+ > The ''myReturn'' example could be further extended to silently
+   ignore any ''-errorinfo'' or ''-errorcode'' switches, since they
+   have no relevance when not returning an error.  It is the ''-code''
+   switch that ''myReturn'' cannot emulate.
+
+ > Since ''return -code return'' solves most of the problem, we can
+   consider extending its syntax to solve the rest.  Perhaps an
+   additional ''-returncode'' switch:
+
+|   return -code return -returncode "returnCode" ...
+
+ > Or perhaps an additional optional argument:
+
+|   return -code return ... ?"result"? ?"returnCode"?
+
+ > An additional field within the ''Tcl_Interp'' structure would need
+   to be added for storage of the value of the ''returnCode''
+   argument, so that that value could be transferred into the
+   ''interp->returnCode'' field by the caller.
+
+ > Advantage: it's a simple change.
+
+ > Disadvantage: it just pushes the incompleteness problem one down
+   level.
+
+ > After this change, commands defined by ''proc'' would be able to
+   behave exactly the same as the command ''return -code $code''.
+   However, then commands created by ''proc'' would not be able to
+   behave exactly as the command ''return -code return -returncode
+   $code''.  Said another way, this change will enable access to the
+   ''returnCode'' field of the ''Tcl_Interp'' structure, but does so
+   only by creating a new field in the ''Tcl_Interp'' structure that
+   we do not have access to.  So there would still be a fundamental
+   incompatibility between commands created by ''proc'' and those
+   coded in C.  But perhaps that change is enough to reduce the
+   incompatibility to the point that it is no longer important.
+
+ 4. Add a list-valued switch/argument to ''return -code return''.
+
+ > The incompleteness remaining after the combination of alternatives
+   2 and 3 could be solved by allowing the value of ''returnCode'' to
+   be a list in both the extended ''catch'' and the extended ''return
+   -code return''.  For example, after evaluation of:
+
+|    set code [catch {
+|        return -code return -returncodes $oldReturnCodes baz
+|    } message returnCodes]
+
+ > ''code'' contains "2" (''TCL_RETURN''), ''message'' contains "baz",
+   and ''returnCodes'' contains [[linsert $oldReturnCodes 0 2]].  For
+   other arguments to ''-code'':
+
+|    set code [catch {
+|        return -code $value ... baz
+|    } message returnCodes]
+
+ > ''returnCodes'' contains [[list $value]].  The additional field of
+   the ''Tcl_Interp'' structure would hold the list, and the caller
+   would pop the first element of that list and place it in the
+   ''returnCode'' field of the ''Tcl_Interp'' structure when handling
+   a ''return -code return'' situation.
+
+ > I believe this could work, but I'll need to prototype it to see if
+   and where it might lead to trouble.
+
+ > Also, it appears that the first N-1 elements of the ''returnCodes''
+   list might always be ''TCL_RETURN''.  In that case, a simple pair
+   of the last return code and the number of levels deep would be a
+   simpler way to describe the required information.
+
+ > Advantage: appears to be a complete solution.
+
+ > Disadvantage: still have to figure it out.
+
+ 5. Add a new return code, ''TCL_EVAL''.
+
+ > The problem that one cannot cause a ''proc'' to behave as if it
+   were the command ''return -code'' can be viewed as a special case
+   of the general weakness that one cannot make a ''proc'' behave as
+   if it were replaced by an arbitrary Tcl command.  This general
+   power could be granted via a new return code, ''TCL_EVAL''.
+
+ > When detecting a ''TCL_EVAL'' return code from a command, the
+   result of the command would be treated as a new command to be
+   evaluated in the same context as the first.  The result and return
+   code of the new command would take the place of the original.
+
+ > With that capability, combined with alternative 2, one could easily
+   take care of the problem posed in the analysis above:
+
+|    set code [catch {uplevel 1 $body} message returnCode]
+|    if {$code == 2} {
+|        return -code eval [list return -code $returnCode $message]
+|    }
+
+ > Advantage: A complete solution that's easy to understand.
+
+ > Disadvantage: Very powerful technique that might enable things we
+   don't want to enable.
+
+~ See Also
+
+Documentation for tcllib's control package:
+http://tcllib.sf.net/doc/control.html
+
+~ Copyright
+
+This document has been placed in the public domain.
