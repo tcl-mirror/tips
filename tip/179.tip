@@ -1,0 +1,54 @@
+TIP:		179
+Title:		Add -hide Option to panedwindow Widget
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	22-Mar-2004
+Keywords:	Tk
+
+~ Abstract
+
+This TIP proposes adding a '''paneconfigure''' option to
+[[panedwindow]]s that will control pane visibility.
+
+~ Rationale
+
+Adding control over individual pane visibility to the [[panedwindow]]
+widget would simplify the construction and control of complex user
+interfaces.  For example, look at applications such as Komodo, or MS
+Visual Studio, where the U/I contains 4-7 panes in 2 or more nested
+panedwindows.  Both of these applications as well as many others allow
+user controlled visibility of individual panes.  Trying to manage the
+visibility and placement of these panes requires much additional code
+and adds complexity to the U/I implementation.  Alternatively, if the
+panedwindow allowed control of visibility while maintaining pane
+position and configure options (as does the [[grid remove]] method),
+the U/I code is essentially reduced to a simple one line [[$w
+configure -hide]].
+
+~ Proposed Change
+
+This TIP will add a '''-hide''' option to the '''paneconfigure'' for
+individual panes.  The option will control the visibility of the pane.
+When set to true (as interpreted by ''Tcl_GetBooleanFromObj()''), the
+pane will be unmapped and will not be considered when arranging the
+remaining panes for display.  Hidden panes will still be reported by
+the [[$w panes]] method and can be referenced when adding panes with
+the '''-after''' or '''-before''' options.
+
+The advantage of a '''paneconfigure''' option over the '''remove'''
+method of the [[grid]] command is that the pane is still query-able
+and configurable.
+
+~ Draft Implementation
+
+An implementation of this enhancement is available
+[ftp://ftp.model.com/pub/tcl/pw_hide_TIP.tgz].
+
+~ Copyright
+
+This document has been placed in the public domain.
