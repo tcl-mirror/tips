@@ -1,6 +1,6 @@
 TIP:            145
 Title:          Enhanced Tk Font Handling
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -70,7 +70,7 @@ system will usefully operate on another platform.
 Tk currently guarantees that "Courier", "Times" and "Helvetica" will
 always be available and are mapped to something suitable. It has been
 proposed that these should really be "monospace", "serif" and
-"sans-serif". The CSS specification [1] defines these plus "cursive"
+"sans-serif". The CSS specification (1) defines these plus "cursive"
 and "fantasy" but there seems no good reason to include these two
 names.
 
@@ -142,7 +142,7 @@ KDE's font preferences dialog lists:
 
 5. Aqua
 
-Aqua defines the following [2]:
+Aqua defines the following (2):
 
 |     System font
 |     Emphasized system font
@@ -165,7 +165,7 @@ If necessary, the mini system font can be used for utility window labels
 and text.
 Use emphasized system fonts sparingly.
 
-An alternative reference [3] lists
+An alternative reference (3) lists
 
 |    kThemeSystemFont
 |    kThemeSmallSystemFont
@@ -206,11 +206,11 @@ http://sf.net/tracker/?func=detail&aid=780617&group_id=12997&atid=312997
 
 ~ Bibliography
 
-[1] http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families
+1. http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families
 
-[2] http://developer.apple.com/documentation/UserExperience/Conceptual/AquaHIGuidelines/AHIGFonts/index.html
+2. http://developer.apple.com/documentation/UserExperience/Conceptual/AquaHIGuidelines/AHIGFonts/index.html
 
-[3] http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/appearance_manager/constant_15.html
+3. http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/appearance_manager/constant_15.html
 
 ~ Copyright
 
