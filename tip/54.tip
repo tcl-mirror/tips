@@ -1,6 +1,6 @@
 TIP:		54
 Title:		Using PURLs to Unite the Tcl Webspace
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:		Draft
 Type:		Process
@@ -24,11 +24,11 @@ search for extensions and packages, et cetera.
 Most of the solutions proposed so far have the distinctive
 disadvantage of not being able to use the existing sites and bind them
 into a whole. This is further aggravated by the fact that the
-'natural' domain names, like for example http:://www.tcl.com/ and
+'natural' domain names, like for example http://www.tcl.com/ and
 http://www.tcl.org are already taken by other entities, commercial and
 not, and thus not available anymore.
 
-Instead of giving up at this point I propose to use PURLs aka
+Instead of giving up at this point I propose to use PURLs a.k.a.
 ''Persistent URLs'' to construct a virtual website (the ''Tcl space'')
 out of all the existing independent efforts. See http://www.purl.org/
 for more explanations of PURLs.
@@ -36,7 +36,7 @@ for more explanations of PURLs.
 Note that PURLs not only can refer to single URLs but to entire
 sites. The latter is done through a technique called 'partial
 redirection'. This ... is emphasized here because partially redirected
-PURL have to be used with a trailing slash whereas PURLs refering to
+PURL have to be used with a trailing slash whereas PURLs referring to
 single URL must not have a trailing slash.
 
 In the lists below partially redirected PURLs are indicated by a
@@ -50,10 +50,10 @@ One of the most important features is the persistency. In real life
 however organizations, people, websites, etc. can disappear. According
 to http://www.purl.org/OCLC/PURL/FAQ#toc3.14 the PURL stays in
 existence but can be redirected to a page detailing the history of the
-purl. This would include the decomission. We could also do our own
+purl. This would include the decommission. We could also do our own
 scheme and redirect the purl to a page explaining the history in a
-more tcl-specific manner (like: Company went out of business, was
-aquired, etc.).
+more Tcl-specific manner (like: Company went out of business, was
+acquired, etc.).
 
 
 ~ Specification
@@ -68,16 +68,16 @@ This TIP is driven by several conflicting needs:
    * Define the structure now before the URN space gets as scattered
      as the URL space is. Note that this process has already
      begun. The PURL resolver at http://www.purl.org/ currently has
-     registered 24 tcl-related PURLs which are not bound together in
+     registered 24 Tcl-related PURLs which are not bound together in
      the framework proposed here. Action is necessary to prevent
      further confusion.
 
 Of the existing PURLs the PURL domain ''/tcl'' created by Don Libes is
 the most promising one for the unification of the Tcl space. Six of
-the 24 aforementionend PURLs are defined below this domain too,
+the 24 aforementioned PURLs are defined below this domain too,
 providing a (good) framework on which to build.
 
-The existing PURLs and subdomains in the ''/tcl'' domain are:
+The existing PURLs and sub-domains in the ''/tcl'' domain are:
 
    * ''expect''	- reference to the homepage of the expect extension
 
@@ -93,31 +93,31 @@ The existing PURLs and subdomains in the ''/tcl'' domain are:
 
 With the exception of ''expect'' all of these are general classes
 and/or refer to important sites. They are used as is, except for
-''expect'' which has to be redirected into the proposed subdomain
+''expect'' which has to be redirected into the proposed sub-domain
 ''package''.
 
-The following new subdomains covering the most important general
+The following new sub-domains covering the most important general
 classes of information and/or websites are proposed here. Please note
 that the examples used in the list below are using purely informal
 everyday names to refer to entities in the proposed domain. These
 examples should not be seen as suggestions for the concrete naming
 scheme used by the domain.
 
-   * ''package/'' - Subdomain to contain references to the homepages
+   * ''package/'' - Sub-domain to contain references to the homepages
      of the known packages. This TIP makes no distinction between
      C-level extensions and script libraries. From the point of view
      of the core these are all packages to be required.
 
    > Examples of packages are ''Expect'', ''tcllib'', etc.
 
-   * ''application/'' - Subdomain to contain references to the
-     homepages of applications related to tcl, written in tcl or using
+   * ''application/'' - Sub-domain to contain references to the
+     homepages of applications related to Tcl, written in Tcl or using
      it internally.
 
    > Examples of applications are ''frink'', ''tclHttpd'',
      ''AOLServer'', etc.
 
-   * ''person/'' - Subdomain to contain references to the homepages of
+   * ''person/'' - Sub-domain to contain references to the homepages of
      people active in the community, as far as they are interested in
      such a reference. References in this domain shall be personal and
      not organization-related. The latter will go into their own
@@ -125,12 +125,12 @@ scheme used by the domain.
 
    > Examples of people are ''Larry Virden'', ''Cameron Laird'', etc.
 
-   * ''org/'' - Subdomain to contain references to organizations
-     important to the tcl community.
+   * ''org/'' - Sub-domain to contain references to organizations
+     important to the Tcl community.
 
    > Examples are the Tcl Core Team, the Tcl Core Maintainers,
      Tcl-based based companies (PhaseIt, ActiveState), companies and
-     organizations using tcl (NIST, CAS), etc.
+     organizations using Tcl (NIST, CAS), etc.
 
 ~ Management
 
@@ -157,7 +157,7 @@ currently consisting of
 
 For the future I propose that
 
-   * Highlevel changes to the tcl space, like new subdomains, have to
+   * High-level changes to the Tcl space, like new sub-domains, have to
      go through the TCT and the TIP process for approval. This is also
      in line with [0] declaring the responsibility of the TCT for the
      Tcl webspace.
@@ -172,7 +172,7 @@ For the future I propose that
 
 ~ Discussion
 
-   * All of the newly proposed subdomains will be simple listings
+   * All of the newly proposed sub-domains will be simple listings
      mapping from the names of the entities contained in them to the
      proper locations. Further categorization of the entities by
      topic, gender or other attributes is out of the scope of this
