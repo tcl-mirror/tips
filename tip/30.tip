@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -103,7 +103,8 @@ assigned:
 
    37. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   38. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   38. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+			   Kevin Griffin <vertov@artstar.com>
 
    39. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
