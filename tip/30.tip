@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -59,7 +59,7 @@ assigned:
 
    1. ''[spinbox]'' -
 
-   1. ''Text Widget'' -
+   1. ''[text]'' -
 
    1. ''Menubars (obsolete)'' -
 
@@ -143,7 +143,7 @@ assigned:
 
    1. ''Safe Tk'' -
 
-   1. ''Geometry'' -
+   1. ''Geometry Functions'' -
 
    1. ''Tk_Win Functions'' -
 
@@ -187,64 +187,30 @@ assigned:
 
    1. ''X11 Emulation'' -
 
-   1. ''Macintosh Build'' -
+   1. ''Mac Build'' -
 
    1. ''Unix Build'' -
 
-   1. ''Windows Build'' -
+   1. ''Win Build'' -
 
    1. ''Test Tools'' -
 
    1. ''Logos'' -
 
-~ Orphaned Categories
+~ General Categories
 
-The following categories in Tk's SourceForge Tracker should be mapped to
-new categories corresponding to a maintained area of Tk, when seeking 
-the appropriate maintainer:
-
-   1. ''Build'' - map to platform specific Build category.
-
-   1. ''Canvas'' - map to appropriate Canvas subcategory.
+The following categories in Tk's SourceForge Tracker do not refer to any
+specific portion of Tk.  Reports in these categories should be mapped to
+categories corresponding to a maintained area of Tk, when seeking the
+appropriate maintainer:
 
    1. ''Code Cleanup'' - map to category for the code cleaned up.
 
-   1. ''Dialogs'' - map to particular Dialog category.
-
-   1. ''Display and cosmetics'' - ???
-
-   1. ''Docs'' - no longer a separate category.  Map to the category for
-      the code being documented.
-
-   1. ''Fonts'' - map to Generic Fonts, or platform-specific Font
-      category.
-
-   1. ''GUI'' - ???
-
-   1. ''I18N'' - map to L10N.
-
-   1. ''Images'' - map to appropriate Image subcategory.
-
-   1. ''Installation'' - map to appropriate Build category.
-
-   1. ''Macintosh'' - no longer a separate category.  Map to the
-      particular category where there is a Mac-specific problem.
-
-   1. ''Menu'' - map to Generic Menus, or platform-specific Menu
-      category.
+   1. ''Threading'' - map to the category for the code where there are
+      threading issues.
 
    1. ''Other'' - reassign once appropriate category is determined.
 
-   1. ''Other widgets'' - map to a particular Widget category.
-
-   1. ''Tests'' - map to Test Tools, or particular category being
-      tested.
-
-   1. ''Threading'' - no longer a separate category.  Map to the
-      category for the code where there are threading issues.
-
-   1. ''Window Manager'' - map to Generic Window Operations, or other
-      appropriate category.
 
 ~ Areas Without Maintainers
 
