@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -199,7 +199,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.7 $
+|Version:       $Revision: 1.8 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -249,10 +249,11 @@ incorporated into the archive, please contact the TIP Editor.
 
 ~ Comments
 
- > From ''Don Porter  < dgp@users.sourceforge.net > '': 
+ > From
+   ''Don Porter  < dgp@users.sourceforge.net > '': 
 
- > 1. It is confusing that ``project'' TIPs defined here do not
-      correspond to ``projects'' defined in [0].
+ > 1. It is confusing that "project" TIPs defined here do not
+      correspond to "projects" defined in [0].
 
  > 2. The TIP Workflow section should mention the web-based
       drafting service [13] as another way for members of the
