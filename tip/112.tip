@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.26 $
+Version:        $Revision: 2.27 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Accepted
 Type:           Project
@@ -202,7 +202,7 @@ Where an empty -unknown handler is given (the default), the ensemble command wil
 |carrot::turnip::beta             ;# Prints 5
 |
 |rename ::carrot::potato ::spud
-|spud north                       ;# Prints 6
+|spud north                       ;# Prints 6,[$meta[$chars
 |spud south                       ;# ERROR: "south" not known
 |carrot potato north              ;# ERROR: No ::carrot::potato command
 |# Reconfigure spud; notice we get different name resolution now!
