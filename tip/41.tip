@@ -1,6 +1,6 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
@@ -407,7 +407,7 @@ collapse of the pane.
  * Integrate with the -setgrid option such that if a pane contains
 a -setgrided widget, the sash can only be moved in grid size steps.
 
-Neither of these are prohibited by the current design, and could be 
+None of these are prohibited by the current design, and could be 
 implemented at a later date as enhancements to the widget.
 
 ~ Copyright
