@@ -1,15 +1,15 @@
-TIP:		100
-Title:		Add Support for Unloading Dynamic Libraries Loaded with [load]
-Version:	$Revision: 1.2 $
-Author:		George Petasis <petasis@iit.demokritos.gr>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	11-Jun-2002
-Tcl-Version:	8.5
-Discussions-To:	news:comp.lang.tcl
-Post-History:	
-Keywords:	load, unload, dynamic library
+TIP:            100
+Title:          Add Support for Unloading Dynamic Libraries Loaded with [load]
+Version:        $Revision: 1.3 $
+Author:         George Petasis <petasis@iit.demokritos.gr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Jun-2002
+Post-History:   
+Discussions-To: news:comp.lang.tcl
+Keywords:       load,unload,dynamic library
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -188,9 +188,8 @@ for A to be really removed from the address space.
 
 ~ Reference implementation
 
-Currently there isn't any reference implementation.  Such an
-implementation will be provided by the author of this TIP if this TIP
-has some possibility of being accepted.
+A reference implementation can be found at:
+https://sourceforge.net/tracker/index.php?func=detail&aid=823486&group_id=10894&atid=310894
 
 ~ Copyright
 
