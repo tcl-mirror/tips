@@ -1,6 +1,6 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         János Holányi <csani@lme.linux.hu>
 Author:         <m13666@maidfnzgnl.ru>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -122,8 +122,13 @@ names are very near the script, so it shouldn't be hard to follow
 what the script is doing.
 
 On the other side this changes a well-known fact of switch getting
-as input two elements for every case, and is possibly (probably)
-harder to implement.
+as input two elements for every case; the main proposal of this TIP
+has the advantage of leaving that feature of the [[switch]] command as
+an invariant.  This makes the overall implementation of the feature
+easier, and also makes it easier to tell people how to use.  And it
+allows for trivial obtaining of both the matched string and the range
+of the input string that matched.  Of course, in that case you could
+just have four values for each entry, but that is getting baroque.
 
 ~Reference Implementation
 
