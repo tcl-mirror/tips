@@ -1,6 +1,6 @@
 TIP:            15
 Title:          Functions to List and Detail Math Functions
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -29,12 +29,17 @@ function to list what functions are defined.
 
 I propose the creation of two functions that fulfil this rôle;
 ''Tcl_GetMathFuncInfo'' and ''Tcl_ListMathFuncs''.  These functions
-will be documented on the same manual page as ''Tcl_CreateMathFunc''.
+will be documented on the same manual page as ''Tcl_CreateMathFunc''
+and implemented in the same file.
 
 Furthermore, I also propose that the ''info'' command in the Tcl
 interpreter be extended to include a new subcommand, ''functions'',
 which will allow Tcl scripts to discover the list of installed
 functions (by acting as a thin veneer over ''Tcl_ListMathFuncs''.)
+Note that this is an extension of the ''info'' command because it
+allows for introspection of a system that affects the behaviour of
+several commands that form the core part of the command-set: ''expr'',
+''for'', ''if'' and ''while''.
 
 ~ Tcl_GetMathFuncInfo
 
