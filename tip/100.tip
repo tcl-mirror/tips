@@ -1,10 +1,10 @@
 TIP:            100
 Title:          Add Support for Unloading Dynamic Libraries Loaded with [load]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         George Petasis <petasis@iit.demokritos.gr>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        11-Jun-2002
 Post-History:   
 Discussions-To: news:comp.lang.tcl
