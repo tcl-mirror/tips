@@ -1,6 +1,6 @@
 TIP:            80
 Title:          Additional Options for 'lsearch'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Tom Wilkason <tom.wilkason@home.com>
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 State:          Draft
@@ -15,7 +15,7 @@ Tcl-Version:    8.4
 
 This TIP proposes additional options for the ''lsearch'' command to
 return and work with all matching items in the return rather than the
-first matching item.
+first matching item. Additional options are also added.
 
 ~ Rationale
 
@@ -41,16 +41,17 @@ Option: -all
 
  > Returns a list of all indices that match the search condition
    (rather than the first one).  The indices are returned low to high
-   order.  For a no match condition, a {} (empty result) is returned.
+   order.  For a no match condition, a {} (empty list) is returned.
    If the the ''-all'' or ''-data'' switches are not specified, a -1 is
    returned for a no match condition just as it is done now.
 
 Option: -data
 
- > Returns a list of the data that matches the search condition rather
-   than the index (or indices with the ''-all'' option).  A {} is
-   returned for a no match condition.  The data is returned in proper
-   list order.  This option is useful when you want to iterate over
+ > Returns a the data (or list for ''-all'') of the data that matches
+   the search condition rather than the index (or indices with the 
+   ''-all'' option).  An empty list (-all) or empty result is returned
+   for a no match condition.  The data is returned in original list 
+   order.  This option is useful when you want to iterate over
    the returned data anyway.  e.g.
 
 |    foreach item [lsearch -all -data -glob $someList *stuff] {
@@ -72,7 +73,7 @@ when iterating over sub-lists (esp. with the new ''lset'' command).
 
 Changes to the ''Tcl_LsearchObjCmd'' command in ''generic/tclCmdIL.c''
 are needed along with documentation and test code.  The changes to the
-8.4 head version of ''tclCmdIL.c'' are available here.
+8.4 head version of ''tclCmdIL.c'' are available below.
 
 |/*
 | *----------------------------------------------------------------------
@@ -437,6 +438,7 @@ list changes in [22], [33] or [45].
 This document has been placed in the public domain.
 
 ~ Appendix
+The benchmarks below denote the expected speed increase of using the new options vs. tcl only implementations. Your mileage may vary.
 
 |##
 |# performs a lsearch -all -data -glob search
@@ -482,33 +484,33 @@ This document has been placed in the public domain.
 |time {lappend LIST someStuff} 1000
 |time {lappend LIST otherStuff} 1000
 |
-|# Case with all data matching in a 2K list 5x speedup
-|puts "#C implementation [time {listx search -glob -all -data $LIST *Stuff} 100]"
-|#=> C implementation 6810 microseconds per iteration
+|# Case with all data matching in a 2K list 2.8x speedup
+|puts "#C implementation [time {lsearch -glob -all -data $LIST *Stuff} 100]"
+|#=> C implementation 3766 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataGLOB $LIST *Stuff} 100]"
-|#=> tcl implementation 33050 microseconds per iteration
+|#=> tcl implementation 10815 microseconds per iteration
 |
-|# Case with all data matching but returning indicies 6.5X speed up
-|puts "#C implementation [time {listx search -glob -all $LIST *Stuff} 100]"
-|#=> C implementation 5800 microseconds per iteration
+|# Case with all data matching but returning indicies 3X speed up
+|puts "#C implementation [time {lsearch -glob -all $LIST *Stuff} 100]"
+|#=> C implementation 4305 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_allGLOB $LIST *Stuff} 100]"
-|#=> tcl implementation 39060 microseconds per iteration
+|#=> tcl implementation 13277 microseconds per iteration
 |
-|# Case with no matching data 12X speed up
-|puts "#C implementation [time {listx search -glob -all -data $LIST none*} 100]"
-|#=> C implementation 1010 microseconds per iteration
+|# Case with no matching data 8X speed up
+|puts "#C implementation [time {lsearch -glob -all -data $LIST none*} 100]"
+|#=> C implementation 646 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataGLOB $LIST none*} 100]"
-|#=> tcl implementation 13210 microseconds per iteration
+|#=> tcl implementation 5354 microseconds per iteration
 |
 |
 |# Repeat with RE, note more time spent in RE engine 2X speedup
-|puts "#C implementation [time {listx search -regexp -all -data $LIST Stuff} 100]"
-|#=> C implementation 39050 microseconds per iteration
+|puts "#C implementation [time {lsearch -regexp -all -data $LIST Stuff} 100]"
+|#=> C implementation 35260 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataRE $LIST Stuff} 100]"
-|#=> tcl implementation 76200 microseconds per iteration
+|#=> tcl implementation 62292 microseconds per iteration
 |
 |# Case with no matching data 2X speedup
-|puts "#C implementation [time {listx search -regexp -all -data $LIST none*} 100]"
-|#=> C implementation 17520 microseconds per iteration
+|puts "#C implementation [time {lsearch -regexp -all -data $LIST none*} 100]"
+|#=> C implementation 14815 microseconds per iteration
 |puts "#tcl implementation [time {lsearch_dataRE $LIST none} 100]"
-|#=> tcl implementation 33250 microseconds per iteration
+|#=> tcl implementation 30553 microseconds per iteration
