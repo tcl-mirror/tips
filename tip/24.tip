@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -74,7 +74,7 @@ assigned:
    1. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>
 
    1. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
-Rolf Schroedter <Rolf.Schroedter@dlr.de>
+                          Rolf Schroedter <Rolf.Schroedter@dlr.de>
 
    1. ''dde Package'' - 
 
@@ -126,7 +126,8 @@ Rolf Schroedter <Rolf.Schroedter@dlr.de>
 
    1. ''resource Command'' - 
 
-   1. ''Macintosh'' -
+   1. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
+                      Jim Ingham <jingham@apple.com>
 
 ~ Orphaned Categories
 
