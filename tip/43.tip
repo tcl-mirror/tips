@@ -1,6 +1,6 @@
 TIP:            43
 Title:          How to be a TIP Editor
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Informative
@@ -152,6 +152,15 @@ yourself.
    note into the log to record what the vote was.  It is best to do
    this as part of the log message for when you change the Vote: and
    Status: headers...
+
+ * If a TIP does not state whether it is an alteration to Tcl or Tk in
+   either its title or its abstract, it is a good idea to add a
+   Keywords: header (or a keyword in an existing such header) which
+   includes that information.
+
+ * Don't forget to use both '''bold''' and ''italic'' text when
+   formatting strings that represent command syntaxes.  It makes them
+   much clearer!
 
 ''I need to write something here about the production of PS and PDF
 versions of the whole TIP archive, but that side of the code is not
