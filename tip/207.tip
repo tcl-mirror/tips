@@ -1,9 +1,9 @@
 TIP:            207
 Title:          Add a -namespace Option to [interp invokehidden]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        29-Jun-2004
