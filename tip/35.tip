@@ -1,6 +1,6 @@
 TIP:           34
 Title:         Enhanced Support for Serial Communications
-Version:       $Revision: 1.1 $
+Version:       $Revision: 1.2 $
 Author:        Rolf Schroedter <rolf.schroedter@dlr.de>
 State:         Draft
 Type:          Project
@@ -11,13 +11,13 @@ Post-History:
 
 ~ Abstract
 
-Tcl's support for RS-232 is very rudimentary. Mainly it allows to
+Tcl's support for RS-232 is very rudimentary.  Mainly it allows to
 setup the communication rate [[fconfigure -mode]] and to read and
-write data with the standard Tcl functions. Real serial communications
-are often more complex. Therefore it is proposed to add support for
-hardware and software flow control, polling RS-232 (modem) status
-lines, and watching the input and output queue.  This is all to be
-implemented via additional [[fconfigure]] options.
+write data with the standard Tcl functions.  Real serial
+communications are often more complex.  Therefore it is proposed to
+add support for hardware and software flow control, polling RS-232
+(modem) status lines, and watching the input and output queue.  This
+is all to be implemented via additional [[fconfigure]] options.
 
 ~ Rationale
 
@@ -29,7 +29,7 @@ However Tcl's support for serial communications is not complete.  Real
 applications often need more than setting the baud rate and to
 read/write data bytes.
 
-Especially if the external hardware is slow or the communcation rate
+Especially if the external hardware is slow or the communication rate
 is high one needs support for flow-control (hard- and software).
 These features are provided by the operating system drivers, but Tcl's
 [[fconfigure]] doesn't support it.
@@ -44,7 +44,7 @@ queues to read a fixed size block or to support communication
 timeouts.
 
 At this opportunity it is proposed to move the documentation of the
-serial port fconfigure options form the ''open.n'' manpage to
+serial port fconfigure options form the ''open.n'' man-page to
 ''fconfigure.n''.
 
 ~ Specification
@@ -56,28 +56,28 @@ serial communications:
  ''-mode baud,parity,data,stop'': ''(Windows and Unix)''.  Already
     implemented.
 
- ''-handshake mode'': ''(Windows and Unix)''. This option is used to
-    setup automatic handshake control. Note that not all handshake
-    modes maybe supported by your operating system. The mode parameter
-    is case-independent.
+ ''-handshake mode'': ''(Windows and Unix)''.  This option is used to
+    setup automatic handshake control.  Note that not all handshake
+    modes maybe supported by your operating system.  The mode
+    parameter is case-independent.
 
   > If mode is ''none'' then any handshake is switched off.
-    ''rtscts'' activates hardware handshake. For software handshake
+    ''rtscts'' activates hardware handshake.  For software handshake
     ''xonxoff'' the handshake characters can be redefined with
     [[fconfigure -xchar]].  An additional hardware handshake
     ''dtrdsr'' is available only for Windows.  There is no default
     handshake configuration, the initial value depends on your
     operating system settings.  The -handshake option cannot be
-    queried, because the operating system settings may be ambigous.
+    queried, because the operating system settings may be ambiguous.
 
- ''-xchar {xonChar xoffChar}'': ''(Windows and Unix)''. This option is
-    used to change the software handshake characters. Normally the
+ ''-xchar {xonChar xoffChar}'': ''(Windows and Unix)''.  This option
+    is used to change the software handshake characters.  Normally the
     operating system default should be DC1 (0x11 hex) and DC3 (0x13
     hex) representing the ASCII standard XON and XOFF characters.  The
     -xonxoff option cannot be queried.
 
  ''-ttycontrol {signal boolean signal boolean ...}'': ''(Windows and
-    Unix)''. This option is used to setup the handshake output lines
+    Unix)''.  This option is used to setup the handshake output lines
     permanently or to send a BREAK over the serial line.  The
     ''signal'' names are case-independent.
 
@@ -90,31 +90,31 @@ serial communications:
     ''rtscts'' (or ''dtrdsr'').  The result is unpredictable.  The
     -ttycontrol option cannot be queried.
 
- ''-ttystatus'': ''(Windows and Unix)''. The -ttystatus option can
+ ''-ttystatus'': ''(Windows and Unix)''.  The -ttystatus option can
     only be queried.  It returns the current modem status and
     handshake input signals.  The result is a list of signal,value
     pairs with a fixed order, e.g. {CTS 1 DSR 0 RING 1 DCD 0}.  The
     ''signal'' names are returned upper case.
 
 
- ''-queue'': ''(Windows and Unix)''. The -queue option can only be
+ ''-queue'': ''(Windows and Unix)''.  The -queue option can only be
     queried.  It returns a list of two integers representing the
-    current number of bytes in the input and ouput queue.
+    current number of bytes in the input and output queue.
 
 
  ''-sysbuffer inSize'': 
 
- ''-sysbuffer {inSize outSize}'': ''(Windows only, Unix ?)''. This
+ ''-sysbuffer {inSize outSize}'': ''(Windows only, Unix ?)''.  This
     option is used to change the size of Windows system buffers for a
-    serial channel. Especially at higher communication rates the
+    serial channel.  Especially at higher communication rates the
     default input buffer size of 4096 bytes can overrun for latent
     systems.  The first form specifies the input buffer size, in the
     second form both input and output buffers are defined.
 
- ''-pollinterval msec'': ''(Windows only)''. Already implemented.
+ ''-pollinterval msec'': ''(Windows only)''.  Already implemented.
 
 
- ''-lasterror'': ''(Windows only, Unix?)''. Already implemented for
+ ''-lasterror'': ''(Windows only, Unix?)''.  Already implemented for
     Windows.
 
 ~ Implementation Details
@@ -129,11 +129,11 @@ For Windows reading and writing files is generally blocking.
 Especially with activated handshake the serial communication can stop
 forever.  Therefore the Windows implementation needs at least a
 writing thread preventing Tcl's main application to block.
-Additionally Windows provides a reach set of special API's for serial
+Additionally Windows provides a reach set of special APIs for serial
 communication which needs to be translated to [[fconfigure]] options.
 
 There is one special point about Windows: For making multiple threads
-accessing a serial port, it needs to be open'ed with the OVERLAPPED
+accessing a serial port, it needs to be opened with the OVERLAPPED
 flag set.  Tcl detects a serial port only after opening it without the
 OVERLAPPED flag.  Therefore this port has to be reopened, which
 requires a little change to ''tclWinChan.c'' and ''tclWinPort.h''.
@@ -162,13 +162,13 @@ Macintosh systems - ?
 ~ Other Issues
 
 It has also been proposed to add a [[fconfigure -timeout]] option
-specifying read and write timeouts. Together with a blocking read a
+specifying read and write timeouts.  Together with a blocking read a
 timeout could be used to wait for an expected number of data bytes
 from the serial port.  There are to arguments against timeouts:
 
  1. Adding timeout to blocking I/O at the driver level radically
-    changes the behaviour of read/write operations. This adds a lot of
-    oddity to serial communications.
+    changes the behaviour of read/write operations.  This adds a lot
+    of oddity to serial communications.
 
  2. Timeouts can easily be implemented at Tcl level using non-blocking
     I/O together with Tcl's event loop.  Additional support is given
