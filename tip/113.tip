@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -42,6 +42,8 @@ The text widget man page will be updated to reflect the new ''-all'' and ''-noli
 This is available from:
 
 http://sourceforge.net/tracker/?func=detail&aid=621901&group_id=12997&atid=312997
+
+The patch includes objectification of the entire Text widget, so the multi-line search changes are not obvious to isolate.  In fact the changes required are < 100 lines of code (given that the rest has been objectified, that is).
 
 (However, this patch has to workaround a bug in Tcl's unicode string manipulation, so search performance is probably impacted)
 
