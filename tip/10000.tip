@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.135 $
+Version:        $Revision: 1.136 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -136,7 +136,7 @@ The following additions/changes would be made to the private Tcl C API:
   int ''flags'')
 
  > Invokes the specified command in the namespace context specified by
-   the namespaceName argument.  This is a new function.
+   the ''namespaceName'' argument.  This is a new function.
 
  * Two new flags '''TCL_INVOKE_NS_MUST_EXIST''' and 
   '''TCL_INVOKE_NO_GLOBAL_ONLY''' would be created for use with the 
@@ -154,9 +154,9 @@ The following additions/changes would be made to the private Tcl C API:
   int ''objc'', Tcl_Obj *CONST ''objv''[])
 
  > The '''SlaveInvokeHidden''' would be modified to accept a 
-   namespaceName argument.
+   ''namespaceName'' argument.
 
- * The '''FIND_ONLY_NS''' would be moved from ''generic/tclNamesp.c'' 
+ * The '''FIND_ONLY_NS''' flag would be moved from ''generic/tclNamesp.c'' 
   to ''generic/tclInt.h''
 
 ~ Reference Implementation
