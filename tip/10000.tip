@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.42 $
+Version:        $Revision: 1.43 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -30,7 +30,7 @@ proposed in [13].
 ~ Submission Test
 
 Some browsers are spinning their wheels after submission...
-one... two... three...
+one... two... three... four...
 
 Looks like there needs to be a minimum size of the POST
 submission to trigger the problem, sooo.....
