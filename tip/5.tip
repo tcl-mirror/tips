@@ -1,12 +1,12 @@
-TIP:		5
-Title:		Make TkClassProcs and TkSetClassProcs Public and Extensible
-Version:	$Revision: 1.1 $
-Author:		Eric Melski <ericm@ajubasolutions.com>
-State:		Final
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Done
-Created:	17-Oct-2000
+TIP:            5
+Title:          Make TkClassProcs and TkSetClassProcs Public and Extensible
+Version:        $Revision: 1.2 $
+Author:         Eric Melski <ericm@ajubasolutions.com>
+State:          Final
+Type:           Project
+Tcl-Version:    8.4
+Vote:           Done
+Created:        17-Oct-2000
 Post-History:
 
 ~ Abstract

@@ -1,11 +1,11 @@
-TIP:		12
-Title:		The "Batteries Included" Distribution
-Version:	$Revision: 1.1 $
-Author:		George A. Howlett <gah@siliconmetrics.com>
-State:		Draft
-Type:		Informational
-Vote:		Pending
-Created:	15-Sep-2000
+TIP:            12
+Title:          The "Batteries Included" Distribution
+Version:        $Revision: 1.2 $
+Author:         George A. Howlett <gah@siliconmetrics.com>
+State:          Draft
+Type:           Informational
+Vote:           Pending
+Created:        15-Sep-2000
 Discussions-To: news:comp.lang.tcl
 Post-History: 
 

@@ -1,12 +1,12 @@
-TIP:		7
-Title:		Increased resolution for TclpGetTime on Windows
-Version:	$Revision: 1.2 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Final
-Type:		Project
-Vote:		Done
-Created:	26-Oct-2000
-Tcl-Version:	8.4
+TIP:            7
+Title:          Increased resolution for TclpGetTime on Windows
+Version:        $Revision: 1.3 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Final
+Type:           Project
+Vote:           Done
+Created:        26-Oct-2000
+Tcl-Version:    8.4
 Discussions-To: news:comp.lang.tcl
 Post-History: 
 

@@ -1,12 +1,12 @@
-TIP:		4
-Title:		Tcl Release and Distribution Philosophy
-Version:	$Revision: 1.3 $
-Author:		Brent Welch <welch@acm.org>
+TIP:            4
+Title:          Tcl Release and Distribution Philosophy
+Version:        $Revision: 1.4 $
+Author:         Brent Welch <welch@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:		Draft
-Type:		Informational
-Vote:		Pending
-Created:	26-Oct-2000
+State:          Draft
+Type:           Informational
+Vote:           Pending
+Created:        26-Oct-2000
 Post-History:
 Discussions-To: news:comp.lang.tcl
 

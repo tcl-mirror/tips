@@ -1,12 +1,12 @@
-TIP:		10
-Title:		Tcl I/O Enhancement: Thread-Aware Channels
-Version:	$Id: 10.tip,v 1.1 2000-11-30 13:02:53 fellowsd Exp $
-Author:		Andreas Kupries	<a.kupries@westend.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	08-Nov-2000
+TIP:            10
+Title:          Tcl I/O Enhancement: Thread-Aware Channels
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <a.kupries@westend.com>
+State:          Draft
+Type:           Project
+Tcl-Version:    8.4
+Vote:           Pending
+Created:        08-Nov-2000
 Post-History:
 
 ~ Abstract

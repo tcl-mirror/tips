@@ -1,12 +1,12 @@
-TIP:		3
-Title:		TIP Format
-Version:	$Id: 3.tip,v 1.1 2000-11-30 11:48:57 fellowsd Exp $
-Author:		Andreas Kupries <a.kupries@westend.com>
-Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:		Accepted
-Type:		Process
-Vote:		Done
-Created:	14-Sep-2000
+TIP:            3
+Title:          TIP Format
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <a.kupries@westend.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Accepted
+Type:           Process
+Vote:           Done
+Created:        14-Sep-2000
 Post-History:
 
 ~ Abstract
@@ -136,7 +136,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.1 $. (Initially $Revision: 1.1 $ should be used, which
+	$Revision: 1.2 $. (Initially $Revision: 1.2 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 

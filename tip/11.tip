@@ -1,12 +1,12 @@
-TIP:		11
-Title:		Tk Menubutton Enhancement: -compound option for menubutton
-Version:	$Id: 11.tip,v 1.1 2000-11-30 13:02:54 fellowsd Exp $
-Author:		Todd Helfter <tmh@purdue.edu>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	16-Nov-2000
+TIP:            11
+Title:          Tk Menubutton Enhancement: -compound option for menubutton
+Version:        $Revision: 1.2 $
+Author:         Todd Helfter <tmh@purdue.edu>
+State:          Draft
+Type:           Project
+Tcl-Version:    8.4
+Vote:           Pending
+Created:        16-Nov-2000
 Post-History:
 
 ~ Abstract
