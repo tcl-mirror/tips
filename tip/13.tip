@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -214,9 +214,29 @@ resolved in order to implement its proposals:
 
 ~ Author replies to comments
 
- * ''Add a link to [3] on the edit page''
+Some comments I see above, or received in e-mail:
 
- > OK.
+ * ''Add a link to [3] on the edit page.  Display [3] in a new window.''
+
+ > Link added.  I don't believe in deciding to open new browser windows for
+   the user.  If the user wants to open the link in a new window, she knows
+   how to do that.
+
+ * ''Add an interface to create a new TIP''
+
+ > For now, I'm trying to stick with our established TCT procedures, where
+   only the TIP Editor gets to create a new TIP, so they should still be
+   originally submitted to him.  If the TCT liberalizes this policy, we
+   can revisit this question.
+
+ * ''Browser caching makes it look like the edits were not made''
+
+ > This is a problem, and I'm gathering advice on the best way(s) to solve it.
+
+ * ''I had the server time out on me''
+
+ > That's troubling.  Can anyone seeing this problem provide any more
+   information.  What were the circumstances, in detail?
 
 ~ Copyright
 
