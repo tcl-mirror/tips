@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -85,13 +85,9 @@ The third and subsequent arguments specify a series of properties
 (each of which has a name that begins with a hyphen) which may be set
 (if there are pairs of arguments, being the property name and the
 value to set it to) or read (if there is just the property name on its
-own).  The set of properties is limit-specific, but always includes
-the following:
-
- -value: For controlling the actual value of the limit, and expected
-   to be an integer value of some form when a limit is set.  If no
-   limit is set, the '''-value''' property will always be the empty
-   string.
+own).  If no properties are listed at all, all dictionary (see [111])
+of all properties for the particular limit is returned. The set of
+properties is limit-specific, but always includes the following:
 
  -command: A Tcl script to be executed in the global namespace of the
    interpreter reading/writing the property when the limit is found to
@@ -155,10 +151,24 @@ But that is good practise anyway.
 
 ~~Time Limits
 
-Time limits are specified in terms of the time (in seconds from the
-epoch, as returned by '''clock seconds''') when the limit will be hit.
-Setting the limit to the current time ensures that the limit will be
-immediately activated.
+Time limits are specified in terms of the time when the limit will be
+hit.  Setting the limit to the current time ensures that the limit
+will be immediately activated.  Time limits have two options for
+specifying the limit.
+
+ -seconds: This sets the absolute time (in seconds from the epoch, as
+   returned by '''clock seconds''') that the time limit is hit.  If
+   set to the empty string, the limit is removed.  If no time limit is
+   set, this option is empty when inspected.
+
+ -milliseconds: This sets the number of milliseconds after the start
+   of the second specified in the '''-seconds''' option that the time
+   limit is hit.  May only be set to the empty string if the
+   '''-seconds''' option is empty and present, and may only be set to
+   a numeric value if the '''-seconds''' option is unspecified or
+   present and non-empty (it is always safe to leave this option
+   unspecified.)  If no time limit is set, this option is empty when
+   inspected.
 
 Where a time-limited interpreter creates a slave interpreter, the
 slave will get the same time-limit as the creating master interpreter.
@@ -167,7 +177,13 @@ slave will get the same time-limit as the creating master interpreter.
 
 Command limits are specified in terms of the number of commands (see
 '''info commandcount''' for a definition of the metric) that may be
-executed before the limit is hit.
+executed before the limit is hit.  Command limits have the following
+extra option for specifying and inspecting the limit.
+
+ -value: The number of commands (integer of course) that may actually
+   be executed.  If set to the empty string, the limit is removed, and
+   when introspecting, unlimited interpreters return empty strings for
+   this value.
 
 Where a command-limited interpreter creates a slave interpreter, the
 slave will get the command-limit ''0'' after initialisation
@@ -242,15 +258,18 @@ easier to create as well.
 
  > Get the current limit on the number of commands.
 
- * void '''Tcl_LimitSetTime'''(Tcl_Interp *''interp'', long ''timeLimit'')
+ * void '''Tcl_LimitSetTime'''(Tcl_Interp *''interp'', Tcl_Time *''timeLimitPtr'')
 
- > Set a limiting value on the latest time that the code may execute,
-   and reset whether the limit has been triggered.  Does not enable
-   the limit.
+ > Set a limiting value (copying it from the buffer pointed to by
+   ''timeLimitPtr'') on the latest time that the code may execute, and
+   reset whether the limit has been triggered.  Does not enable the
+   limit.  The ''usec'' field of the buffer should be in the range 0
+   to 999999.
 
- * long '''Tcl_LimitGetTime'''(Tcl_Interp *''interp'')
+ * void '''Tcl_LimitGetTime'''(Tcl_Interp *''interp'', Tcl_Time *''timeLimitPtr'')
 
- > Get the current limit on the execution time.
+ > Get the current limit on the execution time, writing it into the
+   buffer pointed to by ''timeLimitPtr''.
 
  * void '''Tcl_LimitSetGranularity'''(Tcl_Interp *''interp'', int ''type'',
 	int ''granularity'')
