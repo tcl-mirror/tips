@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
@@ -11,14 +11,14 @@ Tcl-Version:    8.4
 
 ~ Abstract
 
-This TIP proposes saving the file name and line number information for
+This TIP proposes saving the file path and line number information for
 each user defined [[proc]] definition contained within a [[source]]d
 file, and providing a new subcommand [[line]] to [[info]] 
 that can return this new information.
 
 ~ Rationale
 
-With this change, upon error within a procedure, the filename and
+With this change, upon error within a procedure, the file path and
 absolute (as opposed to relative) line number are printed out when
 available, even in the case where called from an after or callback
 invocation.  Aside from aiding the user in more easily locating and
@@ -36,7 +36,7 @@ a future TIP.
 
 ~ Specification
 
-The new [[line]] subcommand to [[info]]  gives access to the file name and line
+The new [[line]] subcommand to [[info]]  gives access to the file path and line
 number information for a given ''PROC''.  Valid syntax is:
 
 |  info line number PROC ?LINE?
@@ -51,17 +51,19 @@ number information for a given ''PROC''.  Valid syntax is:
 |        specific proc.
 |
 |  info line file ?PROC ?FILE??
-|        Get/set the sourced file name for PROC.  If PROC is not
-|        specified, dump all known sourced files.
+|        Get/set the sourced file path for PROC.  If PROC is not
+|        specified, dump all known sourced file paths.
 |
 |  info line find FILE LINE
-|        Given a file name and line number, return the PROC name
+|        Given a file path and line number, return the PROC name
 |        containing line number LINE.  A new nonstatic procedure
 |        TclFindProcByLine() provides this function.
 |
 |  info line relativeerror ?BOOL?
-|	Set to 1 to disable absolute line number and filename
-|	on error.  This is needed by tcltest.
+|	Set to 1 to disable absolute line number and file path
+|       on a procedure error.  This demotes procedure traceback errors
+|       to the same format as all other traceback errors, that is,
+|       using the relative the line number and file name.
 
 These exhibit the following behavior:
 
@@ -81,30 +83,25 @@ These exhibit the following behavior:
 
 ~ Changes
 
-Sourced file names are stored in a global hash table.  Line numbering
-information is saved in the ''Proc'' structure.  The ''Tcl_Parse''
-structure gets two additional ints which are updated during the parse
-phase prior to command creation.  A temporary ''lineNum'' int is also
-employed for passing the current line number around.
+Sourced file paths are stored per interp in a hash table.  Line numbering
+information is saved in the ''Proc'' structure.  Several line number
+variables are added to Interp to track newlines.
 
 The bulk of the changes occur in ''generic/tclParse.c'' where the
 number of line feeds seen is tracked.
 
 ~ Overhead/Impact
 
-This is a change impacting binary compatibility as it adds to
-''Tcl_Interp''.
-
-The runtime footprint of Tcl should not increase by more than a few
+The runtime footprint of Tcl should be modest: a few 10's of
 kilobytes, even for moderately large programs.  Most of the space
-impact occurs in storing the file names, but these are stored only
+impact occurs in storing the file paths, but these are stored only
 once each for each file sourced, not per interp.  A typical example
 from a large system:
 
 |  100 sourced files * 100 bytes = 10K.
 
 The other space overhead adds up to 2 words (8 bytes on a 32-bit
-platform) per defined procedure, plus an additional 2 words in the
+platform) per defined procedure, plus an additional several words in the
 ''Interp'' structure.
 
 Runtime processing overhead should be negligible.
@@ -169,6 +166,28 @@ Donal Fellows writes: Is there a way to do an equivalent of ''#line''
 directives in C
 
    * we can now set line number etc of a proc.  Is that enough?
+
+Donald Porter notes that changing Tcl_Parse breaks binary compatibility
+
+   * Move all parse variables to Interp and save/restore values
+     on entry/exit to Tcl_EvalEx and TclCompileScript.
+
+Donald Porter notes that the hash table should be per Interp
+
+   * Code changed to move hash table to Interp.
+
+Mo DeJong notes: file path should be used in place of file name
+
+   * TIP updated to use path where appropriate
+
+Mo DeJong suggests to maybe use TclpObjNormalizePath(fileName)
+
+   * No action yet
+
+Donal Fellows objects to no support for [proc]s in subevals and
+Andreas Kupries suggests defining a line number Tcl_Token type.
+
+   * Add support for [proc] in subeval by addition to ResolvedCmdName
 
 ~ Copyright
 
