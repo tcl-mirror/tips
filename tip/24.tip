@@ -1,7 +1,8 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -66,13 +67,13 @@ assigned:
 
    1. ''Scan Command'' - 
 
-   1. ''Channel Commands'' - 
+   1. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>
 
-   1. ''Channel System'' - 
+   1. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>
 
-   1. ''Channel Transforms'' - 
+   1. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>
 
-   1. ''Channel Types'' - 
+   1. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>
 
    1. ''dde Package'' - 
 
@@ -110,15 +111,15 @@ assigned:
 
    1. ''Bytecodes'' -
 
-   1. ''Threading'' -
+   1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>
 
    1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>
 
    1. ''Release Notes'' - 
 
-   1. ''Portability Support'' - 
+   1. ''Portability Support'' - Mo DeJong <mdejong@cygnus.com>
 
-   1. ''Configure and Build Tools'' - 
+   1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>
 
    1. ''Other Tools'' - 
 
