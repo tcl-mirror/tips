@@ -1,0 +1,45 @@
+TIP:		109
+Title:		New Look for Checkbutton and Radiobutton on Unix
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	01-Oct-2002
+
+~ Abstract
+
+This TIP proposes changing the look of the Tk checkbutton and
+radiobutton widgets on Unix to more closely match the Windows
+counterparts.
+
+~ Rationale
+
+The current visual aspect of the Unix version checkbutton and
+radiobutton has proved to be confusing to users.  The distinction
+between selected (On) and unselected (Off) states are not visually
+different enough to clearly identify one from another.  Indeed, in the
+rare case where only one checkbutton is present, one cannot tell for
+certain if the state is On or Off.  With a check or dot mark icon
+(dependent on the type of widget) displayed in the Windows version,
+there is no question about the state of the widget.
+
+~ Proposed Changes
+
+The checkbutton shall (when the indicator is turned on) display an
+check-mark or other distinguishing icon/symbol that clearly indicates
+an On state.  The Off state will be displayed with an empty box.  The
+state values will ''not'' be indicated by changing relief or
+background color.
+
+The radiobutton shall (when the indicator is turned on) display an dot
+mark or other distinguishing icon/symbol that clearly indicates a
+selected or On state.  The unselected or Off state shall be displayed
+with an empty diamond.  The state values will ''not'' be indicated by
+changing relief or background color.
+
+~ Copyright
+
+This document has been placed in the public domain.

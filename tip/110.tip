@@ -1,0 +1,44 @@
+TIP:		110
+Title:		Add a Tristate Mode to the Checkbutton and Radiobutton
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	01-Oct-2002
+
+~ Abstract
+
+This TIP proposes adding a third value (tristate) to the -state option
+of the checkbutton and radiobutton widgets.
+
+~ Rationale
+
+In order to meet more demanding requirements of todays complex
+graphical user interfaces, it would help add to the functionality of
+the basic checkbutton and radiobutton widgets. To support using
+checkbuttons and radiobuttons along with multiple selection, it is
+necessary for the checkbutton to be able to display a third state,
+i.e., both On and Off.  This indicates the situation where a property
+has a particular value for some members of a multiple selection, but
+not others.
+
+~ Proposed Change
+
+The change would add a the state "tristate" to the -state option of
+the checkbutton and radiobutton widgets.  The widget would then
+display the check/dot mark (as appropriate) along with a "grayed"
+background.  When the checkbutton or radiobutton is invoked
+(i.e. clicked on) it would behave exactly as it does currently with
+the addition of modifying the -state from "tristate" to "normal".
+
+There is a concern that the Unix version of these widgets do not have
+a sufficiently different appearance when in the tristate state
+compared with the On and Off states.  This issue is addressed in
+[109].
+
+~ Copyright
+
+This document has been placed in the public domain.
