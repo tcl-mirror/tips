@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -191,7 +191,7 @@ public/protected methods, showing how ''''namespace unknown''' and
 |}
 |namespace eval SubClass {
 |   # Public methods
-|   namespace export do
+|   namespace export do create
 |   namespace ensemble create
 |   # Handler to delegate to superclass
 |   namespace unknown [list delegateSuper ::SuperClass]
