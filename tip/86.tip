@@ -1,10 +1,10 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
-Vote:           In progress
+Vote:           Pending
 Created:        08-Feb-2002
 Post-History:   
 Tcl-Version:    8.4
