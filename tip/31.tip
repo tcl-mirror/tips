@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -110,7 +110,7 @@ the following releases of Tcl/Tk:
 The following branch tags label branches of development from which
 releases of Tcl/Tk are generated:
 
-   * ''HEAD'' - current development of new features; spawns 8.4aX
+   * ''HEAD'' - current development of new features; spawns 8.4b''X''
      releases.
 
    * ''core-8-3-1-branch'' - bug fix branch; spawns 8.3.X releases.
