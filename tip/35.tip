@@ -1,6 +1,6 @@
 TIP:           35
 Title:         Enhanced Support for Serial Communications
-Version:       $Revision: 1.4 $
+Version:       $Revision: 1.5 $
 Author:        Rolf Schroedter <rolf.schroedter@dlr.de>
 State:         Draft
 Type:          Project
@@ -52,11 +52,10 @@ serial port fconfigure options form the ''open.n'' man-page to
 It is proposed to have following set of [[fconfigure]] options for
 serial communications:
 
-
- ''-mode baud,parity,data,stop'': ''(Windows and Unix)''.  Already
+ -mode baud,parity,data,stop: ''(Windows and Unix)''.  Already
     implemented.
 
- ''-handshake mode'': ''(Windows and Unix)''.  This option is used to
+ -handshake mode: ''(Windows and Unix)''.  This option is used to
     setup automatic handshake control.  Note that not all handshake
     modes maybe supported by your operating system.  The mode
     parameter is case-independent.
@@ -70,13 +69,13 @@ serial communications:
     operating system settings.  The -handshake option cannot be
     queried, because the operating system settings may be ambiguous.
 
- ''-xchar {xonChar xoffChar}'': ''(Windows and Unix)''.  This option
-    is used to change the software handshake characters.  Normally the
+ -xchar {xonChar xoffChar}: ''(Windows and Unix)''.  This option is
+    used to change the software handshake characters.  Normally the
     operating system default should be DC1 (0x11 hex) and DC3 (0x13
     hex) representing the ASCII standard XON and XOFF characters.  The
     -xonxoff option cannot be queried.
 
- ''-ttycontrol {signal boolean signal boolean ...}'': ''(Windows and
+ -ttycontrol {signal boolean signal boolean ...}: ''(Windows and
     Unix)''.  This option is used to setup the handshake output lines
     permanently or to send a BREAK over the serial line.  The
     ''signal'' names are case-independent.
@@ -90,31 +89,28 @@ serial communications:
     ''rtscts'' (or ''dtrdsr'').  The result is unpredictable.  The
     -ttycontrol option cannot be queried.
 
- ''-ttystatus'': ''(Windows and Unix)''.  The -ttystatus option can
-    only be queried.  It returns the current modem status and
-    handshake input signals.  The result is a list of signal,value
-    pairs with a fixed order, e.g. {CTS 1 DSR 0 RING 1 DCD 0}.  The
-    ''signal'' names are returned upper case.
+ -ttystatus: ''(Windows and Unix)''.  The -ttystatus option can only
+    be queried.  It returns the current modem status and handshake
+    input signals.  The result is a list of signal,value pairs with a
+    fixed order, e.g. {CTS 1 DSR 0 RING 1 DCD 0}.  The ''signal''
+    names are returned upper case.
 
-
- ''-queue'': ''(Windows and Unix)''.  The -queue option can only be
+ -queue: ''(Windows and Unix)''.  The -queue option can only be
     queried.  It returns a list of two integers representing the
     current number of bytes in the input and output queue.
 
+ -sysbuffer inSize: 
 
- ''-sysbuffer inSize'': 
+ -sysbuffer {inSize outSize}: ''(Windows only, Unix ?)''.  This option
+    is used to change the size of Windows system buffers for a serial
+    channel.  Especially at higher communication rates the default
+    input buffer size of 4096 bytes can overrun for latent systems.
+    The first form specifies the input buffer size, in the second form
+    both input and output buffers are defined.
 
- ''-sysbuffer {inSize outSize}'': ''(Windows only, Unix ?)''.  This
-    option is used to change the size of Windows system buffers for a
-    serial channel.  Especially at higher communication rates the
-    default input buffer size of 4096 bytes can overrun for latent
-    systems.  The first form specifies the input buffer size, in the
-    second form both input and output buffers are defined.
+ -pollinterval msec: ''(Windows only)''.  Already implemented.
 
- ''-pollinterval msec'': ''(Windows only)''.  Already implemented.
-
-
- ''-lasterror'': ''(Windows only, Unix?)''.  Already implemented for
+ -lasterror: ''(Windows only, Unix?)''.  Already implemented for
     Windows.
 
 ~ Implementation Details
@@ -142,21 +138,21 @@ Macintosh systems - ?
 
 ~ Changed Files
 
- ''tclUnixChan.c'': Add [[fconfigure]] options.
-    
- ''tclWinPort.h'': Declare a new function ''TclWinSerialReopen()''
-    
- ''tclWinChan.h'': Call ''TclWinSerialReopen()'' after detecting the
+ tclUnixChan.c: Add [[fconfigure]] options.
+
+ tclWinPort.h: Declare a new function ''TclWinSerialReopen()''
+
+ tclWinChan.h: Call ''TclWinSerialReopen()'' after detecting the
    serial port.
-    
- ''tclWinSerial.c'': Partial rewrite of Tcl's serial driver.  The
-    current implementation only performs blocking output.  Add
-    [[fconfigure]] options.
-    
- ''fconfigure.n'': Serial [[fconfigure]] options should be documented
+
+ tclWinSerial.c: Partial rewrite of Tcl's serial driver.  The current
+    implementation only performs blocking output.  Add [[fconfigure]]
+    options.
+
+ fconfigure.n: Serial [[fconfigure]] options should be documented
     here.
-    
- ''open.n'': Serial port filenames are documented here.  Add a link to
+
+ open.n: Serial port filenames are documented here.  Add a link to
     [[fconfigure]] for additional serial options.
 
 ~ Other Issues
