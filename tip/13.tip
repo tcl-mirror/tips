@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -108,11 +108,12 @@ An improved system for archiving and revising TIPs is proposed:
       make it available for editing.  The HTML form will require that
       an e-mail address be entered, and will allow a name to be
       entered as well.  A <TEXTAREA> will be initialized to hold the
-      current TIP body.  Users of the form will revise the body, then
-      submit the form.
+      current TIP abstract.  A second <TEXTAREA> will be initialized
+      to ho9ld the current TIP body.  Users of the form will revise
+      the abstract and the body, then submit the form.
 
-   1. The TIP rendering engine will receive the revised TIP body, and
-      will use CVS client commands to merge the revision with other
+   1. The TIP rendering engine will receive the revisions, and
+      will use CVS client commands to merge the revisions with other
       revisions and commit the revised TIP to the TIP CVS repository.
       If a conflict occurs during a merge, the TIP body including the
       conflicts will be returned to the user in another HTML form to
@@ -128,15 +129,12 @@ An improved system for archiving and revising TIPs is proposed:
 
 ~ Reference Implementation
 
-An enhanced version of the Fellows TIP rendering engine with the
+A patch to the Fellows TIP rendering engine that adds the
 capabilities proposed above is available at
-http://math.nist.gov/~DPorter/tcltk/tipweb/tipweb.tar.gz
+http://math.nist.gov/~DPorter/tcltk/tipweb/webedit.patch .
 
- > Note that the reference implementation reference just above
-   is now out of date with the implementation being tested.  After
-   some more debugging, the current implementation will be submitted
-   as a Patch to the tiprender project at SourceForge, see
-   http://sourceforge.net/projects/tiprender/ .
+The patched TIP renderer/editor is now in operation at
+http://www.scriptics.com:8080/cgi-bin/tct/tip/ .
 
 For what it's worth, this TIP was created primarily within a web
 browser, making revisions through the web interface provided by the
@@ -144,7 +142,7 @@ reference implementation.
 
 One remaining shortcoming of the reference implementation is that it
 provides no mechanism for uploading images to the TIP repository.
-Images would still need to be submitted through the TIP Editor, or
+Images still need to be submitted through the TIP Editor, or
 someone else with commit access to the TIP CVS repository.
 
 ~ Server Requirements
@@ -181,18 +179,6 @@ using cvsweb (http://stud.fh-heilbronn.de/~zeller/cgi/cvsweb.cgi/) to
 allow anyone in the community to browse TIP history.  Another
 ''loginfo'' script could provide e-mail notices when a TIP is revised
 to users who registered their interest in that TIP.
-
-~ Unresolved Issues
-
-If this TIP is accepted by the TCT, the following matters must be
-resolved in order to implement its proposals:
-
-   1. A server must be provided meeting the server requirements
-      established above.
-
-   2. Some more eyeballs should look over the reference
-      implementation, and some more users should put it through its
-      paces before it "goes live".
 
 ----
 
