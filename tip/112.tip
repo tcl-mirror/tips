@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.6 $
+Version:        $Revision: 2.7 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -106,7 +106,7 @@ The options available for creation and configuring are:
    unambiguous prefixes of ensemble commands are recognized as if they
    were the fully specified ensemble command names.
 
- -unknown: This provides (when non-empty) a script fragment to handle the
+ -unknown: This provides (when non-empty) a command fragment to handle the
    case where an ensemble subcommand is not recognized and would
    otherwise generate an error.  It is executed by concatenating on
    ''all'' the arguments to the ensemble command and then evaluating the
