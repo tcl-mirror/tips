@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -268,6 +268,17 @@ of the resource.  The solution looks like:
 With that structure, we are confident the resource is always
 freed, but any error or exception will be presented to the
 caller exactly as if it had never been caught in the first place.
+
+Finally, two examples of how to use the new features in a 
+control structure proc. ...
+
+The first approach assumes one knows
+the internal details of how the ''uplevel'' command adds to
+the stack trace. ...
+
+~ Potential Concerns
+
+Returning past the toplevel?
 
 ~ Prototype
 
