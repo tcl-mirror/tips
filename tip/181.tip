@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -40,10 +40,7 @@ commands.  There are several drawbacks with this mechanism.
 
 Firstly, it is not possible to override the command resolution process
 from Tcl, except by redefining the '''::unknown''' procedure to
-perform your custom lookup.  However, by the time this procedure is
-called, the current and global namespaces have been already been
-searched, and so you can only change the behaviour as a case of last
-resort.  This is especially difficult if you are writing a package, as
+perform your custom lookup. This is difficult if you are writing a package, as
 good style dictates that you shouldn't override the global
 '''::unknown''' procedure without being explicitly asked to do so.
 
@@ -86,15 +83,17 @@ The subcommand would accept either zero or one argument(s).  If no
 arguments are given, the command returns the handler for the current
 namespace. The optional argument ''commandPrefix'' is a
 command (strictly a prefix list consisting of a command and optional
-arguments) to execute if command lookup in the current namespace fails.
+arguments) to execute if command lookup from the current namespace fails.
 The command will be concatenated with the full invocation line of the
 command being searched for (i.e. the command name and all arguments),
 and evaluated in the scope of the current namespace.  The first word in the
 list given must be a command name which
 must be able to be resolved without resorting to the unknown
-mechanism (i.e. it must either be a command in the current namespace,
-or be fully-qualified).  If this cannot be done, an error will be
-generated.
+mechanism (i.e. it must either be a command in the current or global namespace,
+or be fully-qualified).  If this cannot be done, a stock error message will
+be generated referring to the original unknown command (and ''not'' the
+missing handler) - this is how Tcl currently behaves if no ::unknown procedure
+exists.
 
 The command resolution procedure would be altered from this:
 
@@ -108,12 +107,19 @@ to this:
 
    1. Lookup command in current namespace.
 
-   2. If that fails, call the unknown handler for the current
-      namespace.
+   2. If that fails, lookup command in global namespace.
 
-The default unknown handler for each namespace will look for the
-command in the global namespace and if that fails call the global
-unknown handler.  The global namespace will have a default unknown
+   3. If that fails, call the unknown handler for the namespace in
+which the unknown command was invoked.
+
+Note that this TIP does not change (or allow changing) the default
+command resolution procedure - the current and global namespaces
+are always searched before the unknown handler is called. This is so
+that resolution of the unknown handler itself can be performed, and
+so that the handler can be implemented without resorting to fully
+qualifying every command in it (e.g. having to use ::set).
+
+The default unknown handler for each namespace is a
 handler called '''::unknown'''.  This means that by default, we have
 exactly the same mechanism that exists currently in Tcl.  In order to
 change the mechanism for an individual namespace, you may register a
@@ -152,7 +158,7 @@ example from the previous section implemented via a custom unknown
 handler:
 
 |namespace eval foo {
-|   proc useful {args} { ... }
+|   proc useful {args} { puts "USEFUL: $args" }
 |
 |   namespace eval bar {
 |      namespace unknown [list resolve]
@@ -169,10 +175,11 @@ public/protected methods, showing how ''''namespace unknown''' and
 
 |namespace eval SuperClass {
 |   # Define our "public" methods
-|   namespace export hello
+|   namespace export hello create
+|   namespace ensemble create
 |   # Proc to create a new "instance"
 |   proc create {name} {
-|      namespace ensemble create -name $name
+|      namespace ensemble create -command $name
 |   }
 |
 |   # This proc is "public"
@@ -180,28 +187,29 @@ public/protected methods, showing how ''''namespace unknown''' and
 |
 |   # This proc is "protected" - can be called by subclasses, but not directly
 |   # via the ensemble
-|   proc SomePrivateMethod {args} { puts $args }
+|   proc SomePrivateMethod {args} { puts "SUPER PRIVATE: $args" }
 |}
 |namespace eval SubClass {
 |   # Public methods
 |   namespace export do
+|   namespace ensemble create
 |   # Handler to delegate to superclass
 |   namespace unknown [list delegateSuper ::SuperClass]
 |   proc delegateSuper {superclass args} {
-|      ::namespace eval $superclass $args
+|      uplevel 1 [list namespace eval $superclass $args]
 |   }
 |
 |   proc create {name} {
 |      # Create superclass instance
-|      ::SuperClass create $name.super
+|      SuperClass create $name.super
 |      # Create our instance
-|      namespace ensemble create -name $name \
-|              -unknown [list dispatch $name.super]
+|      namespace ensemble create -command $name \
+|              -unknown [list SubClass::dispatch $name.super]
 |   }
 |
 |   # Used for handling direct calls to super class methods
 |   proc dispatch {super this method args} {
-|      $super $method {expand}$args
+|      return [linsert $args 0 $super $method]
 |   }
 |
 |   # Our public method
@@ -210,7 +218,7 @@ public/protected methods, showing how ''''namespace unknown''' and
 |   }
 |}
 |
-|SubClass::create foo
+|SubClass create ::foo
 |foo do a b c ;# -> prints "a"
 |foo hello    ;# -> prints "Hello from SuperClass!"
 |foo SomePrivateMethod ;# -> error...
@@ -243,13 +251,13 @@ complicated processing:
 |      } elseif {[regexp {^[-+/\*\.0-9 ()]+$} $args]} {
 |         return [expr $args]         ;# pure expression? "(17+4)/3"
 |      } else {
-|         # Look in global namespace...
-|         namespace eval :: $args
+|         # Error
+|         error "invalid command \"[lindex $args 0]\""
 |      }
 |   }
 |
 |   proc dostuff {} {
-|      v = ::info tclversion
+|      v = info tclversion
 |      s = this is a string
 |      j = sqrt(2)*3
 |   }
@@ -260,8 +268,9 @@ on the wiki[http://wiki.tcl.tk/495].
 
 ~ Reference Implementation
 
-A reference implementation is ''not'' yet available, but the author
-intends to write one soon.
+A reference implementation is available attached to Patch 958222 on the Tcl project at sourceforge.net:
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=958222&group_id=10894&atid=310894
 
 ~ Copyright
 
