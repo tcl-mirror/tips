@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -204,6 +204,18 @@ is akin to
    command (e.g. called [[lselect]]) which addresses at least the
    majority of my concerns, and which (in my opinion) need not even
    form part of this TIP.
+
+''Dave Cuthbert <dacut@kanga.org> adds''
+
+ > I intentionally left [[lselect]] out of the original TIP (and it
+   is still not present in the 02-April-2001 version).  As Donal points
+   out, it is a major can of worms and, though there was general
+   agreement on c.l.t that such a command would be useful, people had
+   differing opinions on what form it should take.
+
+ > Perhaps my view on TIPs is incorrect, but I try to include only
+   sure-fire "yeah, we ought to have done that a few versions ago"
+   items.
 
 ----
 
