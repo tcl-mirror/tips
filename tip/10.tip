@@ -1,8 +1,8 @@
 TIP:            10
 Title:          Tcl I/O Enhancement: Thread-Aware Channels
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <a.kupries@westend.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        08-Nov-2000
