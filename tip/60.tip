@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -36,15 +36,11 @@ will have to be this with Borland:
 The order of the attribute needs to be after the return type.
 
 Even though ''__declspec'' is supported in the Microsoft style with
-version 5.5 of the Borland compiler, if EXTERN could swap around the
+version 5.5+ of the Borland compiler, if EXTERN could swap around the
 order a hair, old Turbo C v5.0 has a better chance to make a DOS
-library :)
+library.  Should someone feel the need.
 
 Let's leave the existing EXTERN macro as-is and just make a new one called TCL_EXTERN to support the new behavior.
-
-MinGW has a small adjustment to support ''__cdecl'' as I found leafing
-through the winapi headers.  So, I replaced it with
-''__attribute__((cdecl))'' in a #define.
 
 Karl Lembuaer (sp?) did a presentation @ OSCON regarding his recent
 tinytcl project ''%TODO: add link here%'' about his DOS port of Tcl
@@ -89,17 +85,17 @@ Is>
 
 |	EXTERN int Foobar_Init (Tcl_Interp *interp);
 
-Want>
+Proposed>
 
 |	TCL_EXTERN(int) Foobar_Init (Tcl_Interp *interp);
 
 ~ Reference Implementation
 
-http://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=30219&aid=436116
+https://sourceforge.net/tracker/download.php?group_id=10894&atid=310894&file_id=70480&aid=436116
 
 ~ Examples
 
-Was:
+Is:
 
 |EXTERN int
 |Foobar_Init (Tcl_Interp *interp)
@@ -131,7 +127,7 @@ Preprocessor output is the following:
 
  >	Borland:
 
-|/* foobar.c 14: */extern  int __export __cdecl
+|/* foobar.c 14: */extern  int __export
 |/* foobar.c 15: */Foobar_Init (Tcl_Interp *interp)
 |/* foobar.c 16: */{
 |/* foobar.c 17: */
@@ -145,7 +141,7 @@ Preprocessor output is the following:
 
  >	VC++:
 
-|extern  __declspec(dllexport) int __cdecl
+|extern  __declspec(dllexport) int
 |Foobar_Init (Tcl_Interp *interp)
 |{
 |
