@@ -1,9 +1,10 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
+Author:          <dgp@user.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -149,7 +150,7 @@ assigned:
 
    43. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   44. ''Bytecodes'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   44. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
    45. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
                       Daniel Steffen <das@users.sourceforge.net> (Mac),
@@ -175,7 +176,7 @@ assigned:
 
    50. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   51. ''resource Command'' - Daniel Steffen <das@users.sourceforge.net>
+   51. ''[[resource]]'' - Daniel Steffen <das@users.sourceforge.net>
                       Jim Ingham <jingham@apple.com>
 
    52. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
