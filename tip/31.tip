@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -136,7 +136,7 @@ branch, or they may be rejected.
 
    * ''dkf-64bit-support-branch'' (Tcl) - Work on supporting 64-bit
      numbers, particularly on 32-bit platforms (including large file
-     support.)
+     support.)  See [72] for overview.
 
    * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
      Kupries and the platform maintainers on implementing [59].
@@ -149,11 +149,11 @@ longer being spawned.  Others are feature development branches that
 have been merged into an official branch, or rejected.
 
    * ''kennykb-tip-22-33'' (Tcl) - Work on implementing the changes
-     described in TIP's #22 and #33.  Abandoned.
+     described in [22] and [33].  Abandoned.
 
    * ''dgp-privates-into-namespace'' (Tk) - Work on moving Tk's private
-     commands and variables into the ::tk namespace and its children.
-     Merged into Tk 8.4a3.
+     commands and variables into the ::tk namespace and its children
+     (see [44].)  Merged into Tk 8.4a3.
 
    * ''core-8-3-1-io-rewrite'' (Tcl) - Work rewriting Tcl's IO Channels
      to correct problems with the implementation of stacked channels.
