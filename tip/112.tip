@@ -1,10 +1,10 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.25 $
+Version:        $Revision: 2.26 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        10-Oct-2002
 Post-History:   
 Tcl-Version:    8.5
