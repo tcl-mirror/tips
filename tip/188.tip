@@ -1,0 +1,48 @@
+TIP:		188
+Title:		Add 'string is wide' to the 'string is' Subcommand
+Version:	$Revision: 1.1 $
+Author:		Kevin Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	23-Apr-2004
+Tcl-Version:	8.5
+Discussions-To:	news:comp.lang.tcl
+Post-History:	
+Keywords:	Tcl
+
+~ Abstract
+
+The '''string''' command supports tests for a number of Tcl's basic
+types, for example, integers, doubles, and booleans.  This TIP
+proposes adding wide integers.
+
+~ Rationale
+
+The '''string''' command includes tests for the common Tcl types:
+'''string is boolean''', '''string is double''' and '''string is
+integer'''.  Unaccountably, '''string is wide''' is missing from the
+list, making it difficult for an input validation procedure to
+determine whether, in fact, a string contains a valid wide integer.
+
+~ Specification
+
+This document proposes augmenting the '''string is''' command with a
+'''string is wide''' that functions the same as '''string is
+integer''' in every respect except for the fact that it accepts any
+string containing a substring that is valid as a wide integer (that
+is, acceptable to ''Tcl_GetWideIntFromObj'') possibly surrounded by
+whitespace.
+
+~ Reference Implementation
+
+Patches that implement '''string is wide''', provide test cases for
+it, and update ''doc/string.n'' to include it are available at
+SourceForge as Tcl feature request
+#940915[http://sf.net/tracker/?func=detail&atid=360894&aid=940915&group_id=10894].
+
+~ Copyright
+
+Copyright 2004, by Kevin B. Kenny.  Redistribution permitted under the
+terms of the Open Publication License
+[http://www.opencontent.org/openpub/].
