@@ -1,6 +1,6 @@
 TIP:            100
 Title:          Add Support for Unloading Dynamic Libraries Loaded with [load]
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         George Petasis <petasis@iit.demokritos.gr>
 State:          Draft
 Type:           Project
@@ -237,12 +237,19 @@ This document has been placed in the public domain.
      KEYWORDS
 
 NAME
+
 unload - Unload machine code.
+
 SYNOPSIS
+
 unload ?switches? fileName
+
 unload ?switches? fileName packageName
+
 unload ?switches? fileName packageName interp
+
 DESCRIPTION
+
 This command tries to unload shared libraries previously
 loaded with load from the application's address space.
 fileName is the name of the file containing the library
@@ -254,20 +261,25 @@ interpreter from which to unload the package (see the
 interp manual entry for details); if interp is omitted,
 it defaults to the interpreter in which the unload
 command was invoked.
+
 If the initial arguments to unload start with - then they
 are treated as switches. The following switches are
 currently supported:
+
 -nocomplain
      Supresses all error messages. If this switch is
      given unload will never report an error.
+
 -keeplibrary
      This switch will prevent unload from issuing the
      operating system call that will unload the library
      from the process.
-- -
+
+--
      Marks the end of switches. The argument following
      this one will be treated as a fileName even if it
      starts with a -.
+
 When a file containing a shared library is loaded through
 the load command, Tcl associates two reference counts to
 the library file. The first counter shows how many times
@@ -279,6 +291,7 @@ by Tcl (with the first load call on the file), these
 counters track how many interpreters use the library.
 Each subsequent call to load after the first, simply
 increaments the proper reference count.
+
 unload works in the opposite direction. As a first step,
 unload will check whether the library is unloadable: an
 unloadable library exports a special unload procedure.
@@ -293,6 +306,7 @@ packageName is foo or FOo, the initialization procedure's
 name will be Foo_Unload. If the target interpreter is a
 safe interpreter, then the name of the initialization
 procedure will be pkg_SafeUnload instead of pkg_Unload.
+
 If unload determines that a library is not unloadable (or
 unload functionality has been disabled during
 compilation), an error will be returned. If the library
@@ -302,9 +316,11 @@ will proceed and decrease the proper reference count
 (depending on the target interpreter type). When both
 reference counts have reached 0, the library will be
 detached from the process.
+
 The unload procedure must match the following prototype:
 typedef int Tcl_PackageUnloadProc(Tcl_Interp *interp, int
 flags);
+
 The interp argument identifies the interpreter from which
 the library is to be unloaded. The unload procedure must
 return TCL_OK or TCL_ERROR to indicate whether or not it
@@ -323,6 +339,7 @@ target interpreter and the library will be detached from
 the application as soon as the unload procedure returns,
 the flags argument will be set to
 TCL_UNLOAD_DETACH_FROM_PROCESS.
+
 The unload command cannot unload libraries that are
 statically linked with the application. If fileName is an
 empty string, then packageName must be specified.
@@ -336,15 +353,20 @@ alphabetic and underline characters as the module name.
 For example, the command unload libxyz4.2.so uses the
 module name xyz and the command unload bin/last.so {}
 uses the module name last.
+
 PORTABILITY ISSUES
+
 Unix
      Not all unix operating systems support library
      unloading. Under such an operating system unload
      returns an error (unless -nocomplain has been
      specified).
+
 Macintosh
      <Somebody to comment on this?>
+
 BUGS
+
 If the same file is loaded by different fileNames, it
 will be loaded into the process's address space multiple
 times. The behavior of this varies from system to system
@@ -355,7 +377,11 @@ is still loaded), it may be dangerous to use unload on
 such a library (as the library will be completely
 detached from the application while some interpreters
 will continue to use it).
+
 SEE ALSO
+
 info sharedlibextension, load, safe
+
 KEYWORDS
+
 binary code, unloading, safe interpreter, shared library
