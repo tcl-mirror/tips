@@ -1,0 +1,41 @@
+TIP:		102
+Title:		Change [trace list] to [trace info]
+Author:		Reinhard Max <max@suse.de>
+Type:		Project
+Tcl-Version:	8.4
+State:		Draft
+Created:	12-Jun-2002
+Keywords:	trace, info, introspection
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to change the name of the introspection subcommand
+of the ''trace'' command from ''list'' to ''info''.
+
+~ Rationale
+
+Although the functionality of the ''trace'' command (as extended by
+[62]) is good, the name of the introspection subcommand, ''list'' is
+not such a good choice:
+
+ * The name ''info'' is already well known for introspection purposes
+   in Tcl (e.g. [[info]] and [[after info]].)
+
+ * The name [[trace list]] could be misunderstood as having to do with
+   tracing lists.
+
+ * The introspection subcommand to trace could be extended to allow
+   more specific queries along the lines of [[info commands]], [[info
+   procs]], and [[info vars]].  ''(This is outside the scope of this
+   TIP.)''
+
+Hence, this TIP calls for the ''list'' subcommand to be renamed to
+''info''.  (Note that this also makes the subcommand for introspecting
+on variable traces more similar to its old form ''vinfo''.)
+
+~ Copyright
+
+This document is placed in the public domain.
