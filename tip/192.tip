@@ -1,19 +1,20 @@
-TIP:		192
-Title:		Lazy Lists
-State:		Draft
-Type:		Project
-Tcl-Version:	9.0
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Salvatore Sanfilippo <antirez@invece.org>
-Created:	27-Mar-2004
-Keywords:	Tcl
+TIP:            192
+Title:          Lazy Lists
+Version:        $Revision: 1.2 $
+Author:         Salvatore Sanfilippo <antirez@invece.org>
+Author:         Theo Verelst <theover@tiscali.nl>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Mar-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    9.0
 
 ~ Abstract
 
 This TIP proposes to add a new command to generate lists of ''N''
-elements, where the ''i''-th element is the computed as the result of
+elements, where the ''i''-th element is computed as the result of
 an unary Tcl procedure with ''i'' as itsargument. Implementing special
 handling for this kind of lists inside the Tcl core will allow
 generation of lists in a ''lazy'' way.  This TIP's goal is not to
