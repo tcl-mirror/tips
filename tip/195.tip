@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -151,6 +151,10 @@ Tcl_GetIndexFromObj.
 Peter Spjuth: Other ways to do '''-exact''' doesn't give the
 standardized error message so it has some value for those that want
 that functionality.  The Core uses TCL_EXACT in a few places where it makes sense so the flag can be useful.
+
+~ Reference Implementation
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=1040206&group_id=10894&atid=310894
 
 ~ Copyright
 
