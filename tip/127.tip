@@ -1,6 +1,6 @@
 TIP:            127
 Title:          Add an -index Option to [lsearch]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
 Author:         <BNDAR_27_SA@YAHOO.COM>
 State:          Draft
@@ -68,7 +68,7 @@ For example:
 |        }
 |     }
 |
-|   lsearch -index {1 0} $record "Elvis"
+|   lsearch -index {0 0} $record "Elvis"
 
 returns ''1''.
 
