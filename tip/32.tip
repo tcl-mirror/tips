@@ -1,6 +1,6 @@
 TIP:            32
 Title:          Add Tcl_Obj support to traces
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -90,7 +90,6 @@ The following functions shall be added to the Tcl core:
     argument is the callback procedure to execute each time a Tcl command
     is evaluated; it is expected to have arguments and result type that
     match ''Tcl_CmdObjTraceProc'' below.  The ''clientData'' argument is
-
     client data to pass to the ''objProc'' callback.  Finally, the
     ''flags'' argument gives flags that control the tracing.  Initially,
     the only flag supported will be ''TCL_ALLOW_INLINE_COMPILE''.  If this
