@@ -1,6 +1,6 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
 State:          Draft
@@ -26,7 +26,9 @@ promote the full use of existing error codes.  Wrapper procedures can
 be written to improve on this, however both a performance and
 compatibility penalty is incurred.
 
-This TIP proposes adding a try/catch command to the Tcl core (or C based Tcl library). This implementation is not unlike those found in C++, C#, Java and Python (to name a few).
+This TIP proposes adding a try/catch command to the Tcl core (or C based
+Tcl library).  This implementation is not unlike those found in C++, C#,
+Java and Python (to name a few).
 
 ~ Specification
 
@@ -34,38 +36,35 @@ I propose the following two commands be added to Tcl:
 
 ''throw'' statement
 
-|    throw ?<type> ?<message>??
+|    throw ?<type> ?<message>? ?<info>?
 
  > A ''throw'' statement with ''type'' throws an error exception with
    the errorCode ''type''. The ''throw'' statement works as the
    ''error'' statement, but the arguments are reordered to encourage
-   the use of errorCodes.
+   the use of errorCodes. The optional ''message'' and ''info'' parameters
+   work as they do in the ''error'' statement.
 
- > The throw ''type'' is that set in errorCode, any user defined type,
+ > The throw ''type'' can be any user defined or built in type,
    built-in types include POSIX, ARITH, CORE, REGEXP, WINDOWS , NONE,
-   ...  The message is optional, and is the same as that issued by the
+   ...  The ''message'' is optional, and is the same as that issued by the
    catch command, error -code error "message"
 
  > An instance of ''throw'' with no arguments can be used within a
-   ''catch'' or ''finally'' block to immediately re-throw the current
+   ''catch'' block to immediately re-throw the current
    exception that is being handled by the ''catch'' block.  When an
    error is re-thrown in the catch block, the current error is
    propagated up one level following the evaluation of the ''finally''
-   block (if on exists).  If the error is re-thrown in a ''finally''
-   block, the error is immediately propagated up one level.  When an
-   exception is re-thrown, control is transferred to the first
-   ''catch'' clause in an enclosing ''try'' statement that can handle
-   the exception.
+   block (if on exists). Surround error handlers can then deal with the error.
 
-|    throw type message
+|    throw type message info
 
  > is the same as
 
-|    error message "" type
+|    error message info type
 
 ''try'' statement
 
-|    try body ?catch {type ?var?} body ...? ?finally body?"
+|    try body ?catch {{type_list} ?ecvar? ?msgvar? ?infovar?} body ...? ?finally body?"
 
  > If one or more ''catch'' blocks are specified, each corresponding
    ''body'' represents a required block of code that is evaluated if
@@ -73,35 +72,41 @@ I propose the following two commands be added to Tcl:
    required body of the ''finally'' block is evaluated following the
    ''try'' block and ''catch'' block.
 
- > If no ''catch'' blocks are specified, the error is consumed with
-   execution immediately resuming at the start of the ''finally''
+>  ''type_list'' represents a list of glob style patterns used to match eache
+   of the errorCode list conditions.  A match is declared if the type_list
+   patterns or errorCode elements are exhausted (whichever comes first) and a
+   mismatch has not occurred.  If a match occurs, and ''ecvar'' is specified,
+   the errorCode list will be stored in ''ecvar'' within the local
+   scope prior to executing the ''body''. Moreover, if a ''msgvar'' or ''infovar''
+   are specified, the error message and errorInfo contents will be stored in
+   the local context.
+
+ > If an error occurs during the try, and no ''catch'' blocks are specified,
+   the offending error is rethrown following execution of the ''finally''
    block (if specified).
 
- > ''type'' represents a glob style pattern used to match the
-   errorCode condition.
-   If a match occurs, and ''var'' is specified, the current error
-   message will be stored in ''var'' within the local scope prior to
-   executing the ''body''.
+ > If an error occurs during execution of a catch or finally block, this
+   error will take precedence and will propagate upwards with a new stack
+   trace. If an error is rethrown within a catch block, the existing
+   stack trace will be preserved with the rethrown error. This allows
+   later discrimination of the two different error conditions (rethrown
+   vs. unintended).
+
    Note, ''catch {*}'', if specified, will catch all remaining errors.
    If used, it should be placed last since each of the catch blocks are
-   evaluated in the order specified. ''type'' is that set in 
+   evaluated in the order specified. ''type'' is that set in
    errorCode, and can be any user defined type, or built-in types
-   including POSIX*, ARITH*, CHILD*, CORE, REGEXP, WINDOWS, or NONE.
+   including POSIX *, ARITH *, CHILD *, CORE, REGEXP, WINDOWS, or NONE.
 
  > If one or more ''catch'' blocks are specified, and no ''catch''
    block matches the errorCode condition, the error will be propagated
    up to the next level following evaluation of the ''finally'' clause
    (if specified).  An enclosing ''try'' block (or ''catch'' command)
-   can then be used handle the error.
-
- > ''var'' is optional, and if specified holds the same string as that
-   issued by the ''catch {body} var'' command or returned with
-
-|    return -code error "message"
+   can then be used to handle the error.
 
  > The ''finally'' block is used to perform all the clean up code.
    The ''finally'' body is evaluated whether the error occurs or not,
-   or if a ''catch'' block matched the errorCode.  It is also
+   or whether a ''catch'' block matched the errorCode.  It is also
    evaluated if a ''throw'' statement occurs within the ''catch''
    clause.
 
@@ -121,7 +126,7 @@ I propose the following two commands be added to Tcl:
 
 |    try {
 |       incr i
-|    } catch {*} {
+|    } catch * {
 |       set i 0
 |    }
 
@@ -137,49 +142,520 @@ I propose the following two commands be added to Tcl:
 ''try - catch - catch ''
 
 |    try {
-|	;# Some code that will cause an error
-|    } catch {"POSIX*" result} {
-|	;# Statements to handle POSIX type errors
-|    } catch {NULL result} {
-|	;# Statements to handle NULL (a user created) type errors
-|    } catch {* result} {
-|	;# Statements to handle all other errors
+|       ;# Some code that will cause an error
+|    } catch {{POSIX *} eCode eMessage} {
+|       ;# Statements to handle POSIX type errors
+|    } catch {NULL eCode eMessage} {
+|       ;# Statements to handle NULL (a user created) type errors
+|    } catch {* eMessage} {
+|       ;# Statements to handle all other errors
 |    }
 
 ''try - catch - catch - finally ''
 
 |    try {
-|	;# Some code that will cause an error
-|    } catch {"POSIX*" result} {
-|	;# Statements to handle POSIX type errors
-|    } catch {* result} {
-|	;# Statements to handle all other errors
+|       ;# Some code that will cause an error
+|    } catch {POSIX eCode eMessage} {
+|       ;# Statements to handle POSIX type errors
+|    } catch {* eCode eMessage} {
+|       ;# Statements to handle all other errors
 |    } finally {
-|	;# Statements to execute whether an error occurred or not
+|       ;# Statements to execute whether an error occurred or not
 |    }
 
 Re-throw ''try - catch - finally ''
 
 |    try {
-|	try {
-|	   set b [expr {$a/0}]
-|	} catch {ARITH*} {
-|	   if {$a == 0} {
-|	      throw   ;# re-throw to outer try
-|	   }
-|	} finally {
-|	   set b 1    ;# will execute before throw above
-|	}
-|    } catch {ARITH* result} {
-|	;# This will catch the inner throw
-|	puts "$res"
+|       try {
+|          set b [expr {$a/0}]
+|       } catch {ARITH} {
+|          if {$a == 0} {
+|             throw   ;# re-throw to outer try
+|          }
+|       } finally {
+|          set b 1    ;# will execute before throw above
+|       }
+|    } catch {ARITH eCode eMessage} {
+|       ;# This will catch the inner throw
+|       puts "$res"
 |    }
+
+~ Revisions : Tom Wilkason March 26, 2002
+> Added additional ''ecvar'' and ''infovar'' optional arguments to the catch
+  statement.
+> All uncaught errors are propagated up after execution of the finally block
+  (if specified).
+> Unanticipated errors within a catch or finally block start a new stack trace
+  and are propagated up.
+> Additional ''info'' optional argument added to throw for completeness.
 
 ~ Reference Implementation
 
-This implementation is based on Frank Pilhofer's ''combat:try'' which
-is part of the Tcl Combat/Corba extension.  Glob style match typing
-has been added and the nested throws have been added ala C#.
+| /*
+|  * Implementation of try/catch and throw commands according to TIP 89
+|  */
+|
+| #include <tcl.h>
+|
+| /*
+|  * We keep a stack of contexts; whenever we have to handle an error,
+|  * i.e. are executing a catch {} clause, we store the current error
+|  * (errorCode, errorInfo and message), so that a throw with no arguments
+|  * can re-throw it.
+|  *
+|  * This is interpreter-specific data. Each element is a list, with the
+|  * last element being the most current one.
+|  */
+|
+| typedef struct {
+|   Tcl_Obj * errorCodeStack;
+|   Tcl_Obj * errorInfoStack;
+|   Tcl_Obj * errorMsgStack;
+|   Tcl_Obj * errorCodeName;
+|   Tcl_Obj * errorInfoName;
+| } TryCatchTsd;
+|
+| /*
+|  * Throw an Exception
+|  *
+|  * throw ?<type> ?<message>? ?<info>??
+|  *
+|  * Throws an exception with the errorCode <type>, the message <message>
+|  * and the errorInfo <info>.
+|  *
+|  * An instance of throw with no arguments can be used within a catch or
+|  * finally block to immediately re-throw the current exception that is
+|  * being handled by the catch block.
+|  */
+|
+| static int
+| Tcl_ThrowObjCmd (ClientData clientData, Tcl_Interp *interp,
+|                  int objc, Tcl_Obj *CONST objv[])
+| {
+|   TryCatchTsd * myTsd = (TryCatchTsd *) clientData;
+|
+|   if (objc < 1 || objc > 4) {
+|     Tcl_AppendResult (interp, "wrong # args: should be \"",
+|                       Tcl_GetStringFromObj (objv[0], NULL),
+|                       " ?<type> ?<message>? ?<info>??\"", NULL);
+|     return TCL_ERROR;
+|   }
+|
+|   /*
+|    * Re-throw an error
+|    */
+|
+|   if (objc < 2) {
+|     Tcl_Obj *errorCode, *errorInfo, *errorMsg;
+|     int lastelement;
+|
+|     Tcl_ListObjLength (interp, myTsd->errorMsgStack, &lastelement);
+|
+|     if (lastelement < 1) {
+|       Tcl_AppendResult (interp, "error: throw with no parameters ",
+|                         "outside of a catch",
+|                         NULL);
+|       return TCL_ERROR;
+|     }
+|
+|     lastelement--;
+|     Tcl_ListObjIndex (interp, myTsd->errorMsgStack,
+|                       lastelement, &errorMsg);
+|     Tcl_ListObjIndex (interp, myTsd->errorCodeStack,
+|                       lastelement, &errorCode);
+|     Tcl_ListObjIndex (interp, myTsd->errorInfoStack,
+|                       lastelement, &errorInfo);
+|
+|     Tcl_ResetResult (interp);
+|     Tcl_SetObjResult (interp, errorMsg);
+|     Tcl_SetObjErrorCode (interp, errorCode);
+|
+| #ifdef _TCLINT
+|     Tcl_ObjSetVar2 (interp, myTsd->errorInfoName, NULL, errorInfo,
+|                     TCL_GLOBAL_ONLY);
+|     interp->flags = ERR_IN_PROGRESS;
+| #else
+|     Tcl_AddErrorInfo (interp, Tcl_GetStringFromObj (errorInfo, NULL));
+| #endif
+|     return TCL_ERROR;
+|   }
+|
+|   /*
+|    * throw with parameters
+|    */
+|
+|   Tcl_ResetResult (interp);
+|
+|   if (objc >= 3) {
+|     Tcl_SetObjResult (interp, objv[2]);
+|   } else {
+|     /*
+|      * fabricate some error message for human consumption
+|      */
+|
+|     Tcl_AppendResult (interp, "error: ",
+|                       Tcl_GetStringFromObj (objv[1], NULL),
+|                       NULL);
+|   }
+|
+|   Tcl_SetObjErrorCode (interp, objv[1]);
+|
+|   if (objc >= 4) {
+| #ifdef _TCLINT
+|     Tcl_ObjSetVar2 (interp, myTsd->errorInfoName, NULL, objv[3],
+|                     TCL_GLOBAL_ONLY);
+|     interp->flags = ERR_IN_PROGRESS;
+| #else
+|     Tcl_AddErrorInfo (interp, Tcl_GetStringFromObj (objv[3], NULL));
+| #endif
+|   }
+|
+|   /*
+|    * throw error
+|    */
+|
+|   return TCL_ERROR;
+| }
+|
+| /*
+|  * exception handling
+|  *
+|  * try body ?catch {type-list ?ecvar? ?msgvar? ?infovar?} body ...?
+|  *          ?finally body?
+|  */
+|
+| static int
+| Tcl_TryObjCmd (ClientData clientData, Tcl_Interp *interp,
+|                int objc, Tcl_Obj *CONST objv[])
+| {
+|   TryCatchTsd * myTsd = (TryCatchTsd *) clientData;
+|   int currentIndex, finallyIndex, catchInfoLength, hasCatch;
+|   char * blockType;
+|   int res;
+|
+|   /*
+|    * first check for syntactic correctness before doing anything
+|    */
+|
+|   if (objc < 2) {
+|     Tcl_AppendResult (interp, "wrong # args: should be \"",
+|                       Tcl_GetStringFromObj (objv[0], NULL),
+|                       " body ",
+|                       "?catch {type-list ?ecvar? ?msgvar? ?infovar?} ",
+|                       "body ...? ",
+|                       "?finally body?\"", NULL);
+|     return TCL_ERROR;
+|   }
+|
+|   currentIndex = 2;
+|   finallyIndex = -1;
+|   hasCatch = 0;
+|
+|   while (currentIndex < objc) {
+|     blockType = Tcl_GetStringFromObj (objv[currentIndex], NULL);
+|
+|     if (strcmp (blockType, "catch") == 0) {
+|       Tcl_Obj * typeList;
+|       int typeListLength;
+|
+|       if (currentIndex+2 >= objc ||
+|           Tcl_ListObjLength (interp, objv[currentIndex+1],
+|                              &catchInfoLength) != TCL_OK ||
+|           (catchInfoLength < 1 && catchInfoLength > 4) ||
+|           Tcl_ListObjIndex (interp, objv[currentIndex+1],
+|                             0, &typeList) != TCL_OK ||
+|           Tcl_ListObjLength (interp, typeList,
+|                              &typeListLength) != TCL_OK) {
+|         Tcl_AppendResult (interp, "invalid syntax in catch clause: ",
+|                           "should be \"",
+|                           "catch {type-list ?ecvar? ?msgvar? ?infovar?} ",
+|                           "body\"", NULL);
+|         return TCL_ERROR;
+|       }
+|       hasCatch = 1;
+|       currentIndex += 3;
+|     }
+|     else if (strcmp (blockType, "finally") == 0) {
+|       if (currentIndex+2 != objc) {
+|         Tcl_AppendResult (interp, "trailing args after finally clause",
+|                           NULL);
+|         return TCL_ERROR;
+|       }
+|       finallyIndex = currentIndex;
+|       currentIndex += 2;
+|     }
+|     else {
+|       Tcl_AppendResult (interp, "invalid syntax: should be \"",
+|                         Tcl_GetStringFromObj (objv[0], NULL),
+|                         " body ",
+|                         "?catch {type-list ?ecvar? ?msgvar? ?infovar?} ",
+|                         "body ...? ",
+|                         "?finally body?\"", NULL);
+|       return TCL_ERROR;
+|     }
+|   }
+|
+|   /*
+|    * Eval main body
+|    */
+|
+|   res = Tcl_EvalObjEx (interp, objv[1], 0);
+|
+|   /*
+|    * In case of error, check the catch clauses
+|    */
+|
+|   if (res == TCL_ERROR) {
+|     Tcl_Obj *errorCode, *errorInfo, *errorMsg;
+|     int errorCodeLength, stackLength;
+|
+|     errorMsg = Tcl_GetObjResult (interp);
+|     errorCode = Tcl_ObjGetVar2 (interp, myTsd->errorCodeName, NULL,
+|                                 TCL_GLOBAL_ONLY);
+|     errorInfo = Tcl_ObjGetVar2 (interp, myTsd->errorInfoName, NULL,
+|                                 TCL_GLOBAL_ONLY);
+|
+|     /*
+|      * After an error has happened, errorCode and errorInfo should
+|      * exist.
+|      */
+|
+|     if (errorCode == NULL || errorInfo == NULL) {
+|       Tcl_AppendResult (interp, "assertion error in try: ",
+|                         "no errorCode or no errorInfo",
+|                         NULL);
+|       return TCL_ERROR;
+|     }
+|
+|     if (Tcl_ListObjLength (interp, errorCode, &errorCodeLength) != TCL_OK) {
+|       Tcl_AppendResult (interp, "assertion error in try: "
+|                         "errorCode is not a list",
+|                         NULL);
+|       return TCL_ERROR;
+|     }
+|
+|     /*
+|      * push error data on stack, so that throw can rethrow the error
+|      */
+|
+|     Tcl_ListObjAppendElement (interp, myTsd->errorMsgStack, errorMsg);
+|     Tcl_ListObjAppendElement (interp, myTsd->errorCodeStack, errorCode);
+|     Tcl_ListObjAppendElement (interp, myTsd->errorInfoStack, errorInfo);
+|
+|     /*
+|      * Look for a matching clause
+|      */
+|
+|     currentIndex = 2;
+|
+|     while (currentIndex < objc) {
+|       blockType = Tcl_GetStringFromObj (objv[currentIndex], NULL);
+|
+|       if (strcmp (blockType, "catch") == 0) {
+|         int typeListLength, matchIndex;
+|         Tcl_Obj *typeList;
+|
+|         Tcl_ListObjIndex  (interp, objv[currentIndex+1], 0, &typeList);
+|         Tcl_ListObjLength (interp, typeList, &typeListLength);
+|
+|         if (typeListLength > errorCodeLength) {
+|           currentIndex += 3;
+|           continue;
+|         }
+|
+|         for (matchIndex=0; matchIndex<typeListLength; matchIndex++) {
+|           Tcl_Obj *errorCodeItem, *typeListItem;
+|           const char *errorCodeItemStr, *typeListItemStr;
+|
+|           Tcl_ListObjIndex (interp, errorCode, matchIndex, &errorCodeItem);
+|           Tcl_ListObjIndex (interp, typeList, matchIndex, &typeListItem);
+|
+|           errorCodeItemStr = Tcl_GetStringFromObj (errorCodeItem, NULL);
+|           typeListItemStr = Tcl_GetStringFromObj (typeListItem, NULL);
+|
+|           if (!Tcl_StringMatch (errorCodeItemStr, typeListItemStr)) {
+|             break;
+|           }
+|         }
+|
+|         if (matchIndex >= typeListLength) {
+|           /* matching catch clause found */
+|           break;
+|         }
+|
+|         /* continue looking */
+|         currentIndex += 3;
+|       }
+|       else {
+|         /* not a catch clause - there are no matching catch clauses */
+|         currentIndex = objc;
+|         break;
+|       }
+|     }
+|
+|     /*
+|      * Did we find a matching catch clause?
+|      */
+|
+|     if (currentIndex < objc) {
+|       Tcl_Obj *ecvar, *msgvar, *infovar;
+|
+|       Tcl_ListObjLength (interp, objv[currentIndex+1], &catchInfoLength);
+|
+|       /*
+|        * set variables with error data
+|        */
+|
+|       if (catchInfoLength >= 2) {
+|         Tcl_ListObjIndex (interp, objv[currentIndex+1], 1, &ecvar);
+|         Tcl_ObjSetVar2 (interp, ecvar, NULL, errorCode, 0);
+|       }
+|
+|       if (catchInfoLength >= 3) {
+|         Tcl_ListObjIndex (interp, objv[currentIndex+1], 2, &msgvar);
+|         Tcl_ObjSetVar2 (interp, msgvar, NULL, errorMsg, 0);
+|       }
+|
+|       if (catchInfoLength >= 4) {
+|         Tcl_ListObjIndex (interp, objv[currentIndex+1], 3, &infovar);
+|         Tcl_ObjSetVar2 (interp, infovar, NULL, errorInfo, 0);
+|       }
+|
+|       /*
+|        * call body; the error code of this body takes precedence
+|        */
+|
+|       res = Tcl_EvalObjEx (interp, objv[currentIndex+2], 0);
+|     }
+|
+|     /*
+|      * pop error data from stack
+|      */
+|
+|     Tcl_ListObjLength (interp, myTsd->errorMsgStack, &stackLength);
+|     stackLength--;
+|     Tcl_ListObjReplace (interp, myTsd->errorMsgStack,
+|                         stackLength, 1, 0, NULL);
+|     Tcl_ListObjReplace (interp, myTsd->errorCodeStack,
+|                         stackLength, 1, 0, NULL);
+|     Tcl_ListObjReplace (interp, myTsd->errorInfoStack,
+|                         stackLength, 1, 0, NULL);
+|   }
+|
+|   /*
+|    * Execute finally body. Preserve errorCode and friends; they might
+|    * be corrupted by the code in the body - e.g. by a try in the code,
+|    * or in a proc called by the code.
+|    */
+|
+|   if (finallyIndex != -1) {
+|     Tcl_Obj *errorCode, *errorInfo, *errorMsg;
+|     int finallyres, origres=res;
+|
+|     errorMsg = Tcl_GetObjResult (interp);
+|     Tcl_IncrRefCount (errorMsg);
+|
+|     if (origres == TCL_ERROR) {
+|       errorCode = Tcl_ObjGetVar2 (interp, myTsd->errorCodeName, NULL,
+|                                   TCL_GLOBAL_ONLY);
+|       errorInfo = Tcl_ObjGetVar2 (interp, myTsd->errorInfoName, NULL,
+|                                   TCL_GLOBAL_ONLY);
+|       Tcl_IncrRefCount (errorCode);
+|       Tcl_IncrRefCount (errorInfo);
+|     }
+|
+|     finallyres = Tcl_EvalObjEx (interp, objv[finallyIndex+1], 0);
+|
+|     /*
+|      * An Error in the finally clause takes precedence, else restore
+|      * previous error data
+|      */
+|
+|     if (finallyres != TCL_OK) {
+|       res = finallyres;
+|     }
+|     else {
+|       Tcl_SetObjResult (interp, errorMsg);
+|
+|       if (origres == TCL_ERROR) {
+|         Tcl_SetObjErrorCode (interp, errorCode);
+| #ifdef _TCLINT
+|         Tcl_ObjSetVar2 (interp, myTsd->errorInfoName, NULL, errorInfo,
+|                         TCL_GLOBAL_ONLY);
+|         interp->flags = ERR_IN_PROGRESS;
+| #else
+|         Tcl_AddErrorInfo (interp, Tcl_GetStringFromObj (errorInfo, NULL));
+| #endif
+|       }
+|     }
+|
+|     Tcl_DecrRefCount (errorMsg);
+|
+|     if (origres == TCL_ERROR) {
+|       Tcl_DecrRefCount (errorCode);
+|       Tcl_DecrRefCount (errorInfo);
+|     }
+|   }
+|
+|   /*
+|    * Pass along return code
+|    */
+|
+|   return res;
+| }
+|
+| /*
+|  * ----------------------------------------------------------------------
+|  *
+|  * "Main" function, install our commands in the Tcl interpreter
+|  *
+|  * ----------------------------------------------------------------------
+|  */
+|
+| #undef TCL_STORAGE_CLASS
+| #define TCL_STORAGE_CLASS DLLEXPORT
+| EXTERN int
+| Trycatch_Init (Tcl_Interp *interp)
+| {
+|   TryCatchTsd * myTsd;
+|
+| #ifdef USE_TCL_STUBS
+|   if (Tcl_InitStubs (interp, TCL_VERSION, 0) == NULL) {
+|     return TCL_ERROR;
+|   }
+| #else
+|   if (Tcl_PkgRequire (interp, "Tcl", TCL_VERSION, 1) == NULL) {
+|     return TCL_ERROR;
+|   }
+| #endif
+|
+|   /*
+|    * Allocate Tsd
+|    */
+|
+|   myTsd = (TryCatchTsd *) Tcl_Alloc (sizeof (TryCatchTsd));
+|   myTsd->errorCodeStack = Tcl_NewObj ();
+|   myTsd->errorInfoStack = Tcl_NewObj ();
+|   myTsd->errorMsgStack  = Tcl_NewObj ();
+|   myTsd->errorCodeName  = Tcl_NewStringObj ("errorCode", -1);
+|   myTsd->errorInfoName  = Tcl_NewStringObj ("errorInfo", -1);
+|
+|   /*
+|    * add commands
+|    */
+|
+|   Tcl_CreateObjCommand (interp, "throw", Tcl_ThrowObjCmd,
+|                         (ClientData) myTsd, NULL);
+|   Tcl_CreateObjCommand (interp, "try", Tcl_TryObjCmd,
+|                         (ClientData) myTsd, NULL);
+|
+|   /*
+|    * Ready
+|    */
+|
+|   Tcl_PkgProvide (interp, "trycatch", "0.1");
+|   return TCL_OK;
+| }
 
 ~ Copyright
 
