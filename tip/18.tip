@@ -1,6 +1,6 @@
 TIP:            18
 Title:          Add Labels to Frames
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -11,8 +11,7 @@ Tcl-Version:    8.4
 
 ~ Abstract
 
-This TIP proposes to add the ability to display a label to the core's
-standard frames.
+This TIP proposes to add a labelled frame widget to Tk.
 
 ~ Introduction
 
@@ -20,8 +19,8 @@ Labelled frames are a common thing in a GUI and the need for them are
 rather clear by the fact that practically every widget package
 implements some version of it.
 
-This proposal wants to give standard frames the ability to display a
-label.  Even though a labelled frame can be built by three frames and label,
+This proposal wants to add simple labelled frames to Tk. Even though a
+labelled frame can be built by three frames and label,
 this requires some skill and a bit work.  I believe such a basic thing
 should be easier and this change would make creating a labelled frame
 as simple as it deserves to be.
@@ -32,16 +31,18 @@ Below is an example of what I mean with a labelled frame.
 
 ~ Specification
 
-The proposed change consists of adding the following options to the
-frame widget.
+A new widget class, labelframe, is added. It works like a frame, with
+the following changes.
 
- -text: Standard option. Default value "".
+These options are added:
 
- -font: Standard option. Default value same as Label widget.
+ -text: Standard option.  Default value "".
 
- -fg:   Standard option. Default value same as Label widget.
+ -font: Standard option.  Default value same as Label widget.
 
- -labelwidget: Specify a widget to use as label. Default value "".
+ -fg: Standard option.  Default value same as Label widget.
+
+ -labelwidget: Specify a widget to use as label.  Default value "".
   This option overrides any -text, -font and -fg setting.  The widget
   used must exist before using it as -labelwidget, and if it is not a
   descendant of the frame it is automatically raised in the stacking
@@ -51,19 +52,28 @@ frame widget.
   ne, en, e, es, se, s, sw, ws, w and wn, listing them clockwise.
   Default value "nw".
 
- -padx, -pady: Standard options. Adds some "air" between the border
-  and the interior of the frame. Default value 0.
+ -padx, -pady: Standard options.  Adds some "air" between the border
+  and the interior of the frame.  Default value 0.
+
+These options changes default values:
+
+-borderwidth, new default value 2.
+-relief, new default value groove.
+
+-padx and -pady are useful in frames and toplevels too, and since
+it is easy and cheap to add them at the same time, this TIP proposes
+to add them there too.
 
 ~ Rationale
 
 My main approach has been to make a simple but still general
-solution.  The most typical usage should be easy, more advanced usage
+solution.  The most typical usage should be really easy, more advanced usage
 possible, and more features should be possible to add later if needed.
 
 Trying to mimic all the abilities of a label widget is rather
 futile.  It leads to code duplication and future updates to the label
 widget would need to be copied too to keep up.  Since the most common label
-is a simple text, the frame only mimics options -text, -font and -fg
+is a simple text, the labelframe only mimics options -text, -font and -fg
 to be able to handle that case in a simple manner.  If you want a more
 advanced label, e.g. with an image or with a checkbutton, you can get
 it with -labelwidget.
@@ -85,20 +95,20 @@ With the most simple implementation, using -labelwidget could be done
 in two ways:
 
 |# Way #1
-|frame .f -relief groove -bd 2
+|labelframe .f
 |label .f.l -text Mupp
 |.f configure -labelwidget .f.l
 
 |# Way #2
 |label .l -text Mupp
-|frame .f -relief groove -bd 2 -labelwidget .l
+|labelframe .f -labelwidget .l
 |raise .l .f
 
 In the first you want the label to be a child but since it has to
-exist, the -labelwidget can't be used on the frame creation line.
+exist, the -labelwidget can't be used on the labelframe creation line.
 
 In the second you try to circumvent it by creating the label first,
-but then you have to raise it above the frame to be visible.
+but then you have to raise it above the labelframe to be visible.
 
 Even though it's just one extra line of code I find it a bit awkward
 when it's so easy to do something about.  The first can be fixed by
@@ -111,23 +121,30 @@ don't have a problem with it, and that is why I chose it.
 
 ~ Alternatives to this TIP
 
-An alternative way to make a labelled frame readily available is to have a
-labelledframe megawidget as part of a standard megawidget library.
+An alternative way to implement a labelled frame is using mega widget
+style with a subframe where children are placed.  This is how current
+widget packages do it.  I think that is an awkward and unnatural way
+to handle such a simple thing as a labelled frame.  The only reason
+to do so is that current limitations in geometry management prevents
+a simpler solution.
 
-I believe that a frame is a frame and should be handled in a similar
-manner no matter how it looks.  If it displays a blue background,
-a border or a label should not matter.  A labelledframe megawidget
-would be different from a frame, the most noticeable difference
-being that you can't pack/grid things directly into the labelledframe,
-instead you have to go via a subframe.  Having the normal frame 
-displaying the label is more consistent and easier for the programmer
+I believe that a labelled frame should work like a normal frame.  That
+it displays a label should not matter more than displaying a border
+or a blue background.  A labelled frame megawidget would be different
+from a frame, the most noticeable difference being that you can't
+pack/grid things directly into the labelled frame,
+instead you have to go via a subframe.  Having the labelled frame work
+like a normal frame is more consistent and easier for the programmer
 at Tcl level.
 
 ~ Implementing
 
-Implementing this is mostly rather straightforward.  The tricky part is
-that a change is needed in geometry management, which introduces a
-slight backward incompatibility.
+Implementing this is mostly rather straightforward.  The labelframe
+will share most code with the frame, just like toplevel and frame
+share code today, and like the spinbox was built on the entry.  The
+tricky part is that limitations in geometry management does not
+leave room for displaying a label.  The changes needed in geometry
+management are simple but introduces a slight backward incompatibility.
 
 The problem is this.  Today a widget can set an internal border
 width.  This defines a uniform width area around the edge of the
@@ -135,8 +152,8 @@ widget that geometry managers should stay away from.  This is not enough
 though, since to display a label the frame needs to get more space on
 one side where it will put the label.  Also, there is no way for a widget
 to affect its own size (anything it says is overridden by pack/grid), so 
-the frame cannot make sure that enough size is requested to make room for
-the label.
+the labelframe cannot make sure that enough size is requested to make
+room for the label.
 
 By adding some more fields to the TkWindow structure, the
 information needed can be transferred to the geometry manager.
@@ -162,10 +179,20 @@ work and thus no one needs to worry about upgrading.
 
 I consider this a minor thing since it wont break any existing
 applications.  The only thing that will break is if someone would try
-to use a geometry manager that is not updated within a frame with a
-label.  And even in that case you can work around it with an extra frame.
+to use a geometry manager that is not updated within a labelframe.  And
+even in that case you can work around it with an extra frame.
 
-~ Rejected implementation alternatives
+~ Rejected alternatives
+
+The ability to display a label could have been given to the normal
+frame by adding the options above to it. Having a new widget class
+has the following advantages:
+
+The separate widget class can have its own default values, and the
+user can control it separately from the frame in the option database.
+
+The normal frame does not need to store all the new options, thus
+saving memory.
 
 For handling of geometry management, some other solutions was regarded.
 
@@ -175,8 +202,13 @@ much extra border to put on that side.  This only saves one field
 and is less general.  For example, it is not possible to implement -padx
 and -pady with this one.
 
-A more complex solution which was featured in revision 1.1 of this
-TIP has also been discarded because it was too complex.
+A more complex solution using callbacks which was featured in revision
+1.1 of this TIP has also been discarded because it was too complex.
+
+It would be possible to do without the minimum requested size fields
+if you give the responsibility to make sure the label has room to
+the GUI programmer. This could be rather awkward though, e.g. when
+making an internationalized application where labels can vary a lot.
 
 ~ Reference Implementation
 
