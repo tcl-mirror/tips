@@ -1,7 +1,8 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -193,6 +194,20 @@ resolved in order to implement its proposals:
    2. Some more eyeballs should look over the reference
       implementation, and some more users should put it through its
       paces before it "goes live".
+
+----
+
+~ Comments from the TCT
+
+ > It might be a good idea to make the Abstract into a seperate <textarea> and
+   treat that specially; I've been applying the rule that a TIP's abstract
+   should be a single paragraph (it is implicit in the way I generate XML for
+   instance) and that would be much easier to enforce through this route.  It
+   would also have the advantage of discouraging people from placing their
+   whole rationale in the abstract - which I've seen in several first drafts by
+   people who shall remain nameless - and prompting the creation of TIPs more in
+   keeping with the general concept of publishable documents.
+   '' - Donal K. Fellows <fellowsd@cs.man.ac.uk>''
 
 ~ Copyright
 
