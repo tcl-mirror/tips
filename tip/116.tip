@@ -1,0 +1,67 @@
+TIP:		116
+Title:		More Safety for Large Images
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.fellows@man.ac.uk>
+Created:	28-Oct-2002
+
+~ Abstract
+
+This TIP alters the C API for Tk's images so that failures to allocate
+sufficient memory for a large image can be handled more gracefully
+than a straight ''panic()''.
+
+~ Rationale
+
+Tk's image mechanism is nice and flexible, but it can run into
+problems with a large image.  If we consider a square image that is
+2000 pixels on each side (such sizes of images are becoming more
+common with the increasing popularity and sophistication of digital
+photography), we find it requires about 16MB of memory to load (4
+million pixels, four bytes per pixel) but obviously just because an
+application fails to load that image (or something even larger), it
+doesn't mean that the best course of action is a ''panic()''-induced
+crash.  Instead, a graceful failure back to the Tcl interpreter would
+allow for scripts to find a way to report this low-memory situation in
+a way that users can understand.
+
+The problem with this is that for many of the routes through the Tk
+image API, there is no way to report a memory allocation failure;
+currently, the only failure mode is total.  This TIP changes this.
+
+~ Proposed Change
+
+I propose making the following functions that currently return
+''void'' return ''int'' instead, with that value being interpreted as
+a standard Tcl return code.  TCL_OK will be returned in the situations
+where these functions return at the moment, and TCL_ERROR will
+indicate a memory-allocation failure.
+
+ * Tk_PhotoExpand
+
+ * Tk_PhotoPutBlock
+
+ * Tk_PhotoPutZoomedBlock
+
+ * Tk_PhotoSetSize
+
+Note that all code that uses these functions must deal with the
+potential failure; if any extension code prefers the existing
+behaviour of ''panic()'' on insufficient memory (e.g. because it
+cannot be simply re-engineered to pass the failure mode on to its
+caller), it should be fairly easy for the extension to add that
+itself.
+
+Also note that as a consequence of this, some image-related Tk
+commands will also gain additional error return situations.  Since
+these all trigger abnormal process termination (and potentially a
+core-dump too) at the moment, this change in behaviour is believed to
+be wholly beneficial.
+
+~ Copyright
+
+This document has been placed in the public domain.
