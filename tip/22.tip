@@ -1,14 +1,16 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         David Cuthbert <dacut@kanga.org>
+Author:		Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
-State:          Withdrawn
+Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        19-Jan-2001
 Post-History:   
-Discussions-To: news:comp.lang.tcl
+Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
 Keywords:       lindex, multiple arguments, sublists
 Tcl-Version:    8.4a2
 
@@ -110,6 +112,8 @@ allow this more-natural style of coding to be written in Tcl.
 
 ~ Comments
 
+''Don Porter <dgp@users.sourceforge.net>''
+
  > I agree that it would be helpful to many programmers to
    provide a multi-dimensional array data structure that can
    be accessed in the manner described in this TIP.  In the
@@ -132,26 +136,35 @@ allow this more-natural style of coding to be written in Tcl.
    with the whole [[listx]] overhaul of Tcl's [[list]] command that
    has been discussed.
 
- > ''Don Porter <dgp@users.sourceforge.net>''
+''Dave Cuthbert <dacut@kanga.org> responds''
 
- > > Don makes a good point -- with a good set of data structures in
-     tcllib, the need for this TIP is lessened or even eliminated.
-     Nonetheless, I see this as a way of implementing the structures
-     he describes.  In other words, a more powerful primitive (which,
-     in reality, adds fairly little complexity when measured in number
-     of lines of code changed) would benefit these structures.
+ > Don makes a good point -- with a good set of data structures in
+   tcllib, the need for this TIP is lessened or even eliminated.
+   Nonetheless, I see this as a way of implementing the structures he
+   describes.  In other words, a more powerful primitive (which, in
+   reality, adds fairly little complexity when measured in number of
+   lines of code changed) would benefit these structures.
 
- > > As for the [[listx]] overhaul, there are many competing proposals
-     for the specification it is difficult to come up with a metric.
-     In writing this TIP, I assumed a vacuum -- that is, a listx
-     command would not be added to the core in the near future.
+ > As for the [[listx]] overhaul, there are many competing proposals
+   for the specification it is difficult to come up with a metric.  In
+   writing this TIP, I assumed a vacuum -- that is, a listx command
+   would not be added to the core in the near future.
 
- > > ''Dave Cuthbert <dacut@kanga.org>''
+''Donal K. Fellows <fellowsd@cs.man.ac.uk> points out''
+
+ > Although there is tcllib and [[listx]] to think about, they are
+   certainly not reasons for rejecting this TIP out of hand.  The
+   availability of tcllib is not currently anything like universal
+   (not stating whether this is a good, bad or ugly thing) and all the
+   [[listx]] work will need its own TIP to make it into the core (you
+   tend to have availability problems if it is an extension.)  It is
+   not as if the core is short of syntactic sugar right now (the
+   [[foreach]] command is ample demonstration of this.)
 
 ----
 
- > There was quite a discussion on comp.lang.tcl about using lindex
-   to return multiple arguments.  For example:
+There was quite a discussion on news:comp.lang.tcl about using lindex
+to return multiple arguments.  For example:
 
 | % set list {a {b1 b2} c d e}
 | % lindex $list 1
@@ -161,16 +174,38 @@ allow this more-natural style of coding to be written in Tcl.
 | % lindex $list {1 0}
 | b1
 
- > In other words, the list index arguments can, themselves, be lists.
-   Only when the argument is a list would the "recursive selection"
-   procedure of the TIP be used.  For multiple arguments, the behaviour
-   is akin to
+In other words, the list index arguments can, themselves, be lists.
+Only when the argument is a list would the "recursive selection"
+procedure of the TIP be used.  For multiple arguments, the behaviour
+is akin to
 
-| lindex $list a b c  ->  list [lindex $list a] [lindex $list b] [lindex $list c]
+| lindex $list a b c  ->
+|      list [lindex $list a] [lindex $list b] [lindex $list c]
 
- > ''Summarised by Dave Cuthbert <dacut@kanga.org>''
+''Summarised by Dave Cuthbert <dacut@kanga.org>''
+
+''Donal K. Fellows <fellowsd@cs.man.ac.uk> points out''
+
+ > The problems with the above version of multiple indexing are that
+   it loses the property that [[lindex]] always returns a single
+   element (making writing robust code harder) and that it forces use
+   of the [[list]] constructor a lot or inefficient type handling when
+   some of the indices must be computed.  Then there is the whole
+   question of what happens when you have indexes that are lists of
+   lists, which is a major can of worms.
+
+ > Luckily, we could always put this sort of behaviour into a separate
+   command (e.g. called [[lselect]]) which addresses at least the
+   majority of my concerns, and which (in my opinion) need not even
+   form part of this TIP.
 
 ----
+
+~ Notes on History of this TIP
+
+''This TIP was originally written by Dave Cuthbert <dacut@kanga.org>,
+but ownership has passed (beginning of April) to Kevin Kenny
+<kennykb@acm.org>.''
 
 ~ Copyright
 
