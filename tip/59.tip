@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -69,12 +69,14 @@ Thus, this TIP proposes:
 The file ''tclConfig.sh'' is ''not'' replaced by this system, both
 sets of information exist in parallel.
 
+Neither is the variable ''tcl_platform'' replaced. This means that some information, like ''threaded'', is held redundantly. Other information in ''tcl_platform'', like ''user'' is runtime and not configuration information. The operating system information is important to a build system, but this is out of the scope of this TIP.
+
 ~ Interface Specification
 
 Any embedded information is made accessible at the Tcl level through a
 new command. The name of the command used by Tcl itself is
-''::tcl::config''. Extensions have to use their own commands. These
-commands will be named ''config'' too and have to be placed within in
+''::tcl::pkgconfig''. Extensions have to use their own commands. These
+commands will be named ''pkgconfig'' too and have to be placed within in
 the namespaces owned by the extensions initializing them.
 
 At the C-level the public API of the Tcl core is extended with a
@@ -134,12 +136,12 @@ The function will
 
    * create a namespace having the provided ''pkgName'', if not yet existing.
 
-   * create the command ''config'' in that namespace and link it
+   * create the command ''pkgconfig'' in that namespace and link it
      to the provided information so that the keys from
      ''configuration'' and their associated values can be retrieved through
-     calls to ''config''.
+     calls to ''pkgconfig''.
 
-The command ''config'' will provide two subcommands, ''list'' and
+The command ''pkgconfig'' will provide two subcommands, ''list'' and
 ''get''. The first subcommand, ''list'' takes no arguments and returns
 a list containing the names of the defined keys. The second subcommand
 takes one argument, the name of a key and returns the string
@@ -147,17 +149,16 @@ associated with that key.
 
 ~ How to Gather the Embedded Information
 
-The information to be embedded is gathered in a platform-specific way.
+The information to be embedded is gathered in a platform-specific way and written into the file ''generic/tclConfig.c''. The different platforms may employ platform specific intermediate files to hold the information, but in the ocmpilation phase only ''tclConfig.c'' will be used.
 
    * Under unix it is determined primarily by the existing
-     ''configure'' script and written into the file
-     ''tclUnixConfig.c'' (from a template ''tclUnixConfig.c.in''). The
-     configuration information coming from the Makefile, or from other
-     compile time means, is embedded into the tclUnixConfig.c file by
-     means of preprocessor statements (#ifdef ... #endif).
+     ''configure'' script. The configuration information coming
+     from the Makefile, or from other compile time means, is
+     embedded into the ''tclConfig.c'' file by means of
+    preprocessor statements (#ifdef ... #endif).
 
-   * For the Windows and Mac platforms volunteers have to create a
-     file ''tclWinConfig.c.some-ext'' containing this information for
+   * For the Windows and Mac platforms volunteers may have to create
+     files ''tclWinConfig.c.some-ext'' containing this information for
      each supported build environment, like VC++, Borland, Cygwin,
      etc.
 
