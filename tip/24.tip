@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -187,18 +187,9 @@ The following Categories in Tcl's SourceForge Bug Tracker should be
 mapped to new Categories corresponding to a maintained area of Tcl,
 when seeking the appropriate maintainer:
 
-   1. ''I18N'' - map to ???
-
-   2. ''Other'' - reassign once area is determined.
-
-   3. ''Packaging'' - map to ???
-
-   4. ''Tests'' - no longer a separate Category.  Map to the section
-      of code being tested.
-
-   5. ''Unix'' - map to specific problem on Unix.
-
-   6. ''Windows'' - map to specific problem on Windows.
+   1. ''Other'' - Used for reports that span several categories.  Also
+		  includes many closed old reports from before the time
+		  the current categories were established.
 
 ~ Sections Without Maintainers
 
