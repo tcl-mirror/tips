@@ -1,13 +1,14 @@
 TIP:		145
 Title:		Enhanced Tk Font Handling
 Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Type:		Project
 State:		Draft
 Vote:		Pending
 Tcl-Version:	8.5
 Created:	31-Jul-2003
 Post-History:	
+Obsoletes:	64
 
 ~ Abstract
 
