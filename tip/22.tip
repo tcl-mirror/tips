@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -160,10 +160,13 @@ integer to a string and back again.  It also requires four calls to
 ''ckalloc:''
 
  1. Allocate a buffer for the string representation.
+
  2. Allocate the array of Tcl_Obj pointers for the list
     representation.
+
  3. Allocate the Tcl_Obj that represents the first (and only) element
     of the list.
+
  4. Allocate a buffer for the string representation of that element.
 
 And at the end, the result is the same integer that was passed as a
@@ -174,16 +177,21 @@ implementation shall (in the case where ''objc==3'')
 
  1. Test whether ''objv[[ 2 ]]'' designates an object whose internal
     representation holds an integer.  If so, simply use it as an index.
+
  2. Test whether ''objv[[ 2 ]]'' designates an object whose internal
     representation holds a list.  If so, perform the recursive
     extraction of indexed elements from sublists described above.
+
  3. Form the string representation of ''objv[[ 2 ]]'' and test whether
     it is ''end'' or ''end-'' followed by an integer.  If so, use it
     as an index.
+
  4. Attempt to coerce ''objv[[ 2 ]]' to an integer; if successful, use
     the result as an integer.
+
  5. Attempt to coerce ''objv[[ 2 ]]' to a list; if successful, use
     the result as an index list.
+
  6. Report a malformed ''index'' argument; the ''indexList'' parameter
     is not a well-formed list.
 
