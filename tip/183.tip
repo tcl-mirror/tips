@@ -1,7 +1,8 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Leitgeb <avl@logic.at>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -52,6 +53,30 @@ manual page.)  POSIX's ''open()'' doesn't know about binary or
 non-binary files, but Tcl does, so a new keyword "BINARY" could be
 introduced to offer this feature also to those who prefer
 list-of-flags syntax.
+
+~ Implementation
+
+A patch attached to Tcl Feature Request 577093 implements
+this proposal.  The public Tcl C routine
+'''Tcl_FSOpenFileChannel''' is amended to accept the
+'''b''' and '''BINARY''' substrings in its parsing
+of the ''modeString'' argument.  If this proposal
+is accepted, additional work will be performed to
+add the required test and documentation changes to the
+patch.
+
+~ Compatibility
+
+Any remaining callers of the obsolete private interface
+'''TclOpenFileChannelInsertProc''' need to be aware
+that the ''(TclOpenFileChannelProc_ *)'' function(s)
+it registers will now possibly be passed a ''modeString''
+argument that includes the newly supported '''b'''
+and '''BINARY''' substrings.  Some updating will be
+required to handle this situation.  Ideally, the updating
+will take the form of leaving behind use of this obsolete,
+unsupported, private interface, and migrating to the
+public support for virtual filesystems.
 
 ~ Discussion
 
