@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -43,7 +43,7 @@ a proposal listing the values found in
 should pass those values into
 '''Tcl_RegisterConfig''' during initialization?
 That would make all the values available
-to scripts via the '''::tcl::pkgconfig''' command.
+to scripts via the '''::tcl::pkgconfig''' command. -- Good idea.  Done.
 
 Several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage: let the people who need the data construct an evaluation which serves their purposes because (a) the form is easy enough to evaluate, as in the parser I threw together, (b) there might be information in the verbatim form which needs to be preserved.  Comments welcome.
 
