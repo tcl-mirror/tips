@@ -1,0 +1,82 @@
+TIP:            151
+Title:          Remove -e: Command Line Option from tclsh and wish
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        22-Aug-2003
+Post-History:   
+
+~ Abstract
+
+This TIP proposes removal of the -e: command line option to
+tclsh and wish that was Accepted as part of [137].
+
+~ Background
+
+[137] was Accepted today.  However, there were a few NO votes
+objecting to the new ''-e:'' command line option for tclsh
+and wish.  Those voting NO only objected to that part of [137]
+while supporting the rest as a solid proposal that will improve
+Tcl.  Among those voting YES, no one explicitly embraced the
+''-e:'' command line option as something they required.  Some
+voting YES opined that the ''-e:'' option was a wart that
+could be fixed later.
+
+Based on those comments, [137] would have been better had the
+''-e:'' form of the command line option not been part of the
+proposal.  This TIP proposes nothing more than removing
+Acceptance of the ''-e:'' form of the ''-encoding'' command
+line option.
+
+Without the controversial ''-e:'' proposal, I believe [137]
+would have had unanimous approval.
+
+~ Rationale
+
+The use of ''-e:'' as a command line option to tclsh or wish
+suffers when compared with the perl program.  The ''perl -e''
+option for evaluation of a Perl script provided on the command
+line is very well known, and it's a mistake to add something
+to tclsh that looks similar, but is in fact very different.
+
+[137] proposed both ''-encoding'' and the ''-e:'' form.  There's
+really no need to add multiple ways to do the same thing.
+
+The Rationale in [137] for the ''-e:'' form is solely to support
+the 32-character limit in some Unices for their ''#!'' lines.
+However, the ''-e:'' form does not really solve that problem.
+For example:
+
+| #!/usr/local/bin/tclsh -e:iso8859-15 
+| 12345678901234567890123456789012
+
+Here we see that we still run afoul of the 32-character limit
+when tclsh is installed in the default location.  Even longer
+encoding names exist which magnify the problem.
+
+Conversely, we already have an effective general workaround
+for the 32-character limit problem:
+
+| #!/bin/sh
+| # \
+| exec tclsh -encoding iso8859-15 "$0" ${1+"$@"}
+
+So, ''-e:'' doesn't solve a problem we don't really have, and
+it's controverisal.  We should remove it.
+
+~ Proposal
+
+Remove (Acceptance of) the ''-e:'' set of command line options
+to the programs ''tclsh'' and ''wish''.
+
+~ Compatibility
+
+Since no version of Tcl or Tk has been released supporting
+the ''-e:'' command line option, there are no compatibility
+issues to resolve.
+
+~ Copyright
+
+This document is placed in the public domain.
