@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.110 $
+Version:        $Revision: 1.111 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -32,7 +32,7 @@ can take place.
 
 This document serves a purpose similar to the Graffiti page
 (http://purl.org/thecliff/tcl/wiki/34.html) at the Tcl'ers
-Wiki (http://purl.org/thecliff/tcl/wiki/).
+Wiki [http://purl.org/thecliff/tcl/wiki/].
 
 It will also be useful for testing the web editing interface
 proposed in [13].
@@ -41,4 +41,16 @@ proposed in [13].
 
 Here's a simple edit test.
 
+Test of ''italic'', '''bold''' and ''mixed '''bold'' and italic''' text.
+
+~~Subsection test
+
+foobar
+
+~~~Subsubsection test
+
+spong wibble
+
 ~ Copyright
+
+Public domain
