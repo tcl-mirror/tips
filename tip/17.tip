@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -111,7 +111,7 @@ implementation.
     operation, which filesystem to use (whether native, a mounted .zip
     file, a remote FTP site, etc.).  If this information can be cached
     for a particular path, again we will not need to recalculate it at
-    every step.  A similar technique of to that used by Tcl's bytecode
+    every step.  A similar technique to that used by Tcl's bytecode
     compilation will be used: each cached object will have a
     "filesystemEpoch" counter, so that we can tell with each access
     whether the filesystem has been modified (and we must discard the
@@ -120,22 +120,25 @@ implementation.
 
  > A relatively complete implementation of this TIP, and a sample "vfs"
     extension
-    now exist, and have been tested through TclKit.  On the "virtual"
-    half of this tip, the implementation is known to be
-    stable and complete: TclKit can operate through this new vfs
+    now exist, and have been tested through TclKit.  On both the "virtual"
+    and "objectification" parts of this tip, the implementation is known to be
+    stable and complete (at least on Windows): TclKit can operate 
+    through this new vfs
     implementation without the need to override a single Tcl core
     command at the script level, and all reasonable filesystem tests
-    (cmdAH.test, fCmd.test, fileName.test) pass in a scripted document.
+    (cmdAH.test, fCmd.test, fileName.test, io.test) pass in a scripted document.
     Commands which operate on files
     (image, source, etc.)  and extensions like Image, Winico can be
-    made to work in a TclKit automatically!  The objectification is
-    also now relatively complete, although there is still room for
-    further optimisation in some parts of the code (which wasn't
-    possible in the old string-based API).  This has
-    additional efficiency gains for vfs's
+    made to work in a TclKit automatically!  There is still some
+    room for optimisation in some parts of the new objectification
+    code (which wasn't
+    possible in the old string-based API).  The current
+    implementation has
+    great efficiency gains for vfs's
     implemented at the script level, since the same Path objects can
     be passed through the entire process, without an intermediate
-    conversion (and string duplication which is currently required).
+    conversion (and string duplication which would otherwise be
+    required).
     The combination of caching and objectification changes the
     existing list of steps from
 
@@ -215,7 +218,7 @@ structure, see Documentation section below):
 |    TclfsOpenFileChannelProc_ *openFileChannelProc; 
 |                            /* Function to process a 'Tcl_OpenFileChannel()' call */
 |    TclfsMatchInDirectoryProc_ *matchInDirectoryProc;  
-|                            /* Function to process a 'Tcl_MatchFilesTypes()' */
+|                            /* Function to process a 'Tcl_MatchInDirectory()' */
 |    TclfsGetCwdProc_ *getCwdProc;     
 |                            /* Function to process a 'Tcl_GetCwd()' call */
 |    TclfsChdirProc_ *chdirProc;            
