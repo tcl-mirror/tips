@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -46,7 +46,7 @@ The text widget has a number of limitations:
 
   1. Even though 'search' can operate optionally on all text or just non-elided text, there is no easy way to retrieve the actual string which matched in the latter case, if the match spans characters on either side of an elided range.
 
-  1. Fix a few quirks of the 'search' subcommand.
+  1. ''.text search -backwards -all'' returns subsets of indices in forwards rather than backwards order.
 
 This TIP is, therefore, to fix these limitations, as follows:
 
