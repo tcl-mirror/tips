@@ -1,7 +1,8 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
+Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -63,6 +64,15 @@ but this makes the permissions system mean nothing, as a channel's
 permissions could then be freely modified in an ''ad hoc'' manner.
 The TIP now specifies a weaker modification that is still powerful
 enough to implemenent the desired channel semantics.
+
+~ Reference Implementation
+
+A reference implementation will be provided at SourceForge
+[http://sourceforge.net/support/tracker.php?aid=1057093].
+
+~ Comments
+
+''[[ Add comments on the document here ]]''
 
 ~ Copyright
 
