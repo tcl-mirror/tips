@@ -1,14 +1,14 @@
-TIP:		173
-Title:		Internationalisation and Refactoring of the 'clock' Command
-Version:	$Revision: 1.4 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	11-Mar-2004
-Tcl-Version:	8.5
-Discussions-To:	news:comp.lang.tcl
-Post-History:	
+TIP:            173
+Title:          Internationalisation and Refactoring of the 'clock' Command
+Version:        $Revision: 1.5 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Mar-2004
+Post-History:   
+Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -851,13 +851,14 @@ cutting a release.
 
 ~ Reference Implementation
 
-The proper location of the reference implementation is open to
-discussion.  The author of this TIP has been managing it as a
-TEA-compatible extension that can eventually be integrated into the
-Core sources.  One possibility for finding a home for it would be to
-create a 'newclock' module under the Tcl project at SourceForge.
-Another would be perhaps to open a new project, or to create a
-repository elsewhere.  Suggestions are welcomed.
+The implementation of a refactored [[clock]] command is a work
+in progress, and interested developers are urged to contact the
+TIP author if they want to help with implementation, documentation,
+or testing.  The code is available in the same SourceForge
+repository as the Tcl core, and Tcl maintainers can obtain it
+with
+
+|  cvs -d:ext:USER@cvs.sf.net:/cvsroot/tcl co newclock
 
 ~ Bugs
 
