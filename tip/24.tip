@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -106,9 +106,9 @@ assigned:
 
    28. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   29. ''msgcat Package'' - 
+   29. ''msgcat Package'' - Don Porter <dgp@users.sourceforge.net>
 
-   30. ''opt Package'' - 
+   30. ''opt Package'' - Don Porter <dgp@users.sourceforge.net>
 
    31. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
 
