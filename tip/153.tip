@@ -1,0 +1,59 @@
+TIP:		153
+Title:		Adding a [winfo tophierarchy] Command
+Version:	$Revision: 1.1 $
+Author:		Neil McKay <mckay@eecs.umich.edu>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	26-Aug-2003
+Post-History:	
+Tcl-Version:	8.5
+
+~Abstract
+
+The [[winfo toplevel]] command returns the Tk toplevel window that
+encloses the window that's passed as an argument.  However, Tk
+extensions may allow the creation of windows which reside at the top
+of a window hierarchy, but are not Tk toplevel widgets.  If a
+subwindow of one of these top-of-hierarchy widgets is passed to
+[[winfo toplevel]], it returns an empty string, making it impossible
+to determine what hierarchy the window resides in.  This TIP proposes
+adding a [[winfo tophierarchy]] command that will return the top
+window in the hierarchy regardless of what type of widget it is.
+
+~Rationale
+
+Focus control does not work properly for top-of-hierarchy Tk windows
+other than toplevel widgets.  This is an artifact of Tk's inability to
+determine the top of a window hierarchy for such windows.  Prior to Tk
+8.4, top-of-hierarchy windows other than toplevels were not possible,
+so the changes proposed in this TIP would be moot.  However, they are
+now possible due to the incorporation into the Tk core of the changes
+proposed in [47].
+
+~Command Syntax
+
+The proposed syntax is essentially the same as for the [[winfo
+toplevel]] command:
+
+| winfo tophierarchy "windowName"
+
+should return the window at the top of the hierarchy containing
+"windowName".
+
+~Implementation
+
+The implementation of the [[winfo tophierarchy]] command closely
+mirrors the implementation of [[winfo toplevel]]. It also requires
+changes to a few lines of code in the Tk library, where [[winfo
+toplevel]] really should be [[winfo tophierarchy]].
+
+~Patches
+
+A patch (against Tk 8.4.4) that implements the changes described above
+may be found at
+http://www.eecs.umich.edu/~mckay/computer/tk.winfo.patch.gz
+
+~Copyright
+
+This document is in the public domain.
