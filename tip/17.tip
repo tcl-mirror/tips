@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -214,7 +214,7 @@ structure, see Documentation section below):
 |                            /* Function to process a 'Tcl_Access()' call */
 |    TclfsOpenFileChannelProc_ *openFileChannelProc; 
 |                            /* Function to process a 'Tcl_OpenFileChannel()' call */
-|    TclfsMatchFilesTypesProc_ *matchFilesTypesProc;  
+|    TclfsMatchInDirectoryProc_ *matchInDirectoryProc;  
 |                            /* Function to process a 'Tcl_MatchFilesTypes()' */
 |    TclfsGetCwdProc_ *getCwdProc;     
 |                            /* Function to process a 'Tcl_GetCwd()' call */
@@ -288,7 +288,10 @@ of a Tcl-level vfs much simpler and more robust:
 
   * Cross-filesystem copy and rename operations will fail.  A patch was
     added so that Tcl can fall back on 'open r/open w/fcopy/file mtime'
-    as a copying method.
+    as a copying method for files, and a new function ::tcl::copyDirectory
+    for directories.  These techniques are only used if the source/dest
+    are in different filesystems, or if the filesystem Tcl tries to use
+    returns the EXDEV posix result in 'errno'.
 
   * Add ''-tails'' flag to ''glob'' (and internally to ''TclGlob'') to
     indicate that we only want the tails of the files to be returned.
@@ -303,7 +306,8 @@ of a Tcl-level vfs much simpler and more robust:
     This simplifies the platform-specific code, and makes vfs support of
     ''glob'' much more robust, easy, complete, etc.  This has the side-
     benefit that TclpMatchFilesTypes need not operate directly on
-    the interpreter's result.
+    the interpreter's result.  The simpler function with a different
+    signature has been named ''TclpMatchInDirectory''.
 
   * Modify the implementation of ''encoding names'' to use the
     TCL_GLOBMODE_TAILS flag to TclGlob, simplifying that code.
