@@ -1,14 +1,14 @@
-TIP:		194
-Title:		Procedures as Values via '''apply'''
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sf.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	30-Apr-2004
-Post-History:	
-Keywords:	Tcl,lambda,anonymous,command,function,functional programming
-Tcl-Version:	8.5
+TIP:            194
+Title:          Procedures as Values via '''apply'''
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        30-Apr-2004
+Post-History:   
+Keywords:       Tcl,lambda,anonymous,command,function,functional programming
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -110,7 +110,7 @@ to other FP functions. For example one might define a constructor
 | }
 |
 | proc curry {lam args} {
-|     lappend lam $args
+|     lappend lam {expand}$args
 | }
 
 Function composition is also relatively easy to specify. Further
@@ -139,7 +139,7 @@ or else:
 
 This TIP requires no changes to the rules in Tcl(n), whereas [187]
 requires a change in rule [[2]].
- 
+
 If in the future Tcl evolves a rule for automatic expansion of leading
 words, '''apply''' will provide automatically the syntax of [187].
 
