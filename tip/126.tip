@@ -1,0 +1,202 @@
+TIP:		126
+Title:		Rich Strings for Representation Persistence
+Created:	30-Jan-2003
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+State:		Draft
+Version:	$Revision: 1.1 $
+Post-History:	
+
+~Abstract
+
+This TIP enriches the standard UTF-8 string representation of every
+''Tcl_Obj'' to allow for improved persistence of non-string
+representations.  This, combined with rules for substring and
+substitution handling, allows the lifetime of an object to correspond
+far more closely with the more-broadly understood concept of "object
+lifetime".
+
+~Rationale
+
+At the moment in Tcl, whenever someone wants to create a stateful
+entity of limited lifespan (i.e. an object) and pass it through a Tcl
+script, they have to do one of two things:
+
+ 1. Tie the lifespan of the object to the lifespan of the ''Tcl_Obj''
+    value that represents it, so that when the internal representation
+    of the value is deleted, so to is the object.
+
+ 2. Create a table (typically a hash table) of objects and have the
+    value passed through the Tcl script be a handle that is really an
+    index into this table.  Deletion happens precisely when some kind
+    of delete "method" is called on the object.
+
+Each of these techniques has problems.  With the first, difficulties
+arise because it is a fundamental assumption of Tcl that it is always
+possible to recreate the internal-representation part of a value from
+the string-representation part of the value.  While this is a good
+assumption for lists, numbers, etc. it is not true for anything where
+the deletion of the internal-rep results in the deletion of the
+underlying data structure.  Thus, there is a tendency for the object
+to get deleted far too early.  (In practise, the problem occurs in
+locations like scripts passed to Tk's [[bind]] command and in some
+invocations of the [[eval]] command.)  Nevertheless, this technique
+can be used subject to some caveats, and this is done in a number of
+extensions (e.g. TclBlend/Jacl, where Java objects are passed through
+Tcl this way.)
+
+However, the second technique has a different set of troubles.
+Although the process of explicit deletion works around all the faults
+with over-early deletion as described above, it instead has a strong
+tendency to not delete objects at all; it is far too easy to have a
+resource leak that is fairly difficult to track down.  Most Tcl
+extensions that deal with objects (and all the ones that predate
+Tcl8.0, like [[incr Tcl]]) use this technique.
+
+What we really need is a way to allow non-string object
+representations to persist substantially longer, so making the first
+of the two techniques outlined above much more robust.  In particular,
+I have identified the string concatenation, string substitution and
+substring operations as being in need of attention, though obviously
+the required work will extend further as well (the script parser is an
+obvious target.)  This is the focus of this TIP.
+
+~Alterations to the Tcl_Obj
+
+So, what is the best way of maintaining these valuable representations
+within a supposedly pure-string Tcl_Obj value?  Well, since we do not
+want to alter the internal representation (after all, it is that which
+we would really like to preserve) we will have to add an extra field
+(or potentially more) to the Tcl_Obj structure itself.  This is
+technically feasible in a backward-compatible way, as allocation of
+instances of this structure have always been performed by the Tcl
+library, but there is a significant downside to this in that the
+structure is far and away the most common structure allocated in the
+entire Tcl core.  Any field added will have a significant impact on
+the overall memory consumption of any Tcl-enabled binary.
+
+What information do we actually need to store for these
+representations to be preserved in a string while allowing extraction
+of the underlying values?  The simplest possible option is for a list
+of string-subrange/object-reference pairs to be associated with the
+object, probably as an array of simple structures pointed to by a new
+field of the Tcl_Obj (with a NULL indicating that no range of the
+string has an object associated with it.)  The easiest way of
+representing those string ranges is as pairs of byte-indexes relative
+to the start of the string, though character-indexes have much to
+commend them (especially when working with strings with a UCS-16
+internal representation) as do direct pointers into the string (easy
+to compute, but much more problematic when another string is
+appended.)  The end of the list would be marked in some obvious way,
+probably by using a NULL in the object-reference part.
+
+This mechanism has the advantage that it keeps the increase in size of
+the Tcl_Obj itself fairly small (i.e. an extra 4 bytes for another
+pointer on 32-bit platforms) which is an advantage when you consider
+the fact that it is likely that most strings in an average Tcl program
+will not have objects contained within them.  This will act to
+minimise the overall memory overhead.
+
+~Concatenation, Substitution and Substring Semantics
+
+When two strings with these object annotations are concatenated, it is
+clear that the resulting string should also have the annotations (and
+the actual human-readable part will use the string-representation of
+the objects), and this is trivially extended to arbitrary
+concatenations of strings.  Similarly for the taking of substrings
+with the following restrictions:
+
+ 1. Where the portion of substring taken corresponds exactly to the
+    part of a string associated with an object, the operation shall
+    instead return the object in question (which shall be assumed to
+    have a compatible string representation.)
+
+ 2. Where a substring wholly contains a range associated with some
+    object, then the resulting substring object will also contain the
+    object associated with the "same" characters.
+
+ 3. Where a substring only partially overlaps a range associated with
+    an object, that object will not be associated with the
+    corresponding characters in the resultant substring (unless the
+    object is separately part of the substring due to the other rules,
+    of course.)  The object is associated with the string segment as a
+    whole, and not any one part of it.
+
+Substitution, whether of variable contents, script execution results
+or anything else, is semantically a concatenation operation where some
+strings are (as it were) immediate operands and others are derived
+from reading variables, executing scripts, etc.
+
+Thus, if we start variable ''a'' containing an object ''Ob1'' and
+variable ''b'' containing an object ''Ob2'', the following shall be
+true:
+
+|set var x${a}y${b}z        => xOb1yOb2z
+|#  where characters 1-3 are assocaited with Ob1
+|#    and characters 5-7 are associated with Ob2
+|set c [string range $var 1 3]
+|#  precisely equivalent to [set c $a]
+|set d [string range $var 5 7]
+|#  precisely equivalent to [set d $b]
+
+~Consequences
+
+It is an obvious consequence of this that script evaluation should
+take into account of these object annotations when attached to the
+scripts themselves, particularly as the process of parsing can really
+be regarded as being mostly the taking of (suitable) substrings.  Only
+slightly less obviously, it is also the responsibility of all code
+that stores strings (and especially scripts) for future use to store
+them as ''Tcl_Obj'' instances and not as just plain character strings,
+and to perform any substitutions it needs to perform in a way that
+preserves these object annotations on the parts that it is not
+interested in.  This in turn will probably require changes on the part
+of many extensions to actually turn into reality.
+
+On the other hand, there are quite a few objects (numbers and boolean
+values are probably very good examples here) for which this
+representation preservation is probably not a very good option as the
+objects in question are perfectly preservable.  It makes sense to add
+some kind of signalling mechanism (e.g. a bit in a newly added
+''flags'' field) to allow the type of a ''Tcl_Obj'' instance to
+declare that it need not be preserved.  As a general note, such a flag
+would only be useful in "leaf" objects; structural objects (i.e. those
+that are intended to contain others, like lists) would be expected to
+do without this.
+
+Strings (now a structural as opposed to a leaf type) probably need
+even more special handling, but that can really be regarded as a
+type-specific special case.
+
+The flags field mentioned a few paragraphs above would probably have
+other potential uses (e.g. for marking an object as being impossible
+to change into any other type) though these lie outside the scope of
+this TIP.
+
+Because these changes at the C API level are far reaching and fairly
+subtle in some cases, this TIP explicitly seeks to introduce this
+behaviour with a major version number change.  Although the alteration
+at the script level should be small - existing code should continue
+working without alteration - it is a huge philosophical leap as it
+will no longer be the case that everything in Tcl will be a string, or
+at least not a string that you (or anyone else) can type.  Again, that
+implies introduction at a new major version number.
+
+~Notes
+
+ * The existing API function ''Tcl_InvalidateStringRep'' will gain
+   additional significance with the introduction of this TIP: its
+   invocation may well trigger the deletion of many objects.
+
+ * It is probably a very good idea indeed for code that creates
+   objects whose lifespan is meant to persist, to create those objects
+   with string representations composed entirely of alphanumeric
+   characters.  An ideal choice might be to use a prefix derived from
+   the type/class of the object, and a suffix that is the address of
+   the object or the next value from some counter variable.
+
+~Copyright
+
+This document is placed in the public domain.
