@@ -1,13 +1,13 @@
-TIP:		155
-Title:		Fix Some of the Text Widget's Limitations
-Version:	$Revision: 1.1 $
-Author:		Vince Darley <vince@santafe.edu>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	08-Sep-2003
-Post-History:	
+TIP:            155
+Title:          Fix Some of the Text Widget's Limitations
+Version:        $Revision: 1.2 $
+Author:         Vince Darley <vince@santafe.edu>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Sep-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -52,7 +52,7 @@ This TIP is, therefore, to fix these limitations, as follows:
   1. Make internal changes to the text widget so it keeps track of the
      number of vertical display pixels in each logical line, and uses
      that information to calculate scrollbar interactions, to provide
-     a better user experience.
+     a better user experience, including smooth scrolling.
 
   1. Add a ''count'' widget subcommand, which calculates the number of
      characters or index positions or non-elided characters/index
@@ -139,6 +139,8 @@ current implementation uses timer callbacks (idle callbacks cannot be
 used because idle callbacks are not allowed to reschedule themselves).
 A thread-based implementation may have some advantages (although it
 certainly has disadvantages too).
+
+Given the pixel calculations are available, they have been used to provide for smooth scrolling of the text widget.  This means even with large images, smooth scrolling off top and bottom of the widget are automatic.
 
 ~ Count Subcommand
 
@@ -299,14 +301,6 @@ these are listed here for completeness:
 
   * Printing support (at least to postscript like the canvas widget)
 
-  * Smooth scrolling.  The current implementation still forces a
-    complete, single display line to be shown at the top of the
-    window.  Given the pixel-based calculations provided by this TIP,
-    it would be quite easy to provide true smooth scrolling.  There is
-    an open question as to whether such smooth scrolling is always
-    desirable and, ''if not'', how to allow the programmer to revert
-    to the old behaviour.
-
   * Cloning (e.g. reading in the result of ''.text -dump'', although
     handling of tag definitions and tag-bindings would also be nice)
 
@@ -333,6 +327,8 @@ these are listed here for completeness:
   * The attachment of user-defined data to each logical line in the
     widget (e.g. a code parser's current internal state), which might
     make true parsing for syntax colouring significantly easier.
+
+  * Pixel calculations.  None of the pixel-calculation machinery is exposed in the text widget's public API (C or Tcl).  It might be useful to be able to ask 'How many pixels are in this text widget?', or 'What text index is 37597 pixels from the top?', etc.
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
