@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -39,7 +39,7 @@ http://www.scriptics.com:8080/cgi-bin/tct/tip/
 
 Further details on the arguments behind the evolution of the TIP
 concept and formatting can be found in the archive of the ''tclcore''
-mailing list at http://dev.scriptics.com/lists/tclcore/
+mailing list at http://www.geocrawler.com/lists/3/SourceForge/7375/0/ .
 
 ~ Kinds of TIPs
 
@@ -201,7 +201,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.14 $
+|Version:       $Revision: 1.15 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
