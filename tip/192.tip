@@ -1,0 +1,181 @@
+TIP:		192
+Title:		Lazy Lists
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Salvatore Sanfilippo <antirez@invece.org>
+Created:	27-Mar-2004
+Keywords:	Tcl
+
+~ Abstract
+
+This TIP proposes to add a new command to generate lists of ''N''
+elements, where the ''i''-th element is the computed as the result of
+an unary Tcl procedure with ''i'' as itsargument. Implementing special
+handling for this kind of lists inside the Tcl core will allow
+generation of lists in a ''lazy'' way.  This TIP's goal is not to
+change the semantics of Tcl, but just to provide a different space
+complexity for an (often interesting) subset of Tcl lists.
+
+~ Rationale
+
+A subset of Tcl lists can be generated mapping an unary function to an
+integer sequence in the range [[0,n), where ''n'' is the length of the
+list. The following procedure implements this concept:
+
+|proc lgen {len func} {
+|    set l {}
+|    for {set i 0} {$i < $len} {incr i} {
+|        lappend l [uplevel 1 [list $func $i]]
+|    }
+|    return $l
+|}
+
+and the following (using the '''lambda''' from [187]) is an example of
+usage:
+
+|proc lambda {argl body} {
+|    set name [info level 0]
+|    proc $name $argl $body
+|    set name
+|}
+|
+|set mylist [lgen 10 [lambda x {incr x; expr $x*$x}]]
+
+The above code will evaluate to the same as [[list 1 4 9 16 25 36 49
+64 81 100]].  '''lgen''' can be used in order to build a particularly
+useful Tcl procedure named '''range''', returning a sequence of
+integers with given ''start'' ''end'' and (optionally) ''step''
+paramenters. The '''range''' function is convenient for rewriting many
+'''for''' loops in terms of '''foreach''' iterating over an integer
+range. So instead of writing:
+
+|for {set i 0} {$i < 20} {incr i 2} {
+|    puts $i
+|}
+
+It is possible to write:
+
+|foreach i [range 0 20 2] {
+|    puts $i
+|}
+
+That is more convenient to write and to read for the programmer.  Of
+course it's possible to use '''foreach''' to iterate any sequence that
+'''lgen''' is able to generate, but '''range''' is probably one of the
+more common of the possible usages.
+
+The TIP proposes to implement the ability to handle this kind of lists
+in a special way directly inside the ''List'' object implementation.
+This allows these common usage patterns of the list object to not need
+to hold the real sequence but just the length and the unary element
+generator function.
+
+The interface to the Tcl programmer is a single command similar in
+semantics to '''lgen''', but possibly with a more suitable name.
+
+~ Proposed Change
+
+The ''List'' object should be modified in order to have the lazy-list
+as subtype or alternate internal implementation. All the core should
+use the proper ''List'' object API instead to access to the ''List''
+object via the internal representation.
+
+The two calls that should be guaranteed to not alter the ''lazyness''
+of the list are '''Tcl_ListObjLength()''' and
+'''Tcl_ListObjIndex()'''.  Other calls like '''Tcl_ListObjReplace()'''
+may be optimized for the lazy-list case when possible, and the
+'''lrange''' command may be optimized (particularly when the start
+index is zero).
+
+The ''List'' will be converted into a non-lazy version if the user
+tries to modify it, for example using the
+'''Tcl_ListObjAppendElement()''' function. The ''List'' will also be
+converted into a non-lazy version on '''Tcl_ListObjGetElements()'''
+calls.
+
+It's possible to handle the '''range''' command as a particular case
+of lazy-list in order to provide a very fast implementation of foreach
+iterating over an integer range (probably much faster than the today
+'''for''', being '''foreach''' already faster iterating over a literal
+list of numbers).
+
+~~ Consequences: Reference Management
+
+The author of this TIP tried to implement the proposed changes in the
+HEAD, discovering that the '''Tcl_ListObjIndex()''' interface creates
+a serious problem due to the assumption that the ''List'' object holds
+at least one reference to the returned element. The implementation of
+'''Tcl_ListObjIndex()''' in the lazy case can't just create the
+element object and return it with refcount of zero because it will
+leak if the caller does not increment the reference count itself.
+
+It's also not safe to store a reference to the last few elements
+created in the lazy way inside the ''List'' object, and release this
+references in order to create more elements, because in theory the
+caller may require a large number of elements storing pointers into an
+array, and finally incrementing the reference counts in a single pass.
+
+In order to avoid this problem, the semantics of
+'''Tcl_ListObjIndex()''' should be changed in order to always return
+the element with an already incremented reference count. It will be up
+to the caller to decrement the reference count if the object will be
+discarded.  (This is why this change is proposed for Tcl 9.0 and not
+8.5, as this has a significant impact on both the core and on
+extensions.)
+
+An alternative change to '''Tcl_ListObjIndex()''' (in order to make it
+"compatible" with the semantics of lazy lists) is to disallow
+successive calls against the same list if a previous call returned an
+object that the caller plans to reference the object.
+
+So:
+
+|Tcl_ListObjIndex(interp, myListPtr, 0, &a);
+|Tcl_ListObjIndex(interp, myListPtr, 0, &b);
+|mystruct->a = a;
+|mystruct->b = b;
+|Tcl_IncrRefCount(a);
+|Tcl_IncrRefCount(b);
+
+will be invalid, while:
+
+|Tcl_ListObjIndex(interp, myListPtr, 0, &a);
+|Tcl_IncrRefCount(a);
+|mystruct->a = a;
+|Tcl_ListObjIndex(interp, myListPtr, 0, &b);
+|Tcl_IncrRefCount(b);
+|mystruct->b = b;
+
+is valid. This fixes any problem because the ''List'' object can just
+take a reference to the last generated object and avoid any leak.  A
+study of existing code in the core and extensions is required to see
+whether this will allow the majority of code to operate unchanged.
+
+~~ Consequences: Non-constant Lists
+
+The TIP also poses another problem in the case the unary function has
+side effects. In this case the behaviour can be described without to
+violate the Tcl semantic in terms of variable traces most of the time,
+but actually it's possible to write code that shows that the list
+value is non-stable even without using variables (because Tcl has no
+"object trace" concept actually).
+
+If this is considered a problem, the TIP may be reduced in order to
+only allow lazy generated lists composed of integer ranges, (but that
+is one of the most interesting advantages of this TIP anyway.)  With
+integer ranges there are no side effects, so the semantical problem is
+not an issue, but the '''Tcl_ListObjIndex()''' problem is exactly the
+same.
+
+Of course, this is arguably just an unavoidable consequence and shows
+that not all possible unary element generator functions, but just
+those with a functional denotation, are necessarily reasonable
+choices.
+
+~ Copyright
+
+This document has been placed in the public domain.
