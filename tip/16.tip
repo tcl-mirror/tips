@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -57,7 +57,7 @@ minimal units.
 
 ~ Proposal
 
-Tcl shall be divided into the following 53 functional units, each to be
+Tcl shall be divided into the following 54 functional units, each to be
 assigned one or more maintainers:
 
    Events: 
@@ -75,7 +75,7 @@ assigned one or more maintainers:
      unix/tclUnixEvent.c,
      win/tclWinNotify.c
 
-   >   1. ''Event Loops'' - doc/bgerror.n,
+   >   2. ''Event Loops'' - doc/bgerror.n,
      doc/update.n,
      doc/vwait.n,
      doc/BackgdErr.3,
@@ -83,20 +83,20 @@ assigned one or more maintainers:
      generic/tclEvent.c,
      tests/event.test
 
-   >   1. ''Timer Events'' - doc/after.n,
+   >   3. ''Timer Events'' - doc/after.n,
      doc/CrtTimerHdlr.3,
      doc/DoWhenIdle.3,
      generic/tclTimer.c,
      tests/timer.test
 
-   >   1. ''Asynchronous Events'' - doc/Async.3,
+   >   4. ''Asynchronous Events'' - doc/Async.3,
      generic/tclAsync.c,
      tests/async.test
 
-   >   1. ''Xt Based Notifier'' - unix/tclXtNotify.c,
+   >   5. ''Xt Based Notifier'' - unix/tclXtNotify.c,
      unix/tclXtTest.c
 
-   >   1. ''Time Measurement'' - compat/gettod.c,
+   >   6. ''Time Measurement'' - compat/gettod.c,
      compat/strftime.c,
      doc/clock.n,
      generic/tclClock.c,
@@ -109,7 +109,7 @@ assigned one or more maintainers:
 
    Variables: 
 
-   >   1. ''Variable Commands and Interfaces'' - doc/append.n,
+   >   7. ''Variable Commands and Interfaces'' - doc/append.n,
      doc/array.n,
      doc/global.n,
      doc/lappend.n,
@@ -119,7 +119,6 @@ assigned one or more maintainers:
      doc/upvar.n,
      doc/variable.n,
      doc/SetVar.3,
-     doc/TraceVar.3,
      doc/UpVar.3,
      generic/tclVar.c,
      tests/append.test,
@@ -129,18 +128,18 @@ assigned one or more maintainers:
      tests/upvar.test,
      tests/var.test
 
-   >   1. ''Environment Variables'' - doc/Environment.3,
+   >   8. ''Environment Variables'' - doc/Environment.3,
      generic/tclEnv.c,
      mac/tclMacEnv.c,
      tests/env.test
 
-   >   1. ''Linked C Variables'' - doc/LinkVar.3,
+   >   9. ''Linked C Variables'' - doc/LinkVar.3,
      generic/tclLink.c,
      tests/link.test
 
    Objects: 
 
-   >   1. ''Object System and Fundamental Object Types'' - doc/Backslash.3,
+   >   10. ''Object System and Fundamental Object Types'' - doc/Backslash.3,
      doc/BoolObj.3,
      doc/Concat.3,
      doc/DoubleObj.3,
@@ -168,32 +167,32 @@ assigned one or more maintainers:
      tests/obj.test,
      tests/util.test
 
-   >   1. ''Conversions From String'' - doc/GetInt.3,
+   >   11. ''Conversions From String'' - doc/GetInt.3,
      generic/tclGet.c,
      tests/get.test
 
-   >   1. ''bytearray Object Type'' - doc/binary.n,
+   >   12. ''bytearray Object Type'' - doc/binary.n,
      doc/ByteArrObj.3,
      generic/tclBinary.c,
      tests/binary.test
 
-   >   1. ''index Object Type'' - doc/GetIndex.3,
+   >   13. ''index Object Type'' - doc/GetIndex.3,
      doc/WrongNumArgs.3,
      generic/tclIndexObj.c,
      tests/indexObj.test
 
-   >   1. ''list Object Type'' - doc/ListObj.3,
+   >   14. ''list Object Type'' - doc/ListObj.3,
      generic/tclListObj.c,
      tests/listObj.test
 
-   >   1. ''dict Object Type'' - doc/DictObj.3,
+   >   15. ''dict Object Type'' - doc/DictObj.3,
      doc/dict.n,
      generic/tclDictObj.c,
      tests/dict.test
 
    Fundamental Built-in Commands: 
 
-   >   1. ''A - H'' - doc/break.n,
+   >   16. ''A - H'' - doc/break.n,
      doc/case.n,
      doc/catch.n,
      doc/cd.n,
@@ -218,7 +217,7 @@ assigned one or more maintainers:
      tests/format.test,
      tests/for-old.test
 
-   >   1. ''I - L'' - doc/if.n,
+   >   17. ''I - L'' - doc/if.n,
      doc/incr.n,
      doc/info.n,
      doc/join.n,
@@ -244,8 +243,7 @@ assigned one or more maintainers:
      tests/lreplace.test,
      tests/lsearch.test
 
-   >   1. ''M - Z'' - 
-     doc/TraceCmd.3,
+   >   18. ''M - Z'' - 
      doc/pwd.n,
      doc/regexp.n,
      doc/regsub.n,
@@ -256,7 +254,6 @@ assigned one or more maintainers:
      doc/subst.n,
      doc/switch.n,
      doc/time.n,
-     doc/trace.n,
      doc/while.n,
      generic/tclCmdMZ.c,
      tests/cmdMZ.test
@@ -266,28 +263,27 @@ assigned one or more maintainers:
      tests/string.test,
      tests/subst.test,
      tests/switch.test,
-     tests/trace.test,
      tests/while-old.test
 
-   >   1. ''[[history]]'' - doc/history.n,
+   >   19. ''[[history]]'' - doc/history.n,
      doc/RecEvalObj.3,
      doc/RecordEval.3,
      generic/tclHistory.c,
      library/history.tcl,
      tests/history.test
 
-   >   1. ''[[interp]]'' - doc/interp.n,
+   >   20. ''[[interp]]'' - doc/interp.n,
      doc/CrtSlave.3,
      generic/tclInterp.c,
      tests/interp.test
 
-   >   1. ''[[namespace]]'' - doc/namespace.n,
+   >   21. ''[[namespace]]'' - doc/namespace.n,
      generic/tclNamesp.c,
      generic/tclResolve.c,
      tests/namespace.test,
      tests/namespace-old.test
 
-   >   1. ''[[proc]]'' - doc/proc.n,
+   >   22. ''[[proc]]'' - doc/proc.n,
      doc/uplevel.n,
      generic/tclProc.c,
      generic/tclTestProcBodyObj.c,
@@ -295,13 +291,13 @@ assigned one or more maintainers:
      tests/proc-old.test,
      tests/uplevel.test
 
-   >   1. ''[[scan]]'' - doc/scan.n,
+   >   23. ''[[scan]]'' - doc/scan.n,
      generic/tclScan.c,
      tests/scan.test
 
    Channels: 
 
-   >   1. ''Channel Commands'' - doc/close.n,
+   >   24. ''Channel Commands'' - doc/close.n,
      doc/eof.n,
      doc/exec.n,
      doc/fblocked.n,
@@ -321,7 +317,7 @@ assigned one or more maintainers:
      tests/remote.tcl,
      tests/socket.test
 
-   >   1. ''Channel System'' -  doc/fileevent.n,
+   >   25. ''Channel System'' -  doc/fileevent.n,
      doc/ChnlStack.3,
      doc/CrtChnlHdlr.3,
      doc/CrtCloseHdlr.3,
@@ -335,10 +331,10 @@ assigned one or more maintainers:
      generic/tclPipe.c,
      tests/io.test
 
-   >   1. ''Channel Transformations'' - generic/tclIOGT.c,
+   >   26. ''Channel Transformations'' - generic/tclIOGT.c,
      tests/iogt.test
 
-   >   1. ''Built-in Channel Types'' - compat/waitpid.c,
+   >   27. ''Built-in Channel Types'' - compat/waitpid.c,
      doc/GetHostName.3,
      doc/GetOpnFl.3,
      doc/OpenTcp.3,
@@ -362,12 +358,12 @@ assigned one or more maintainers:
 
    Packages: 
 
-   >   1. ''dde Package'' - doc/dde.n,
+   >   28. ''dde Package'' - doc/dde.n,
      library/dde/pkgIndex.tcl,
      tests/winDde.test
      win/tclWinDde.c
 
-   >   1. ''http Package'' - doc/http.n,
+   >   29. ''http Package'' - doc/http.n,
      library/http1.0/http.tcl,
      library/http1.0/pkgIndex.tcl,
      library/http/http.tcl,
@@ -376,32 +372,32 @@ assigned one or more maintainers:
      tests/httpd,
      tests/httpold.test
 
-   >   1. ''msgcat Package'' - doc/msgcat.n,
+   >   30. ''msgcat Package'' - doc/msgcat.n,
      library/msgcat/msgcat.tcl,
      library/msgcat/pkgIndex.tcl,
      tests/msgcat.test
 
-   >   1. ''opt Package'' - library/opt/optparse.tcl,
+   >   31. ''opt Package'' - library/opt/optparse.tcl,
      library/opt/pkgIndex.tcl,
      tests/opt.test
 
-   >   1. ''registry Package'' - doc/registry.n,
+   >   32. ''registry Package'' - doc/registry.n,
      library/reg/pkgIndex.tcl,
      win/tclWinReg.c,
      tests/registry.test
 
-   >   1. ''Safe Base'' - doc/safe.n,
+   >   33. ''Safe Base'' - doc/safe.n,
      library/safe.tcl,
      tests/safe.test
 
-   >   1. ''tcltest Package'' - doc/tcltest.tcl,
+   >   34. ''tcltest Package'' - doc/tcltest.tcl,
      library/tcltest/tcltest.tcl,
      library/tcltest/pkgIndex.tcl,
      tests/tcltest.test
 
    File System: 
 
-   >   1. ''Pathname Management'' - doc/filename.n,
+   >   35. ''Pathname Management'' - doc/filename.n,
      doc/glob.n,
      doc/FileSystem.3,
      doc/SplitPath.3,
@@ -414,7 +410,7 @@ assigned one or more maintainers:
      unix/tclUnixFile.c,
      win/tclWinFile.c
 
-   >   1. ''File System Access'' - doc/Access.3,
+   >   36. ''File System Access'' - doc/Access.3,
      doc/GetCwd.3,
      doc/SetErrno.3,
      doc/Signal.3,
@@ -433,7 +429,7 @@ assigned one or more maintainers:
 
    Initialization, Script Library, and Autoloader: 
 
-   >   1. doc/library.n,
+   >   37. doc/library.n,
      doc/tclvars.n,
      doc/unknown.n,
      doc/Init.3,
@@ -456,7 +452,7 @@ assigned one or more maintainers:
 
    Package Support: 
 
-   >   1. ''Package Management'' - doc/InitStubs.3,
+   >   38. ''Package Management'' - doc/InitStubs.3,
      doc/package.n,
      doc/packagens.n,
      doc/pkgMkIndex.n,
@@ -469,7 +465,7 @@ assigned one or more maintainers:
      tests/pkgMkIndex.test,
      tests/pkg/*.tcl
 
-   >   1. ''Dynamic Loading'' - compat/dlfcn.h,
+   >   39. ''Dynamic Loading'' - compat/dlfcn.h,
      doc/load.n,
      doc/StaticPkg.3,
      generic/tclLoad.c,
@@ -483,19 +479,19 @@ assigned one or more maintainers:
 
    Memory Management: 
 
-   >   1. ''Allocation'' - doc/memory.n,
+   >   40. ''Allocation'' - doc/memory.n,
      doc/Alloc.3,
      doc/TCL_MEM_DEBUG.3,
      doc/DumpActiveMemory.3,
      generic/tclAlloc.c,
      generic/tclCkalloc.c
 
-   >   1. ''Preservation'' - doc/Preserve.3,
+   >   41. ''Preservation'' - doc/Preserve.3,
      generic/tclPreserve.c
 
    Regular Expressions: 
 
-   >   1. doc/re_syntax.n,
+   >   42. doc/re_syntax.n,
      doc/RegExp.3,
      generic/regc_color.c,
      generic/regc_cvec.c,
@@ -520,7 +516,7 @@ assigned one or more maintainers:
 
    UTF-8 String Management: 
 
-   >   1. doc/ToUpper.3,
+   >   43. doc/ToUpper.3,
      doc/UniCharIsAlpha.3,
      doc/Utf.3,
      generic/tclUtf.c,
@@ -528,9 +524,9 @@ assigned one or more maintainers:
      tests/utf.test,
      win/tclWin32Dll.c
 
-   Fundamental Parsing and Evaluation: 
+   Fundamentals:
 
-   >   1. doc/AddErrInfo.3,
+   >   44. Parsing and Evaluation - doc/AddErrInfo.3,
      doc/AllowExc.3,
      doc/AssocData.3,
      doc/CallDel.3,
@@ -539,7 +535,6 @@ assigned one or more maintainers:
      doc/CrtObjCmd.3,
      doc/CrtInterp.3,
      doc/CrtMathFnc.3,
-     doc/CrtTrace.3,
      doc/Eval.3,
      doc/ExprLong.3,
      doc/ExprLongObj.3,
@@ -565,9 +560,17 @@ assigned one or more maintainers:
      tests/result.test,
      tests/stack.test
 
+   >   45. Traces -
+     doc/TraceVar.3,
+     doc/TraceCmd.3,
+     doc/trace.n,
+     doc/CrtTrace.3,
+     generic/tclTrace.c,
+     tests/trace.test
+
    Bytecode: 
 
-   >   1. compat/float.h,
+   >   46. compat/float.h,
      generic/tclCompCmds.c,
      generic/tclCompExpr.c,
      generic/tclCompile.c,
@@ -590,7 +593,7 @@ assigned one or more maintainers:
 
    Threads: 
 
-   >   1. doc/Thread.3,
+   >   47. doc/Thread.3,
      generic/tclThread.c,
      generic/tclThreadJoin.c,
      mac/tclMacThrd.c,
@@ -603,7 +606,7 @@ assigned one or more maintainers:
 
    Embedding Support: 
 
-   >   1. doc/AppInit.3,
+   >   48. doc/AppInit.3,
      doc/Tcl_Main.3,
      doc/Panic.3,
      doc/tclsh.1,
@@ -617,7 +620,7 @@ assigned one or more maintainers:
 
    Release Engineering: 
 
-   >   1. ''Release Notes'' - README,
+   >   49. ''Release Notes'' - README,
      changes,
      license.terms,
      */license.terms,
@@ -631,9 +634,21 @@ assigned one or more maintainers:
      unix/README,
      win/README
 
-   >   1. ''Portability Support'' - compat/dirent.h,
+   >   50. ''Portability Support'' - compat/dirent.h,
      compat/dirent2.h,
+     compat/limits.h,
+     compat/fixstrtod.c,
+     compat/memcmp.c,
+     compat/opendir.c,
+     compat/stdlib.h,
+     compat/string.h,
+     compat/strncasecmp.c,
+     compat/strstr.c,
+     compat/strtod.c,
+     compat/strtol.c,
+     compat/strtoul.c,
      compat/tclErrno.h,
+     compat/tmpnam.c,
      compat/unistd.h,
      generic/tclMath.h,
      generic/tclPort.h,
@@ -643,7 +658,7 @@ assigned one or more maintainers:
      win/tclWinMtherr.c,
      win/tclWinPort.h
 
-   >   1. ''Configuration and Build Tools'' - djgpp/Makefile
+   >   51. ''Configuration and Build Tools'' - djgpp/Makefile
      tests/all.tcl,
      tools/configure.in,
      tools/cvtEOL.tcl,
@@ -689,7 +704,7 @@ assigned one or more maintainers:
      win/tclsh.ico,
      win/tclsh.rc
 
-   >   1. ''Other Tools'' - tools/checkLibraryDoc.tcl,
+   >   52. ''Other Tools'' - tools/checkLibraryDoc.tcl,
      tools/genWinImage.tcl,
      tools/man2html.tcl,
      tools/man2html1.tcl,
@@ -698,14 +713,14 @@ assigned one or more maintainers:
 
    Macintosh Stuff: 
 
-   >   1. ''[[resource]]'' - doc/resource.n,
+   >   53. ''[[resource]]'' - doc/resource.n,
      doc/source.n,
      mac/tclMacResource.c,
      mac/tclMacResource.r,
      tests/resource.test,
      tests/source.test
 
-   >   1. ''Mac-Specific Files'' - doc/Macintosh.3,
+   >   54. ''Mac-Specific Files'' - doc/Macintosh.3,
      mac/AppleScript.html
      mac/Background.doc
      mac/libmoto.doc
@@ -752,18 +767,6 @@ API and should be changed only in accordance with TCT approval.
    * ChangeLog,
      ChangeLog.2000,
      ChangeLog.1999,
-     compat/limits.h,
-     compat/fixstrtod.c,
-     compat/memcmp.c,
-     compat/opendir.c,
-     compat/stdlib.h,
-     compat/string.h,
-     compat/strncasecmp.c,
-     compat/strstr.c,
-     compat/strtod.c,
-     compat/strtol.c,
-     compat/strtoul.c,
-     compat/tmpnam.c,
      doc/man.macros,
      generic/tcl.decls,
      generic/tcl.h,
