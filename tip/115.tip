@@ -1,0 +1,119 @@
+TIP:		115
+Title:		Making Tcl Truly 64-Bit Ready
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Created:	23-Oct-2002
+
+~ Abstract
+
+This TIP proposes changes to Tcl to make it operate more effectively
+on 64-bit systems.
+
+~ Rationale
+
+It is a fact of life that 64-bit platforms are becoming more common.
+While once the assumption that virtually everything was a 32-bit
+machine (where not smaller) was valid, this is no longer the case.
+Particularly on modern supercomputers (though increasingly in
+workstations and high-end desktop systems too), the amount of memory
+that the machine contains is exceeding 2GB, and the need to address
+very large amounts of memory is certainly there in scientific and
+engineering applications.  And where they lead, consumer systems will
+probably follow too.
+
+At the moment, Tcl is ill-prepared for this.  In particular, the type
+used for expressing sizes of entities in Tcl (whether strings, lists
+or undifferentiated blocks of memory) is ''int'' (and cannot be made
+into an ''unsigned int'' in most of those places where it is not
+already an unsigned value) but on the majority of 64-bit platforms
+this is still a 32-bit type, which is a major restriction.  However,
+on the vast majority of those platforms ''long'' is a 64-bit type, and
+so a suitable replacement.  (The exception to this is the Alpha, but
+that is unusual in that both ''int'' and ''long'' are 64-bit types
+there, meaning that the platform will be unaffected by such an
+alteration.)
+
+~ Details of Changes
+
+The key changes will be to change the lengths of the following types
+from ''int'' to ''long'' in all appropriate places (maintaining the
+''unsigned'' where it already exists; most length types in Tcl have to
+be signed because negative values are used to flag that the length
+should be figured out from the data itself.)
+
+ * ''Tcl_Obj'' - the ''length'' member.  (Potentially the ''refCount''
+   member needs updating as well, but that's less critical.)
+
+ * ''Tcl_SavedResult'' - the ''appendAvl'' and ''appendUsed'' members.
+
+ * ''Tcl_DString'' - the ''length'' and ''spaceAvl'' members.
+
+ * ''Tcl_Token'' - the ''size'' and ''numComponents'' members.
+
+ * ''Tcl_Parse'' - the ''commentSize'', ''commandSize'', numWords'',
+   ''numTokens'' and ''tokensAvailable'' members.
+
+ * ''CompiledLocal'' - the ''nameLength'' member.
+
+ * ''Interp'' - the ''appendAvl'', ''appendUsed'' and ''termOffset''
+   members.
+
+ * ''List'' - the ''maxElemCount'' and ''elemCount'' members.
+
+ * ''ByteArray'' - the ''used'' and ''allocated'' members.
+
+ * ''SortElement'' - the ''count'' member.
+
+ * ''SortInfo'' - the ''index'' member.
+
+ * ''CopyState'' - the ''toRead'' and ''total'' members.
+
+ * ''GetsState'' - the ''rawRead'', ''bytesWrote'', ''charsWrote'' and
+   ''totalChars'' members.
+
+ * ''ParseInfo'' - the ''size'' member.
+
+ * ''String'' - the ''numChars'' member (see also the ''TestString''
+   structure.)
+
+Changes to the bytecode-related structures might be worthwhile doing
+too, though there are more backward-compatibility issues there.
+
+These changes will force many of the types used in the public API to
+change as well.  Notable highlights:
+
+ * ''Tcl_Alloc'' will now take an ''unsigned long''.
+
+ * ''Tcl_GetByteArrayFromObj'' will now take a pointer to a ''long''.
+
+ * ''Tcl_GetStringFromObj'' will now take a pointer to a ''long''.
+
+ * ''Tcl_ListObjLength'' will now take a pointer to a ''long''.
+
+ * ''Tcl_GetUnicodeFromObj'' will now take a pointer to a ''long''.
+
+In the internal API, the following notable change will happen:
+
+ * ''TclGetIntForIndex'' will now take a pointer to a ''long''.
+
+There are probably other similar API changes required.
+
+~ What This TIP Does Not Do
+
+This TIP does not rearrange structure orderings.  Although this would
+be very useful for some common structures (notably ''Tcl_Obj'') if the
+common arithmetic types were smaller than the word size, it turns out
+that the changes in types required to deal with larger entities will
+make these rearrangements largely unnecessary and/or pointless.
+(Inefficiency in statically-allocated structures won't matter as the
+number of instances will remain comparatively small, even in very
+large programs.)
+
+~ Copyright
+
+This document has been placed in the public domain.
