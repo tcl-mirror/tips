@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -480,6 +480,7 @@ be a Category in the SourceForge Tracker for Tk:
    Other Tk commands: 
 
     >  1. ''[console]'' -
+     doc/console.n
      generic/tkConsole.c,
      library/console.tcl
 
