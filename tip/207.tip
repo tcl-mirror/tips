@@ -1,6 +1,6 @@
 TIP:            207
 Title:          Add a -namespace Option to [interp invokehidden]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -81,35 +81,7 @@ The following example scripts illustrates how this feature might be used.
 
 ~ Proposed Internal C API Changes
 
-The following additions/changes would be made to the private Tcl C API:
-
- * int '''TclObjInvokeNamespace'''(Tcl_Interp *''interp'', int
-   ''objc'', Tcl_Obj *CONST ''objv''[], Tcl_Obj *CONST
-   ''namespaceName'', int ''flags'')
-
- > Invokes the specified command in the namespace context specified by
-   the ''namespaceName'' argument.  This is a new function.
-
- * Two new flags '''TCL_INVOKE_NS_MUST_EXIST''' and
-   '''TCL_INVOKE_NO_GLOBAL_ONLY''' would be created for use with the
-   '''TclObjInvoke*''' family of functions.
-
- > The '''TCL_INVOKE_NS_MUST_EXIST''' flag (used with
-   '''TclObjInvokeNamespace''') indicates that the caller does ''not''
-   want the namespace context to be created if it does not already
-   exist.  '''The TCL_INVOKE_NO_GLOBAL_ONLY''' flag (used with
-   '''TclObjInvoke''') inhibits the use of the '''TCL_GLOBAL_ONLY'''
-   during command resolution.
-
- * static int '''SlaveInvokeHidden'''(Tcl_Interp *''interp'',
-   Tcl_Interp *''slaveInterp'', Tcl_Obj *CONST ''namespaceName'',
-   int ''global'', int ''objc'', Tcl_Obj *CONST ''objv''[])
-
- > The '''SlaveInvokeHidden''' would be modified to accept a 
-   ''namespaceName'' argument.
-
- * The '''FIND_ONLY_NS''' flag would be moved from
-   ''generic/tclNamesp.c'' to ''generic/tclInt.h''
+To be determined.
 
 ~ Reference Implementation
 
