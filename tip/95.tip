@@ -1,0 +1,102 @@
+TIP:		95
+Title:		Add [wm attributes] Command
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <JeffH@ActiveState.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	29-May-2002
+Tcl-Version:	8.4
+Post-History:	
+
+~ Abstract
+
+This TIP proposes adding a [[wm attributes]] command in order to
+control platform-specific aspects of a toplevel.  In addition, it
+proposes making [[wm]] a ''Tcl_Obj''-based command and centralizing
+the common functionality.
+
+~ Rationale
+
+While Tk has been proven useful over time as a cross-platform toolkit,
+it has some serious drawbacks in acceptance due to small, but
+important, lacking functionality in the handling of toplevel windows
+on certain platforms.  Having a toplevel stay on top on Windows is a
+prime example of a commonly requested feature for which there is no
+core support.  Mac/Tk has long had a special unknown command to
+support special styles needed for proper "look and feel" there.  I
+hereby propose a [[wm attributes]] command (like the [[file
+attributes]] command) to providing platform-specific functionality for
+toplevel windows.
+
+~ Specification
+
+|   wm attributes $toplevel ...
+|   [[WINDOWS]]
+|        ?-disabled ?bool??
+|        ?-toolwindow ?bool??
+|        ?-topmost ?bool??
+|        ?-minimizebox ?bool??
+|        ?-maximizebox ?bool??
+|        ?-sysmenu ?bool??
+|   [[MAC]]
+|        ?-style ?alert|moveablealert|modal|moveablemodal|
+|                 floating|document ...??
+|   [[UNIX]]
+|        ???
+
+Because Tk started off on Unix, most potential attributes are already
+in the wm command, whether they really make sense across platforms or
+not (some equivalent has been emulated in most cases).  If someone
+feels that there are some X window attributes that Tk does not
+support, this would be the place to put them.
+
+On Windows, most of the attribute settings can be combined (they are
+OR-ed bits of special style fields on a toplevel), which is why they
+are set or retrieved as booleans.  The names reflect their Win32 API
+bits.  For Windows and the Mac, the naming of attributes and/or styles
+mirrors the native API as closely as possible, as we are exposing
+native platform functionality in this command.  More specifics about
+Windows styles can be seen here:
+
+ > http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwui/html/msdn_styles32.asp
+
+For Macs [[defer to Jim here]], it appears that styles are mutually exclusive,
+so you set one of a list of available styles.  MacOS has nine standard window
+types and eight standard floating window types.  More information can be seen
+here:
+
+ > http://developer.apple.com/techpubs/quicktime/qtdevdocs/INMAC/MACWIN/imWindowMgrRef.3.htm
+
+~ Reference Implementation
+
+Mac/Tk has a reference implementation already that would just adapt
+the existing ''unsupported1'' code to ''wm attributes''.  There are
+two variant patches for the Windows work in Tk patch 553926 at SF.
+
+File: ''tk/mac/tkMacWm.c''
+
+File: ''tk/win/tkWinWm.c''
+
+File: ''tk/unix/tkUnixWm.c''
+
+Function: ''Tk_WmCmd''
+
+~ Comments
+
+Several names have been used for a command with similar functionality.
+Mac/Tk uses the ''style'' command, as does Tk Patch 553926.  This is
+only for platform-specific configuration of toplevel windows, and it
+not necessarily limited to style.  I considered ''wm configure'', but
+I chose ''wm attributes'' because that worked just as well and had the
+equivalent of ''file attributes'' to support the naming.
+
+Windows toplevels could have more special styles like
+''-transparent'', Windows scrollbars on the toplevel and a few other
+window styles that the Win32 API supports.  Only the styles that have
+had user requests are supported at this time.  We may want to add
+''-caption'' and ''-dialogmodal'' support if these seem useful.
+
+~ Copyright
+
+This document has been placed in the public domain.
