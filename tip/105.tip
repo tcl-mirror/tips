@@ -1,13 +1,14 @@
 TIP:		105
 Title:		Add Prefix Matching for Switch
-State:		Deferred
+State:		Withdrawn
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	03-Jul-2002
+Obsoleted-By:	195
 
 ~ Abstract
 
