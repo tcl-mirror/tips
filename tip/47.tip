@@ -1,6 +1,6 @@
 TIP:            47
 Title:          Modifying Tk to Allow Writing X Window managers
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
@@ -179,6 +179,10 @@ A patch (against tk8.4a2) that implements the changes described aboves
 may be found at
 
  > http://www.eecs.umich.edu/~mckay/wmenablers.patch.gz
+
+~ Notes
+
+Andreas Kupries. There was a ''tkwm' patch once. See the following urls for more: http://www.neosoft.com/tcl/ftparchive/sorted/x11/tkwm/ and http://www.ensta.fr/internet/unix/window_managers/tkwm.html
 
 ~ Copyright
 
