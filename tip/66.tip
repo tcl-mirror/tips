@@ -1,0 +1,173 @@
+TIP:		66
+Title:		Stand-alone and Embedded Tcl/Tk Applications
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Informational
+Vote:		Pending
+Created:	02-Oct-2001
+Post-History: 
+Keywords:	installation, initialisation, embedded, resources
+
+~ Abstract
+
+This TIP describes the development and deployment of Tcl/Tk
+applications, with particular attention on how to ''embed'' the
+interpreter into executables written in C or C++.
+
+~ Introduction and Background
+
+Usually, an application that uses Tcl/Tk in some way uses an
+independent installation and the application itself is started via a
+standard shell, like ''tclsh'' or ''wish''.  There are numerous
+occasions when such a set-up is not convenient:
+
+ * Installation of external software is not allowed unless the IT
+   department at the client's site consents - a very reasonable
+   approach to the uncountable problems that occur due to conflicting
+   software in modern computing environments.
+
+ * Distribution of a stand-alone program is much easier - less
+   cluttering of disk space, all the files are in one directory tree,
+   programs can easily be demonstrated or uninstalled.
+
+ * If the scripting part solves a small problem in a larger
+   environment that does not require Tcl/Tk, the extra megabytes and
+   the separate installation seem an overkill.
+
+Another reason to document the resources used by Tcl/Tk is that this
+provides better insight in how to tune Tcl/Tk for a particular
+application.
+
+----
+
+Two examples may illustrate the need for such stand-alone applications
+and what is involved:
+
+ 1. When we were building an installation script for an MS Windows
+    application using one of the commercial tools that are available
+    for this arcane job, we ran into a bizarre limitation: text
+    replacement was possible for the so-called Windows INI-files only,
+    but not for other types of files.  The text to be replaced was the
+    name of the installation directory.  After several trials with the
+    programming constructs the tool allowed, we chose a much better
+    solution: a small Tcl script wrapped into a stand-alone program
+    using Freewrap.  (The application itself now actually uses another
+    stand-alone Tcl script to take care of the file management that
+    was too complicated for ordinary DOS batch files.)
+
+ 2. The second example involves a small program that proves the
+    usefulness of Tcl/Tk in on-line visualisation.  The idea there is
+    that large computational programs can send their data at regular
+    steps during the computation to a separate program that plots
+    these results in some meaningful way.  To achieve this the program
+    exports the results to the Tcl interpreter which uses the socket
+    command to send them to a (primitive) viewer.  For demonstration
+    purposes you must be able to copy the program along with some
+    files it needs on an arbitrary computer and, later, remove it with
+    just a little effort.
+
+Applications that use Tcl/Tk as an embedded library to achieve their
+goals, rather than exist as extensions or applications written in Tcl,
+can be quite useful.  Examples include on-line visualisation in large
+computational programs, network applications that can be deployed as a
+single file etc.  There is, however, little documentation on how to
+build such applications and what is required for their installation.
+
+----
+
+The aim of this TIP is to provide guidelines that make this
+development easier:
+
+ * How to create an interpreter and test it within the larger
+   environment?
+
+ * What you can and can not do with a bare interpreter?
+
+ * How to enhance its capabilities, such that it works as in an
+   ordinary Tcl shell?
+
+ * What (binary and script) libraries are required?
+
+ * How to deal with other programming languages than C/C++?
+
+ * How to create applications that can be installed without an
+   independent Tcl installation?
+
+~ Related TIPs and Discussions
+
+The are several TIPs at the moment of this writing that are in some way
+related to the subject:
+
+ * [4] proposes to outline the release and distribution philosophy, so
+   that it becomes easy to include generally useful extensions - the
+   so-called "batteries included".
+
+ * [12] focuses completely on the "batteries included" aspect of the
+   source distribution.
+
+ * [34] is intended to solve some of the more awkward issues of TEA,
+   as the current build system actually requires separate versions for
+   UNIX and Windows.
+
+ * [55] defines the set-up of packages that can be automatically
+   installed into an existing installation.
+
+ * Postings on the news:comp.lang.tcl newsgroup frequently involve how
+   to embed Tcl into a C application, with an emphasis on loading
+   packages and the use of the ''Tcl_Init()'' function.
+
+ * Recently discussions have been held about supporting programming
+   languages other than C.  Notably: Pascal, FORTRAN, Visual Basic.
+
+~ Contents of the Planned Document
+
+The document that should help programmers with the issues discussed here
+will have the following (tentative) table of contents:
+
+ * Introduction, outlining its purpose.
+
+ * Tcl's bootstrap procedure, describing how the usual shells work.
+
+ * Creating interpreters, what a bare interpreter can and can not do,
+   how to enrich it via start-up scripts like ''init.tcl''.
+
+ * Compiling and linking, the usual issues surrounding the making of a
+   binary executable.
+
+ * Interfacing to other programming languages, though possibly a huge
+   subject, it will present some guidelines, both practical
+   implementation and design issues.
+
+ * Installation and deployment, should inform about the external
+   resources (environment variables, libraries, etc) for the
+   application.
+
+ * Overview, provide a checklist of the various possibilities and how
+   to achieve them, with pointers for further information.
+
+ * Literature, all the good books and other references.
+
+----
+
+~ Discussion
+
+Issues that arise are:
+
+ * what is the simplest way to embed Tcl,
+
+ * what resources are needed (in terms of script and binary libraries)
+   by such an application,
+
+ * how can the application find everything it needs?
+
+This TIP is meant to be a document that enables programmers who do not
+have intimate knowledge of the Tcl core to build such application and
+deploy them in the way they want.
+
+Should it turn out that some automated tool would be nice to help the
+programmers, then this TIP will also cover such a tool.
+
+~ Copyright
+
+This document is placed in the public domain.
