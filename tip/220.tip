@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -16,18 +16,6 @@ This tip allows the creator and opener of a channel to cast away
 privileges and have them restored on close, to permit last-minute
 processing.  It is sufficient to resolve a ''tclvfs'' bug, minimal,
 and safe.
-
-TIP:            220
-Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.12 $
-Author:         Colin McCormack <colin@sharedtech.dyndns.org>
-Author:         Andreas Kupries <akupries@shaw.ca>
-State:          Draft
-Type:           Project
-Vote:           Pending
-Created:        12-Sep-2004
-Post-History:   
-Tcl-Version:    8.5
 
 ~ Abstract
 
