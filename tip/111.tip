@@ -1,11 +1,11 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        05-Oct-2002
 Post-History:   
 Tcl-Version:    8.5
