@@ -1,6 +1,6 @@
 TIP:		86
 Title:		Saving [proc] File and Line Number Information in [source]
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Peter MacDonald <peter@browsex.com>
 State:		Draft
 Type:		Project
@@ -13,8 +13,8 @@ Post-History:
 
 This TIP proposes saving the file name and line number information for
 each user defined [[proc]] definition contained within a [[source]]d
-file, and providing two new subcommands to [[info]]: [[file]] and
-[[line]] that can return this new information.
+file, and providing three new subcommands to [[info]]: [[fileproc]],
+[[lineproc]] and [[findproc]] that can return this new information.
 
 ~ Rationale
 
@@ -26,24 +26,34 @@ dealing with errors, the message is machine parseable so that it is
 possible so that automated processing is possible.  For example:
 automatically bring the user into an editor at the offending line.
 
-Second, a debugger (such as Don Libes's ''tcl-debug'') can be readily
-extended to make use of this new information to provide, for example,
-breakpoints on lines, and displaying/locating source.  Ultimately it
-could be used via a full screen or GUI interface ala ''gdb''.
+Second, a simple/small debugger emulating ''gdb'' is being developed
+that uses this interface.  It allows breakpoints on lines,
+single-stepping and displaying/locating source and even works as a
+slave under a GUI written in Tk.  Ultimately, at some point this
+debugger could even be included in the core distribution.
 
 ~ Specification
  
-The new [[info]] subcommands return respectively the file name and
-line number information for a given ''PROC''.  Valid syntax is:
+The new [[info]] subcommands give access to the file name and line
+number information for a given ''PROC''.  Valid syntax is:
 
-|  info line PROC 
-|  info file PROC 
-|  info file
- 
-These exhibit the following behaviors:
+|  info lineproc PROC ?LINE NEWLINES?
+|        Get/set the line number and number of newlines for PROC.  In
+|        get mode, returns the definition line number and number of
+|        newlines in the message body.  This provides a fairly speedy
+|        way of determining if a given line number is included in a
+|        specific proc.
+|
+|  info fileproc ?PROC ?FILE??
+|        Get/set the sourced file name for PROC.  If PROC is not
+|        specified, dump all known sourced files.
+|
+|  info findproc FILE LINE
+|        Given a file name and line number, return the PROC name
+|        containing line number LINE.  A new nonstatic procedure
+|        TclFindProcByLine() provides this function.
 
- * ''If proc was defined in a sourced file'', [[line]] returns the
-   line number, [[file]] returns the file name.
+These exhibit the following behavior:
 
  * ''What does this do when you redefine a proc?''
    
@@ -59,18 +69,13 @@ These exhibit the following behaviors:
  > If the definition is not the result of a source, the file/line come
    back as an empty string.
 
- * ''What if No PROC name is given to [[info file]]?''
-
- > It returns all known sourced file names.
-
 ~ Changes
 
 Sourced file names are stored in a global hash table.  Line numbering
-information is saved in the ''Command'' structure.  The ''Tcl_Parse''
+information is saved in the ''Proc'' structure.  The ''Tcl_Parse''
 structure gets two additional ints which are updated during the parse
 phase prior to command creation.  A temporary ''lineNum'' int is also
-employed for passing the current line number down to
-''Tcl_CreateCommand''.
+employed for passing the current line number around.
 
 The bulk of the changes occur in ''generic/tclParse.c'' where the
 number of line feeds seen is tracked.
@@ -81,16 +86,16 @@ This is a change impacting binary compatibility as it adds to
 ''Tcl_Interp''.
 
 The runtime footprint of Tcl should not increase by more than a few
-kilobytes, even for really large programs.  Most of the space impact
-occurs in storing the file names, however, these are stored only once
-each for each file sourced, not per interp.  A typical example from a
-large system:
+kilobytes, even for moderately large programs.  Most of the space
+impact occurs in storing the file names, but these are stored only
+once each for each file sourced, not per interp.  A typical example
+from a large system:
 
 |  100 sourced files * 100 bytes = 10K.
 
 The other space overhead adds up to 2 words (8 bytes on a 32-bit
-platform) per defined command proc, plus an additional word in the
-Interp.
+platform) per defined procedure, plus an additional 2 words in the
+''Interp'' structure.
 
 Runtime processing overhead should be negligible.
 
@@ -103,6 +108,32 @@ http://dev.browsex.com/tclline.diff.gz
 
 This is a patch against tcl8.4a3.  It has been tested lightly against
 small and large Tcl programs.
+
+There is also an initial version of a debugger: ''tgdb''.
+
+http://dev.browsex.com/tgdb.tgz
+
+''tgdb'' emulates some of the basic commands of ''gdb'' (''s'', ''n'',
+''c'', ''f'', ''bt'', ''break'' and ''info locals'').  The basic
+''tgdb'' strategy is to determine the line number by looking for the
+currently executing command:
+
+ * When in a function, search in the procedure body
+
+ * When at global level, search in the file source starting from
+   reported line.
+
+Although not foolproof, it is accurate enough the majority of the
+time.
+
+Also bundled is ''tdb'', a GUI front-end to ''gdb'', modified to also
+work with ''tgdb''.  You can test it against the patched Tcl with
+ 
+|  make 
+|  ./tdb test.tcl 
+
+Once ''load'' and ''run'' commands are added, ''tgdb'' should probably
+work even with ''emacs'' and ''ddd''.
 
 ~ Copyright
 
