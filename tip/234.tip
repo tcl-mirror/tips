@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -390,7 +390,7 @@ interpreter.
 ~ Reference Implementation
 
 The reference implementation is available at the subversion repository
-h_ttp://svn.scheffers.net/zlib. Alternatively, a recent snapshot may be obtained
+http://svn.scheffers.net/zlib. Alternatively, a recent snapshot may be obtained
 from h_ttp://svn.scheffers.net/zlib.tar.gz. This reference implementation includes
 a copy of zlib-1.2.1 from h_ttp://www.gzip.org
 
