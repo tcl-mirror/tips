@@ -1,8 +1,8 @@
 TIP:            205
 Title:          Use pkgconfig Database to Register Xft Support
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Joe English <jenglish@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Jun-2004
