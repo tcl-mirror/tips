@@ -1,13 +1,13 @@
-TIP:		239
-Title:		Enhance the 'load' Command
-Version:	$Revision: 1.2 $
-Author:		Jeff Hobbs <jeffh@activestate.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	26-Jan-2005
-Post-History:	
+TIP:            239
+Title:          Enhance the 'load' Command
+Version:        $Revision: 1.3 $
+Author:         Jeff Hobbs <jeffh@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Jan-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -57,18 +57,30 @@ I will also recommend obsoleting the existing '''unload''' call to use
 this new functional spec style.  Current spec, to be unsupported (it's
 new in 8.5):
 
- > '''unload''' ''fileName'' ?''packageName'' ?''interp''??
+ > '''unload''' ?''switches''? ''fileName'' ?''packageName'' ?''interp''??
 
 New specification:
 
  > '''unload''' ?'''-interp''' ''interp''? ?'''-call'''
-   ''uninitName''? ?'''-nocomplain'''? ?'''-keeplibrary'''? ?'''--'''?
+   ''uninitName''? ?'''-keeplibrary'''? ?'''--'''?
    ''fileName''
+
+I removed the ''-nocomplain'' option.  The user should simply '''catch''' the command if they wish to suppress the types of errors that unload would throw.
 
 I think that C functions should be made available as well for
 cross-platform access to the load functionality, but that is not
 specified in this TIP.  This would need to account for users that may
 configure Tcl with --disable-load (does anybody need that anymore?).
+
+~ Discussion
+
+Not all platforms may support library loading to a degree required for this TIP functionality.  In that case, an error message will be thrown.
+
+The use of '''--''' as a option end switch was debated as unnecessary since there is only one fixed argument.  JH likes the use of it for the completeness it gives the use of switches.
+
+The '''load''' command will determine the use of the new form by checking if more than one argument is given and the first argument starts with a '''-'''.
+
+It was mentioned that '''load''' should return a token or command that can then be used to invoke further commands.  This may assist in adding future ffidl-like functionality, but it may muddle the cleanliness of the API.
 
 ~ Examples
 
