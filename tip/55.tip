@@ -1,6 +1,6 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -56,7 +56,7 @@ defined by the requirements of Tcl's existing package loading methods.
 The structure of an installable distribution should largely mirror
 the structure of an installed package where possible.
 
-The R system (a statistical package: http://www.r-project.org/) has a
+The R system (a statistical package [http://www.r-project.org/]) has a
 well defined package format which enables automatic installation of new
 packages and integration of documentation and demonstration programs
 for these with that of the main R system.
@@ -73,8 +73,8 @@ conflicts after installation.
 
 A significant part of this proposal is the proposed format of the
 package metadata which derives from other metadata standardisation
-efforts, mainly the Dublin Core (http://purl.org/dc/) and the Resource
-Description Framework (http://www.w3.org/RDF).
+efforts, mainly the Dublin Core [http://purl.org/dc/] and the Resource
+Description Framework [http://www.w3.org/RDF].
 
 ~ Requirements
 
@@ -368,7 +368,7 @@ set above but may be used in a package description if appropriate.
  > The nature or genre of the content of the resource. For a Tcl
    package the value of this element would be Software if the DCMI
    Type Vocabulary
-   (http://au.dublincore.org/documents/2000/07/11/dcmi-type-vocabulary/)
+   [http://au.dublincore.org/documents/2000/07/11/dcmi-type-vocabulary/]
    was used.  A more useful set of types might be developed in the
    future for Tcl packages.
 

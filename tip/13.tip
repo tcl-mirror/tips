@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -27,14 +27,14 @@ approved, so acceptance of TIPs in some form seems likely.
 
 A prototype system has been provided by Donal
 Fellows <fellowsd@cs.man.ac.uk>
-at http://www.cs.man.ac.uk/fellowsd-bin/TIP/
+[http://www.cs.man.ac.uk/fellowsd-bin/TIP/]
 that delivers TIPs to visitors in a variety of formats.  However,
 that system lacks archiving of each revision of each TIP, and
 offers no interface (through the web or otherwise) for making
 revisions to TIPs.  
 
 The TIP format was inspired by the format used by the Tcl'ers
-Wiki (http://www.purl.org/thecliff/tcl/wiki/).  The true power
+Wiki [http://www.purl.org/thecliff/tcl/wiki/].  The true power
 of the Tcl'ers Wiki, though, is not in the particular format it
 uses, but in the fact that it empowers the whole Tcl community to
 contribute to a common set of resources.  The Tcl'ers Wiki
@@ -44,7 +44,7 @@ efforts of volunteers from the community.
 ~ Problems with Current TIP Infrastructure.
 
 The Fellows web interface to the TIP Document Collection
-(http://www.cs.man.ac.uk/fellowsd-bin/TIP/) offers valuable
+[http://www.cs.man.ac.uk/fellowsd-bin/TIP/] offers valuable
 browsing access to TIPs in a variety of formats.  It accomplishes
 the important goal of making TIPs public.  However, it suffers from
 two significant shortcomings:
@@ -132,11 +132,11 @@ An improved system for archiving and revising TIPs is proposed:
 
 The modifications to the Fellows TIP rendering engine that add the
 capabilities proposed above are now merged in.  The TIP rendering
-engine is maintained at
-http://sourceforge.net/projects/tiprender/ .  To enable the
+engine is maintained and publically available
+[http://sourceforge.net/projects/tiprender/].  To enable the
 web-editing features, set the Tcl variable FEATURE(EDIT) to 1 in
 the file config.tcl.  A working version of the proposed web service
-is available at http://purl.org/tcl/home/cgi-bin/tct/tip/ .
+is available at http://purl.org/tcl/tip/
 
 For what it's worth, this TIP was created primarily within a web
 browser, making revisions through the web interface provided by the
@@ -176,7 +176,7 @@ server:
 
 Once the TIPs are housed in a CVS repository, other services should be
 easier to implement.  Another browsing interface could be provided
-using cvsweb (http://stud.fh-heilbronn.de/~zeller/cgi/cvsweb.cgi/) to
+using cvsweb [http://stud.fh-heilbronn.de/~zeller/cgi/cvsweb.cgi/] to
 allow anyone in the community to browse TIP history.  Another
 ''loginfo'' script could provide e-mail notices when a TIP is revised
 to users who registered their interest in that TIP.

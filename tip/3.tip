@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -32,8 +32,8 @@ the TIP process will be stillborn. This not only means basically plain
 text without much markup but also that we should reuse formats with
 which people are already acquainted.
 
-As the concept of TIPs borrows heavily from Python's PEPs at
-http://python.sourceforge.net/peps/ their definition on how to
+As the concept of TIPs borrows heavily from Python's PEPs
+[http://python.sourceforge.net/peps/] their definition on how to
 structure and format a PEP was reviewed for its suitability of use by
 the TCT and the community at large.
 
@@ -53,8 +53,7 @@ extendable. Using indentation to convey semantic and syntactic
 information on the other hand is something Pythonistas are used to but
 here in the Tcl world we are not to the same extent.
 
-Looking at bit closer to home we find the Tcl'ers Wiki at
-http://www.purl.org/thecliff/tcl/wiki/
+Looking at bit closer to home we find the Tcl'ers Wiki [http://wiki.tcl.tk/]
 
 It does use a plain text format with some very light formatting
 conventions to allow things like links, images, enumerated and
@@ -121,7 +120,7 @@ embedded tcl-commands, for example like ... [[section Abstract]] ...
 ~ Header Format
 
 The general format of the header for a TIP is specified in RFC 822
-(http://www.rfc-editor.org/rfc/rfc822.txt). This leaves us to define
+[http://www.rfc-editor.org/rfc/rfc822.txt]. This leaves us to define
 and explain the keywords, their meaning and their values.  The
 following keywords are ''required'', and unless otherwise stated,
 should occur exactly once:
@@ -136,7 +135,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.4 $. (Initially $Revision: 1.4 $ should be used, which
+	$Revision: 1.5 $. (Initially $Revision: 1.5 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -317,7 +316,7 @@ ordinary paragraph (and should normally be just plain text, to make
 processing by tools easier.)
 
 You can compare these rules with those for the Tcl'ers Wiki which are
-described at http://www.purl.org/thecliff/tcl/wiki/14.html, with the
+described at http://wiki.tcl.tk/14.html, with the
 following modifications:
 
    1. The text for an item in an itemized, enumerated or tagged list
@@ -357,10 +356,10 @@ following modifications:
 
 A reference renderer was created by Donal Fellows
 <fellowsd@cs.man.ac.uk> and is installed (as a behind-the-scenes
-rendering engine) on a set of TIP documents at
-http://www.cs.man.ac.uk/fellowsd-bin/TIP with the source code to the
-rendering engine being available at
-http://www.cs.man.ac.uk/~fellowsd/tcl/render/tip0.2/
+rendering engine) on a set of TIP documents
+[http://www.cs.man.ac.uk/fellowsd-bin/TIP] with the source code to the
+rendering engine being available
+[http://sf.net/projects/tiprender/]
 
 Note that this code does support nested lists and multi-paragraph
 items, but this is experimental right now. Examples are presented
@@ -487,6 +486,8 @@ Here is the code
 |
 | > HTTP URL - http://purl.org/thecliff/tcl/wiki/
 |
+| > HTTP URL in brackets - [http://wiki.tcl.tk]
+|
 | > HTTPS URL - https://sourceforge.net/
 |
 | > FTP URL - ftp://src.doc.ic.ac.uk/packages/tcl/tcl/
@@ -521,6 +522,8 @@ output-media which support this.
    gopher.  Test here...
 
  > HTTP URL - http://purl.org/thecliff/tcl/wiki/
+
+ > HTTP URL in brackets - [http://wiki.tcl.tk]
 
  > HTTPS URL - https://sourceforge.net/
 

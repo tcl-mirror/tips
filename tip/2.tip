@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -40,8 +40,8 @@ http://www.cs.man.ac.uk/fellowsd-bin/TIP/ .
 
 Further details on the arguments behind the evolution of the TIP
 concept and formatting can be found in the archive of the ''tclcore''
-mailing list at
-http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/tcl-core .
+mailing list
+[http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/tcl-core].
 
 ~ Kinds of TIPs
 
@@ -154,7 +154,7 @@ Each TIP should have the following parts:
 
  4. ''Copyright''/public domain - Each TIP must either be explicitly
     labelled in the public domain (the preferred 'license') or the
-    Open Publication License (http://www.opencontent.org/openpub/).
+    Open Publication License [http://www.opencontent.org/openpub/].
     It is recommended that this be done by making the last section of
     the document be a copyright heading, with the body describing what
     copyright (if any) the document is released under.
@@ -203,7 +203,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.21 $
+|Version:       $Revision: 1.22 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project

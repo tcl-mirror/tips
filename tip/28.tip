@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:          <dgp@user.sourceforge.net>
 State:          Draft
@@ -74,7 +74,7 @@ maintainer must have while making the change.  More on this below.
 
 The official repositories of Tcl and Tk source code are kept at
 SourceForge, so you need to register for a SourceForge account
-(https://sourceforge.net/account/register.php).  As part of the
+[https://sourceforge.net/account/register.php].  As part of the
 registration, you will select a login name.  When you volunteer as a
 maintainer, the administrators of the Tcl or Tk projects will need
 that name to give you write access to the appropriate repository.
@@ -82,15 +82,15 @@ that name to give you write access to the appropriate repository.
 Once you have a SourceForge account, get familiar with the tools it
 provides.  Most important is that you get set up to use CVS over SSH
 to access the repository.  This can be difficult.  There are some
-notes on how other Developers on the Tcl and Tk projects have been
-able to successfully get this done at http://tcltk.org/sourceforge
+notes [http://tcltk.org/sourceforge] on how other Developers on the
+Tcl and Tk projects have been able to successfully get this done.
 
 This document does not include instructions on how to use CVS.  See
 the following references for assistance with learning CVS.
 
-  http://cvsbook.red-bean.com/cvsbook.html
+ * http://cvsbook.red-bean.com/cvsbook.html
 
-  >	''Add more references here please.''
+''Add more references here please.''
 
 ~ How do I volunteer to be a maintainer?
 
@@ -111,16 +111,16 @@ the TCT first.  Read on...
 A maintainer uses the SourceForge Bug Tracker for Tcl or Tk to learn
 what bugs are reported in his area (browse by Category).
 
-   http://sourceforge.net/bugs/?group_id=10894
+  * http://sourceforge.net/bugs/?group_id=10894
 
-   http://sourceforge.net/bugs/?group_id=12997
+  * http://sourceforge.net/bugs/?group_id=12997
 
 A maintainer uses the SourceForge Patch Manager for Tcl or Tk to learn
 what patches make changes in his area (browse by Category).
 
-   http://sourceforge.net/patch/?group_id=10894
+  * http://sourceforge.net/patch/?group_id=10894
 
-   http://sourceforge.net/patch/?group_id=12997
+  * http://sourceforge.net/patch/?group_id=12997
 
 A maintainer uses CVS via SSH to access, track, and modify the various
 branches of development in the repository of official Tcl or Tk source
@@ -135,19 +135,19 @@ code.
 A maintainer examines the state of Tcl Improvement Proposals (TIPs) and
 adds his comments to them at the TIP Document Collection.
 
-   http://purl.org/tcl/home/cgi-bin/tct/tip/
+  * http://purl.org/tcl/home/cgi-bin/tct/tip/
 
 A maintainer may follow and participate in TCT discussions about TIPs
 and other matters concerning Tcl/Tk development on the TCLCORE mailing
 list.
 
-   http://lists.sourceforge.net/lists/listinfo/tcl-core
+  * http://lists.sourceforge.net/lists/listinfo/tcl-core
 
 A maintainer may receive e-mail notification every time any change is
 made to any entry in Tcl's or Tk's Bug Tracker or Patch Manager by
 subscribing to the TCLBUGS mailing list.
 
-   http://lists.sourceforge.net/lists/listinfo/tcl-bugs
+  * http://lists.sourceforge.net/lists/listinfo/tcl-bugs
 
 ~ There are multiple maintainers in my area.  What do I do?
 
@@ -397,15 +397,15 @@ different platforms.
 
 Check that the patch follows Tcl's established coding conventions.
 See the Tcl/Tk Engineering Manual
-(http://purl.org/tcl/home/doc/engManual.pdf) and the Tcl Style Guide
-(http://purl.org/tcl/home/doc/styleGuide.pdf) for details.  This is
+[http://purl.org/tcl/home/doc/engManual.pdf] and the Tcl Style Guide
+[http://purl.org/tcl/home/doc/styleGuide.pdf] for details.  This is
 especially important when accepting contributed patches.  Think twice
 before approving a patch that doesn't conform to these conventions.
 
 Check the effect of the patch on the performance of Tcl/Tk.  Use the
 tclbench set of benchmarks.
 
-|cvs -d :pserver:anonymous@cvs.tcllib.sourceforge.net:/cvsroot/tcllib \
+|cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/tcllib \
 |      checkout tclbench
 
 Think carefully before approving a patch that significantly degrades
