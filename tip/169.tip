@@ -1,0 +1,61 @@
+TIP:		169
+Title:		Add Slave Text Widgets
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	28-Jan-2004
+
+~ Abstract
+
+This TIP proposes adding a method to the text widget that will create
+slave text widgets, allowing two or more text widgets to share the
+same text, tags, and marks.
+
+~ Rationale
+
+One of the features offered by many text editors is the ability to
+split the view of text being edited.  Currently editors based on the
+Tk text widget are required to create multiple widgets, duplicating
+all insert, delete, etc., operations on both widgets.  The current
+text widget already separates the data from the widget rendering and
+it would be a simple task to allow two (or more) widgets to share this
+data.
+
+~ Proposed Change
+
+The proposed implementation splits the widget structure into two
+pieces, sharable data and widget specific rendering parts.  The text
+tree, tags, marks, images, and undo stack would be placed in a
+reference counted, shared section, while the tkwin, fonts, colors,
+bindings, etc., would remain with the widget.  A method (slave create)
+is added that will create a new widget that will share the data with
+it's "parent."  The shared data also contains a list of slaves which
+is used to propagate widget updates when the data changes.
+
+|set widget [text .text]
+|set slave [$widget slave create .slave]
+
+Once a slave is created it has all the rights and privileges of the
+creating parent (emancipation proclamation).  There is no restriction
+on the slave's window pathname.  The creating parent may also be
+destroyed without affecting the slave; only when the last window
+(slave or parent) is destroyed will the data be deleted.
+
+Bindings are not shared, but remain with the widget.  This includes
+tag bindings.
+
+In keeping with Tcl's introspection nature, a "slave names" method is
+added that will return a list of slave widgets. (should this list
+include itself?)
+
+~ Reference Implementation
+
+A reference implementation will be posted soon.
+
+~ Copyright
+
+This document has been placed in the public domain.
