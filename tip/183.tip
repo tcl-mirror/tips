@@ -1,6 +1,6 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -90,6 +90,19 @@ ignored at all levels).
 
 "open binaryfile r -translation binary" is not really any convenience.
 It's almost as verbose as calling fconfigure explicitly.
+
+Two positive comments appeared: First by Vince Darley: Having
+the Tcl C-Api for open accept the "b" makes it easier for foreign
+libraries (that open binary files) to be integrated as far as
+exposing them to Tcl's VFS, by #define'ing fopen to the 
+Tcl-C-Api function.
+
+Another, by DKF: The reasons of the current status quo are 
+historical: the flags-argument for open was defined when Tcl
+was only (officially) available on Unix-platforms (where "b"
+is ignored) and didn't even support binary data (nor any
+translations). Both of these historical reasons are obsolete
+by now.
 
 To sum up: yes, "b" is a C-ism, but open is, too. Also it's
 not a feature that someone would be required to use.
