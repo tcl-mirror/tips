@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -52,6 +52,8 @@ The patch includes objectification of the entire Text widget, so the multi-line 
 On the implementation side, it might be interesting to abstract the search interface away from the text widget, so that it could in principle be applied to any line-based textual source.
 
 As in the single-line matching implementation in Tcl 8.x, the lack of support for backwards matching in Tcl's regexp library means that backwards matching can only be implemented as repeated forward matches, with a commensurate performance penalty (the solution to which is outside the scope of this tip).
+
+Tk has a curious misfeature that ''$text search -regexp "\n" $pos'' will always fail to match anything. This behaviour will change as a result of this TIP (it will match the first newline after ''$pos''), and any code which somehow depended on that peculiarity will therefore break.
 
 ~ Copyright
 
