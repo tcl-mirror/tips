@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -130,11 +130,11 @@ interpreter in the following way:
 
  * The '''catch''' command will only catch errors if the interpreter
    containing it does not have the flag mentioned just above set.
-   Similarly, further trips round the internal loops of the '''vwait''',
-   '''update''' and '''tkwait''' commands will not proceed with that flag
-   set.  (There will also need to be a C API for reading the flag so
-   extensions can obey the rules as well, though I do not know what to
-   call it at this stage.)  No calls to '''bgerror''' should be made.
+   Similarly, further trips round the internal loops of the
+   '''vwait''', '''update''' and '''tkwait''' commands will not
+   proceed with that flag set.  (Extensions can find this information
+   out by using ''Tcl_LimitExceeded()''; see below.)  No calls to
+   '''bgerror''' should be made.
 
  * Once the execution unwinds out of the interpreter so that no
    further invocations of the interpreter are left on the call-stack,
