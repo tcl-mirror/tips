@@ -1,6 +1,6 @@
 TIP:            124
 Title:          High-Resolution Absolute Time Values From [clock]
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Mark Harrison <mh@pixar.com>
 Author:         Kevin Kenny <kennykb@users.sourceforge.net>
 State:          Draft
@@ -76,7 +76,8 @@ to make [clock seconds] return a wide value at the same time as
 we implement the rest of these changes, in order to address the
 Y2038 problem.  Alas, the problem goes deeper; the gettimeofday()
 call (and Tcl's mirroring of it in the Tcl_GetTime interface) is
-not Y2038-ready.
+not Y2038-ready. The necessary upgrades to return a 64-bit value
+for [clock seconds] are outside the scope of this TIP.
 
 Several people have informally asked whether 64 bits are enough
 to hold the microsecond counter.  Since 2**64 microseconds is
