@@ -1,9 +1,9 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        18-Sep-2001
