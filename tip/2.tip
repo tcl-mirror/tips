@@ -1,11 +1,12 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Mo DeJong <no@spam.com>
 Author:         Larry W. Virden <lvirden@yahoo.com>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -40,7 +41,7 @@ http://www.cs.man.ac.uk/fellowsd-bin/TIP/ .
 Further details on the arguments behind the evolution of the TIP
 concept and formatting can be found in the archive of the ''tclcore''
 mailing list at
-http://www.geocrawler.com/redir-sf.php3?list=tcl-core .
+http://aspn.activestate.com/ASPN/Mail/Browse/Threaded/tcl-core .
 
 ~ Kinds of TIPs
 
@@ -202,7 +203,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.20 $
+|Version:       $Revision: 1.21 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
