@@ -1,6 +1,6 @@
 TIP:            117
 Title:          Object Type Introspection
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -30,12 +30,14 @@ A new subcommand, ''objtype'', is added to ''info'' with the syntax:
 |info objtype ?value?
 
 If no value is submitted, a list of all currently registered object
-types are return.
+types are returned.
 
 If a value is submitted, it returns a list where the first element
 is the name of value's object type, or "none" if there is no
 internal representation.  The second element is a boolean of the
 form yes/no stating if the object has a valid string representation.
+
+Examples:
 
 |% info objtype
 |boolean index double end-offset wideInt list cmdName bytecode
@@ -60,7 +62,7 @@ form yes/no stating if the object has a valid string representation.
 |static int
 |InfoObjTypeCmd(dummy, interp, objc, objv)
 |    ClientData dummy;		/* Not used. */
-|    Tcl_Interp *interp;		/* Current interpreter. */
+|    Tcl_Interp *interp;	/* Current interpreter. */
 |    int objc;			/* Number of arguments. */
 |    Tcl_Obj *CONST objv[];	/* Argument objects. */
 |{
