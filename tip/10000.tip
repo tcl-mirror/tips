@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.133 $
+Version:        $Revision: 1.134 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -78,7 +78,7 @@ Public domain
 
 ~ Abstract
 
-This TIP proposes a -namespace option for the [interp invokehidden]
+This TIP proposes a ''-namespace'' option for the '''interp invokehidden'''
 subcommand to allow hidden commands to be invoked in the specified
 namespace in the slave interpreter.
 
@@ -87,14 +87,14 @@ namespace in the slave interpreter.
 Safe interpreters and namespaces have been useful and important
 features of Tcl since version 8.0.  However, it can sometimes be
 difficult to use them together effectively.  For example, while you can
-invoke a hidden command in a safe interpreter, such as '''source''',
-you cannot specify the target namespace context where the command
-should be invoked.  Using the '''interp eval''' subcommand is not an
-option because that, by design, does not allow hidden commands to be
-invoked.  In addition, since the '''interp invokehidden''' subcommand
-expects a command name, '''namespace eval''' and similar constructs
-that would typically be used to change the target namespace context
-cannot be used.
+invoke a hidden command in a safe interpreter with '''interp invokehidden''',
+such as '''source''', you cannot specify the target namespace context
+where the command should be invoked.  Using the '''interp eval''' 
+subcommand is not an option because that, by design, does not allow 
+hidden commands to be invoked.  In addition, since the '''interp invokehidden''' 
+subcommand expects a command name, '''namespace eval''' and similar 
+constructs that would typically be used to change the target namespace 
+context cannot be used.
 
 ~ Specification
 
