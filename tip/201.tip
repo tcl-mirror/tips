@@ -1,8 +1,8 @@
 TIP:            201
 Title:          Add 'in' Operator to [expr]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        21-May-2004

@@ -1,11 +1,11 @@
 TIP:		212
 Title:		Temporarily Opening out a Dictionary
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.8 $
+Version:	$Revision: 1.9 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
