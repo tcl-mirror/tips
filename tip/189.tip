@@ -1,11 +1,12 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
+Author:         Daniel A. Steffen <das@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -383,6 +384,7 @@ licensing, documentation, etc. are not addressed here and by this.
 
 This requires standards for package metadata, format and content,
 topics with which this document will not deal.
+
 ~~ Defaults
 
 The default list of paths on the module path is computed by a tclsh as
