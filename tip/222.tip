@@ -1,11 +1,11 @@
 TIP:		222
 Title:		Add [wm attributes -alpha] Attribute on Windows
-Version:	$Revision: 1.7 $
+Version:	$Revision: 1.8 $
 Author:		Jeff Hobbs <jeffh@activestate.com>
 Author:		Andreas Kupries <akupries@shaw.ca>
-State:		Draft
+State:		Final
 Type:		Project
-Vote:		In progress
+Vote:		Done
 Created:	16-Sep-2004
 Post-History:	
 Tcl-Version:	8.5
