@@ -1,11 +1,11 @@
 TIP:		138
 Title:		New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Kenny <kennykb@acm.org>
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	29-May-2003
 Post-History:	
 Keywords:	thread specific data, hash table, memory allocation
