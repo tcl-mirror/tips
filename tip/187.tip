@@ -1,6 +1,6 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -143,9 +143,9 @@ order to be self-introspective.
 
 ~ Reference Implementation
 
-A reference implementation is being developed in Patch #939190 [https://sourceforge.net/tracker/index.php?func=detail&aid=939190&group_id=10894&atid=310894].
+A reference implementation is being developed in Patch #940207 (superseeding the previous #939190) [https://sourceforge.net/tracker/index.php?func=detail&aid=940207&group_id=10894&atid=310894]
 
-It follows this tip fairly closely in its effects, but diverges in the implementation strategy. It implements autocleaning procs, and defines lambda expressions as autocleaning procs in the ::tcl::lambda namespace. The example above can be defined equivalently as
+It follows this tip fairly closely in its effects, but diverges in the implementation strategy. It implements autocleaning procs, and defines lambda expressions as autocleaning procs in (for instance) the ::tcl::lambda namespace. The example above can be defined equivalently as
 
 |   set p [lambda x {string length $x}]
 |   set p [list ::tcl::lambda:: x {string length $x}]
