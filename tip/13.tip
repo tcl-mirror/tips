@@ -1,6 +1,6 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -14,7 +14,7 @@ Post-History:
 This document proposes the TCT provide a service on the World Wide
 Web for drafting and archiving TIPs and for providing TIPs in a
 variety of formats.  A reference implementation is provided, and its
-server requirements are outlined.  Change in the abstract.
+server requirements are outlined.
 
 ~ Background
 
@@ -249,7 +249,7 @@ Some comments I see above, or received in e-mail:
 
  * ''A separate <TEXTAREA> for the Abstract''
 
- > I'm working on this now.
+ > This is now implemented.  Please give it a try.
 
 ~ Copyright
 
