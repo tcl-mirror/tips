@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Extend [bgerror] to Accept Return Options
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -76,16 +76,16 @@ the variables '''::errorInfo''' or '''::errorCode''' at all.
 
 The private '''BgError''' struct will be re-written.  The '''errorMsg'''
 field will be changed to type ''(Tcl_Obj *)''.  The '''errorInfo''' and
-'''errorCode''' fields will be dropped.  A '''returnOptions''' field
+'''errorCode''' fields will be dropped.  A '''returnOpts''' field
 of type ''(Tcl_Obj *)'' will be added.
 
 The ''Tcl_BackgroundError'' routine will fill the '''errorMsg'''
-and '''returnOptions''' fields of a '''BgError''' with the
+and '''returnOpts''' fields of a '''BgError''' with the
 result and return options dictionary of the interp, respectively,
 and arrange for idle handling just as it does now.
 
 The ''HandleBgErrors'' routine will pull the '''errorMsg'''
-and '''returnOptions''' fields from each '''BgError''' struct
+and '''returnOpts''' fields from each '''BgError''' struct
 and construct a '''bgerror''' command with them as arguments.
 That command will be evaluated making use of ''TclObjInvoke'',
 with the same fallback to call a hidden '''bgerror''' that is
