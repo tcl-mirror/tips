@@ -1,13 +1,13 @@
-TIP:	 2
-Title:	 TIP Guidelines
-Version: $Id: 2.tip,v 1.1 2000-11-30 13:07:34 fellowsd Exp $
-Author:  Andreas Kupries <a.kupries@westend.com>
-Author:  Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:	 Draft
-Type:	 Process
-Vote:	 Pending
-Created: 12-Sep-2000
-Post-History: 
+TIP:            2
+Title:          TIP Guidelines
+Version:        $Revision: 1.2 $
+Author:         Andreas Kupries <a.kupries@westend.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
+Type:           Process
+Vote:           Pending
+Created:        12-Sep-2000
+Post-History:
 
 ~ Abstract
 
@@ -198,7 +198,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.1 $
+|Version:       $Revision: 1.2 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
