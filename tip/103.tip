@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -35,7 +35,7 @@ There have been suggestions of introducing some new syntax to Tcl to
 handle argument expansion.  That is a big and controversial step, and
 not anything this TIP wants to meddle in.  A command can improve every
 point where eval has shortcomings and thus give a good result with
-less means.
+less means.  It can also serve as a bridge to a future global syntax.
 
 Such a command can be done in several ways and below the choice in
 this TIP's specification is defended.
@@ -149,9 +149,7 @@ can be made for what may be acceptable in the future, this should
 affect the specification in this TIP.
 
 If a single character like ` is chosen for a global expand syntax
-it means a backwards compatibility break.  The impact is lessened
-since the expansion is only done when followed by exactly one variable
-or command substitution, but there is still an impact.  So, what chars
+it means a backwards compatibility break.  So, what chars
 are likely to be used by people and thus causing problems or confusion
 when backwards compatibility is broken?
 
