@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -63,7 +63,7 @@ assigned:
 
    9. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   10. ''Compiler and Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   10. ''Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
    11. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
