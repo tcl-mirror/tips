@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -373,7 +373,7 @@ TclKit (which can itself pass all reasonable tests when executing the
 test suite inside a scripted document).  It has
 been tested with a variety of wrapped demos (tclhttpd, bwidgets,
 widgets, alphatk), and performs very well.  The patch is available
-from: ftp://ftp.ucsd.edu/pub/alpha/tcl/tclobjvfs.diff 
+from the author of this TIP, and a version (possibly not the most recent) can be downloaded from: ftp://ftp.ucsd.edu/pub/alpha/tcl/tclobjvfs.diff 
 
 ~ Documentation: vfs-aware extensions
 
@@ -576,25 +576,23 @@ provide a similarly general and efficient filesystem.
 There are actually remarkably few changes required, so the only
 slowdown would occur if additional filesystems are hooked into the
 core.  This is similar to the impact of the 'stacked channels'
-implementation.  Once the filesystem is objectified, this does
+implementation.  With the objectified filesystem, this does
 actually speed up Tcl's core (as remarked above, 'file exists' is 20% 
 faster on Windows 2000).
 
 ''Won't this break backwards compatibility ("The Tcl question")?''
 
-Not at all.  With the current 'string-based' vfs patch, the entire test
+Not at all.  With the current vfs patch, the entire test
 suite passes as before, even with an extra 'reporting' filesystem
-activated.
+activated.  Most reasonable tests now pass even when the test suite is embedded in a wrapped document.
 
 ''Won't this make Tcl's core more complex??''
 
-Adding a Tcl_Obj interface is definitely a bit more complex than the
-existing string-based system.  However one result will be that Tcl's
+Adding a Tcl_Obj interface is definitely a bit more complex in some areas than the
+existing string-based system, but in other areas it cleans things up a lot.  Indeed, one result will be that Tcl's
 filesystem is properly abstracted away, which conceptually simplifies 
 the core (there will be 10-15 functions which are called for ''all''
-filesystem access, whether it is native or virtual).  Also, as shown
-above, some pieces of the core actually become simpler, since we
-remove more vestiges of the old string-based conversion code.
+filesystem access, whether it is native or virtual).
 
 ~ Future thoughts
 
