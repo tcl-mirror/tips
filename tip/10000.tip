@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.86 $
+Version:        $Revision: 1.87 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -13,6 +13,7 @@ Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Test User <test@example.com>
 Author:         New User <newbie@example.com>
 Author:         Working User <thisworks@example.com>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -59,6 +60,8 @@ Donal says it's better now...
 ...but now I do!
 
 ''still trying to get the cookies working - DKF''
+
+testing upload from Alphatk.
 
 ~ Submission Test
 
