@@ -1,0 +1,52 @@
+TIP:		125
+Title:		Adding [wm toplevel] Subcommand
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <bgriffin@model.com>
+Created:	20-Jan-2003
+Keywords:	reparent
+
+~ Abstract
+
+This TIP adds the "wm toplevel" command that will change a Frame into
+a Toplevel and visa versa.
+
+~ Rationale
+
+One of the usability features introduced recently in many windowing
+systems, is the ability to "tear out" or "insert" sub-frames and panes
+within an application.  The most common form of this is the ability to
+tear off a toolbar, making it an independent window.  This feature
+gives the end user the ability to configure the application in ways
+that best suit them and improve their overall productivity.
+
+Currently there is no mechanism with Tk to move a widget subtree to a
+new toplevel parent without reconstructing the hierarchy from scratch.
+The basic command will give the Tk programmer the ability to implement
+megawidgets that support tear-off toolbars, notebooks, etc., since the
+children widgets of the frame will follow along, unchanged.
+
+~ Reference Implementation
+
+ftp://ftp.model.com/pub/tcl/reframe contains patch files as well as
+Linux and Win32 builds of 8.3.4.  A 8.4.1 build will appear soon.
+
+The ''demo.tcl'' file illustrates the basic function.
+
+~ Known Issues
+
+The reference implementation works on Windows and Linux.  A Mac
+implementation has not been performed due to a lack of resources.  (I
+ain't got no Mac)
+
+What happens with "." (the main window) or when ''-use''/''-container''
+options are in use is unknown.  Most likely, these conditions would
+restrict the use of this command.
+
+~ Copyright
+
+This document has been placed in the public domain.
