@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -40,11 +40,16 @@ order a hair, old Turbo C v5.0 has a better chance to make a DOS
 library :)
 
 The only main issue with doing this change, is that all extensions
-will need to adopt it.  I have yet to ponder the idea of a simple
-backward compatibility macro, but I'm sure it would be easy.
+will need to adopt it.  Here is a backward compatibility fix, if this change is adopted, so extensions can still use older headerfiles.
 
 |#ifndef TCL_NEWEXTERN
-|.. something goes here (??) ..
+|#   ifdef __cplusplus
+|#	define OLDEXTERN extern "C" TCL_STORAGE_CLASS
+|#   else
+|#	define OLDEXTERN extern TCL_STORAGE_CLASS
+|#   endif
+|#   undef EXTERN
+|#   define EXTERN(a) OLDEXTERN a
 |#endif
 
 MinGW has a small adjustment to support ''__cdecl'' as I found leafing
