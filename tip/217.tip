@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -32,10 +32,10 @@ involve heavy use of parallel lists.  For this and other reasons, many
 programming languages starting at least as early as APL, up to 
 present-day, numerics-oriented languages such as MATLAB, have included 
 the ability to directly obtain the indices required to access a list 
-(or "vector") in sorted order.  As shown below, the pure Tcl solution 
-to this problem can take more than 10 times as long as the given 
-reference implementation, which adds virtually no overhead when it is
-not invoked.
+(or "vector") in sorted order.  As shown below, the fastest known 
+pure Tcl solution to this problem takes about five times as long as 
+the given reference implementation, which adds virtually no overhead 
+when it is not invoked.
 
 ~ Specification
 
