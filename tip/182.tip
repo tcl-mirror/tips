@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -49,11 +49,12 @@ This would return "1" for any value of ''value'' that is non-zero
 (plus all non-numeric strings accepted as true by
 ''Tcl_GetBoolean()'') and "0" otherwise.  If the value cannot be converted to a boolean, an error is raised.
 
+Internally, the function should use something semantically equivalent
+to using ''Tcl_GetBoolean()''.
+
 ~ Reference Implementation
 
-A reference implementation does ''not'' yet exist.  Internally, the
-function should use something semantically equivalent to using
-''Tcl_GetBoolean()''.
+A reference implementation of this TIP is availble [http://sourceforge.net/tracker/index.php?func=detail&aid=1165062&group_id=10894&atid=310894].
 
 ~ Copyright
 
