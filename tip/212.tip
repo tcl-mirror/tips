@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
@@ -91,7 +91,7 @@ whatever the result string/object of ''bodyScript'' was.
 
 ~~ The 'dict with' Subcommand
 
- > '''dict with''' ''dictVarName bodyScript''
+ > '''dict with''' ''dictVarName'' ?''key ...''? ''bodyScript''
 
 This is a shorthand version of '''dict update''' (named after the
 Pascal ''with'' keyword) which maps ''all'' of the keys in the
@@ -105,6 +105,12 @@ are defined in the dictionary in the variable during the execution of
 The variables will be written to and read from in the natural order of
 the keys of the dictionary in the variable ''dictVarName'' when the
 '''dict with''' command starts.
+
+When a ''key'' (or several ''key''s) is provided, it describes a path
+into a nested set of dictionaries (much like with '''dict set''')
+where the selected leaf indicates a dictionary that is to be opened
+out.  When writing back, non-existence of any key on the path is
+treated the same as if ''dictVarName'' itself didn't exist.
 
 ~ Examples
 
@@ -129,9 +135,21 @@ Sorting a list inside a nested dictionary:
 |     unset foo
 | }
 
+Opening out a nested dictionary:
+
+| dict update someVar OuterKey temp {
+|     dict with temp {
+|         # Some script goes in here...
+|     }
+| }
+| # Alternative version using a key with 'dict with'...
+| dict with someVar OuterKey {
+|     # Some script goes in here...  
+| }
+
 ~ Reference Implementation
 
-Not yet available.
+See SF patch 1008768[http://sf.net/tracker/?func=detail&aid=1008768&group_id=10894&atid=310894].
 
 ~ Copyright
 
