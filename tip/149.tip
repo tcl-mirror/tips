@@ -1,12 +1,12 @@
 TIP:		149
 Title:		Allow "enabled" as Synonym for "normal" in -state Option
 Author:		Michael A. Cleverly <michael@cleverly.com>
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Vote:		Pending
 Created:	13-Aug-2003
 Tcl-Version:	8.5
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Post-History:	
 
 ~ Abstract
