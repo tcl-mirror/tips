@@ -1,6 +1,6 @@
 TIP:            153
 Title:          Enhancing the [winfo toplevel] Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
@@ -47,18 +47,18 @@ However, it is impossible to type anything into the entry widget,
 because Tk's focus code does not work properly with rootwin widgets.
 The problem can be traced back to the fact that the command
 [[winfo toplevel .r.e]] returns the empty string. With the proposed
-extension, this command would return [.r], and the focus code
+extension, this command would return ".r", and the focus code
 would work properly.
 
 ~Compatibility
 
-The proposed behavior for [[winfo toplevel]] is different from
+The proposed behavior for [[winfo toplevel]] is different from the
 current behavior, although only in the presence of Tk extensions
 that create top-of-hierarchy widgets that are not toplevels.
 The rootwin package is the only such extension known to this TIP's
 author, so the difference in behavior is unlikely to be noticed
 by anyone else. It should also be noted that the behavior
-of [[winfo toplevel]] for
+(prior to this TIP) of [[winfo toplevel]] for
 top-of-hierarchy widgets that are not toplevels is not specified,
 so relying on its current behavior in such cicumstances is
 a questionable practice.
@@ -66,7 +66,7 @@ a questionable practice.
 ~Implementation
 
 The core of the proposed change to [[winfo toplevel]] requires
-only a single-line change in file tkWindow.c; however, the patch
+only a single-line change in file ''generic/tkWindow.c''; however, the patch
 described below also changes the name of a function and changes
 some comments, to better describe the code's behavior. It also
 documents the new behavior in the [[winfo]] man page.
