@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -299,7 +299,7 @@ Lastly, "+N chars" is a synonym for "+N indices" for backwards compatibility rea
 
 ~ Implementation
 
-A relatively complete implementation (''not'' a final implementation -- one small issue is still to be addressed) is available at:
+A complete implementation is available at:
 
 http://sf.net/tracker/?func=detail&aid=791292&group_id=12997&atid=312997
 
