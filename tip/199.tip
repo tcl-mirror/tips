@@ -1,16 +1,17 @@
-TIP:		199
-Title:		Specification of Alternatives to .wishrc/.tclshrc
-Version:	$Revision: 1.1 $
-Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	12-May-2004
-Post-History:	
-Keywords:	Tcl,Tk,shell,interactive
+TIP:            199
+Title:          Specification of Alternatives to .wishrc/.tclshrc
+Version:        $Revision: 1.2 $
+Author:         R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-May-2004
+Post-History:   
+Keywords:       Tcl,Tk,shell,interactive
+Tcl-Version:    8.4
 
-~Abstract
+~ Abstract
 
 This TIP describes an extension of the command-line options to the
 "wish" and "tclsh" programs to allow the startup script to be
@@ -48,6 +49,19 @@ The command-line option for "wish" and "tclsh" would be extended to
 add the option '''-startup''', for example:
 
  > '''wish -startup''' ''filename'' [''other options'']
+
+~Comments
+
+There are several problems with your proposal, but there's
+no need to focus on them, because your problem can be solved
+already with the features of '''Tcl_Main''' already in
+Tcl 8.4.
+
+You are seeking interactivity following the evaluation
+of a start-up script.  Is that the whole point?  Because
+that can be accomplished in a number of ways already.
+
+I will try to find time to post solutions on the Wiki.
 
 ~Copyright
 
