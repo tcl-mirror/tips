@@ -1,14 +1,14 @@
-TIP:		27
-Title:		CONST Qualification on Pointers in Tcl API's
-Version:	$Revision: 1.1 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	25-Feb-2001
-Post-History:	
-Tcl-Version:	8.4
-Discussions-To:	news:comp.lang.tcl,mailto:kennykb@acm.org
+TIP:            27
+Title:          CONST Qualification on Pointers in Tcl API's
+Version:        $Revision: 1.2 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Feb-2001
+Post-History:   
+Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -260,6 +260,27 @@ little or no source-level incompatibility being introduced for
 extensions (and absolutely no incompatibility for stubs-enabled
 extensions compiled and linked against earlier versions of the
 library).
+
+~ Procedural note
+
+The intent of this TIP is that, if approved, it will empower
+maintainers of individual modules to add ''CONST'' to any API
+where it is appropriate, provided that:
+
+   * the change does not introduce "CONST poisoning", that is,
+     does not require type casts that remove CONST-ness;
+
+   * the documentation of the API is updated to reflect the
+     addition of the CONST qualifier; and
+
+   * the stubs table entry for the API is replaced with a pair
+     of entries, with the original entry designating a trampoline
+     procedure.  The syntax for this change in the ''.decls'' file
+     is discussed above.
+
+Individual TIP's detailing the changes to particular APIs shall
+''not'' be required, provided that the changes comply with these
+guidelines.
 
 ~ Copyright
 
