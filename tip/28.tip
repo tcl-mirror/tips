@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -538,7 +538,8 @@ the effort...
      been designated for work toward the next major version.
 
 As a Developer, feel free to create a feature branch if you have a
-reason to use one.  Avoid the use of a branch tag matching core-* .
+reason to use one.  Make a note of your branch tags in [31].  Avoid
+the use of a branch tag matching core-* .
 Save the core-* branch tags for the tags of official stable branches
 and releases.  To avoid conflict with other Developers, consider using
 your SourceForge login name as a prefix on the feature branch tags you
