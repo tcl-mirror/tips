@@ -1,7 +1,8 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -12,98 +13,168 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to expose the functionality of the '''Tcl_CreateMathFunc()''' function to
-the script level, so that programmers can define new math functions
-using Tcl procedures. As this functionality can be implemented in such a way that a number of facilities specific to the [expr] command become obsolete, the Tcl core will actually become a bit simpler, rather than more complicated.
+This TIP proposes to replace Tcl's math functions, ordinarily created using the '''Tcl_CreateMathFunc()''' function, with ordinary Tcl commands created in a known namespace, '''::tcl::mathfunc'''. This change has two chief motivations: it allows programmers to define new math functions at the Tcl level, and it encapsulates the '''Tcl_Value''' API so that new math functions can work on data types that are not described adequately as '''Tcl_Value''' objects.
 
 ~ Rationale
 
-It has long been possible to define new (mathematical) functions for
-the '''expr''' command via the C API - the function
-'''Tcl_CreateMathFunc()''' is meant for this. However, it is not
-possible to define new math functions at the script level, so that you
-could use a Tcl procedure instead of a C function.
+The two authors of this TIP, Kevin Kenny and Arjen Markus, have come at 
+wanting the same change to Tcl from two distinct directions.
 
-There exist one or two extensions that allow this, most notably
-"funcproc" by D. Fellows - <http://wiki.tcl.tk/541>), but as the Tcl
-core does not allow it, it remains a somewhat hidden feature.  The
-current TIP aims at making the functionality of such extensions
-standard, not by introducing a new command (as in the first version of this TIP) but by using a different approach to the mathetical functions known to the [expr] command.
-
-With "scripted" math functions you can simplify such complex and
-error-prone expressions as:
-
-|  set max [expr {$max>($a+1)? $max : ($a+1)}]
-
-or
+Arjen Markus has been the maintainer of several modules in Tcllib that
+implement "special functions" such as the exponential integral, the
+incomplete gamma function and the Bessel functions.  He has wanted to
+have "scripted" math functions available to simplify his notation.  In
+place of a complex expression like
 
 |  set f [expr { $x*[J0 $x] + [J1 [expr {2.0*$x}]] }]
 
-to the more regular:
-
-|  set max [expr {max($max,$a+1)}]
-
-and
+which is pretty unreadable (and prone to error because of the need
+to brace the subexpressions), he would like a mechanism for defining
+new mathematical functions so that he can write:
 
 |  set f [expr { $x*J0($x) + J1(2.0*$x) }]
 
-(assuming the additional functions max, J0 and J1 have been defined of
-course).
+Donal Fellows has felt the need for such a construct, too, enough to
+implement a "funcproc" extension that provides it.
+[http://wiki.tcl.tk/541] 
 
-To quote Donal Fellows:
+Kevin Kenny has come at the desire for rework of the math function
+mechanism from a different direction.  He has been investigating
+Tcl Core support for arbitrary-precision integers [237], and discovered that
+implementing math functions that accept them as arguments or return
+them as results would require an incompatible change to the
+'''Tcl_Value''' data type that is used to communicate with the math
+functions.  When the last such change was made (in implementing
+64-bit integers [72]), it required a source code change
+to several popular extensions that
+created new math functions ''min'' and ''max''.  Wishing the
+incompatibility introduced by [237] to be the last of the type, he
+decided to obviate '''Tcl_Value''' in place of using the open-ended
+'''Tcl_Obj''' data type.  When he derived the type signature that
+a math function would have if it accepted its parameters in an array
+of '''Tcl_Obj''' pointers, he discovered that it was identical to the
+'''Tcl_ObjCmdProc''' -- making him ask, "what if math functions really
+''were'' commands?"
 
- > "If you are interested in going the other way - writing functions
-   for '''expr''' in Tcl without the use of square brackets (useful
-   for when you want to expose expressions to users without having to
-   tell them to learn all about Tcl, no matter how much that would
-   benefit them in the long run.  This sort of situation also requires
-   the use of safe interpreters) - then you will probably find
-   http://www.man.ac.uk/~zzcgudf/tcl/#scripts/funcproc very
-   interesting indeed."
+This TIP is the result of those two investigations, and proposes a unification
+of math functions with Tcl commands.
 
 ~ Proposed Changes
 
-In the first version of this TIP, the functionality hinted at above was to be implemented by a single new command:
+This TIP proposes that:
 
- > '''exprfunc''' ''funcname procname''
+ 1. The [[expr]] command shall be modified so that an expression of the form:
 
-where:
+|   f(arg1,arg2,...)
 
- * ''funcname'' is the name of the function as it is known to the
-   '''expr''' command
+ >  shall generate code equivalent to that generated by
 
- * ''procname'' is the Tcl procedure that implements the command
+|   [tcl::mathfunc::f [expr { arg1 }] [expr { arg2 }] ...]
 
-This led to considerable discussion, with arguments both pro and con and several alternatives like a macro facility for [expr]. One particular problem with the first version is that while Tcl_CreateMathFunc() allows you to define a new function, there is no way to remove a function or to rename it. 
+ >  so that math functions are interpreted as Tcl commands whose arguments
+    are parsed as subexpressions.  The existing code in [[expr]] that checks
+    for correct argument counts to the math functions at compile time shall
+    be removed (the general consensus among Core maintainers is that
+    compile-time checks of this sort are a bad idea anyway).
 
-A suggestion made by Kevin Kenny leads a more appropriate solution, reformulated:
+ 1. The current math functions in Tcl shall be reimplemented as ordinary
+    Tcl commands in the '''::tcl::mathfunc''' namespace; a Tcl interpreter
+    will contain commands '''::tcl::mathfunc::abs''', 
+    '''::tcl::mathfunc::acos''', etc.  
 
- > Treat mathematical functions as ordinary Tcl commands/procedures 
-   that reside in a specific namespace, ::tcl::mathFunc
+ 1. The Tcl command [[info functions]] shall be deprecated in favor of
+    searching for math functions using [[info commands]] in the appropriate
+    namespace.
 
-If we implement mathematical functions that way, then:
+ 1. The C functions '''Tcl_CreateMathFunc''', '''Tcl_GetMathFuncInfo''',
+    and '''Tcl_ListMathFuncs''' shall be deprecated in favor of
+    '''Tcl_CreateObjCommand''', '''Tcl_GetCommandInfo''' and
+    [[info commands]].  (The last is provided only in Tcl at the
+    present time; we do not export a C-level interface to enumerate
+    commands in a namespace.)  The functions will continue to work
+    for extensions that use them.  The '''Tcl_CreateMathFunc''' command
+    will create a Tcl command in the '''::tcl::mathfunc''' namespace
+    whose command procedure checks argument count and types and
+    dispatches to the math function handler.  The '''Tcl_GetMathFuncInfo'''
+    procedure will return ''TCL_OK'' or ''TCL_ERROR'' according to
+    whether the given math function exists in '''::tcl::mathfunc'''
+    and will return parameter information for (only) those functions
+    defined using '''Tcl_CreateMathFunc'''.  Functions defined as
+    ordinary Tcl commands shall return ''TCL_OK'' but have a parameter
+    count of -1.  The '''Tcl_ListMathFuncs''' procedure will simply
+    enumerate all the commands in the '''::tcl::mathfunc''' namespace.
 
- * All the usual facilities for manipulating Tcl commands and 
-   procedures become available ''automatically''.
+ 1. Several error messages change as a side effect of changing the
+    math function implementation.  All of the new messages are more
+    informative than the old ones (for instance, identifying which
+    math function encountered a parameter error rather than a
+    generic "too few/too many arguments to math function"), with the
+    exception of the error message for an unknown function, which
+    is replaced with "unknown command ::tcl::mathfunc::<the_command>"
+    where <the_command> is the name of the missing function.
 
- * There is no need anymore for a lot of special facilities, like 
-   the Tcl_Value type and the existing wrappers can be turned into 
-   regular commands.
+~ Discussion
 
- * There is no restriction anymore that functions should return 
-   single numbers as their result, opening the way to functions 
-   for manipulating vectors of numbers or intervals or ...
+The proposed change lifts several other restrictions in the way
+math functions operate:
 
- * In the evaluation of expressions, calling a function or calling a 
-   command will become the same thing, thus simplifying the 
-   implementation.
+ 1. There is no longer any restriction that new math functions must
+    accept a fixed number of arguments, or, indeed, that their
+    arguments and results must be numeric.  It will be possible to
+    create variadic functions like:
 
-The existing function Tcl_CreateMathFunc() will become obsolete and could be removed in Tcl 9.0.
+|   proc ::tcl::mathfunc::min args {
+|       set m Inf
+|       foreach a $args {
+|           if { $a < $m } {
+|               set m $a
+|           }
+|       }
+|       return $m
+|   }
+
+ 1. It will be possible to compile Tcl code that refers to a math function
+    that has not yet been defined.  That is:
+
+|   proc foo { x } {
+|       set have_f [llength [info commands ::tcl::math::f]]
+|       if { $have_f } {
+|           return [expr { f($x) }]
+|       } else {
+|           ... fallback ...
+|       }
+|   }
+
+ >  will be a valid procedure. (In Tcl 8.4, the procedure will fail to
+    compile if ''f'' is not known at compile time, something that
+    runs contrary to the dynamic nature of Tcl.)
+
+Alas, all these improvements come at some cost of performance.  On
+Kevin Kenny's machine, the command
+
+| expr {sin(0.325)}
+
+executes in roughly 520 nanoseconds before the change, and 870 nanoseconds
+afterward.  Since the resolution of the function name is cached, name
+lookup is not the problem; rather, the issue is that invoking the function
+as a command needs to look for command traces; this whole mechanism costs
+about 300-350 ns (and has been observed to do so in other contexts).  For
+real-life expressions, the additional cost tends to vanish quickly into
+statistical noise; variable access (with corresponding checks for traces)
+and bytecode overhead quickly comes to dominate the performance for
+all but the simplest expressions.
 
 ~ Reference Implementation
 
-A reference implementation does ''not'' yet exist, but it should be possible to introduce this new way of dealing with mathematical functions piecemeal.
+A reference implementation exists in Kevin Kenny's sandbox and will be
+committed to the '''kennykb-tcl-numerics''' branch as soon as voting
+completes on [132]; the reason for waiting is so that the Tcl Core Team
+can examine the branch as that TIP's reference implementation.
 
 ~ Copyright
 
-This document is placed in the public domain.
+Copyright (c) 2005 by Kevin B. Kenny and Adriaan Markus.  All rights reserved.
+
+This document may be distributed subject to the terms and conditions
+set forth in the Open Publication License, version 1.0
+[http://www.opencontent.org/openpub/].
