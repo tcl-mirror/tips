@@ -1,12 +1,12 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In process
 Created:        31-Mar-2003
 Post-History:   
 Keywords:       floating point,IEEE,precision
