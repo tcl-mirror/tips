@@ -1,6 +1,6 @@
 TIP:            218
 Title:          Tcl Channel Driver Thread State Actions
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -43,7 +43,7 @@ state of the driver is '''not''' initialized at all in that case,
 causing a crash when trying to use the transfered channel.
 
 This is a general problem all channel drivers maintaining per-thread
-state will run into.
+state will run into. And on Windows most channel drivers will '''have to''' maintain per-thread state. This is imposed by the design of the Tcl Notifier. It manages Event Sources on a per-thread basis, and this implies that the Event Source for channel driver has to maintain per-thread a list of the channels belonging to a thread to make setup and checking for events efficient. A process global list would be possible, but would also not be very fast, as it would require locking for each search through it, and such searches happens per iteration per active eventloop per Tcl thread.
 
 What is needed is some way to initialize the thread-specific state of
 a channel driver for a specific thread, whenever a channel is created
