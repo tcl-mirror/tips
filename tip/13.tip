@@ -1,11 +1,11 @@
 TIP:            13
 Title:          Web Service for Drafting and Archiving TIPs
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Draft
+State:          Approved
 Type:           Process
-Vote:           In progress
+Vote:           Done
 Created:        21-Nov-2000
 Post-History:   
 
