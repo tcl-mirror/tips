@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -126,6 +126,63 @@ option are pulled out and treated as additional ''option value''
 arguments to the ''return'' command.  Note that this "-options" option
 for option expansion is offered only because Tcl itself has no
 syntax for argument expansion, as observed many, many times before.
+
+The ''result'' argument, if any, is stored in the interp as the
+result of the ''return'' command.  In default operation, this
+becomes the result of the procedure in which the ''return'' command
+is evaluated.
+
+The return code of the ''return'' command is determined by the
+''value''s of the "-code" and "-level" options.  If the ''value''
+of the "-level" option is non-zero, then the return code of
+''return'' is TCL_RETURN.  If the ''value'' of the "-level" option
+is "0", then the return code of ''return'' is the ''value'' of the
+"-code" option, translated from string, as needed.  In this way,
+
+| return -level 0 -code break
+
+is a synonym for
+
+| break
+
+while
+
+| return -code break
+
+spelled out with defaults filled in as:
+
+| return -level 1 -code break
+
+continues to function as before, causing the procedure in which
+the ''return'' is evaluated to return the TCL_BREAK return code.
+
+All ''option value'' arguments to ''return'' are stored in a
+return options dictionary kept in the interp, just as the
+''result'' argument gets stored in the result of the interp.
+
+The TclUpdateReturnInfo() function is modified, so that each
+level of procedure returning decrements the value of the "-level"
+key in thre return options dictionary.  When the value of the
+"-level" key reaches "0", the return code from the current procedure
+will be the value of the "-code" key in the return options dictionary.
+Otherwise, the return code of the current procedure will be TCL_RETURN.
+
+In this way,
+
+| return -level 2 -code ok
+
+is equivalent to
+
+| return -code return
+
+and should (absent some intervening ''catch'') cause a normal return
+to the caller's caller.  Likewise,
+
+| return -level 3 -code ok
+
+would cause a normal return to the caller's caller's caller, something
+that can't currently be accomplished (again absent an intervening
+''catch'').
 
 ~ Examples
 
