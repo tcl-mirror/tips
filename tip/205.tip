@@ -1,0 +1,47 @@
+TIP:		205
+Title:		Use pkgconfig Database to Register Xft Support
+Version:	$Revision: 1.1 $
+Author:		Joe English <jenglish@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	23-Jun-2004
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to use Tcl's package configuration database (see
+[59]) to register whether Tk was compiled with support for Xft.
+
+~ Rationale
+
+As of version 8.5, Tk has optional support for Xft (the modern
+replacement for server-side fonts in X11).  However, at present
+application code has no way to determine whether or not Xft support
+was enabled when Tk was built.  The package configuration database
+facility introduced in [59] seems like an ideal place to record this
+information.
+
+~ Proposal
+
+If Tk was configured with ''--enable-xft'', the command
+
+| tk::pkgconfig get fontsystem
+
+shall return the value '''xft'''.
+
+~ Notes
+
+The change as currently proposed is the minimum necessary to satisfy
+the requirement listed in the Rationale.  In particular: nothing else
+in Tk currently calls ''Tcl_RegisterConfig()'', so if Xft support is
+not enabled the '''tk::pkgconfig''' command will remain undefined.
+
+~ Implementation
+
+See Tk Patch #976520[http://sourceforge.net/support/tracker.php?aid=976520]
+
+~ Copyright
+
+This document has been placed in the public domain.
