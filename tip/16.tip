@@ -1,7 +1,8 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
 Type:           Process
 Vote:           Done
@@ -69,7 +70,6 @@ assigned one or more maintainers:
      doc/Notifier.3,
      doc/Sleep.3,
      generic/tclNotify.c,
-     mac/tclMacNotify.c,
      tests/notify.test,
      tests/unixNotfy.test,
      tests/winNotify.test,
@@ -103,7 +103,6 @@ assigned one or more maintainers:
      doc/clock.n,
      generic/tclClock.c,
      generic/tclGetDate.y,
-     mac/tclMacTime.c,
      tests/clock.test,
      tests/winTime.test,
      unix/tclUnixTime.c,
@@ -132,7 +131,6 @@ assigned one or more maintainers:
 
    >   8. ''Environment Variables'' - doc/Environment.3,
      generic/tclEnv.c,
-     mac/tclMacEnv.c,
      tests/env.test
 
    >   9. ''Linked C Variables'' - doc/LinkVar.3,
@@ -344,8 +342,6 @@ assigned one or more maintainers:
      doc/OpenTcp.3,
      doc/pid.n,
      generic/tclIOSock.c,
-     mac/tclMacChan.c,
-     mac/tclMacSock.c,
      tests/pid.test,
      tests/winConsole.test,
      tests/winPipe.test,
@@ -406,7 +402,6 @@ assigned one or more maintainers:
      doc/FileSystem.3,
      doc/SplitPath.3,
      doc/Translate.3,
-     mac/tclMacFile.c,
      generic/tclFileName.c,
      tests/fileName.test,
      tests/unixFile.test,
@@ -422,10 +417,9 @@ assigned one or more maintainers:
      generic/tclIOUtil.c,
      generic/tclPathObj.c,
      generic/tclPosixStr.c,
-     mac/tclMacFCmd.c,
+     macosx/tclMacOSXFCmd.c,
      tests/fCmd.test,
      tests/ioUtil.test,
-     tests/macFCmd.test,
      tests/unixFCmd.test,
      tests/winFCmd.test,
      unix/tclUnixFCmd.c,
@@ -444,7 +438,7 @@ assigned one or more maintainers:
      library/init.tcl,
      library/parray.tcl,
      library/word.tcl,
-     mac/tclMacInit.c,
+     macosx/tclMacOSXBundle.c,
      tests/autoMkindex.tcl,
      tests/autoMkindex.test,
      tests/init.test,
@@ -476,7 +470,6 @@ assigned one or more maintainers:
      generic/tclLoad.c,
      generic/tclLoadNone.c,
      library/ldAout.tcl,
-     mac/tclMacLoad.c,
      tests/load.test,
      unix/dltest/*,
      unix/tclLoad*.c,
@@ -599,8 +592,6 @@ assigned one or more maintainers:
    >   47. doc/Thread.3,
      generic/tclThread.c,
      generic/tclThreadJoin.c,
-     mac/tclMacThrd.c,
-     mac/tclMacThrd.h,
      tests/thread.test,
      unix/tclUnixThrd.c,
      unix/tclUnixThrd.h,
@@ -615,8 +606,6 @@ assigned one or more maintainers:
      doc/tclsh.1,
      generic/tclMain.c,
      generic/tclPanic.c,
-     mac/tclMacAppInit.c,
-     mac/tclMacPanic.c,
      tests/main.test,
      unix/tclAppInit.c,
      win/tclAppInit.c
@@ -629,8 +618,7 @@ assigned one or more maintainers:
      */license.terms,
      compat/README,
      generic/README,
-     mac/README,
-     mac/bugs.doc,
+     macosx/README,
      tests/README,
      tests/pkg/license.terms,
      tools/README,
@@ -655,16 +643,16 @@ assigned one or more maintainers:
      compat/unistd.h,
      generic/tclMath.h,
      generic/tclPort.h,
-     mac/tclMacPort.h,
      unix/tclMtherr.c,
      unix/tclUnixPort.h,
      win/tclWinMtherr.c,
      win/tclWinPort.h
 
-   >   51. ''Configuration and Build Tools'' - djgpp/Makefile
+   >   51. ''Configuration and Build Tools'' - djgpp/Makefile,
+     macosx/Makefile,
+     macosx/Tcl.pbproj/project.pbxproj,
      tests/all.tcl,
      tools/configure.in,
-     tools/cvtEOL.tcl,
      tools/eolFix.tcl,
      tools/genStubs.tcl,
      tools/index.tcl,
@@ -711,8 +699,7 @@ assigned one or more maintainers:
      doc/RegConfig.3,
      generic/tclConfig.c,
      generic/tclPkgConfig.c,
-     mac/tclMacPkgConfig.c,
-     ests/config.test,
+     tests/config.test,
      win/tclWinPkgConfig.c
 
    >   53. ''Other Tools'' - tools/checkLibraryDoc.tcl,
@@ -721,52 +708,6 @@ assigned one or more maintainers:
      tools/man2html1.tcl,
      tools/man2html2.tcl,
      tools/regexpTestLib.tcl
-
-   Macintosh Stuff: 
-
-   >   54. ''[[resource]]'' - doc/resource.n,
-     doc/source.n,
-     mac/tclMacResource.c,
-     mac/tclMacResource.r,
-     tests/resource.test,
-     tests/source.test
-
-   >   55. ''Mac-Specific Files'' - doc/Macintosh.3,
-     mac/AppleScript.html
-     mac/Background.doc
-     mac/libmoto.doc
-     mac/morefiles.doc
-     mac/MW_TclAppleScriptHeader.h
-     mac/MW_TclAppleScriptHeader.pch
-     mac/MW_TclHeader.h
-     mac/MW_TclHeader.pch
-     mac/MW_TclTestHeader.h
-     mac/MW_TclTestHeader.pch
-     mac/porting.notes
-     mac/tclMac.h
-     mac/tclMacAETE.r
-     mac/tclMacAlloc.c
-     mac/tclMacApplication.r
-     mac/tclMacBOAAppInit.c
-     mac/tclMacBOAMain.c
-     mac/tclMacCommonPch.h
-     mac/tclMacDNR.c
-     mac/tclMacExit.c
-     mac/tclMacInterupt.c
-     mac/tclMacLibrary.c
-     mac/tclMacLibrary.r
-     mac/tclMacMath.h
-     mac/tclMacMSLPrefix.h
-     mac/tclMacOSA.c
-     mac/tclMacOSA.exp
-     mac/tclMacOSA.r
-     mac/tclMacProjects.sea.hqx
-     mac/tclMacShLib.exp
-     mac/tclMacTclCode.r
-     mac/tclMacUnix.c
-     mac/tclMacUtil.c
-     mac/tcltkMacBuildSupport.sea.hqx
-     tests/osa.test
 
 ~ Shared Files
 
@@ -785,8 +726,6 @@ API and should be changed only in accordance with TCT approval.
      generic/tclInt.h,
      generic/tclTest.c,
      generic/tclTestObj.c,
-     mac/tclMacInt.h,
-     mac/tclMacTest.c,
      tests/misc.test,
      unix/tclUnixTest.c,
      win/tclWinInt.h,
