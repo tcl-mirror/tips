@@ -1,18 +1,18 @@
-TIP:		166
-Title:		Reading and Writing the Photo Image Alpha Channel
-Keywords:	Tk, image get, image put
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	19-Nov-2003
-Post-History:	
+TIP:            166
+Title:          Reading and Writing the Photo Image Alpha Channel
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Nov-2003
+Post-History:   
+Keywords:       Tk,image get,image put
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
-This TIP describes how to update the ''image get'' and ''image put''
+This TIP describes how to update the '''image get''' and '''image put'''
 subcommands so as to allow script-level access to the full alpha
 channel information that has been present in the photo image data
 model since Tk 8.3.
@@ -30,12 +30,12 @@ that people can read and write the full alpha data from scripts.
 
 ~Proposal
 
-I propose to update the ''$photoImageInstance get'' subcommand so that
-it returns four values instead of three, with the fourth being the
+I propose to update the ''photoImageInstance'' '''get''' subcommand so
+that it returns four values instead of three, with the fourth being the
 contents of the alpha channel for the pixel.
 
-I also propose to update the ''$photoImageInstance put'' subcommand so
-that alpha channel information may be specified in the following ways
+I also propose to update the ''photoImageInstance'' '''put''' subcommand
+so that alpha channel information may be specified in the following ways
 when using the list-of-lists-of-pixel-data format (the image-format
 format will be up to the particular image format code, as always.)
 
@@ -46,12 +46,12 @@ format will be up to the particular image format code, as always.)
 
  * Any pixel colour format that is not the empty string (e.g.
    ''bisque2'' or ''#abcdef'') may have the following suffix added -
-   @A - where A is a fractional alpha value in the range 0.0 to 1.0
-   (which values correspond to fully transparent and fully opaque
+   '''@A''' - where A is a fractional alpha value in the range 0.0
+   to 1.0 (which values correspond to fully transparent and fully opaque
    respectively.)
 
  * Any pixel colour format that is not the empty string and which does
-   not have a ''@A'' suffix may have a ''#XX'' suffix, where XX is a
+   not have a '''@A''' suffix may have a '''#XX''' suffix, where XX is a
    pair of hex digits that specify an integer alpha value in the range
    0 (fully transparent) to 255 (fully opaque).
 
@@ -63,11 +63,11 @@ format will be up to the particular image format code, as always.)
    list of three or four integers in the range 0 to 255, being the
    value of the red channel, green channel, blue channel and alpha
    channel respectively in that order.  An absent alpha channel is to
-   be interpreted as opacity.
+   be interpreted as full opacity.
 
 ~Open Questions
 
-What about the ''$photoImageInstance transparency'' subcommand?
+What about the ''photoImageInstance'' '''transparency''' subcommand?
 
 ~Reference Implementation
 
