@@ -1,6 +1,6 @@
 TIP:            100
 Title:          Add Support for Unloading Dynamic Libraries Loaded with [load]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         George Petasis <petasis@iit.demokritos.gr>
 State:          Draft
 Type:           Project
@@ -46,6 +46,14 @@ mechanism for unloading a dynamic library.  A new version of the
 library can be created, as its object file can now be written, and the
 updated library can be re-loaded.
 
+However, this is not the only application of unload.
+Services running for long periods of time and want to unload
+no longer needed functionality, replacing parts of an applications
+(i.e. from an automatic update procedure) or functionality
+temporarily needed (i.e. a web browser that loads a plugin
+to display a file of a particular file type) are some
+additional fields of application.
+
 ~ Introduction
 
 Unload functionality has been left out of the Tcl core, mainly because
@@ -67,6 +75,27 @@ This TIP proposes the insertion of a new Tcl command named ''unload''
 and two functions ''pkg_Unload'' and ''pkg_SafeUnload'', modelled
 after ''pkg_Init'' and ''pkg_SafeInit'', that libraries which can be
 unloaded should implement.
+
+~ Unloadable Libraries
+
+A main concern is related to when a shared library can be "unloadable".
+An unloadable library is a library characterised as such by its
+developer. The developer of the library must export a function
+from the library, similar to the library's initialisation
+function. The unload command will never try to unload a library
+that does not provide such a function. This makes old libraries
+(before the introduction of the unload functionality) safe.
+
+There is a category of libraries that
+can never be unloaded (i.e. libraries that register new
+tcl object types). However, the choice is upon the developer:
+the developer knows if the library can be unloadable. The simpler
+case, libraries that only register new commands are the most
+probable libraries to be unloadable.
+Libraries that export functions through a stub mechanism cannot be
+unloaded, as the were meant for having dependencies with
+other libraries that use the exported API. There is no way for
+the provider library to know wether it is used or not.
 
 ~ Specification
 
@@ -98,12 +127,6 @@ be extended to keep some additional information:
        the library can be unloaded if it has never been loaded in a
        normal interpreter.
 
-   3.  Perhaps it is a good idea to also keep a list of all
-       interpreters that the library has been loaded into.  Its a good
-       idea to also check that a library has been loaded under a
-       specific interpreter, before it is unloaded from this
-       interpreter.
-
 The ''unload'' command will always return an error, if the operating
 system does not support library unloading.  In case the operating
 system supports library unloading:
@@ -134,14 +157,14 @@ library, and the library will never be loaded in a safe interpreter.
 A library that can be also loaded in safe interpreters is unloadable
 if the function ''pkg_SafeUnload'' is also available.  These two
 functions will accept two arguments, the interpreter under which the
-library is unloaded and an integer, holding various flags.  Currently,
-the only flag that seems relevant is a flag to signal that the
-function should remove all references to functions within the library.
-This flag will be set only when the library is about to be unloaded,
-i.e. when only one of the reference counts has the value 1 and the
-other is 0.  This flag is to force the library unregister any
-non-interpreter related items, such as object types.  Assume that this
-flag has a name ''TCL_UNLOAD_REMOVE_ALL_REFERENCES''
+library is unloaded and an integer, holding various flags.  The flags argument
+can be either ''TCL_UNLOAD_DETACH_FROM_INTERPRETER'' or
+''TCL_UNLOAD_DETACH_FROM_PROCESS''. In case the library will remain attached to
+the process after the unload procedure returns (i.e. because the library is
+used by other interpreters), TCL_UNLOAD_DETACH_FROM_INTERPRETER will be defined.
+However, if the library is used only by the target interpreter and the library
+will be detached from the application as soon as the unload procedure returns,
+the flags argument will be set to TCL_UNLOAD_DETACH_FROM_PROCESS. 
 
 The main responsibility of these functions is to remove from the
 interpreter they are unloaded under any reference to a function
@@ -157,16 +180,15 @@ residing inside the library.  For example, such a function must:
        the interpreter during the use of the library (usually used to
        represent special special data structures).
 
-If the flag ''TCL_UNLOAD_REMOVE_ALL_REFERENCES'' is defined, the
+If the flag ''TCL_UNLOAD_DETACH_FROM_PROCESS'' is defined, the
 developer must do additional task, that are not normally required when
 the library gets unloaded from an interpreter:
 
-   3.  If any object types have been registered, reset the function
-       pointers of this object type to NULL.  Of course, this will
-       make objects of this type totally unusable, until the library
-       is reloaded.
+   3.  Free any memory occupied by the internal structures of
+       the library.
 
-   4.  In general, try to remove any reference to library functions.
+   4.  In general, try to remove any references Tcl may have
+       to functions provided by the library.
 
 If the developer cannot remove all reference to functions to the
 library, its better to not provide at all these two functions, so as
@@ -194,3 +216,158 @@ http://sf.net/tracker/?func=detail&aid=823486&group_id=10894&atid=310894
 ~ Copyright
 
 This document has been placed in the public domain.
+
+~ Appendix: The unload man page.
+
+<DL>
+<DD><A HREF="unload.htm#M2" NAME="L1541">NAME</A>
+<DL><DD>unload - Unload machine code.</DL>
+<DD><A HREF="unload.htm#M3" NAME="L1542">SYNOPSIS</A>
+<DL>
+<DD><B>unload </B>?<I>switches</I>? <I>fileName</I>
+<DD><B>unload </B>?<I>switches</I>? <I>fileName packageName</I>
+<DD><B>unload </B>?<I>switches</I>? <I>fileName packageName interp</I>
+</DL>
+<DD><A HREF="unload.htm#M4" NAME="L1543">DESCRIPTION</A>
+<DL>
+<DD><A HREF="unload.htm#M5" NAME="L1544"><B>-nocomplain</B></A>
+<DD><A HREF="unload.htm#M6" NAME="L1545"><B>-keeplibrary</B></A>
+<DD><A HREF="unload.htm#M7" NAME="L1546"><B>-&nbsp;-</B></A>
+</DL>
+<DD><A HREF="unload.htm#M8" NAME="L1547">PORTABILITY ISSUES</A>
+<DL>
+<DD><A HREF="unload.htm#M9" NAME="L1548"><B>Unix</B></A>
+<DD><A HREF="unload.htm#M10" NAME="L1549"><B>Macintosh</B></A>
+</DL>
+<DD><A HREF="unload.htm#M11" NAME="L1550">BUGS</A>
+<DD><A HREF="unload.htm#M12" NAME="L1551">SEE ALSO</A>
+<DD><A HREF="unload.htm#M13" NAME="L1552">KEYWORDS</A>
+</DL><HR>
+<H3><A NAME="M2">NAME</A></H3>
+unload - Unload machine code.
+<H3><A NAME="M3">SYNOPSIS</A></H3>
+<B>unload </B>?<I>switches</I>? <I>fileName</I><BR>
+<B>unload </B>?<I>switches</I>? <I>fileName packageName</I><BR>
+<B>unload </B>?<I>switches</I>? <I>fileName packageName interp</I><BR>
+<H3><A NAME="M4">DESCRIPTION</A></H3>
+This command tries to unload shared libraries previously loaded
+with <B><A HREF="../TclCmd/load.htm">load</A></B> from the application's address space.  <I>fileName</I>
+is the name of the file containing the library file to be unload;  it
+must be the same as the filename provided to <B><A HREF="../TclCmd/load.htm">load</A></B> for
+loading the library.
+<I>packageName</I> is the name of the package, and is used to
+compute the name of the unload procedure.
+<I>interp</I> is the path name of the interpreter from which to unload
+the package (see the <B><A HREF="../TclCmd/interp.htm">interp</A></B> manual entry for details);
+if <I>interp</I> is omitted, it defaults to the
+interpreter in which the <B>unload</B> command was invoked.
+<P>
+If the initial arguments to <B>unload</B> start with <B>-</B> then
+they are treated as switches.  The following switches are
+currently supported:
+<P>
+<DL>
+<DT><A NAME="M5"><B>-nocomplain</B></A><DD>
+Supresses all error messages. If this switch is given <B>unload</B> will
+never report an error.
+<P><DT><A NAME="M6"><B>-keeplibrary</B></A><DD>
+This switch will prevent <B>unload</B> from issuing the operating system call
+that will unload the library from the process.
+<P><DT><A NAME="M7"><B>-&nbsp;-</B></A><DD>
+Marks the end of switches.  The argument following this one will
+be treated as a <I>fileName</I> even if it starts with a <B>-</B>.
+<P></DL>
+<P>
+When a file containing a shared library is loaded through the
+<B><A HREF="../TclCmd/load.htm">load</A></B> command, Tcl associates two reference counts to the library
+file. The first counter shows how many times the library has been
+loaded into normal (trusted) interpreters while the second describes how many
+times the library has been loaded into safe interpreters. As a file containing
+a shared library can be loaded only once by Tcl (with the first <B><A HREF="../TclCmd/load.htm">load</A></B>
+call on the file), these counters track how many interpreters use the library.
+Each subsequent call to <B><A HREF="../TclCmd/load.htm">load</A></B> after the first, simply increaments the
+proper reference count.
+<P>
+<B>unload</B> works in the opposite direction. As a first step, <B>unload</B>
+will check whether the library is unloadable: an unloadable library exports
+a special unload procedure. The name of the unload procedure is determined by
+<I>packageName</I> and whether or not the target interpreter
+is a safe one.  For normal interpreters the name of the initialization
+procedure will have the form <I>pkg</I><B>_Unload</B>, where <I>pkg</I>
+is the same as <I>packageName</I> except that the first letter is
+converted to upper case and all other letters
+are converted to lower case.  For example, if <I>packageName</I> is
+<B>foo</B> or <B>FOo</B>, the initialization procedure's name will
+be <B>Foo_Unload</B>.
+If the target interpreter is a safe interpreter, then the name
+of the initialization procedure will be <I>pkg</I><B>_SafeUnload</B>
+instead of <I>pkg</I><B>_Unload</B>.
+<P>
+If <B>unload</B> determines that a library is not unloadable (or unload
+functionality has been disabled during compilation), an error will be returned.
+If the library is unloadable, then <B>unload</B> will call the unload
+procedure. If the unload procedure returns TCL_OK, <B>unload</B> will proceed
+and decrease the proper reference count (depending on the target interpreter
+type). When both reference counts have reached 0, the library will be
+detached from the process.
+<P>
+The unload procedure must match the following prototype:
+<PRE>typedef int Tcl_PackageUnloadProc(<A HREF="../TclLib/Interp.htm">Tcl_Interp</A> *<I>interp</I>, int <I>flags</I>);</PRE>
+The <I>interp</I> argument identifies the interpreter from which the
+library is to be unloaded.  The unload procedure must return
+<B>TCL_OK</B> or <B>TCL_ERROR</B> to indicate whether or not it completed
+successfully;  in the event of an error it should set the interpreter's result
+to point to an error message.  In this case, the result of the
+<B>unload</B> command will be the result returned by the unload procedure.
+The <I>flags</I> argument can be either <B>TCL_UNLOAD_DETACH_FROM_INTERPRETER</B>
+or <B>TCL_UNLOAD_DETACH_FROM_PROCESS</B>. In case the library will remain
+attached to the process after the unload procedure returns (i.e. because
+the library is used by other interpreters),
+<B>TCL_UNLOAD_DETACH_FROM_INTERPRETER</B> will be defined. However, if the
+library is used only by the target interpreter and the library will be
+detached from the application as soon as the unload procedure returns,
+the <I>flags</I> argument will be set to <B>TCL_UNLOAD_DETACH_FROM_PROCESS</B>. 
+<P>
+The <B>unload</B> command cannot unload libraries that are statically
+linked with the application.
+If <I>fileName</I> is an empty string, then <I>packageName</I> must
+be specified.
+<P>
+If <I>packageName</I> is omitted or specified as an empty string,
+Tcl tries to guess the name of the package.
+This may be done differently on different platforms.
+The default guess, which is used on most UNIX platforms, is to
+take the last element of <I>fileName</I>, strip off the first
+three characters if they are <B>lib</B>, and use any following
+alphabetic and underline characters as the module name.
+For example, the command <B>unload libxyz4.2.so</B> uses the module
+name <B>xyz</B> and the command <B>unload bin/last.so {}</B> uses the
+module name <B>last</B>.
+
+<H3><A NAME="M8">PORTABILITY ISSUES</A></H3>
+<DL>
+<DT><A NAME="M9"><B>Unix</B></A><DD>
+Not all unix operating systems support library unloading. Under such
+an operating system <B>unload</B> returns an error (unless -nocomplain has
+been specified).
+<P><DT><A NAME="M10"><B>Macintosh</B></A><DD>
+&lt;Somebody to comment on this?&gt;
+
+<P></DL>
+<H3><A NAME="M11">BUGS</A></H3>
+If the same file is <B><A HREF="../TclCmd/load.htm">load</A></B>ed by different <I>fileName</I>s, it will
+be loaded into the process's address space multiple times.  The
+behavior of this varies from system to system (some systems may
+detect the redundant loads, others may not). In case a library has been
+silently detached by the operating system (and as a result Tcl thinks the
+library is still loaded), it may be dangerous to use
+<B>unload</B> on such a library (as the library will be completely detached
+from the application while some interpreters will continue to use it).
+
+<H3><A NAME="M12">SEE ALSO</A></H3>
+<B><A HREF="../TclCmd/info.htm">info sharedlibextension</A></B>, <B><A HREF="../TclCmd/load.htm">load</A></B>, <B>safe</B>
+<H3><A NAME="M13">KEYWORDS</A></H3>
+<A href="../Keywords/B.htm#binary code">binary code</A>, <A href="../Keywords/U.htm#unloading">unloading</A>, <A href="../Keywords/S.htm#safe interpreter">safe interpreter</A>, <A href="../Keywords/S.htm#shared library">shared library</A>
+<HR><PRE>
+<A HREF="../copyright.htm">Copyright</A> &#169; 2003 George Petasis, petasis@iit.demokritos.gr.
+<A HREF="../copyright.htm">Copyright</A> &#169; 1995-1997 Roger E. Critchlow Jr.</PRE>
