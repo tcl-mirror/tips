@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
 State:          Draft
@@ -916,8 +916,11 @@ With zlib compression, the message catalogs and time zone data total
 less than half a megabyte.  It is worth noting that a distribution
 that must run in the absolute minimum space may omit both message
 catalogs and time zone data; if this is done, named time zones
-(e.g., :America/New_York) will not be available, and the only
-supported locale will be the root locale.  This combination
+(e.g., :America/New_York) will not be available on systems such
+as Windows that lack 'zoneinfo', and will suffer from Y2038
+bugs on systems such as Solaris and Linux that have 'zoneinfo'.
+Without the message catalogs, the only
+supported locale will be the root locale (and on Windows, the 'system' locale).  This combination
 provides functionality comparable to the [[clock]] command prior
 to this TIP.  The Tcl code that implements [[clock]] is less than
 eighty kilobytes with comments and blank lines removed; this
