@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -84,10 +84,11 @@ In example.h is this:
 
 That work is doing the same job, but I prefer the method that I'm proposing.
 
-Is:
+Is->
 
 |	EXTERN int Foobar_Init (Tcl_Interp *interp);
-Want:
+
+Want->
 
 |	EXTERN(int) Foobar_Init (Tcl_Interp *interp);
 
