@@ -1,6 +1,6 @@
 TIP:		141
-Title:		Multiple Initial-Files in [tk_get*File]
-Version:	$Revision: 1.1 $
+Title:		Multiple Initial-Files in [tk_getOpenFile]
+Version:	$Revision: 1.2 $
 Author:		David N. Welton <davidw@dedasys.com>
 State:		Draft
 Type:		Project
