@@ -1,6 +1,6 @@
 TIP:            58
-Title:          Multiple Assignment Command (Take 2)
-Version:        $Revision: 1.2 $
+Title:          Extend [set] to Assign Multiple Values to Multiple Variables
+Version:        $Revision: 1.3 $
 Author:         Anselm Lingnau <anselm@strathspey.org>
 State:          Draft
 Type:           Project
