@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -71,12 +71,15 @@ First, ''catch'' is not able to capture the information.  Consider:
 |          return -code error -errorinfo foo -errorcode bar baz
 |      } message]
 
-After evaluation, ''code'' contains "2" (''TCL_RETURN''), ''message''
-contains "baz", ''::errorInfo'' contains "foo", and ''::errorCode''
-contains "bar".  But there is nothing accessible at the script level
-that contains the value passed to the ''-code'' option.  That code is
-stored internally in the ''Tcl_Interp'' structure as
-''interp->returnCode'', but scripts cannot access that value.
+After evaluation, ''code'' contains "2" (''TCL_RETURN''), and
+''message'' contains "baz", but the other values are locked away in
+internal fields of the ''Tcl_Interp'' structure as
+''interp->returnCode'', ''interp->errorCode'', and 
+''interp->errorInfo''.  The "-errorcode" and "-errorinfo" values
+will be copied to the global variables "::errorCode" and 
+"::errorInfo", respectively, but there will be no way at the
+script level to get at the ''interp->returnCode'' value which
+was the value of the original "-code" option.
 
 Second, even if the information were available, there is no built-in
 command in Tcl that can be evaluated within the body of a proc to make
