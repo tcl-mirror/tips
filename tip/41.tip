@@ -1,6 +1,6 @@
 TIP:            41
 Title:          Paned Window Tk Widget
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Eric Melski <ericm@interwoven.com>
 State:          Draft
 Type:           Project
@@ -76,6 +76,9 @@ belong in the core.  This question could be made irrelevant with the
 introduction of a proper "Batteries Included" distribution, but like
 the proper megawidget system, this seems like a goal far from reality
 at this time.
+
+Another possibility is to distribute the widget with the core, but have it placed in a separate package and namespace.  This provides the same level of availability as direct inclusion in the core, but does not actually make the widget part of Tk directly.  There are two possible arguments in favor of this approach.  First, since this widget will be in its own namespace, future panedwindow widgets could be included without name conflicts.  However, if each widget is put in its own namespace, the name conflict has not actually been resolved.  The point of contention has simply been moved from the global command space to the global namespace space.  Namespaces make sense when grouping blocks of related functions and data, but widgets have only one command.  It's just as easy to pick a unique command name as a unique namespace name.  The second possible advantage is that the widget could be loaded on demand, rather than automatically being pulled in with Tk.  However, most machines that Tk runs on use a virtual memory system.  Thus, 
+only those pages/widgets that are actually used will be resident in memory.  The benefit of incorporating this widget into the Tk distribution in this manner seem marginal.
 
 #image:41example Example Panedwindow Widget
 
