@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -38,7 +38,7 @@ See also [105], which the text above comes from.
 
 To support this, I propose adding a command with the syntax
 
- * '''string''' '''prefix''' ?'''-exact'''? ?'''-message''' ''string''? ''list'' ''string''
+ * '''string''' '''disambiguate''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
 
 The command is given a list of possibilities and a string to match,
 and returns the matching element in the list or an error.  Basically
@@ -48,32 +48,36 @@ corresponds to the ''flags'' and ''msg'' arguments to
 ''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
 "option".
 
-The error message is returned so that it shows up as an error from
-the caller, i.e. it behaves like [[return -code error -level 2]].
+The '''-error'' level tells how to behave when no match is found.
+At level 0, no error is generated and an empty string is returned.
+At level 1 (default), a normal error message is returned.
+At level 2, the error message is returned so that it shows up as
+an error from the caller, i.e. it behaves like
+[[return -code error -level 2]].
 
 ~ Examples
 
 Basic use:
 
-|% string prefix {apa bepa cepa} apa
+|% string disambiguate {apa bepa cepa} apa
 |apa
-|% string prefix {apa bepa cepa} a
+|% string disambiguate {apa bepa cepa} a
 |apa
-|% string prefix -exact {apa bepa cepa} a
+|% string disambiguate -exact {apa bepa cepa} a
 |bad option "a": must be apa, bepa, or cepa
-|% string prefix -message "switch" {apa ada bepa cepa} a
+|% string disambiguate -message "switch" {apa ada bepa cepa} a
 |ambiguous switch "a": must be apa, ada, bepa, or cepa
 
 Simplifying option matching:
 
 |array set opts {-apa 1 -bepa "" -cepa 0}
 |foreach {arg val} $args {
-|    set opts([string prefix {-apa -bepa -cepa} $arg]) $val
+|    set opts([string disambiguate {-apa -bepa -cepa} $arg]) $val
 |}
 
 Switch similar to [105]:
 
-|switch -- [string prefix {apa bepa cepa} $arg] {
+|switch -- [string disambiguate {apa bepa cepa} $arg] {
 |    apa  { }
 |    bepa { }
 |    cepa { }
@@ -83,7 +87,7 @@ The implementation will of course be in C but this is approximately
 how it would be done in Tcl:
 
 |# A limited implementation example
-|proc prefix {table obj} {
+|proc disambiguate {table obj} {
 |    set msg "option"
 |    if {[lsearch -exact $table $obj] >= 0} {
 |        return $obj
@@ -102,8 +106,10 @@ how it would be done in Tcl:
 
 ~ Alternative names
 
-Alternative names for the command that have been suggsted are
- '''prefix''', '''tcl::prefix''' and '''lsearch -prefix'''.
+Alternative names for the command that have been suggested are
+ '''prefix''', '''tcl::prefix''', '''string prefix''',
+'''string prefixmatch''', '''string matchprefix''' and
+'''lsearch -prefix'''.
 
 Any name based on ''Tcl_GetIndexFromObj'' feels wrong since this
 command does not get any index.
@@ -128,7 +134,7 @@ state that the behaviour is not to necessarily return the first
 matching element. That was what scuppered #105 after all (much to my
 annoyance.)
 
-Peter Spjuth: TIP has been altered to suggest '''string prefix'''.
+Peter Spjuth: TIP has been altered to suggest '''string disambiguate'''.
 
 Donal Fellows wrote:
 
