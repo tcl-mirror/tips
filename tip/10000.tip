@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.132 $
+Version:        $Revision: 1.133 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -75,3 +75,103 @@ A reference implementation does ''not'' yet exist.
 ~ Copyright
 
 Public domain
+
+~ Abstract
+
+This TIP proposes a -namespace option for the [interp invokehidden]
+subcommand to allow hidden commands to be invoked in the specified
+namespace in the slave interpreter.
+
+~ Rationale
+
+Safe interpreters and namespaces have been useful and important
+features of Tcl since version 8.0.  However, it can sometimes be
+difficult to use them together effectively.  For example, while you can
+invoke a hidden command in a safe interpreter, such as '''source''',
+you cannot specify the target namespace context where the command
+should be invoked.  Using the '''interp eval''' subcommand is not an
+option because that, by design, does not allow hidden commands to be
+invoked.  In addition, since the '''interp invokehidden''' subcommand
+expects a command name, '''namespace eval''' and similar constructs
+that would typically be used to change the target namespace context
+cannot be used.
+
+~ Specification
+
+'''interp invokehidden''' ''path'' ?'''-global'''? ?'''-namespace''' ''namespace''? ''hiddenCmdName'' ?''arg ...''?
+
+The '''interp invokehidden''' subcommand would continue to function as
+the current documentation dictates with the following notable exceptions:
+
+   * The '''-namespace''' specifies the target namespace context in the slave interpreter where the command should be invoked.
+
+   * The target namespace context specified by the '''-namespace''' option is created in the slave interpreter if it does not already exist.
+
+   * If both the '''-global''' and '''-namespace''' options are present, the '''-namespace''' option is ignored.
+
+~~Example Usage
+
+The following example script illustrates how this feature might be used.
+
+|################################################
+|# file inside.tcl
+|################################################
+|
+|set x "this is a test from inside [namespace current]."
+|
+|################################################
+|# file invoke.tcl
+|################################################
+|
+|set i [interp create -safe]
+|set file [file join [file dirname [info script]] inside.tcl]
+|
+|interp invokehidden $i -namespace ::test::foo::bar source $file
+|
+|set result [interp eval $i [list set ::test::foo::bar::x]]
+|
+|# should be: "this is a test from inside ::test::foo::bar."
+|puts stdout $result
+|
+
+~ Proposed C API Changes
+
+The following additions/changes would be made to the private Tcl C API:
+
+ * int '''TclObjInvokeNamespace'''(Tcl_Interp *''interp'', int ''objc'', 
+  Tcl_Obj *CONST ''objv''[], Tcl_Obj *CONST ''namespaceName'', 
+  int ''flags'')
+
+ > Invokes the specified command in the namespace context specified by
+   the namespaceName argument.
+
+ * Two new flags '''TCL_INVOKE_NS_MUST_EXIST''' and 
+  '''TCL_INVOKE_NO_GLOBAL_ONLY''' would be created for use with the 
+  '''TclObjInvoke*''' family of functions.
+
+ > The '''TCL_INVOKE_NS_MUST_EXIST''' flag (used with 
+   '''TclObjInvokeNamespace''') indicates that the caller does ''not''
+   want the namespace context to be created if it does not already exist.
+   '''The TCL_INVOKE_NO_GLOBAL_ONLY''' flag (used with 
+   '''TclObjInvoke''') inhibits the use of the '''TCL_GLOBAL_ONLY''' 
+   during command resolution.
+
+ * static int '''SlaveInvokeHidden'''(Tcl_Interp *''interp'', 
+  Tcl_Interp *''slaveInterp'', int ''global'', Tcl_Obj *CONST ''namespaceName'', 
+  int ''objc'', Tcl_Obj *CONST ''objv''[])
+
+ > The '''SlaveInvokeHidden''' would be modified to accept a 
+   namespaceName argument.
+
+ * The '''FIND_ONLY_NS''' would be moved from ''generic/tclNamesp.c'' 
+  to ''generic/tclInt.h''
+
+~ Reference Implementation
+
+A reference implementation of this TIP is availble at:
+
+http://sf.net/tracker/?func=detail&aid=981841&group_id=10894&atid=310894
+
+~ Copyright
+
+This document has been placed in the public domain.
