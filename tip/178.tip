@@ -1,0 +1,61 @@
+TIP:		178
+Title:		[info pid] and [info tid] subcommands
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:
+Version:	$Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+Created:	21-Mar-2004
+
+~ Abstract
+
+This TIP proposes two new [[info]] subcommands which are used to
+obtain the current process and thread identifiers.
+
+~ Rationale
+
+In certain types of applications, it is important to know what thread
+is currently executing.  This is especially true for multithreaded
+applications or for scripts running in a threaded build of Tcl.
+
+While the author realizes that there is already a [[pid]] command, the
+addition of the [[info pid]] subcommand still makes sense for the
+following reasons:
+
+ * The [[pid]] command can also provide information totally unrelated
+   to the ''current'' process identifier.  At one point ([88]) it was
+   even suggested that the [[pid]] command be overloaded to provide
+   process control related functionality.
+
+ * To allow scripts that dynamically build other scripts (potentially
+   for use with safe interpreters) using the [[info]] command and
+   caller provided arguments.  Using the [[info]] command instead of
+   the [[pid]] command limits the amount of information that can be
+   obtained by the safe interpreter.
+
+~ Proposed Change
+
+Two new subcommands, [[info pid]] and [[info tid]], would be added to
+the [[info]] command with the following syntax:
+
+ > '''info pid'''
+
+This subcommand would return the process identifier for the current
+process.
+
+ > '''info tid'''
+
+This subcommand would return the thread identifier for the current
+thread.
+
+~ Draft Implmentation
+
+A complete implementation of this TIP is availble at:
+
+http://sf.net/tracker/?func=detail&aid=920731&group_id=10894&atid=310894
+
+~ Copyright
+
+This document has been placed in the public domain.
