@@ -1,6 +1,6 @@
 TIP:           10000
 Title:         Dummy Proposal for Testing Editing Interfaces
-Version:       $Revision: 1.5 $
+Version:       $Revision: 1.6 $
 Author:        Don Porter <dgp@users.sourceforge.net>
 State:         Draft
 Type:          Informative
@@ -29,6 +29,10 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+~ Test
+
+Attempt to add section via the web interface.
 
 ~ Copyright
 
