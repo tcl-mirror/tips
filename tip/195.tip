@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -34,6 +34,11 @@ directly, so that script authors could just say what they mean.
 
 See also [105], which the text above comes from.
 
+Another benefit of this command is getting an error message that
+looks like those nice and informative error messages that built in
+commands have.  The proposed command includes a flag to control
+the error behaviour.
+
 ~ Proposed Change
 
 To support this, I propose adding a command with the syntax
@@ -48,7 +53,7 @@ corresponds to the ''flags'' and ''msg'' arguments to
 ''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
 "option".
 
-The '''-error'' level tells how to behave when no match is found.
+The '''-error''' level tells how to behave when no match is found.
 At level 0, no error is generated and an empty string is returned.
 At level 1 (default), a normal error message is returned.
 At level 2, the error message is returned so that it shows up as
@@ -134,7 +139,7 @@ state that the behaviour is not to necessarily return the first
 matching element. That was what scuppered #105 after all (much to my
 annoyance.)
 
-Peter Spjuth: TIP has been altered to suggest '''string disambiguate'''.
+Peter Spjuth: TIP has been altered to suggest '''string disambiguate''' after a suggestion from Donal.
 
 Donal Fellows wrote:
 
