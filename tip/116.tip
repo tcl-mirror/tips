@@ -1,13 +1,14 @@
-TIP:		116
-Title:		More Safety for Large Images
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		Donal K. Fellows <donal.fellows@man.ac.uk>
-Created:	28-Oct-2002
+TIP:            116
+Title:          More Safety for Large Images
+Version:        $Revision: 1.3 $
+Author:         Donal K. Fellows <donal.fellows@man.ac.uk>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Oct-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -71,17 +72,31 @@ to guess why the failure happened.
 |Tk_PhotoSetSize(Tcl_Interp *interp, Tk_PhotoHandle handle,
 |                int width, int height)
 
-A backward-compatibility interface will be provided so that with a
-suitable ''#define'' (name to be decided) the old interface can be
-used.  This will make it easier for existing code to work with the new
-interface where the alternative (dealing with potential error results)
-is more awkward.
-
 Also note that as a consequence of this, some image-related Tk
 commands will also gain additional error return situations.  Since
 these all trigger abnormal process termination (and potentially a
 core-dump too) at the moment, this change in behaviour is believed to
 be wholly beneficial.
+
+~ Backward Compatibility
+
+This TIP also proposes a backward compatibility interface, so that
+extensions need not be heavily modified to work with new versions of
+Tk.  This is done by leaving backwardly-compatible functions in the
+old locations in Tk's stub table and adding a ''#define'' to allow
+selection of the old API with the standard names.  I propose doing this
+when the symbol ''USE_PANIC_ON_PHOTO_ALLOC_FAILURE'' is defined; like
+this, extension authors can switch from compiling with Tk 8.4 to using
+later versions by adding just one flag to their makefile (or other build
+script/environment.)
+
+Note that this interacts with the backward-compatability interface
+defined in [98]; if that is enabled, the back-compat interface defined
+here is enabled as well.
+
+~ Sample Implementation
+
+http://sf.net/tracker/?func=detail&aid=646382&group_id=12997&atid=312997
 
 ~ Copyright
 
