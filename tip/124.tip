@@ -1,0 +1,54 @@
+TIP:		124
+Title:		Adding "clock microseconds" Subcommand
+Version:	$Revision: 1.1 $
+Author:		Mark Harrison <mh@pixar.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	20-Dec-2002
+Post-History:	
+
+~ Abstract
+
+This TIP adds a "clock microseconds" command to allow the taking of
+sub-second timestamps.
+
+~ Rationale
+
+The [[clock clicks]] command is a useful feature for analyzing and
+tuning performance in Tcl programs.  Since the timer is relative,
+however, it is difficult to correlate times between two programs or
+with timestamps stored in a log file.
+
+Introducing a [[clock microseconds]] command which returns the current
+time in both seconds and microseconds (to the resolution of the system
+clock) resolves this problem.
+
+This should be portable across operating systems as it returns the
+result from ''TclpGetTime()''.
+
+~ Documentation
+
+Added to ''doc/clock.n'': "clock microseconds -- Return a list of two
+system-dependent integers.  The first element is the current time and
+date as described in clock seconds.  The value of the second element
+is the number of elapsed microseconds since the beginning of the
+current second."
+
+~ Example
+
+|    set now [clock microseconds]
+|    set s [lindex $now 0]
+|    set u [lindex $now 1]
+|    format "%s.%06d" [clock format $s  -format %T] $u
+|
+|    13:14:23.146671
+
+~ Reference Implementation
+
+http://sf.net/tracker/?func=detail&atid=310894&aid=656997&group_id=10894
+
+~ Copyright
+
+This document has been placed in the public domain.
