@@ -1,0 +1,69 @@
+TIP:		243
+Title:		Supply Find Dialog for the Text Widget
+Version:	$Revision: 1.1 $
+Author:		Rüdiger Härtel <r_haertel@gmx.de>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	16-Mar-2005
+Tcl-Version:	8.5
+Post-History:	
+Keywords:	Tk
+
+~Abstract
+
+This TIP adds a ''find dialog'' to the Tk '''text''' widget.
+
+~Rationale
+
+In using the '''text''' widget it often is a desire to search the
+input, and the text widget itself provides already all means to search
+text. However, until now there is no GUI based support, so each
+application developer needing it has to reinvent much of this
+particular wheel. Tk should provide a scripted find dialog in its
+library scripts so that simple applications can be built more easily
+and to a higher quality. Additionally, a ''replace dialog'' is
+desirable, and it should be developed at the same time.
+
+~Reference Implementation
+
+A reference implementation for a ''find dialog'' is available at
+[http://sf.net/tracker/?func=detail&aid=1167420&group_id=12997&atid=312997].
+
+~Example Use
+
+| package require Tk
+| namespace import ::msgcat::*
+| 
+| mclocale en
+| ::msgcat::mcset	en	LblSearchString		"Search String"
+| ::msgcat::mcset	en	LblDirection		"Direction"
+| ::msgcat::mcset	en	ChkBtnFindCaseOpt	"Case"
+| ::msgcat::mcset	en	ChkBtnFindRegexpOpt	"Regexp"
+| ::msgcat::mcset	en	RdoBtnFindDirOpt1	"Forward"
+| ::msgcat::mcset	en	RdoBtnFindDirOpt2	"Backward"
+| ::msgcat::mcset	en	BtnFind			"  Find  "
+| ::msgcat::mcset	en	BtnFindNext		"  Next  "
+| ::msgcat::mcset	en	BtnClose		"  Close  "
+| 
+| set b1 .button
+| set t1 .t1
+| 
+| button $b1 -text Find -command [list \
+|        tk_textFind $t1 -searchstring hallo -highlightcolor green \
+|        -title "Find Dialog"]
+| text $t1
+| 
+| grid $b1 -row 0 -column 1
+| grid $t1 -row 1 -column 0 -columnspan 2
+| 
+| set fd [open [file join . tk_find.tcl] r]
+| set content [read $fd]
+| close $fd
+| 
+| $t1 insert 0.0 $content
+| set content ""
+
+~Copyright
+
+This document is in the public domain.
