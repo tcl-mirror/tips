@@ -1,6 +1,6 @@
 TIP:            110
 Title:          Add a Tristate Mode to the Checkbutton and Radiobutton
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Brian Griffin <bgriffin@model.com>
 State:          Draft
 Type:           Project
@@ -42,11 +42,11 @@ compared with the On and Off states.  This issue is addressed in
 
    1. Identify a third, platform specific, presentation (e.g. check with grayed background) to represent the tristate value,
 
-   1. Add the option "-trivalue" to specify the match value only. The default value of this option will be "2",
+   1. Add the option "-tristatevalue" to specify the match value only. The default value of this option will be "{}",
 
-   1. Change the behavior to display the indeterminate or tristate presentation when the associated variable's value matches the -trivalue, and
+   1. Change the behavior to display the indeterminate or tristate presentation when the associated variable's value matches the -tristatevalue, and
 
-   1. Add the option "-triimage" to specify an image to display (in place of the image option) when the checkbutton or radiobutton has the tristate value (as defined above.)
+   1. Add the option "-tristateimage" to specify an image to display (in place of the image option) when the checkbutton or radiobutton has the tristate value (as defined above.)
 
 ~ Copyright
 
