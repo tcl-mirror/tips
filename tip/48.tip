@@ -1,14 +1,14 @@
 TIP:            48
 Title:          Basic themeing infrastructure for Tk
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        23-Jul-2001
 Post-History:   
-Tcl-Version:    8.4
 Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -163,17 +163,16 @@ options may cover the following features:
 styles, such as Motif, Windows, MacOS... Distinct code may be provided for
 all the supported reliefs.
 
-   1. Pixmap tiling: images (with potentially transparent areas) will be
+   2. Pixmap tiling: images (with potentially transparent areas) will be
 specified for the various elements of the border: sides, center, corners.
 Several display methods may be available, such as anchoring, repeating and
 stretching. An alternative is to supply a single image and specify areas to
 use for the various elements.
 
-   1. Procedural drawing: gradients, textures...
+   3. Procedural drawing: gradients, textures...
 
-   1. Shaped windows.
+   4. Shaped windows.
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
