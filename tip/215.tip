@@ -1,14 +1,14 @@
-TIP:		215
-Title:		Make [incr] Auto-Initialize Undefined Variables
-Author:		Andreas Leitgeb <avl@logic.at>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Created:	25-Aug-2004
-Keywords:	Tcl
-Version:	$Revision: 1.1 $
-Vote:		Pending
-Post-History:	
+TIP:            215
+Title:          Make [incr] Auto-Initialize Undefined Variables
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Aug-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -51,6 +51,39 @@ other not-yet existing var, or if it is traced, then of course it
 would add flesh to that existing husk. Care should be taken that any
 write traces only trigger once (like for '''lappend'''), not twice (as
 in: for initializing and then for incrementing).
+
+~ Discussion
+
+There have been comments that '''incr''' modified as proposed
+would lose one means of typo-detection: If the varname is mistyped,
+then instead of throwing an error, it would turn into a noop.
+
+My (TIP-originator) answer to this:  relying on thrown exceptions 
+for mistyped varnames is a very weak strategy in dynamic 
+(non-compiled) languages like tcl, anyway, because
+it would require a 100%-test-coverage of execution-paths.
+
+Nevertheless, this shouldn't exclude discussion about less
+typo-forgiving alternatives:
+
+Proposed (by others) alternative #1: make  '''incr''' accept a second
+optional argument /init/ which, if specified, will cause '''incr''' to 
+accept non-existent variables and initialize them with the value /init/.
+One disadvantage of this behaviour is, that it is at odds with append
+and lappend behaviour, which would rather imply that if more than
+one argument is given after the varname, then each of them would
+be added in row. Another con would be, that it would not be intuitive,
+whether the resulting value would be /init/ or (/init/ + /step/).
+Similar alternatives mentioning new option -initValue are over-verbose
+imho.
+
+Another way to partially reduce this proposal's forgiveness would be
+to allow autoinitialization only for array-elements. This looks
+grossly unorthogonal at first sight, but addresses the fact, that
+the primary reason for TIP 215 was counting occurrences of strings,
+which are then made keys in an array. The danger of mistyped 
+array-keys is surely much lower than that of mistyped variable
+names.
 
 ~ Copyright
 
