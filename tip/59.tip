@@ -1,6 +1,6 @@
 TIP:            59
 Title:          Embed Build Information in Tcl Binary Library
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Accepted
 Type:           Project
@@ -343,7 +343,9 @@ the choices made.
 ~ Implementation
 
 Work on implementing this feature is tracked at Tcl Patch 507083 at
-the Tcl project at SourceForge.
+the Tcl project at SourceForge.  Implementation effort also takes
+place on the tip-59-implementation branch in the Tcl CVS repository
+(see [31]).
 
 ~ Copyright
 
