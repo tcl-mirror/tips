@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
@@ -22,15 +22,17 @@ With this change, upon error within a procedure, the filename and
 absolute (as opposed to relative) line number are printed out when
 available, even in the case where called from an after or callback
 invocation.  Aside from aiding the user in more easily locating and
-dealing with errors, the message is machine parseable so that it is
-possible so that automated processing is possible.  For example:
+dealing with errors, the message is machine parseable  For example:
 automatically bring the user into an editor at the offending line.
 
 Second, a simple/small debugger emulating ''gdb'' is being developed
-that uses this interface.  It allows breakpoints on lines,
+that can use this interface.  (This debugger is not part of this TIP
+but has been used to validate the interface)
+It allows breakpoints on lines,
 single-stepping and displaying/locating source and even works as a
 slave under a GUI written in Tk.  Ultimately, at some point this
-debugger could even be included in the core distribution.
+debugger might be included in the core distribution via
+a future TIP.
 
 ~ Specification
 
