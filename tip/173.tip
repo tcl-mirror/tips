@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
 State:          Draft
@@ -532,8 +532,7 @@ on all platforms.  The format groups will be interpreted as follows.
 ~~Time Zones
 
 There are several ways that a time zone may be specified for use with
-[[clock scan]], [[clock format]], [[clock add]] and [[clock
-subtract]].  In order of preference:
+[[clock scan]], [[clock format]] and [[clock add]].  In order of preference:
 
  * The time zone may appear in the input string matched by a %z or %Z
    format group in [[clock scan]].  These format groups match time
