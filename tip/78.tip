@@ -5,7 +5,7 @@ Type:		Informational
 State:		Draft
 Vote:		Pending
 Created:	15-Dec-2001
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Post-History:	
 
 ~ Abstract
@@ -103,6 +103,11 @@ highlighted.
  > * Run-time dependency
 
  > > Y is required to allow the usage of an installed X.
+
+ > * Optional dependency
+
+ > > Y can be used by X (usually for improved performance) but is not
+     required for building or use.
 
  * Distribution
 
@@ -360,7 +365,7 @@ Examples are given at the end of this section.
    it is also possible to install a package directly from the built
    package.
 
- > ''NOTE'': Think about splitting P/A Builder into two roles; one for
+ > ''NOTE:'' Think about splitting P/A Builder into two roles; one for
    the preparation of source ''distributions'' and a second role for
    the generation of binary ''distributions''.
 
