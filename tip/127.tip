@@ -1,6 +1,6 @@
 TIP:            127
 Title:          Add an -index Option to [lsearch]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
 Author:         <BNDAR_27_SA@YAHOO.COM>
 State:          Draft
@@ -65,6 +65,51 @@ For example:
 returns ''1''.
 
 |   lsort -dictionary -descending -index {1 1} $record
+
+returns 
+''{{{Elvis Presley} {Musician} {some more data}} {{James Dean} {Musician} {some other data}}}''.
+
+Note:
+The following example is invalid, -index only takes a list as argument, unlike lset and lindex, that take either a list or multiple arguments, that get concatenated by the command.
+
+| lsearch -index 1 1 $record Presley
+
+The ''-subindices'' option:
+
+The ''-subindices'' option should be added only to the ''lsearch'' command as a convenience shortcut. It is only a valid option if the ''-index'' option is also used. 
+
+If ''-subindices'' is given, ''lsearch'' should return a list of indices that can be used directly by ''lindex'' or ''lset'' to manipulate the element used for searching, instead of the top level element of the list.
+
+If ''-subindices'' and ''-inline'' are specified at the same time, the command returns the value instead of the index.
+
+example:
+| lsearch -subindices -index {0 0} $record Elvis
+
+returns ''{1 0 0}''.
+
+If no -all option is specified, this is the same as doing:
+
+| concat [lsearch -index {0 0} $record Elvis] [list 0 0]
+
+=======
+The index given to ''lsearch -index'' and ''lsort -index'' may be either a single scalar index as in the current ''lsort'' implementation or the argument to ''-index'' may be a list of scalar indices (similar, but not exactly like the lset/lindex multiple indices).  The -index option causes lsearch and lsort to extract the item for searching or sorting comparision from the list element by using in effect ''lindex $element $index''. 
+
+For example:
+
+|    set record {
+|        {
+|          {James Dean} {Musician} {some other data}
+|        }
+|        {
+|          {Elvis Presley} {Musician} {some more data}
+|        }
+|     }
+|
+|   lsearch -index {1 0} $record "Elvis"
+
+returns ''1''.
+
+|   lsort -dictionary -descending -index {1 1} $record
 returns 
 ''{{{Elvis Presley} {Musician} {some more data}} {{James Dean} {Musician} {some other data}}}''.
 
@@ -97,6 +142,20 @@ keys.
 
 The ''lsearch'' command does not have this functionality yet, one has
 to use ''foreach'' and ''lindex'' to loop over the list one by one.
+
+Multiple indices for the ''-index'' option to both ''lsearch'' and ''lsort'' should be added, to make the option more similar to ''lset'' and ''lindex'' style indices. 
+
+The ''-subindices'' option is a convenience option to make constructs like this example work well:
+
+| foreach item [lsearch -all -subindices -index {0 0} $record bla] {
+|         lset record $item bar
+| }
+
+Without the subindices option it could be written as:
+
+| foreach item [lsearch -all -index $idx $record bla] {
+|         lset record [concat $idx $item] bar
+| }
 
 Multiple indices for the ''-index'' option to both ''lsearch'' and ''lsort'' should be added, to make the option more similar to ''lset'' and ''lindex'' style indices. 
 
