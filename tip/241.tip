@@ -1,14 +1,14 @@
-TIP:		241
-Title:		Case-Insensitive Switches and List Searching and Sorting
-Version:	$Revision: 1.2 $
-Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	26-Feb-2005
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	Tcl, sorted lists, matching
+TIP:            241
+Title:          Case-Insensitive Switches and List Searching and Sorting
+Version:        $Revision: 1.3 $
+Author:         Joe Mistachkin <joe@mistachkin.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Feb-2005
+Post-History:   
+Keywords:       Tcl,sorted lists,matching
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -63,7 +63,7 @@ case-insensitive manner.
 
 ~ Reference Implementation
 
-A reference implementation of this TIP is availble
+A reference implementation of this TIP is available
 [http://sourceforge.net/tracker/index.php?func=detail&aid=1152746&group_id=10894&atid=310894].
 
 ~ Copyright

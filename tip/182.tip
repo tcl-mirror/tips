@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -54,7 +54,7 @@ to using ''Tcl_GetBoolean()''.
 
 ~ Reference Implementation
 
-A reference implementation of this TIP is availble [http://sourceforge.net/tracker/index.php?func=detail&aid=1165062&group_id=10894&atid=310894].
+A reference implementation of this TIP is available [http://sourceforge.net/tracker/index.php?func=detail&aid=1165062&group_id=10894&atid=310894].
 
 ~ Copyright
 
