@@ -1,6 +1,6 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Final
@@ -46,7 +46,7 @@ human-readable forms that are similar to those that currently exist.
 I propose using ''key value key value ...'' form with list-style
 quoting for keys and values that contain characters that are
 significant to Tcl, which should be immediately familiar to users of
-the [[array get]] and [[array set]] commands.  No special
+the '''array get''' and '''array set''' commands.  No special
 interpretation will be placed on the amount of whitespace separating
 keys and values, just as with lists (indeed, any list with an even
 number of elements can be regarded as a dictionary.)  For example, the
@@ -65,8 +65,8 @@ semantics just like lists.  This means that if I hand a dictionary
 value into a procedure as an argument, and that procedure updates the
 variable containing that value, the value as seen by the caller will
 not have changed.  This is in complete contrast with arrays which
-cannot (currently) be passed by value other than through using [[array
-get]] to convert the array to a list form and [[array set]] to convert
+cannot (currently) be passed by value other than through using '''array
+get''' to convert the array to a list form and '''array set''' to convert
 back again.
 
 This specification does not state what order the keys and values are
@@ -76,7 +76,7 @@ listed in.  That depends on the implementation.
 
 I propose that all operations that work with dictionary values (where
 not done through adaptations of existing commands) will go through the
-''dict'' command.  The alternatives are "array" which is already in
+'''dict''' command.  The alternatives are "array" which is already in
 use, "dictionary" which is rather long for what I believe will be a
 fairly commonly used command, "alist" (association list) which is
 probably too easy to confuse with existing commands, and "map" which
@@ -94,14 +94,14 @@ Proposed subcommands:
 
  dict create:	Make a dictionary.
 
-|	dict create ?$key1 $value1 $key2 $value2 ...?
+ > '''dict create''' ?''key1 value1 key2 value2 ...''?
 
  > This will create a new dictionary from the given keys and values
    and return it as the result.  The command will take an even number
    of arbitrary strings (or other objects, naturally) and will use the
    first, third, fifth, etc. as keys and the second, fourth, sixth,
    etc. as values.  From the point of view of string representations,
-   this command will behave the same as the [[list]] command with an
+   this command will behave the same as the '''list''' command with an
    even number of arguments.  There is no restriction on the possible
    representations of keys or values.  It is legal to call this
    command with no arguments at all, which creates an empty
@@ -109,13 +109,13 @@ Proposed subcommands:
 
  dict get:	Get value for given key.
 
-|	dict get $dictionaryValue ?$key ...?
+ > '''dict get''' ''dictionaryValue'' ?''key ...''?
 
  > Given a dictionary value (first argument) and a key (second
    argument), this will retrieve the value for that key.  Where
    several keys are supplied, the behaviour of the command shall be as
-   if the result of [[dict get $dictVal $key]] was passed as the first
-   argument to [[dict get]] with the remaining arguments as second
+   if the result of '''dict get''' ''dictVal key'' was passed as the first
+   argument to '''dict get'' with the remaining arguments as second
    (and possibly subsequent) arguments.  This facilitates lookups in
    nested dictionaries.  For example, the following two commands are
    equivalent:
@@ -124,7 +124,7 @@ Proposed subcommands:
 |	dict get [dict get [dict get $dict foo] bar] spong
 
  > If no keys are provided, dict would return a list containing pairs
-   of elements in a manner similar to [[array get]].  That is, the
+   of elements in a manner similar to '''array get'''.  That is, the
    first element of each pair would be the key and the second element
    would be the value for that key.
 
@@ -135,9 +135,9 @@ Proposed subcommands:
 		except with some values different or some extra
 		key/value pairs added.
 
-|	dict replace $dictionaryValue ?$key $value ...?
+ > '''dict replace''' ''dictionaryValue'' ?''key value ...''?
 
- > This is very much the analogue of [[lreplace]], taking a dictionary
+ > This is very much the analogue of '''lreplace''', taking a dictionary
    value as its first argument and then a list of key/value pairs.
    The result of the command is a new dictionary value that is a copy
    of the supplied dictionary other than that whenever a key is one of
@@ -150,9 +150,9 @@ Proposed subcommands:
 		except without the key/value mappings whose keys are
 		listed.
 
-|	dict remove $dictionaryValue ?$key $key ...?
+ > '''dict remove''' ''dictionaryValue'' ?''key key ...''?
 
- > This operation does what [[dict replace]] can't do; removes keys
+ > This operation does what '''dict replace''' can't do; removes keys
    and values.  The result of the command is a new dictionary value
    that does not contain mappings for any of the keys listed; it is
    not an error if either there are no keys listed, or if any of the
@@ -160,18 +160,18 @@ Proposed subcommands:
 
  dict set:	Set value for given key in a dictionary in a variable.
 
-|	dict set $dictionaryVar $key ?$key ...? $value
+ > '''dict set''' ''dictionaryVar key'' ?''key ...''? ''value''
 
  > This operation takes the name of a variable containing a dictionary
    value and places an updated dictionary value in that variable
    containing a mapping from the given key to the given value.  In a
-   manner analogous to [[lset]], where multiple keys are present, they
+   manner analogous to '''lset''', where multiple keys are present, they
    do indexing into nested dictionaries.
 
  dict unset:	Remove association for given key in a dictionary in a
 		variable.
 
-|	dict unset $dictionaryVar $key ?$key ...?
+ > '''dict unset''' ''dictionaryVar key'' ?''key ...''?
 
  > This operation takes the name of a variable containing a dictionary
    value and places an updated dictionary value in that variable that
@@ -182,39 +182,39 @@ Proposed subcommands:
  dict keys:	List all keys (with optional criteria matching) in
 		dictionary.
 
-|	dict keys $dictionaryValue ?$globPattern?
+ > '''dict keys''' ''dictionaryValue'' ?''globPattern''?
 
  > Return a list of all keys in the given dictionary value.  If a
    pattern is supplied, only those keys that match it (according to
-   the rules of [[string match]]) will be returned.  The returned keys
+   the rules of '''string match''') will be returned.  The returned keys
    will be in an arbitrary implementation-specific order.
 
  dict values:	List all values (with optional criteria matching) in
 		the dictionary.
 
-|	dict values $dictionaryValue ?$globPattern?
+ > '''dict values''' ''dictionaryValue'' ?''globPattern''?
 
  > Return a list of all values in the given dictionary value.  If a
    pattern is supplied, only those values that match it (according to
-   the rules of [[string match]]) will be returned.  The returned keys
+   the rules of '''string match''') will be returned.  The returned keys
    will be in an arbitrary implementation-specific order, though where
-   no pattern is supplied the ''i'''th key returned by [[dict keys]]
-   will be the key for the ''i'''th value returned by [[dict values]]
+   no pattern is supplied the ''i'''th key returned by '''dict keys'''
+   will be the key for the ''i'''th value returned by '''dict values'''
    applied to the same dictionary value.
 
  dict for:	Iterate across all key/value mappings in the
 		dictionary.
 
-|	dict for {$keyVar $valueVar} $dictionaryValue $body
+ > '''dict for''' {''keyVar valueVar''} ''dictionaryValue body''
 
  > This takes three arguments, the first a pair of variable names (for
    the key and value respectively of each mapping in the dictionary),
    the second the dictionary value to iterate across, and the third a
    script to be evaluated for each mapping with the key and value
-   variables set appropriately (in the manner of [[foreach]].)  The
+   variables set appropriately (in the manner of '''foreach'''.)  The
    result of the command is an empty string.  If any evaluation of the
    body generates a ''TCL_BREAK'' result, no further pairs from the
-   dictionary will be iterated over and the [[dict for]] command will
+   dictionary will be iterated over and the '''dict for''' command will
    terminate successfully immediately.  If any evaluation of the body
    generates a ''TCL_CONTINUE'' result, this shall be treated exactly
    like a normal ''TCL_OK'' result.
@@ -222,25 +222,27 @@ Proposed subcommands:
  dict filter:	Create a new dictionary from an old one containing just
 		a selection of key/value pairs.
 
-|	dict filter $dictionaryValue key $globPattern
-|	dict filter $dictionaryValue value $globPattern
-|	dict filter $dictionaryValue script {$keyVar $valueVar} $script
+ > '''dict filter''' ''dictionaryValue'' '''key''' ''globPattern''
+
+ > '''dict filter''' ''dictionaryValue'' '''value''' ''globPattern''
+
+ > '''dict filter''' ''dictionaryValue'' '''script''' {''keyVar valueVar''} ''script''
 
  > This takes a dictionary value and returns a new dictionary that
    contains just those key/value pairs that match the specified rule.
-   Three rules are outlined above.  The ''key'' rule only matches those
+   Three rules are outlined above.  The '''key''' rule only matches those
    key/value pairs whose keys match the given glob-style pattern.  The
-   ''value'' rule only matches those key/value pairs whose values match
-   the given glob-style pattern.  The ''script'' rule tests for matching
+   '''value''' rule only matches those key/value pairs whose values match
+   the given glob-style pattern.  The '''script''' rule tests for matching
    by assigning the key to the ''keyVar'' and the value to the
    ''valueVar'', and then evaluating the given script which should
    return a boolean value (with the key/value pair only being included
-   in the result of the [[dict filter]] when a true value is returned.)
+   in the result of the '''dict filter''' when a true value is returned.)
 
  dict append:	Append a string to the value for a particular key in
 		the dictionary.
 
-|	dict append $dictionaryVar $key ?$string ...?
+ > '''dict append''' ''dictionaryVar key'' ?''string ...''?
 
  > This appends the given string (or strings) to the value that the
    given key maps to in the dictionary value contained in the given
@@ -251,7 +253,7 @@ Proposed subcommands:
  dict incr:	Increment the value for a particular key in the
 		dictionary.
 
-|	dict incr $dictionaryVar $key ?$increment?
+ > '''dict incr''' ''dictionaryVar key'' ?''increment''?
 
  > This adds the given increment value (an integer that defaults to 1
    if not specified) to the value that the given key maps to in the
@@ -263,7 +265,7 @@ Proposed subcommands:
  dict lappend:	Append an item to the list-value for a particular key
 		in the dictionary.
 
-|	dict lappend $dictionaryVar $key ?$item ...?
+ > '''dict lappend''' ''dictionaryVar key'' ?''item ...''?
 
  > This appends the given items to the list value that the given key
    maps to in the dictionary value contained in the given variable,
@@ -275,25 +277,25 @@ Proposed subcommands:
 
  dict exists:	Test whether a mapping exists for a key.
 
-|	dict exists $dictionaryValue $key ?$key ...?
+ > '''dict exists''' ''dictionaryValue key'' ?''key ...''?
 
  > This returns a boolean value indicating whether the given key (or
    path of keys through a set of nested dictionaries) exists in the
    given dictionary value.  This returns a true value exactly when
-   [[dict get]] on that path will succeed.
+   '''dict get''' on that path will succeed.
 
  dict size:	Get the number of key/value mappings in a dictionary.
 
-|	dict size $dictionaryValue
+ > '''dict size''' ''dictionaryValue''
 
  > This returns the size of the dictionary, which will be exactly half
-   the value that [[llength $dictionaryValue]] would return.  It is an
+   the value that '''llength''' ''dictionaryValue'' would return.  It is an
    error to apply this command to a non-dictionary value.
 
  dict info:	Get implementation-specific information about the
 		dictionary value.
 
-|	dict info $dictionaryValue
+ > '''dict info''' ''dictionaryValue''
 
  > This returns information (intended for display to people) about the
    given dictionary though the format of this data is dependent on the
@@ -305,12 +307,12 @@ Proposed subcommands:
 
 There are a few other commands that change:
 
- * [[array set]] will take a dictionary instead of (or as well as) a
+ * '''array set''' will take a dictionary instead of (or as well as) a
    list as its final argument.
 
- * [[array get]] will return a dictionary.
+ * '''array get''' will return a dictionary.
 
- * [[string map]] will take a dictionary instead of (or as well as) a
+ * '''string map''' will take a dictionary instead of (or as well as) a
    list as its map argument.
 
 Naturally, dictionary handling will form its own maintenance area.  [16] and [24] will be updated as necessary.
@@ -331,14 +333,15 @@ constraint violations (where applicable) cause panics as they indicate
 basic programming errors which should not be causable by scripts.  The
 public API functions are:
 
-|Tcl_Obj *Tcl_NewDictObj(void);
-|Tcl_Obj *Tcl_DbNewDictObj(CONST char *file, int line);
+ > Tcl_Obj *'''Tcl_NewDictObj'''(void);
+
+ > Tcl_Obj *'''Tcl_DbNewDictObj'''(CONST char *''file'', int ''line'');
 
 These functions (in non-debug and debug versions) create a new
 dictionary object and return it.
 
-|int Tcl_DictObjPut(Tcl_Interp *interp, Tcl_Obj *dictPtr,
-|        Tcl_Obj *keyPtr, Tcl_Obj *valuePtr);
+ > int '''Tcl_DictObjPut'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	Tcl_Obj *''keyPtr'', Tcl_Obj *''valuePtr'');
 
 This function inserts a new key/value pair into a dictionary, or
 updates a key/value pair already in the dictionary.  The dictionary
@@ -347,8 +350,8 @@ will have their reference count increased.  The return value is a
 normal TCL_OK/TCL_ERROR result, with the ''interp'' for error
 reporting.
 
-|int Tcl_DictObjGet(Tcl_Interp *interp, Tcl_Obj *dictPtr, Tcl_Obj *keyPtr,
-|        Tcl_Obj **valuePtrPtr);
+ > int '''Tcl_DictObjGet'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	Tcl_Obj *''keyPtr'', Tcl_Obj **''valuePtrPtr'');
 
 This function looks up the value for a key in a dictionary.  The
 variable pointed to by the ''valuePtrPtr'' argument is updated to
@@ -357,7 +360,8 @@ the key in the dictionary.  No reference counts are manipulated by
 this function.  The return value is a normal TCL_OK/TCL_ERROR result,
 with the ''interp'' for error reporting.
 
-|int Tcl_DictObjRemove(Tcl_Interp *interp, Tcl_Obj *dictPtr, Tcl_Obj *keyPtr);
+ > int '''Tcl_DictObjRemove'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	Tcl_Obj *''keyPtr'');
 
 This function removes the key/value pair with the given key from the
 dictionary.  It is not an error if the key is not present in the
@@ -365,16 +369,17 @@ dictionary.  The dictionary must be unshared.  The return value is a
 normal TCL_OK/TCL_ERROR result, with the ''interp'' for error
 reporting.
 
-|int Tcl_DictObjSize(Tcl_Interp *interp, Tcl_Obj *dictPtr, int *sizePtr);
+ > int '''Tcl_DictObjSize'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	int *''sizePtr'');
 
 This function updates the integer variable pointed to by ''sizePtr''
 with the number of key/value pairs in the dictionary.  The return
 value is a normal TCL_OK/TCL_ERROR result, with the ''interp'' for
 error reporting.
 
-|int Tcl_DictObjFirst(Tcl_Interp *interp, Tcl_Obj *dictPtr,
-|        Tcl_DictSearch *searchPtr,
-|        Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr);
+ > int '''Tcl_DictObjFirst'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	Tcl_DictSearch *''searchPtr'',
+	Tcl_Obj **''keyPtrPtr'', Tcl_Obj **''valuePtrPtr'', int *''donePtr'');
 
 This function starts a search of (i.e. iteration over) the given
 dictionary, using the structure pointed to by ''searchPtr'' as
@@ -394,8 +399,8 @@ not done but the calling code wishes to extract no further values from
 the dictionary, ''Tcl_DictObjDone()'' ''must'' be called to release
 the internal locks on the representation of the value.
 
-|void Tcl_DictObjNext(Tcl_DictSearch *searchPtr,
-|        Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr);
+ > void '''Tcl_DictObjNext'''(Tcl_DictSearch *''searchPtr'',
+	Tcl_Obj **''keyPtrPtr'', Tcl_Obj **''valuePtrPtr'', int *''donePtr'');
 
 This function gets the next key/value pair from the search of a
 dictionary, using the search referenced by ''searchPtr''.  The meaning
@@ -406,20 +411,20 @@ calling code wishes to extract no further values from the dictionary,
 ''Tcl_DictObjDone()'' ''must'' be called to release the internal locks
 on the representation of the value.
 
-|void Tcl_DictObjDone(Tcl_DictSearch *searchPtr);
+ > void '''Tcl_DictObjDone'''(Tcl_DictSearch *''searchPtr'');
 
 This function terminates a search of a dictionary before all the
 values in the dictionary have been iterated over, releasing the
 internal locks on the dictionary representation.
 
-|int Tcl_DictObjPutKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
-|        int keyc, Tcl_Obj *CONST *keyv, Tcl_Obj *valuePtr);
+ > int '''Tcl_DictObjPutKeyList'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	int ''keyc'', Tcl_Obj *CONST *''keyv'', Tcl_Obj *''valuePtr'');
 
 This function is a variant on ''Tcl_DictObjPut()'' that takes a list
 of keys so as to work with nested dictionaries.
 
-|int Tcl_DictObjRemoveKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
-|        int keyc, Tcl_Obj *CONST *keyv);
+ > int '''Tcl_DictObjRemoveKeyList'''(Tcl_Interp *''interp'', Tcl_Obj *''dictPtr'',
+	int ''keyc'', Tcl_Obj *CONST *''keyv'');
 
 This function is a variant on ''Tcl_DictObjRemove()'' that takes a
 list of keys so as to work with nested dictionaries.
@@ -440,7 +445,7 @@ each word occurs:
 |   puts "${word}: [dict get $count $word] occurrences"
 |}
 
-A localisable [[string toupper]] implementation:
+A localisable '''string toupper''' implementation:
 
 |set capital [dict create C [dict create]]
 |foreach c {abcdefghijklmnopqrstuvwxyz} {
