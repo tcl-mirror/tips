@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -55,9 +55,7 @@ This means an alternative (though less efficient for single lists) mechanism for
 ~ Reference Implementation
 
 The reference implementation is available from SourceForge [http://sourceforge.net/tracker/index.php?func=detail&aid=1017532&group_id=10894&atid=310894] 
-and at: http://www.bovik.org/lsort-indices-diff.txt  It should be 
-applied with '''patch -l''' or '''patch --ignore-whitespace''' or it 
-may not apply entirely.
+It may need to be applied with '''patch -l''' or '''patch --ignore-whitespace''' or it may not apply entirely.
 
 That reference implementation is a 109-line context diff, involving 
 adding 20 lines of code to ''tclCmdIL.c'', a single auto int of
@@ -92,6 +90,11 @@ The following timing data are the mean '''time''' returned from 20 different lis
 |      800      142.3     655.0      4.6
 |     1600      486.2    1150.0      2.4
 |     5000     1582.5    4847.6      3.1 
+
+At present, the Reference Implementation does not file the 
+'''-indices''' switch in the C list of '''lsort''' switches, or the 
+C switch statement that interprets them.  This is anything if not 
+ironic for the '''lsort''' function, and ought to be corrected.
 
 ~ Suggested Documentation
 
@@ -137,8 +140,13 @@ which has since been corrected.
 
 In reply to Lars, James Salsman
 [http://sourceforge.net/mailarchive/message.php?msg_id=9348381]
-provided the timing data given above, and an efficient alternative to 
+provided timing data and an efficient alternative to 
 the '''-keycommand''' idea using this TIP's '''-indices''' proposal.
+
+~ Credits
+
+Thanks also to George Peter Staplin and Richard Suchenwirth for their 
+kind help and good ideas at the genesis of this TIP.
 
 ~ Copyright
 
