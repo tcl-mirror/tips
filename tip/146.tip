@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -44,16 +44,16 @@ For shrinking a grid without weight there are three options.
 
  1. Always clip the bottom/right.  i.e. behave as now.
 
- 2. Clip depending on anchor.
+ 2. Clip according to anchor.
 
  3. Try to shrink all columns/rows, and only clip when minsize stops
     further shrinking.  (Clip according to anchor)
 
-To me 3. is how the grid should have worked long ago since I prefer it
-to shrink for example a button than leave it undisplayed.
+I think 2. makes more sense than 1., but it does mean a minor
+compatiblity breach.
 
-I think 2. makes more sense than 1., and if we are going to accept a
-minor compatibility breach maybe we just as well can go to 3.
+Also, with 2., behaviour 3. can be emulated but the other way
+is harder.
 
 In this TIP's specification it is still undecided what to do with
 shrinking.
@@ -66,8 +66,9 @@ propagate'' in that it configures an aspect of a grid manager.
 The syntax is ''grid anchor master ?value?'' where ''value'' is a
 standard anchor value with ''center'' as default.
 
-Whenever there is extra space in the grid manager and no "-weight" is
-specified, the entire grid is placed according to the anchor value.
+Whenever there is extra space in the grid manager and all weights
+are zero, the layout is placed within its master according to the
+master's anchor value.
 
 ~ Future Work
 
