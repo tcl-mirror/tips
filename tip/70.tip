@@ -1,6 +1,6 @@
 TIP:            70
 Title:          A Relational Switch Control Structure
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Bhushit Joshipura <bhushit@hotmail.com>
 State:          Draft
 Type:           Project
@@ -150,17 +150,17 @@ Usefulness, however, does not go with interest.
 
 |# mono-condition, with constant situations
 |rswitch $a {
-|   > 1 {
-|      puts "$a > 1"
-|   }
-|   > 5 {
-|      puts "$a > 5"
+|   > 51 {
+|      puts "$a > 51"
 |   }
 |   > 15 {
 |      puts "$a > 15"
 |   }
-|   > 51 {
-|      puts "$a > 51"
+|   > 5 {
+|      puts "$a > 5"
+|   }
+|   > 1 {
+|      puts "$a > 1"
 |   }
 |}
 |# mono-conditional with fall through
@@ -364,6 +364,147 @@ Apparent shortcomings of this implementation:
 |        error "confusing biRSwitch case detected aborting..."
 |    }
 |}
+
+~ responses
+John Ousterhaut wrote:
+
+This is certainly a novel suggestion, but I'm not sure how useful it is.
+ The proposed new command doesn't seem much clearer or much more
+ efficient than an "if... elseif ... elseif..." statement.  One of the
+ arguments for a "switch" statement over "if ... elseif ..." is that
+ there can be many branches in a "switch" statement.  However, it seems
+ unlikely to me that there would be more than a couple of branches in the
+ proposed new "rswitch" statement, so its value seems marginal to me.
+ In the absence of compelling value, I'd suggest leaving it out to avoid
+ language bloat.
+
+Kevin B. Kenny wrote:
+
+I don't want to discourage language experimentation, but I question
+ whether the Tcl core is the right place to do it.  The 'rswitch' that
+ is being requested can be done just as well with an extension -- except
+ for bytecode compilation, which can come later -- and exposed to
+ programmers that way.  If it becomes sufficiently popular, it can then
+ be integrated into the core.
+
+Don Porter wrote:
+Agreed. A natural place to offer this command would be in the
+ control package of tcllib.  Let's put it there, and if it proves to
+ be indispensible, we can consider moving it into Tcl itself at that
+ time.
+
+Mohan L. Gundu wrote:
+What I had in mind is to extend the 'rswitch' case block so that it can
+ accept multiple conditional relationships in a single statement.
+
+I can also think of another usage of 'rswitch' which doesn't take any
+ arguments at all. A vanilla version which is just replacement to
+ if-elseif-elseif-..-else structure but only that  code is more easier to
+ read..
+
+rswitch {
+    ($a > 4):
+                     /* block 1 */
+    ($b < 100):
+                    /* block 2 */
+    ($c > 5 ):
+                   /* block 3 */
+    ($d == 10):
+                 /* block 4 */
+ }
+
+Don Porter wrote:
+
+>
+  > Rather than defining two forms of the command, mono-conditional
+  > and bi-conditional, why not use the power of Tcl to allow for both
+  > and even more possibilities within a single form?
+  >
+  > Consider:
+  >
+  > rswitch $formatString {
+  >     $sub1 $body1
+  >     ...
+  >     $subN $bodyN
+  > }
+  >
+  > Then have [rswitch] construct the Tcl expressions to be tested
+  > using [format]:
+  >
+  >      format $formatString $sub1
+  >
+  > So you could have:
+  >
+  > rswitch {$a %s $b} {
+  >     > {puts "$a is greater than $b"}
+  >     < {puts "$a is less than $b"}
+  >     == {puts "$a equals $b"}
+  > }
+  >
+  > or
+  >
+  > rswitch {$a %s} {
+  >     >1 {puts "$a > 1"}
+  >     >5 {puts "$a > 5"}
+  >     >15 {puts "$a > 15"}
+  >     {>$b} {puts "$a > $b"}
+  >     {<$b} -
+  >     {==$b} {puts "$a <= $b"}
+  > }
+  >
+  > Extending this idea further, consider the possibility of using
+  > [format] to create the expression like so:
+  >
+  >      eval [linsert $sub1 0 format $formatString]
+  >
+  > Then the substitutions could be lists of multiple values to substitute
+  > into multiple %-conversion specifiers in the format string, allowing
+  > for the construction of quite elaborate expressions.
+  >
+
+ Brent Welch wrote:
+ I like Don's suggestion.  I'm reminded of the switch statement
+ in the tclhttpd state machine, crafted by Steve Uhler:
+
+     set state [string compare $readCount 0],$data(state)
+     switch -glob -- $state {
+         1,start { # Read something in the start state }
+         0,start { # Read empty line in the start state }
+         1,mime  { # Read something in the mime state }
+         0,mime  { # Read blank line in the mime state }
+         -1,* { # Read error in any state }
+         default { # Unexpected condition }
+     }
+
+ I had had a bunch of nested if-then-else's, of course.  With an
+ artful creation of the switch value and the power of things like
+ glob, you can really create compact, expressive switch statements already.
+
+ Bhushit Joshipura wrote:
+
+ Why rswitch? [Re-written] 
+
+ 1. if..elseif..else contains elements of surprize spread in the code. From maintenance point of
+ view, once the if..elseif..else code goes beyond horizon (one display length), burden of
+ reference retention comes on human brain making maintenance bug-prone. 
+
+ 2. In case of monoconditional and biconditional rswitch, we reduce this burden by stating upfront
+ which variable is in the spotlight. The maintainer can then easily jump irrelavant cases. 
+
+ 3. In if..elseif..else, a string of three conditions (with one of them being a `not' string) can
+ mystify me for at least an hour. 
+
+ 4. In case of an rswitch: (even a non-conditional rswitch): 
+ 4.1 `and' is nested rswitch 
+ 4.2 `or' is a fall through case 
+ 4.3 `not', not chained with `and' and `or' is less confusing. However, using default case, we can
+ write almost a `not-less' code. 
+
+ 5. Object Oriented Programming is trying to eliminate switch-case statements by identifying
+ localization of references and finding a heirarchy of data-actions. 
+
+ 6. In similar way one can think of rswitch cases (situations). Identifying localized references
+ (wrt situations) and a heirarchy of situations-reactions. However, this is a research issue.  
 
 ~ Copyright
 
