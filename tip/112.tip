@@ -1,8 +1,8 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.27 $
+Version:        $Revision: 2.28 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        10-Oct-2002
