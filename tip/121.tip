@@ -1,0 +1,114 @@
+TIP:		121
+Title:		Controlled Application Shutdown via Tcl_Exit
+Version:	$Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Created:	05-Dec-2002
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+This TIP will allow all applications to perform a controlled shutdown
+(or do nothing) in the event that ''Tcl_Exit()'' is called.
+
+~ Rationale
+
+For most applications written in C that use Tcl, calling the runtime
+''exit()'' function is normally a reasonable way to shutdown the
+application.  Unfortunately, this is not always the case.
+Applications written in other languages (and very complex C
+applications) may have very specific application shutdown
+requirements.
+
+There is a distinct advantage to using this method instead of using
+normal exit handlers in this case.  The normal exit handler cannot
+prevent the application shutdown from happening because
+''Tcl_Finalize()'' has already been called.  In addition, even if it
+could somehow cause ''Tcl_Finalize()'' to abort the application
+shutdown, some or all of the other normal exit handlers may have
+already been executed, which would leave the application in an
+inconsistent state.
+
+~ Proposed Changes
+
+Firstly, this TIP proposes a new Tcl API function called
+''Tcl_SetAppExitHandler()'' or something similar.  This function
+accepts a ''Tcl_ExitProc'' pointer and returns a ''Tcl_ExitProc''
+pointer.  The return value is the old value of the handler.
+
+Secondly, the ''Tcl_Exit()'' Tcl API function would be modified to
+allow for the handler to be called.
+
+~ Tcl_SetAppExitHandler
+
+|Tcl_ExitProc *
+|Tcl_SetAppExitHandler(proc)
+|    Tcl_ExitProc *proc; /* new exit handler for app or NULL */
+|{
+|    Tcl_ExitProc *prevExitHandler; /* return prev exit handler to caller */
+|
+|    Tcl_MutexLock(&exitMutex);
+|    prevExitHandler = appExitPtr; /* get old app exit ptr */
+|    appExitPtr = proc; /* set new app exit ptr */
+|    Tcl_MutexUnlock(&exitMutex);
+|
+|    return prevExitHandler;
+|}
+
+~ Tcl_Exit
+
+|void
+|Tcl_Exit(status)
+|    int status;			/* Exit status for application;  typically
+|				 * 0 for normal return, 1 for error return. */
+|{
+|    Tcl_ExitProc *currentAppExitPtr;
+|
+|    Tcl_MutexLock(&exitMutex);
+|    currentAppExitPtr = appExitPtr;
+|    Tcl_MutexUnlock(&exitMutex);
+|
+|    if (currentAppExitPtr) {
+|      currentAppExitPtr((ClientData) status);
+|    } else {
+|      Tcl_Finalize();
+|      TclpExit(status);
+|    }
+|}
+
+~ Example
+
+|void MyAppExitProc(ClientData clientData)
+|{
+|  /* totally ignore the exit request */ 
+|  return;
+|}
+|
+| ... sometime during application initialization ...
+|
+| /* from this point on MyAppExitProc will handle Tcl_Exit requests */
+| Tcl_SetAppExitHandler(MyAppExitProc);
+|
+| ... optionally, sometime later ...
+|
+| /* from this point on the old (default) handling will be used */
+| Tcl_SetAppExitHandler(NULL);
+
+~ Reference Implementation
+
+A patch that implements everything suggested in this TIP is available
+at the URL:
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=649313&group_id=10894&atid=310894
+
+~ Consequences
+
+There should be no change for current users of the ''Tcl_Exit()''
+function, including the [[exit]] command.
+
+~ Copyright
+
+This document is hereby placed in the public domain.
