@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Basic themeing infrastructure for Tk
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -121,7 +121,7 @@ the same term to designate their subparts.
 ~ A quick look at existing implementations
 
 The two most used tookits supporting widget styles are Qt and Gtk+. Both seem to 
-follow the same part, but in slightly distinct manners: they define a fixed set 
+follow the same path, but in slightly distinct manners: they define a fixed set 
 of common elements (arrows, checkmarks...) and associate each with one or 
 several API calls. While Qt follows the OO-path, Gtk+ uses a more traditional 
 procedural API model.
@@ -178,7 +178,7 @@ transparently. New widgets could also be built in a modular fashion and easily
 reuse other widget's elements. The proposed mechanism could then be used in a 
 megawidget-like fashion (we could speak about megaelement widgets). Last, it 
 provides a dynamic hook mechanism for overriding the core widget code from 
-loadabkLe extensions, avoiding the need for maintaining core patches.
+loadable extensions, avoiding the need for maintaining core patches.
 
 ~ Functional Specification
 
@@ -341,13 +341,13 @@ an error message in ''interp'' if not NULL.
 
 | void Tk_FreeStyle (Tk_Style style)
 
- > Free a style returned by ''Tk_CreateStyle'' or ''Tk_GetStyle''. It actually 
+ > Frees a style returned by ''Tk_CreateStyle'' or ''Tk_GetStyle''. It actually 
 decrements an internal reference count so that styles can be shared and deleted 
 safely.
 
 | CONST char * Tk_NameOfStyle (Tk_Style style)
 
- > Get a style's name.
+ > Gets a style's name.
 
 | Tk_Style  Tk_AllocStyleFromObj (Tcl_Interp *interp, Tcl_Obj *objPtr)
 
@@ -364,9 +364,21 @@ the style held by the object.
 | Tk_StyledElement Tk_GetStyledElement (Tk_Style style, int elementId, 
 | 	Tk_OptionTable optionTable)
 
- > Returns a token for the styled element, for use with widgets having the given
-optionTable. The token is persistent and doesn't need to be freed, so it can be 
-safely stored if needed. It is used in subbsequent element operations.
+ > Returns a token for the styled element (or NULL if not found), for use with 
+widgets having the given optionTable. The token is persistent and doesn't need 
+to be freed, so it can be safely stored if needed (although using element IDs is 
+the preferred method). It is used in subsequent element operations and avoids 
+repeated lookups. The lookup algorithm works as follows:
+
+ > 1. Look for an implementation of the given element in the current style 
+engine.
+
+ > 2. If none found, traverse the engine chain (each engine has a parent) until 
+the default engine is reached.
+
+ > 3. Restart at 1 with the base element name instead. For example, if we are 
+looking for "foo.bar.baz", then look for "bar.baz" then "baz", until we find an 
+implementation
 
 | void Tk_GetElementSize (Tk_Style style, Tk_StyledElement element, 
 | 	char *recordPtr, Tk_Window tkwin, int width, int height, 
@@ -389,7 +401,7 @@ one only computes the size, while second one computes the box coordinates. The
 ''inner'' parameter is a boolean that controls whether the inner (FALSE) or 
 outer (TRUE) geometry is requested from the maximum outer/minimum inner 
 geometry. Third one returns the uniform internal border width of the element and 
-is mostly intended for whole widgets. Last one draws the element using the given 
+is mostly intended to whole widgets. Last one draws the element using the given 
 geometry and state.
 
 ~ Implementation
@@ -399,7 +411,7 @@ specification. A patch for tk8.4a3 is available at:
 
  > http://www.purl.org/NET/bonnet/pub/style.patch
 
-The ''square'' widget implemented test file ''tkSquare.c'' has also been 
+The ''square'' widget implemented in the test file ''tkSquare.c'' has also been 
 rewritten to use the new API for its square element. It demonstrates basic 
 features. Patch file:
 
@@ -432,7 +444,7 @@ The provided design and implementation is geared towards the best compromise
 between performances and memory consumption. 
 
 Critical performance bottleneck is element querying. In order to minimize 
-element access, elements are identified by unique IDs that act as indexes 
+element access times, elements are identified by unique IDs that act as indexes 
 withing internal tables, allowing direct addressing. Hash tables are used 
 internally by all name pools (engines, styles, elements). Static structures are 
 used whenever possible (for styled element registration, indirectly through 
@@ -441,11 +453,11 @@ by the extra procedure calls and indirections, but that is the price to pay for
 better modularity anyway. Additional calls are kept minimal.
 
 Per-widget memory consumption is minimal. A widget usually only needs to store 
-its current style. Element IDs can be shared globally across widgets of the same 
-class and don't need to be stored in the widget record. Moreover, most 
-information is shared internally across widgets of the same class (identified by 
-their option table). Many caching & fast lookup techniques are used throughout 
-the code.
+its current style. Element IDs can (should?) be shared globally across widgets 
+of the same class and don't need to be stored in the widget record. Moreover, 
+most information is shared internally across widgets of the same class 
+(identified by their option table). Many caching & fast lookup techniques are 
+used throughout the code.
 
 ~ Compatibility
 
@@ -474,6 +486,8 @@ lesser modularity and code reuse.
  * Current implementation uses thread-local storage for holding dynamic data. 
 Since most data is not thread-specific, this could be changed for a more 
 memory-efficient scheme.
+
+ * Provide man pages and tests.
 
 ~ Glossary
 
