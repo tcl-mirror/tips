@@ -1,14 +1,14 @@
-TIP:		132
-Title:		Revised Floating-Point Conversions in Tcl
-Version:	$Revision: 1.1 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	31-Mar-2003
-Post-History:	
-Keywords:	floating point, IEEE, precision
-Tcl-Version:	8.5
+TIP:            132
+Title:          Revised Floating-Point Conversions in Tcl
+Version:        $Revision: 1.2 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        31-Mar-2003
+Post-History:   
+Keywords:       floating point,IEEE,precision
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -48,6 +48,10 @@ Tcl's ''cognoscenti'' to recommend that all programs set
 ''tcl_precision'' to 17; once this setting is made, double-to-string
 conversions are invertible, and everything is once again a string.
 
+(Why 17? With IEEE-754 arithmetic, 17 decimal digits suffice to
+distinguish between any two floating point numbers, no matter how
+small their difference. No smaller number of digits suffices.)
+
 Why is ''tcl_precision'' not 17 by default? The reason appears to be
 that when the precision is set that high, the default IEEE-754
 semantics for floating point conversions cause a certain degree of
@@ -73,7 +77,11 @@ proposes a solution to both problems.
 This TIP proposes the following changes to the floating point
 conversions in the Tcl library:
 
- 1. The default value of ''::tcl_precision'' shall be changed to 17.
+ 1. The default value of ''::tcl_precision'' shall be changed to be
+    the smallest number of decimal digits required to distinguish
+    any two floating point numbers; on the nearly-ubiquitous
+    IEEE-754 system of floating point arithmetic, the default
+    value of ''::tcl_precision'' shall be ''17''.
     The documentation shall formally deprecate changing
     ''::tcl_precision'' to any other value, warning that doing so
     risks both loss of precision and inconsistency between string
@@ -237,6 +245,11 @@ assess IEEE-754 compliance are available from her Web site at
 [http://win-www.uia.ac.be/u/cant/ieeecc754.html].  Both have license
 agreements that are sufficiently liberal to permit incorporating them
 into the Tcl library.
+
+~ Acknowledgments
+
+The discussion of just why 17 is magical was prompted by a suggestion
+from Lars Hellstrøm.
 
 ~ Copyright
 
