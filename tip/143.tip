@@ -1,15 +1,15 @@
-TIP:		143
-Title:		An Interpreter Resource Limiting Framework
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Created:	25-Jul-2003
-Type:		Project
-State:		Draft
-Vote:		Pending
-Version:	$Revision: 1.3 $
-Tcl-Version:	8.5
-Post-History:	
+TIP:            143
+Title:          An Interpreter Resource Limiting Framework
+Version:        $Revision: 1.4 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Jul-2003
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP introduces a mechanism for creating and manipulating
 per-interpreter resource limits.  This stops several significant
@@ -270,6 +270,39 @@ framework, but which I've left out for various reasons:
 
  open channels, file sizes, etc.: Most other things can be limited in
    Tcl right now without special support.
+
+~Use Cases
+
+~~WebServices
+
+One use for this sort of code might be in a web-services context where
+it is important to return a message to some client code within some
+interval.  Using an in-process limiting mechanism allows this to be
+implemented in a far more light-weight fashion, as the alternative would
+be to fork off a new small application server for each incoming request
+and it would be considerably more complex to have a scripted executive
+that decides (possibly by examining the stack) whether a failure to
+deliver an answer within bounds is serious, or whether some extra
+resources should be granted to allow execution to run to completion.
+Other high-performance server applications would also be likely to gain
+from this sort of thing.
+
+~~Profiling
+
+It is possible to use the limiting code (and especially the script
+callbacks) to write a Tcl profiler.  Every time the limit runs out, the
+callback can examine the Tcl stack in the limited interpreter and then
+assign some more resources to last up until the next profile trap.
+
+~~Untrusted Code Execution
+
+As indicated earlier, these limits can be used to increase control over
+untrusted code running in safe interpreters.  While it would be
+necessary to extend this to memory consumption for every aspect that
+could be impacted by some malicious code to be controllable, having
+control over the number of commands that may be executed and how long
+those commands may take gives a much higher degree of control than
+currently exists, and is thus a monotonic improvement.
 
 ~Implementation
 
