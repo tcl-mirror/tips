@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -40,14 +40,14 @@ shows the upper left part (as in anchor "nw").
 Thus, following the new anchor will not be backwardly compatible, even
 though I doubt it can be common for people to rely on that behaviour.
 
-For shrinking there are three options.
+For shrinking a grid without weight there are three options.
 
  1. Always clip the bottom/right.  i.e. behave as now.
 
  2. Clip depending on anchor.
 
  3. Try to shrink all columns/rows, and only clip when minsize stops
-    further shrinking.
+    further shrinking.  (Clip according to anchor)
 
 To me 3. is how the grid should have worked long ago since I prefer it
 to shrink for example a button than leave it undisplayed.
