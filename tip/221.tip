@@ -1,13 +1,13 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.3 $
+Version:        $Revision: 2.4 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        15-Sep-2004
 Post-History:   
-Keywords:       bgerror return options
+Keywords:       bgerror, return, options
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -157,7 +157,7 @@ fallback strategy was prone to the masking of errors.
 
 The new proposal is also preferred over the first draft as
 it empowers Tcl programmers to leave behind '''bgerror'''
-as a ``magic'' command name with special significance to Tcl.
+as a ''magic'' command name with special significance to Tcl.
 Callback registration is a cleaner mechanism then giving
 particular command names privileged status, and we should
 move in that direction when the opportunity arises.
