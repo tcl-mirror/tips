@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -94,6 +94,10 @@ That would make all the values available
 to scripts via the '''::tcl::pkgconfig''' command. -- Good idea.  Done.
 
 Several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage: let the people who need the data construct an evaluation which serves their purposes because (a) the form is easy enough to evaluate, as in the parser I threw together [http://mini.net/tcl/tclConfig.sh], (b) there might be information in the verbatim form which needs to be preserved.  Comments welcome.
+
+~ Withdrawal
+
+Joe English points out that those parts potentially useful to a pure-tcl builder are not necessarily applicable, since the build and installation machines may/will differ substantially, and that those parts universally applicable are available via some combination of info and ::tcl::pkgconfig.  Given this insight, I withdraw this TIP.
 
 ~ Copyright
 
