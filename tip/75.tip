@@ -1,6 +1,6 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         János Holányi <csani@lme.linux.hu>
 Author:         <m13666@maidfnzgnl.ru>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -62,6 +62,18 @@ the whole string anyway.)
 
 Both variables (if specified, of course) will contain the empty list
 if the ''default'' branch is taken.
+
+~Example
+
+|set string "some long complicated message"
+|switch -matchvar foo -indexvar bar {
+|   {\w*(e)\w*} {
+|      puts "matched [lindex $foo 0] with 'e' at [lindex $bar 0 0]"
+|   }
+|   default {
+|      puts "no words containing a letter 'e' at all"
+|   }
+|}
 
 ~Alternatives
 
