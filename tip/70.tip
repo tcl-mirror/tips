@@ -1,6 +1,6 @@
 TIP:            70
 Title:          A Relational Switch Control Structure
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Bhushit Joshipura <bhushit@hotmail.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -290,7 +290,7 @@ Don Porter wrote:
    bi-conditional, why not use the power of Tcl to allow for both and
    even more possibilities within a singleform? 
 
- > Consider: 
+ > Consider:
 
 |rswitch $formatString { 
 |	$sub1 $body1
