@@ -1,15 +1,16 @@
-TIP:		52
-Title:		Hierarchical Namespace Lookup of Commands and Variables
-Version:	$Revision: 1.1 $
-Author:		David Cuthbert <dacut@kanga.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	09-Aug-2001
-Tcl-Version:	8.4
+TIP:            52
+Title:          Hierarchical Namespace Lookup of Commands and Variables
+Version:        $Revision: 1.2 $
+Author:         David Cuthbert <dacut@kanga.org>
+Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        09-Aug-2001
 Post-History:   
-Discussions-To:	news:comp.lang.tcl
-Keywords:	namespace,lookup,hierarchy
+Discussions-To: news:comp.lang.tcl
+Keywords:       namespace,lookup,hierarchy
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -87,7 +88,6 @@ namespace:
 |        return $name
 |    }
 |}
-
 
 ~ Specification
 
@@ -169,6 +169,15 @@ with the new behaviour.
  * Tcl source code file ''tcl8.4a3/generic/tclNamesp.c''.
 
  * Sample implementation at http://www.kanga.org/tclnamespace/
+
+~ Comments
+
+ * Andreas Kupries:
+
+ > Related information: SF entry [ #218101 ] "no man page for library procedures Tcl_AddInterpResolver Tcl" (http://sourceforge.net/tracker/?func=detail&aid=218101&group_id=10894&atid=110894)
+
+ > Not addressed in this TIP: Impact on speed of the interpreter.
+(Seeking out mail on Tcl core where author of talks about this)
 
 ~ Copyright
 
