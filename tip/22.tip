@@ -1,6 +1,6 @@
 TIP:            22
 Title:          Multiple Index Arguments to lindex
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -73,25 +73,50 @@ allow this more-natural style of coding to be written in Tcl.
 
 ~ Specification
 
- 1. Allow ''lindex'' to accept an arbitrary number of arguments.
+ 1. Under this proposal, the syntax for the ''lindex'' command is to be
+    modified to accept one of two forms:
 
-  > 1. The first argument (the ''list argument'') must be a proper Tcl
-       list.  No change is required from current behaviour.
+|     lindex list indexList
 
-  > 2. The remaining arguments (the ''index arguments'') must be
-       proper list indices (either ''integer'', end, or
-       end-''integer'').
+    or
 
- 2. When only one index argument is given, the behaviour is unchanged
-    from the current ''lindex'' command.
+|     lindex list index1 index2...
 
- 3. When multiple index arguments are given, the behaviour is defined
-    recursively as:
+    > In either form of the command, the ''list'' parameter is
+      expected to be a well-formed Tcl list.
 
-|lindex alist i0 i1 i2 ... === lindex [lindex alist i0] i1 i2 ...
+    > In the first form of the command, the ''indexList'' argument is
+      expected to be a Tcl list comprising one or more list indices,
+      each of which must be an integer, the literal string ''end'', or
+      the literal string ''end-'' followed by an integer with no
+      intervening whitespace.  The existing ''lindex'' command is a
+      degenerate form of this first form, where the list comprises a
+      single index.
 
-  > Note that this does not define any restrictions on the
-    implementation, which may be recursive or iterative.
+    > In the second form of the command, each of the ''index''
+      arguments is expected to be a list index, which again may be an
+      integer, the literal string ''end'', or the literal string
+      ''end-'' followed by an integer with no intervening whitespace.
+
+ 2. In either form of the command, once the ''indexList'' parameter
+    is expanded, there is a single ''list'' parameter and one or
+    more ''index'' parameters.  If there is a single ''index''
+    parameter ''N'', the behavior is identical to today's ''lindex''
+    command, and the command returns the ''N''th element of
+    ''list''; if ''N'' is less than zero or at least the length of
+    the list, a null string is returned.
+
+ 3. If more than one ''index'' parameter is given, then the behavior is
+    defined recursively; the result of
+|   lindex $list $index0 $index1 ...
+    > or
+|   lindex $list [list $index0 $index1 ...]
+    > is indentical to that of
+|   lindex [lindex $list $index0] $index1...
+    > or, equivalently,
+|   lindex [lindex $list $index0] [list $index1...]
+    > (This specification does not constrain the implementation,
+      which may be iterative, recursive, or even expanded inline.)
 
  4. When an invalid index is given, an error of the form, ''bad index
     "invalid_index": must be integer or end?-integer?'', where
@@ -107,6 +132,68 @@ allow this more-natural style of coding to be written in Tcl.
  1. Whether the result of the ''lindex'' operation is successful, the
     underlying Tcl_Obj that represents the list argument may have its
     internal representation invalidated or changed to that of a list.
+
+~ Discussion
+
+Some attention must be paid to giving the ''lindex'' command adequate
+performance.  In particular, the implementation should address the
+common case of
+
+|    lindex $list $i
+
+where ''$i'' is a "pure" integer (that is, one whose string
+representation has not yet been formed).  If the above specification
+is followed naively, the flow will be as follows.
+
+Since ''objc'' is three, ''objv[[ 2 ]]'' is expected to be a list.
+Since it is not, it must be converted from its string representation.
+It does not have one yet, so the string representation must be formed.
+Now the string representation is parsed as a list.  An array (of
+length one) of Tcl_Obj pointers is allocated to hold the list in
+question, and a Tcl_Obj is allocated to hold the single element.
+Memory is allocated to hold the element's string representation.
+Now the ''lindex'' command converts the first element of the list to
+an index (in this case an integer).
+
+This elaborate ballet of type shimmering requires converting the
+integer to a string and back again.  It also requires four calls to
+''ckalloc:''
+
+ 1. Allocate a buffer for the string representation.
+ 2. Allocate the array of Tcl_Obj pointers for the list
+    representation.
+ 3. Allocate the Tcl_Obj that represents the first (and only) element
+    of the list.
+ 4. Allocate a buffer for the string representation of that element.
+
+And at the end, the result is the same integer that was passed as a
+parameter originally.
+
+To avoid all this overhead in the common case, the proposed
+implementation shall (in the case where ''objc==3'')
+
+ 1. Test whether ''objv[[ 2 ]]'' designates an object whose internal
+    representation holds an integer.  If so, simply use it as an index.
+ 2. Test whether ''objv[[ 2 ]]'' designates an object whose internal
+    representation holds a list.  If so, perform the recursive
+    extraction of indexed elements from sublists described above.
+ 3. Form the string representation of ''objv[[ 2 ]]'' and test whether
+    it is ''end'' or ''end-'' followed by an integer.  If so, use it
+    as an index.
+ 4. Attempt to coerce ''objv[[ 2 ]]' to an integer; if successful, use
+    the result as an integer.
+ 5. Attempt to coerce ''objv[[ 2 ]]' to a list; if successful, use
+    the result as an index list.
+ 6. Report a malformed ''index'' argument; the ''indexList'' parameter
+    is not a well-formed list.
+
+This logic handles all the cases of singleton lists transparently; it
+is effectively a simple-minded type inference that optimizes away
+needless conversions.
+
+Assuming that the related [33] is approved, this logic will most
+likely be combined with the identical logic required in that proposal
+for parsing ''index'' arguments to the ''lset'' command.
 
 ----
 
@@ -224,6 +311,14 @@ is akin to
 ''This TIP was originally written by Dave Cuthbert <dacut@kanga.org>,
 but ownership has passed (beginning of April) to Kevin Kenny
 <kennykb@acm.org>.''
+
+This TIP underwent substantial revision in May of 2001, to add the
+syntax where all the ''index'' parameters could be grouped as a list
+rather than placed inline on the command line.
+
+~ See also
+
+[33].
 
 ~ Copyright
 
