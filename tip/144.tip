@@ -1,0 +1,86 @@
+TIP:            144
+Title:          Argument Expansion Syntax
+Version:        $Revision: 1.1 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Done
+Created:        26-Jul-2003
+Post-History:   
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes to add syntax in Tcl to perform argument expansion
+in a safe and efficient manner.
+
+~ Introduction
+
+Many commands take a variable number of arguments and often you find
+yourself with those arguments in a list.  This list must then be
+expanded into individual arguments to the command.  This is currently
+done with eval:
+
+|eval destroy [winfo children .]
+
+This is a bit obscure and also very error prone when the command
+becomes more complex.  It is also inefficient and not object safe, why
+something specialised in doing this would be better.
+
+~ Rationale
+
+See also [103].
+
+As examples three statements are used.  This is the eval version:
+
+|eval destroy [winfo children .]
+|eval button .b $stdargs -text \$mytext -bd $border
+|eval exec \$prog $opts1 [getMoreopts] \$file1 \$file2
+
+The eval version would be even more complex if the lists that are to
+be expanded are not known to be pure. To be really safe the last
+would be:
+
+|eval exec \$prog [lrange $opts1 0 end] [lrange [getMoreopts] 0 end] \$file1 \$file2
+
+With the proposed syntax they become:
+
+|destroy {}[winfo children .]
+|button .b {}$stdargs -text $mytext -bd $border
+|exec $prog {}$opts1 {}[getMoreopts] $file1 $file2
+
+The advantage of using syntax for this is that the command do not get
+obscured.  In the examples destroy/button/exec is the most important
+information on each line and it gets to be first on the line.
+
+~ Specification
+
+If a word starts with a pair of braces, "{}", and is followed by a non
+whitespace character it signifies argument expansion.  The braces are
+removed and the rest of the word is parsed and substituted as any other
+word.  The character after the removed "{}" counts as a first character
+in the rules about open braces and double quotes.
+
+Before executing the command any word to be expanded is treated as a
+list where each element becomes one separate argument to the command.
+
+''Note 1:'' A word should really start with {} to trigger expansion
+which means that words like these are not expanded:
+
+|cmd "{}$temp" \{}[something]
+
+''Note 2:'' Expansion is typically most useful with words like:
+
+|cmd {}$var {}[somecmd $arg] {}$arr([cmd $arg])
+
+But things like this are also legal:
+
+|cmd {}word {}$x,$y {}[foo]xy[apa] {}{apa bepa}
+
+~ Reference Implementation
+
+Not done yet.
+
+~ Copyright
+
+This document has been placed in the public domain.
