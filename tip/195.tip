@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -39,17 +39,30 @@ looks like those nice and informative error messages that built in
 commands have.  The proposed command includes a flag to control
 the error behaviour.
 
+Another use of prefix matching is for completion, such as a combobox
+showing matching alternatives, or tab completion at a prompt.
+
+The former needs a list of matching elements, and the latter needs
+a longest common prefix.  
+
+These functionalities are similiar enough to group them but different
+enought to make it a bad idea for flags, so a prefix ensemble seems
+approriate for them.
+
 ~ Proposed Change
 
-To support this, I propose adding a command with the syntax
+To support this, I propose adding a '''prefix''' ensemble with the
+following subcommands
 
- * '''string''' '''disambiguate''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
+ * '''prefix''' '''match''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
+ * '''prefix''' '''longest''' ''list'' ''string''
+ * '''prefix''' '''all''' ''list'' ''string''
 
-The command is given a list of possibilities and a string to match,
-and returns the matching element in the list or an error.  Basically
-it does what ''Tcl_GetIndexFromObj'' does except it returns a string
-instead of an index.  The options '''-exact''' and '''-message'''
-corresponds to the ''flags'' and ''msg'' arguments to
+All commands are given a list of possibilities and a string to match.
+
+'''prefix''' '''match''' returns the matching element in the list or an
+error.  Basically it does what ''Tcl_GetIndexFromObj'' does except it
+returns a string instead of an index.  The options '''-exact''' and '''-message''' corresponds to the ''flags'' and ''msg'' arguments to
 ''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
 "option".
 
@@ -60,59 +73,48 @@ At level 2, the error message is returned so that it shows up as
 an error from the caller, i.e. it behaves like
 [[return -code error -level 2]].
 
+'''prefix''' '''longest''' returns the longest common prefix within
+the group that matches the given string.  If there is no match, 
+an empty string is returned.
+
+'''prefix''' '''all''' returns a list of all matching elements.
+
 ~ Examples
 
 Basic use:
 
-|% string disambiguate {apa bepa cepa} apa
+|% prefix match {apa bepa cepa} apa
 |apa
-|% string disambiguate {apa bepa cepa} a
+|% prefix match {apa bepa cepa} a
 |apa
-|% string disambiguate -exact {apa bepa cepa} a
+|% prefix match -exact {apa bepa cepa} a
 |bad option "a": must be apa, bepa, or cepa
-|% string disambiguate -message "switch" {apa ada bepa cepa} a
+|% prefix match -message "switch" {apa ada bepa cepa} a
 |ambiguous switch "a": must be apa, ada, bepa, or cepa
+|% prefix longest {fblocked fconfigure fcopy file fileevent flush} fc
+|fco
+|% prefix all {fblocked fconfigure fcopy file fileevent flush} fc
+|fconfigure fcopy
 
 Simplifying option matching:
 
 |array set opts {-apa 1 -bepa "" -cepa 0}
 |foreach {arg val} $args {
-|    set opts([string disambiguate {-apa -bepa -cepa} $arg]) $val
+|    set opts([prefix match {-apa -bepa -cepa} $arg]) $val
 |}
 
 Switch similar to [105]:
 
-|switch -- [string disambiguate {apa bepa cepa} $arg] {
+|switch -- [prefix match {apa bepa cepa} $arg] {
 |    apa  { }
 |    bepa { }
 |    cepa { }
 |}
 
-The implementation will of course be in C but this is approximately
-how it would be done in Tcl:
-
-|# A limited implementation example
-|proc disambiguate {table obj} {
-|    set msg "option"
-|    if {[lsearch -exact $table $obj] >= 0} {
-|        return $obj
-|    }
-|
-|    set match [lsearch -glob -all -inline $table $obj*]
-|    if {[llength $match] == 0} {
-|        return -code error -level 2 "bad $msg \"$obj\", must be ..."
-|    }
-|    if {[llength $match] > 1} {
-|        return -code error -level 2 "ambiguous $msg \"$obj\", must be ..."
-|    }
-|
-|    return [lindex $match 0]
-|}
-
 ~ Alternative names
 
 Alternative names for the command that have been suggested are
- '''prefix''', '''tcl::prefix''', '''string prefix''',
+'''tcl::prefix''', '''string prefix''', '''string disambiguate''',
 '''string prefixmatch''', '''string matchprefix''' and
 '''lsearch -prefix'''.
 
@@ -139,7 +141,7 @@ state that the behaviour is not to necessarily return the first
 matching element. That was what scuppered #105 after all (much to my
 annoyance.)
 
-Peter Spjuth: TIP has been altered to suggest '''string disambiguate''' after a suggestion from Donal.
+Peter Spjuth: TIP was at this point altered to suggest '''string disambiguate''' after a suggestion from Donal.
 
 Donal Fellows wrote:
 
@@ -152,8 +154,13 @@ Peter Spjuth: Other ways to do '''-exact''' doesn't give the
 standardized error message so it has some value for those that want
 that functionality.  The Core uses TCL_EXACT in a few places where it makes sense so the flag can be useful.
 
+Voices were raised against the proposed '''string disambiguate''' and Jeff
+Hobbs pointed out other prefix related functions that are useful.  This
+lead to the prefix ensemble suggestion.
+
 ~ Reference Implementation
 
+An old version is at:
 http://sourceforge.net/tracker/index.php?func=detail&aid=1040206&group_id=10894&atid=310894
 
 ~ Copyright
