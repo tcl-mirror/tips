@@ -1,9 +1,9 @@
 TIP:            118
 Title:          Enhance [file attributes] and [file copy] on Mac OS X & BSD
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Daniel A. Steffen <das@users.sourceforge.net>
 Author:         tony <i_love_you10@hotmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        01-Nov-2002
