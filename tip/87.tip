@@ -1,6 +1,6 @@
 TIP:            87
 Title:          Allow Tcl Access to the Recursion Limit
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Stephen Trier <sct@po.cwru.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -77,21 +77,18 @@ http://www.geocrawler.com/mail/thread.php3?subject=%5BTCLCORE%5D+TIP+%2387%3A+Al
 Using a command or variable ''::tcl::recursionLimit'' to manipulate
 the limit was initially considered, but Miguel Sofer suggested making
 the function a subcommand of [[interp]] because the recursion limit is
-logically an attribute of each interpreter.  Miguel also observed that
-implementing ''TclpCheckStackSpace()'' for Unix (a future TIP?) would
-mitigate the dangers of setting the recursion limit too high.
+logically an attribute of each interpreter.  Miguel also pointed out that implementing ''TclpCheckStackSpace()'' for Unix would mitigate
+the dangers of setting the recursion limit too high.
 
-comp.lang.tcl saw some discussion of whether it would be appropriate to have a way to completely remove the recursion limit. The consensus was to not add such a feature at this time.
+comp.lang.tcl saw some discussion of whether it would be appropriate to have a way to completely remove the recursion limit. The consensus was to not add such a feature.
 
-The initial version of this TIP did not provide for a diagnostic error message for the case where the nesting is already deeper than the new recursion level. Ken Fitch, Don Porter, Miguel Sofer, and Donal Fellows discussed whether this was a problem. This version of the TIP uses Donal Fellow's suggestion of changing the recursion limit as requested, but providing a meaningful error message if the nesting is then too deep.
+The initial version of this TIP did not provide for a diagnostic error message for the case where the nesting is already deeper than the new recursion level. Ken Fitch, Don Porter, Miguel Sofer, and Donal Fellows discussed whether this was important. This version of the TIP uses Donal Fellows's suggestion of changing the recursion limit as requested, but providing a meaningful error message if the nesting is too deep for the new limit.
 
-On the tcl-core mailing list, Donal Fellows suggested that slave interpreters should inherit their parent's recursion limit. As it turns out, this behavior was already present but undocumented. The patch for this TIP documents it.
+Donal Fellows suggested that slave interpreters should inherit their recursion limit from their parent. As it turns out, this behavior was already present but was not documented. The reference implementation documents it.
 
 ~ Reference Implementation
 
-The following is the core of the implementation.  The full
-implementation, with tests and documentation, is patch number
-nnn on SourceForge.
+A full implementation of this TIP, with tests and documentation, is patch number 522849 on SourceForge.  The following is the key portion of the implementation.
 
 |*** generic/tclInterp.c.virgin Fri Feb 22 22:04:54 2002
 |--- generic/tclInterp.c        Tue Feb 26 00:09:08 2002
