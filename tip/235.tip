@@ -1,6 +1,6 @@
 TIP:            235
 Title:          Exposing a C API for Ensembles
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
@@ -34,7 +34,7 @@ This TIP proposes exposing the following functions:
    The ''flags'' argument specifies the initial version of the set of
    flags controllable through Tcl_SetEnsembleFlags (see below).
 
- > > Tcl_Command '''Tcl_CreateEnsemble'''(Tcl_Interp *''interp'', CONST char *''name'', Tcl_Namespace *''namespacePtr'', int ''flags'')
+ > > Tcl_Command '''Tcl_CreateEnsemble'''(Tcl_Interp *''interp'', const char *''name'', Tcl_Namespace *''namespacePtr'', int ''flags'')
 
  Tcl_FindEnsemble: Return a command token for an ensemble, or NULL if
    the name does not refer to an ensemble. The ''flags'' argument
@@ -51,36 +51,36 @@ This TIP proposes exposing the following functions:
    and write the (fixed) list of subcommands of the ensemble.
    Equivalent to manipulating the '''-subcommands''' option.
 
- > > int '''Tcl_GetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''subcmdListObjPtr''
+ > > int '''Tcl_GetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''subcmdListObjPtr'')
 
- > > int '''Tcl_SetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''subcmdListObj''
+ > > int '''Tcl_SetEnsembleSubcommandList'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''subcmdListObj'')
 
  Tcl_GetEnsembleMappingDict, Tcl_SetEnsembleMappingDict: Read and
    write the dictionary that maps subcommands to prefixes of
    implementation commands. Equivalent to manipulating the '''-map'''
    option.
 
- > > int '''Tcl_GetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''mapDictObjPtr''
+ > > int '''Tcl_GetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''mapDictObjPtr'')
 
- > > int '''Tcl_SetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''mapDictObj''
+ > > int '''Tcl_SetEnsembleMappingDict'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''mapDictObj'')
 
  Tcl_GetEnsembleUnknownHandler, Tcl_SetEnsembleUnknownHandler: Read
    and write the command prefix list that is used to implement the
    unknown-subcommand handler. Equivalent to manipulating the
    '''-unknown''' option.
 
- > > int '''Tcl_GetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''handlerListObjPtr''
+ > > int '''Tcl_GetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj **''handlerListObjPtr'')
 
- > > int '''Tcl_SetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''handlerListObj''
+ > > int '''Tcl_SetEnsembleUnknownHandler'''(Tcl_Interp *''interp'', Tcl_Command ''command'', Tcl_Obj *''handlerListObj'')
 
  Tcl_GetEnsembleFlags, Tcl_SetEnsembleFlags: Read and write the flags
    for the ensemble. Currently there is only one settable flag bit,
    TCL_ENSEMBLE_PREFIX, which is present exactly when '''-prefix'''
    option is true.
 
- > > int '''Tcl_GetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int *''flagsPtr''
+ > > int '''Tcl_GetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int *''flagsPtr'')
 
- > > int '''Tcl_SetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int ''flags''
+ > > int '''Tcl_SetEnsembleFlags'''(Tcl_Interp *''interp'', Tcl_Command ''command'', int ''flags'')
 
  Tcl_GetEnsembleNamespace: Reads the namespace associated with the
    ensemble; this value may not be altered.
