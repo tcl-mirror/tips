@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -27,7 +27,13 @@ should be made available to Tcl scripts.
 
 ~ Specification
 
-Every variable defined in the unix tclConfig.sh should be registered using '''Tcl_RegisterConfig''', with the possible exception of obviously redundant variables such as THREAD.
+Every variable defined in the unix tclConfig.sh should be registered using '''Tcl_RegisterConfig''', with the following exceptions:
+
+ * TCL_VERSION and similar redundant version, patch level information.
+
+ * TCL_THREADS - redundant.
+
+ * TCL_BUILD_* - nothing specifying the build directory.
 
 Because Windows and other platforms don't have a tclConfig.sh, the following fields are desirable for hand construction:
 ----
@@ -54,7 +60,8 @@ Because Windows and other platforms don't have a tclConfig.sh, the following fie
 
  * TCL_SHLIB_LD_LIBS # dependent libraries should be included when linking shared libraries
 
- * TCL_SHLIB_SUFFIX # Suffix to use for the name of a shared library.
+ * TCL_SH
+LIB_SUFFIX # Suffix to use for the name of a shared library.
 
  * TCL_LD_FLAGS # Flags to pass to the compiler when linking object files into an executable tclsh or tcltest binary.
 
