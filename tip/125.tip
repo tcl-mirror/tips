@@ -1,6 +1,6 @@
 TIP:            125
 Title:          Adding [wm toplevel] Subcommand
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
@@ -13,8 +13,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP adds the "wm toplevel" command that will change a Frame into
-a Toplevel and visa versa.
+This TIP modifies the wm command to act as a geometry manager for Frames, allowing them to become Toplevel windows.
 
 ~ Rationale
 
@@ -31,24 +30,30 @@ The basic command will give the Tk programmer the ability to implement
 megawidgets that support tear-off toolbars, notebooks, etc., since the
 children widgets of the frame will follow along, unchanged.
 
+An alternative approach has been taken from the orignal [wm toplevel] proposal as described here:
+
+In Tk, Toplevel windows are basically a special form of a Frame which are managed by the window manager.  The proposal is to add the commands [wm manage] and [wm forget] which will take an arbitrary Frame and allow it to be managed by the window manager, making it a Toplevel window.
+
+There are three configure options of Toplevel that are not present on a frame, -menu, -screen, and -use.  The options -screen and -use can only be specified when a Toplevel is created and cannot be modified later. The -menu option can be modified after widget creation and should be available on a frame so that when the frame is managed as a Toplevel, the menu can be present, therefore, this option has been added to the Frame widget.  When a frame is not managed as a toplevel, the -menu option is ignored.
+
+Note: because of special conditions of Toplevel, it is necessary to restrict them to only be managed by the window manager; they cannot be converted to frames and therefore, [wm forget] is not allowed on a Toplevel widget.  
+
 ~ Reference Implementation
 
-ftp://ftp.model.com/pub/tcl/reframe contains patch files as well as
-Linux and Win32 builds of 8.3.4 and 8.4.1.
+TkToolkit patch #998125 implements the [wm manage] and [wm forget] commands on Unix and Windows.  A partial MacOSX implementation is also provided.  This implementation only works for buttons and menubuttons.  For the remaining Tk widgets to be present in a [wm manage]'d frame, the widgets need to recognize and implement the TK_URBAN_RENEWAL flag.
+
+The original [wm toplevel] implementation can be obtained from ftp://ftp.model.com/pub/tcl/reframe.  This location contains patch files as well as Linux and Win32 builds of 8.3.4 and 8.4.1.
 
 The ''demo.tcl'' file illustrates the basic function.
 
 ~ Known Issues
 
 The reference implementation works on Windows and Linux.  A Mac
-implementation has not been performed due to a lack of resources.  (I
-ain't got no Mac)
+implementation has been partially implemented.  Because of the Mac architecture, it is necessary to reconstruct widgets in order to remap their window hierarchy.  The reference implementation includes a widget flag, TK_URBAN_RENEWAL which is used to trigger this reconstruction.
 
-What happens with "." (the main window) or when ''-use''/''-container''
-options are in use is unknown.  Most likely, these conditions would
-restrict the use of this command.
+Because of assumptions and restrictions, Toplevels can only be managed by the window manager and cannot become frames and be managed by any other geometry manager.  This restriction is enforced which means the -use and -screen options do not present any problem or complication with this proposal.
 
-What to do with menus which can be part of a Toplevel?
+The toplevel -menu option has been added to frames.  This allows the setting of menus on a frame so that when the frame is managed as a toplevel, the menus will appear, otherwise the option is ignored.
 
 ~ Alternatives
 
