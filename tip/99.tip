@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -60,11 +60,12 @@ ln ?-s?'' command to achieve the same effect.
 
 ~ Reference Implementation
 
+See the 'testfilelink' command in tclTest.c, which is a partial implementation (used by the test suite), also see:
 ''
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-This reference implementation needs to be updated with the 'linktype' option.
+These implementations need to be updated with the 'linktype' option, but are otherwise fully functional.
 
 ~ Copyright
 
