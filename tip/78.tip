@@ -1,12 +1,13 @@
-TIP:		78
-Title:		TEA 2.0 Definitions
-Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
-Type:		Informational
-State:		Draft
-Vote:		Pending
-Created:	15-Dec-2001
-Version:	$Revision: 1.2 $
-Post-History:	
+TIP:            78
+Title:          TEA 2.0 Definitions
+Version:        $Revision: 1.3 $
+Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Author:         Larry W. Virden <lvirden@yahoo.com>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        15-Dec-2001
+Post-History:   
 
 ~ Abstract
 
@@ -116,96 +117,96 @@ highlighted.
    distributions are possible, explained below.
 
  > 1. binary
-  
+
  > > A binary distribution is in a state and format allowing the
      installation of the contained packages on a particular platform.
-  
+
  > > It contains at least all the files
-  
+
  > > * implementing the functionality of the distributed packages and
-  
+
  > > * required to allow the package management of the Tcl core to
        handle the packages.
-  
+
  > > A binary distribution usually contains just the files for a
      single architecture.  This is not a explicit requirement however.
      In other words, a binary distribution is allowed to contain the
      files for several architectures.  Such a binary distribution will
      be called a ''fat binary distribution''.
-  
+
  > > We distinguish between three sub-types:
-  
+
  > > * installable
-  
+
  > > > This is the minimal binary distribution we spoke of before.
-  
+
  > > * auto-installable
-  
+
  > > > Like ''installable''', but additionally contains an application
        whose execution will perform all the steps which are necessary
        to install the contained packages at a site.  The installation
        to add the packages to (and thus the location of the installed
        packages) can be freely chosen by the caller of the executable.
-  
+
  > > * auto-image
-  
+
  > > > Like ''auto-installable'', but the final location of the
        packages is hard-wired into the distribution.  This means that
        a site using auto-images is restricted to one installation per
        architecture for which files are contained in the binary
        distribution.
-  
+
  > > > Some of the existing archive formats restrict their contained
        distributions to this type.  Examples of such archive formats
        are
-  
+
  > > > * RPM (RedHat Package Manager)
-  
+
  > > > * DEB (DEBian Linux package format)
-  
+
  > > See [TIP 55] for the specification of a proposed layout for
      binary distributions.
-  
+
  > 1. bundle
-  
+
  > > A distribution which either contains the distributions of more
      than one package or a list of references to packages.  The
      references are done by specifying the name and version of the
      packages contained in the bundle.
-  
+
  > 1. buildable
-  
+
  > > See ''source''.
-  
+
  > 1. compileable
-  
+
  > > See ''source''.
-  
+
  > 1. raw
-  
+
  > > A raw distribution is the most fundamental distribution.  Its
      format is nearly completely unspecified.  Its contents are
      straight from a source repository.  The process of converting a
      raw distribution into a source distribution is called
      ''Preparation''.
-  
+
  > > Because of the unformatted nature of a raw distribution the
      commands for its conversion into a source distribution have to be
      part of it.  This is the only part of a raw distribution which
      can and has to be specified.
-  
+
  > > Example: The execution of ''autoconf'' to generate a
      ''configure'' script from its ''configure.in'' file can be a
      single step in a complex preparation.
-  
+
  > 1. source
-  
+
  > > A source distribution is in a format and state where tools can be
      used to build its contents.
-  
+
  > > The format needs further specification but for now we can assume
      that it is governed by the current TEA specification.
-  
+
  > > Alternate name for this type of distribution are ''compileable''
      and ''buildable''.
 
@@ -242,6 +243,10 @@ highlighted.
    moving files to their proper places.
 
  > Also the process of adding a built package to an ''installation''.
+
+ * Manifest
+
+ > A file detailing the files making up a particular package.
 
  * Package
 
@@ -315,7 +320,6 @@ highlighted.
 
  > The most fundamental distribution there is.  Contains the ''Tcl
    core'' and a number of packages.
-
 
 ~ Roles
 
@@ -477,4 +481,4 @@ Legend:
 
 ~ Copyright  
 
-This document has been placed in the public domain.
+This document has been placed in the public domain.http://www.tcl.tk/cgi-bin/tct/tip/78.html
