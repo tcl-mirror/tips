@@ -1,8 +1,8 @@
 TIP:            95
 Title:          Add [wm attributes] Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        29-May-2002
