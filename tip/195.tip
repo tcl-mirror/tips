@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -49,7 +49,7 @@ corresponds to the ''flags'' and ''msg'' arguments to
 "option".
 
 The error message is returned so that it shows up as an error from
-the caller, i.e. it behaves like [[return -code error -level 2]]
+the caller, i.e. it behaves like [[return -code error -level 2]].
 
 ~ Examples
 
@@ -137,7 +137,7 @@ implementable using '''lsearch -exact''', '''dict exists''', '''info exists''',
 '''switch''', etc. It's also corresponding to a very rarely used flag to
 Tcl_GetIndexFromObj.
 
-Peter Spjuth: Other ways to do '''-exact'' doesn't give the
+Peter Spjuth: Other ways to do '''-exact''' doesn't give the
 standardized error message so it has some value for those that want
 that functionality.  The Core uses TCL_EXACT in a few places where it makes sense so the flag can be useful.
 
