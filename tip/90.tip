@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -162,7 +162,7 @@ return options dictionary kept in the interp, just as the
 
 The TclUpdateReturnInfo() function is modified, so that each
 level of procedure returning decrements the value of the "-level"
-key in thre return options dictionary.  When the value of the
+key in the return options dictionary.  When the value of the
 "-level" key reaches "0", the return code from the current procedure
 will be the value of the "-code" key in the return options dictionary.
 Otherwise, the return code of the current procedure will be TCL_RETURN.
