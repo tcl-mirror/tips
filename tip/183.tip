@@ -1,6 +1,6 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -77,6 +77,9 @@ required to handle this situation.  Ideally, the updating
 will take the form of leaving behind use of this obsolete,
 unsupported, private interface, and migrating to the
 public support for virtual filesystems.
+
+Other than that, this proposal is a completely
+compatible extension of existing interfaces.
 
 ~ Discussion
 
