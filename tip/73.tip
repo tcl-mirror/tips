@@ -3,16 +3,16 @@ Title:          Export Tcl_GetTime in the Public API
 State:          Draft
 Type:           Project
 Tcl-Version:    8.4
-Vote:           Pending
+Vote:           In progress
 Post-History:   
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Kenny <kennykb@acm.org>
 Created:	03-Nov-2001
 
 ~ Abstract
 
-This TIP proposes that the existing TclpGetTime function be renamed to
-be Tcl_GetTime and included in the published API.
+This TIP proposes that the existing ''TclpGetTime'' function be
+renamed to be ''Tcl_GetTime'' and included in the published API.
 
 ~ Rationale
 
