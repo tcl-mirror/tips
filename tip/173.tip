@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
 State:          Draft
@@ -144,8 +144,8 @@ The [[clock scan]] command shall have the syntax:
 
  > '''clock scan''' ''string''
                     ?'''-base''' ''baseTime''?
-                    ?'''-format''' format''?
-                    ?'''-gmt''' boolean''?
+                    ?'''-format''' ''format''?
+                    ?'''-gmt''' ''boolean''?
                     ?'''-locale''' ''name''?
                     ?'''-timezone''' ''timeZone''?
 
