@@ -1,8 +1,8 @@
 TIP:		159
 Title:		Extending Tk 'wm' Command to Support Coloured Icons
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Georgios Petasis <petasis@iit.demokritos.gr>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Tcl-Version:	8.5
