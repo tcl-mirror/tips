@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -514,6 +514,14 @@ A reference implementation is available in Patch 942881
 ~ Comments
 
 [[ Add comments on the document here ]]
+
+A feature asked for during discussion is to allow a directory as
+a Tcl Module. I am opposed to this, because behind Tcl Modules is
+the same idea/vision as for starkit and starpacks, namely that of
+deploying something in the simplest possible manner, without any
+overhead. Sometimes I call Tcl Modules package kits, short pakits
+(and then twist that then spoken into 'packet' :).
+[http://groups.google.ca/groups?hl=en&lr=&ie=UTF-8&frame=right&th=78764d499cc4e4a&seekm=c6tshf030c6%40news4.newsguy.com#link19]
 
 ~ Copyright
 
