@@ -1,14 +1,14 @@
 TIP:		7
 Title:		Increased resolution for TclpGetTime on Windows
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
+State:		Final
 Type:		Project
-Vote:		Pending
+Vote:		Done
 Created:	26-Oct-2000
-Post-History:
 Tcl-Version:	8.4
 Discussions-To: news:comp.lang.tcl
+Post-History: 
 
 ~ Abstract
 
@@ -21,6 +21,16 @@ the Windows performance counter.  It presents a means of disciplining
 this counter to the system clock so that ''TclpGetTime'' (the
 underlying call that the above commands use) can return times to
 microsecond precision with accuracy in the tens of microseconds.
+
+~ Change history
+
+''2 November 2000:'' Modified the TIP to discuss the issues surrounding
+the fact that some multiprocessor kernels on Windows NT use the CPU timestamp
+counter as a performance counter.  Modified the proposed patch to test for
+the two frequencies in common use on 8254-compatible real-time clocks, and
+enable using the performance counter only if its frequency matches one of
+them.  Included the proposed patch inline for review rather than as a
+pointer off to dejanews.
 
 ~ Rationale
 
@@ -71,6 +81,38 @@ concept of the time.  This technique is well known to electronic
 engineers as the "phase locked loop" and is used in network protocols
 such as NTP (http://www.eecis.udel.edu/~ntp/).
 
+One problem that is apparently insurmountable is that certain
+multiprocessor systems have hardware abstraction layers that derive
+the performance counter from the CPU timestamp counter in place of a
+real-time clock reference.  This implementation causes the performance
+counter on one CPU to drift with respect to the other over time; if a
+thread is moved from one processor to another, it cannot derive a
+meaningful result from comparing two successive values of the counter.
+Moreover, if the CPU clock uses a "gearshift" technique for power
+management (as on Intel SpeedStep or Transmeta machines), the CPU
+timestamp counter ticks at a non-constant rate.
+
+The proposed implementation addresses the problem by using the
+performance counter only if its nominal frequency is either 1.193182
+MHz or 3.579545 MHz.  These two frquencies are the common rates when
+8254-compatible real-time clock chips are used; virtually all PCI bus
+controllers have such chips on board.  This solution therefore adapts
+to the vast majority of workstation-class Windows boxes, and is
+virtually certain to exclude implementations derived from the CPU
+clock since no modern CPU is that slow.  
+
+The patch has been tested on several desktop and laptop machines from
+Compaq, Dell, Gateway, HP, Micron, and Packard Bell, with processors
+ranging from a 50 MHz 486 to a 750 MHz Pentium III, including laptops
+using SpeedStep technology.  It passes the clock-related test cases on
+all these platforms; it falls back to the old clocks with 10-ms
+precision on multiprocessor servers from Compaq and HP.  (Using the
+performance counter actually would have worked on the HP server, which
+apparently has some way of making sure that the results of
+''QueryPerformanceCounter'' are consistent from one CPU to another.
+The performance counter on the Compaq machine was observed to be
+inconsistent between the two CPU's.)
+
 ~ Specification
 
 This document proposes the following changes to the Tcl core:
@@ -86,8 +128,8 @@ This document proposes the following changes to the Tcl core:
        consistent near the rollover from one second to another.
 
    3.  (tclWinTime.c) Modify ''TclpGetClicks'' to use
-       ''QueryPerformanceCounter'' if it is available, and otherwise
-       continue returning the result of ''GetTickCount''.
+       TclpGetTime to determine the click count as a number of
+       microseconds.
 
    4.  (tclWinTime.c) Modify ''TclpGetTime'' to return the time as
        M*Q+B, where Q is the result of ''QueryPerformanceCounter'',
@@ -96,6 +138,8 @@ This document proposes the following changes to the Tcl core:
        The ''TclpGetTime'' call will also launch the phase-lock
        management in a separate thread the first time that it is
        invoked.  If the performance counter is unavailable,
+       or if its frequency is not one of the two common 8254-compatible
+       rates, then
        ''TclpGetTime'' will return the result of ''ftime'' as it does
        in Tcl 8.3.2.
 
@@ -105,7 +149,7 @@ This document proposes the following changes to the Tcl core:
        the time base and frequency are maintained.
 
    6.  (tclWinNotify.c) Modify ''Tcl_Sleep'' to test that the process
-       has, in face, slept for the requisite time by calling
+       has, in fact, slept for the requisite time by calling
        ''TclpGetTime'' and comparing with the desired time.
        Otherwise, roundoff errors may cause the process to awaken
        early.
@@ -125,7 +169,8 @@ This change was submitted as a patch to the old bug-tracking system at
 Scriptics (http://www.deja.com/getdoc.xp?AN=666545441&fmt=text).  It
 is being recycled as a TIP now that the Tcl Core Team is in place,
 since the process for advancing the old patches to the Core is not
-well defined.
+well defined.  The link above should not be used to retrieve
+the current version of the patch, which appears below as an Appendix.
 
 Tests on several Wintel boxes have shown that the initial startup
 transient is less than about 10 seconds (during which time the Tcl
@@ -142,13 +187,7 @@ case where the Tcl clock is allowed to jump.
 The startup of the calibration loop does not introduce new
 instabilities in the behavior of [[clock clocks]] or ''TclpGetTime''.
 
-[[clock clicks]] is reliable from the very start.  It simply returns
-the raw performance counter.  I suppose we might want to have it
-return microseconds instead, in which case, it could call
-''TclpGetTime''.  Typically, though, the performance counter is >1
-MHz, so I figured that we should go for all the resolution we can get.
-
-[[clock clicks -milliseconds]] and other times that derive from
+[[clock clicks]] and other times that derive from
 ''TclpGetTime'' also ought to be reliable from the beginning -
 assuming that ''QueryPerformanceFrequency'' actually matches the
 crystal.  The worst case while the initial calibration is going on
@@ -177,7 +216,7 @@ late because of various other things going on in Windows.
 
 #image:7capture Typical capture transient
 
-The script that gathered the raw data plotted above.
+The script that gathered the raw data plotted above appears below.
 
 |foreach { syssecs sysusec tclsecs tclusec } [testwinclock] {}
 |set basesecs $syssecs
@@ -235,3 +274,697 @@ information).
 ~ Copyright
 
 This document has been placed in the public domain.
+
+~ Appendix
+
+The proposed set of patches to the Tcl 8.3.2 code base appears here.
+
+|*** ../tcl8.3.2base/src/tcl8.3.2/win/tclWinNotify.c Fri Jul  2 18:08:30 1999
+|--- ./src/tcl8.3.2/win/tclWinNotify.c Thu Aug 24 23:29:12 2000
+|***************
+|*** 510,514 ****
+|  Tcl_Sleep(ms)
+|      int ms;			/* Number of milliseconds to sleep. */
+|  {
+|!     Sleep(ms);
+|  }
+|--- 510,548 ----
+|  Tcl_Sleep(ms)
+|      int ms;			/* Number of milliseconds to sleep. */
+|  {
+|!     /*
+|!      * Simply calling 'Sleep' for the requisite number of milliseconds
+|!      * can make the process appear to wake up early because it isn't
+|!      * synchronized with the CPU performance counter that is used in
+|!      * tclWinTime.c.  This behavior is probably benign, but messes
+|!      * up some of the corner cases in the test suite.  We get around
+|!      * this problem by repeating the 'Sleep' call as many times
+|!      * as necessary to make the clock advance by the requisite amount.
+|!      */
+|! 
+|!     Tcl_Time now;		/* Current wall clock time */
+|!     Tcl_Time desired;		/* Desired wakeup time */
+|!     int sleepTime = ms;		/* Time to sleep */
+|! 
+|!     TclpGetTime( &now );
+|!     desired.sec = now.sec + ( ms / 1000 );
+|!     desired.usec = now.usec + 1000 * ( ms % 1000 );
+|!     if ( desired.usec > 1000000 ) {
+|! 	++desired.sec;
+|! 	desired.usec -= 1000000;
+|!     }
+|! 	
+|!     for ( ; ; ) {
+|! 	Sleep( sleepTime );
+|! 	TclpGetTime( &now );
+|! 	if ( now.sec > desired.sec ) {
+|! 	    break;
+|! 	} else if ( ( now.sec == desired.sec )
+|! 	     && ( now.usec >= desired.usec ) ) {
+|! 	    break;
+|! 	}
+|! 	sleepTime = ( ( 1000 * ( desired.sec - now.sec ) )
+|! 		      + ( ( desired.usec - now.usec ) / 1000 ) );
+|!     }
+|! 
+|  }
+|*** ../tcl8.3.2base/src/tcl8.3.2/win/tclWinTest.c Thu Oct 28 23:05:14 1999
+|--- ./src/tcl8.3.2/win/tclWinTest.c Mon Sep  4 22:45:56 2000
+|***************
+|*** 22,27 ****
+|--- 22,31 ----
+|  static int	TestvolumetypeCmd _ANSI_ARGS_((ClientData dummy,
+|	 Tcl_Interp *interp, int objc,
+|	 Tcl_Obj *CONST objv[]));
+|+ static int      TestwinclockCmd _ANSI_ARGS_(( ClientData dummy,
+|+ 					      Tcl_Interp* interp,
+|+ 					      int objc,
+|+ 					      Tcl_Obj *CONST objv[] ));
+|  
+|  /*
+|   *----------------------------------------------------------------------
+|***************
+|*** 52,57 ****
+|--- 56,63 ----
+|	       (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
+|      Tcl_CreateObjCommand(interp, "testvolumetype", TestvolumetypeCmd,
+|	       (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
+|+     Tcl_CreateObjCommand(interp, "testwinclock", TestwinclockCmd,
+|+             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
+|      return TCL_OK;
+|  }
+|  
+|***************
+|*** 187,190 ****
+|--- 193,267 ----
+|      Tcl_SetResult(interp, volType, TCL_VOLATILE);
+|      return TCL_OK;
+|  #undef VOL_BUF_SIZE
+|+ }
+|+ 
+|+ /*
+|+  *----------------------------------------------------------------------
+|+  *
+|+  * TestclockCmd --
+|+  *
+|+  *	Command that returns the seconds and microseconds portions of
+|+  *	the system clock and of the Tcl clock so that they can be
+|+  *	compared to validate that the Tcl clock is staying in sync.
+|+  *
+|+  * Usage:
+|+  *	testclock
+|+  *
+|+  * Parameters:
+|+  *	None.
+|+  *
+|+  * Results:
+|+  *	Returns a standard Tcl result comprising a four-element list:
+|+  *	the seconds and microseconds portions of the system clock,
+|+  *	and the seconds and microseconds portions of the Tcl clock.
+|+  *
+|+  * Side effects:
+|+  *	None.
+|+  *
+|+  *----------------------------------------------------------------------
+|+  */
+|+ 
+|+ static int
+|+ TestwinclockCmd( ClientData dummy,
+|+ 				/* Unused */
+|+ 		 Tcl_Interp* interp,
+|+ 				/* Tcl interpreter */
+|+ 		 int objc,
+|+ 				/* Argument count */
+|+ 		 Tcl_Obj *CONST objv[] )
+|+ 				/* Argument vector */
+|+ {
+|+     CONST static FILETIME posixEpoch = { 0xD53E8000, 0x019DB1DE };
+|+ 				/* The Posix epoch, expressed as a
+|+ 				 * Windows FILETIME */
+|+     Tcl_Time tclTime;		/* Tcl clock */
+|+     FILETIME sysTime;		/* System clock */
+|+     Tcl_Obj* result;		/* Result of the command */
+|+     LARGE_INTEGER t1, t2;
+|+ 
+|+     if ( objc != 1 ) {
+|+ 	Tcl_WrongNumArgs( interp, 1, objv, "" );
+|+ 	return TCL_ERROR;
+|+     }
+|+ 
+|+     TclpGetTime( &tclTime );
+|+     GetSystemTimeAsFileTime( &sysTime );
+|+     t1.LowPart = posixEpoch.dwLowDateTime;
+|+     t1.HighPart = posixEpoch.dwHighDateTime;
+|+     t2.LowPart = sysTime.dwLowDateTime;
+|+     t2.HighPart = sysTime.dwHighDateTime;
+|+     t2.QuadPart -= t1.QuadPart;
+|+ 
+|+     result = Tcl_NewObj();
+|+     Tcl_ListObjAppendElement
+|+ 	( interp, result, Tcl_NewIntObj( (int) (t2.QuadPart / 10000000 ) ) );
+|+     Tcl_ListObjAppendElement
+|+ 	( interp, result,
+|+ 	  Tcl_NewIntObj( (int) ( (t2.QuadPart / 10 ) % 1000000 ) ) );
+|+     Tcl_ListObjAppendElement( interp, result, Tcl_NewIntObj( tclTime.sec ) );
+|+     Tcl_ListObjAppendElement( interp, result, Tcl_NewIntObj( tclTime.usec ) );
+|+ 
+|+     Tcl_SetObjResult( interp, result );
+|+ 
+|+     return TCL_OK;
+|  }
+|*** ../tcl8.3.2base/src/tcl8.3.2/win/tclWinTime.c Tue Nov 30 19:08:44 1999
+|--- ./src/tcl8.3.2/win/tclWinTime.c Thu Nov  2 14:25:56 2000
+|***************
+|*** 38,47 ****
+|--- 38,114 ----
+|  static Tcl_ThreadDataKey dataKey;
+|  
+|  /*
+|+  * Calibration interval for the high-resolution timer, in msec
+|+  */
+|+ 
+|+ static CONST unsigned long clockCalibrateWakeupInterval = 10000;
+|+ 				/* FIXME: 10 s -- should be about 10 min! */
+|+ 
+|+ /*
+|+  * Data for managing high-resolution timers.
+|+  */
+|+ 
+|+ typedef struct TimeInfo {
+|+ 
+|+     CRITICAL_SECTION cs;	/* Mutex guarding this structure */
+|+ 
+|+     int initialized;		/* Flag == 1 if this structure is
+|+ 				 * initialized. */
+|+ 
+|+     int perfCounterAvailable;	/* Flag == 1 if the hardware has a
+|+ 				 * performance counter */
+|+ 
+|+     HANDLE calibrationThread;	/* Handle to the thread that keeps the
+|+ 				 * virtual clock calibrated. */
+|+ 
+|+     HANDLE readyEvent;		/* System event used to
+|+ 				 * trigger the requesting thread
+|+ 				 * when the clock calibration procedure
+|+ 				 * is initialized for the first time */
+|+ 
+|+     /*
+|+      * The following values are used for calculating virtual time.
+|+      * Virtual time is always equal to:
+|+      *    lastFileTime + (current perf counter - lastCounter) 
+|+      *				* 10000000 / curCounterFreq
+|+      * and lastFileTime and lastCounter are updated any time that
+|+      * virtual time is returned to a caller.
+|+      */
+|+ 
+|+     ULARGE_INTEGER lastFileTime;
+|+     LARGE_INTEGER lastCounter;
+|+     LARGE_INTEGER curCounterFreq;
+|+ 
+|+     /* 
+|+      * The next two values are used only in the calibration thread, to track
+|+      * the frequency of the performance counter.
+|+      */
+|+ 
+|+     LONGLONG lastPerfCounter;	/* Performance counter the last time
+|+ 				 * that UpdateClockEachSecond was called */
+|+     LONGLONG lastSysTime;	/* System clock at the last time
+|+ 				 * that UpdateClockEachSecond was called */
+|+     LONGLONG estPerfCounterFreq;
+|+ 				/* Current estimate of the counter frequency
+|+ 				 * using the system clock as the standard */
+|+ 
+|+ } TimeInfo;
+|+ 
+|+ static TimeInfo timeInfo = {
+|+     NULL, 0, 0, NULL, NULL, 0, 0, 0, 0, 0
+|+ };
+|+ 
+|+ CONST static FILETIME posixEpoch = { 0xD53E8000, 0x019DB1DE };
+|+     
+|+ /*
+|   * Declarations for functions defined later in this file.
+|   */
+|  
+|  static struct tm *	ComputeGMT _ANSI_ARGS_((const time_t *tp));
+|+ 
+|+ static DWORD WINAPI     CalibrationThread _ANSI_ARGS_(( LPVOID arg ));
+|+ 
+|+ static void 		UpdateTimeEachSecond _ANSI_ARGS_(( void ));
+|  
+|  /*
+|   *----------------------------------------------------------------------
+|***************
+|*** 63,69 ****
+|  unsigned long
+|  TclpGetSeconds()
+|  {
+|!     return (unsigned long) time((time_t *) NULL);
+|  }
+|  
+|  /*
+|--- 130,138 ----
+|  unsigned long
+|  TclpGetSeconds()
+|  {
+|!     Tcl_Time t;
+|!     TclpGetTime( &t );
+|!     return t.sec;
+|  }
+|  
+|  /*
+|***************
+|*** 89,95 ****
+|  unsigned long
+|  TclpGetClicks()
+|  {
+|!     return GetTickCount();
+|  }
+|  
+|  /*
+|--- 158,175 ----
+|  unsigned long
+|  TclpGetClicks()
+|  {
+|!     /*
+|!      * Use the TclpGetTime abstraction to get the time in microseconds,
+|!      * as nearly as we can, and return it.
+|!      */
+|! 
+|!     Tcl_Time now;		/* Current Tcl time */
+|!     unsigned long retval;	/* Value to return */
+|! 
+|!     TclpGetTime( &now );
+|!     retval = ( now.sec * 1000000 ) + now.usec;
+|!     return retval;
+|! 
+|  }
+|  
+|  /*
+|***************
+|*** 134,140 ****
+|   *	Returns the current time in timePtr.
+|   *
+|   * Side effects:
+|!  *	None.
+|   *
+|   *----------------------------------------------------------------------
+|   */
+|--- 214,226 ----
+|   *	Returns the current time in timePtr.
+|   *
+|   * Side effects:
+|!  *	On the first call, initializes a set of static variables to
+|!  *	keep track of the base value of the performance counter, the
+|!  *	corresponding wall clock (obtained through ftime) and the
+|!  *	frequency of the performance counter.  Also spins a thread
+|!  *	whose function is to wake up periodically and monitor these
+|!  *	values, adjusting them as necessary to correct for drift
+|!  *	in the performance counter's oscillator.
+|   *
+|   *----------------------------------------------------------------------
+|   */
+|***************
+|*** 143,153 ****
+|  TclpGetTime(timePtr)
+|      Tcl_Time *timePtr;		/* Location to store time information. */
+|  {
+|      struct timeb t;
+|  
+|!     ftime(&t);
+|!     timePtr->sec = t.time;
+|!     timePtr->usec = t.millitm * 1000;
+|  }
+|  
+|  /*
+|--- 229,342 ----
+|  TclpGetTime(timePtr)
+|      Tcl_Time *timePtr;		/* Location to store time information. */
+|  {
+|+ 	
+|      struct timeb t;
+|  
+|!     /* Initialize static storage on the first trip through. */
+|! 
+|!     /*
+|!      * Note: Outer check for 'initialized' is a performance win
+|!      * since it avoids an extra mutex lock in the common case.
+|!      */
+|! 
+|!     if ( !timeInfo.initialized ) { 
+|! 	TclpInitLock();
+|! 	if ( !timeInfo.initialized ) {
+|! 	    timeInfo.perfCounterAvailable
+|! 		= QueryPerformanceFrequency( &timeInfo.curCounterFreq );
+|! 
+|! 	    /*
+|! 	     * Some hardware abstraction layers use the CPU clock
+|! 	     * in place of the real-time clock as a performance counter
+|! 	     * reference.  This results in:
+|! 	     *    - inconsistent results among the processors on
+|! 	     *      multi-processor systems.
+|! 	     *    - unpredictable changes in performance counter frequency
+|! 	     *      on "gearshift" processors such as Transmeta and
+|! 	     *      SpeedStep.
+|! 	     * There seems to be no way to test whether the performance
+|! 	     * counter is reliable, but a useful heuristic is that
+|! 	     * if its frequency is 1.193182 MHz or 3.579545 MHz, it's
+|! 	     * derived from a colorburst crystal and is therefore
+|! 	     * the RTC rather than the TSC.  If it's anything else, we
+|! 	     * presume that the performance counter is unreliable.
+|! 	     */
+|! 
+|! 	    if ( timeInfo.perfCounterAvailable
+|! 		 && timeInfo.curCounterFreq.QuadPart != 1193182ui64
+|! 		 && timeInfo.curCounterFreq.QuadPart != 3579545ui64 ) {
+|! 		timeInfo.perfCounterAvailable = FALSE;
+|! 	    }
+|! 
+|! 	    /*
+|! 	     * If the performance counter is available, start a thread to
+|! 	     * calibrate it.
+|! 	     */
+|! 
+|! 	    if ( timeInfo.perfCounterAvailable ) {
+|! 		DWORD id;
+|! 		InitializeCriticalSection( &timeInfo.cs );
+|! 		timeInfo.readyEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+|! 		timeInfo.calibrationThread = CreateThread( NULL,
+|! 							   8192,
+|! 							   CalibrationThread,
+|! 							   (LPVOID) NULL,
+|! 							   0,
+|! 							   &id );
+|! 		SetThreadPriority( timeInfo.calibrationThread,
+|! 				   THREAD_PRIORITY_HIGHEST );
+|! 		WaitForSingleObject( timeInfo.readyEvent, INFINITE );
+|! 		CloseHandle( timeInfo.readyEvent );
+|! 	    }
+|! 	    timeInfo.initialized = TRUE;
+|! 	}
+|! 	TclpInitUnlock();
+|!     }
+|! 
+|!     if ( timeInfo.perfCounterAvailable ) {
+|! 	
+|! 	/*
+|! 	 * Query the performance counter and use it to calculate the
+|! 	 * current time.
+|! 	 */
+|! 
+|! 	LARGE_INTEGER curCounter;
+|! 				/* Current performance counter */
+|! 
+|! 	LONGLONG curFileTime;
+|! 				/* Current estimated time, expressed
+|! 				 * as 100-ns ticks since the Windows epoch */
+|! 
+|! 	static const LARGE_INTEGER posixEpoch = { 0xD53E8000, 0x019DB1DE };
+|! 				/* Posix epoch expressed as 100-ns ticks
+|! 				 * since the windows epoch */
+|! 
+|! 	LONGLONG usecSincePosixEpoch;
+|! 				/* Current microseconds since Posix epoch */
+|! 
+|! 	EnterCriticalSection( &timeInfo.cs );
+|! 
+|! 	QueryPerformanceCounter( &curCounter );
+|! 	curFileTime = timeInfo.lastFileTime.QuadPart
+|! 	    + ( ( curCounter.QuadPart - timeInfo.lastCounter.QuadPart )
+|! 		* 10000000 / timeInfo.curCounterFreq.QuadPart );
+|! 	timeInfo.lastFileTime.QuadPart = curFileTime;
+|! 	timeInfo.lastCounter.QuadPart = curCounter.QuadPart;
+|! 	usecSincePosixEpoch = ( curFileTime - posixEpoch.QuadPart ) / 10;
+|! 	timePtr->sec = (time_t) ( usecSincePosixEpoch / 1000000 );
+|! 	timePtr->usec = (unsigned long ) ( usecSincePosixEpoch % 1000000 );
+|! 	
+|! 	LeaveCriticalSection( &timeInfo.cs );
+|! 
+|! 	
+|!     } else {
+|! 	
+|! 	/* High resolution timer is not available.  Just use ftime */
+|! 	
+|! 	ftime(&t);
+|! 	timePtr->sec = t.time;
+|! 	timePtr->usec = t.millitm * 1000;
+|!     }
+|  }
+|  
+|  /*
+|***************
+|*** 439,442 ****
+|--- 628,843 ----
+|      }
+|  
+|      return tmPtr;
+|+ }
+|+ 
+|+ /*
+|+  *----------------------------------------------------------------------
+|+  *
+|+  * CalibrationThread --
+|+  *
+|+  *	Thread that manages calibration of the hi-resolution time
+|+  *	derived from the performance counter, to keep it synchronized
+|+  *	with the system clock.
+|+  *
+|+  * Parameters:
+|+  *	arg -- Client data from the CreateThread call.  This parameter
+|+  *             points to the static TimeInfo structure.
+|+  *
+|+  * Return value:
+|+  *	None.  This thread embeds an infinite loop.
+|+  *
+|+  * Side effects:
+|+  *	At an interval of clockCalibrateWakeupInterval ms, this thread
+|+  *	performs virtual time discipline.
+|+  *
+|+  * Note: When this thread is entered, TclpInitLock has been called
+|+  * to safeguard the static storage.  There is therefore no synchronization
+|+  * in the body of this procedure.
+|+  *
+|+  *----------------------------------------------------------------------
+|+  */
+|+ 
+|+ static DWORD WINAPI
+|+ CalibrationThread( LPVOID arg )
+|+ {
+|+     FILETIME curFileTime;
+|+ 
+|+     /* Get initial system time and performance counter */
+|+ 
+|+     GetSystemTimeAsFileTime( &curFileTime );
+|+     QueryPerformanceCounter( &timeInfo.lastCounter );
+|+     QueryPerformanceFrequency( &timeInfo.curCounterFreq );
+|+     timeInfo.lastFileTime.LowPart = curFileTime.dwLowDateTime;
+|+     timeInfo.lastFileTime.HighPart = curFileTime.dwHighDateTime;
+|+ 
+|+     /* Initialize the working storage for the calibration callback */
+|+ 
+|+     timeInfo.lastPerfCounter = timeInfo.lastCounter.QuadPart;
+|+     timeInfo.estPerfCounterFreq = timeInfo.curCounterFreq.QuadPart;
+|+ 
+|+     /*
+|+      * Wake up the calling thread.  When it wakes up, it will release the
+|+      * initialization lock.
+|+      */
+|+ 
+|+     SetEvent( timeInfo.readyEvent );
+|+ 
+|+     /* Run the calibration once a second */
+|+ 
+|+     for ( ; ; ) {
+|+ 
+|+ 	Sleep( 1000 );
+|+ 	UpdateTimeEachSecond();
+|+ 	
+|+     }
+|+ }
+|+ 
+|+ /*
+|+  *----------------------------------------------------------------------
+|+  *
+|+  * UpdateTimeEachSecond --
+|+  *
+|+  *	Callback from the waitable timer in the clock calibration thread
+|+  *	that updates system time.
+|+  *
+|+  * Parameters:
+|+  *	info -- Pointer to the static TimeInfo structure
+|+  *
+|+  * Results:
+|+  *	None.
+|+  *
+|+  * Side effects:
+|+  *	Performs virtual time calibration discipline.
+|+  *
+|+  *----------------------------------------------------------------------
+|+  */
+|+ 
+|+ static void
+|+ UpdateTimeEachSecond()
+|+ {
+|+ 
+|+     LARGE_INTEGER curPerfCounter;
+|+ 				/* Current value returned from
+|+ 				 * QueryPerformanceCounter */
+|+ 
+|+     LONGLONG perfCounterDiff;	/* Difference between the current value
+|+ 				 * and the value of 1 second ago */
+|+ 
+|+     FILETIME curSysTime;	/* Current system time */
+|+ 
+|+     LARGE_INTEGER curFileTime;	/* File time at the time this callback
+|+ 				 * was scheduled. */
+|+ 
+|+     LONGLONG fileTimeDiff;	/* Elapsed time on the system clock
+|+ 				 * since the last time this procedure
+|+ 				 * was called */
+|+ 
+|+     LONGLONG instantFreq;	/* Instantaneous estimate of the
+|+ 				 * performance counter frequency */
+|+ 
+|+     LONGLONG delta;		/* Increment to add to the estimated
+|+ 				 * performance counter frequency in the
+|+ 				 * loop filter */
+|+ 
+|+     LONGLONG fuzz;		/* Tolerance for the perf counter frequency */
+|+ 
+|+     LONGLONG lowBound;		/* Lower bound for the frequency assuming
+|+ 				 * 1000 ppm tolerance */
+|+ 
+|+     LONGLONG hiBound;		/* Upper bound for the frequency */
+|+ 
+|+     /*
+|+      * Get current performance counter and system time.
+|+      */
+|+ 
+|+     QueryPerformanceCounter( &curPerfCounter );
+|+     GetSystemTimeAsFileTime( &curSysTime );
+|+     curFileTime.LowPart = curSysTime.dwLowDateTime;
+|+     curFileTime.HighPart = curSysTime.dwHighDateTime;
+|+ 
+|+     EnterCriticalSection( &timeInfo.cs );
+|+ 
+|+     /*
+|+      * Find out how many ticks of the performance counter and the
+|+      * system clock have elapsed since we got into this procedure.
+|+      * Estimate the current frequency.
+|+      */
+|+ 
+|+     perfCounterDiff = curPerfCounter.QuadPart - timeInfo.lastPerfCounter;
+|+     timeInfo.lastPerfCounter = curPerfCounter.QuadPart;
+|+     fileTimeDiff = curFileTime.QuadPart - timeInfo.lastSysTime;
+|+     timeInfo.lastSysTime = curFileTime.QuadPart;
+|+     instantFreq = ( 10000000 * perfCounterDiff / fileTimeDiff );
+|+ 
+|+     /*
+|+      * Consider this a timing glitch if instant frequency varies
+|+      * significantly from the current estimate.
+|+      */
+|+ 
+|+     fuzz = timeInfo.estPerfCounterFreq >> 10;
+|+     lowBound = timeInfo.estPerfCounterFreq - fuzz;
+|+     hiBound = timeInfo.estPerfCounterFreq + fuzz;
+|+     if ( instantFreq < lowBound || instantFreq > hiBound ) {
+|+ 	LeaveCriticalSection( &timeInfo.cs );
+|+ 	return;
+|+     }
+|+ 
+|+     /*
+|+      * Update the current estimate of performance counter frequency.
+|+      * This code is equivalent to the loop filter of a phase locked
+|+      * loop.
+|+      */
+|+ 
+|+     delta = ( instantFreq - timeInfo.estPerfCounterFreq ) >> 6;
+|+     timeInfo.estPerfCounterFreq += delta;
+|+ 
+|+     /*
+|+      * Update the current virtual time.
+|+      */
+|+ 
+|+     timeInfo.lastFileTime.QuadPart
+|+ 	+= ( ( curPerfCounter.QuadPart - timeInfo.lastCounter.QuadPart )
+|+ 	     * 10000000 / timeInfo.curCounterFreq.QuadPart );
+|+     timeInfo.lastCounter.QuadPart = curPerfCounter.QuadPart;
+|+ 
+|+     delta = curFileTime.QuadPart - timeInfo.lastFileTime.QuadPart;
+|+     if ( delta > 10000000 || delta < -10000000 ) {
+|+ 
+|+ 	/*
+|+ 	 * If the virtual time slip exceeds one second, then adjusting
+|+ 	 * the counter frequency is hopeless (it'll take over fifteen
+|+ 	 * minutes to line up with the system clock).  The most likely
+|+ 	 * cause of this large a slip is a sudden change to the system
+|+ 	 * clock, perhaps because it was being corrected by wristwatch
+|+ 	 * and eyeball.  Accept the system time, and set the performance
+|+ 	 * counter frequency to the current estimate.
+|+ 	 */
+|+ 
+|+ 	timeInfo.lastFileTime.QuadPart = curFileTime.QuadPart;
+|+ 	timeInfo.curCounterFreq.QuadPart = timeInfo.estPerfCounterFreq;
+|+ 
+|+     } else {
+|+ 
+|+ 	/*
+|+ 	 * Compute a counter frequency that will cause virtual time to line
+|+ 	 * up with system time one second from now, assuming that the
+|+ 	 * performance counter continues to tick at timeInfo.estPerfCounterFreq.
+|+ 	 */
+|+ 	
+|+ 	timeInfo.curCounterFreq.QuadPart
+|+ 	    = 10000000 * timeInfo.estPerfCounterFreq / ( delta + 10000000 );
+|+ 
+|+ 	/*
+|+ 	 * Limit frequency excursions to 1000 ppm from estimate
+|+ 	 */
+|+ 	
+|+ 	if ( timeInfo.curCounterFreq.QuadPart < lowBound ) {
+|+ 	    timeInfo.curCounterFreq.QuadPart = lowBound;
+|+ 	} else if ( timeInfo.curCounterFreq.QuadPart > hiBound ) {
+|+ 	    timeInfo.curCounterFreq.QuadPart = hiBound;
+|+ 	}
+|+     }
+|+ 
+|+     LeaveCriticalSection( &timeInfo.cs );
+|+ 
+|  }
+|*** ../tcl8.3.2base/src/tcl8.3.2/test/winTime.test Mon Apr 10 13:19:08 2000
+|--- ./tcl8.3.2/src/tcl8.3.2/test/winTime.test Wed Sep  6 14:55:30 2000
+|***************
+|*** 33,38 ****
+|--- 33,64 ----
+|      set result
+|  } {1969}
+|  
+|+ # Next test tries to make sure that the Tcl clock stays in step
+|+ # with the Windows clock.  3000 iterations really isn't enough,
+|+ # but how many does a tester have patience for?
+|+ 
+|+ test winTime-2.1 {Synchronization of Tcl and Windows clocks} {pcOnly} {
+|+     set failed 0
+|+     foreach { sys_sec sys_usec tcl_sec tcl_usec } [testwinclock] {}
+|+     set olddiff [expr { abs ( $tcl_sec - $sys_sec
+|+ 			   + 1.0e-6 * ( $tcl_usec - $sys_usec ) ) }]
+|+     set ok 1
+|+     for { set i 0 } { $i < 3000 } { incr i } {
+|+ 	foreach { sys_sec sys_usec tcl_sec tcl_usec } [testwinclock] {}
+|+ 	set diff [expr { abs ( $tcl_sec - $sys_sec
+|+ 			       + 1.0e-6 * ( $tcl_usec - $sys_usec ) ) }]
+|+ 	if { ( $diff > $olddiff + 1000 )
+|+ 	     || ( $diff > 11000 ) } {
+|+ 	    set failed 1
+|+ 	    break
+|+ 	} else {
+|+ 	    set olddiff $diff
+|+ 	    after 1
+|+ 	}
+|+     }
+|+     set failed
+|+ } {0}
+|+ 
+|  # cleanup
+|  ::tcltest::cleanupTests
+|  return
