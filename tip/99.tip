@@ -1,13 +1,13 @@
-TIP:		99
-Title:		Add 'file link' to Tcl
-Version:	$Revision: 1.1 $
-Author:		Vince Darley <vincentdarley@users.sourceforge.net>
-Type:		Project
-State:		Draft
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	11-Jun-2002
-Post-History:	
+TIP:            99
+Title:          Add 'file link' to Tcl
+Version:        $Revision: 1.2 $
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Jun-2002
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -33,10 +33,10 @@ specific, but is generally a symbolic or soft link.  On systems that
 don't support symbolic links this option is undefined, and an error
 message will always be returned.  In particular Windows 95, 98 and ME
 do not support any symbolic links at present.  However, Unix, MacOS
-and Windows NT/2000/XP do.
+and Windows NT/2000/XP (on NTFS drives) do.
 
 On MacOS and Unix, symbolic links will be created.  On Windows (where
-supported), symbolic links will be created for directory links, and
+supported - i.e. on NTFS drives), symbolic links will be created for directory links, and
 hard-links for file links (since symbolic file links do not appear to
 be supported - shortcuts are simply shell aliases).
 
@@ -56,6 +56,10 @@ ln -s'' command to achieve the same effect.
 ~ Reference Implementation
 
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
+
+Note: a large portion of this patch should be applied to Tcl whether this TIP passes or not, since otherwise on Windows 'file lstat', 'file type', 'file delete', 'file copy' will misbehave on symbolic links which may exist in the filesystem (in particular 'file delete' will have the unfortunate effect of deleting the ''original'' of a symbolically linked directory in Tcl 8.3 or 8.4 at present).
+
+The portion of the patch which is crucial to this TIP is the actual 'file link' subcommand implementation, which is only 15 lines of code.
 
 ~ Copyright
 
