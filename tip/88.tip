@@ -1,13 +1,13 @@
-TIP:		88
-Title:		Extend Tcl Process Id Control via 'pid'
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Jeff Hobbs <JeffH@ActiveState.com>
-Created:	11-Mar-2002
+TIP:            88
+Title:          Extend Tcl Process Id Control via 'pid'
+Version:        $Revision: 1.2 $
+Author:         Jeff Hobbs <JeffH@ActiveState.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Mar-2002
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -27,27 +27,15 @@ enhanced with new syntax.  This TIP proposes adding subcommands to
 ~ Specification
 
 |   pid ?fileId?
-|   pid id ?-uid uid? ?-gid gid? ?-parent parentId?
-|   pid kill ?-group bool? ?-signal signalType? fileIdOrPid ?fileIdOrPid ...?
+|   pid id ?-user ?userIdOrName?? ?-group ?groupIdOrName?? ?-parent parentId?
 |   pid wait ?-nohang bool? ?-untraced bool? ?-group bool? ?fileIdOrPid?
+|   pid send signalType fileIdOrPid ?fileIdOrPid ...?
 
-The first line is the current definition for [[pid]], which is to
-return the name of the current process id, or that attached to a
-''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add
-''kill'', ''id'', and ''wait''.  These commands are adapted almost
-directly from TclX, but changed to work as a subcommand of [[pid]],
-with changes to the options to specify booleans to keep name/value
-option pairing.  The [[pid id]] command would be for Unix only.  The
-''-parent'' option would be read-only (like ''-longname'' for [[file
-attributes]]).
+The first line is the current definition for [[pid]], which is to return the name of the current process id, or that attached to a ''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add ''send'', ''id'', and ''wait''.  These commands are adapted almost directly from TclX, but changed to work as a subcommand of [[pid]], with changes to the options to specify booleans to keep name/value option pairing.  The [[pid id]] command would be for Unix only, operating on the current process id, and would function similar to the [[file attributes]] command.  The ''-user'' and ''-group'' options will return the name if possible, otherwise the id. The ''-parent'' option would be read-only (like ''-longname'' for [[file attributes]]).
 
 ~ Reference Implementation
 
-Although TclX's current documentation denies it, the ''kill'' is
-already implemented for Windows as well as Unix, and ''wait'' has been
-available on both for a while.  Macintosh implementations for OS 9 and
-below would need to be created, or the documentation would need to
-stress that these are not available there (OS X is Unix based).
+Although TclX's current documentation denies it, the ''send'' is already implemented for Windows (as ''kill'' under TclX) as well as Unix, and ''wait'' has been available on both for a while.  Macintosh implementations for OS 9 and below would need to be created, or the documentation would need to stress that these are not available there (OS X is Unix based).  Jim Ingham notes that a variant of ''kill'' could be created for OS 9, but not ''wait''.  These functions are really meant to round out the process control functionality in Tcl (started with ''exec'' and ''open|''), which are already of limited portability to Mac OS 9 (but undeniable usefulness elsewhere).
 
 File: ''tcl/mac/tclMacChan.c''
 
@@ -64,12 +52,16 @@ functions like these:
 
 |   pid nice ?-level niceLevel? fileIdOrPid
 |   pid list ?pattern?
-|   pid signal ...
+|   pid id ?-session id? ?-processgroup id?
+|   pid handle action signal ...
 
-[[pid nice]] is easy to implement, while [[pid list]] is very much
-platform sensitive.  [[pid signal]] is of course another oft-requested
-feature for the core.  These aren't to be addressed in this TIP, but
-are just ideas for the future.
+[[pid nice]] is easy to implement, while [[pid list]] is very much platform sensitive.  [[pid handle]] is for signal handling, another oft-requested feature for the core, and would be based on the TclX [[signal]] command (perhaps named ''trap'' as in Expect?).  It could be massaged to various forms.  These aren't to be addressed in this TIP, but are just ideas for the future.
+
+~ Comments
+
+|   pid kill ?-group bool? ?-signal signalType? fileIdOrPid ?fileIdOrPid ...?
+
+This was the original form for [[pid signal send]], but it was noted that we are really sending signals.  While I prefer the specificity of users recognizing ''kill'' as a command, what this really does is send specific signals (ANSI C specifies SIGABRT, SIGINT and SIGTERM, and for Unix we would handle the other POSIX names too).  Thus I changed it to the ''send'' command documented above.
 
 ~ Copyright
 
