@@ -1,6 +1,6 @@
 TIP:            158
 Title:          Distinguish the two 'Enter' keys on Windows
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -110,6 +110,34 @@ This proposal has engendered a fair amount of controversy, as
 may be seen in the two threads of messages beginning from
 [http://aspn.activestate.com/ASPN/Mail/Message/1811543] and
 [http://aspn.activestate.com/ASPN/Mail/Message/1820298].
+
+More recent additional discussion is archived at
+[http://aspn.activestate.com/ASPN/Mail/Message/2032516].
+Vince Darley summarizes it:
+
+For example, there is
+Benny's suggestion to your ''all'' counterexample that the counterexample
+really contains a bug, since any key-binding ought to have ''';break''' to
+prevent exactly that problem.  Do we guarantee backwards compatibility
+even with buggy code?
+
+Second there is the suggestion that if you really don't want the ''all''
+binding to fire if another binding has triggered, you could actually check
+for that manually (scan the bindtags list, etc).  This would reduce the
+backwards incompatibility of an overall cleaner solution to effectively
+nothing.
+
+Third, the TIP contains no mention of what the result of this TIP is on
+the x-platform Tk developer.  That they must now have this:
+
+ | bind ... <Return>  "pressReturn"
+ | bind ... <KP_Enter>  "pressEnter" ; # only useful on Unix
+ | bind ... <Extended-Return>  "pressEnter" ; # only useful on Windows
+
+i.e. rather than making their life easier, it has been made more complex!
+(In fact the TIP as a whole seems to have a bias against anyone even
+considering writing the same application on multiple platforms, which
+seems v. odd for Tk)
 
 ~ Copyright
 
