@@ -1,8 +1,8 @@
 TIP:            188
 Title:          Add 'string is wideinteger' to the 'string is' Subcommand
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Apr-2004
