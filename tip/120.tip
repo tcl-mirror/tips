@@ -1,13 +1,13 @@
-TIP:		120
-Title:		Restricted DDE Services
-Version:	$Revision: 1.1 $
-Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Created:	04-Dec-2002
-Vote:		Pending
-Post-History:	
+TIP:            120
+Title:          Restricted DDE Services
+Version:        $Revision: 1.2 $
+Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        04-Dec-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -35,19 +35,20 @@ providing a service within a safe interpreter.
 
 ~ New Option
 
-The new syntax will be ''dde servername ?-handler procname?
+The new syntax will be ''dde servername ?-handler command?
 servername''.  To permit introspection we will accept ''dde servername
 -handler'' which will return the handler name (if any).  If a
 servername must be defined using an initial hyphen then the standard
 '--' separator can be used.
 
-The handler name is inserted as the first element of the code to be
-evaluated. This ensures that all unsafe elements will not be evaluated
-before the handler code has a chance to examine them. So
+The dde request is appended to the handler command (which may be a list)
+and then evaluated in the global context. This ensures that all unsafe
+elements will not be evaluated before the handler code has a chance to
+examine them. So
 
-| proc handler {args} {
-|    if {[string match info [lindex $args 0]]} {
-|       uplevel #0 $args
+| proc handler {request} {
+|    if {[string match "info *" $request} {
+|       uplevel #0 [lindex $request 0] [lrange $request 1 end]
 |    } else
 |       return -code error "permission denied"
 |    }
@@ -55,7 +56,10 @@ before the handler code has a chance to examine them. So
 
 The above handler will permit [[info vars]] but will fail when trying
 [[info vars ; bad_proc]] with info complaining about the wrong number
-of parameters.
+of parameters. Passing a single string means that we can handle
+standard dde styles of requests, for instance 
+'Open("c:\Program Files\prog.exe")' which would not usefully convert
+into a list.
 
 ~ Safe DDE
 
@@ -80,23 +84,19 @@ with the following constraints.
 
 ~ Reference Implementation
 
-See the Wiki page at http://wiki.tcl.tk/dde%20restriction
-
-A patch (also copied into the Wiki page) to ''win/tclWinDde.c'' that
-implements everything suggested in this TIP is available at the URL:
-https://sourceforge.net/tracker/index.php?func=detail&aid=648876&group_id=10894&atid=310894
+See the SourceForge Feature Request at
+https://sourceforge.net/tracker/index.php?func=detail&aid=649859&group_id=10894&atid=310894
 
 ~ Example
 
 | # Provide a handler that only allows the [info] command
 | # Note: This runs in the master interp.
-| proc restricted_handler {args} {
-|     set cmd [lindex $args 0]
-|     set allowed 0
-|     switch -exact -- $cmd {
-|         info { uplevel #0 $args }
-|         default { return -code error "permission denied" }
-|     }
+| proc restricted_handler {request} {
+|    if {[string match "info *" $request} {
+|       uplevel #0 [lindex $request 0] [lrange $request 1 end]
+|    } else
+|       return -code error "permission denied"
+|    }
 | }
 |
 | # Create a safe slave interpreter and expose as a DDE service.
