@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter MacDonald <peter@browsex.com>
 State:          Draft
 Type:           Project
@@ -56,6 +56,10 @@ number information for a given ''PROC''.  Valid syntax is:
 |        Given a file name and line number, return the PROC name
 |        containing line number LINE.  A new nonstatic procedure
 |        TclFindProcByLine() provides this function.
+|
+|  info line relerror ?BOOL?
+|	Set to 1 to disable absolute line number and filename
+|	on error.  This is needed by tcltest.
 
 These exhibit the following behavior:
 
