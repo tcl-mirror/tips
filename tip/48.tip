@@ -1,6 +1,6 @@
 TIP:            48
 Title:          Basic themeing infrastructure for Tk
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Frédéric Bonnet <fredericbonnet@free.fr>
 Author:         Frédéric Bonnet <fbonnet@users.sourceforge.net>
 State:          Draft
@@ -488,6 +488,9 @@ Since most data is not thread-specific, this could be changed for a more
 memory-efficient scheme.
 
  * Provide man pages and tests.
+
+ * Additional hidden/private option flag for accessing some widgets' 
+non-configurable data (e.g scrollbar position) through option tables.
 
 ~ Glossary
 
