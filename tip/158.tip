@@ -1,11 +1,11 @@
 TIP:            158
 Title:          Distinguish the two 'Enter' keys on Windows
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        20-Sep-2003
 Post-History:   
 Discussions-To: news:comp.lang.tcl
@@ -98,7 +98,7 @@ One proposed workaround was to have a default ''all'' binding for
 ''<KP_*>'' events on Windows fire the corresponding binding for
 a non-''KP'' keysym.  Unfortunately, this solution introduces even
 worse surprising behavior.  A conventional binding to the KP_*
-keysym will have to include a [break] or [return -code break]
+keysym will have to include a '''break''' or '''return -code break'''
 in order to avoid having this ''all'' binding fire - and making
 it appear as if both keys had been pressed or released.
 
