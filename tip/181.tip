@@ -1,10 +1,11 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 Author:         1User <10q@ngs.com>
 Author:         durik <as@hotmail.com>
-Author:          <fdsfa@hotmail.com>
+Author:         <fdsfa@hotmail.com>
+Author:         nemets <babici@37.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -17,141 +18,7 @@ Tcl-Version:    8.5
 fdfdsa
 
 ~ Rationale
-http://buy-cialis.kucko.com
-http://buy-levitra.kucko.com
-http://buy-viagra-online.kucko.com
-http://buy-viagra.kucko.com
-http://cheap-cialis.kucko.com
-http://cheap-levitra.kucko.com
-http://cheap-viagra.kucko.com
-http://cialis-online.kucko.com
-http://cialis-viagra.kucko.com
-http://cialis.kucko.com
-http://generic-cialis.kucko.com
-http://generic-viagra.kucko.com
-http://levitra-online.kucko.com
-http://levitra.kucko.com
-http://order-viagra.kucko.com
-http://viagra-levitra.kucko.com
-http://viagra-online.kucko.com
-http://viagra-prescription.kucko.com
-http://viagra.kucko.com
-http://adult-dating.adultfriendfindernow.com
-http://adult-finder.adultfriendfindernow.com
-http://adult-friend-find.adultfriendfindernow.com
-http://adult-friend-finder-coupon.adultfriendfindernow.com
-http://adult-friend-finder.adultfriendfindernow.com
-http://adult-friend.adultfriendfindernow.com
-http://adult-personals.adultfriendfindernow.com
-http://adult-sex.adultfriendfindernow.com
-http://adultfriendfinder-com.adultfriendfindernow.com
-http://adultfriendfinder.adultfriendfindernow.com
-http://free-adult-personals.adultfriendfindernow.com
-http://friend-finder.adultfriendfindernow.com
-http://photo-personals.adultfriendfindernow.com
-http://sex-personals.adultfriendfindernow.com
-http://adult-dating.adultfriendsite.com
-http://adult-finder.adultfriendsite.com
-http://adult-friend-find.adultfriendsite.com
-http://adult-friend-finder-coupon.adultfriendsite.com
-http://adult-friend-finder.adultfriendsite.com
-http://adult-friend.adultfriendsite.com
-http://adult-personals.adultfriendsite.com
-http://adult-sex.adultfriendsite.com
-http://adultfriendfinder-com.adultfriendsite.com
-http://adultfriendfinder.adultfriendsite.com
-http://free-adult-personals.adultfriendsite.com
-http://friend-finder.adultfriendsite.com
-http://photo-personals.adultfriendsite.com
-http://sex-personals.adultfriendsite.com
-http://adult-dating.dating999.com
-http://adult-personals.dating999.com
-http://christian-dating-service.dating999.com
-http://christian-dating.dating999.com
-http://dating-personals.dating999.com
-http://dating-service.dating999.com
-http://dating-site.dating999.com
-http://dating-web-site.dating999.com
-http://dating.dating999.com
-http://free-dating.dating999.com
-http://free-personals.dating999.com
-http://internet-dating-service.dating999.com
-http://internet-dating.dating999.com
-http://on-line-dating.dating999.com
-http://online-dating-service.dating999.com
-http://online-dating.dating999.com
-http://personals.dating999.com
-http://photo-personals.dating999.com
-http://singles-dating.dating999.com
-http://buy-cialis.findbestpills.com
-http://buy-levitra.findbestpills.com
-http://buy-viagra-online.findbestpills.com
-http://buy-viagra.findbestpills.com
-http://cheap-cialis.findbestpills.com
-http://cheap-levitra.findbestpills.com
-http://cheap-viagra.findbestpills.com
-http://cialis-online.findbestpills.com
-http://cialis-viagra.findbestpills.com
-http://cialis.findbestpills.com
-http://generic-cialis.findbestpills.com
-http://generic-viagra.findbestpills.com
-http://levitra-online.findbestpills.com
-http://levitra.findbestpills.com
-http://order-viagra.findbestpills.com
-http://viagra-levitra.findbestpills.com
-http://viagra-online.findbestpills.com
-http://viagra-prescription.findbestpills.com
-http://viagra.findbestpills.com
-http://adipex-online.diet-pills-now.net
-http://adipex.diet-pills-now.net
-http://buy-adipex.diet-pills-now.net
-http://buy-didrex.diet-pills-now.net
-http://buy-phentermine.diet-pills-now.net
-http://buy-propecia.diet-pills-now.net
-http://buy-soma.diet-pills-now.net
-http://buy-tramadol.diet-pills-now.net
-http://buy-ultram.diet-pills-now.net
-http://carisoprodol.diet-pills-now.net
-http://cheap-adipex.diet-pills-now.net
-http://cheap-didrex.diet-pills-now.net
-http://cheap-phentermine.diet-pills-now.net
-http://cheap-propecia.diet-pills-now.net
-http://cheap-soma.diet-pills-now.net
-http://cheap-tramadol.diet-pills-now.net
-http://didrex-online.diet-pills-now.net
-http://didrex.diet-pills-now.net
-http://order-phentermine.diet-pills-now.net
-http://phentermine-online.diet-pills-now.net
-http://phentermine-prescription.diet-pills-now.net
-http://phentermine.diet-pills-now.net
-http://propecia.diet-pills-now.net
-http://purchase-phentermine.diet-pills-now.net
-http://soma-online.diet-pills-now.net
-http://soma.diet-pills-now.net
-http://tramadol-online.diet-pills-now.net
-http://tramadol.diet-pills-now.net
-http://ultram-online.diet-pills-now.net
-http://ultram.diet-pills-now.net
-http://adult-sex-toys.fabuloussextoys.com
-http://adult-toy-store.fabuloussextoys.com
-http://adult-toys.fabuloussextoys.com
-http://anal-toy.fabuloussextoys.com
-http://big-dildo.fabuloussextoys.com
-http://brutal-dildo.fabuloussextoys.com
-http://dildo-vibrator.fabuloussextoys.com
-http://dildo.fabuloussextoys.com
-http://huge-dildo.fabuloussextoys.com
-http://jack-rabbit-vibrator.fabuloussextoys.com
-http://rabbit-vibrator.fabuloussextoys.com
-http://sex-movie.fabuloussextoys.com
-http://sex-shop.fabuloussextoys.com
-http://sex-toy-shop.fabuloussextoys.com
-http://sex-toy-store.fabuloussextoys.com
-http://sex-toy.fabuloussextoys.com
-http://sex-toys.fabuloussextoys.com
-http://sex-videos.fabuloussextoys.com
-http://vibrator.fabuloussextoys.com
-http://vibrators.fabuloussextoys.comThere is an occassional need within Tcl scripts to change the way in
+is an occassional need within Tcl scripts to change the way in
 which command names are resolved.  For instance, when implementing
 language constructs such as object systems, or some functional
 programming ideas (such as anonymous first-class functions).  In the
