@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.22 $
+Version:        $Revision: 2.23 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -84,7 +84,7 @@ The [[namespace ensemble]] command will have the following subcommands:
 
 The options available for creation and configuring are:
 
- -export: This option (if non-empty) specifies a list of ensemble
+ -subcommands: This option (if non-empty) specifies a list of ensemble
    subcommands that the ensemble supports.  It does not need to be
    sorted.  Each command is mapped according to the dictionary in the
    ''-map'' option (if a non-empty map is present and the command has
@@ -95,9 +95,9 @@ The options available for creation and configuring are:
  -map: This option (if non-empty) specifies a dictionary that maps
    from ensemble subcommand names to lists of arguments to substitute
    into the ensemble invokation in place of the ensemble command name
-   and the subcommand name.  See the ''-export'' option for the meaning
+   and the subcommand name.  See the ''-subcommands'' option for the meaning
    of this option when that option is also non-empty.  If this option is
-   empty and the ''-export'' option is empty too, the namespace will use
+   empty and the ''-subcommands'' option is empty too, the namespace will use
    the exported commands of the namespace as its command set, dynamically
    determining them (subject to cacheing) every time the ensemble is
    ''invoked''.  Note that the words in the dictionary values that give
@@ -106,14 +106,14 @@ The options available for creation and configuring are:
    running [[namespace ensemble create]] or [[namespace ensemble
    configure]].
 
- -prefix: This boolean option (which is on by default) controls whether
+ -prefixes: This boolean option (which is on by default) controls whether
    unambiguous prefixes of ensemble commands are recognized as if they
    were the fully specified ensemble command names.
 
  -unknown: This provides (when non-empty) a partial command to handle
    the case where an ensemble subcommand is not recognized and would
    otherwise generate an error.  When empty (the default) an error (in
-   the style of Tcl_GetIndexFromObj) is generated whenever the
+   the style of ''Tcl_GetIndexFromObj'') is generated whenever the
    ensemble is unable to determine how to implement a particular
    subcommand.
 
@@ -135,7 +135,7 @@ command will first of all match the subcommand to its implementing
 command (or command/argument list, as derived from the dictionary) in
 a manner that will be recognizably similar to that enforced by
 ''Tcl_GetIndexFromObj()'' (unless the ''-unknown'' option override this
-behaviour.)  For details of how the ensemble determines what its subcommands are, please see the -export and -map options above.
+behaviour.)  For details of how the ensemble determines what its subcommands are, please see the ''-subcommands'' and ''-map'' options above.
 Then the ensemble command will rewrite the command and arguments so
 that the ensemble command and subcommand are replaced by the
 implementing command and any specified arguments, with the resulting
@@ -152,7 +152,7 @@ hosting Tcl interpreter.
 
 ~ Unknown Handler Behaviour
 
-If an unknown handler is specified for an ensemble, that handler is called when the ensemble command would otherwise return an error due to it being unable to decide which subcommand to invoke.  The exact conditions under which that occurs are controlled by the -export, -map and -prefix options as described above.
+If an unknown handler is specified for an ensemble, that handler is called when the ensemble command would otherwise return an error due to it being unable to decide which subcommand to invoke.  The exact conditions under which that occurs are controlled by the ''-subcommands'', ''-map'' and ''-prefixes'' options as described above.
 
 To execute the unknown handler, the ensemble mechanism takes the specified -unknown option and appends each argument of the attempted ensemble command invocation (including the ensemble command itself, expressed as a fully qualified name). It invokes the resulting command in the scope of the attempted call. If the execution of the unknown handler terminates normally, the ensemble engine reparses the subcommand (as described below) and tries to dispatch it again, which is ideal for when the ensemble's configuration has been updated by the unknown subcommand handler.  Any other kind of termination of the unknown handler is treated as an error.
 
