@@ -1,6 +1,6 @@
 TIP:            37
 Title:          Uniform Rows and Columns in Grid
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -114,11 +114,11 @@ slot structure to hold the option, and the CPU overhead is small.
 
 ~ Summary of Objections
 
-* Lack of compelling examples.
+ * Lack of compelling examples.
 
-* Can be done in Tcl.
+ * Can be done in Tcl.
 
-* Risk of breaking existing grid semantics is greater than the
+ * Risk of breaking existing grid semantics is greater than the
 foreseeable rewards.
 
 ~ Copyright
