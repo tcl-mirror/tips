@@ -1,0 +1,1040 @@
+diff -c -r orig_2/tk8.4a2/generic/tkText.c new_2/tk8.4a2/generic/tkText.c
+*** orig_2/tk8.4a2/generic/tkText.c	Tue Jul 25 02:05:40 2000
+--- new_2/tk8.4a2/generic/tkText.c	Sat Feb 17 09:59:44 2001
+***************
+*** 42,47 ****
+--- 42,50 ----
+   */
+  
+  static Tk_ConfigSpec configSpecs[] = {
++     {TK_CONFIG_BOOLEAN, "-autosemaphores", "autoSemaphores",
++         "AutoSemaphores", DEF_TEXT_AUTO_SEMAPHORES,
++         Tk_Offset(TkText, autoSemaphores), 0},
+      {TK_CONFIG_BORDER, "-background", "background", "Background",
+  	DEF_TEXT_BG_COLOR, Tk_Offset(TkText, border), TK_CONFIG_COLOR_ONLY},
+      {TK_CONFIG_BORDER, "-background", "background", "Background",
+***************
+*** 129,134 ****
+--- 132,139 ----
+      {TK_CONFIG_STRING, "-takefocus", "takeFocus", "TakeFocus",
+  	DEF_TEXT_TAKE_FOCUS, Tk_Offset(TkText, takeFocus),
+  	TK_CONFIG_NULL_OK},
++     {TK_CONFIG_BOOLEAN, "-undo", "undo", "Undo",
++         DEF_TEXT_UNDO, Tk_Offset(TkText, undo), 0},
+      {TK_CONFIG_INT, "-width", "width", "Width",
+  	DEF_TEXT_WIDTH, Tk_Offset(TkText, width), 0},
+      {TK_CONFIG_CUSTOM, "-wrap", "wrap", "Wrap",
+***************
+*** 292,297 ****
+--- 297,304 ----
+  			    int offset, char *buffer, int maxBytes));
+  static int		TextSearchCmd _ANSI_ARGS_((TkText *textPtr,
+  			    Tcl_Interp *interp, int argc, char **argv));
++ static int              TextEditCmd _ANSI_ARGS_((TkText *textPtr,
++                             Tcl_Interp *interp, int argc, char **argv));
+  static int		TextWidgetCmd _ANSI_ARGS_((ClientData clientData,
+  			    Tcl_Interp *interp, int argc, char **argv));
+  static void		TextWorldChanged _ANSI_ARGS_((
+***************
+*** 304,309 ****
+--- 311,334 ----
+  static int		DumpSegment _ANSI_ARGS_((Tcl_Interp *interp, char *key,
+  			    char *value, char * command, TkTextIndex *index,
+  			    int what));
++ static int              TextEditUndo _ANSI_ARGS_((Tcl_Interp * interp,
++                             TkText *textPtr));
++ static int              TextEditRedo _ANSI_ARGS_((Tcl_Interp * interp,
++                             TkText *textPtr));
++ static char *           TextGetText _ANSI_ARGS_((TkTextIndex * index1,
++                             TkTextIndex * index2));
++ static void             pushStack _ANSI_ARGS_(( TkTextEditAtom ** stack, 
++                             TkTextEditAtom * elem ));
++ 
++ static TkTextEditAtom * popStack   _ANSI_ARGS_(( TkTextEditAtom ** stack ));
++ 
++ static void             clearStack _ANSI_ARGS_(( TkTextEditAtom ** stack ));
++ 
++ static void             insertSema _ANSI_ARGS_(( TkTextEditAtom ** stack ));
++ 
++ static void             updateDirtyFlag _ANSI_ARGS_((TkText *textPtr));
++ 
++ static void             resetDirtyFlag  _ANSI_ARGS_((TkText *textPtr));
+  
+  /*
+   * The structure below defines text class behavior by means of procedures
+***************
+*** 426,431 ****
+--- 451,462 ----
+      textPtr->xScrollCmd = NULL;
+      textPtr->yScrollCmd = NULL;
+      textPtr->flags = 0;
++     textPtr->undo = 1;
++     textPtr->isDirty = 0;
++     textPtr->isDirtyIncrement = 1;
++     textPtr->undoStack = NULL;
++     textPtr->redoStack = NULL;
++     textPtr->autoSemaphores = 1;
+  
+      /*
+       * Create the "sel" tag and the "current" and "insert" marks.
+***************
+*** 489,494 ****
+--- 520,526 ----
+      size_t length;
+      int c;
+      TkTextIndex index1, index2;
++     char * string;
+  
+      if (argc < 2) {
+  	Tcl_AppendResult(interp, "wrong # args: should be \"",
+***************
+*** 636,641 ****
+--- 668,675 ----
+  	    sprintf(buf, "%d %d %d %d %d", x, y, width, height, base);
+  	    Tcl_SetResult(interp, buf, TCL_VOLATILE);
+  	}
++     } else if ((c == 'e') && (strncmp(argv[1], "edit", length) == 0)) {
++         result = TextEditCmd(textPtr, interp, argc, argv);
+      } else if ((c == 'g') && (strncmp(argv[1], "get", length) == 0)) {
+  	if ((argc != 3) && (argc != 4)) {
+  	    Tcl_AppendResult(interp, "wrong # args: should be \"",
+***************
+*** 658,689 ****
+  	if (TkTextIndexCmp(&index1, &index2) >= 0) {
+  	    goto done;
+  	}
+! 	while (1) {
+! 	    int offset, last, savedChar;
+! 	    TkTextSegment *segPtr;
+! 
+! 	    segPtr = TkTextIndexToSeg(&index1, &offset);
+! 	    last = segPtr->size;
+! 	    if (index1.linePtr == index2.linePtr) {
+! 		int last2;
+! 
+! 		if (index2.byteIndex == index1.byteIndex) {
+! 		    break;
+! 		}
+! 		last2 = index2.byteIndex - index1.byteIndex + offset;
+! 		if (last2 < last) {
+! 		    last = last2;
+! 		}
+! 	    }
+! 	    if (segPtr->typePtr == &tkTextCharType) {
+! 		savedChar = segPtr->body.chars[last];
+! 		segPtr->body.chars[last] = 0;
+! 		Tcl_AppendResult(interp, segPtr->body.chars + offset,
+! 			(char *) NULL);
+! 		segPtr->body.chars[last] = savedChar;
+! 	    }
+! 	    TkTextIndexForwBytes(&index1, last-offset, &index1);
+! 	}
+      } else if ((c == 'i') && (strncmp(argv[1], "index", length) == 0)
+  	    && (length >= 3)) {
+  	char buf[200];
+--- 692,701 ----
+  	if (TkTextIndexCmp(&index1, &index2) >= 0) {
+  	    goto done;
+  	}
+!         string = TextGetText(&index1,&index2);
+!         Tcl_AppendResult(interp, string, (char *) NULL);
+!         ckfree(string);
+!         
+      } else if ((c == 'i') && (strncmp(argv[1], "index", length) == 0)
+  	    && (length >= 3)) {
+  	char buf[200];
+***************
+*** 771,778 ****
+      } else {
+  	Tcl_AppendResult(interp, "bad option \"", argv[1],
+  		"\": must be bbox, cget, compare, configure, debug, delete, ",
+! 		"dlineinfo, dump, get, image, index, insert, mark, scan, ",
+! 		"search, see, tag, window, xview, or yview",
+  		(char *) NULL);
+  	result = TCL_ERROR;
+      }
+--- 783,790 ----
+      } else {
+  	Tcl_AppendResult(interp, "bad option \"", argv[1],
+  		"\": must be bbox, cget, compare, configure, debug, delete, ",
+!                 "dlineinfo, dump, edit, get, image, index, insert, mark, ",
+!                 "scan, search, see, tag, window, xview, or yview",
+  		(char *) NULL);
+  	result = TCL_ERROR;
+      }
+***************
+*** 1209,1214 ****
+--- 1221,1229 ----
+  {
+      int lineIndex, resetView, offset;
+      TkTextIndex newTop;
++     TkTextEditAtom * insertion;
++     char indexBuffer[TK_POS_CHARS];
++     
+  
+      /*
+       * Don't allow insertions on the last (dummy) line of the text.
+***************
+*** 1237,1242 ****
+--- 1252,1283 ----
+      }
+      TkTextChanged(textPtr, indexPtr, indexPtr);
+      TkBTreeInsertChars(indexPtr, string);
++ 
++     /*
++      * Push the insertion on the undo stack
++      */
++ 
++     if ( textPtr->undo ) {
++         if (textPtr->autoSemaphores && textPtr->undoStack &&
++             textPtr->undoStack->type != INSERT) {
++             insertSema(&(textPtr->undoStack));
++         }
++         
++         insertion = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
++         insertion->type = INSERT;
++         
++         TkTextPrintIndex(indexPtr,indexBuffer);
++         insertion->index = (char *) ckalloc(strlen(indexBuffer) + 1);
++         strcpy(insertion->index,indexBuffer);
++         
++         insertion->string = (char *) ckalloc(strlen(string) + 1);
++         strcpy(insertion->string,string);
++ 
++         pushStack(&(textPtr->undoStack),insertion);
++         clearStack(&(textPtr->redoStack));
++     }
++     updateDirtyFlag(textPtr);
++ 
+      if (resetView) {
+  	TkTextMakeByteIndex(textPtr->tree, lineIndex, 0, &newTop);
+  	TkTextIndexForwBytes(&newTop, offset, &newTop);
+***************
+*** 1280,1285 ****
+--- 1321,1328 ----
+  {
+      int line1, line2, line, byteIndex, resetView;
+      TkTextIndex index1, index2;
++     TkTextEditAtom * deletion;
++     char indexBuffer[TK_POS_CHARS];
+  
+      /*
+       * Parse the starting and stopping indices.
+***************
+*** 1391,1396 ****
+--- 1434,1464 ----
+  	    byteIndex -= (index2.byteIndex - index1.byteIndex);
+  	}
+      }
++     
++     
++     /*
++      * Push the deletion on the undo stack
++      */
++ 
++     if ( textPtr->undo ) {
++         if (textPtr->autoSemaphores && textPtr->undoStack && textPtr->undoStack->type != DELETE) {
++            insertSema(&(textPtr->undoStack));
++         }
++         
++         deletion = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
++         deletion->type = DELETE;
++         
++         TkTextPrintIndex(&index1,indexBuffer);
++         deletion->index = (char *) ckalloc(strlen(indexBuffer) + 1);
++         strcpy(deletion->index,indexBuffer);
++         
++         deletion->string = TextGetText(&index1, &index2);
++ 
++         pushStack(&(textPtr->undoStack),deletion);
++         clearStack(&(textPtr->redoStack));
++     }
++     updateDirtyFlag(textPtr);
++ 
+      TkBTreeDeleteChars(&index1, &index2);
+      if (resetView) {
+  	TkTextMakeByteIndex(textPtr->tree, line, byteIndex, &index1);
+***************
+*** 1572,1577 ****
+--- 1640,1646 ----
+      register TkText *textPtr = (TkText *) clientData;
+  #ifdef ALWAYS_SHOW_SELECTION
+      TkTextIndex start, end;
++     char selMessage[1000];
+  
+      if (!textPtr->exportSelection) {
+  	return;
+***************
+*** 1586,1591 ****
+--- 1655,1663 ----
+      TkTextMakeByteIndex(textPtr->tree, 0, 0, &start);
+      TkTextMakeByteIndex(textPtr->tree, TkBTreeNumLines(textPtr->tree), 0, &end);
+      TkTextRedrawTag(textPtr, &start, &end, textPtr->selTagPtr, 1);
++     /* Send an event that the selection changed */
++     sprintf(selMessage,"event generate %s <<Selection>>",Tk_PathName(textPtr->tkwin));
++     Tcl_Eval(textPtr->interp,selMessage);
+      TkBTreeTag(&start, &end, textPtr->selTagPtr, 0);
+  #endif
+      textPtr->flags &= ~GOT_SELECTION;
+***************
+*** 1888,1894 ****
+  		 */
+  
+  		firstByte = indexInDString;
+! 		if ((firstByte >= Tcl_DStringLength(&line))
+  			&& !((Tcl_DStringLength(&line) == 0) && !exact)) {
+  		    goto nextLine;
+  		}
+--- 1960,1968 ----
+  		 */
+  
+  		firstByte = indexInDString;
+! 
+! 		/* LC Question: why is this here ?*/
+!                 if ((firstByte >= Tcl_DStringLength(&line))
+  			&& !((Tcl_DStringLength(&line) == 0) && !exact)) {
+  		    goto nextLine;
+  		}
+***************
+*** 2421,2423 ****
+--- 2495,2938 ----
+      }
+  }
+  
++ 
++ /*
++  * pushStack
++  *    Push elem on the stack identified by stack.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static void pushStack ( stack, elem )
++     TkTextEditAtom ** stack;
++     TkTextEditAtom *  elem;
++ { 
++     elem->next = *stack;
++     *stack = elem;
++ }
++ 
++ 
++ /*
++  * popStack --
++  *    Remove and return the top element from the stack identified by 
++  *      stack.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ TkTextEditAtom * popStack ( stack )
++     TkTextEditAtom ** stack ;
++ { 
++     TkTextEditAtom * elem = NULL;
++     if (*stack != NULL ) {
++         elem   = *stack;
++         *stack = elem->next;
++     }
++     return elem;
++ }
++ 
++ 
++ /*
++  * insertSema --
++  *    insert a semaphore on the stack, indicating a border for
++  *      an undo/redo chunk.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static void insertSema ( stack )
++     TkTextEditAtom ** stack;
++ {
++     TkTextEditAtom * semaphore;
++ 
++     if ( *stack != NULL && (*stack)->type != SEMAPHORE ) {
++         semaphore = (TkTextEditAtom *) ckalloc(sizeof(TkTextEditAtom));
++         semaphore->type = SEMAPHORE;
++         pushStack(stack,semaphore);
++     }
++ }
++ 
++ 
++ /*
++  * clearStack --
++  *    Clear an entire undo or redo stack and destroy all elements in it.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static void clearStack ( stack )
++     TkTextEditAtom ** stack;      /* An Undo or Redo stack */
++ {
++     TkTextEditAtom * elem;
++ 
++     while ( (elem = popStack(stack)) ) {
++         if ( elem->type != SEMAPHORE ) {
++             ckfree(elem->index);
++             ckfree(elem->string);
++         }
++         ckfree((char *)elem);
++     }
++     *stack = NULL;
++ }
++ 
++ 
++ /*
++  * TextEditUndo --
++  *    undo the last change.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static int TextEditUndo (interp,textPtr)
++     Tcl_Interp * interp;
++     TkText     * textPtr;             /* Overall information about text widget. */
++ {
++     TkTextEditAtom * elem      ;
++     TkTextIndex      fromIndex ;
++     TkTextIndex      toIndex   ;
++     char             buffer[TK_POS_CHARS];
++     
++     if ( ! textPtr->undo ) {
++        return TCL_OK;
++     }
++     
++ 
++     /* Turn off the undo feature */
++     
++     textPtr->undo = 0;
++     
++     /* insert a semaphore on the redo stack */
++     
++     insertSema(&(textPtr->redoStack));
++     
++     /* Pop and skip the first semaphore if there is one*/
++     
++     elem = popStack(&(textPtr->undoStack));
++ 
++     if ( elem == NULL ) {
++         textPtr->undo = 1;
++         return TCL_ERROR;
++     }
++     
++     if ( ( elem != NULL ) && ( elem->type == SEMAPHORE ) ) {
++         ckfree((char *) elem);
++         elem = popStack(&(textPtr->undoStack));
++     }
++     
++     while ( elem && (elem->type != SEMAPHORE) ) {
++         switch ( elem->type ) {
++             case INSERT:
++                 TkTextGetIndex(interp,textPtr,elem->index,&toIndex);
++                 TkTextIndexForwBytes(&toIndex,(int)strlen(elem->string),&toIndex);
++                 TkTextPrintIndex(&toIndex,buffer);
++                 textPtr->isDirtyIncrement = -1;
++                 DeleteChars(textPtr,elem->index,buffer);
++                 textPtr->isDirtyIncrement = 1;
++                 break;
++             case DELETE: 
++                 TkTextGetIndex(interp,textPtr,elem->index,&fromIndex);
++                 textPtr->isDirtyIncrement = -1;
++                 InsertChars(textPtr,&fromIndex,elem->string);
++                 textPtr->isDirtyIncrement = 1;
++                 break;
++             default:
++                 return TCL_ERROR;
++         }
++         pushStack(&(textPtr->redoStack),elem);
++         elem = popStack(&(textPtr->undoStack));
++     }
++     
++     /* insert a semaphore on the undo stack */
++     
++     insertSema(&(textPtr->undoStack));
++     
++     /* Turn back on the undo feature */
++     
++     textPtr->undo = 1;
++     
++     return TCL_OK;
++ }
++ 
++ 
++ /*
++  * TextEditRedo --
++  *    redo the last undone change.
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static int TextEditRedo (interp,textPtr)
++     Tcl_Interp * interp;
++     TkText     * textPtr;             /* Overall information about text widget. */
++ {
++     TkTextEditAtom * elem      ;
++     TkTextIndex      fromIndex ;
++     TkTextIndex      toIndex   ;
++     char             buffer[TK_POS_CHARS];
++     
++     if ( ! textPtr->undo ) {
++        return TCL_OK;
++     }
++     
++     /* Turn off the undo feature temporarily */
++     
++     textPtr->undo = 0;
++     
++     /* insert a semaphore on the undo stack */
++     
++     insertSema(&(textPtr->undoStack));
++     
++     /* Pop and skip the first semaphore if there is one*/
++     
++     elem = popStack(&(textPtr->redoStack));
++ 
++     if ( elem == NULL ) {
++        textPtr->undo = 1;
++        return TCL_ERROR;
++     }
++     
++     if ( ( elem != NULL ) && ( elem->type == SEMAPHORE ) ) {
++         ckfree((char *) elem);
++         elem = popStack(&(textPtr->redoStack));
++     }
++     
++     while ( elem && (elem->type != SEMAPHORE) ) {
++         switch ( elem->type ) {
++             case INSERT:
++                 TkTextGetIndex(interp,textPtr,elem->index,&fromIndex);
++                 InsertChars(textPtr,&fromIndex,elem->string);
++                 break;
++             case DELETE: 
++                 TkTextGetIndex(interp,textPtr,elem->index,&toIndex);
++                 TkTextIndexForwBytes(&toIndex,(int)strlen(elem->string),&toIndex);
++                 TkTextPrintIndex(&toIndex,buffer);
++                 DeleteChars(textPtr,elem->index,buffer);
++                 break;
++             default:
++                 return TCL_ERROR;
++         }
++         pushStack(&(textPtr->undoStack),elem);
++         elem = popStack(&(textPtr->redoStack));
++     }
++     
++     insertSema(&(textPtr->undoStack));
++ 
++     /* Turn back on the undo feature */
++     
++     textPtr->undo = 1;
++     
++     return TCL_OK;
++ }
++ 
++ static int
++ TextEditCmd(textPtr, interp, argc, argv)
++     TkText *textPtr;          /* Information about text widget. */
++     Tcl_Interp *interp;               /* Current interpreter. */
++     int argc;                 /* Number of arguments. */
++     char **argv;              /* Argument strings. */
++ {
++     int      c         ;
++     size_t   length    ;
++     
++     if (argc < 3) {
++       Tcl_AppendResult(interp, "wrong # args: should be \"",
++               argv[0], " edit option ?arg arg ...?\"", (char *) NULL);
++       return TCL_ERROR;
++     }
++     c = argv[2][0];
++     length = strlen(argv[2]);
++     if ((c == 'm') && (strncmp(argv[2], "modified", length) == 0)) {
++       if (argc != 3) {
++             if ( strncmp(argv[3], "clear", strlen(argv[3])) == 0 ) {
++                 if ( argc != 4 ) {
++                   Tcl_AppendResult(interp, "wrong # args: should be \"",
++                           argv[0], " edit modified ?clear? \"", (char *) NULL);
++                   return TCL_ERROR;
++                 }
++                 resetDirtyFlag(textPtr);
++             } else {
++               Tcl_AppendResult(interp, "bad modified option \"", argv[3],
++                       "\": must be clear",
++                       (char *) NULL);
++               return TCL_ERROR;
++             }
++       } else {
++             if (textPtr->isDirty) {
++                 Tcl_AppendResult(interp, "1",(char *) NULL);
++             } else {
++                 Tcl_AppendResult(interp, "0",(char *) NULL);
++             }
++         }
++     } else if ((c == 'r') && (strncmp(argv[2], "redo", length) == 0)  && (length >= 3)) {
++       if (argc != 3) {
++           Tcl_AppendResult(interp, "wrong # args: should be \"",
++                   argv[0], " edit redo \"", (char *) NULL);
++           return TCL_ERROR;
++       }
++         if ( TextEditRedo(interp,textPtr) ) {
++             Tcl_AppendResult(interp, "nothing to redo",
++                   (char *) NULL);
++           return TCL_ERROR;
++         }
++     } else if ((c == 'r') && (strncmp(argv[2], "reset", length) == 0) && (length >= 3)) {
++       if (argc != 3) {
++           Tcl_AppendResult(interp, "wrong # args: should be \"",
++                   argv[0], " edit reset \"", (char *) NULL);
++           return TCL_ERROR;
++       }
++         clearStack(&(textPtr->undoStack));
++         clearStack(&(textPtr->redoStack));
++     } else if ((c == 's') && (strncmp(argv[2], "semaphore", length) == 0)) {
++       if (argc != 3) {
++           Tcl_AppendResult(interp, "wrong # args: should be \"",
++                   argv[0], " edit semaphore \"", (char *) NULL);
++           return TCL_ERROR;
++       }
++         insertSema(&(textPtr->undoStack));
++     } else if ((c == 'u') && (strncmp(argv[2], "undo", length) == 0)) {
++       if (argc != 3) {
++           Tcl_AppendResult(interp, "wrong # args: should be \"",
++                   argv[0], " edit undo \"", (char *) NULL);
++           return TCL_ERROR;
++       }
++         if ( TextEditUndo(interp,textPtr) ) {
++             Tcl_AppendResult(interp, "nothing to undo",
++                   (char *) NULL);
++           return TCL_ERROR;
++         }
++     } else {
++       Tcl_AppendResult(interp, "bad edit option \"", argv[2],
++               "\": must be modified, redo, reset, semaphore or undo",
++               (char *) NULL);
++       return TCL_ERROR;
++     }
++     
++     return TCL_OK;
++ }
++ 
++ 
++ 
++ /*
++  * TextGetText --
++  *    returns the text from indexPtr1 to indexPtr2.
++  *
++  * Results:
++  *    the string between indices indexPtr1 and indexPtr2
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ char * TextGetText(indexPtr1,indexPtr2)
++     TkTextIndex * indexPtr1;
++     TkTextIndex * indexPtr2;
++ {
++     TkTextIndex tmpIndex;
++     char * string;
++     string = (char *) ckalloc(1);
++     *string = '\0';
++     
++     TkTextMakeByteIndex(indexPtr1->tree,TkBTreeLineIndex(indexPtr1->linePtr),indexPtr1->byteIndex,&tmpIndex);
++ 
++     if (TkTextIndexCmp(indexPtr1, indexPtr2) >= 0) {
++       return string;
++     }
++     while (1) {
++       int offset, last, savedChar;
++       TkTextSegment *segPtr;
++ 
++       segPtr = TkTextIndexToSeg(&tmpIndex, &offset);
++       last = segPtr->size;
++       if (tmpIndex.linePtr == indexPtr2->linePtr) {
++           int last2;
++ 
++           if (indexPtr2->byteIndex == tmpIndex.byteIndex) {
++               break;
++           }
++           last2 = indexPtr2->byteIndex - tmpIndex.byteIndex + offset;
++           if (last2 < last) {
++               last = last2;
++           }
++       }
++       if (segPtr->typePtr == &tkTextCharType) {
++           savedChar = segPtr->body.chars[last];
++           segPtr->body.chars[last] = 0;
++             string = (char *) ckrealloc(string,strlen(string) + strlen(segPtr->body.chars + offset) + 1);
++             strcat(string,segPtr->body.chars + offset);
++           segPtr->body.chars[last] = savedChar;
++       }
++       TkTextIndexForwBytes(&tmpIndex, last-offset, &tmpIndex);
++     }
++ 
++     return string;
++ }
++ 
++ 
++ /*
++  * updateDirtyFlag --
++  *    increases the dirtyness of the text widget
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static void updateDirtyFlag (textPtr)
++     TkText *textPtr;          /* Information about text widget. */
++ {
++     char eventMessage[1000];
++     int oldDirtyFlag;
++     oldDirtyFlag = textPtr->isDirty;
++     textPtr->isDirty += textPtr->isDirtyIncrement;
++     if (textPtr->isDirty == 0 || oldDirtyFlag == 0) {
++         sprintf(eventMessage,"event generate %s <<Modified>>",Tk_PathName(textPtr->tkwin));
++         Tcl_Eval(textPtr->interp,eventMessage);
++     }
++ }
++ 
++ /*
++  * resetDirtyFlag --
++  *    resets the dirtyness of the text widget
++  *
++  * Results:
++  *    None
++  *
++  * Side effects:
++  *    None.
++  */
++  
++ static void resetDirtyFlag (textPtr)
++     TkText *textPtr;          /* Information about text widget. */
++ {
++     char eventMessage[1000];
++     textPtr->isDirty = 0;
++     sprintf(eventMessage,"event generate %s <<Modified>>",Tk_PathName(textPtr->tkwin));
++     Tcl_Eval(textPtr->interp,eventMessage);
++ }
++   
+diff -c -r orig_2/tk8.4a2/generic/tkText.h new_2/tk8.4a2/generic/tkText.h
+*** orig_2/tk8.4a2/generic/tkText.h	Thu Jan  6 03:18:58 2000
+--- new_2/tk8.4a2/generic/tkText.h	Sat Feb 17 11:01:32 2001
+***************
+*** 451,456 ****
+--- 451,473 ----
+  					 * BE THE LAST IN THE STRUCTURE. */
+  } TkTextTabArray;
+  
++ /* enum definining the types used in an edit stack */
++ 
++ typedef enum {
++     SEMAPHORE,                          /* Marker */
++     INSERT,                             /* The undo is an insert */
++     DELETE                              /* The undo is a delete */
++ } TkTextEditType;
++ 
++ /* strcut defining the basic undo/redo stack element */
++ 
++ typedef struct TkTextEditAtom {
++     TkTextEditType type;                /* The type that will trigger the required action*/
++     char * index;                       /* The starting index of the range */
++     char * string;                      /* The text to be inserted or deleted */
++     struct TkTextEditAtom * next;       /* Pointer to the next element in the stack */
++ } TkTextEditAtom;
++ 
+  /*
+   * A data structure of the following type is kept for each text widget that
+   * currently exists for this process:
+***************
+*** 625,630 ****
+--- 642,671 ----
+  				 * vertical scrollbar when view changes. */
+      int flags;			/* Miscellaneous flags;  see below for
+  				 * definitions. */
++ 
++     /*
++      * Information related to the undo/redo functonality
++      */
++      
++     TkTextEditAtom * undoStack; /* The undo stack */
++     
++     TkTextEditAtom * redoStack; /* The redo stack */
++     
++     int undo;                   /* non zero means the undo/redo behaviour is 
++                                  * enabled */
++     
++     int autoSemaphores;         /* non zero means the semaphores will be 
++                                  * inserted automatically */
++     
++     int isDirty;                /* Flag indicating the 'dirtynesss' of the text
++                                  * widget. If the flag is not zero, unsaved 
++                                  * modifications have been applied to the
++                                  * text widget */
++ 
++     int isDirtyIncrement;       /* Amount with which the isDirty flag is
++                                  * incremented every edit action
++                                  */
++ 
+  } TkText;
+  
+  /*
+diff -c -r orig_2/tk8.4a2/generic/tkTextTag.c new_2/tk8.4a2/generic/tkTextTag.c
+*** orig_2/tk8.4a2/generic/tkTextTag.c	Thu Jan  6 03:18:59 2000
+--- new_2/tk8.4a2/generic/tkTextTag.c	Sat Feb 17 11:04:25 2001
+***************
+*** 114,119 ****
+--- 114,120 ----
+      char *fullOption;
+      register TkTextTag *tagPtr;
+      TkTextIndex first, last, index1, index2;
++     char selMessage[1000];
+  
+      if (argc < 3) {
+  	Tcl_AppendResult(interp, "wrong # args: should be \"",
+***************
+*** 171,176 ****
+--- 172,180 ----
+  	     */
+      
+  	    if (tagPtr == textPtr->selTagPtr) {
++                 /* Send an event that the selection changed */
++                 sprintf(selMessage,"event generate %s <<Selection>>",Tk_PathName(textPtr->tkwin));
++                 Tcl_Eval(textPtr->interp,selMessage);
+  		if (addTag && textPtr->exportSelection
+  			&& !(textPtr->flags & GOT_SELECTION)) {
+  		    Tk_OwnSelection(textPtr->tkwin, XA_PRIMARY,
+***************
+*** 462,467 ****
+--- 466,478 ----
+  	    TkTextMakeByteIndex(textPtr->tree, TkBTreeNumLines(textPtr->tree),
+  		    0, &last),
+  	    TkBTreeTag(&first, &last, tagPtr, 0);
++ 
++             if (tagPtr == textPtr->selTagPtr) {
++                 /* Send an event that the selection changed */
++                 sprintf(selMessage,"event generate %s <<Selection>>",Tk_PathName(textPtr->tkwin));
++                 Tcl_Eval(textPtr->interp,selMessage);
++             }
++ 
+  	    Tcl_DeleteHashEntry(hPtr);
+  	    if (textPtr->bindingTable != NULL) {
+  		Tk_DeleteAllBindings(textPtr->bindingTable,
+diff -c -r orig_2/tk8.4a2/library/text.tcl new_2/tk8.4a2/library/text.tcl
+*** orig_2/tk8.4a2/library/text.tcl	Thu Jul 20 01:22:20 2000
+--- new_2/tk8.4a2/library/text.tcl	Sat Feb 17 11:08:00 2001
+***************
+*** 338,343 ****
+--- 338,355 ----
+      }
+  }
+  
++ bind Text <<Undo>> {
++     if { [ catch { %W edit undo } ] } {
++        bell
++     }
++ }
++ 
++ bind Text <<Redo>> {
++     if { [ catch { %W edit redo } ] } {
++        bell
++     }
++ }
++ 
+  if {[string compare $tcl_platform(platform) "windows"]} {
+  bind Text <Control-v> {
+      if {!$tk_strictMotif} {
+***************
+*** 518,523 ****
+--- 530,536 ----
+      $w mark set insert [tkTextClosestGap $w $x $y]
+      $w mark set anchor insert
+      if {[string equal [$w cget -state] "normal"]} {focus $w}
++     $w edit semaphore
+  }
+  
+  # tkTextSelectTo --
+***************
+*** 633,639 ****
+  
+  proc tkTextPaste {w x y} {
+      $w mark set insert [tkTextClosestGap $w $x $y]
+!     catch {$w insert insert [selection get -displayof $w]}
+      if {[string equal [$w cget -state] "normal"]} {focus $w}
+  }
+  
+--- 646,659 ----
+  
+  proc tkTextPaste {w x y} {
+      $w mark set insert [tkTextClosestGap $w $x $y]
+!     catch {
+!         set oldSema [$w cget -autosemaphores]
+!         $w configure -autosemaphores 0
+!         $w edit semaphore
+!         $w insert insert [selection get -displayof $w]
+!         $w edit semaphore
+!         $w configure -autosemaphores $oldSema
+!     }
+      if {[string equal [$w cget -state] "normal"]} {focus $w}
+  }
+  
+***************
+*** 685,690 ****
+--- 705,711 ----
+      $w mark set insert $pos
+      $w tag remove sel 1.0 end
+      $w see insert
++     $w edit semaphore
+  }
+  
+  # tkTextKeySelect
+***************
+*** 975,986 ****
+--- 996,1012 ----
+  proc tk_textPaste w {
+      global tcl_platform
+      catch {
++         set oldSema [$w cget -autosemaphores]
++         $w configure -autosemaphores 0
++         $w edit semaphore
+  	if {[string compare $tcl_platform(platform) "unix"]} {
+  	    catch {
+  		$w delete sel.first sel.last
+  	    }
+  	}
+  	$w insert insert [selection get -displayof $w -selection CLIPBOARD]
++         $w edit semaphore
++         $w configure -autosemaphores $oldSema
+      }
+  }
+  
+diff -c -r orig_2/tk8.4a2/library/tk.tcl new_2/tk8.4a2/library/tk.tcl
+*** orig_2/tk8.4a2/library/tk.tcl	Tue Oct 31 02:12:38 2000
+--- new_2/tk8.4a2/library/tk.tcl	Sat Feb 17 11:10:31 2001
+***************
+*** 281,286 ****
+--- 281,288 ----
+  	event add <<Copy>> <Control-Key-c> <Key-F16>
+  	event add <<Paste>> <Control-Key-v> <Key-F18>
+  	event add <<PasteSelection>> <ButtonRelease-2>
++ 	event add <<Undo>> <Control-Key-z>
++ 	event add <<Redo>> <Control-Key-Z>
+  	# Some OS's define a goofy (as in, not <Shift-Tab>) keysym
+  	# that is returned when the user presses <Shift-Tab>.  In order for
+  	# tab traversal to work, we have to add these keysyms to the 
+***************
+*** 302,307 ****
+--- 304,311 ----
+  	event add <<Copy>> <Control-Key-c> <Control-Key-Insert>
+  	event add <<Paste>> <Control-Key-v> <Shift-Key-Insert>
+  	event add <<PasteSelection>> <ButtonRelease-2>
++   	event add <<Undo>> <Control-Key-z>
++ 	event add <<Redo>> <Control-Key-Z>
+      }
+      "macintosh" {
+  	event add <<Cut>> <Control-Key-x> <Key-F2> 
+***************
+*** 309,314 ****
+--- 313,320 ----
+  	event add <<Paste>> <Control-Key-v> <Key-F4>
+  	event add <<PasteSelection>> <ButtonRelease-2>
+  	event add <<Clear>> <Clear>
++ 	event add <<Undo>> <Control-Key-z>
++ 	event add <<Redo>> <Control-Key-Z>
+      }
+  }
+  
+diff -c -r orig_2/tk8.4a2/mac/tkMacDefault.h new_2/tk8.4a2/mac/tkMacDefault.h
+*** orig_2/tk8.4a2/mac/tkMacDefault.h	Fri Jul 28 18:34:55 2000
+--- new_2/tk8.4a2/mac/tkMacDefault.h	Sat Feb 17 11:11:50 2001
+***************
+*** 419,424 ****
+--- 419,425 ----
+   * Defaults for texts:
+   */
+  
++ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
+  #define DEF_TEXT_BG_COLOR		NORMAL_BG
+  #define DEF_TEXT_BG_MONO		WHITE
+  #define DEF_TEXT_BORDER_WIDTH		"0"
+***************
+*** 453,458 ****
+--- 454,460 ----
+  #define DEF_TEXT_STATE			"normal"
+  #define DEF_TEXT_TABS			""
+  #define DEF_TEXT_TAKE_FOCUS		(char *) NULL
++ #define DEF_TEXT_UNDO    		"0"
+  #define DEF_TEXT_WIDTH			"80"
+  #define DEF_TEXT_WRAP			"char"
+  #define DEF_TEXT_XSCROLL_COMMAND	""
+diff -c -r orig_2/tk8.4a2/unix/tkUnixDefault.h new_2/tk8.4a2/unix/tkUnixDefault.h
+*** orig_2/tk8.4a2/unix/tkUnixDefault.h	Fri Jul 28 18:34:55 2000
+--- new_2/tk8.4a2/unix/tkUnixDefault.h	Sat Feb 17 11:13:00 2001
+***************
+*** 409,414 ****
+--- 409,415 ----
+   * Defaults for texts:
+   */
+  
++ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
+  #define DEF_TEXT_BG_COLOR		NORMAL_BG
+  #define DEF_TEXT_BG_MONO		WHITE
+  #define DEF_TEXT_BORDER_WIDTH		"2"
+***************
+*** 443,448 ****
+--- 444,450 ----
+  #define DEF_TEXT_STATE			"normal"
+  #define DEF_TEXT_TABS			""
+  #define DEF_TEXT_TAKE_FOCUS		(char *) NULL
++ #define DEF_TEXT_UNDO    		"0"
+  #define DEF_TEXT_WIDTH			"80"
+  #define DEF_TEXT_WRAP			"char"
+  #define DEF_TEXT_XSCROLL_COMMAND	""
+diff -c -r orig_2/tk8.4a2/win/tkWinDefault.h new_2/tk8.4a2/win/tkWinDefault.h
+*** orig_2/tk8.4a2/win/tkWinDefault.h	Fri Jul 28 18:34:56 2000
+--- new_2/tk8.4a2/win/tkWinDefault.h	Sat Feb 17 11:13:42 2001
+***************
+*** 414,419 ****
+--- 414,420 ----
+   * Defaults for texts:
+   */
+  
++ #define DEF_TEXT_AUTO_SEMAPHORES	"1"
+  #define DEF_TEXT_BG_COLOR		"SystemWindow"
+  #define DEF_TEXT_BG_MONO		WHITE
+  #define DEF_TEXT_BORDER_WIDTH		"2"
+***************
+*** 448,453 ****
+--- 449,455 ----
+  #define DEF_TEXT_STATE			"normal"
+  #define DEF_TEXT_TABS			""
+  #define DEF_TEXT_TAKE_FOCUS		(char *) NULL
++ #define DEF_TEXT_UNDO    		"0"
+  #define DEF_TEXT_WIDTH			"80"
+  #define DEF_TEXT_WRAP			"char"
+  #define DEF_TEXT_XSCROLL_COMMAND	""
