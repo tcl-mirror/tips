@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -236,6 +236,12 @@ be a Category in the SourceForge Tracker for Tk:
    >  20. ''[tk_optionMenu]'' -
      doc/optionMenu.n,
      library/optMenu.tcl
+
+   >  21. ''[panedwindow]'' -
+     doc/panedwindow.n,
+     generic/tkPanedWindow.c,
+     library/panedwindow.tcl,
+     tests/panedwindow.test
 
    Widget Options: 
 
@@ -804,6 +810,7 @@ be a Category in the SourceForge Tracker for Tk:
    >  6. ''Win Build'' -
      win/Makefile.in,
      win/aclocal.m4,
+     win/buildall.vc.bat,
      win/configure.in,
      win/makefile.vc,
      win/mkd.bat,
@@ -811,6 +818,7 @@ be a Category in the SourceForge Tracker for Tk:
      win/rc/tk_base.rc,
      win/rc/wish.rc,
      win/rmd.bat,
+     win/rules.vc,
      win/tcl.m4,
      win/tkConfig.sh.in,
      win/tkWin.h
