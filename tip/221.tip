@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Allow Background Error Handlers to Accept Return Options
-Version:        $Revision: 2.1 $
+Version:        $Revision: 2.2 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -94,7 +94,7 @@ indicate a TCL_ERROR triggered the ''Tcl_BackgroundError'' call,
 the ''-errorinfo'', ''-errorcode'', and ''-errorline'' keys will
 have values as well.  Any other return options present in the
 interp's return options  dictionary at the time ''Tcl_BackgroundError''
-is called will also be available in the argument passed to '''bgerror'''.
+is called will also be available in the ''returnOptionsDictionary'' argument.
 
 Note that after this change, applications will be able to
 register a background error handling command that has no need
