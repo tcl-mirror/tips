@@ -1,11 +1,11 @@
 TIP:		141
 Title:		Multiple Initial-Files in [tk_getOpenFile]
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		David N. Welton <davidw@dedasys.com>
-State:		Draft
+State:		Accepted
 Type:		Project
 Tcl-Version:	8.5
-Vote:		In progress
+Vote:		Done
 Created:	18-Jul-2003
 Post-History:	
 
@@ -36,7 +36,7 @@ than Unix (which the author has no access to).
 
 The reference implementation exists in a patch available from:
 
-http://sourceforge.net/tracker/?func=detail&aid=657656&group_id=12997&atid=362997
+http://sf.net/tracker/?func=detail&aid=657656&group_id=12997&atid=362997
 
 which also includes new tests for the Tk test suite.  It does not
 contain updated documentation at this stage.
