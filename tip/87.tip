@@ -1,11 +1,11 @@
 TIP:            87
 Title:          Allow Tcl Access to the Recursion Limit
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Stephen Trier <sct@po.cwru.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        19-Feb-2002
 Post-History:   
 Discussions-To: news:comp.lang.tcl
