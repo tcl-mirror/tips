@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -135,7 +135,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.7 $. (Initially $Revision: 1.7 $ should be used, which
+	$Revision: 1.8 $. (Initially $Revision: 1.8 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -283,7 +283,9 @@ and keep the whole paragraph on a single line.
 If a paragraph starts with a whitespace character sequence, some text
 (that includes no tabs or newlines but can include spaces), a colon
 and another whitespace character, then it is an item in a descriptive
-(a.k.a. definition) list.
+(a.k.a. definition) list.  The item being described cannot contain
+advanced formatting (including any kind of emphasis) because this is
+not supported by all formats that a TIP may be viewed in.
 
 If a paragraph does not start with a whitespace character sequence, a
 greater than symbol ">", and then another whitespace character, it is
@@ -300,11 +302,16 @@ these continuation paras seem complex at first glance, but seem to
 work out fairly well in practise, especially since they are only
 rarely used.)
 
-Within the body text of a (non-verbatim) paragraph, italicised emphasis is
-indicated by enclosing the text within inside double apostrophes " ' ' "
-and emboldened emphasis is indicated by enclosing the text within
-inside triple apostrophes " ' ' ' ".  They should not be nested.
-Special URLs of
+Within the body text of a (non-verbatim) paragraph, there are two
+styles of emphasis:
+
+ * italicised emphasis is indicated by enclosing the text within
+   inside double apostrophes "''"
+
+ * emboldened emphasis is indicated by enclosing the text within
+   inside triple apostrophes "'''".
+
+The two emphasis styles should not be nested. Special URLs of
 the form tip:tipnumber are expanded into full URLs to the given TIP
 through the current formatting engine (where applicable.)  References
 of the form [tipnumber] are also expanded as links to the given TIP,
