@@ -1,0 +1,215 @@
+TIP:            93
+Title:		Get Enhancement for the Tk Text Widget
+Version:	$Revision: 1.1 $
+Author:		Craig Votava <craig@lucent.com>
+State:		Draft
+Type:		Project
+Created:	28-Dec-2001
+Tcl-Version:	8.4
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+The Tk Text widget provides text tags, which are a very powerful
+thing.  However, the current implementation does not provide an
+efficient way for a Tk Text widget programmer to extract (get) all of
+the actual text that has a given text tag.  This TIP proposes to
+enhance the Tk Text widget to provide this functionality.
+
+~ Rationale
+
+While writing applications using the Tk Text widget, I find myself
+wanting to extract all of the text that has a given text tag.
+Although this is possible with the existing functionality of the Tk
+Text widget, it can become extremely inefficient, depending on your
+application.
+
+Consider the example where we load a text widget with say, the
+contents of a scene from a play, and we tag all of the spoken passages
+with the name of the character that utters them.  How can we provide
+an efficient way to allow an end user to print out all the spoken text
+for a single given character?
+
+My initial impulse was to design something like this (please excuse
+the use of Perl-Tk syntax, that's what I'm most comfortable with):
+
+|   $txt->tagGet($tag);
+
+The problem with this design is what should this return? A string?  An
+list? If a list, should it be a list of each tagged character?  A list
+of strings containing all contiguous characters? This line of thought
+got icky pretty fast.
+
+My second impulse was to try to induce this functionality with as much
+existing stuff as possible.  The ''tagRanges'' command returns a list
+of index pairs for all contiguous characters with a given tag.  The
+thought here was to combine that command with the ''get'' command to
+get all the text with a given tag:
+
+|   $txt->get( $txt->tagRanges($tag) );
+
+This design seems to fit in well with much of the existing
+functionality of the text widget.  The main problem here is that the
+existing ''get'' command only allows for either one or two arguments,
+and returns a single string.  For this design to be implemented, the
+get interface would need to be enhanced.  This is the design I chose
+to implement as a reference (prototype) implementation.  I believe
+that the functionality should be provided in the Tk Text widget, and
+believe that this prototype solution could be turned into a production
+solution.  However those decisions I happily leave up to the Tk
+developers who are more knowledgeable about the Tk Text implementation
+than myself.
+
+~ Specification
+
+This specification will only describe how the reference implementation
+was produced.  If it is decided that an alternate design is needed for
+the final production solution, this specification can be scrapped.
+
+The goal of this design is to enhance the Tk Text ''get'' command from
+accepting only one or two arguments, to accepting any number of 1
+(+NULL) or 2 arguments sets.  The Tcl-Tk manual page description would
+change from this:
+
+|   $t get i1 ?i2?
+
+to something like this:
+
+|   $t get i1 ?i2? ?(i3 ?i4? ...)?
+
+By providing this enhancement, we give the programmer with the ability
+to efficiently ''get'' all of the text that is tagged with a given
+tag.  The programmer would do this by using a compound statement
+utilizing the existing ''tag ranges'' command along with the enhanced
+''get'' command, as follows (the examples are using the Perl-Tk
+syntax):
+
+|   $txt->get( $txt->tagRanges($tag) );
+
+In addition, the enhancement will preserve compatibility with all of
+the existing Tk ''get'' commands currently in use.
+
+Currently, the ''get'' command simply returns a single string
+containing all of the characters specified by the first and
+(optionally) the second argument(s).  The enhanced ''get'' command
+will preserve this existing functionality:
+
+|   my $chr = $text->get('1.0');
+
+ > This command functions exactly the same as the original ''get''
+   command.  It will return a string containing the first character
+   from the first line.
+
+|   my $str = $text->get('1.0', '1.0 lineend');
+
+ > This command functions exactly the same as the original ''get''
+   command.  It will return a string containing all of the characters
+   on the first line.
+
+However, if the programmer provides more than one or two argument(s),
+the enhanced ''get'' command will return a list of strings, just as if
+the original ''get'' command was called multiple times and the results
+were loaded into a programmer-defined list:
+
+|   my @lines = $text->get('1.0', '1.0 lineend', '2.0');
+
+ > This command returns a list whose first element (''$lines[[0]]'')
+   is a string containing all of the characters from the first line,
+   and the second element (''$lines[[1]]'') is a string containing
+   just the first character of the second line.
+
+|   my @lines = $text->get('1.0', '', '2.0', '2.0 lineend');
+
+ > This command returns a list whose first element (''$lines[[0]]'')
+   is a string containing just the first character from the first
+   line, and the second element (''$lines[[1]]'') is a string
+   containing all of the characters on the second line.
+
+|   my @lines = $text->get('1.0', '1.0 lineend', '2.0', '2.0 lineend');
+
+ > This command returns a list whose first element (''$lines[[0]]'')
+   is a string containing the all of the characters from the first
+   line, and the second element (''$lines[[1]]'') is a string
+   containing all of the characters from the second line.
+
+All of this paves the way for the programmer to use the compound command:
+
+|   my @lines = $txt->get( $txt->tagRanges($tag) );
+
+ > This command returns a list whose elements are strings of all the
+   contiguous characters tagged with a given tag.
+
+~ Example
+
+The following Perl-Tk code illustrates how the enhanced ''get''
+command could be used with the existing ''tag ranges'' command to
+efficiently extract all of the text that is tagged with a given tag.
+
+|   #! /usr/local/bin/perl -w
+|   
+|   require 5.005;
+|   
+|   use strict;
+|   use English;
+|   
+|   use Tk;
+|   
+|   # Create main window with button and text widget in it...
+|   my $top = MainWindow->new;
+|   my $btn = $top->Button(-text=>'print odd lines')->pack;
+|   my $txt = $top->Scrolled('Text', -relief=>'sunken', -borderwidth=>'2',
+|   	-setgrid=>'true', -height=>'30', -scrollbars=>'e');
+|   $txt->pack(-expand=>'yes', -fill=>'both');
+|   $btn->configure(-command=>sub{&GetText($txt)} );
+|   
+|   # Populate text widget with lines tagged odd and even...
+|   my $lno;
+|   my $oddeven;
+|   foreach $lno (1..20) {
+|   	if($lno % 2) { $oddeven = "odd" } else { $oddeven = "even" };
+|   	$lno = "Line $lno ($oddeven)\n";
+|   	$txt->insert ('end', $lno, $oddeven);
+|   }
+|   
+|   # Do the main processing loop...
+|   MainLoop();
+|   
+|   sub GetText {
+|   	my $txtobj = shift;
+|   
+|   $txtobj->tag('configure', 'odd', -background=>'lightblue');
+|   $txtobj->tag('configure', 'even', -background=>'lightgreen');
+|   
+|   # This is the goal of all the work...
+|   my @lines = $txtobj->get($txtobj->tagRanges('odd'));
+|   
+|   print STDERR join("", @lines);
+|   }
+
+~ Reference Implementation
+
+The patch for this reference implementation has been posted to the ptk
+mailing list. An archived version is available at:
+
+http://faqchest.dynhost.com/prgm/ptk-l/ptk-01/ptk-0112/ptk-011201/ptk01122716_24437.html
+
+I have written and run a single benchmark test (in Perl-Tk) to compare
+this reference implementation against a traditional method of
+extracting all text with a specific tag.  The results of this specific
+benchmark test (tagging odd lines ''odd'' and even lines ''even'' in a
+text window with 2000 entries), run on my computer are as follows:
+
+|Reference Implementation   0.105 CPU Seconds (average over 10 runs)
+|Traditional Method         0.443 CPU Seconds (average over 10 runs)
+
+I believe that both the CPU the efficiency, and the coding efficiency
+that this reference implementation provides, merit the change to the
+Tk Widget.
+
+''The patch has received little testing so far, so any testing is
+encouraged.''
+
+~ Copyright
+
+This document has been placed in the public domain.
