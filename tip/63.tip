@@ -1,0 +1,46 @@
+TIP:           63
+Title:         Add -compound Option to Menu Entries
+Version:       $Revision: 1.1 $
+Author:        Vince Darley <vincentdarley@users.sourceforge.net>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.4
+Vote:          Pending
+Created:       27-Sep-2001
+Post-History:
+
+~ Abstract
+
+This TIP adds to menu entries the ability to display both textual
+labels and images (or bitmaps) in exactly the same way as buttons and
+menubuttons currently can, by adding a ''-compound'' option.
+
+~ Rationale
+
+Menu entries are very similar to labels in most respects, but they
+currently lack the ability to show an image and a piece of text at the
+same time.  It is a useful piece of functionality currently missing
+from Tk (certainly many standard applications make use of such menu
+entries, e.g. Internet Explorer).  The changes involved are relatively
+small.
+
+A very similar TIP [11] was accepted without much argument.
+
+~ Proposal
+
+This TIP implements the change by adding an additional option
+''-compound'' to menu entries which behaves identically to Tk's
+existing ''-compound'' option: it accepts the values ''none'',
+''center'', ''left'', ''right'', ''top'', and ''bottom'', and controls
+the relative placement of an image to the text label in the entry.
+
+A reference implementation exists, and is available from:
+ftp://ftp.ucsd.edu/pub/alpha/tcl/compoundmenu.diff (note this diff has
+Windows-style line endings).  This implementation is known to work on
+Windows, and since the changes are very, very similar on Unix and
+MacOS I expect it to work there (except perhaps for simple editing
+mistakes).
+
+~ Copyright
+
+This document has been placed in the public domain.
