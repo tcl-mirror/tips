@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.120 $
+Version:        $Revision: 1.121 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -59,39 +59,9 @@ spong wibble
 
  > some more test stuff
 
-~ Abstract
-
-This TIP proposes a new command '''ftruncate''' for truncating open files.
-
-~ Rationale
-
-In Tcl, there is currently no way to truncate a file while it is open even
-though all modern operating systems support such an operation.  The current
-workaround is to close the file and reopen it.  In cases where the file must 
-be held open this workaround cannot be used.
-
-~ Specification
-
-ftruncate channelId ?length?
-
-For example:
-
-|# Open the file for reading and writing...
-|set file [open "test.txt" {RDWR}]
-|
-|# Write some data to the file...
-|puts $file "test data"
-|
-|# Some time later...
-|
-| ...
-|ftruncate $file
-| ...
-|
-|# We are done, close the file...
-|close $file
-
-~ Proposed Change
+TIP:            206
+Title:          Add an [ftruncate] Command
+Version:        $Revision: 1.121 $file
 
 ~ Reference Implementation
 
