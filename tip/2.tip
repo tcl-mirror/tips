@@ -1,10 +1,11 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Mo DeJong <no@spam.com>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -200,7 +201,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.12 $
+|Version:       $Revision: 1.13 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -299,6 +300,18 @@ is put up for a vote? If it is rejected, should the
 author create a new TIP number or can they rewrite
 the original TIP?
 
+----
+
+Larry W. Virden writes:  I would really find it useful
+if upon submission of a TIP, a web page, perhaps on
+the Tcl'ers Wiki or elsewhere, would be referenced in
+the TIP itself.  This web page would contain a summary
+of the discussion to date, perhaps containing urls
+to relevant postings within the tct archives, etc.
+This page could be used by those looking at the
+archive to quickly determine the state of the discussion,
+as well as the reasons for the final disposition of the
+TIP.
 ----
 
 ~ Copyright
