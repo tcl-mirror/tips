@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Process
@@ -42,11 +42,9 @@ units, each to be assigned one or more maintainers:
 
    Widgets:
 
-   >  1. ''Standard bindings''
-     library/tk.tcl
+   >  1. ''Standard bindings'' - library/tk.tcl
 
-   >  1. ''Default appearance''
-     generic/default.h
+   >  1. ''Default appearance'' - generic/default.h,
      mac/tkMacDefault.h,
      unix/tkUnixDefault.h,
      win/tkWinDefault.h
