@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -11,7 +11,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes a new function '''bool()''' for use with the ''expr'' command.
+This TIP proposes a new function '''bool()''' for use with the '''expr''' command.
 
 ~ Rationale
 
@@ -36,12 +36,12 @@ make certain kinds of user interface more robust.  For example:
 |puts $configFile "array set \{[array get Options]\}"
 |close $configFile
 
-What about the ''string is true'' and ''string is false'' commands?  Those commands are suitable for determining if an arbitrary string could possibly be converted to a boolean, however, they do not, in fact, perform such a conversion, nor do they raise errors if the string cannot be converted (like '''int()''' does and '''bool()''' will do). In addition, using the results of the ''string is'' commands inside of a large ''expr'' expression could become quite cumbersome.
+What about the '''string is true''' and '''string is false''' commands?  Those commands are suitable for determining if an arbitrary string could possibly be converted to a boolean, however, they do not, in fact, perform such a conversion, nor do they raise errors if the string cannot be converted (like '''int()''' does and '''bool()''' will do). In addition, using the results of the ''string is'' commands inside of a large '''expr''' expression could become quite cumbersome.
 
 ~ Proposed Change
 
 A new math function named bool would be added to the list of functions
-supported by the [[expr]] command.
+supported by the '''expr''' command.
 
  > '''expr bool(''' ''value'' ''')'''
 
