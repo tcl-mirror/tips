@@ -1,10 +1,10 @@
 TIP:		156
 Title:		Language-Neutral Root Locale for Msgcat
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Kevin Kenny <kennykb@acm.org>
 State:		Draft
 Type:		Project
-Vote:		In Progress
+Vote:		In progress
 Created:	20-Sep-2003
 Tcl-Version:	8.5
 Discussions-To:	news:comp.lang.tcl
