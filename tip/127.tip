@@ -1,6 +1,6 @@
 TIP:            127
 Title:          Add an -index Option to [lsearch]
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Michael Schlenker <schlenk@uni-oldenburg.de>
 Author:         <BNDAR_27_SA@YAHOO.COM>
 State:          Draft
@@ -72,7 +72,7 @@ For example:
 
 returns ''1''.
 
-|   lsort -dictionary -decreasing -index {1 1} $record
+|   lsort -dictionary -decreasing -index {0 1} $record
 
 returns ''{{{Elvis Presley} {Musician} {some more data}} {{James Dean}
 {Musician} {some other data}}}''.
