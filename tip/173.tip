@@ -1,11 +1,11 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         <_@_._>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        11-Mar-2004
 Post-History:   
 Discussions-To: news:comp.lang.tcl
