@@ -1,7 +1,7 @@
 TIP:            0
 Title:          Tcl Core Team Basic Rules
-Version:        $Revision: 2.5 $
-Author:         John Ousterhout <redacted@example.com>
+Version:        $Revision: 2.6 $
+Author:         John Ousterhout <ouster@pacbell.net>
 State:          Final
 Type:           Process
 Vote:           Done
