@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -590,7 +590,10 @@ There are two changes which could be made in the future:
     in the future, and probably making some changes to some of the
     Tclp native-fs functions, we could make Tcl entirely
     filesystem-agnostic (e.g. we could do weird things like mount the
-    native filesystem inside a virtual filesystem).
+    native filesystem inside a virtual filesystem).  Alternatively,
+    if the native filesystem is not loaded at all, that makes for
+    a very good way to ensure a wrapped executable is 'safe', because
+    it cannot even access the local disk.
 
 Also,
 
