@@ -1,13 +1,13 @@
-TIP:           17
-Title:         Redo Tcl's filesystem
-Version:       $Revision: 1.3 $
-Author:        Vince Darley <vince@santafe.edu>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4.0
-Vote:          Pending
-Created:       17-Nov-2000
-Post-History:
+TIP:            17
+Title:          Redo Tcl's filesystem
+Version:        $Revision: 1.4 $
+Author:         Vince Darley <vince@santafe.edu>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        17-Nov-2000
+Post-History:   
+Tcl-Version:    8.4.0
 
 ~ Abstract
 
@@ -23,9 +23,9 @@ simpler task as well.
 There are two current drawbacks to Tcl's filesystem implementation:
 
   * virtual filesystems are not properly supported.
-  
+
   * it is all string-based, rather than Tcl_Obj-based.
-  
+
 Prowrap (http://sourceforge.net/projects/tclpro), Freewrap
 (http://home.nycap.rr.com/dlabelle/freewrap/freewrap.html), Wrap
 (http://members1.chello.nl/~j.nijtmans/wrap.html), TclKit
@@ -58,7 +58,7 @@ mind:
 
   * allow caching of 'native path representations' (all native Tclp...
     filesystem calls involve various Utf->Native conversions)
-  
+
   * allow virtual filesystems to operate very efficiently - this will
     probably require caching of the filesystem to use for a particular
     file.
@@ -66,7 +66,7 @@ mind:
 If all of these goals are achieved, Tcl will have a new filesystem
 which is both more efficient and more powerful than the existing
 implementation.
-  
+
 ~ Technical discussion
 
  1. Virtual filesystems
@@ -164,7 +164,7 @@ modularises the core of Tcl, so that one could, in principle:
     layer separating Tcl from its native filesystem functionality.
 
   * use Tcl's filesystem for other purposes (outside of Tcl).
-  
+
 However these final two points are explicitly ''not'' the goal of this
 TIP!  I simply want to improve Tcl to add vfs support, and the best
 way to do that seems (to me) to be along the lines of this TIP.
@@ -174,7 +174,9 @@ way to do that seems (to me) to be along the lines of this TIP.
 The changes to Tcl's core for virtual filesystem support are actually
 very minor (these have been implemented).  Every occurrence of a
 Tclp-filesystem call must be replaced by a call to a hookable
-procedure.  The current hookable procedure list is as follows:
+procedure.  The current filesystem structure (defined in tclInt.h) and
+hookable procedure list is as follows (for documentation on this
+structure, see Documentation section below):
 
 |/*
 | * struct Tcl_Filesystem:
@@ -192,70 +194,96 @@ procedure.  The current hookable procedure list is as follows:
 |typedef struct Tcl_Filesystem {
 |    CONST char *typeName;   /* The name of the filesystem. */
 |    int structureLength;    /* Length of this structure, so future
-|                             * binary compatibility can be assured */
+|                             * binary compatibility can be assured. */
 |    Tcl_FilesystemVersion version;  
 |                            /* Version of the filesystem type. */
-|    TclStatProc_ *statProc; /* Function to process 'Tcl_Stat()' */
-|    TclAccessProc_ *accessProc;            
-|                            /* Function to process 'Tcl_Access()' */
-|    TclOpenFileChannelProc_ *openFileChannelProc; 
-|                            /* Function to process 'Tcl_OpenFileChannel()' */
-|    TclMatchFilesTypesProc_ *matchFilesTypesProc;  
-|                            /* Function to process 'Tcl_MatchFilesTypes()' */
-|    TclGetCwdProc_ *getCwdProc;     
-|                            /* Function to process 'Tcl_GetCwd()' */
-|    TclChdirProc_ *chdirProc;            
-|                            /* Function to process 'Tcl_Chdir()' */
-|    TclLstatProc_ *lstatProc;            
-|                            /* Function to process 'Tcl_Lstat()' */
-|    TclCopyFileProc_ *copyFileProc; 
-|                            /* Function to process 'Tcl_CopyFile()' */
-|    TclDeleteFileProc_ *deleteFileProc;            
-|                            /* Function to process 'Tcl_DeleteFile()' */
-|    TclRenameFileProc_ *renameFileProc;            
-|                            /* Function to process 'Tcl_RenameFile()' */
-|    TclCreateDirectoryProc_ *createDirectoryProc;            
-|                            /* Function to process 'Tcl_CreateDirectory()' */
-|    TclCopyDirectoryProc_ *copyDirectoryProc;            
-|                            /* Function to process 'Tcl_CopyDirectory()' */
-|    TclRemoveDirectoryProc_ *removeDirectoryProc;            
-|                            /* Function to process 'Tcl_RemoveDirectory()' */
-|    TclLoadFileProc_ *loadFileProc; 
-|                            /* Function to process 'Tcl_LoadFile()' */
-|    TclUnloadFileProc_ *unloadFileProc;            
+|    TclfsPathInFilesystem_ *pathInFilesystemProc;
+|                            /* Function to check whether a path is in this
+|                             * filesystem */
+|    TclfsDupInternalRep_ *dupInternalRepProc;
+|                            /* Function to duplicate internal fs rep */ 
+|    TclfsFreeInternalRep_ *freeInternalRepProc;
+|                            /* Function to free internal fs rep */ 
+|    TclfsStatProc_ *statProc; /* Function to process a 'Tcl_Stat()' call */
+|    TclfsAccessProc_ *accessProc;            
+|                            /* Function to process a 'Tcl_Access()' call */
+|    TclfsOpenFileChannelProc_ *openFileChannelProc; 
+|                            /* Function to process a 'Tcl_OpenFileChannel()' call */
+|    TclfsMatchFilesTypesProc_ *matchFilesTypesProc;  
+|                            /* Function to process a 'Tcl_MatchFilesTypes()' */
+|    TclfsGetCwdProc_ *getCwdProc;     
+|                            /* Function to process a 'Tcl_GetCwd()' call */
+|    TclfsChdirProc_ *chdirProc;            
+|                            /* Function to process a 'Tcl_Chdir()' call */
+|    TclfsLstatProc_ *lstatProc;            
+|                            /* Function to process a 'Tcl_Lstat()' call */
+|    TclfsCopyFileProc_ *copyFileProc; 
+|                            /* Function to process a 'Tcl_CopyFile()' call */
+|    TclfsDeleteFileProc_ *deleteFileProc;            
+|                            /* Function to process a 'Tcl_DeleteFile()' call */
+|    TclfsRenameFileProc_ *renameFileProc;            
+|                            /* Function to process a 'Tcl_RenameFile()' call */
+|    TclfsCreateDirectoryProc_ *createDirectoryProc;            
+|                            /* Function to process a 'Tcl_CreateDirectory()' call */
+|    TclfsCopyDirectoryProc_ *copyDirectoryProc;            
+|                            /* Function to process a 'Tcl_CopyDirectory()' call */
+|    TclfsRemoveDirectoryProc_ *removeDirectoryProc;            
+|                            /* Function to process a 'Tcl_RemoveDirectory()' call */
+|    TclfsLoadFileProc_ *loadFileProc; 
+|                            /* Function to process a 'Tcl_LoadFile()' call */
+|    TclfsUnloadFileProc_ *unloadFileProc;            
 |                            /* Function to unload a previously successfully
 |                             * loaded file */
-|    TclReadlinkProc_ *readlinkProc; 
-|                            /* Function to process 'Tcl_Readlink()' */
-|    TclListVolumesProc_ *listVolumesProc;            
+|    TclfsReadlinkProc_ *readlinkProc; 
+|                            /* Function to process a 'Tcl_Readlink()' call */
+|    TclfsListVolumesProc_ *listVolumesProc;            
 |                            /* Function to list any filesystem volumes added
 |                             * by this filesystem */
-|    TclFileAttrStringsProc_ *fileAttrStringsProc;
+|    TclfsFileAttrStringsProc_ *fileAttrStringsProc;
 |                            /* Function to list all attributes strings which
 |                             * are valid for this filesystem */
-|    TclFileAttrsGetProc_ *fileAttrsGetProc;
-|                            /* Function to process 'Tcl_FileAttrsGet()' */
-|    TclFileAttrsSetProc_ *fileAttrsSetProc;
-|                            /* Function to process 'Tcl_FileAttrsSet()' */
-|    TclUtimeProc_ *utimeProc;       
-|                            /* Function to process 'Tcl_Utime()' */
-|    TclNormalizePathProc_ *normalizePathProc;       
+|    TclfsFileAttrsGetProc_ *fileAttrsGetProc;
+|                            /* Function to process a 'Tcl_FileAttrsGet()' call */
+|    TclfsFileAttrsSetProc_ *fileAttrsSetProc;
+|                            /* Function to process a 'Tcl_FileAttrsSet()' call */
+|    TclfsUtimeProc_ *utimeProc;       
+|                            /* Function to process a 'Tcl_Utime()' call */
+|    TclfsNormalizePathProc_ *normalizePathProc;       
 |                            /* Function to normalize a path */
 |} Tcl_Filesystem;
-
 
 Once that is done, almost no more ''changes'' need be made to Tcl's
 core.  We must simply add code (to tclIOUtil.c and declarations to
 tclInt.h) to implement the hookable functions and to provide a simple
 API by which extensions can hook into the new filesystem support.
 
-The very last change we are currently aware of is that
-cross-filesystem copy and rename operations will fail.  A patch was
-added so that Tcl can fall back on 'open r/open w/fcopy/file mtime' as
-a copying method.
+This gives us the simplest level of vfs.  Most remaining changes are
+objectifying the way Tcl's core uses filesystems.  Many of these
+changes actually simplify the core, for example, we replace:
 
-Finally to support Extension/Tcl-scripted vfs's in a more robust,
-clean fashion, we have added four other small changes to this TIP:
+|        case FILE_COPY: {
+|            int result;
+|            char **argv;
+|
+|            argv = StringifyObjects(objc, objv);
+|            result = TclFileCopyCmd(interp, objc, argv);
+|            ckfree((char *) argv);
+|            return result;
+|        }            
+
+with
+
+|        case FILE_COPY: {
+|            return TclFileCopyCmd(interp, objc, objv);
+|        }            
+
+There are a few other small changes required, some which are
+absolutely necessary, and some which make the implementation
+of a Tcl-level vfs much simpler and more robust:
+
+  * Cross-filesystem copy and rename operations will fail.  A patch was
+    added so that Tcl can fall back on 'open r/open w/fcopy/file mtime'
+    as a copying method.
 
   * Add ''-tails'' flag to ''glob'' (and internally to ''TclGlob'') to
     indicate that we only want the tails of the files to be returned.
@@ -273,17 +301,168 @@ clean fashion, we have added four other small changes to this TIP:
     channel created in Tcl (registered and with refcount of 1) and
     turn it into a "pristine channel with refcount 0" as returned by
     Tcl_OpenFileChannel.  This is called ''Tcl_DetachChannel''.
-  
-Note that ''no existing code in the win/mac/unix directories was
-changed at all.''
+
+  * Add a function to tclInt.decls called 'TclpVerifyInitialEncodings'
+    which is required when all of Tcl is packaged in a virtual 
+    filesystem (e.g. TclKit), since the call to TclpSetInitialEncodings
+    fails to achieve anything useful.
 
 As mentioned above an implementation of all of this now exists.  The
-modified Tcl core passes all Tcl tests, and works with TclKit.
+modified Tcl core passes all Tcl tests, and works with TclKit.  It has
+been tested with a variety of wrapped demos (tclhttpd, bwidgets,
+widgets, alphatk), and performs very well.  The patch is available
+from: ftp://ftp.ucsd.edu/pub/alpha/tcl/tclobjvfs.diff
 
-The second half of the proposal is to objectify all of Tcl's
-filesystem API, to provide caching of both native file representation
-and filesystem to use.  This does not yet exist, although some efforts
-have been made in this direction.
+~ Documentation: vfs-aware extensions
+
+All calls to filesystem functions in Tcl's core and in extensions
+should preferably be made through the new API defined in tclInt.decls.
+All these functions have the prefix 'Tclfs_'.  Of course extensions
+which call older string-based APIs (e.g. Tcl_OpenFileChannel) will
+still work, but will not benefit from the efficiency of the cached
+object representation.  Most of these functions are not commonly used
+by extensions (e.g. Tclfs_CopyDirectory), so only the most common are 
+listed here:
+
+|    Tcl_Channel Tclfs_OpenFileChannel(Tcl_Interp *interp, Tcl_Obj *pathPtr,
+|                                      char *modeString, int permissions)
+|    int         Tclfs_EvalFile(Tcl_Interp *interp, Tcl_Obj *fileName)
+|    int         Tclfs_Stat(Tcl_Obj *pathPtr, struct stat *buf)
+|    int         Tclfs_Access(Tcl_Obj *pathPtr, int mode)
+
+These replace the equivalent string-based APIs.
+
+|    int      Tclfs_TranslateFileName(Tcl_Interp *interp, Tcl_Obj *pathPtr)
+
+Attempts to convert the given object to a path type.  This is a simple
+wrapper around ''Tcl_ConvertToType(interp, pathPtr, &tclFsPathType)''.
+If it returns TCL_ERROR, the object is not a valid path.  In this
+sense it is very similar to Tcl_TranslateFileName for the existing
+string-based API.  It should be called before attempting to pass
+an object to any of the other filesystem APIs (again in much the same
+way as Tcl_TranslateFileName was used in the core).
+
+|    int      Tclfs_EqualPaths(Tcl_Obj* firstPtr, Tcl_Obj* secondPtr)
+|    Tcl_Obj* Tclfs_SplitPath(Tcl_Obj* pathPtr, int *lenPtr)
+|    Tcl_Obj* Tclfs_JoinPath(Tcl_Obj *listObj, int elements)
+|    Tcl_Obj* Tclfs_JoinToPath(Tcl_Obj *basePtr, int objc, Tcl_Obj *CONST objv[])
+
+These all manipulate paths.  They return Tcl_Obj* with refCounts of
+zero.
+
+|    Tcl_Obj* Tclfs_GetNormalizedPath(Tcl_Interp *interp, Tcl_Obj* pathObjPtr)
+|    char*    Tclfs_GetTranslatedPath(Tcl_Interp *interp, Tcl_Obj* pathPtr)
+
+and finally:
+
+|    char*    Tclfs_GetNativePath(Tcl_Obj* pathObjPtr)
+
+which is used by native filesystems only, and is a shorthand for
+getting at the cached native representation for MacOS, Windows or
+Unix (as appropriate).  This is always a string based representation,
+but may really be of type TCHAR* on Windows, for example.
+
+~ Documentation: writing a new filesystem
+
+The ''objPtr->internalRep.otherValuePtr'' field is a pointer
+to one of these structures, for objects of "path" type.
+
+|typedef struct FsPath {
+|    char *translatedPathPtr;
+|    Tcl_Obj *normPathPtr;
+|    ClientData nativePathPtr;
+|    int filesystemEpoch;
+|    struct Tcl_FilesystemRecord *fsRecPtr;
+|} FsPath;
+
+Path to filesystem mapping:
+
+|int TclfsPathInFilesystem_ (Tcl_Obj *pathPtr, ClientData *clientDataPtr)
+
+Is the given path in this filesystem? This function should
+return either -1, or it should return TCL_OK.  If it returns
+TCL_OK, it may wish to set the clientData parameter to point
+to a filesystem specific representation of the path.  (The native 
+filesystem actually postpones the calculation of the native
+representation until it is requested, but TclKit's vfs immediately
+allocates a structure containing an int and Tcl_Obj* which it uses
+as an internal representation).
+
+Internal representation manipulation:
+
+|void TclfsFreeInternalRep_ (ClientData clientData)
+|ClientData TclfsDupInternalRep_ (ClientData clientData)
+
+These two are called to duplicate and free the clientData field
+of the FsPath structure.  If they are NULL, they are ignored (and 
+on duplication, the new object's clientData field is set to NULL).
+
+Path normalization:
+
+|int TclfsNormalizePathProc_ (Tcl_Interp *interp, Tcl_Obj *pathPtr, 
+|                             int nextCheckpoint)
+
+This function should check the string representation of pathPtr,
+starting at character index 'nextCheckpoint', and convert it from that
+point onwards (if possible) to a filesystem-specific unique form.  It
+should return the character index one beyond where is could no longer
+apply (e.g. pointing to a directory separator or end of string).  That
+index is then passed on to the next filesystem to continue.  Most
+filesystems do not support path ambiguity, in which case the function
+need not be implemented at all (a NULL entry in the lookup table is
+acceptable).  For example on Windows, the path
+"c:/PROGRA~1/tcl/tclkit.exe/lib" would be modified to "C:/Program
+Files/Tcl/tclkit.exe/lib" by the core's normalization procedure, which
+would return '31', pointing to the '/' in-between .exe and lib.
+
+File manipulation:
+
+For each filesystem function which is implemented, these procs should 
+be declared:
+
+|    TclfsAccessProc_ *accessProc;            
+|    TclfsStatProc_ *statProc; 
+|    TclfsOpenFileChannelProc_ *openFileChannelProc; 
+|    TclfsMatchFilesTypesProc_ *matchFilesTypesProc;  
+|    TclfsLstatProc_ *lstatProc;            
+|    TclfsCopyFileProc_ *copyFileProc; 
+|    TclfsRenameFileProc_ *renameFileProc;            
+|    TclfsCopyDirectoryProc_ *copyDirectoryProc;            
+|    TclfsDeleteFileProc_ *deleteFileProc;            
+|    TclfsCreateDirectoryProc_ *createDirectoryProc;            
+|    TclfsRemoveDirectoryProc_ *removeDirectoryProc;            
+|    TclfsLoadFileProc_ *loadFileProc; 
+|    TclfsReadlinkProc_ *readlinkProc; 
+|    TclfsListVolumesProc_ *listVolumesProc;            
+|    TclfsFileAttrStringsProc_ *fileAttrStringsProc;
+|    TclfsFileAttrsGetProc_ *fileAttrsGetProc;
+|    TclfsFileAttrsSetProc_ *fileAttrsSetProc;
+|    TclfsUtimeProc_ *utimeProc;       
+
+In fact, copy/rename file need not be implemented, because Tcl
+will fallback: from rename to copy and delete, and from copy to
+open-r/open-w/fcopy/mtime when necessary.  However a filesystem
+may well be able to implement these more efficiently than that.
+
+Cd/pwd support:
+
+|    TclfsChdirProc_ *chdirProc;            
+|    TclfsGetCwdProc_ *getCwdProc;     
+
+the chdir proc need only return TCL_OK if the path is a valid
+directory, and TCL_ERROR otherwise.  There is no need to remember the
+path in any way.  Native filesystems will of course want to make the
+appropriate system calls to change the real cwd.  Most filesystems will
+not implement the 'Cwd' proc, since Tcl keeps track of the cwd for
+you.  However, the native filesystem should implement it.
+
+Unload file support:
+
+|    TclfsUnloadFileProc_ *unloadFileProc;            
+
+This function is called automatically by Tcl's core to unload
+a file, ''if'' this filesystem was the one which successfully
+loaded the file initially.
 
 ~ Philosophy
 
@@ -334,7 +513,9 @@ Adding a Tcl_Obj interface is definitely a bit more complex than the
 existing string-based system.  However one result will be that Tcl's
 filesystem is properly abstracted away, which conceptually simplifies 
 the core (there will be 10-15 functions which are called for ''all''
-filesystem access, whether it is native or virtual).
+filesystem access, whether it is native or virtual).  Also, as shown
+above, some pieces of the core actually become simpler, since we
+remove more vestiges of the old string-based conversion code.
 
 ~ Future thoughts
 
