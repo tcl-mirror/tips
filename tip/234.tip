@@ -1,14 +1,14 @@
-TIP:		234
-Title:		Add Support For Zlib Compression
-Version:	$Revision: 1.1 $
-Author:		Pascal Scheffers <pascal@scheffers.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	08-Dec-2004
-Post-History:	
-Keywords:	Tcl, zip, gzip, deflate
-Tcl-Version:	8.5
+TIP:            234
+Title:          Add Support For Zlib Compression
+Version:        $Revision: 1.2 $
+Author:         Pascal Scheffers <pascal@scheffers.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Dec-2004
+Post-History:   
+Keywords:       Tcl,zip,gzip,deflate
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -36,18 +36,18 @@ VFS (only a tclvfs zip handler exists at the time of writing).
 ~~ History and Implementation Notes
 
 The specification and implementation for the package and command
-originally come from tclkit. This has been wrapped in a TEA compliant
-package for the reference implementation.
+originally came from tclkit. This was wrapped in a TEA compliant
+package as a stand alone package. The reference implementation is a full
+rewrite, retaining the public API of the tclkit zlib command.
 
 The gzip support and C Language API are not part of the original zlib
-extension.
+extension. The streaming decompression is functionaly equivalent to
+tclkit '''zlib sinflate''', but uses a different command names. Streaming
+compression is new.
 
-The package version for this release must be 1.2 or higher if the zlib
-package name is used and 2.0 or higher if the package does not use the
-zlib toplevel command.
-
-The zlib command in tclkit has two undocumented commands, which will
-not be implemented in this tip. This may cause some incompatibilities.
+The package version for this release is 2.0 because the private API from the
+original command has been removed. Alternatively, the package version can be 1.2
+indicating new features were added and no existing public APIs were changed.
 
 ~ Dependency Issues
 
@@ -64,8 +64,9 @@ installed copy of the zlib library can use that instead.
 ~ Streaming
 
 For large files (where large is a relative value, of course),
-streaming compression and decompression is a must have. This will be
-covered in a second TIP document.
+streaming compression and decompression is required. This is implemented by
+using temporary commands, which can be fed small amounts of data, yielding small
+chunks of (de)compressed data.
 
 ~ Specification
 
@@ -95,7 +96,7 @@ Returns raw deflate ''data'', at an optional compression ''level''.
 The compression level must be between 0 and 9: 1 gives best speed, 9
 gives best compression, 0 gives no compression at all (the input data
 is simply copied a block at a time).
- 
+
  > '''zlib decompress''' ''compressedData'' ?''bufferSize''?
 
 Decompresses raw deflate as obtained from '''zlib compress'''. The
@@ -110,7 +111,7 @@ Returns zlib-compressed ''data'', at an optional compression
 '''level'''.  The compression level must be between 0 and 9: 1 gives
 best speed, 9 gives best compression, 0 gives no compression at all
 (the input data is simply copied a block at a time).
- 
+
  > '''zlib inflate''' ''deflatedData'' ?''bufferSize''?
 
 Decompresses the zlib-compressed data as obtained from '''zlib
@@ -129,7 +130,7 @@ best speed, 9 gives best compression, 0 gives no compression at all
 The gzip header will have no file name, no extra data, no comment, no
 modification time (set to zero), no header crc, and the operating
 system will be set to 255 (unknown).
- 
+
  > '''zlib gunzip''' ''gzipData'' ?''bufferSize''?
 
 Decompresses the gzip data as obtained from '''zlib deflate''' or any
@@ -144,6 +145,75 @@ system from the gzip header.
 
 Note that '''compress'''/'''decompress''', '''deflate'''/'''inflate'''
 and '''gzip'''/'''gunzip''' must be used in pairs.
+
+~~~ Streaming compression and decompression
+
+Streaming is handled by a worker command which is created by calling the zlib
+command, '''stream''' subcommand:
+
+ > '''zlib stream''' ''deflate/inflate/compress/decompress/gzip/gunzip'' ?''level''?
+
+Returns a command name which will perform the requested operation. Compression
+level is only used when compressing data.
+
+~~~~ Stream worker command
+
+The stream worker command is used to actually compress and decompress in smaller
+chunks than the input and/or output.
+
+ > '''$stream put''' ?''-flush||-fullflush||-finalize''? ''data''
+
+Adds data to be (de)compression. -flush, -fullflush and -finalize are mutually
+exclusive flags to indicate the desired flushing of the stream. -finalize is used to
+indicate the last block of data while compressing. After -finalize, no more data
+can be added to be compressed. For decompression, after -finalize you can still add
+more data for decompression.
+
+ > '''$stream flush'''
+
+The next '''get''' operation will try to get the most data from the stream.
+While compressing, calling flush often will degrade the compression ratio as it
+forces all remaining input to be output immediately.
+
+ > '''$stream fullflush'''
+
+Like '''flush''', the next '''get''' operation will try to get the most data from the stream.
+Additionally, the compressor will output extra data to enable recovery from this
+point in the datastream.
+
+ > '''$stream finalize'''
+
+For compression, this signals the end of the input data, no more data can be added
+to the stream after 'finalize'. For decompression, this functions the same as ''flush''
+
+ > '''$stream get''' ?''count''?
+
+Gets (de)compressed data from the stream. The optional ''count'' parameter specifies
+the maximum number of bytes to read from the stream. Especially for decompression,
+it is strongly recommended to specify a ''count''.
+
+ > '''$stream eof'''
+
+Returns 0 while the end of the compressed stream has not been reached. Returns 1
+when the end of compressed stream was reached or the last data has been put to the
+stream and -finalize was specified, or '''$stream finalize''' has been called while
+compressing data.
+
+When [$stream eof] is true, and [$stream get ?count?] returns an empty string,
+you will have obtained all data from the stream.
+
+ > '''$stream adler32'''
+
+Returns the adler32 checksum of the uncompressed data. For compressing streams,
+this value is updated on each '''$stream put'''. For decompressing streams, the
+value will only match the adler32 of the decompressed string after the last
+'''$stream get''' returned an empty string.
+
+ > '''$stream close'''
+
+Deletes the $stream worker command and all storage associated with it. Discards any
+remaining input and output. After this command, the $stream command cannot be used
+anymore.
 
 ~~~ Checksums
 
@@ -162,31 +232,53 @@ for incremental calculations.
 ~~~ SYNOPSYS
 
 Tcl_Obj *
-'''Zlib_Deflate'''(''interp'', ''type'', ''data'', ''level'')
+'''Zlib_Deflate'''(''interp'', ''format'', ''data'', ''level'')
 
 Tcl_Obj *
-'''Zlib_Inflate'''(''interp'', ''type'', ''compressedData'', ''bufferSize'')
+'''Zlib_Inflate'''(''interp'', ''format'', ''data'', ''bufferSize'')
 
-uint
-'''Zlib_CRC32'''(''interp'', ''data'', ''startValue'')
+unsigned int
+'''Zlib_CRC32'''(''crc'', ''bytes'', ''length'')
 
-uint
-'''Zlib_Adler32'''(''interp'', ''data'', ''startValue'')
+unsigned int
+'''Zlib_Adler32'''(''adler'', ''bytes'', ''length'')
+
+int
+'''Zlib_StreamInit'''(''interp'', ''mode'', ''format'', ''level'', ''zshandlePtr'')
+
+Tcl_Obj *
+'''Zlib_StreamGetCommandName'''(''zshandle'')
+
+int
+'''Zlib_StreamEof'''(''zshandle'')
+
+int
+'''Zlib_StreamClose'''(''zshandle'')
+
+int
+'''Zlib_StreamAdler32'''(''zshandle'')
+
+int
+'''Zlib_StreamPut'''(''zshandle'', ''data'', ''flush'')
+
+int
+'''Zlib_StreamGet'''(''zshandle'', ''data'', ''count'')
 
 ~~~ ARGUMENTS
 
  Tcl_Interp *interp (in): Optional interpreter to use for error
   reporting.
 
- int type (in): Compressed data format.  For compression and
+ int format (in): Compressed data format.  For compression and
   decompression either ZLIB_FORMAT_RAW, ZLIB_FORMAT_ZLIB or
   ZLIB_FORMAT_GZIP. A fourth value, ZLIB_FORMAT_AUTO is available for
   decompression, which can be used when decompressing either GZIP or
   ZLIB formatted data. Decompression of RAW data requires specifying
   the format as RAW.
 
- Tcl_Obj *data (in): The uncompressed input data for compression or
-  checksum calulations
+ int mode (in): Compress or decompress mode. Either ZLIB_INFLATE or ZLIB_DEFLATE.
+
+ Tcl_Obj *data (in): The input data for compression or decompression
 
  int level (in): The compression level. Must be between 0 and 9; 1
   gives best speed, 9 gives best compression, 0 gives no compression
@@ -195,13 +287,28 @@ uint
  Tcl_Obj *compresseddata (in): The compressed input data for
   decompression.
 
+ CONST char *bytes (in): input bytes for calculation of checksums.
+
+ int length (in): number of bytes to calculate the checksum on.
+
+ unsigned int crc (in): start value value for the crc-32 calculation
+
+ unsigned int adler (in): start value value for the adler-32 calculation
+
  int buffersize (in): The buffer size can be used to specify the size
   of the decompressed data in bytes if it is known before
   decompression. If buffersize is 0, the buffer starts out at 16Kb and
   is doubled until the decompressed data fits.
 
- uint startvalue (in): Optional start value for continuation of
-  checksum calculation.
+ int *zshandlePtr (in/out): Pointer to an integer to receive the handle to the
+  stream. All subsequent Zlib_Stream*() calls require this handle.
+
+ int zshandle (in): Handle for the stream.
+
+ int flush (in): Flush parameter. ZLIB_NO_FLUSH, ZLIB_FLUSH, ZLIB_FULLFLUSH or
+  ZLIB_FINALIZE
+
+ int count (in): Maximum number of bytes to be written to the data Tcl_Obj.
 
 ~~~ Functions
 
@@ -229,6 +336,46 @@ This function returns a quick Adler-32 calculation. The startvalue
 should contain the previously returned value for streaming
 calculations, or zero for the first block.
 
+ > '''Zlib_StreamInit()'''
+
+This function initializes the internal state for compression or decompression
+and creates the Tcl worker command for use at the script level. Returns TCL_OK when
+initialization was succesful.
+
+ > '''Zlib_StreamGetCommandName()'''
+
+This function returns a ''Tcl_Obj*'' which contains the fully qualified stream
+worker command name associated with this stream.
+
+ > '''Zlib_StreamEof()'''
+
+This function returns 0 or 1 depending on the state of the (de)compressor. For
+decompression, eof is reached when the entire compressed stream has been
+decompressed. For compression, eof is reached when the stream has been flushed
+with ''ZLIB_FINALIZE''.
+
+ > '''Zlib_StreamClose()'''
+
+This function frees up all memory associated with this stream, deletes the Tcl
+worker command and discards all remaining input and output data.
+
+ > '''Zlib_StreamAdler32()'''
+
+This function returns the Adler-32 checksum of the uncompressed data up to this
+point. For decompressing streams, the checksum will only match the checksum of
+uncompressed data when ''Zlib_StreamGet'' returns an empty string.
+
+ > '''Zlib_StreamPut()'''
+
+This function is used to add data to the stream. For compression, the final block
+of data, which may be an empty string, must be indicated with ZLIB_FINALIZE as the
+flush parameter.
+
+ > '''Zlib_StreamGet()'''
+
+This function is used to get the data from the stream. A count parameter of -1
+will return all available data.
+
 ~ Usage
 
 Because zlib is to be implemented as a core package, applications will
@@ -240,9 +387,12 @@ These commands only work on data already available to a safe
 interpreter and are therefore safe make available in the safe
 interpreter.
 
-~ Reference Implementation 
+~ Reference Implementation
 
-The reference implementation is not yet available.
+The reference implementation is available at the subversion repository
+h_ttp://svn.scheffers.net/zlib. Alternatively, a recent snapshot may be obtained
+from h_ttp://svn.scheffers.net/zlib.tar.gz. This reference implementation includes
+a copy of zlib-1.2.1 from h_ttp://www.gzip.org
 
 ~ Comments
 
