@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -606,9 +606,8 @@ The handler methods are different as well. This TIP consolidated a
 number of methods, gave them better names and removed unnecessary
 arguments. It also removed some limitations.
 
-The actual reference implementation will be provided at SourceForge,
-as an entry in the Tcl Patch Tracker. The exact url will be added here
-when it becomes available.
+The actual reference implementation is provided at SourceForge
+[http://sourceforge.net/support/tracker.php?aid=1163274].
 
 ~ Comments
 
