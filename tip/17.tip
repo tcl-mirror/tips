@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -35,7 +35,7 @@ file (or just a small number of files).  The best and simplest way to
 achieve that task (and many other useful tasks) is to let Tcl handle
 the contents of a single 'wrapped document' as if it were a
 filesystem: the contents may be opened, sourced, stat'd, copied,
-globbed, etc.
+globbed, etc.  Also note that at the European Tcl/Tk meeting, the (equal) second-ranked request for Tcl was support for standalone executables (http://mini.net/cgi-bin/wikit/837.html).
 
 This TIP suggests that Tcl's core be modified to allow non-native
 filesystems to be plugged in to the core, and hence allow ''perfect''
@@ -121,10 +121,12 @@ implementation.
  > A relatively complete implementation of this TIP, and a sample "vfs"
     extension
     now exist, and have been tested through TclKit.  On the "virtual"
-    half of this tip, the implementation is known to be reasonably
+    half of this tip, the implementation is known to be
     stable and complete: TclKit can operate through this new vfs
     implementation without the need to override a single Tcl core
-    command at the script level.  Commands which operate on files
+    command at the script level, and all reasonable filesystem tests
+    (cmdAH.test, fCmd.test, fileName.test) pass in a scripted document.
+    Commands which operate on files
     (image, source, etc.)  and extensions like Image, Winico can be
     made to work in a TclKit automatically!  The objectification is
     also now relatively complete, although there is still room for
@@ -314,8 +316,8 @@ of a Tcl-level vfs much simpler and more robust:
 
   * Add a function to tclInt.decls called 'TclpVerifyInitialEncodings'
     which is required when all of Tcl is packaged in a virtual 
-    filesystem (e.g. TclKit), since the call to TclpSetInitialEncodings
-    fails to achieve anything useful.
+    filesystem (e.g. TclKit), since Tcl's very early call to 
+    TclpSetInitialEncodings fails to achieve anything useful.
 
 As mentioned above an implementation of all of this now exists.  The
 modified Tcl core passes all Tcl tests, and works with a new version of
@@ -344,9 +346,10 @@ listed here:
 
 These replace the equivalent string-based APIs.
 
-|    int      Tclfs_TranslateFileName(Tcl_Interp *interp, Tcl_Obj *pathPtr)
+|    int      Tclfs_ConvertToPathType(Tcl_Interp *interp, Tcl_Obj *pathPtr)
 
-Attempts to convert the given object to a path type.  This is a simple
+Attempts to convert the given object to a path type.  This is a little
+more than a simple
 wrapper around ''Tcl_ConvertToType(interp, pathPtr, &tclFsPathType)''.
 If it returns TCL_ERROR, the object is not a valid path.  In this
 sense it is very similar to Tcl_TranslateFileName for the existing
@@ -380,11 +383,23 @@ The ''objPtr->internalRep.otherValuePtr'' field is a pointer
 to one of these structures, for objects of "path" type.
 
 |typedef struct FsPath {
-|    char *translatedPathPtr;
-|    Tcl_Obj *normPathPtr;
-|    ClientData nativePathPtr;
-|    int filesystemEpoch;
+|    char *translatedPathPtr;    /* Name without any ~user sequences */
+|    Tcl_Obj *normPathPtr;       /* Normalized absolute path, without .
+|                                 * or .. sequences, and without ~user
+|                                 * sequences. */
+|    Tcl_Obj *cwdPtr;            /* If null, path is absolute, else
+|                                 * this points to the cwd object used
+|                                 * for this path.  We have a refCount
+|                                 * on the object. */ 
+|    ClientData nativePathPtr;   /* Native representation of this path,
+|                                 * which is filesystem dependent. */
+|    int filesystemEpoch;        /* Used to ensure the path representation
+|                                 * was generated during the correct
+|                                 * filesystem epoch.  The epoch changes
+|                                 * when filesystem-mounts are changed. */ 
 |    struct Tcl_FilesystemRecord *fsRecPtr;
+|                                /* Pointer to the filesystem record 
+|                                 * entry to use for this path. */
 |} FsPath;
 
 Path to filesystem mapping:
@@ -498,10 +513,13 @@ provide a similarly general and efficient filesystem.
 
  2. Alternatives to objectification
 
-  > The existing patch adds vfs support to Tcl's core, and requires
+  > A previous patch added string-based vfs support to Tcl's core, and 
+    required
     very few core changes at all.  It could be adopted instead of an
     objectified filesystem.  This would make Tcl's filesystem more
-    complete, but would not make it any more efficient.
+    complete, but would not make it any more efficient.  Also it is 
+    much harder to implement complete 'glob' emulation without the
+    newer API.
 
 ~ Objections
 
@@ -510,7 +528,7 @@ provide a similarly general and efficient filesystem.
 There are actually remarkably few changes required, so the only
 slowdown would occur if additional filesystems are hooked into the
 core.  This is similar to the impact of the 'stacked channels'
-implementation.  Once the filesystem is objectified, this will 
+implementation.  Once the filesystem is objectified, this should
 actually speed up Tcl's core.
 
 ''Won't this break backwards compatibility ("The Tcl question")?''
