@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -163,6 +163,25 @@ real-life expressions, the additional cost tends to vanish quickly into
 statistical noise; variable access (with corresponding checks for traces)
 and bytecode overhead quickly comes to dominate the performance for
 all but the simplest expressions.
+
+~ Impact on C-coded Extensions
+
+Extensions coded in C that wish to create math functions accepting
+parameters of type '''TCL_EITHER''' may find that they do not
+get type coercion from parameters of new numeric types, such as
+extended-precision integers.  The coding change to replace them
+with Tcl commands is fairly easy and mechanical, at a level of
+effort comparable to that needed for [73].  Moreover,
+once it is completed, a math function will be using the
+known '''Tcl_CreateObjCmd''' API, which has been stable since
+Tcl 8.0 and is unlikely to change substantially in future releases.
+
+The ''tbcload'' extension will need to implement a small amount
+of bytecode translation to preserve compatibility with bytecode
+compiled modules built against earlier versions of Tcl.  The reason
+is that two bytecodes, '''INST_INVOKE_BUILTIN1''' and
+'''INST_INVOKE_FUNC1''' have been eliminated from
+'''Tcl_ExecuteByteCode''' since the compiler no longer emits them.
 
 ~ Reference Implementation
 
