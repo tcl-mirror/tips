@@ -1,0 +1,185 @@
+TIP:            89
+Title:          Try/Catch Exception Handling in the Core
+Version:        $Revision: 1.1 $
+Author:         Tom Wilkason <tom.wilkason@cox.net>
+Author:         Frank Pilhofer <520065607613-0001@t-online.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Mar-2002
+Post-History:
+Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.4
+
+~ Abstract
+
+This TIP proposes the addition of a ''try''...''catch''...''finally''
+command to provide a more robust and powerful exception handling
+mechanism.
+
+~ Rationale
+
+Exceptions are currently supported very well in Tcl, in fact they are
+a major advantage over many other languages. However the mechanism to
+''catch'' and handle the errors is someone limited and does not
+promote the full use of existing error codes.  Wrapper procedures can
+be written to improve on this, however both a performance and
+compatibility penalty is incurred.
+
+This TIP proposes adding a try/catch command to the Tcl core, not
+unlike those found in C++, C#, Java and Python (to name a few).
+
+~ Specification
+
+I propose the following two commands be added to Tcl:
+
+''throw'' statement
+
+|    throw ?<type> ?<message>??
+
+ > A ''throw'' statement with ''type'' throws an error exception with
+   the errorCode ''type''. The ''throw'' statement works as the
+   ''error'' statement, but the arguments are reordered to encourage
+   the use of errorCodes.
+
+ > The throw ''type'' is that set in errorCode, any user defined type,
+   built-in types include POSIX, ARITH, CORE, REGEXP, WINDOWS , NONE,
+   ...  The message is optional, and is the same as that issued by the
+   catch command, error -code error "message"
+
+ > An instance of ''throw'' with no arguments can be used within a
+   ''catch'' or ''finally'' block to immediately re-throw the current
+   exception that is being handled by the ''catch'' block.  When an
+   error is re-thrown in the catch block, the current error is
+   propagated up one level following the evaluation of the ''finally''
+   block (if on exists).  If the error is re-thrown in a ''finally''
+   block, the error is immediately propagated up one level.  When an
+   exception is re-thrown, control is transferred to the first
+   ''catch'' clause in an enclosing ''try'' statement that can handle
+   the exception.
+
+|    throw type message
+
+ > is the same as
+
+|    error message "" type
+
+''try'' statement
+
+|    try body ?catch {type ?var?} body ...? ?finally body?"
+
+ > If a one or more ''catch'' blocks are specified, each corresponding
+   ''body'' represents a required block of code that is evaluated if
+   the resulting errorCode matches the ''type'' condition.  The
+   required body of the ''finally'' block is evaluated following the
+   ''try'' block and ''catch'' block.
+
+ > If no ''catch'' blocks are specified, the error is ignored with
+   execution immediately resuming at the start of the ''finally''
+   block (if specified).
+
+ > ''type'' represents the errorCode and can be matched using glob
+   style matching, if ''var'' is specified the current error message
+   will be placed in it in the local scope upon a errorCode match.
+   Note, ''catch'', if specified, will catch all remaining errors.  If
+   used, it should be placed last since each of the catch blocks are
+   evaluated in order.  ''type'' is that set in errorCode, and can be
+   any user defined type, or built-in types including POSIX*, ARITH*,
+   CHILD*, CORE, REGEXP, WINDOWS, or NONE.
+
+ > If one or more ''catch'' blocks are specified, and no ''catch''
+   block matches the errorCode condition, the error will be propagated
+   up to the next level following evaluation of the ''finally'' clause
+   (if specified).  An enclosing ''try'' block (or ''catch'' command)
+   can then be used handle the error.
+
+ > ''message'' is the same as that issued by the ''catch'' command or
+   returned with
+
+|    error -code error "message"
+
+ > The ''finally'' block is used to perform all the clean up code.
+   The ''finally'' body is evaluated whether the error occurs or not,
+   or if a ''catch'' block matched the errorCode.  It is also
+   evaluated if a ''throw'' statement occurs within the ''catch''
+   clause.
+
+~ Examples
+
+''throw''
+
+|    throw DEVICE "Could not write to device"
+
+'try'' only (no practical use)
+
+|    try {
+|       incr i
+|    }
+
+''try - catch ''
+
+|    try {
+|       incr i
+|    } catch {*} {
+|       set i 0
+|    }
+
+''try - finally ''
+
+|    try {
+|       . config -cursor watch
+|       #do some busy stuff here, don't care about errors
+|    } finally {
+|       . config -cursor arrow
+|    }
+
+''try - catch - catch ''
+
+|    try {
+|	;# Some code that will cause an error
+|    } catch {"POSIX*" result} {
+|	;# Statements to handle POSIX type errors
+|    } catch {NULL result} {
+|	;# Statements to handle NULL (a user created) type errors
+|    } catch {* result} {
+|	;# Statements to handle all other errors
+|    }
+
+''try - catch - catch - finally ''
+
+|    try {
+|	;# Some code that will cause an error
+|    } catch {"POSIX*" result} {
+|	;# Statements to handle POSIX type errors
+|    } catch {* result} {
+|	;# Statements to handle all other errors
+|    } finally {
+|	;# Statements to execute whether an error occurred or not
+|    }
+
+Re-throw ''try - catch - finally ''
+
+|    try {
+|	try {
+|	   set b [expr {$a/0}]
+|	} catch {ARITH*} {
+|	   if {$a == 0} {
+|	      throw   ;# re-throw to outer try
+|	   }
+|	} finally {
+|	   set b 1    ;# will execute before throw above
+|	}
+|    } catch {ARITH* result} {
+|	;# This will catch the inner throw
+|	puts "$res"
+|    }
+
+~ Reference Implementation
+
+This implementation is based on Frank Pilhofer's ''combat:try'' which
+is part of the Tcl Combat/Corba extension.  Glob style match typing
+has been added and the nested throws have been added ala C#.
+
+~ Copyright
+
+This document has been placed in the public domain.
