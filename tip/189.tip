@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -8,7 +8,7 @@ Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 Author:         Daniel A. Steffen <das@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        24-Mar-2004
