@@ -1,10 +1,10 @@
 TIP:		19
 Title:		Add a Text Changed Flag to Tk's Text Widget
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Neil McKay <mckay@eecs.umich.edu>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	03-Jan-2001
 Tcl-Version:	8.4a2
 Post-History:
