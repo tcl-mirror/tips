@@ -1,6 +1,6 @@
 TIP:           17
 Title:         Redo Tcl's filesystem
-Version:       $Revision: 1.1 $
+Version:       $Revision: 1.2 $
 Author:        Vince Darley <vince@santafe.edu>
 State:         Draft
 Type:          Project
@@ -29,12 +29,13 @@ There are two current drawbacks to Tcl's filesystem implementation:
 Prowrap (http://sourceforge.net/projects/tclpro), Freewrap
 (http://home.nycap.rr.com/dlabelle/freewrap/freewrap.html), Wrap
 (http://members1.chello.nl/~j.nijtmans/wrap.html), TclKit
-(http://www.equi4.com/jcw/wiki.cgi/19.html), ...  are all attempts to provide an
-ability to place Tcl scripts and other data inside a single file (or
-just a small number of files).  The best and simplest way to achieve
-that task (and many other useful tasks) is to let Tcl handle the
-contents of a single 'wrapped document' as if it were a filesystem: the
-contents may be opened, sourced, stat'd, copied, globbed, etc.
+(http://www.equi4.com/jcw/wiki.cgi/19.html), ...  are all attempts to
+provide an ability to place Tcl scripts and other data inside a single
+file (or just a small number of files).  The best and simplest way to
+achieve that task (and many other useful tasks) is to let Tcl handle
+the contents of a single 'wrapped document' as if it were a
+filesystem: the contents may be opened, sourced, stat'd, copied,
+globbed, etc.
 
 This TIP suggests that Tcl's core be modified to allow non-native
 filesystems to be plugged in to the core, and hence allow ''perfect''
@@ -43,9 +44,9 @@ the above tools are very far from perfect.  The most obvious types of
 virtual filesystem which should be supported are:
 
   * wrapped/archived document 'bundles' such as TclKits, .zip files,
-  etc.
+    etc.
 
-  * remote filesystems (e.g. an ftp site).
+  * remote filesystems (e.g. an FTP site).
 
 but the main point is that all filesystem access should occur through 
 a hookable interface, so that Tcl neither knows nor cares what type of
@@ -56,11 +57,11 @@ a new 'Path' object type, which should be designed with two goals in
 mind:
 
   * allow caching of 'native path representations' (all native Tclp...
-  filesystem calls involve various Utf->Native conversions)
+    filesystem calls involve various Utf->Native conversions)
   
-  * allow virtual filesystems to operate very efficiently -- this will
-  probably require caching of the filesystem to use for a particular
-  file.
+  * allow virtual filesystems to operate very efficiently - this will
+    probably require caching of the filesystem to use for a particular
+    file.
 
 If all of these goals are achieved, Tcl will have a new filesystem
 which is both more efficient and more powerful than the existing
@@ -68,87 +69,86 @@ implementation.
   
 ~ Technical discussion
 
-1. Virtual filesystems
+ 1. Virtual filesystems
 
-An examination of the core shows that a very limited support was added
-to tclIOUtil.c in June 1998 (presumably by Scriptics to support
-prowrap) so that TclStat, TclAccess and Tcl_OpenFileChannel commands
-could be intercepted.  
-(See
-http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/tcl/generic/tclIOUtil.c?rev=1.2&content-type=text/x-cvsweb-markup&cvsroot=tcl)
+  > An examination of the core shows that a very limited support was
+    added to tclIOUtil.c in June 1998 (presumably by Scriptics to
+    support prowrap) so that TclStat, TclAccess and
+    Tcl_OpenFileChannel commands could be intercepted.  (See
+    http://cvs.sourceforge.net/cgi-bin/cvsweb.cgi/tcl/generic/tclIOUtil.c?rev=1.2&content-type=text/x-cvsweb-markup&cvsroot=tcl)
 
-This TIP seeks to provide a ''complete''
-implementation of virtual file system support, rather than these
-piecemeal functions.
+  > This TIP seeks to provide a ''complete'' implementation of virtual
+    file system support, rather than these piecemeal functions.
 
-Fortunately, since Tcl is already abstracted across three different
-filesystem types (through the Tclp...) functions, it is not that big a
-task to abstract away to any generic filesystem.
+  > Fortunately, since Tcl is already abstracted across three
+    different filesystem types (through the Tclp...) functions, it is
+    not that big a task to abstract away to any generic filesystem.
 
-One goal of this TIP is to allow an ''extension'' to be written so
-that one can implement a virtual filesystem entirely in Tcl: i.e. to
-provide sufficient hooks into Tcl's core so that an extension can
-capture all filesystem requests and divert them if desired.  The goal 
-is not to provide Tcl-level hooks in Tcl's core.  Such hooks will only
-be at the C level, and an extension would be required to expose them to
-the Tcl level.
+  > One goal of this TIP is to allow an ''extension'' to be written so
+    that one can implement a virtual filesystem entirely in Tcl:
+    i.e. to provide sufficient hooks into Tcl's core so that an
+    extension can capture all filesystem requests and divert them if
+    desired.  The goal is not to provide Tcl-level hooks in Tcl's
+    core.  Such hooks will only be at the C level, and an extension
+    would be required to expose them to the Tcl level.
 
-2. Objectified filesystem interface.
+ 2. Objectified filesystem interface.
 
-Every filesystem access in Tcl's core usually involves several calls to
-'access', 'stat', etc.  
+  > Every filesystem access in Tcl's core usually involves several
+    calls to 'access', 'stat', etc.
 
-For example 'file atime $path' requires two calls to 'stat' and one
-call to 'utime', all with the same $path argument.  Each of these
-requires a conversion from the same Utf path to the same native string
-representation.  No caching is performed, so each of these goes through
-Tcl_UtfToExternal.  Often Tcl code will use the same $path objects for
-an entire sequence of Tcl 'file' operations.  Clealy a representation 
-which cached the native path would speed up all of these operations
-(except the first).
+  > For example 'file atime $path' requires two calls to 'stat' and
+    one call to 'utime', all with the same $path argument.  Each of
+    these requires a conversion from the same Utf path to the same
+    native string representation.  No caching is performed, so each of
+    these goes through Tcl_UtfToExternal.  Often Tcl code will use the
+    same $path objects for an entire sequence of Tcl 'file'
+    operations.  Clearly a representation which cached the native path
+    would speed up all of these operations (except the first).
 
-The second reason why objectification is desirable is that in a
-pluggable-fs environment we must determine, for each file operation,
-which filesystem to use (whether native, a mounted .zip file, a remote
-ftp site, etc.).  If this information can be cached for a particular
-path, again we will not need to recalculate it at every step.  A
-similar technique of to that used by Tcl's bytecode compilation will
-be used: each cached object will have a 'filesystemEpoch' counter, so 
-that we can tell with each access whether the filesystem has been
-modified (and we must discard the cached information). 
-Mounting/unmounting filesystems will obviously modify the
-filesystemEpoch.
+  > The second reason why objectification is desirable is that in a
+    pluggable-fs environment we must determine, for each file
+    operation, which filesystem to use (whether native, a mounted .zip
+    file, a remote FTP site, etc.).  If this information can be cached
+    for a particular path, again we will not need to recalculate it at
+    every step.  A similar technique of to that used by Tcl's bytecode
+    compilation will be used: each cached object will have a
+    "filesystemEpoch" counter, so that we can tell with each access
+    whether the filesystem has been modified (and we must discard the
+    cached information).  Mounting/unmounting filesystems will
+    obviously modify the filesystemEpoch.
 
-A partial implementation of this TIP, and a sample 'vfs' extension now
-exist, and have been tested through TclKit.  On the 'virtual' half of
-this tip, the implementation is known to be reasonably stable and
-complete: TclKit can operate through this new vfs implementation
-without the need to override a single Tcl core command at the script
-level.  Commands which operate on files (image, source, etc.)  and
-extensions like Image, Winico can be made to work in a TclKit
-automatically!  The part of this TIP which has not yet been implemented
-is the objectification of the filesystem.  This will have additional
-efficiency gains for vfs's implemented at the script level, since the 
-same Path objects can be passed through the entire process, without an
-intermediate conversion (and string duplication which is currently
-required).  The combination of caching and objectification will change
-the existing list of steps from:
+  > A partial implementation of this TIP, and a sample "vfs" extension
+    now exist, and have been tested through TclKit.  On the "virtual"
+    half of this tip, the implementation is known to be reasonably
+    stable and complete: TclKit can operate through this new vfs
+    implementation without the need to override a single Tcl core
+    command at the script level.  Commands which operate on files
+    (image, source, etc.)  and extensions like Image, Winico can be
+    made to work in a TclKit automatically!  The part of this TIP
+    which has not yet been implemented is the objectification of the
+    filesystem.  This will have additional efficiency gains for vfs's
+    implemented at the script level, since the same Path objects can
+    be passed through the entire process, without an intermediate
+    conversion (and string duplication which is currently required).
+    The combination of caching and objectification will change the
+    existing list of steps from
 
 |Tcl_Obj -> string -> filesystem -> convert-to-native -> native-call
 
-or (with vfs hooked in):
+  > or (with vfs hooked in)
 
 |Tcl_Obj -> string -> vfilesystem -> pick-filesystem -> convert-to-native -> native-call
 
-and
+  > and
 
 |Tcl_Obj -> string -> vfilesystem -> pick-filesystem -> Tcl_NewStringObj -> Tcl-vfs-call
 
-to:
+  > to
 
 |Tcl_Obj -> vfilesystem -> native-call
 
-and
+  > and
 
 |Tcl_Obj -> vfilesystem -> Tcl-vfs-call
 
@@ -158,14 +158,14 @@ A final side-benefit of this proposal would be that it further
 modularises the core of Tcl, so that one could, in principle:
 
   * remove the native filesystem support entirely from Tcl (perhaps
-  useful for embedded devices etc), since there will be a clean layer
-  separating Tcl from its native filesystem functionality.
+    useful for embedded devices etc), since there will be a clean
+    layer separating Tcl from its native filesystem functionality.
 
   * use Tcl's filesystem for other purposes (outside of Tcl).
   
-However these final two points are explicitly ''not'' the goal of this TIP!
-I simply want to improve Tcl to add vfs support, and the best way to
-do that seems (to me) to be along the lines of this TIP.
+However these final two points are explicitly ''not'' the goal of this
+TIP!  I simply want to improve Tcl to add vfs support, and the best
+way to do that seems (to me) to be along the lines of this TIP.
 
 ~ Proposal
 
@@ -242,34 +242,35 @@ procedure.  The current hookable procedure list is as follows:
 |} Tcl_Filesystem;
 
 
-Once that is done, almost no more ''changes'' need be made to Tcl's core.  We
-must simply add code (to tclIOUtil.c and declarations to tclInt.h) to 
-implement the hookable functions and to provide a simple API by which 
-extensions can hook into the new filesystem support.
+Once that is done, almost no more ''changes'' need be made to Tcl's
+core.  We must simply add code (to tclIOUtil.c and declarations to
+tclInt.h) to implement the hookable functions and to provide a simple
+API by which extensions can hook into the new filesystem support.
 
-The very last change we are currently aware of is that cross-filesystem
-copy and rename operations will fail.  A patch was added so that Tcl
-can fallback on 'open r/open w/fcopy/file mtime' as a copying method.
+The very last change we are currently aware of is that
+cross-filesystem copy and rename operations will fail.  A patch was
+added so that Tcl can fall back on 'open r/open w/fcopy/file mtime' as
+a copying method.
 
 Finally to support Extension/Tcl-scripted vfs's in a more robust,
 clean fashion, we have added four other small changes to this TIP:
 
-  * Add '-tails' flag to 'glob' (and internally to 'TclGlob') to
-  indicate that we only want the tails of the files to be returned.
+  * Add ''-tails'' flag to ''glob'' (and internally to ''TclGlob'') to
+    indicate that we only want the tails of the files to be returned.
 
-  * Add 'file normalize path' subcommand to 'file', which returns an 
-  absolute path in which all '..', '.' sequences have been removed,
-  and the file is a platform-normalized path (e.g. the longname is
-  used on windows).
+  * Add ''file normalize path'' subcommand to ''file'', which returns
+    an absolute path in which all "..", "." sequences have been
+    removed, and the file is a platform-normalized path (e.g. the
+    longname is used on windows).
 
-  * Modify the implementation of 'encoding names' to use the
-  TCL_GLOBMODE_TAILS flag to TclGlob, simplifying that code.
+  * Modify the implementation of ''encoding names'' to use the
+    TCL_GLOBMODE_TAILS flag to TclGlob, simplifying that code.
 
   * Add an API to tclIO.c to allow us to Unregister a channel
-  ''without'' deleting it.  We need this to be able to take a channel
-  created in Tcl (registered and with refcount of 1) and turn it
-  into a 'pristine channel with refcount 0' as returned by
-  Tcl_OpenFileChannel.  This is called 'Tcl_DetachChannel'.
+    ''without'' deleting it.  We need this to be able to take a
+    channel created in Tcl (registered and with refcount of 1) and
+    turn it into a "pristine channel with refcount 0" as returned by
+    Tcl_OpenFileChannel.  This is called ''Tcl_DetachChannel''.
   
 Note that ''no existing code in the win/mac/unix directories was
 changed at all.''
@@ -278,36 +279,36 @@ As mentioned above an implementation of all of this now exists.  The
 modified Tcl core passes all Tcl tests, and works with TclKit.
 
 The second half of the proposal is to objectify all of Tcl's
-filesystem API, to provide caching of both native file representation 
+filesystem API, to provide caching of both native file representation
 and filesystem to use.  This does not yet exist, although some efforts
 have been made in this direction.
 
 ~ Philosophy
 
 This TIP is influenced by the thoughts behind the TkGS project
-(http://sourceforge.net/projects/tkgs/).
-Whereas TkGS provides a general and efficient graphics system, the aim
-of this TIP is to provide a similarly general and efficient filesystem.
+(http://sourceforge.net/projects/tkgs/).  Whereas TkGS provides a
+general and efficient graphics system, the aim of this TIP is to
+provide a similarly general and efficient filesystem.
 
 ~ Alternatives
 
-1. Alternatives to adding vfs support
+ 1. Alternatives to adding vfs support
 
-TclKit manages a pretty good job of vfs support.  It is limited by the
-inadequacy of overriding at the Tcl level.  Prowrap is limited by the
-inability to glob, load, cd, pwd, etc.
+  > TclKit manages a pretty good job of vfs support.  It is limited by
+    the inadequacy of overriding at the Tcl level.  Prowrap is limited
+    by the inability to glob, load, cd, pwd, etc.
 
-There are currently no better alternatives: if Tcl's
-C core calls C functions directly (as it does), or if extensions call 
-C functions directly (as they do), then complete vfs support
-requires a patch like this to Tcl's core.
+  > There are currently no better alternatives: if Tcl's C core calls
+    C functions directly (as it does), or if extensions call C
+    functions directly (as they do), then complete vfs support
+    requires a patch like this to Tcl's core.
 
-2. Alternatives to objectification
+ 2. Alternatives to objectification
 
-The existing patch adds VFS support to Tcl's core, and requires very
-few core changes at all.  It could be adopted instead of an
-objectified filesystem.  This would make Tcl's filesystem more
-complete, but would not make it any more efficient.
+  > The existing patch adds vfs support to Tcl's core, and requires
+    very few core changes at all.  It could be adopted instead of an
+    objectified filesystem.  This would make Tcl's filesystem more
+    complete, but would not make it any more efficient.
 
 ~ Objections
 
@@ -339,55 +340,57 @@ This section contains items which are outside the scope of this TIP,
 but it was thought useful to raise and have documented for the record.
 
   * the perfect vfs support can have some weird side-effects.  For
-  instance, if I embed all of tcltest and tests/ inside a TclKit, and
-  try to source 'all.tcl', I get errors that each file does not exist.
-  This is because the test code tries to pipe each file in turn to a
-  newly created tcl process (open "| tclsh foo.test r"), but the files
-  don't really exist.  It might be a good idea to allow some limited
-  introspection into the filesystem ('file system $path' which returns
-  'native' for ordinary files, and some other string(s) for virtual
-  files).  If virtual filesystems become very common in the Tcl world
-  (which I hope they do!), then we'll definitely want some such
-  subcommand.
+    instance, if I embed all of tcltest and tests/ inside a TclKit,
+    and try to source 'all.tcl', I get errors that each file does not
+    exist.  This is because the test code tries to pipe each file in
+    turn to a newly created tcl process (open "| tclsh foo.test r"),
+    but the files don't really exist.  It might be a good idea to
+    allow some limited introspection into the filesystem ('file system
+    $path' which returns 'native' for ordinary files, and some other
+    string(s) for virtual files).  If virtual filesystems become very
+    common in the Tcl world (which I hope they do!), then we'll
+    definitely want some such subcommand.
 
   * Should we remove the native 'Tclpxx' filesystem functions from
-  Tcl's API? Or perhaps require a new #define
-  TCL_PROVIDE_NATIVE_FILESYSTEM to allow an extension to access these
-  calls?  They are all inside tclInt.h, so we could easily
-  protect them with such a define.
+    Tcl's API? Or perhaps require a new #define
+    TCL_PROVIDE_NATIVE_FILESYSTEM to allow an extension to access
+    these calls?  They are all inside tclInt.h, so we could easily
+    protect them with such a define.
 
 This patch still places the native filesystem in a preferential
 position, and it is hard-coded as the tail of the fs-lookup list.
 There are two changes which could be made in the future:
 
-  * Move the native-fs support to a static extension which is loaded on
-  startup.  This would ensure the layer now separating Tcl from the
-  native FS is not violated, and might let others use Tcl or pieces of
-  Tcl in new ways.
+  * Move the native-fs support to a static extension which is loaded
+    on startup.  This would ensure the layer now separating Tcl from
+    the native FS is not violated, and might let others use Tcl or
+    pieces of Tcl in new ways.
 
   * By incorporating some pieces of the 'vfs' extension into the core
-  in the future, and probably making some changes to some of the Tclp
-  native-fs functions, we could make Tcl entirely filesystem-agnostic
-  (e.g. we could do weird things like mount the native filesystem
-  inside a virtual filesystem).
+    in the future, and probably making some changes to some of the
+    Tclp native-fs functions, we could make Tcl entirely
+    filesystem-agnostic (e.g. we could do weird things like mount the
+    native filesystem inside a virtual filesystem).
 
 Also,
 
   * Once prowrap is updated to use the new APIs, we should probably
-  remove the primitive vfs hooks it currently uses, this will remove
-  some obsolete stuff from Tcl's core without affecting anything else
-  (I think -- any extensions out there use those APIs?).  Prowrap
-  simply needs to register a Tcl_Filesystem with the stat, access and 
-  openfilechannel fields set to its existing procedures; all other 
-  fields can be NULL.   (They would also need to be objectified).
+    remove the primitive vfs hooks it currently uses, this will remove
+    some obsolete stuff from Tcl's core without affecting anything
+    else (I think - any extensions out there use those APIs?).
+    Prowrap simply needs to register a Tcl_Filesystem with the stat,
+    access and openfilechannel fields set to its existing procedures;
+    all other fields can be NULL.  (They would also need to be
+    objectified).
 
   * file copy can now potentially copy across filesystems, which could
-  be both very slow (across the internet) and may even want different
-  eol conventions on each end.  We could add a '-command' flag to 'file
-  copy' (and perhaps 'file rename'), and we could perhaps add optional ways
-  of specifying the encoding/translation of the transfer?  (The main
-  issue is to distinguish between text and binary files, which require
-  automatic and binary '-translation' respectively).
+    be both very slow (across the internet) and may even want
+    different eol conventions on each end.  We could add a
+    ''-command'' flag to ''file copy'' (and perhaps ''file rename''),
+    and we could perhaps add optional ways of specifying the
+    encoding/translation of the transfer?  (The main issue is to
+    distinguish between text and binary files, which require automatic
+    and binary ''-translation'' respectively).
 
 ~ Copyright
 
