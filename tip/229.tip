@@ -5,15 +5,14 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
 ~ Abstract
 
 This TIP proposes extensions to the '''namespace''' command to allow
-scripts to control how individual namespaces map names to commands and
-variables.
+scripts to control how individual namespaces map names to commands.
 
 ~ Rationale
 
@@ -25,37 +24,42 @@ systems face is the inability to make namespaces efficiently map names
 of entities within classes etc. into the object instances.  This TIP
 provides a simple mechanism for doing this.
 
+No mechanism is provided for affecting the resolving of variable
+names. Best practice is to ensure that variables not present in the
+current namespace are imported explicitly through the '''upvar''' or
+'''variable''' commands (depending on context) and the fact that there
+is any possibility of non-local variable name resolution has been
+behind a number of bugs in the core (e.g. Bug #981733).
+
 ~ Proposed Change
+
+~~ Namespace Path Subcommand
 
 The '''namespace''' command will gain a new subcommand, '''path''',
 with the following syntax:
 
- > '''namespace path''' ''namespace type''
-   ?'''-append'''/'''-prepend'''? ?''list''?
+ > '''namespace path''' ?''list''?
 
-The ''namespace'' argument specifies which namespace's resolution path
-is to be manipulated.
+This command sets and queries the current namespace's command name
+resolution path. If ''list'' is present, '''namespace path''' sets the
+path to the list of namespace names in the list and returns the empty
+string. If it is absent, '''namespace path''' doesn't change anything
+and returns the current path.
 
-The ''type'' argument specifies which name resolution path will be
-manipulated.  Two types will be supported: '''command''' (which
-describes how commands in the namespace are looked up) and
-'''variable''' (which does the same for variables).
+~~ Name Path Behaviour
 
-If the ''list'' argument is missing, the result of the command will be
-the current path for the given type. No update will be performed.
-Neither option argument will be allowed.
+Only names without a namespace separator in them are resolved using
+the namespace's path. When resolving command names, the current
+namespace is always (unless a resolver is installed, of course)
+preferred, and the global namespace is always checked after everything
+in the path. This means that the old behaviour is exactly what you get
+when the path is empty, and also ensures that virtually all scripts
+continue to work when a path is set; if it was possible to remove the
+global namespace from the actual path (as opposed to the settable
+part), virtually all scripts would break.
 
-If the ''list'' argument is present, it will be a list of namespaces
-to search when looking up an a named entity of the given type. The
-current namespace will always be searched first. By default, the path
-will be set, but if the '''-prepend''' option is passed, the given
-''list'' of namespaces will be inserted at the front of the path, and
-similarly if the '''-append''' option is passed, the ''list'' will be
-appended to the path.  The result of the command will be the resulting
-path.
-
-The default path for both commands and variables will be "::" (the
-root namespace) only.
+Note that each namespace's path is isolated from the path of every
+other namespace, including the parent namespace.
 
 ~ Copyright
 
