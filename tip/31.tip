@@ -1,11 +1,12 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         David Gravereaux <davygrvy@pobox.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -118,9 +119,14 @@ branch, or they may be rejected.
    * kennykb-tip-22-33 (Tcl) - Work on implementing the changes
      described in TIP's #22 and #33.
 
-   * msofer-bcEngine (Tcl) - Work on improving performance of the bytecode engine.
+   * msofer-bcEngine (Tcl) - Work on improving performance of the
+     bytecode engine.
 
-   * daves-mk-branch (Tcl) - On-going work to improve the native windows makefiles.  One top-root makefile.win will serve as the starting point for MSVC++, BCC, and Watcom.  Extreme use of shared info will highlight this new system.  This is not TEA -- this is anti-TEA.
+   * daves-mk-branch (Tcl) - On-going work to improve the native
+     windows makefiles.  One top-root makefile.win will serve as the
+     starting point for MSVC++, BCC, and Watcom.  Extreme use of
+     shared info will highlight this new system.  This is not TEA -
+     this is anti-TEA.
 
 ~ Dead Branches
 
