@@ -1,42 +1,42 @@
 TIP:            209
 Title:          Add [clock milliseconds], and [clock microseconds]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Reinhard Max <max@tclers.tk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        12-Jul-2004
 Post-History:   
-Keywords:       clock milliseconds microseconds
+Keywords:       clock, milliseconds, microseconds
 Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to replace [clock clicks -milliseconds] by
-[clock milliseconds] and [clock clicks -microseconds] by
-[clock microseconds].
+This TIP proposes to replace '''clock clicks -milliseconds''' by
+'''clock milliseconds''' and '''clock clicks -microseconds''' by
+'''clock microseconds'''.
 
 ~ Proposed change
 
- 1. Rename the [clock clicks -microseconds] command as defined by TIP 124 to
-    [clock microseconds].
+ 1. Rename the '''clock clicks -microseconds''' command as defined by [124] to
+    '''clock microseconds'''.
 
- 2. Deprecate [clock clicks -milliseconds], and make it's functionality as
-    defined by TIP 124 available as [clock milliseconds]
+ 2. Deprecate '''clock clicks -milliseconds''', and make it's functionality as
+    defined by [124] available as '''clock milliseconds'''.
 
 ~ Rationale
 
-In the author's understanding, the whole purpose of the [clock clicks] name
+In the author's understanding, the whole purpose of the '''clock clicks''' name
 was to indicate that the returned value is neither absolute nor guaranteed
-to have the same unit on different platforms. With the changes of TIP 124 in
+to have the same unit on different platforms. With the changes of [124] in
 place both cases are not true anymore. Therefore the commands to return
 absolute timestamps with millisecond and microsecond resolution should be on
-the same level as [clock seconds] rather than being switches to [clock
-clicks].
+the same level as '''clock seconds''' rather than being switches to '''clock
+clicks'''.
 
-The -microseconds option can be removed from [clock clicks] immediately,
+The '''-microseconds''' option can be removed from '''clock clicks''' immediately,
 because it never has been part of an official Tcl release while
--milliseconds has to be kept at least until the next major release for
+'''-milliseconds''' has to be kept at least until the next major release for
 backwards compatibility.
 
 ~ Reference Implementation
