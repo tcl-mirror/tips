@@ -1,15 +1,15 @@
-TIP:		153
-Title:		Adding a [winfo tophierarchy] Command
-Version:	$Revision: 1.1 $
-Author:		Neil McKay <mckay@eecs.umich.edu>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	26-Aug-2003
-Post-History:	
-Tcl-Version:	8.5
+TIP:            153
+Title:          Adding a [winfo tophierarchy] Command
+Version:        $Revision: 1.2 $
+Author:         Neil McKay <mckay@eecs.umich.edu>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Aug-2003
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 The [[winfo toplevel]] command returns the Tk toplevel window that
 encloses the window that's passed as an argument.  However, Tk
@@ -18,7 +18,7 @@ of a window hierarchy, but are not Tk toplevel widgets.  If a
 subwindow of one of these top-of-hierarchy widgets is passed to
 [[winfo toplevel]], it returns an empty string, making it impossible
 to determine what hierarchy the window resides in.  This TIP proposes
-adding a [[winfo tophierarchy]] command that will return the top
+enhancing the [[winfo toplevel]] command so that it will return the top
 window in the hierarchy regardless of what type of widget it is.
 
 ~Rationale
@@ -31,26 +31,49 @@ so the changes proposed in this TIP would be moot.  However, they are
 now possible due to the incorporation into the Tk core of the changes
 proposed in [47].
 
-~Command Syntax
+As an example, consider the rootwin extension, available from
+http://www.eecs.umich.edu/~mckay/computer/rootwin0.4.tar.gz
+This extension adds a [[rootwin]] widget creation command,
+which turns an X display's root window into a Tk widget. The rootwin
+widget is a top-of-hierarchy widget, but is not an ordinary Tk toplevel.
+The command sequence
 
-The proposed syntax is essentially the same as for the [[winfo
-toplevel]] command:
+| rootwin .r
+| entry .r.e
+| place .r.e -x 100 -y 100
 
-| winfo tophierarchy "windowName"
+will create an entry widget near the upper left corner of the screen.
+However, it is impossible to type anything into the entry widget,
+because Tk's focus code does not work properly with rootwin widgets.
+The problem can be traced back to the fact that the command
+[[winfo toplevel .r.e]] returns the empty string. With the proposed
+extension, this command would return [.r], and the focus code
+would work properly.
 
-should return the window at the top of the hierarchy containing
-"windowName".
+~Compatibility
+
+The proposed behavior for [[winfo toplevel]] is different from
+current behavior, although only in the presence of Tk extensions
+that create top-of-hierarchy widgets that are not toplevels.
+The rootwin package is the only such extension known to this TIP's
+author, so the difference in behavior is unlikely to be noticed
+by anyone else. It should also be noted that the behavior
+of [[winfo toplevel]] for
+top-of-hierarchy widgets that are not toplevels is not specified,
+so relying on its current behavior in such cicumstances is
+a questionable practice.
 
 ~Implementation
 
-The implementation of the [[winfo tophierarchy]] command closely
-mirrors the implementation of [[winfo toplevel]]. It also requires
-changes to a few lines of code in the Tk library, where [[winfo
-toplevel]] really should be [[winfo tophierarchy]].
+The core of the proposed change to [[winfo toplevel]] requires
+only a single-line change in file tkWindow.c; however, the patch
+described below also changes the name of a function and changes
+some comments, to better describe the code's behavior. It also
+documents the new behavior in the [[winfo]] man page.
 
 ~Patches
 
-A patch (against Tk 8.4.4) that implements the changes described above
+A patch (against Tk 8.4.5) that implements the changes described above
 may be found at
 http://www.eecs.umich.edu/~mckay/computer/tk.winfo.patch.gz
 
