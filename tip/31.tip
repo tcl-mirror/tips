@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -9,6 +9,7 @@ Author:         David Gravereaux <davygrvy@pobox.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:          <dgp@users.sf.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -154,6 +155,8 @@ branch, or they may be rejected.
 
    * ''mod-8-3-4-branch'' (Tcl) - Contains the modularization work done
      by ActiveState for Cisco. Not for public modification.
+
+   * ''dgp-refactor'' (Tcl) - Various refactoring exercises.
 
 ~ Dead Branches
 
