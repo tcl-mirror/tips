@@ -1,13 +1,13 @@
-TIP:		178
-Title:		[info pid] and [info tid] Subcommands
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:
-Version:	$Revision: 1.2 $
-Author:		Joe Mistachkin <joe@mistachkin.com>
-Created:	21-Mar-2004
+TIP:            178
+Title:          [info pid] and [info tid] Subcommands
+Version:        $Revision: 1.3 $
+Author:         Joe Mistachkin <joe@mistachkin.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -34,6 +34,10 @@ following reasons:
    caller provided arguments.  Using the [[info]] command instead of
    the [[pid]] command limits the amount of information that can be
    obtained by the safe interpreter.
+
+ * It is the opinion of the author that ''informational'' commands,
+   such as [[pid]] should really be subcommands of [[info]] as we 
+   start to move forward with the development of Tcl.
 
 ~ Proposed Change
 
