@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -365,9 +365,57 @@ Within a proc, ''ascaller $script'' will take care of all aspects
 of evaluating ''$script'' in the caller context, and exiting as
 appropriate for all non-TCL_OK return codes.
 
+~ Extensibility
+
+The ''return -code'' command has always accepted any integer value
+as a valid argument, allowing package and application authors to
+define their own new return codes as needed by their own control
+structure commands.  Now that ''return'' will accept any ''option''
+argument, and ''catch'' can capture all ''option value'' argument
+pairs passed to the caught ''return'' command, package an extension
+authors now have the ability to augment their custom return codes
+with additional data.
+
 ~ Potential Concerns
 
-Returning past the toplevel?
+Reviewers of drafts of this TIP wondered whether the new
+"-level" option to ''return'' raised the possibility of
+trouble with an attempt to return more levels that beyond
+the top of the call stack.  
+
+It should be understood that ''return -level N'' does not
+take any shortcut past the intervening levels.  Each level
+of the call stack gets a TCL_RETURN return code, and a "-level"
+value, dropping by one each step up the stack.  Any level in
+the stack might choose to ''catch'' the TCL_RETURN and treat
+it as it wishes.  This is exactly the way the existing
+''return -code return'' is handled.  Normally, it would cause
+a normal return to the caller's caller, but if the caller
+chooses to 'catch' it, then the caller has control.
+
+At the toplevel we run out of callers.  Then the question becomes
+how is a TCL_RETURN code at toplevel handled?
+
+| % return -level 0       ;# same as a TCL_OK at toplevel
+| % return -level 1       ;# same as [return]
+| % return -level 2       ;# same as [return -code return]
+| command returned bad code: 2
+
+From the C level, ''Tcl_AllowExceptions()'' can be used to
+modify this toplevel behavior.
+
+The following proc will produce the same results as above, but
+from any level in the call stack (absent an intervening ''catch''):
+
+| % proc escape level {
+|       set x [info level]
+|       incr x $level
+|       return -level $x
+|   }
+| % escape 0
+| % escape 1
+| % escape 2
+| command returned bad code: 2
 
 ~ Prototype
 
