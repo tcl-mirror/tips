@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.54 $
+Version:        $Revision: 1.55 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -82,69 +82,10 @@ there more than here.
 
 Move along now; nothing to see here...
 
-~ Copyright
+~ Test
 
-This document has been placed in the public domain.
-
-~ ChangeLog
-
-| $Log: not supported by cvs2svn $index)
-|  }
-|  set x [list 1 2 3]
-|  increment x 0
-
-will, of course, work as expected.
-
-~ Discussion
-
-There are several obvious extensions to the proposal that are not
-addressed, and these omissions are intentional.
-
-   * One possibility is to provide a syntax (perhaps negative subscripts)
-     to allow numbering from the end of the list as well as the
-     beginning.
-
-   * Another possibility is to provide a notation for multiple
-     subscripts, to allow surgical changes to be made in lists of
-     lists.
-
-These changes are not addressed primarily because the author of this
-TIP foresees that they are likely to cause undesirable interactions
-with future attempts to implement other types of indexed data
-structure, such as the maps, vectors, and matrices of products
-like BLT and Feather.  In a fully developed Tcl 9.0, it would be
-desirable for all of these objects to support similar interfaces;
-this TIP proposes a minimal first step.
-
-   * The ''array'' command continues to operate only on associative
-     arrays.
-
-Lists are a simple enough structure that the full power of the
-''array'' command is not required to deal with them, and having it
-work on lists as well as arrays seems like needless effort.
-Moreover, existing code may well depend on a combination of
-''[array exists]'' and ''[info exists]'' to distinguish associative
-arrays from scalar variables (including lists).  
-
-   * We might wish to extend ''upvar'' syntax to allow a
-     list element to be designated.
-
-Extending the syntax in this fashion would make ''upvar'' more
-consistent in its behavior, but appears to be expensive, in
-terms of both performance (tracking down the linked references if a
-list is rebuilt) and the effort required for implementation
-(the author of this TIP is unlikely to have the time required to
-implement the necessary changes to ''struct Var'' and the associated
-code).  In fact, the author of this TIP would much rather deprecate
-the use of ''upvar'' to refer to array elements.  A disproportionate
-amount of code goes into supporting this seldom-used feature.
-
-~ Reference Implementation
-
-No reference implementation has yet been developed; the author of this
-TIP wishes to solicit the opinions of the Tcl community before
-spending a lot of time implementing a possibly bad idea.
-
-~ Copyright
-
-This document has been placed in the public domain.
+|TIP:		???
+|Title:		Allow array syntax for Tcl lists
+|Version:	$Revision: 1.55 $
+| Revision 1.54  2001/03/07 21:13:16  tclhttpd
+| Revision through web from Kevin B KENNY <kennykb@acm.org> (19525)
