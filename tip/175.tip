@@ -1,6 +1,6 @@
 TIP:            175
 Title:          Add an -async Option to [open]
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -57,12 +57,16 @@ made will return immediately and ''fblocked'' on the channel will
 return 1.  This is exactly the same behaviour of the current
 implementation of the ''-async'' option to the ''socket'' command.
 
-In order for this TIP to be implemented, there would have to be
-changes to the VFS layer in Tcl.  In particular, this would involve
-extending ''Tcl_FSOpenFileChannelProc()'' to accept an ''async''
-argument (of type ''int'').
+In addition, each VFS should support the ''-error'' option to ''fconfigure'' to allow scripts to determine the cause of an error when asynchronous opening fails. Furthermore, there needs to be a mechanism for notifying a script when an asynchronous open fails. This could be achieved by firing any fileevents (readable or writeable) which are registered on the resulting channel. This is the behaviour of [[socket -async]].
 
-In addition, each VFS should support the ''-error'' option to ''fconfigure'' to allow scripts to determine the cause of an error when asynchronous opening fails.
+In order for this TIP to be implemented, there would have to be
+changes to the VFS layer in Tcl.  There are at three ways to accomplish this:
+
+1. Extend Tcl_FSOpenFileChannelProc to accept an ''async'' argument, of type ''int''.
+2. Extend the Tcl_Filesystem structure to add a new callback, alongside T_FSOFCP. For instance, Tcl_FSOpenFileChannelAsyncProc.
+3. (Ab)use the ''mode'' parameter, and add a mask such as TCL_ASYNC.
+
+Of these, option 3 is the easiest in terms of maintaining compatibility, but is not the nicest implementation.
 
 ~ Reference Implementation
 
@@ -81,7 +85,7 @@ than is currently available in order to correctly create a channel
 (the ''-myaddr'' and ''-myport'' options to socket spring to mind).
 Would it be more sensible to consider a proposal for a more general
 option passing mechanism, to avoid further updates to the API in the
-future?
+future? This TIP does ''not'' propose such a mechanism.
 
 ~ Copyright
 
