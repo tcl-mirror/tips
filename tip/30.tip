@@ -1,9 +1,10 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
+Author:         Todd M. Helfter <tmh@purdue.edu>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -45,13 +46,13 @@ assigned:
 
    9. ''[listbox]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
+   10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
 
    11. ''Mac Menus'' -
 
-   12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
+   12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
 
-   13. ''Win Menus'' - Jeff Hobbs <JeffH@ActiveState.com>
+   13. ''Win Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
 
    14. ''[message]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
