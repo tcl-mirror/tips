@@ -1,0 +1,56 @@
+TIP:		122
+Title:		Use tcl_{non,}wordchars Throughout Tcl/Tk
+Version:	$Revision: 1.1 $
+Tcl-Version:	8.5
+Author:		Martin Weber <ephaeton@gmx.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	12-Dec-2002
+Post-History:	
+
+~Abstract
+
+This TIP shall bring flexible management of word and non-word chars to
+Tcl, to be used throughout the Tcl realm in e.g. [[regexp]]'s \m \M,
+Tk's [[textwidget]], etc.
+
+~Specification
+
+Assignment to ''tcl_{non,}wordchars'' shall influence any place in Tcl
+which decides whether something is a word character or not, including
+detection of word boundaries in e.g. regular expressions, Tk's text
+widget and so on.
+
+For this there shall be no hard-coding of lists of values which are
+word and non-word characters, and neither shall the language rely on
+the language of implementation (i.e. C's ''is*()'' functions), as this
+disallows dynamic changing of ''tcl_{non,}wordchars''.
+
+Rather shall the value(s) of ''tcl_{non,}wordchars'' be used to
+determine whether a given character is part of a word or not.
+
+~Rationale
+
+Currently in Tcl there are different hard-coded ways to decide whether
+a certain character is a word character or a non word character.
+Different hard-coded ways also imply that changes on one side might
+not get over to the other side, so there soon are different hard-coded
+ways which yield different hard-coded results.  As a inference of it
+being hard-coded, this also means that there is no way to change or
+fix that potentially broken behavior.  Having Tcl lookup the values of
+those variables at runtime allows for the needed flexibility, both
+when dealing with nonstandard demands and nonstandard character sets.
+
+There may be a problem with the performance of the lookup, but on the
+other hand are C's ''is*()'' functions also implemented via a table
+lookup.  An installation of a caching static character table could
+guarantee the needed performance.
+
+~Implementation
+
+None yet.
+
+~Copyright
+
+This document is placed in the public domain.
