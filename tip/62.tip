@@ -1,6 +1,6 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
@@ -154,6 +154,12 @@ removed with the ''trace remove execution'' command, until the ''name''
 is deleted or until the interpreter is deleted. Note that renaming the
 command ''name'' will not remove the execution traces.
 
+To implement ''enterstep'' and ''leavestep'' traces, it is necessary
+to invoke traces regardless of at what level the ''command'' is being
+traced. This means that the value for ''level'' argument to 
+Tcl_CreateTrace and Tcl_CreateObjTrace APIs should also accept ''0''.
+A value of ''0'' implies that commands at all levels will be traced. 
+
 ~ Examples
 
 The following script defines a procedure ''foo'' and illustrates 
@@ -263,9 +269,7 @@ The latest patch for this tip 62 is available at:
 
   http://www.employees.org/~hlavana/tcl/
 
-The ''enterstep'' and ''leavestep'' functionallity does not work
-correctly in the latest patch. The main changes for the patch
-are described in brief next.
+The main changes for the patch are described in brief next.
 
 Two new flags have been defined in tcl.h:
 
@@ -292,6 +296,10 @@ A new structure ActiveInterpTrace has been defined for internal use so
 that it behaves reasonably when traces are deleted while active.
 In tclVar.c file, the function CallTraces has been renamed to CallVarTraces
 and iPtr->activeTracePtr has been renamed to iPtr->activeTraceVarPtr.
+
+An additional check for (tracePtr->level == 0) has been added in
+Tcl_EvalObjv and TclExecuteByteCode functions, so as to enable
+command tracing at all levels.
 
 ~ Benchmark Results
 
