@@ -1,0 +1,28 @@
+TIP:	1
+Title:	TIP Index
+Version: $Id: 1.tip,v 1.1 2000-11-30 11:48:57 fellowsd Exp $
+Author:	TIP Editor <donal.fellows@cs.man.ac.uk>
+State:	Active
+Type:	Informational
+Vote:	No voting
+Created: 14-Sep-2000
+Post-History: 
+
+~ Abstract
+
+This TIP contains the index of all TIPs published over the lifetime of
+the TCT. It will be continually and automatically updated.
+
+~ Index
+
+#index:
+
+~ Explanations
+
+See [2] for a description of the editorial process a TIP has to go
+through and [3] for a description of their structure and the commands
+used to write them.
+
+~ Copyright
+
+This document has been placed in the public domain.

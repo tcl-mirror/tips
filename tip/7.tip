@@ -1,0 +1,237 @@
+TIP:		7
+Title:		Increased resolution for TclpGetTime on Windows
+Version:	$Revision: 1.1 $
+Author:		Kevin Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	26-Oct-2000
+Post-History:
+Tcl-Version:	8.4
+Discussions-To: news:comp.lang.tcl
+
+~ Abstract
+
+Tcl users on the Windows platform have long been at a disadvantage in
+attempting to do code timing studies, owing to the poor resolution of
+the Windows system clock.  The ''time'' command, the ''clock clicks''
+command, and all related functions are limited to a resolution of
+(typically) 10 milliseconds.  This proposal offers a solution based on
+the Windows performance counter.  It presents a means of disciplining
+this counter to the system clock so that ''TclpGetTime'' (the
+underlying call that the above commands use) can return times to
+microsecond precision with accuracy in the tens of microseconds.
+
+~ Rationale
+
+The Windows implementation of ''TclpGetTime'', as of Tcl 8.3.2, uses
+the ''ftime'' call in the C library to extract the current system
+clock in seconds and milliseconds.  While this time value has
+millisecond precision, its actual resolution is limited by the tick
+rate of the Windows system clock, normally 100 Hz.  Similarly,
+''TclpGetClicks'' uses the ''GetTickCount'' function of
+''kernel32.dll'' to get the number of milliseconds since bootload;
+once again, the actual resolution of this call is limited to the tick
+rate of the system clock.
+
+The Windows Platform APIs offer several timers of different accuracy.
+The most precise of these is ''QueryPerformanceCounter'', which
+operates at an unspecified frequency (returned by
+''QueryPerformanceFrequency'') that is typically about 1.19 MHz.
+http://support.microsoft.com/support/kb/articles/Q172/3/38.asp has
+details of the call, with sample code.
+
+The documentation for Windows suggests that this function is available
+only on certain versions of the operating system; in fact, it is
+implemented in every extant version of Win32 with the exception of
+Win32s and Windows CE 1.0.  Since Visual C++ 6, on which the Tcl
+distribution depends, will no longer compile code for those two
+platforms, I assert that they may be safely ignored.
+
+The documentation for Windows also states that
+''QueryPerformanceCounter'' is available only on certain hardware.  In
+practice, this is not an issue; I have never encountered a Windows
+implementation on an x86 platform that lacks it, and Alpha has it as
+well.  In any case, the reference implementation tests for the success
+or failure of the system calls in question, and falls back on the old
+way of getting time should they return an error indication.  Users of
+any platform on which the performance counter is not supported should
+therefore be no worse off than they have ever been.
+
+A worse problem with the performance counter is that its frequency is
+poorly calibrated, and is frequently off by as much as 200 parts per
+million.  Moreover, the frequency drifts over time, frequently having
+a sensitive dependency to temperatures inside the computer's case.
+
+This problem is not insurmountable.  The fix is to maintain the
+observed frequency of the performance counter (calibrated against the
+system clock) as a variable at run time, and use that variable
+together with the value of the performance counter to derive Tcl's
+concept of the time.  This technique is well known to electronic
+engineers as the "phase locked loop" and is used in network protocols
+such as NTP (http://www.eecis.udel.edu/~ntp/).
+
+~ Specification
+
+This document proposes the following changes to the Tcl core:
+
+   1.  (tclWinTime.c) Add to the static data a set of variables that
+       manage the phase-locked techniques, including a
+       ''CRITICAL_SECTION'' to guard them so that multi-threaded code
+       is stable.
+
+   2.  (tclWinTime.c) Modify ''TclpGetSeconds'' to call
+       ''TclpGetTime'' and return the 'seconds' portion of the result.
+       This change is necessary to make sure that the two times are
+       consistent near the rollover from one second to another.
+
+   3.  (tclWinTime.c) Modify ''TclpGetClicks'' to use
+       ''QueryPerformanceCounter'' if it is available, and otherwise
+       continue returning the result of ''GetTickCount''.
+
+   4.  (tclWinTime.c) Modify ''TclpGetTime'' to return the time as
+       M*Q+B, where Q is the result of ''QueryPerformanceCounter'',
+       and M and B are variables maintained by the phase-locked loop
+       to keep the result as close as possible to the system clock.
+       The ''TclpGetTime'' call will also launch the phase-lock
+       management in a separate thread the first time that it is
+       invoked.  If the performance counter is unavailable,
+       ''TclpGetTime'' will return the result of ''ftime'' as it does
+       in Tcl 8.3.2.
+
+   5.  (tclWinTime.c) Add the clock calibration procedure.  The
+       calibration is somewhat complex; to save space, the reader is
+       referred to the reference implementation for the details of how
+       the time base and frequency are maintained.
+
+   6.  (tclWinNotify.c) Modify ''Tcl_Sleep'' to test that the process
+       has, in face, slept for the requisite time by calling
+       ''TclpGetTime'' and comparing with the desired time.
+       Otherwise, roundoff errors may cause the process to awaken
+       early.
+
+   7.  (tclWinTest.c) Add a ''testwinclock'' command.  This command
+       returns a four element list comprising the seconds and
+       microseconds portions of the system clock and the seconds and
+       microseconds portions of the Tcl clock.
+
+   8.  (winTime.test) Add to the test suite a test that makes sure
+       that the Tcl clock stays within 1.1 ms of the system clock over
+       the duration of the test.
+
+~ Reference implementation
+
+This change was submitted as a patch to the old bug-tracking system at
+Scriptics (http://www.deja.com/getdoc.xp?AN=666545441&fmt=text).  It
+is being recycled as a TIP now that the Tcl Core Team is in place,
+since the process for advancing the old patches to the Core is not
+well defined.
+
+Tests on several Wintel boxes have shown that the initial startup
+transient is less than about 10 seconds (during which time the Tcl
+clock may be running 500 ppm fast or slow to bring it into step);
+following this period, the motion of the Tcl clock is highly
+repeatable and uniform.
+    
+If the system clock changes by more than 1 second during a run, as
+when the operator sets it using the eyeball-and-wristwatch method, the
+method of adjusting the performance frequency to preserve monotonicity
+and accuracy of interval measurements is hopeless.  This is the only
+case where the Tcl clock is allowed to jump.
+
+The startup of the calibration loop does not introduce new
+instabilities in the behavior of [[clock clocks]] or ''TclpGetTime''.
+
+[[clock clicks]] is reliable from the very start.  It simply returns
+the raw performance counter.  I suppose we might want to have it
+return microseconds instead, in which case, it could call
+''TclpGetTime''.  Typically, though, the performance counter is >1
+MHz, so I figured that we should go for all the resolution we can get.
+
+[[clock clicks -milliseconds]] and other times that derive from
+''TclpGetTime'' also ought to be reliable from the beginning -
+assuming that ''QueryPerformanceFrequency'' actually matches the
+crystal.  The worst case while the initial calibration is going on
+ought to be that the Tcl clock runs 0.1% fast or slow.  The point of
+the calibration loop is to correct for long-term drift.
+
+The problem, otherwise, is that ''QueryPerformanceFrequency'' may be
+off by some tens of parts per million with respect to the system
+clock.  Over a period of days, that would cause the Tcl clock to veer
+off from the system clock.  For instance, once my machine is warmed up
+(temperature is significant, believe it or not),
+''QueryPerformanceFrequency'' is consistently 0.99985 of the correct
+value; without calibration, the performance-counter-derived clock
+drifts 13 seconds per day.
+
+The ''capture transient'' of the calibration loop is a little
+different every time, but the one shown below is typical.  The Tcl
+time starts out 2 ms fast with respect to the system time, and the
+initial estimate of performance frequency is off, too.  At 2 seconds
+in, the calibration loop takes over and makes the clock run 0.1% slow
+to bring it in line; by 5 seconds in, it's lined up.  There's some
+phase noise over the next 40 seconds or so, by which time the
+performance frequency is locked on quite closely. The outliers above
+the line represent the fact that [[after]] events sometimes arrive
+late because of various other things going on in Windows.
+
+#image:7capture Typical capture transient
+
+The script that gathered the raw data plotted above.
+
+|foreach { syssecs sysusec tclsecs tclusec } [testwinclock] {}
+|set basesecs $syssecs
+|set baseusec $sysusec
+|set nTrials 10000
+|for { set i 0 } { $i < $nTrials } { incr i } {
+|    set values {}
+|    for { set j 0 } { $j < 5 } { incr j } {
+|	foreach { syssecs sysusec tclsecs tclusec } [testwinclock] {}
+|	set systime [expr { ($syssecs - $basesecs)
+|			    + 1.0e-6 * $sysusec - 1.0e-6 * $baseusec }]
+|	set tcltime [expr { ($tclsecs - $basesecs)
+|			    + 1.0e-6 * $tclusec - 1.0e-6 * $baseusec }]
+|	set timediff [expr { $tcltime - $systime }]
+|	lappend values [list $systime $timediff $tcltime]
+|	after 1
+|    }
+|    foreach { elapsed timediff tcltime } \
+|	[lindex [lsort -real -index 1 $values] 0] {}
+|    lappend history $elapsed $timediff $tcltime
+|}
+|set f [open ~/test2.dat w]
+|foreach { elapsed timediff tcltime} $history {
+|    puts $f "$elapsed\t$timediff\t$tcltime"
+|}
+|close $f
+
+To quantify how reproducible the measurements are, I threw a patched
+tclsh the torture test of executing [[time {}]] ten million times, and
+made a histogram of the results.  The figure below shows the results.
+The dots represent individual sample bins, and the solid line is the
+cumulative count of samples.  The vast majority of samples show either
+five or six microseconds. 99.9% take fewer than nine.  There are many
+samples that take longer, owing to either servicing interrupts or
+losing the processor to other processes.
+
+The lines at 21, 31 and 42 microseconds show up in repeated runs on my
+machine; I suspect that they represent time spent servicing different
+sorts of video interrupts.  It's less clear to me what the other
+outliers might be; Windows has a tremendous amount of stuff going on
+even when it's apparently idle.
+
+#image:7histogram Histogram of results of [time {}].
+    
+All tests in the test suite continue to pass with the patch applied.
+
+~ Notes
+
+If you care about time to the absolute precision that this change can
+achieve, it is of course necessary to discipline the Windows system
+clock as well.  Perhaps the best way is to use one of the available
+NTP packages (see http://www.eecis.udel.edu/~ntp/ for further
+information).
+
+~ Copyright
+
+This document has been placed in the public domain.

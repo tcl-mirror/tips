@@ -1,0 +1,496 @@
+TIP:		3
+Title:		TIP Format
+Version:	$Id: 3.tip,v 1.1 2000-11-30 11:48:57 fellowsd Exp $
+Author:		Andreas Kupries <a.kupries@westend.com>
+Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:		Accepted
+Type:		Process
+Vote:		Done
+Created:	14-Sep-2000
+Post-History:
+
+~ Abstract
+
+This TIP is a companion document to the TIP Guidelines [2] and
+describes the structure and formatting to use when writing a TIP.
+
+
+~ Rationale
+
+The major goals of this document are to define a format that is
+
+   * easy to write,
+
+   * easy to read,
+
+   * easy to search, and
+
+   * acceptable to the community at large.
+
+The latter is important because non-acceptance essentially means that
+the TIP process will be stillborn. This not only means basically plain
+text without much markup but also that we should reuse formats with
+which people are already acquainted.
+
+As the concept of TIPs borrows heavily from Python's PEPs at
+http://python.sourceforge.net/peps/ their definition on how to
+structure and format a PEP was reviewed for its suitability of use by
+the TCT and the community at large.
+
+The major points of the format are:
+
+   * Plain ASCII text without special markup for references or
+     highlighting of important parts.
+
+   * Mail-like header section containing the meta-information.
+
+   * Uses indentation to distinguish section headers from section
+     text.
+
+A header section like is used in mail or news is something people are
+acquainted with and fulfils the other criteria too. In addition it is
+extendable. Using indentation to convey semantic and syntactic
+information on the other hand is something Pythonistas are used to but
+here in the Tcl world we are not to the same extent.
+
+Looking at bit closer to home we find the Tcl'ers Wiki at
+http://www.purl.org/thecliff/tcl/wiki/
+
+It does use a plain text format with some very light formatting
+conventions to allow things like links, images, enumerated and
+itemized lists.
+
+Given the rather high acceptance of this site by the community using
+its format should be beneficiary to the acceptance of TIPs too.
+
+It is therefore proposed to use a combination of a header in mail/news
+style together with a body employing a slightly extended/modified Wiki
+format (mostly backward compatible) as the format for TIPs. This
+proposed format is specified in detail below.
+
+''Note'' that the use of TAB characters within a TIP is discouraged
+(but permitted) as some mailers (notably Outlook Express) make a mess
+of them.  Please be considerate and avoid their use...
+
+~ Rejected Alternatives
+
+But before we specify the format a (short) discussion of possible
+alternatives and why they where rejected.
+
+There were three primary competitors to the format specified below,
+these are SGML/XML, HTML and a markup based upon plain text with
+embedded tcl-commands, for example like ... [[section Abstract]] ...
+
+   * The main disadvantage of SGML and XML based solutions is that
+     they require a much more heavyweight infrastructure for editing
+     and processing documents using them, like specialized editors and
+     extensions for parsing. The format below on the other hand can be
+     processed using pure tcl without extensions. with respect to the
+     specialized editors it should be said that an editor operating on
+     plain ASCII is possible too, but then the text will be difficult
+     to read for humans because of the many occurrences of < and >,
+     conflicting with the requirement to have an 'easy to read'
+     format.
+
+   > While there are commercial products which can gloss over this,
+     making the editing of XML fairly easy, not everyone currently has
+     access to one or the desire to spend what might be quite a lot of
+     money to acquire one.  It is far better to let everyone continue
+     to use their current favourite plain-text editor.
+
+   * The main problem of HTML is that it is focused on visual and
+     not logical markup. This will make it, although not impossible,
+     but very difficult to parse documents for automatic handling.  It
+     is also a poor format for producing printed versions of the
+     documentation from.  Experience has also shown that different
+     people have widely different ideas about how the content of TIP
+     documents should be rendered into HTML, an indication that using
+     the language would prove problematic!  We can still use HTML as a
+     generated format, but we should not write the documents
+     themselves in it.
+
+   * The approach of embedding tcl commands into the text of a TIP is
+     (at least) as powerful as XML when it comes to automatic
+     processing of documents but much more lightweight. Because of
+     this it is seen as the best of the three rejected alternatives.
+     It was rejected in the end because it was still seen as too
+     heavyweight/demanding for the casual user with respect to
+     learning, easy writing and reading.
+
+
+~ Header Format
+
+The general format of the header for a TIP is specified in RFC 822
+(http://www.rfc-editor.org/rfc/rfc822.txt). This leaves us to define
+and explain the keywords, their meaning and their values.  The
+following keywords are ''required'', and unless otherwise stated,
+should occur exactly once:
+
+   TIP:
+	The number of the TIP as assigned by the TIP editor.
+	Unchangeable later on.
+
+   Title:
+	Defines the title of the document using plain text. May change
+	during the discussion and review phases.
+
+   Version:
+	Specifies the version of the document.  Usually something like
+	$Revision: 1.1 $. (Initially $Revision: 1.1 $ should be used, which
+	is then changed by the version control to contain the actual
+	revision number.
+
+   Author:
+	Contact information (email address) for each author. The email
+	address has to contain the real name of the author.  If there
+	are multiple authors of the document, this header may occur
+	multiple times (once per author.)  The format should be
+	approximately like this:  ''Firstname Lastname <emailaddress>''
+
+   State:
+	Defines the state the TIP is currently in. Allowed values are
+	''Draft'', ''Active'', ''Accepted'', ''Deferred'', ''Final'',
+	''Rejected'' and ''Withdrawn''.  This list will be influenced
+	by the finalization of the workflow in [2].
+
+   Type:
+	The type of the TIP.  Allowed values are ''Process'',
+	''Project'' and ''Informative''. See [2] for more explanations
+	about the various types.
+
+   Vote:
+	The current state of voting for the TIP.  Allowed values are
+	''Pending'', ''In progress'', ''Done'' and ''No voting''. The
+	latter is used to indicate a TIP which doesn't require a vote,
+	for example [1].
+
+   Created:
+	The date the TIP was created, in the format dd-mmm-yyyy.
+	''mmm'' is the (English) short name of the month. The other
+	information is numerical. Example: 14-Sep-2000
+
+   >    All numeric dates, though more easily internationalised, are
+        not used because the ordering of particularly the month and
+        day is ambiguous and subject to some confusion between
+        different locales.  Unix-style timestamps are unreadable to
+        the majority of people (as well as being over-precise,) and I
+        (<fellowsd@cs.man.ac.uk>) don't know ISO 8601 well enough to
+        be able to comment on it.
+
+   Post-History:
+	A list of the dates the document was posted to the mailing list
+	for discussion.
+
+   Tcl-Version:
+	This indicates the version of Tcl that a Project TIP depends
+	upon (where it is required.)  Process and Informative TIPs
+	''must not'' have this keyword.
+
+The following headers are ''optional'' and should (unless otherwise
+stated) occur at most once:
+
+   Discussions-To:
+	While a TIP is in private discussions (usually during the
+	initial Draft phase), this header will indicate the mailing
+	list or URL where the TIP is being discussed.
+
+   Obsoletes:
+	Indicates a TIP number that this TIP renders obsolete.
+	(Thanks to Joel Saunier <Joel.Saunier@agriculture.gouv.fr> for
+	suggesting this!)
+
+   Obsoleted-By:
+	Indicates a TIP number that renders this TIP obsolete.
+	(Thanks to Joel Saunier <Joel.Saunier@agriculture.gouv.fr> for
+	suggesting this!)
+
+   Keywords:
+	A comma-separated list of keywords relating to this TIP, to
+	facilitate automated indexing and improve search engine
+	results.
+
+The following headers are ''proposed'' (by Donald G. Porter
+<dgp@cam.nist.gov>) but not currently supported:
+
+   Sponsor:
+	A TCT member that is sponsoring this TIP.  May occur multiple
+	times, once per sponsor.
+
+   Supporter:
+	A person (not necessarily a TCT member) who is supporting this
+	TIP.  May occur multiple times, once per supporter.
+
+   Objector:
+	A person (not necessarily a TCT member) who is opposed to this
+	TIP.  May occur multiple times, once per supporter.
+
+~ Body Format
+
+The body of a TIP is split by visually blank lines (i.e. lines
+containing nothing other than conventional whitespace) into units that
+will be called paragraphs.  Each paragraph is in one of the following
+forms.
+
+If the paragraph consists of exactly four minus symbols "----" then it
+is a separator paragraph and should be rendered as a horizonal rule.
+
+If the paragraph consists of a vertical bar "|" followed by text, then
+it is a verbatim paragraph.  The bar will be stripped from the front
+of each line and the rest of the text will be formatted literally.
+Tab characters will be expanded to 8-character boundaries.  (''Note
+that this is completely incompatible with the Tcl'ers Wiki.'')
+
+If the paragraph consists of a tilde "~" followed by text, then it is
+a section heading.  The text following is the name of the section.  In
+the name of good style, the section heading should have its
+significant words capitalised.
+
+If the paragraph consists of the sequence "#index:" followed by some
+optional text, then it is a request to insert an index.  The text
+following (after trimming spaces) indicates the kind of index desired.
+The default is a "medium" index, and fully compliant implementations
+should support "short" (expected to contain less detail) and "long"
+(expected to contain all header details plus the abstract) as well.
+Support for other kinds of indices is optional.
+
+If the paragraph consists of the sequence "#image:" followed by some
+text, then it is a request to insert an image.  The first word of the
+following text is a reference to the image, and the other words are
+an optional caption for the image (in plain text.)  Image references
+that consist of just letters, numbers, hyphens and underscores are
+handled specially by the current implementation, which can map them to
+the correct media type for its current output format (assuming it has
+a suitable image in its repository.)
+
+All other paragraphs that start with a non-whitespace character are
+ordinary paragraphs.
+
+If a paragraph starts with a whitespace character sequence (use three
+spaces and keep the whole paragraph on a single line if you want
+compatability with the Tcl'ers Wiki,) a star "*" and another
+whitespace character, it is an item in a bulleted list.
+
+If a paragraph starts with a whitespace character sequence, a number,
+a full stop "." and another whitespace character, it is an item in an
+enumerated list.  If the number is 1 then the number of the item is
+guessed from the current list context, and any other value sets the
+number explicitly.  If you want compatability with the Tcl'ers Wiki,
+make the initial whitespace sequence be three spaces, the number be 1,
+and keep the whole paragraph on a single line.
+
+If a paragraph starts with a whitespace character sequence, some text
+(that includes no tabs or newlines but can include spaces), a colon
+and another whitespace character, then it is an item in a descriptive
+(a.k.a. definition) list.
+
+If a paragraph does not start with a whitespace character sequence, a
+greater than symbol ">", and then another whitespace character, it is
+also an ordinary paragraph.  (''Note that this is completely
+incompatible with the Tcl'ers Wiki.'')
+
+Where a paragraph does begin with the sequence described in the
+preceding paragraph, it is a nested list item (if the paragraph
+contained is a list item) or a subsequent paragraph (if the paragraph
+contained is an ordinary paragraph.)  If there's no suitable
+"enclosing" list context (i.e. if the preceding paragraph was not part
+of a list) the paragraph will be a quotation instead.  (The rules for
+these continuation paras seem complex at first glance, but seem to
+work out fairly well in practise, especially since they are only
+rarely used.)
+
+Within the body text of a (non-verbatim) paragraph, emphasis is
+indicated by enclosing the text within inside double apostrophes "''".
+(Wiki-style triple-apostrophes for bold are not supported, due to it
+being more trouble than it is worth to implement and the fact that we
+support section headings by a different mechanism.)  Special URLs of
+the form tip:tipnumber are expanded into full URLs to the given TIP
+through the current formatting engine (where applicable.)  References
+of the form [tipnumber] are also expanded as links to the given TIP,
+but are not displayed as URLs (the expansion is format dependent, of
+course.)  Doubled up square brackets are converted into matching
+single square brackets.  Email addresses (of the form <email@address>)
+might also be treated specially.
+
+The first paragraph of the body of any TIP must be an abstract section
+title ("~Abstract" or "~ Abstract"), and the second must be an
+ordinary paragraph (and should normally be just plain text, to make
+processing by tools easier.)
+
+You can compare these rules with those for the Tcl'ers Wiki which are
+described at http://www.purl.org/thecliff/tcl/wiki/14.html, with the
+following modifications:
+
+   1. The text for an item in an itemized, enumerated or tagged list
+      can be split over multiple physical lines. The text of the item
+      will reach until the next empty line.
+
+   1. All paragraphs ''must'' be split with whitespace.  This is a
+      corollary of the above item.
+
+   1. A paragraph starting with the character ~ is interpreted as a
+      section heading.  Consequently it should be very short so that
+      it renders onto a single line under most circumstances.
+
+   1. A full verbatim mode is added. Any line starting with the bar
+      character is reproduced essentially verbatim (the bar character
+      is removed). This allows embedding of code or other texts
+      containing formatting usually recognized as special by the
+      formatter without triggering this special processing. This
+      applies especially to brackets and the hyperlinking they provide
+      and their role in tcl code.  This is used in preference to the
+      whitespace rule of the Tcl'ers Wiki which is potentially far
+      more sensitive.  Our rule makes it extremely obvious what lines
+      are verbatim, and what those lines will be rendered as.
+
+   1. Only one style of emphasis within paragraphs is supported.
+      Having multiple emphasis styles (italic and bold) not only fails
+      to carry across well in all media, but also makes for confusion
+      on the part of authors and is more difficult to write renderers
+      for too.
+
+   1. Images are only supported in a limited way, since under HTML the
+      support for images varies a lot more than most people would like
+      to think, and the concept of an inline image can vary quite a
+      lot between different rendered formats too.
+
+~ Reference Implementation
+
+A reference renderer was created by Donal Fellows
+<fellowsd@cs.man.ac.uk> and is installed (as a behind-the-scenes
+rendering engine) on a set of TIP documents at
+http://www.cs.man.ac.uk/fellowsd-bin/TIP with the source code to the
+rendering engine being available at
+http://www.cs.man.ac.uk/~fellowsd/tcl/render/tip0.2/
+
+Note that this code does support nested lists and multi-paragraph
+items, but this is experimental right now. Examples are presented
+behind the code itself.
+
+----
+
+~ Examples
+
+This document itself is an example of the new format.
+
+''Examples for nested lists, multi-paragraph items in list's, and
+quotations.''
+
+Here is the source (itself a demonstration of verbatim text)
+
+| * This is a paragraph
+|
+| > * This is an inner paragraph
+|     that goes onto two lines.
+|
+| > > * This one's even further in!
+|
+| > > * So's this one.
+|
+| > * Out again
+|
+| > > And a second paragraph here...
+|
+| > * Yet another item.
+|
+| * Outermost level once more.
+|
+| 1. Enumerate?
+|
+| > 1. Deeper?
+|
+| 2. Out again?
+|
+| list item: body text that is relatively long so that we can tell
+|   that it laps round properly as a paragraph even though this takes a
+|   ridiculous amount of text on my browser...
+|
+|| VERB IN LIST?
+|
+| > nested: body
+|
+|Top-level paragraph once more.
+|
+| > A quotation from someone famous might be rendered something like
+|   this.  As you can see, it is inset somewhat from the surrounding
+|   text. - ''Donal K. Fellows <fellowsd@cs.man.ac.uk>''
+|
+|And back to the top-level yet again.
+|
+|----
+
+and the rendered result
+
+ * This is a paragraph
+
+ > * This is an inner paragraph
+     that goes onto two lines.
+
+ > > * This one's even further in!
+
+ > > * So's this one.
+
+ > * Out again
+
+ > > And a second paragraph here...
+
+ > * Yet another item.
+
+ * Outermost level once more.
+
+ 1. Enumerate?
+
+ > 1. Deeper?
+
+ 2. Out again?
+
+ list item: body text that is relatively long so that we can tell
+   that it laps round properly as a paragraph even though this takes a
+   ridiculous amount of text on my browser...
+
+| VERB IN LIST?
+
+ > nested: body
+
+Top-level paragraph once more.
+
+ > A quotation from someone famous might be rendered something like
+   this.  As you can see, it is inset somewhat from the surrounding
+   text.  - ''Donal K. Fellows <fellowsd@cs.man.ac.uk>''
+
+And back to the top-level yet again.
+
+----
+
+''Examples of index generation and image paragraphs.''
+
+Here is the code
+
+|#index:
+|
+|#index:short
+|
+|#index: long
+|
+|#image:3example This is a test caption
+|
+|This is an example long TIP reference tip:3 that should be expanded in
+|a renderer-specific way...
+
+and here is the rendered result.
+
+#index:
+
+#index:short
+
+#index: long
+
+#image:3example This is a test caption
+
+This is an example long TIP reference tip:3 that should be expanded in
+a renderer-specific way...
+
+----
+
+~ Copyright
+
+This document has been placed in the public domain.
