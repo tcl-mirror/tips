@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.123 $
+Version:        $Revision: 1.124 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -74,7 +74,11 @@ be held open this workaround cannot be used.
 
 ftruncate channelId ?length?
 
-If the length argument is omitted, the file will be truncated to zero bytes.
+The channel specified by channelId must refer to a file that was opened for 
+writing.  The length argument must be greater than or equal to zero and can 
+be bigger than the current size of the file. If the length argument is 
+omitted, the file will be truncated to zero bytes.  This command will return 
+any errors received from the operating system.
 
 Example:
 
@@ -84,9 +88,9 @@ Example:
 |puts $file "test data"
 |
 |# Some time later...
-| ...
+|# ... ... ...
 |ftruncate $file
-| ...
+|# ... ... ...
 |
 |# We are done, close the file...
 |close $file
