@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -55,7 +55,9 @@ To support this, I propose adding a '''prefix''' ensemble with the
 following subcommands
 
  * '''prefix''' '''match''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
+
  * '''prefix''' '''longest''' ''list'' ''string''
+
  * '''prefix''' '''all''' ''list'' ''string''
 
 All commands are given a list of possibilities and a string to match.
