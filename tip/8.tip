@@ -1,6 +1,6 @@
 TIP:           8
-Title:         Add winico support to the wm command on windows
-Version:       $Id: 8.tip,v 1.1 2000-11-30 13:02:55 fellowsd Exp $
+Title:         Add Winico support to the wm command on windows
+Version:       $Id: 8.tip,v 1.2 2000-11-30 13:05:01 fellowsd Exp $
 Author:        Vince Darley <vince.darley@eurobios.com>
 State:         Draft
 Type:          Project
@@ -12,7 +12,7 @@ Post-History:
 ~ Abstract
 
 Add to ''wm'' the ability to do the windows-titlebar-icon manipulation
-that the winico extension currently provides, without the bugs noted
+that the Winico extension currently provides, without the bugs noted
 in that extension.
 
 ~ Proposal
@@ -21,18 +21,24 @@ Modify ''wm'' on Windows only to allow an optional ''-default'' argument.
 
 |wm iconbitmap .winpath ?-default? filename
 
-And to allow filenames which end in .ico or .icr to be interpreted
-differently.  Filenames with any other extension will be handled,
-as before, by the ''bitmap'' code (which will generally either do
-nothing, or throw an error, thus maintaining backwards compatibility).
+And to allow a file which is of valid windows-icon format to be
+interpreted as such.  Any file which is not correctly interpreted
+as an icon will be handled as before, by the ''bitmap'' code (which
+will generally either do nothing, or throw an error, thus maintaining
+backwards compatibility).
 
 The ''-default'' argument, if given, will change not the icon of the
 .winpath given, but rather the default icon for all windows in the
 current application for which no specific icon as been set.
 
-A slightly different implementation already exists (Vince's
-''titlebaricon'' patch), which fixes the basic "wrapper window"
-problems and should be easy enough to modify for a different syntax.
+An implementation already exists, which fixes the basic "wrapper
+window" problems and which has the above syntax.  The issues
+surrounding reference counting of icons in use has also been addressed
+in this patch so that icons no longer in use are released (the Winico
+patch required manual deletion of icons).  This reference
+implementation is available from
+ftp://ftp.ucsd.edu/pub/alpha/tcl/tkWinWm.diff (documentation has been
+separately patched, and can also be made available).
 
 ~ Rationale
 
@@ -49,7 +55,8 @@ iconbitmap'' doesn't do anything).
 
 In the future we may wish to extend ''wm iconbitmap'' on all platforms
 so that other image types can be accepted (e.g. .gif, .png).  This
-proposal extends naturally to allow such future work.
+proposal extends naturally to allow such future work.  The primary
+changes required will be icon<->image conversion routines.
 
 ~ Alternatives
 
@@ -73,17 +80,17 @@ cross-platform way.
 ''The -default flag is weird, and it means we ignore the window name''
 
 I agree, but please suggest a better alternative rather than just
-moaning.  The command with the -default flag is IMHO more useful than
-the command without (for example it makes sure that Tk's built-in
-dialogs have the icon of your application).  An alternative might be
-to use ''wm iconbitmap -default filename'', but that involves more
-significant modifications of the semantics of ''wm''.  It might,
+moaning.  The command with the -default flag is in my opinion more
+useful than the command without (for example it makes sure that Tk's
+built-in dialogs have the icon of your application).  An alternative
+might be to use ''wm iconbitmap -default filename'', but that involves
+more significant modifications of the semantics of ''wm''.  It might,
 however, be a good idea.
 
 ''wm iconbitmap will still do nothing when given a bitmap''
 
 Yes, but there's that backwards compatibility issue.  This should be
-properly documented with pointers to the use of .ico/.icr file
+properly documented with pointers to the use of valid icon file
 formats.  When or if proper support is added to Tk for .gif, .png or
 even Tk images as icons, this bug can be fixed.  The purpose of this
 TIP is not to fix that bug, but to provide a better solution.
