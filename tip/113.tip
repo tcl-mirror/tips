@@ -1,6 +1,6 @@
 TIP:            113
 Title:          Multi-Line Searches in the Text Widget
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -23,7 +23,7 @@ for that command to return a match which spans multiple lines.  Where
 a match could occur both within a single line and across multiple
 lines, the first such match will be found, and the length of the match
 will follow the usual regexp rules, as documented in the regexp man
-page.
+page.  Since the text widget is inherently a line-based container of text, regexp searches will implicitly use the regexp ''-line'' functionality so that ''^'', ''$'' matching beginning and end of any line, and ''.'', ''[^'' will not match a newline (but see the ''-nolinestop'' flag to turn off the latter behaviour).
 
 This can be implemented very efficiently, given
 the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
