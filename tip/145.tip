@@ -1,6 +1,6 @@
 TIP:            145
 Title:          Enhanced Tk Font Handling
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -192,11 +192,17 @@ From all the above this TIP suggests that the following names be provided
 for all platforms and where possible these map to system defined fonts.
 
 > TkDefaultFont: the default for all GUI items not otherwise specified.
+
 > TkFixedFont: standard fixed width font
+
 > TkMenuFont: used for menu items
+
 > TkCaptionFont: used for window and dialog caption bars
+
 > TkSmallCaptionFont: used for captions on contained windows or tool dialogs.
+
 > TkIconFont: font in use for icon captions
+
 > TkTooltipFont: a font to use for tooltip windows (transient 
 information windows)
 
