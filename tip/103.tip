@@ -1,6 +1,6 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -96,6 +96,13 @@ or do not expand a word into multiple words.  Whatever character
 is chosen to be that indicator, it should be a single, leading
 one.  No pairs.
 
+In the specification a restrictive rule was chosen that makes
+it an error to use ` in a way that do not fit.  This is to make
+it easier to change things in the future should ideas come up
+for new features.  E.g., should this become a global syntax
+in Tcl 9.0 it can be chosen a bit differently and be backward
+compatible with the expand command.
+
 ~ Specification
 
 A new command "expand" is added.  It takes one argument, which
@@ -106,8 +113,9 @@ The command is processed in the following manner:
 
  1. Parse into words according to Tcl's standard rules.
 
- 2. Any word starting with ` and followed by a single variable or
-    command substitution is remembered and the ` is removed.
+ 2. Any word starting with ` must be followed by a single variable
+    or command substitution.  The word is remembered and the ` is
+    removed.
 
  3. Perform Tcl's normal execution steps on the new line up to the
     point where the command should have been called.
@@ -125,11 +133,11 @@ which means that words like these are not expanded:
 
 ''Note 2:'' Expansion is only performed with words like:
 
-|cmd `$var `[somecmd $arg]
+|cmd `$var `[somecmd $arg] `$arr([cmd $arg])
 
-Words like these are not expanded but still valid code:
+Words like these are a syntax error:
 
-|cmd `cursor `$x,$y `[foo]xy[apa]
+|cmd `word` `$x,$y `[foo]xy[apa]
 
 ~ Forward compatibility
 
