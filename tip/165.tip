@@ -1,6 +1,6 @@
 TIP:            165
 Title:          A User-Data Field for Virtual Events
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -76,7 +76,7 @@ place inside the ''user_data'' field.
 
 ~ Reference Implementation
 
-Not written yet.
+http://sf.net/tracker/?func=detail&aid=1008975&group_id=12997&atid=312997
 
 ~ Copyright
 
