@@ -1,6 +1,6 @@
 TIP:		173
 Title:		Internationalisation and Refactoring of the 'clock' Command
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Kevin Kenny <kennykb@acm.org>
 State:		Draft
 Type:		Project
@@ -126,7 +126,7 @@ with the current architecture of [[clock]].
 
 ~ Specification
 
-The [[clock]] command shall be reimplemented as an ensemble [[112]],
+The [[clock]] command shall be reimplemented as an ensemble [112],
 with most of the subcommands implemented in Tcl.  A minimal set of the
 existing C code shall be refactored and placed inside a
 ''::tcl::clock'' namespace.  The existing subcommands ''seconds'' and
