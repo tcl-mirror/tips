@@ -1,6 +1,6 @@
 TIP:           8
 Title:         Add Winico support to the wm command on windows
-Version:       $Revision: 1.7 $
+Version:       $Revision: 1.8 $
 Author:        Vince Darley <vince.darley@eurobios.com>
 State:         Final
 Type:          Project
@@ -45,7 +45,7 @@ separately patched, and can also be made available).
 There have been many requests on news:comp.lang.tcl for this ability
 in the Tk core, and several bug reports filed against Winico, and this
 ability has been placed on the Tk 8.4 roadmap.
-http://dev.scriptics.com/software/tcltk/roadmap.tml
+http://purl.org/tcl/home/software/tcltk/roadmap.tml
 
 The choice of ''wm iconbitmap'' is suggested, because ''wm
 iconbitmap'' currently doesn't appear to do anything on Windows, yet
