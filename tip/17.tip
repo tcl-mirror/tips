@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -212,6 +212,9 @@ structure, see Documentation section below):
 |                            /* Function to duplicate internal fs rep */ 
 |    TclfsFreeInternalRep_ *freeInternalRepProc;
 |                            /* Function to free internal fs rep */ 
+|    TclfsNativeToNormalizedProc_ *nativeToNormalizedProc_;
+|                            /* Function to convert native representation
+|                             * to a normalized path */ 
 |    TclfsStatProc_ *statProc; /* Function to process a 'Tcl_Stat()' call */
 |    TclfsAccessProc_ *accessProc;            
 |                            /* Function to process a 'Tcl_Access()' call */
@@ -285,6 +288,18 @@ with
 |            return TclFileCopyCmd(interp, objc, objv);
 |        }            
 
+and the Unix versions of stat, access, chdir are as simple as:
+
+|int TclpObjStat(Tcl_Obj *pathPtr, struct stat *buf) {
+|    return stat(Tclfs_GetNativePath(pathPtr), buf);
+|}
+|int TclpObjChdir(Tcl_Obj *pathPtr) {
+|    return chdir(Tclfs_GetNativePath(pathPtr));
+|}
+|int TclpObjAccess(Tcl_Obj *pathPtr, int mode) {
+|    return access(Tclfs_GetNativePath(pathPtr));
+|}
+
 There are a few other small changes required, some which are
 absolutely necessary, and some which make the implementation
 of a Tcl-level vfs much simpler and more robust:
@@ -294,7 +309,9 @@ of a Tcl-level vfs much simpler and more robust:
     as a copying method for files, and a new function ::tcl::copyDirectory
     for directories.  These techniques are only used if the source/dest
     are in different filesystems, or if the filesystem Tcl tries to use
-    returns the EXDEV posix result in 'errno'.
+    returns the EXDEV posix result in 'errno'.  This is a natural
+    extension of Tcl's current way of falling back from 'rename' to 
+    'copy and delete'.
 
   * Add ''-tails'' flag to ''glob'' (and internally to ''TclGlob'') to
     indicate that we only want the tails of the files to be returned.
