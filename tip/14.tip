@@ -1,6 +1,6 @@
 TIP:            14
 Title:          Access to Tk Photo Image Transparency
-Version:        $Revision: 2.1 $
+Version:        $Revision: 2.2 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -95,18 +95,13 @@ to allow the manipulation of transparencies of rectangular regions
 |   # Toggle transparency...
 |   phImg transparency set 0 0 [expr {![phImg transparency get 0 0]}]
 
-~ Partial Sample Implementation Patch
+~ Sample Implementation Patches
 
+Exposing the transparency to C:
 http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch
 
-This applies a patch to ''tkImgPhoto.c'', ''tkInt.h'',
-''tkInt.decls'', ''tkIntDecls.h'' and ''tkStubInit.c'', all within the
-''generic'' directory of the Tk distribution.  Due to the fact that
-the patch as it stands has no computational component, and it is an
-internal interface anyway, it includes no documentation or tests.
-
-''(Need to expand it to include the code for the Tcl-level API as
-well...)''
+Exposing the transparency to Tcl:
+http://www.cs.man.ac.uk/~fellowsd/tcl/patches/transCmd.patch
 
 ~ Copyright
 
