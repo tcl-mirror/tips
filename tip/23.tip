@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -55,24 +55,24 @@ Tk will stay consistent among the platforms, while not forcing
 maintainers to presume expertise in code they can't even compile, much
 less test or understand fully.
 
-~ Proposal
+~ Functional Areas
 
 The Tk toolkit shall be divided into the following functional
 units, each to be assigned one or more maintainers.  Each area will also
 be a Category in the SourceForge Tracker for Tk:
 
-   Widgets: 
+~~ Widgets
 
-   >  1. ''Bindings'' -
+ 1. '''Bindings''' -
      library/tk.tcl
 
-   >  2. ''Appearance'' -
+ 2. '''Appearance''' -
      generic/default.h,
      macosx/tkMacOSXDefault.h,
      unix/tkUnixDefault.h,
      win/tkWinDefault.h
 
-   >  3. ''[*button] and [label]'' -
+ 3. '''[[*button]] and [[label]]''' -
      doc/button.n,
      doc/checkbutton.n,
      doc/label.n,
@@ -90,7 +90,7 @@ be a Category in the SourceForge Tracker for Tk:
      win/rc/buttons.bmp,
      win/tkWinButton.c
 
-   >  4. ''Canvas Basics'' -
+ 4. '''Canvas Basics''' -
      doc/CanvPsY.3,
      doc/CanvTxtInfo.3,
      doc/CanvTkwin.3,
@@ -102,7 +102,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkCanvas.h,
      tests/canvas.test
 
-   >  5. ''Canvas Items'' -
+ 5. '''Canvas Items''' -
      generic/tkCanvArc.c,
      generic/tkCanvBmap.c,
      generic/tkCanvImg.c,
@@ -117,7 +117,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/canvText.test,
      tests/canvWind.test
 
-   >  6. ''Canvas PostScript'' -
+ 6. '''Canvas PostScript''' -
      generic/prolog.ps,
      generic/tkCanvPs.c,
      library/prolog.ps,
@@ -128,26 +128,26 @@ be a Category in the SourceForge Tracker for Tk:
      tests/canvPsImg.tcl,
      tests/canvPsText.tcl
 
-   >  7. ''[entry]'' -
+ 7. '''[[entry]]''' -
      doc/entry.n,
      generic/tkEntry.c,
      library/entry.tcl,
      tests/entry.test
 
-   >  8. ''[frame], [toplevel] and [labelframe]'' (see [18]) -
+ 8. '''[[frame]], [[toplevel]] and [[labelframe]]''' (see [18]) -
      doc/frame.n,
      doc/labelframe.n,
      doc/toplevel.n,
      generic/tkFrame.c,
      tests/frame.test
 
-   >  9. ''[listbox]'' -
+ 9. '''[[listbox]]''' -
      doc/listbox.n,
      generic/tkListbox.c,
      library/listbox.tcl,
      tests/listbox.test
 
-   >  10. ''Generic Menus'' -
+ 10. '''Generic Menus''' -
      doc/menu.n,
      doc/menubutton.n,
      doc/popup.n,
@@ -163,27 +163,27 @@ be a Category in the SourceForge Tracker for Tk:
      tests/menuDraw.test,
      tests/menubut.test
 
-   >  11. ''Aqua Menus'' -
+ 11. '''Aqua Menus''' -
      macosx/tkMacOSXMenu.c,
      macosx/tkMacOSXMenu.r,
      macosx/tkMacOSXMenubutton.c,
      macosx/tkMacOSXMenus.c
 
-   >  12. ''Unix Menus'' -
+ 12. '''Unix Menus''' -
      tests/unixMenu.test,
      unix/tkUnixMenu.c,
      unix/tkUnixMenubu.c
 
-   >  13. ''Win Menus'' -
+ 13. '''Win Menus''' -
      tests/winMenu.test,
      win/tkWinMenu.c
 
-   >  14. ''[message]'' -
+ 14. '''[[message]]''' -
      doc/message.n,
      generic/tkMessage.c,
      tests/message.test
 
-   >  15. ''[scale]'' -
+ 15. '''[[scale]]''' -
      doc/scale.n,
      generic/tkScale.c,
      generic/tkScale.h,
@@ -192,7 +192,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/scale.test,
      unix/tkUnixScale.c
 
-   >  16. ''[scrollbar]'' -
+ 16. '''[[scrollbar]]''' -
      doc/scrollbar.n,
      generic/tkScrollbar.c,
      generic/tkScrollbar.h,
@@ -202,12 +202,12 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixScrlbr.c,
      win/tkWinScrlbr.c
 
-   >  17. ''[spinbox]'' -
+ 17. '''[[spinbox]]''' -
      doc/spinbox.n,
      library/spinbox.tcl,
      tests/spinbox.test
 
-   >  18. ''[text]'' -
+ 18. '''[[text]]''' -
      doc/text.n,
      generic/tkText.c,
      generic/tkText.h,
@@ -228,26 +228,26 @@ be a Category in the SourceForge Tracker for Tk:
      tests/textTag.test,
      tests/textWind.test
 
-   >  19. ''Menubars (obsolete)'' -
+ 19. '''Menubars (obsolete)''' -
      doc/menubar.n,
      library/obsolete.tcl
 
-   >  20. ''[tk_optionMenu]'' -
+ 20. '''[[tk_optionMenu]]''' -
      doc/optionMenu.n,
      library/optMenu.tcl
 
-   >  21. ''[panedwindow]'' (see [41]) -
+ 21. '''[[panedwindow]]''' (see [41]) -
      doc/panedwindow.n,
      generic/tkPanedWindow.c,
      library/panedwindow.tcl,
      tests/panedwindow.test
 
-   >  22. ''Style Engine'' (see [48]) -
+ 22. '''Style Engine''' (see [48]) -
      generic/tkStyle.c
 
-   Widget Options: 
+~~ Widget Options
 
-   >  23. ''Option Parsing'' -
+ 23. '''Option Parsing''' -
      doc/ConfigWidg.3,
      doc/SetOptions.3,
      generic/tkConfig.c,
@@ -257,7 +257,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/config.test,
      win/tkWinConfig.c
 
-   >  24. ''Relief'' -
+ 24. '''Relief''' -
      doc/3DBorder.3,
      doc/GetRelief.3,
      generic/tk3d.c,
@@ -267,7 +267,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/border.test,
      win/tkWin3d.c
 
-   >  25. ''Built-in Bitmaps'' -
+ 25. '''Built-in Bitmaps''' -
      bitmaps/error.bmp,
      bitmaps/gray12.bmp,
      bitmaps/gray25.bmp,
@@ -283,7 +283,7 @@ be a Category in the SourceForge Tracker for Tk:
      macosx/tkMacOSXBitmap.c,
      tests/bitmap.test
 
-   >  26. ''Conversions From String'' -
+ 26. '''Conversions From String''' -
      doc/GetAnchor.3,
      doc/GetCapStyl.3,
      doc/GetJoinStl.3,
@@ -293,23 +293,23 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkGet.c,
      tests/get.test
 
-   >  27. ''Objects'' - 
+ 27. '''Objects''' - 
      generic/tkObj.c,
      tests/obj.test
 
-   >  28. ''Utility Functions'' -
+ 28. '''Utility Functions''' -
      doc/DrawFocHlt.3,
      doc/GetScroll.3,
      generic/tkUtil.c,
      tests/util.test
 
-   >  29. ''Colormaps and Visuals'' -
+ 29. '''Colormaps and Visuals''' -
      doc/GetClrmap.3,
      doc/GetVisual.3,
      generic/tkVisual.c,
      tests/visual.test
 
-   >  30. ''Color Names'' -
+ 30. '''Color Names''' -
      doc/GetColor.3,
      doc/colors.n,
      generic/tkColor.c,
@@ -321,7 +321,7 @@ be a Category in the SourceForge Tracker for Tk:
      win/tkWinColor.c,
      xlib/xcolors.c
 
-   >  31. ''Cursor Names'' -
+ 31. '''Cursor Names''' -
      doc/GetCursor.3,
      doc/cursors.n,
      generic/tkCursor.c,
@@ -334,7 +334,7 @@ be a Category in the SourceForge Tracker for Tk:
      win/tkWinCursor.c,
      xlib/X11/cursorfont.h
 
-   >  32. ''Key Symbols'' -
+ 32. '''Key Symbols''' -
      doc/keysyms.n,
      macosx/tkMacOSXKeyboard.c,
      unix/tkUnixKey.c,
@@ -342,17 +342,17 @@ be a Category in the SourceForge Tracker for Tk:
      xlib/X11/keysym.h,
      xlib/X11/keysymdef.h
 
-   Standard Dialogs: 
+~~ Standard Dialogs
 
-   >  33. ''Generic Dialog Support'' -
+ 33. '''Generic Dialog Support''' -
      library/comdlg.tcl
 
-   >  34. ''[tk_chooseColor]'' -
+ 34. '''[[tk_chooseColor]]''' -
      doc/chooseColor.n,
      library/clrpick.tcl,
      tests/clrpick.test
 
-   >  35. ''[tk_dialog]'' -
+ 35. '''[[tk_dialog]]''' -
      doc/dialog.n,
      library/dialog.tcl,
      macosx/tkMacOSXDialog.c,
@@ -361,12 +361,12 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixDialog.c,
      win/tkWinDialog.c
 
-   >  36. ''[tk_chooseDirectory]'' -
+ 36. '''[[tk_chooseDirectory]]''' -
      doc/chooseDirectory.n,
      library/choosedir.tcl,
      tests/choosedir.test
 
-   >  37. ''[tk_get*File]'' -
+ 37. '''[[tk_get*File]]''' -
      doc/getOpenFile.n,
      generic/tkFileFilter.c,
      generic/tkFileFilter.h,
@@ -375,14 +375,14 @@ be a Category in the SourceForge Tracker for Tk:
      tests/filebox.test,
      tests/xmfbox.test
 
-   >  38. ''[tk_messageBox]'' -
+ 38. '''[[tk_messageBox]]''' -
      doc/messageBox.n,
      library/msgbox.tcl,
      tests/msgbox.test
 
-   Images: 
+~~ Images
 
-   >  39. ''Image Basics'' -
+ 39. '''Image Basics''' -
      doc/CrtImgType.3,
      doc/DeleteImg.3,
      doc/GetImage.3,
@@ -394,28 +394,28 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkStubImg.c,
      tests/image.test
 
-   >  40. ''Bitmap Images'' -
+ 40. '''Bitmap Images''' -
      doc/bitmap.n,
      generic/tkImgBmap.c,
      tests/imgBmap.test
 
-   >  41. ''Photo Images'' -
+ 41. '''Photo Images''' -
      doc/CrtPhImgFmt.3,
      doc/FindPhoto.3,
      doc/photo.n,
      generic/tkImgPhoto.c,
      tests/imgPhoto.test
 
-   >  42. ''Photo Image|GIF'' -
+ 42. '''Photo Image|GIF''' -
      generic/tkImgGIF.c
 
-   >  43. ''Photo Image|PPM'' -
+ 43. '''Photo Image|PPM''' -
      generic/tkImgPPM.c,
      tests/imgPPM.test
 
-   Fonts: 
+~~ Fonts
 
-   >  44. ''Generic Fonts'' -
+ 44. '''Generic Fonts''' -
      doc/FontId.3,
      doc/GetFont.3,
      doc/MeasureChar.3,
@@ -425,47 +425,47 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkFont.h,
      tests/font.test
 
-   >  45. ''Aqua Fonts'' -
+ 45. '''Aqua Fonts''' -
      macosx/tkMacOSXFont.c
 
-   >  46. ''Unix Fonts'' -
+ 46. '''Unix Fonts''' -
      tests/unixFont.test,
      unix/tkUnixFont.c,
      unix/tkUnixRFont.c
 
-   >  47. ''Win Fonts'' -
+ 47. '''Win Fonts''' -
      tests/winFont.test,
      win/tkWinFont.c
 
-   Geometry management: 
+~~ Geometry management
 
-   >  48. ''Geometry Management'' -
+ 48. '''Geometry Management''' -
      doc/GeomReq.3,
      doc/MaintGeom.3,
      doc/ManageGeom.3,
      generic/tkGeometry.c,
      tests/geometry.test
 
-   >  49. ''[grid]'' -
+ 49. '''[[grid]]''' -
      doc/grid.n,
      generic/tkGrid.c,
      tests/grid.test
 
-   >  50. ''[pack]'' -
+ 50. '''[[pack]]''' -
      doc/pack-old.n,
      doc/pack.n,
      generic/tkPack.c,
      tests/oldpack.test,
      tests/pack.test
 
-   >  51. ''[place]'' -
+ 51. '''[[place]]''' -
      doc/place.n,
      generic/tkPlace.c,
      tests/place.test
 
-   Selection and Clipboard: 
+~~ Selection and Clipboard
 
-   >  52. ''[clipboard]'' -
+ 52. '''[[clipboard]]''' -
      doc/Clipboard.3,
      doc/clipboard.n,
      generic/tkClipboard.c,
@@ -476,7 +476,7 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixSelect.c,
      win/tkWinClipboard.c
 
-   >  53. ''[selection]'' -
+ 53. '''[[selection]]''' -
      doc/ClrSelect.3,
      doc/CrtSelHdlr.3,
      doc/GetSelect.3,
@@ -486,25 +486,25 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkSelect.h,
      tests/select.test
 
-   Other Tk commands: 
+~~ Other Tk commands
 
-    >  54. ''[console]'' -
+ 54. '''[[console]]''' -
      doc/console.n,
      generic/tkConsole.c,
      library/console.tcl
 
-    >  55. ''[focus]'' -
+ 55. '''[[focus]]''' -
      doc/focus.n,
      generic/tkFocus.c,
      tests/focus.test
 
-    >  56. ''[grab]'' -
+ 56. '''[[grab]]''' -
      doc/Grab.3,
      doc/grab.n,
      generic/tkGrab.c,
      tests/grab.test
 
-    >  57. ''[option]'' -
+ 57. '''[[option]]''' -
      doc/AddOption.3,
      doc/GetOption.3,
      doc/option.n,
@@ -513,7 +513,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/option.file2,
      tests/option.test
 
-   >  58. ''[send]'' -
+ 58. '''[[send]]''' -
      doc/SetAppName.3,
      doc/send.n,
      macosx/tkMacOSXSend.c,
@@ -523,26 +523,26 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixSend.c,
      win/tkWinSend.c
 
-   >  59. ''[tk_focus*]'' -
+ 59. '''[[tk_focus*]]''' -
      doc/focusNext.n,
      library/focus.tcl,
      tests/focusTcl.test
 
-   >  60. ''[tk_setPalette]'' -
+ 60. '''[[tk_setPalette]]''' -
      doc/palette.n,
      library/palette.tcl
 
-   >  61. ''Safe Tk'' -
+ 61. '''Safe Tk''' -
      doc/loadTk.n,
      library/safetk.tcl,
      tests/safe.test
 
-   Low-level Tk functions: 
+~~ Low-level Tk functions
 
-   >  62. ''Geometry Functions'' -
+ 62. '''Geometry Functions''' -
      generic/tkTrig.c
 
-   >  63. ''Tk_Win Functions'' -
+ 63. '''Tk_Win Functions''' -
      doc/ConfigWind.3,
      doc/CrtWindow.3,
      doc/IdToWindow.3,
@@ -559,11 +559,11 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkWindow.c,
      tests/window.test
 
-   >  64. ''Graphic Contexts'' -
+ 64. '''Graphic Contexts''' -
      doc/GetGC.3,
      generic/tkGC.c
 
-   >  65. ''Generic Window Operations'' -
+ 65. '''Generic Window Operations''' -
      doc/CoordToWin.3,
      doc/FreeXId.3,
      doc/GetHINSTANCE.3,
@@ -597,7 +597,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/wm.test,
      xlib/xgc.c
 
-   >  66. ''Aqua Window Operations'' -
+ 66. '''Aqua Window Operations''' -
      macosx/tkMacOSXCarbonEvents.c
      macosx/tkMacOSXDebug.c
      macosx/tkMacOSXDebug.h
@@ -616,7 +616,7 @@ be a Category in the SourceForge Tracker for Tk:
      macosx/tkMacOSXWm.h,
      macosx/tkMacOSXXStubs.c
 
-   >  67. ''Unix Window Operations'' -
+ 67. '''Unix Window Operations''' -
      tests/unixEmbed.test,
      tests/unixWm.test,
      unix/tkUnix.c,
@@ -627,7 +627,7 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tkUnixWm.c,
      unix/tkUnixXId.c
 
-   >  68. ''Win Window Operations'' -
+ 68. '''Win Window Operations''' -
      tests/winWm.test,
      win/stubs.c,
      win/tkWinDraw.c,
@@ -640,13 +640,13 @@ be a Category in the SourceForge Tracker for Tk:
      win/tkWinWm.c,
      win/tkWinX.c
 
-   >  69. ''Events'' -
+ 69. '''Events''' -
      doc/BindTable.3,
      doc/event.n,
      generic/tkBind.c,
      tests/bind.test
 
-   >  70. ''Event Loop'' -
+ 70. '''Event Loop''' -
      doc/CrtCmHdlr.3,
      doc/CrtGenHdlr.3,
      doc/EventHndlr.3,
@@ -657,25 +657,25 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkEvent.c,
      tests/event.test
 
-   >  71. ''Error Handling'' -
+ 71. '''Error Handling''' -
      doc/CrtErrHdlr.3,
      doc/tkerror.n,
      generic/tkError.c,
      library/bgerror.tcl,
      tests/bgerror.test
 
-   >  72. ''Atoms'' -
+ 72. '''Atoms''' -
      doc/InternAtom.3,
      generic/tkAtom.c,
      xlib/X11/Xatom.h
 
-   Shells: 
+~~ Shells
 
-   >  73. ''Argv Parsing'' -
+ 73. '''Argv Parsing''' -
      doc/ParseArgv.3,
      generic/tkArgv.c
 
-   >  74. ''Application Embedding'' -
+ 74. '''Application Embedding''' -
      doc/Tk_Main.3,
      generic/tkInitScript.h,
      generic/tkMain.c,
@@ -685,15 +685,15 @@ be a Category in the SourceForge Tracker for Tk:
      win/tkWinInit.c,
      tests/main.test
 
-   >  75. ''wish'' -
+ 75. '''wish''' -
      doc/wish.1,
      macosx/tkMacOSXAppInit.c,
      unix/tkAppInit.c,
      win/winMain.c
 
-   Demonstrations: 
+~~ Demonstrations
 
-   >  76. ''Widget Tour'' -
+ 76. '''Widget Tour''' -
      library/demos/arrow.tcl,
      library/demos/bind.tcl,
      library/demos/bitmap.tcl,
@@ -748,11 +748,11 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/images/tcllogo.gif,
      library/demos/images/teapot.ppm
 
-   >  77. ''Square Demo'' -
+ 77. '''Square Demo''' -
      generic/tkSquare.c,
      library/demos/square
 
-   >  78. ''Other Demos'' -
+ 78. '''Other Demos''' -
      library/demos/browse,
      library/demos/hello,
      library/demos/ixset,
@@ -761,9 +761,9 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/tcolor,
      library/demos/timer
 
-   Localization: 
+~~ Localization
 
-   >  79. ''L10N'' -
+ 79. '''L10N''' -
      library/msgs/cs.msg,
      library/msgs/de.msg,
      library/msgs/el.msg,
@@ -775,9 +775,9 @@ be a Category in the SourceForge Tracker for Tk:
      library/msgs/nl.msg,
      library/msgs/ru.msg
 
-   Release Engineering: 
+~~ Release Engineering
 
-   >  80. ''Release Notes'' -
+ 80. '''Release Notes''' -
      README,
      */README,
      */*/README,
@@ -787,12 +787,12 @@ be a Category in the SourceForge Tracker for Tk:
      doc/tk4.0.ps,
      tests/bugs.tcl
 
-   >  81. ''Portability'' -
+ 81. '''Portability''' -
      compat/limits.h,
      compat/stdlib.h,
      compat/unistd.h
 
-   >  82. ''X11 Emulation'' -
+ 82. '''X11 Emulation''' -
      xlib/X11/X.h,
      xlib/X11/Xfuncproto.h,
      xlib/X11/Xlib.h,
@@ -802,7 +802,7 @@ be a Category in the SourceForge Tracker for Tk:
      xlib/ximage.c,
      xlib/xutil.c
 
-   >  83. ''Mac OS X Build'' -
+ 83. '''Mac OS X Build''' -
      macosx/Makefile,
      macosx/buildTkConfig.tcl,
      macosx/tkAboutDlg.r,
@@ -810,7 +810,7 @@ be a Category in the SourceForge Tracker for Tk:
      macosx/tkMacOSXAETE.r,
      macosx/Wish.pbproj/project.pbxproj
 
-   >  84. ''Unix Build'' -
+ 84. '''Unix Build''' -
      unix/Makefile.in,
      unix/aclocal.m4,
      unix/configure.in,
@@ -819,7 +819,7 @@ be a Category in the SourceForge Tracker for Tk:
      unix/tk.spec,
      unix/tkConfig.sh.in
 
-   >  85. ''Win Build'' -
+ 85. '''Win Build''' -
      win/Makefile.in,
      win/aclocal.m4,
      win/buildall.vc.bat,
@@ -837,7 +837,7 @@ be a Category in the SourceForge Tracker for Tk:
      win/tkConfig.sh.in,
      win/tkWin.h
 
-   >  86. ''Test Tools'' -
+ 86. '''Test Tools''' -
      generic/tkTest.c,
      macosx/tkMacOSXTest.c,
      win/tkWinTest.c,
@@ -845,7 +845,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/defs.tcl,
      tests/visual_bb.test
 
-   >  87. ''Logos'' -
+ 87. '''Logos''' -
      library/images/logo.eps,
      library/images/logo100.gif,
      library/images/logo64.gif,
@@ -909,10 +909,10 @@ The following files are generated, so they don't need maintainers.
 
 In addition to the division into functional areas, responsibility for
 a given area can also be qualified by one or more ''platform''
-specifiers.  Some areas, like ''Windows Configuration and Build
-Tools'' are obviously platform specific, so the qualification is
-unnecessary.  Others, like ''Canvas Items'', are wholly generic.  But
-others, like ''Button'', ''Scale'' or ''Scrollbar'' contain code for
+specifiers.  Some areas, like '''Windows Configuration and Build
+Tools''' are obviously platform specific, so the qualification is
+unnecessary.  Others, like '''Canvas Items''', are wholly generic.  But
+others, like '''Button''', '''Scale''' or '''Scrollbar''' contain code for
 all platforms.
 
 A maintainer can sign up for one of these latter areas, but specify
@@ -930,8 +930,8 @@ that the feature is implemented on all platforms.  One of the
 strengths of Tk is its cross-platform nature, and one of the
 maintainer's jobs is to ensure that this continues.
 
-Procedurally, the maintainer will be listed as ''Button Widget -
-Mac OS X'', etc.  A maintainer for a given area can sign up for one
+Procedurally, the maintainer will be listed as '''Button Widget -
+Mac OS X''', etc.  A maintainer for a given area can sign up for one
 or more platforms.  Due to the good design of the Tk's platform
 dependencies, determining which files are generic, and which are
 platform specific is trivial.  The generic ones are in the ''generic''
