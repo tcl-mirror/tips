@@ -1,20 +1,20 @@
-TIP:		86
-Title:		Saving [proc] File and Line Number Information in [source]
-Version:	$Revision: 1.2 $
-Author:		Peter MacDonald <peter@browsex.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.4
-Vote:		Pending
-Created:	08-Feb-2002
-Post-History:	
+TIP:            86
+Title:          Saving [proc] File and Line Number Information in [source]
+Version:        $Revision: 1.3 $
+Author:         Peter MacDonald <peter@browsex.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Feb-2002
+Post-History:   
+Tcl-Version:    8.4
 
 ~ Abstract
 
 This TIP proposes saving the file name and line number information for
 each user defined [[proc]] definition contained within a [[source]]d
-file, and providing three new subcommands to [[info]]: [[fileproc]],
-[[lineproc]] and [[findproc]] that can return this new information.
+file, and providing a new subcommand [[line]] to [[info]] 
+that can return this new information.
 
 ~ Rationale
 
@@ -33,22 +33,22 @@ slave under a GUI written in Tk.  Ultimately, at some point this
 debugger could even be included in the core distribution.
 
 ~ Specification
- 
-The new [[info]] subcommands give access to the file name and line
+
+The new [[line]] subcommand to [[info]]  give saccess to the file name and line
 number information for a given ''PROC''.  Valid syntax is:
 
-|  info lineproc PROC ?LINE NEWLINES?
+|  info line proc PROC ?LINE NEWLINES?
 |        Get/set the line number and number of newlines for PROC.  In
 |        get mode, returns the definition line number and number of
 |        newlines in the message body.  This provides a fairly speedy
 |        way of determining if a given line number is included in a
 |        specific proc.
 |
-|  info fileproc ?PROC ?FILE??
+|  info line file ?PROC ?FILE??
 |        Get/set the sourced file name for PROC.  If PROC is not
 |        specified, dump all known sourced files.
 |
-|  info findproc FILE LINE
+|  info line find FILE LINE
 |        Given a file name and line number, return the PROC name
 |        containing line number LINE.  A new nonstatic procedure
 |        TclFindProcByLine() provides this function.
@@ -56,16 +56,16 @@ number information for a given ''PROC''.  Valid syntax is:
 These exhibit the following behavior:
 
  * ''What does this do when you redefine a proc?''
-   
+
  > You get the values from the latest definition.
-   
+
  * ''What about when you use interp aliases?''
-   
+
  > You get an error, as it is not considered a proc.
-   
+
  * ''And if proc itself gets redefined by someone's special
    debugger?''
-   
+
  > If the definition is not the result of a source, the file/line come
    back as an empty string.
 
@@ -106,7 +106,7 @@ assertions.
 
 http://dev.browsex.com/tclline.diff.gz
 
-This is a patch against tcl8.4a3.  It has been tested lightly against
+This is a patch against tcl8.4a4.  It has been tested lightly against
 small and large Tcl programs.
 
 There is also an initial version of a debugger: ''tgdb''.
@@ -128,7 +128,7 @@ time.
 
 Also bundled is ''tdb'', a GUI front-end to ''gdb'', modified to also
 work with ''tgdb''.  You can test it against the patched Tcl with
- 
+
 |  make 
 |  ./tdb test.tcl 
 
