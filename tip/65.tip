@@ -1,8 +1,9 @@
 TIP:            65
 Title:          Enhanced [info args]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Glenn Jackman <glennj@nortelnetworks.com>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Glenn Jackman <glennj@ncf.ca>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -62,7 +63,7 @@ a procedure like:
 
 A more sophisticated scripted solution is to overload the [[info]]
 command itself, as described in the Wiki at
-http://purl.org/thecliff/tcl/wiki/WrappingCommands
+http://wiki.tcl.tk/wrappingCommands
 
 It would be much more convenient to be able to rely on the [[info]]
 command itself to return the desired information, particularly since
