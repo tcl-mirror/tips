@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -33,9 +33,9 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 It will also be useful for testing the web editing interface
 proposed in [13].
 
-~ Smoke Test
+~ Reload/caching Test
 
-Just made a bunch of changes...  What did I break?
+See if additional HTTP headers help...
 
 ~ Test
 
@@ -71,6 +71,9 @@ there more than here.
 Trying this out...
 
 | $Log: not supported by cvs2svn $
+| Revision 1.19  2000/12/08 21:36:27  tclhttpd
+| Revision through web from  <dgp@users.sourceforge.net> (2732)
+|
 | Revision 1.18  2000/12/08 16:05:27  tclhttpd
 | Revision through web from  <dgp@users.sourceforge.net> (26715)
 |
