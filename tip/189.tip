@@ -1,16 +1,17 @@
-TIP:		189
-Title:		Tcl Modules
-Version:	$Revision: 1.2 $
-Author:		Andreas Kupries <akupries@shaw.ca>
-Author:		Jean-Claude Wippler <jcw@equi4.com>
-Author:		Jeff Hobbs <jeffh@activestate.com>
-Author:		Don Porter <dgp@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	24-Mar-2004
-Post-History:	
+TIP:            189
+Title:          Tcl Modules
+Version:        $Revision: 1.3 $
+Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Jean-Claude Wippler <jcw@equi4.com>
+Author:         Jeff Hobbs <jeffh@activestate.com>
+Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Larry W. Virden <lvirden@yahoo.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        24-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -30,11 +31,11 @@ and thus not easily solved without giving up something.
 One problem with the current mechanism is that it extensively searches
 the filesystem for packages, and that it has to actually read a file
 (''pkgIndex.tcl'') to get the full information for a prospective
-package.  All of these operations which take time.  The fact that
+package.  All of these operations take time.  The fact that
 "index scripts" are able to extend the list of paths searched tends to
-heighten this cost as it force rescans of the filesystem.
-Installations the where directories in the ''auto_path'' are large or
-mounted from remote hosts are hit especially hard by this (Network
+heighten this cost as it forces rescans of the filesystem.
+Installations where directories in the ''auto_path'' are large or
+mounted from remote hosts are hit especially hard by this (network
 delays).  All of this together causes a slow startup of tclsh and
 Tcl-based applications.
 
@@ -51,15 +52,15 @@ repositories.
 It does not come without penalties however.
 
  * The simplified design has no "index scripts".  While this does away
-   with extending the list of paths to search it also does away with
+   with extending the list of paths for searching, it also does away with
    the ability of packages to check preconditions, like the version of
    the currently executing Tcl interpreter.  Dependencies of packages
-   in module form on particular versions of Tcl have to be managed
+   (in module form) on particular versions of Tcl have to be managed
    differently and outside of them.
 
  * "Tcl Modules" is defined to be an extension of the existing package
    mechanism and does ''not'' replace it.  This means that any failure
-   to find a package as module ''has to'' cause a fall back to the
+   to find a package as a module ''has to'' cause a fall back to the
    regular package mechanism.  It also sets a limit on how much of our
    goals we can reach: searching for packages which are not installed
    will stay relatively slow, and dominated by the filesystem scan of
@@ -67,25 +68,24 @@ It does not come without penalties however.
    suited in installations where the number of regular packages is
    low, and contained in a small part of the overall filesystem.
 
- > On the gripping hand the only regular packages required will be
+ > On the gripping hand, the only regular packages required will be
    packages supporting the virtual filesystems employed by modules
    (more on that later), so a transformation of a installation based on
    a set of regular packages to the form above is quite feasible.
-
 
 ~ Specification
 
 ~~ Introduction
 
 Modules are regular Tcl Packages, in a different guise.  To ease
-explanations first a summary of the existing mechanism:
+explanations, first a summary of the existing mechanism:
 
  * Packages are identified through "pkgIndex.tcl" files and the "index
    script" they contain.  These files are read and define the "provide
    script", which tells Tcl how to actually load the package.  In
-   other words, whether to use the "source" or "load" command, which
+   other words, the provide script tells whether to use the "source" or "load" command, which
    file to specify as an argument to that command, etc.  However as
-   "pkgIndex.tcl" contains a regular tcl script it can do more than
+   "pkgIndex.tcl" contains a regular tcl script, it can do more than
    that and actually influence the environment, i.e. the package
    search itself, in several ways:
 
@@ -94,16 +94,16 @@ explanations first a summary of the existing mechanism:
 
  > * It may extend the list of paths used to search for packages.
      This implies that a package is able to modify the behaviour of
-     the package search (usually extend the search) even before it is
+     the package search (usually extending the search) even before it is
      loaded, and even if it will not be loaded at all.
 
 The above is very flexible, but comes at a price.  The filesystem is
 not only searched, but files have to be read as well to build up the
-in-memory index of packages.  And this is iterated as well if index
+in-memory index of packages.  And this is iterated if index
 files change/extend the list of paths to search.
 
 Tcl Modules simplifies the above considerably, by cutting down on the
-number of indirections involved.  It only searches for module files,
+number of indirections involved.  It only searches for module files
 and records their location, but does not read them.  The search is
 only performed when required, on a limited part of the filesystem.
 This makes locating and importing packages in module form easier and
@@ -141,7 +141,7 @@ The name of a module file has to match the regular expression
 | ([[:alpha:]][:[:alnum:]]*)-([[:digit:]].*)\.tm
 
 The first capturing parentheses provides the name of the package, the
-second clause its version.  In addition to matching the pattern the
+second clause its version.  In addition to matching the pattern, the
 extracted version number must not raise an error when used in the
 command
 
@@ -161,7 +161,7 @@ that pattern to end up in a directory where TM will be scanning.  This
 suggests that the directory tree for storing Tcl modules ought to be
 something separate from other parts of the filesystem.  This further
 implies that a new search path over just these separate storage areas
-would be better than Yet Another use of ''$::auto_path''.
+would be better than Yet Another Use of ''$::auto_path''.
 
 Therefore: Modules are searched for in all directories listed in the
 result of the command "::tcl::tm::path list" (See also section 'API to
@@ -170,7 +170,7 @@ result of the command "::tcl::tm::path list" (See also section 'API to
 
 All directories on the module path have to obey one restriction:
 
- * For any two directories neither is an ancestor directory of the
+ * For any two directories, neither is an ancestor directory of the
    other.
 
 This is required to avoid ambiguities in package naming.  If for
@@ -183,12 +183,12 @@ were on the path a package named 'cool::ice' could be found via the
 names 'cool::ice' or 'ice', the latter potentially obscuring a package
 named 'ice', unqualified.
 
-Before the search is started the name of the requested package is
+Before the search is started, the name of the requested package is
 translated into a partial path, using the following algorithm:
 
  * All occurrences of '::' in the package name are replaced by the
    appropriate directory separator character for the platform we are
-   on.  For Unix for example this is '/'.
+   on.  On Unix, for example, this is '/'.
 
 Example:
 
@@ -200,16 +200,16 @@ Example:
 After this translation the package is looked for in all module paths,
 by combining them one-by-one, first to last with the partial path to
 form a complete search pattern.  The exact pattern and mechanism is
-left unspecified, giving the implementation freedom of choice what
+left unspecified, giving the implementation freedom of choice as to what
 glob searches to perform, how much of them, and when.
 
-Independent of that the implemented algorithm has to reject all files
+Independent of that, the implemented algorithm has to reject all files
 where the filename does not match the regular expression given in the
 previous section.  For the remaining files "provide scripts" are
 generated and added to the '''package ifneeded''' database.
 
 The algorithm has to fall back to the previous unknown handler when
-none of the found module files satisfied the request.  If the request
+none of the found module files satisfy the request.  If the request
 was satisfied no fall-back is required.
 
 ~~ Provide and Index Scripts
@@ -232,8 +232,8 @@ below:
 
 Where '''PNAME' '''is the partial path of the module as defined in
 section 'Finding Modules' before, and translated into '''PNAME''' by
-changing all directory separators to '::', and '''module_path''' the
-path from the list of paths to search we found the module file under.
+changing all directory separators to '::', and '''module_path''' is the
+ path (from the list of paths to search) that we found the module file under.
 
 ''Note'' that we are here creating a connection between package names
 and paths.  Tcl is case-sensitive when it comes to comparing package
@@ -247,8 +247,8 @@ comparing names in a case-insensitive manner.  In other words, if a
 package 'Foo' is deployed in the form of a Tcl Module, packages like
 'foo', 'fOo', etc. are not allowed anymore.
 
-Regular packages have no problem with the names of their files as
-their entry point is has a standard name ("''pkgIndex.tcl''") and its
+Regular packages have no problem with the names of their files, as
+their entry point has a standard name ("''pkgIndex.tcl''") and its
 contents can be adjusted according to the filesystem they are stored
 in.
 
@@ -274,7 +274,7 @@ through the following public commands:
    ancestor directory of any other path on the list.  If the new path
    violates this restriction an error will be raised.
 
- > If the path is already present as is no error will be raised and no
+ > If the path is already present as is, no error will be raised and no
    action will be taken.
 
  > Paths are searched in the order of their appearance in the list.
@@ -348,10 +348,10 @@ to directly manage an installation.
 
 It is possible to extend the proposal made in this document to handle
 metadata as well.  We already reserved the namespace '''::tcl::tm'''
-for use by us, so it is no big problem to extend the public API with
+for use by us, so it is no problem to extend the public API with
 commands to locate all installed packages, their metadata, and to
 perform queries based on this.  This will require an additional
-specification how metadata is stored in/by Tcl Modules, and it will
+specification as to how metadata is stored in/by Tcl Modules, and it will
 have to be understood that these extended management operations can
 take considerably more time than a '''package require''', as they will
 have to scan all defined search paths and all their sub directories
@@ -364,7 +364,7 @@ deployment quite easy.  We only have to ensure correct placement in
 one of the searched directories when installing it locally, but
 nothing more.
 
-Regarding the usage of Tcl Modules in a wrapped application please see
+Regarding the usage of Tcl Modules in a wrapped application, please see
 [190] "Implementation Choices for Tcl Modules".  This is highly
 dependent on the implementation chosen for a specific Tcl Module and
 thus not discussed here, but in the referred document.
@@ -382,8 +382,7 @@ package metadata in general, or dependence tracking in particular,
 licensing, documentation, etc. are not addressed here and by this.
 
 This requires standards for package metadata, format and content,
-this document will not deal with.
-
+topics with which this document will not deal.
 ~~ Defaults
 
 The default list of paths on the module path is computed by a tclsh as
@@ -436,14 +435,14 @@ interpreter.
 
  > > A list of paths, separated by either ''':''' (Unix) or ''';'''
      (Windows).  This is user and site specific as this environment
-     variable can be not only by the users profile, but by system
+     variable can be set not only by the user's profile, but by system
      configuration scripts as well.
 
  > > These paths are seen and therefore shared by all Tcl shells in
      the '''$::env'''(PATH) of the user.
 
  > > Note that ''X'' and ''y'' follow the general rules set out above.
-     In other words, Tcl 8.4 for example will look at these 5
+     In other words, Tcl 8.4, for example, will look at these 5
      environment variables
 
  > > * '''$::env'''(TCL8.4_TM_PATH)
