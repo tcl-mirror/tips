@@ -1,13 +1,13 @@
-TIP:		103
-Title:		Argument Expansion Command
-Version:	$Revision: 1.1 $
-Author:		Peter Spjuth <peter.spjuth@space.se>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	15-Jun-2002
-Post-History:
+TIP:            103
+Title:          Argument Expansion Command
+Version:        $Revision: 1.2 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Jun-2002
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -87,9 +87,10 @@ less likely to cause confusion.
 ~ Specification
 
 A new command "expand" is added.  It takes one argument, which
-contains a Tcl statement.  Only one statement is permitted.
+contains a Tcl script consisting of one command.  Only one command
+is permitted.
 
-The statement is processed in the following manner:
+The command is processed in the following manner:
 
  1. Parse into words according to Tcl's standard rules.
 
@@ -101,6 +102,8 @@ The statement is processed in the following manner:
  4. Expand the arguments that should be expanded.
 
  5. Execute the command.
+
+The return value of expand is the return value of the command.
 
 ''Note 1:'' A word should really start with @ to trigger expansion
 which means that words like these are not expanded:
@@ -117,7 +120,9 @@ the rules allow usages like this:
 
 ~ Reference Implementation
 
-A reference implementation exists and will be uploaded to SF shortly.
+Patch #570201
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=570201&group_id=10894&atid=310894
 
 ~ Copyright
 
