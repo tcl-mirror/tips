@@ -1,7 +1,8 @@
 TIP:            224
 Title:          Add New [array] Subcommands 'incr' and 'value'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter MacDonald <peter@pdqi.com>
+Author:         Robert Seeger <rseeger00@aol.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -104,6 +105,12 @@ as there is no string match on elem.
 The problem domain is not list processing 
 (which is expected to be relatively expensive),  but rather frequency 
 counting and set matching.
+
+*RHSeeger notes:
+
+It would seem more consistant to push for the ''incr'' command to include a way to initialize a variable if it doesn't exist (as per TIP 215 or the discussed options contained therein), rather than add an incr subcommand to array.
+
+Being a fan or reintroducing the ''array values'' TIP (since the core mailing list indicates it was never fully rejected), I think ''array value'' might be a bit confusing, being only off by the lack of plurality. (I was one of the people pushing for TIP#200 though, so take that aspect with a grain of salt)
 
 ~ Copyright
 This document has been placed in the public domain.
