@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.68 $
+Version:        $Revision: 1.69 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -29,6 +29,10 @@ Wiki (http://purl.org/thecliff/tcl/wiki/).
 
 It will also be useful for testing the web editing interface
 proposed in [13].
+
+~ ActiveState Server Test
+
+Things still working after the move?
 
 ~ New Features Test
 
