@@ -1,8 +1,9 @@
 TIP:            198
 Title:          Image Command XPM Extension
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -50,6 +51,11 @@ I'd like to see more justification in this proposal
 as to why a new image type is needed, rather than
 implementing a suitable format for either the existing
 bitmap or photo image types.  
+
+In fact, the Img extension already has XPM as a photo
+image format.  I'm quite baffled as to the need for a new
+image type.  Is this TIP better served by a request to
+promote XPM to the core set of supported formats?
 
 ~Copyright
 
