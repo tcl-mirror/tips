@@ -1,9 +1,9 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 State:          Draft
-Type:           Project
+Type:           Informative
 Vote:           Pending
 Created:        16-Aug-2001
 Post-History:   
@@ -29,25 +29,26 @@ packages is also described.
 
 ~ Definitions
 
-The following definitions are excerpted from [tip:78]:
+The following definitions are excerpted from [78]:
 
- package: A collection of files providing additional functionality to a
- user of a Tcl interpreter when loaded into said interpreter.
+ package: A collection of files providing additional functionality to
+   a user of a Tcl interpreter when loaded into said interpreter.
 
- Some files in a package implement the provided functionality whereas
- other files contain metadata required by the package management of Tcl
- to be able to use the package.
+ > Some files in a package implement the provided functionality
+   whereas other files contain metadata required by the package
+   management of Tcl to be able to use the package.
 
- distribution: An encapsulation of one or more _packages_ for transport
- between places, machines, organizations, and people.
+ distribution: An encapsulation of one or more ''packages'' for
+   transport between places, machines, organizations, and people.
 
  shared library: A piece of binary code that provides a set of
- operations and datastructures like a normal library, but which does
- not need to be physically incorporated into the executables that use
- it until they are actually executed. This is the normal way to
- distribute binary code for a Tcl package such that it can be
- incorporated into a tcl interpreter with the ''load'' command. On
- Windows, shared libraries are known as DLLs, on the Macintosh ...
+   operations and datastructures like a normal library, but which does
+   not need to be physically incorporated into the executables that
+   use it until they are actually executed. This is the normal way to
+   distribute binary code for a Tcl package such that it can be
+   incorporated into a tcl interpreter with the ''load'' command. On
+   Windows, shared libraries are known as DLLs, on the Macintosh ...
+
 ~ References
 
 Much of the required structure for an installable distribution is
@@ -189,7 +190,7 @@ organisations. The package description should not include these
 objects but a package repository might store them separately keyed on
 the values stored in this description (eg. email addresses of creators).
 
- * Identifier (DC)
+ * ''Identifier'' (DC)
 
  > This element is a string containing the name of the distributed
    package. The name may consist only of alphanumeric characters,
@@ -205,7 +206,7 @@ the values stored in this description (eg. email addresses of creators).
 
  > Examples: xyzzy, tcllib, xml::soap, cassidy::wonderful-package_2
 
- * Version
+ * ''Version''
 
  > This element is a string containing the version of the
    package. It consists of 4 components separated by full stops. The
@@ -226,20 +227,21 @@ the values stored in this description (eg. email addresses of creators).
 
  > The period each side of the ''maturity'' component may be ommited.
 
- > Valid version numbers can be decoded via the following regular expression:
+ > Valid version numbers can be decoded via the following regular
+   expression:
 
-   regexp {([0-9]+)\.([0-9]+)\.?([ab])?\.?([0-9]*)} $ver => major minor maturity level
+|regexp {([0-9]+)\.([0-9]+)\.?([ab])?\.?([0-9]*)} $ver => major minor maturity level
 
  > Examples: 8.4.0  8.4a1 2.5.b.5
 
- * Title (DC)
+ * ''Title'' (DC)
 
  > This element is a free form string containing a one sentence
    description of the package contained in the distribution.
 
  > Example: Installer Tools for Tcl Packages
 
- * Creator (DC)
+ * ''Creator'' (DC)
 
  > This element is a string containing the name of the person,
    organisation or service responsible for the creation of the
@@ -256,12 +258,12 @@ the values stored in this description (eg. email addresses of creators).
 
  > Example: Steve Cassidy <Steve.Cassidy at mq dot edu dot au>
 
- * Contributor (DC)
+ * ''Contributor'' (DC)
 
  > This element is a string analogous to the Creator element which
    contains the name of a contributor to the package.
 
- * Rights (DC)
+ * ''Rights'' (DC)
 
  > Typically, a Rights element will contain a rights management
    statement for the resource, or reference a service providing such
@@ -276,7 +278,7 @@ the values stored in this description (eg. email addresses of creators).
 
  > Examples: BSD, http://www.opensource.org/licenses/artistic-license.html
 
- * URL
+ * ''URL''
 
  > This element is a string containing an url refering to a
    document or site at which the information about the package can be
@@ -285,7 +287,7 @@ the values stored in this description (eg. email addresses of creators).
 
  > Example: http://www.shlrc.mq.edu.au/~steve/tcl/
 
- * Available (DC)
+ * ''Available'' (DC)
 
  > This element is the release data of the package in the form YYYY-MM-DD.
 
@@ -309,11 +311,11 @@ the values stored in this description (eg. email addresses of creators).
  > (The DC element is Date but it can be refined to Created,
    Available, Applies)
 
- * Description (DC)
+ * ''Description'' (DC)
 
  > This element is a free form string briefly describing the package.
 
- * Architecture
+ * ''Architecture''
 
  > This element is a string describing one of the architectures
   included in the distribution. As a distribution is allowed to
@@ -321,7 +323,7 @@ the values stored in this description (eg. email addresses of creators).
   appear multiple times and should correspond to a directory in the
   distribution.
 
- * Require
+ * ''Require''
 
  > Names a package that must be installed for this package to operate
    properly. This should have the same format as the ''package
@@ -329,26 +331,26 @@ the values stored in this description (eg. email addresses of creators).
 
  > Example: http 2.0
 
- * Recommend
+ * ''Recommend''
 
  > Declares a strong, but not absolute dependancy on another package.
    In most cases this package should be installed unless the user has
    specific reasons not to install them.
 
- * Suggest
+ * ''Suggest''
 
  > Declares a package which would enhance the functionality of this
    package but which is not a requirement for the basic functionality
    of the package.
 
- * Conflict
+ * ''Conflict''
 
  > Names a package with which can't be installed alongside this
    package. The syntax is the same as for Require.  If a conflicting
    package is present on the system, an installer might offer an option
    of removing it or not installing this package.
 
- * Subject (DC)
+ * ''Subject'' (DC)
 
  > The topic or content of the package expressed as a set of Keywords.
    At some future time, a set of canonical keywords may be established
@@ -357,11 +359,11 @@ the values stored in this description (eg. email addresses of creators).
 The following Dublin Core elements were not included in the standard
 set above but may be used in a package description if appropriate.
 
- * Publisher
+ * ''Publisher''
 
  > An entity responsible for making the package available.
 
- * Type
+ * ''Type''
 
  > The nature or genre of the content of the resource. For a Tcl
    package the value of this element would be Software if the DCMI
@@ -370,22 +372,23 @@ set above but may be used in a package description if appropriate.
    was used.  A more useful set of types might be developed in the
    future for Tcl packages.
 
- * Format
+ * ''Format''
 
  > The physical or digital manifestation of the resource.  This might
    be used by archive maintainers to specify the format of a package
    archive, eg. zip, tar etc.
 
- * Source
+ * ''Source''
 
  > A Reference to a resource from which the present resource is derived.
 
- * Language
+ * ''Language''
 
  > A language of the intellectual content of the resource.  Could be
    used if multi-language packages are available. Should use the two
    letter language code defined by RFC 1766, eg. 'fr' for French, 'en'
    for English.
+
 ~ Encoding of the Metadata
 
 The primary means of storing RDF data is using XML but it can be stored
@@ -471,21 +474,26 @@ Possible values for $architecture in the directory structure include:
  * a composite of tcl_platform values:
   ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
 
- * a canonical system name as returned by ''config.guess'': ''i686-pc-linux-gnu''
+ * a canonical system name as returned by ''config.guess'':
+   ''i686-pc-linux-gnu''
 
 ~ Installing Packages
 
 A package structured according to this TIP can be installed using the following
 steps:
 
-   1 Download the package archive (eg. zip file)
-   2 Locate a writeable directory included on $auto_path (or ask for a
+  1. Download the package archive (eg. zip file)
+
+  2. Locate a writeable directory included on $auto_path (or ask for a
      installation directory)
-   3 Unpack the archive in the desired location.
-   4 Run pkg_mkIndex with appropriate arguments to generate a
-     pkgIndex.tcl file if none is present. Arguments will include
-     the appropriate Architecture directories for the platform.
-   5 (optional) link help files and demos to the central index.
+
+  3. Unpack the archive in the desired location.
+
+  4. Run pkg_mkIndex with appropriate arguments to generate a
+     pkgIndex.tcl file if none is present. Arguments will include the
+     appropriate Architecture directories for the platform.
+
+  5. ''(optional)'' link help files and demos to the central index.
 
 ~ Alternatives
 
