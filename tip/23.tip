@@ -1,9 +1,10 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Daniel A. Steffen <das@users.sourceforge.net>
 State:          Accepted
 Type:           Process
 Vote:           Done
@@ -56,7 +57,7 @@ less test or understand fully.
 
 ~ Proposal
 
-The Tk toolkit shall be divided into the following eighty-six functional
+The Tk toolkit shall be divided into the following functional
 units, each to be assigned one or more maintainers.  Each area will also
 be a Category in the SourceForge Tracker for Tk:
 
@@ -67,7 +68,7 @@ be a Category in the SourceForge Tracker for Tk:
 
    >  2. ''Appearance'' -
      generic/default.h,
-     mac/tkMacDefault.h,
+     macosx/tkMacOSXDefault.h,
      unix/tkUnixDefault.h,
      win/tkWinDefault.h
 
@@ -79,7 +80,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkButton.c,
      generic/tkButton.h,
      library/button.tcl,
-     mac/tkMacButton.c,
+     macosx/tkMacOSXButton.c,
      unix/tkUnixButton.c,
      tests/butGeom.tcl,
      tests/butGeom2.tcl,
@@ -158,19 +159,15 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkMenubutton.h,
      library/menu.tcl,
      library/tearoff.tcl,
-     tests/macWinMenu.test,
      tests/menu.test,
      tests/menuDraw.test,
      tests/menubut.test
 
-   >  11. ''Mac Menus'' -
-     mac/tkMacMDEF.c,
-     mac/tkMacMDEF.r,
-     mac/tkMacMenu.c,
-     mac/tkMacMenu.r,
-     mac/tkMacMenubutton.c,
-     mac/tkMacMenus.c,
-     tests/macMenu.test
+   >  11. ''Mac OS X Menus'' -
+     macosx/tkMacOSXMenu.c,
+     macosx/tkMacOSXMenu.r,
+     macosx/tkMacOSXMenubutton.c,
+     macosx/tkMacOSXMenus.c
 
    >  12. ''Unix Menus'' -
      tests/unixMenu.test,
@@ -191,7 +188,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkScale.c,
      generic/tkScale.h,
      library/scale.tcl,
-     mac/tkMacScale.c,
+     macosx/tkMacOSXScale.c,
      tests/scale.test,
      unix/tkUnixScale.c
 
@@ -200,8 +197,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkScrollbar.c,
      generic/tkScrollbar.h,
      library/scrlbar.tcl,
-     mac/tkMacScrlbr.c,
-     tests/macscrollbar.test,
+     macosx/tkMacOSXScrlbr.c,
      tests/scrollbar.test,
      unix/tkUnixScrlbr.c,
      win/tkWinScrlbr.c
@@ -256,7 +252,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/SetOptions.3,
      generic/tkConfig.c,
      generic/tkOldConfig.c,
-     mac/tkMacConfig.c,
+     macosx/tkMacOSXConfig.c,
      unix/tkUnixConfig.c,
      tests/config.test,
      win/tkWinConfig.c
@@ -284,7 +280,7 @@ be a Category in the SourceForge Tracker for Tk:
      bitmaps/warning.bmp,
      doc/GetBitmap.3,
      generic/tkBitmap.c,
-     mac/tkMacBitmap.c,
+     macosx/tkMacOSXBitmap.c,
      tests/bitmap.test
 
    >  26. ''Conversions From String'' -
@@ -318,7 +314,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/colors.n,
      generic/tkColor.c,
      generic/tkColor.h,
-     mac/tkMacColor.c,
+     macosx/tkMacOSXColor.c,
      unix/tkUnixColor.c,
      tests/cmap.tcl,
      tests/color.test,
@@ -329,9 +325,9 @@ be a Category in the SourceForge Tracker for Tk:
      doc/GetCursor.3,
      doc/cursors.n,
      generic/tkCursor.c,
-     mac/tkMacCursor.c,
-     mac/tkMacCursors.r,
-     mac/tkMacXCursors.r,
+     macosx/tkMacOSXCursor.c,
+     macosx/tkMacOSXCursors.r,
+     macosx/tkMacOSXXCursors.r,
      unix/tkUnixCursor.c,
      tests/cursor.test,
      win/rc/cursor*.cur,
@@ -340,7 +336,7 @@ be a Category in the SourceForge Tracker for Tk:
 
    >  32. ''Key Symbols'' -
      doc/keysyms.n,
-     mac/tkMacKeyboard.c,
+     macosx/tkMacOSXKeyboard.c,
      unix/tkUnixKey.c,
      win/tkWinKey.c,
      xlib/X11/keysym.h,
@@ -359,7 +355,7 @@ be a Category in the SourceForge Tracker for Tk:
    >  35. ''[tk_dialog]'' -
      doc/dialog.n,
      library/dialog.tcl,
-     mac/tkMacDialog.c,
+     macosx/tkMacOSXDialog.c,
      tests/dialog.test,
      tests/winDialog.test,
      unix/tkUnixDialog.c,
@@ -429,9 +425,8 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkFont.h,
      tests/font.test
 
-   >  45. ''Mac Fonts'' -
-     mac/tkMacFont.c,
-     tests/macFont.test
+   >  45. ''Mac OS X Fonts'' -
+     macosx/tkMacOSXFont.c
 
    >  46. ''Unix Fonts'' -
      tests/unixFont.test,
@@ -474,7 +469,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/Clipboard.3,
      doc/clipboard.n,
      generic/tkClipboard.c,
-     mac/tkMacClipboard.c,
+     macosx/tkMacOSXClipboard.c,
      tests/clipboard.test,
      tests/unixSelect.test,
      tests/winClipboard.test,
@@ -521,7 +516,7 @@ be a Category in the SourceForge Tracker for Tk:
    >  58. ''[send]'' -
      doc/SetAppName.3,
      doc/send.n,
-     mac/tkMacSend.c,
+     macosx/tkMacOSXSend.c,
      tests/send.test,
      tests/unixSend.test,
      tests/winSend.test,
@@ -602,17 +597,15 @@ be a Category in the SourceForge Tracker for Tk:
      tests/wm.test,
      xlib/xgc.c
 
-   >  66. ''Mac Window Operations'' -
-     mac/tkMacAppearanceStubs.c,
-     mac/tkMacDraw.c,
-     mac/tkMacEmbed.c,
-     mac/tkMacHLEvents.c,
-     mac/tkMacRegion.c,
-     mac/tkMacSubwindows.c,
-     mac/tkMacWindowMgr.c,
-     mac/tkMacWm.c,
-     mac/tkMacXStubs.c,
-     tests/macEmbed.test
+   >  66. ''Mac OS X Window Operations'' -
+     macosx/tkMacOSXDraw.c,
+     macosx/tkMacOSXEmbed.c,
+     macosx/tkMacOSXHLEvents.c,
+     macosx/tkMacOSXRegion.c,
+     macosx/tkMacOSXSubwindows.c,
+     macosx/tkMacOSXWm.c,
+     macosx/tkMacOSXWm.h,
+     macosx/tkMacOSXXStubs.c
 
    >  67. ''Unix Window Operations'' -
      tests/unixEmbed.test,
@@ -677,7 +670,7 @@ be a Category in the SourceForge Tracker for Tk:
      doc/Tk_Main.3,
      generic/tkInitScript.h,
      generic/tkMain.c,
-     mac/tkMacInit.c,
+     macosx/tkMacOSXInit.c,
      unix/tkUnixInit.c,
      win/tkWin32Dll.c,
      win/tkWinInit.c,
@@ -685,17 +678,13 @@ be a Category in the SourceForge Tracker for Tk:
 
    >  75. ''wish'' -
      doc/wish.1,
-     mac/tkMacAppInit.c,
+     macosx/tkMacOSXAppInit.c,
      unix/tkAppInit.c,
      win/winMain.c
 
-   >  76. ''Mac DND Tclets'' -
-     mac/tclets.r,
-     mac/tclets.tcl
-
    Demonstrations: 
 
-   >  77. ''Widget Tour'' -
+   >  76. ''Widget Tour'' -
      library/demos/arrow.tcl,
      library/demos/bind.tcl,
      library/demos/bitmap.tcl,
@@ -730,7 +719,7 @@ be a Category in the SourceForge Tracker for Tk:
      library/demos/radio.tcl,
      library/demos/ruler.tcl,
      library/demos/sayings.tcl,
-z     library/demos/search.tcl,
+     library/demos/search.tcl,
      library/demos/spin.tcl,
      library/demos/states.tcl,
      library/demos/style.tcl,
@@ -748,14 +737,13 @@ z     library/demos/search.tcl,
      library/demos/images/noletter.bmp,
      library/demos/images/pattern.bmp,
      library/demos/images/tcllogo.gif,
-     library/demos/images/teapot.ppm,
-     mac/widget.r
+     library/demos/images/teapot.ppm
 
-   >  78. ''Square Demo'' -
+   >  77. ''Square Demo'' -
      generic/tkSquare.c,
      library/demos/square
 
-   >  79. ''Other Demos'' -
+   >  78. ''Other Demos'' -
      library/demos/browse,
      library/demos/hello,
      library/demos/ixset,
@@ -766,7 +754,7 @@ z     library/demos/search.tcl,
 
    Localization: 
 
-   >  80. ''L10N'' -
+   >  79. ''L10N'' -
      library/msgs/cs.msg,
      library/msgs/de.msg,
      library/msgs/el.msg,
@@ -780,7 +768,7 @@ z     library/demos/search.tcl,
 
    Release Engineering: 
 
-   >  81. ''Release Notes'' -
+   >  80. ''Release Notes'' -
      README,
      */README,
      */*/README,
@@ -788,15 +776,14 @@ z     library/demos/search.tcl,
      license.terms,
      doc/options.n,
      doc/tk4.0.ps,
-     mac/bugs.doc,
      tests/bugs.tcl
 
-   >  82. ''Portability'' -
+   >  81. ''Portability'' -
      compat/limits.h,
      compat/stdlib.h,
      compat/unistd.h
 
-   >  83. ''X11 Emulation'' -
+   >  82. ''X11 Emulation'' -
      xlib/X11/X.h,
      xlib/X11/Xfuncproto.h,
      xlib/X11/Xlib.h,
@@ -806,26 +793,15 @@ z     library/demos/search.tcl,
      xlib/ximage.c,
      xlib/xutil.c
 
-   >  84. ''Mac Build'' -
-     mac/MW_TkBuildLibHeader.h,
-     mac/MW_TkBuildLibHeader.pch,
-     mac/MW_TkHeader.h,
-     mac/MW_TkHeader.pch,
-     mac/MW_TkHeaderCommon.h,
-     mac/MW_TkOldImgHeader.h,
-     mac/MW_TkOldImgStaticHeader.h,
-     mac/MW_TkStaticHeader.h,
-     mac/MW_TkStaticHeader.pch,
-     mac/MW_TkTestHeader.h,
-     mac/MW_TkTestHeader.pch,
-     mac/tkMacApplication.r,
-     mac/tkMacLibrary.r,
-     mac/tkMacProjects.sea.hqx,
-     mac/tkMacResource.r,
-     mac/tkMacShlib.exp,
-     mac/tkMacTclCode.r
+   >  83. ''Mac OS X Build'' -
+     macosx/Makefile,
+     macosx/buildTkConfig.tcl,
+     macosx/tkAboutDlg.r,
+     macosx/tkMacOSX.h,
+     macosx/tkMacOSXAETE.r,
+     macosx/Wish.pbproj/project.pbxproj
 
-   >  85. ''Unix Build'' -
+   >  84. ''Unix Build'' -
      unix/Makefile.in,
      unix/aclocal.m4,
      unix/configure.in,
@@ -834,7 +810,7 @@ z     library/demos/search.tcl,
      unix/tk.spec,
      unix/tkConfig.sh.in
 
-   >  86. ''Win Build'' -
+   >  85. ''Win Build'' -
      win/Makefile.in,
      win/aclocal.m4,
      win/buildall.vc.bat,
@@ -842,7 +818,7 @@ z     library/demos/search.tcl,
      win/makefile.vc,
      win/mkd.bat,
      win/nmakehlp.c,
-     win/rc/tk.rc,
+     win/rc/tkc,
      win/rc/tk_base.rc,
      win/rc/wish.exe.manifest,
      win/rc/wish.rc,
@@ -852,15 +828,15 @@ z     library/demos/search.tcl,
      win/tkConfig.sh.in,
      win/tkWin.h
 
-   >  87. ''Test Tools'' -
+   >  86. ''Test Tools'' -
      generic/tkTest.c,
-     mac/tkMacTest.c,
+     macosx/tkMacOSXTest.c,
      win/tkWinTest.c,
      tests/all.tcl,
      tests/defs.tcl,
      tests/visual_bb.test
 
-   >  88. ''Logos'' -
+   >  87. ''Logos'' -
      library/images/logo.eps,
      library/images/logo100.gif,
      library/images/logo64.gif,
@@ -873,6 +849,7 @@ z     library/demos/search.tcl,
      library/images/pwrdLogo200.gif,
      library/images/pwrdLogo75.gif,
      library/images/tai-ku.gif,
+     macosx/Wish.icns,
      win/lamp.bmp,
      win/rc/tk.ico,
      win/rc/wish.ico
@@ -895,9 +872,8 @@ API and should be changed only with TCT approval.
      generic/tkPort.h,
      generic/tkStubLib.c,
      library/unsupported.tcl,
-     mac/tkMac.h,
-     mac/tkMacInt.h,
-     mac/tkMacPort.h,
+     macosx/tkMacOSXInt.h,
+     macosx/tkMacOSXPort.h,
      unix/tkUnixInt.h,
      unix/tkUnixPort.h,
      win/tkWinInt.h,
@@ -946,12 +922,12 @@ strengths of Tk is its cross-platform nature, and one of the
 maintainer's jobs is to ensure that this continues.
 
 Procedurally, the maintainer will be listed as ''Button Widget -
-Macintosh'', etc.  A maintainer for a given area can sign up for one
+Mac OS X'', etc.  A maintainer for a given area can sign up for one
 or more platforms.  Due to the good design of the Tk's platform
 dependencies, determining which files are generic, and which are
 platform specific is trivial.  The generic ones are in the ''generic''
-directory, the Mac ones in the ''mac'' directory, etc.  Similarly, an
-area which has NO files in the mac, win, or unix directories is a
+directory, the Mac ones in the ''macosx'' directory, etc.  Similarly, an
+area which has NO files in the macosx, win, or unix directories is a
 generic area, and no qualifiers are needed.
 
 ~ Copyright

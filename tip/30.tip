@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.36 $
+Version:        $Revision: 1.37 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -29,7 +29,7 @@ of Tk ([23]).
 
 ~ Assignments
 
-Listed below are Tk's 86 functional units, in the same order as in
+Listed below are Tk's functional units, in the same order as in
 [23].  See [23] for the precise definition of what code belongs to
 what area, and how maintainers designate their support for
 platform-specific portions of the code.  The area names listed below
@@ -41,12 +41,15 @@ assigned:
 
    1. ''Bindings'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   2. ''Appearance'' - Jeff Hobbs <JeffH@ActiveState.com>
+   2. ''Appearance'' - Jeff Hobbs <JeffH@ActiveState.com>,
+                       Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                       Jim Ingham <jingham@apple.com> (Mac OS X)
 
    3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>,
 				  Jeff Hobbs <JeffH@ActiveState.com>,
-				  Daniel Steffen <das@users.sourceforge.net> (Mac)
-                       Vincent Darley <vincentdarley@users.sourceforge.net> (Mac)
+                                  Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                                  Jim Ingham <jingham@apple.com> (Mac OS X),
+                                  Vincent Darley <vincentdarley@users.sourceforge.net> (Mac OS X)
 
    4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			  Jan Nijtmans <j.nijtmans@chello.nl>
@@ -68,8 +71,9 @@ assigned:
    10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			   Todd Helfter <tmh@purdue.edu>
 
-   11. ''Mac Menus'' - George B. Smith <gbs@k9haven.com>,
-		       Daniel Steffen <das@users.sourceforge.net>
+   11. ''Mac OS X Menus'' - George B. Smith <gbs@k9haven.com>,
+                       Daniel Steffen <das@users.sourceforge.net>,
+                       Jim Ingham <jingham@apple.com>,
                        Vincent Darley <vincentdarley@users.sourceforge.net>
 
    12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
@@ -81,10 +85,12 @@ assigned:
    14. ''[message]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    15. ''[scale]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-		     Daniel Steffen <das@users.sourceforge.net> (Mac)
+                     Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                     Jim Ingham <jingham@apple.com> (Mac OS X)
 
    16. ''[scrollbar]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			 Daniel Steffen <das@users.sourceforge.net> (Mac)
+                         Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                         Jim Ingham <jingham@apple.com> (Mac OS X)
 
    17. ''[spinbox]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -99,14 +105,16 @@ assigned:
    22. ''Style Engine'' - Frédéric Bonnet <frederic.bonnet@free.fr>
 
    23. ''Option Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			    Daniel Steffen <das@users.sourceforge.net> (Mac)
+                            Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                            Jim Ingham <jingham@apple.com> (Mac OS X)
 
    24. ''Relief'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		    Frédéric Bonnet <fredericbonnet@free.fr>
 
    25. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			      Jan Nijtmans <j.nijtmans@chello.nl>,
-			      Daniel Steffen <das@users.sourceforge.net> (Mac)
+                              Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                              Jim Ingham <jingham@apple.com> (Mac OS X)
 
    26. ''Conversions From String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -117,14 +125,17 @@ assigned:
    29. ''Colormaps and Visuals'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    30. ''Color Names'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			 Daniel Steffen <das@users.sourceforge.net> (Mac)
+                         Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                         Jim Ingham <jingham@apple.com> (Mac OS X)
 
    31. ''Cursor Names'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			  Daniel Steffen <das@users.sourceforge.net> (Mac)
+                          Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                          Jim Ingham <jingham@apple.com> (Mac OS X)
 
    32. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			 Daniel Steffen <das@users.sourceforge.net> (Mac),
-			 Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net> (MacOSX)
+                         Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                         Jim Ingham <jingham@apple.com> (Mac OS X),
+			 Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net> (Mac OS X)
 
    33. ''Generic Dialog Support'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 				    Jeff Hobbs <JeffH@ActiveState.com>
@@ -134,7 +145,8 @@ assigned:
 
    35. ''[tk_dialog]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 			 Jeff Hobbs <JeffH@ActiveState.com>,
-			 Daniel Steffen <das@users.sourceforge.net> (Mac)
+                         Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                         Jim Ingham <jingham@apple.com> (Mac OS X)
 
    36. ''[tk_chooseDirectory]'' - Donal K. Fellows <donal.k.fellows@man.ac.uk> (Unix),
 				  Jeff Hobbs <JeffH@ActiveState.com>
@@ -161,9 +173,10 @@ assigned:
 
    44. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   45. ''Mac Fonts'' - George B. Smith <gbs@k9haven.com>,
-		       Daniel Steffen <das@users.sourceforge.net>,
-		       Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net> (MacOSX)
+   45. ''Mac OS X Fonts'' - George B. Smith <gbs@k9haven.com>,
+                       Daniel Steffen <das@users.sourceforge.net>,
+                       Jim Ingham <jingham@apple.com>,
+		       Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net>
 
    46. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -183,7 +196,8 @@ assigned:
 
    52. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
 		         Joe English <jenglish@flightlab.com> (Unix),
-			 Daniel Steffen <das@users.sourceforge.net> (Mac)
+                         Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                         Jim Ingham <jingham@apple.com> (Mac OS X)
 
    53. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		         Joe English <jenglish@flightlab.com> (Unix)
@@ -200,7 +214,8 @@ assigned:
 
    58. ''[send]'' - Allen Flick <allenflick@home.com>,
 		    Jeff Hobbs <JeffH@ActiveState.com>,
-		    Daniel Steffen <das@users.sourceforge.net> (Mac),
+                    Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                    Jim Ingham <jingham@apple.com> (Mac OS X),
 		    Pat Thoyts <patthoyts@users.sourceforge.net>
 
    59. ''[tk_focus*]'' - Jeff Hobbs <JeffH@ActiveState.com>
@@ -218,8 +233,9 @@ assigned:
 
    65. ''Generic Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   66. ''Mac Window Operations'' - George B. Smith <gbs@k9haven.com>,
-				   Daniel Steffen <das@users.sourceforge.net>
+   66. ''Mac OS X Window Operations'' - George B. Smith <gbs@k9haven.com>,
+                                   Daniel Steffen <das@users.sourceforge.net>,
+                                   Jim Ingham <jingham@apple.com>,
                                    Vincent Darley <vincentdarley@users.sourceforge.net>
 
    67. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
@@ -240,44 +256,50 @@ assigned:
 
    73. ''Argv Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   74. ''Application Embedding'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
+   74. ''Application Embedding'' - 
+                                   Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                                   Jim Ingham <jingham@apple.com> (Mac OS X)
 
-   75. ''wish'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
+   75. ''wish'' - 
+                  Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                  Jim Ingham <jingham@apple.com> (Mac OS X),
 
-   76. ''Mac DND Tclets'' - Daniel Steffen <das@users.sourceforge.net>
-
-   77. ''Widget Tour'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
+   76. ''Widget Tour'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 			 Jeff Hobbs <JeffH@ActiveState.com>
 
-   78. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
+   77. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   79. ''Other Demos'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
+   78. ''Other Demos'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>,
 			 Jeff Hobbs <JeffH@ActiveState.com>
 
-   80. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+   79. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>,
 		  Miguel Bañón <bagnonm@safelayer.com>
 
-   81. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
+   80. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   82. ''Portability'' - Jeff Hobbs <JeffH@ActiveState.com>
+   81. ''Portability'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   83. ''X11 Emulation'' - Jeff Hobbs <JeffH@ActiveState.com>
+   82. ''X11 Emulation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   84. ''Mac Build'' - George B. Smith <gbs@k9haven.com>,
-		       Daniel Steffen <das@users.sourceforge.net>
+   83. ''Mac OS X Build'' - George B. Smith <gbs@k9haven.com>,
+                       Daniel Steffen <das@users.sourceforge.net>,
+                       Jim Ingham <jingham@apple.com>,
 
-   85. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   84. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			Mo DeJong <mdejong@cygnus.com>,
 			Lloyd Lim <lloydlim@users.sourceforge.net>
 
-   86. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   85. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		       Mo DeJong <mdejong@cygnus.com>
 
-   87. ''Test Tools'' - Allen Flick <allenflick@home.com>,
+   86. ''Test Tools'' - Allen Flick <allenflick@home.com>,
 			Jeff Hobbs <JeffH@ActiveState.com>,
-			Daniel Steffen <das@users.sourceforge.net> (Mac)
+                        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                        Jim Ingham <jingham@apple.com> (Mac OS X)
 
-   88. ''Logos'' - Jeff Hobbs <JeffH@ActiveState.com>
+   87. ''Logos'' - Jeff Hobbs <JeffH@ActiveState.com>
+                   Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                   Jim Ingham <jingham@apple.com> (Mac OS X),
 
 ~ General Categories
 
