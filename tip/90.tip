@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -108,21 +108,21 @@ any value at all is acceptable for an ''option'' argument.
 The legal values of a ''value'' argument are limited for
 some ''option''s, as follows:
 
- > the ''$value'' after a "-code" must be either
+ > the ''value'' after a "-code" must be either
    an integer (32-bit only), or one of the strings, "ok",
    "error", "return", "break", or "continue",
-   just as in the 8.4 spec for ''return''.  The default ''$value''
+   just as in the 8.4 spec for ''return''.  The default ''value''
    for the "-code" option is "0".
 
- > the ''$value'' after a "-level" must be a non-negative integer.
-   The default ''$value'' for the "-level" option is "1".
+ > the ''value'' after a "-level" must be a non-negative integer.
+   The default ''value'' for the "-level" option is "1".
 
- > the ''$value'' after a "-options" must be a dictionary ([111]).
-   The default ''$value'' for the "-options" option is an empty
+ > the ''value'' after a "-options" must be a dictionary ([111]).
+   The default ''value'' for the "-options" option is an empty
    dictionary.
 
-The keys and values in the dictionary ''$value'' of the -options
-option are pulled out and treated as additional ''$option $value''
+The keys and values in the dictionary ''value'' of the -options
+option are pulled out and treated as additional ''option value''
 arguments to the ''return'' command.  Note that this "-options" option
 for option expansion is offered only because Tcl itself has no
 syntax for argument expansion, as observed many, many times before.
