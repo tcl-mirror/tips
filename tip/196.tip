@@ -1,8 +1,8 @@
 TIP:		196
 Title:		Tcl Commands as Values
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Robert Suetterlin <robert@mpe.mpg.de>
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
