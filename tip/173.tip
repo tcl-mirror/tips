@@ -1,6 +1,6 @@
 TIP:            173
 Title:          Internationalisation and Refactoring of the 'clock' Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -131,7 +131,7 @@ with most of the subcommands implemented in Tcl.  A minimal set of the
 existing C code shall be refactored and placed inside a
 ''::tcl::clock'' namespace.  The existing subcommands ''seconds'' and
 ''clicks'' shall be exposed.  The existing ''scan'' shall be hidden
-inside the namespace.  [[clock scan]] and [[clock]] format shall be
+inside the namespace.  [[clock scan]] and [[clock format]] shall be
 reimplemented in Tcl.  In addition, new [[clock add]] and [[clock
 subtract]] commands shall be added.
 
@@ -156,9 +156,8 @@ If a ''-format'' option is not supplied, the scan is a ''free format''
 scan.  The existing YACC parser for ''clock scan'' will be used to
 interpret the input string.  ''This form of the command is explicitly
 deprecated'' because of the inherent ambiguities in interpreting the
-input string.  If the ''-format'' option is not
-supplied, the ''-locale''
-and ''-timezone'' options will be forbidden, since the legacy code
+input string.  The free-format version of [[clock scan]] does not
+accept ''-locale'' or ''-timezone'' options, since the legacy code
 does not support multiple locales or time zones.
 
 If the ''-format'' options is supplied, it is interpreted as a
@@ -178,7 +177,7 @@ lowest, is:
  {Julian Day Number}: The Julian Day Number uniquely specifies a
    calendar date.
 
- {century, year, month, day of month}, {century, year, day of year}, {century, year, week of year, day of year}, {locale era, locale year, month, day of month}:
+ {century, year, month, day of month}, {century, year, day of year}, {century, year, week of year, day of week}, {locale era, locale year, month, day of month}:
    Formats with complete year are
    preferred to formats with a two-digit year.  For a two digit year,
    the date range is constrained to lie between 1938 and 2037.
@@ -197,17 +196,6 @@ lowest, is:
 
  None of the above: If no combination of fields that specifies a date
    is found, the base date is used.
-
-In all of the foregoing discussion, the 'base date', 'base month',
-'base week', and 'base year' refer to the day, month, week or year
-designated by the ''-base'' parameter, which is a count of seconds
-from the Posix epoch.  If no ''-base'' parameter is supplied, the
-current date is used as the base date.  The year, month, week and day
-are obtained by interpreting the base date in the time zone specified
-by the date/time string.  If the given format does not include a time
-zone, then the base time is interpreted in the default time zone; see
-''TIME ZONES'' below for the way that the default time zone is
-determined.
 
 The time of day returned by [[clock scan]] is determined by the
 presence of fields in the format string, in the following order of
@@ -228,7 +216,7 @@ preference.
 | clock scan "6 pm" -format "%I %p"
 
  None of the above: If none of the above indicators is present,
-   midnight in the given time zone is used.
+   ''00:00:00'' (the start of the day) in the given time zone is used.
 
 In all of the foregoing discussion, the 'base date', 'base month',
 'base week', and 'base year' refer to the day, month, week or year
@@ -566,7 +554,10 @@ subtract]].  In order of preference:
    legacy RFC822 time stamps.
 
  * The time zone may appear in the ''-timezone'' argument to the
-   [[clock]] command.
+   [[clock]] command, or may be implied by the presence of ''-gmt 1''.
+   It is an error to use ''-timezone'' and ''-gmt'' in the same
+   call.  The ''-gmt 1'' option may be regarded as an obsolete
+   synonym of ''-timezone :UTC''.
 
  * The time zone may appear in the environment variable, ''TCL_TZ''.
 
@@ -652,11 +643,14 @@ include:
 
  DAYS_OF_WEEK_ABBREV: Abbreviations of the days of the week in the
      given locale.  In the root locale, this string has the value,
-     {Sun Mon Tue Wed Thu Fri Sat}
+     {Sun Mon Tue Wed Thu Fri Sat}.  In any locale, this string
+     is expected to represent a valid Tcl list.
 
  DAYS_OF_WEEK_FULL: Full names of the days of the week in the given
      locale.  In the root locale, this string has the value, {Sunday
-     Monday Tuesday Wednesday Thursday Friday Saturday}
+     Monday Tuesday Wednesday Thursday Friday Saturday}.
+     In any locale, this string is expected to represent a valid
+     Tcl list.
 
  GREGORIAN_CHANGE_DATE: The date on which the change from the Julian
      to the Gregorian calendar takes place, expressed as a Julian Day
@@ -667,7 +661,14 @@ include:
 
  LOCALE_DATE_FORMAT: The format to use when formatting dates in the
      locale's alternative calendar.  In the root locale,
-     LOCALE_DATE_FORMAT is the same as DATE_FORMAT.
+     LOCALE_DATE_FORMAT is ''%x'', which causes formatting without
+     alternative numerals.
+
+ LOCALE_DATE_TIME_FORMAT: The format to use when formatting date/time
+     strings in the locale's alternative calendar.  In the root locale,
+     LOCALE_DATE_TIME_FORMAT is ''%Ex %EX'', which causes concatenation
+     of the locale's format for date, a space character, and the
+     locale's format for time.
 
  LOCALE_ERAS: In a locale where a calendar with multiple eras is in
      use, gives a list of triples.  The first element of each triple
@@ -675,6 +676,8 @@ include:
      00:00 UTC) at which the era begins; the second is the name of the
      era, and the third is a constant offset to be subtracted from the
      Gregorian year to give the year of the era.
+     In any locale, this string is expected to represent a valid
+     Tcl list.
 
  LOCALE_NUMERALS: In a locale where alternative numerals may be used,
      gives a list containing the numerals that represent the numbers
@@ -683,10 +686,13 @@ include:
      currencies or quantities.  For instance, in a Han locale, the
      number twenty-one is represented by \u5eff\u4e00, not by
      \u4e8c\u5341\u4e00.
+     In any locale, this string is expected to represent a valid
+     Tcl list.
 
  LOCALE_TIME_FORMAT: The time format to use when formatting a time of
      day using a locale's alternative numerals. In the root locale,
-     this string is the same as TIME_FORMAT.
+     this string is ''%X'', which causes formatting without alternative
+     numerals.
 
  LOCALE_YEAR_FORMAT: The time format to use when formatting a year in
      the locale's alternative calendar.  In the root locale, this
@@ -695,10 +701,14 @@ include:
  MONTHS_ABBREV: Abbreviated names of the months in the given locale.
      In the root locale, consists of three-letter abbreviations for
      the English months: Jan-Dec.
+     In any locale, this string is expected to represent a valid
+     Tcl list.
 
  MONTHS_FULL: Full names of the months in the given locale.  In the
      root locale, consists of the names of the English months in order
      from 'January' to 'December'.
+     In any locale, this string is expected to represent a valid
+     Tcl list.
 
  PM: The string that identifies ''post meridiem'' times when
      expressing a time of day in the given locale.  This string has
@@ -712,6 +722,25 @@ include:
 
  TIME_FORMAT_24: String that formats time on a 24-hour clock in the
      given locale.  In the root locale, this string is {%H:%M}.
+
+There is a defined order for substitution of locale strings, which
+constrains the format groups that can appear in the ''_FORMAT'' strings.
+Specifically:
+
+   * DATE_TIME_FORMAT and LOCALE_DATE_TIME_FORMAT may contain any
+     format groups other than ''%c'' and ''%Ec''.
+
+   * LOCALE_DATE_FORMAT and LOCALE_TIME_FORMAT may not contain
+     ''%c'', ''%Ec'', ''%Ex'', or ''%EX''.
+
+   * DATE_FORMAT and TIME_FORMAT may not contain ''%c'', ''%Ec'',
+     ''%x'', ''%Ex'', ''%X'', or ''%EX''.
+
+   * TIME_FORMAT_12 and TIME_FORMAT_24 may not contain ''%c'', ''%Ec'',
+     ''%r'', ''%R'', ''%T'', ''%x'', ''%Ex'', ''%X'', or ''%EX''.
+
+   * LOCALE_YEAR_FORMAT may not contain  ''%c'', ''%Ec'',
+     ''%r'', ''%R'', ''%T'', ''%x'', ''%Ex'', ''%X'', ''%EX'', or ''%Ey''.
 
 ''Example.'' The following file is "ja.msg", which localises the
 [[clock]] command to a Japanese locale.
@@ -875,8 +904,18 @@ The Gregorian change date is not supplied in most locales.
 Localisation in most locales was done by an American who is probably
 excessively ignorant in such matters.
 
+This TIP makes no effort to be compliant with RFC 2550 
+[http://www.faqs.org/rfcs/rfc2550.html].
+
 ~ Copyright
 
 Copyright 2004, by Kevin B. Kenny.  Redistribution permitted under the
 terms of the Open Publication License
 [http://www.opencontent.org/openpub/].
+
+~ Acknowledgments
+
+The author of this TIP wishes to thank all the Tcl'ers who have
+taken the time to read and comment on it, most notably Joe English,
+Donal K. Fellows, Arjen Markus, Christopher Nelson, Donald G. Porter,
+Pascal Scheffers, and Peter da Silva.
