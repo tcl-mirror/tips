@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -375,6 +375,8 @@ these are listed here for completeness:
     make true parsing for syntax colouring significantly easier.
 
   * The pre-existing behaviour of ''+/- N lines'' uses byte-indices instead of x-pixel calculations (thereby having the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  Further, the behaviour is quite strange when wrapping is enabled in the widget.  This TIP does not propose any changes in this area other than to suggest that Tcl coders make use of 'displaylines' instead, for more consistent behaviour (as has been done to text.tcl).
+
+  * To do word-matching with ''search'' requires the use of a regexp pattern and something like ''.text search -regexp -- "\\m[[quote::Regfind $string]]\\M" $pos''.  It might be nice to add a flag to control word-matching without the need for such manipulations.
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
