@@ -1,8 +1,8 @@
 TIP:            81
 Title:          [incr Tcl] Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Draft
+State:          Deferred
 Type:           Process
 Vote:           Pending
 Created:        07-Jan-2002
