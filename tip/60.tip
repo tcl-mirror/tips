@@ -1,7 +1,8 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         David Gravereaux <davygrvy@pobox.com>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -40,7 +41,8 @@ order a hair, old Turbo C v5.0 has a better chance to make a DOS
 library :)
 
 The only main issue with doing this change, is that all extensions
-will need to adopt it.  Here is a backward compatibility fix, if this change is adopted, so extensions can still use older headerfiles.
+will need to adopt it.  Here is a backward compatibility fix, if this
+change is adopted, so extensions can still use older headerfiles.
 
 |#ifndef TCL_NEWEXTERN
 |#   ifdef __cplusplus
@@ -65,7 +67,8 @@ an off-beat manner...
 
 ~ Rejected Alternatives
 
-I saw something like this in a very old DDE extension that someone at Sun wrote.  It was used as an example windows extension for years.
+I saw something like this in a very old DDE extension that someone at
+Sun wrote.  It was used as an example windows extension for years.
 
 ftp://tcl.activestate.com/pub/tcl/misc/example.zip
 
@@ -87,7 +90,8 @@ In example.h is this:
 |
 |EXTERN EXPORT(int,Example_Init) _ANSI_ARGS_((Tcl_Interp *interp));
 
-That work is doing the same job, but I prefer the method that I'm proposing.
+That work is doing the same job, but I prefer the method that I'm
+proposing.
 
 Is>
 
@@ -171,14 +175,15 @@ Preprocessor output is the following:
 |        return 1 ;
 |    }
 |
-|    (tclStubsPtr->tcl_CreateObjCommand) (interp, "foobar", FooBar, ((void *)0) ,
-| ((void *)0) );
+|    (tclStubsPtr->tcl_CreateObjCommand) (interp, "foobar", FooBar, ((void *)0) , ((void *)0) );
 |    return 0 ;
 |};
 
 ~ Random Notes
 
-In ''tclInt.h'' starting around line 1916, are prototypes for the internal cmdprocs.  I can't think of any reason why they should be exported.  If 
+In ''tclInt.h'' starting around line 1916, are prototypes for the
+internal cmdprocs.  I can't think of any reason why they should be
+exported.  If 
 
 |EXTERN int	Tcl_AfterObjCmd _ANSI_ARGS_((ClientData clientData,
 |		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
