@@ -1,11 +1,11 @@
 TIP:		179
 Title:		Add -hide Option to panedwindow Widget
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Brian Griffin <bgriffin@model.com>
 Created:	22-Mar-2004
 Keywords:	Tk
