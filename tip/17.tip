@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -348,6 +348,25 @@ of a Tcl-level vfs much simpler and more robust:
     filesystem (e.g. TclKit), since Tcl's very early call to 
     TclpSetInitialEncodings fails to achieve anything useful.
 
+  * the perfect vfs support can have some weird side-effects.  For
+    instance, if I embed all of tcltest and tests/ inside a TclKit,
+    and try to source 'all.tcl', I get errors that each file does not
+    exist.  This is because the test code tries to pipe each file in
+    turn to a newly created tcl process (open "| tclsh foo.test r"),
+    but the files don't really exist (as far as the OS is concerned). 
+    We therefore add an introspection command 'file system
+    $path' which returns a list of two items: the name of the 
+    filesystem and the type of the file within that filesystem.
+    For example it might be 'native local', 'native networked',
+    'vfs ftp', 'vfs zip' etc.
+
+  * vfs systems on different platforms may require different directory
+    separator characters (different to the native characters), 
+    especially on MacOS (in which a valid file might be 
+    ''HD:Tcl:tcl.zip/lib/tcl8.4/history.tcl''), and we therefore add
+    'file separator ?filename?' command to retrieve the correct
+    separator to use.
+
 As mentioned above an implementation of all of this now exists.  The
 modified Tcl core passes all Tcl tests, and works with a new version of
 TclKit (which can itself pass all reasonable tests when executing the
@@ -581,18 +600,6 @@ remove more vestiges of the old string-based conversion code.
 
 This section contains items which are outside the scope of this TIP,
 but it was thought useful to raise and have documented for the record.
-
-  * the perfect vfs support can have some weird side-effects.  For
-    instance, if I embed all of tcltest and tests/ inside a TclKit,
-    and try to source 'all.tcl', I get errors that each file does not
-    exist.  This is because the test code tries to pipe each file in
-    turn to a newly created tcl process (open "| tclsh foo.test r"),
-    but the files don't really exist.  It might be a good idea to
-    allow some limited introspection into the filesystem ('file system
-    $path' which returns 'native' for ordinary files, and some other
-    string(s) for virtual files).  If virtual filesystems become very
-    common in the Tcl world (which I hope they do!), then we'll
-    definitely want some such subcommand.
 
   * Should we remove the native 'Tclpxx' filesystem functions from
     Tcl's API? Or perhaps require a new #define
