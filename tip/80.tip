@@ -1,6 +1,6 @@
 TIP:            80
 Title:          Additional Options for 'lsearch'
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Tom Wilkason <tom.wilkason@home.com>
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 State:          Draft
@@ -74,7 +74,356 @@ Changes to the ''Tcl_LsearchObjCmd'' command in ''generic/tclCmdIL.c''
 are needed along with documentation and test code.  The changes to the
 8.4 head version of ''tclCmdIL.c'' are available here.
 
-''<Not yet available>''
+|/*
+| *----------------------------------------------------------------------
+| *
+| * Tcl_LsearchObjCmd --
+| *
+| *      This procedure is invoked to process the "lsearch" Tcl command.
+| *      See the user documentation for details on what it does.
+| *
+| * Results:
+| *      A standard Tcl result.
+| *
+| * Side effects:
+| *      See the user documentation.
+| *
+| *----------------------------------------------------------------------
+| */
+|
+|int
+|Tcl_LsearchObjCmd(clientData, interp, objc, objv)
+|    ClientData clientData;      /* Not used. */
+|    Tcl_Interp *interp;         /* Current interpreter. */
+|    int objc;                   /* Number of arguments. */
+|    Tcl_Obj *CONST objv[];      /* Argument values. */
+|{
+|    char *bytes, *patternBytes;
+|    int i, match, mode, index, result, listc, length, elemLen, returnData=0;
+|    int useStart=-1, offset, allData=0;
+|    int dataType, isIncreasing, lower, upper, patInt, objInt, notMatch=FALSE;
+|    double patDouble, objDouble;
+|    Tcl_Obj *patObj, **listv, *listPtr, *startPtr;
+|    static CONST char *options[] = {
+|        "-all", "-ascii", "-data", "-decreasing", "-dictionary",
+|            "-exact", "-increasing","-integer", "-glob", "-not",
+|            "-real", "-regexp", "-sorted", "-start", NULL
+|    };
+|    enum options {
+|        LSEARCH_ALL, LSEARCH_ASCII, LSEARCH_DATA, LSEARCH_DECREASING, LSEARCH_DICTIONARY,
+|            LSEARCH_EXACT,LSEARCH_INCREASING, LSEARCH_INTEGER, LSEARCH_GLOB, LSEARCH_NOT,
+|            LSEARCH_REAL, LSEARCH_REGEXP, LSEARCH_SORTED, LSEARCH_START
+|    };
+|
+|    enum datatypes {
+|        ASCII, DICTIONARY, INTEGER, REAL
+|    };
+|
+|    enum modes {
+|        EXACT, GLOB, REGEXP, SORTED
+|    };
+|
+|    mode = GLOB;
+|    dataType = ASCII;
+|    isIncreasing = 1;
+|    /* Note: This counts options as possible list|patterns */
+|    if (objc < 3) {
+|        Tcl_WrongNumArgs(interp, 1, objv, "?options? list pattern");
+|        return TCL_ERROR;
+|    }
+|    for (i = 1; i < objc-2; i++) {
+|        if (Tcl_GetIndexFromObj(interp, objv[i], options, "option", 0, &index)
+|                != TCL_OK) {
+|            return TCL_ERROR;
+|        }
+|        switch ((enum options) index) {
+|            case LSEARCH_ASCII:         /* -ascii */
+|                dataType = ASCII;
+|                break;
+|            case LSEARCH_NOT:           /* -not */
+|                notMatch = TRUE;
+|                break;
+|            case LSEARCH_ALL:           /* -all */
+|                allData = TRUE;
+|                listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
+|                break;
+|            case LSEARCH_DATA:          /* -data */
+|                returnData = TRUE;
+|                break;
+|            case LSEARCH_START:         /* -start index*/
+|                useStart = ++i;         /* Pull off next as index for offset */
+|                break;
+|            case LSEARCH_DECREASING:    /* -decreasing */
+|                isIncreasing = 0;
+|                break;
+|            case LSEARCH_DICTIONARY:    /* -dictionary */
+|                dataType = DICTIONARY;
+|                break;
+|            case LSEARCH_EXACT:         /* -exact */
+|                mode = EXACT;
+|                break;
+|            case LSEARCH_INCREASING:    /* -increasing */
+|                isIncreasing = 1;
+|                break;
+|            case LSEARCH_INTEGER:       /* -integer */
+|                dataType = INTEGER;
+|                break;
+|            case LSEARCH_GLOB:          /* -glob */
+|                mode = GLOB;
+|                break;
+|            case LSEARCH_REAL:          /* -real */
+|                dataType = REAL;
+|                break;
+|            case LSEARCH_REGEXP:        /* -regexp */
+|                mode = REGEXP;
+|                break;
+|            case LSEARCH_SORTED:        /* -sorted */
+|                mode = SORTED;
+|                break;
+|        }
+|    }
+|     
+|
+|    /*
+|     * -start option processing:
+|     * Ensure we get a unique copy of command line arg for start index
+|     */
+|    if (useStart > 0)
+|    {
+|        startPtr = Tcl_DuplicateObj(objv[useStart]);
+|    }
+|
+|    /*
+|     * Make sure the list argument is a list object and get its length and
+|     * a pointer to its array of element pointers.
+|     */
+|    result = Tcl_ListObjGetElements(interp, objv[objc - 2], &listc, &listv);
+|    if (result != TCL_OK) {
+|        return result;
+|    }
+|    /*
+|     * Retrieve user specified start offset.
+|     */
+|    if (useStart > 0)
+|    {
+|        result = TclGetIntForIndex(interp, startPtr, /*end*/ listc-1, &offset);
+|        Tcl_DecrRefCount(startPtr); /* free unneeded obj */
+|
+|        if (result != TCL_OK) {
+|           return result;
+|        } else if (offset < 0) {
+|           offset = 0;
+|        }
+|    } else {
+|       offset = 0;
+|    }
+|
+|    /*
+|     * Process the pattern
+|     */
+|    patObj = objv[objc - 1];
+|    patternBytes = NULL;
+|    if ((enum modes) mode == EXACT || (enum modes) mode == SORTED) {
+|        switch ((enum datatypes) dataType) {
+|            case ASCII:
+|            case DICTIONARY:
+|                patternBytes = Tcl_GetStringFromObj(patObj, &length);
+|                break;
+|            case INTEGER:
+|                result = Tcl_GetIntFromObj(interp, patObj, &patInt);
+|                if (result != TCL_OK) {
+|                    return result;
+|                }
+|                break;
+|            case REAL:
+|                result = Tcl_GetDoubleFromObj(interp, patObj, &patDouble);
+|                if (result != TCL_OK) {
+|                    return result;
+|                }
+|                break;
+|        }
+|    } else {
+|        patternBytes = Tcl_GetStringFromObj(patObj, &length);
+|    }
+|
+|    /*
+|     * Set default index value to -1, indicating failure; if we find the
+|     * item in the course of our search, index will be set to the correct
+|     * value.
+|     */
+|    index = -1;
+|    match = 0;
+|    if ((enum modes) mode == SORTED && allData == FALSE) {
+|        /* If the data is sorted, we can do a more intelligent search */
+|        lower = offset-1 /*-1*/;
+|        upper = listc;
+|        while (lower + 1 != upper) {
+|            i = (lower + upper)/2;
+|            switch ((enum datatypes) dataType) {
+|                case ASCII: {
+|                    bytes = Tcl_GetString(listv[i]);
+|                    match = strcmp(patternBytes, bytes);
+|                    break;
+|                }
+|                case DICTIONARY: {
+|                    bytes = Tcl_GetString(listv[i]);
+|                    match = DictionaryCompare(patternBytes, bytes);
+|                    break;
+|                }
+|                case INTEGER: {
+|                    result = Tcl_GetIntFromObj(interp, listv[i], &objInt);
+|                    if (result != TCL_OK) {
+|                        return result;
+|                    }
+|                    if (patInt == objInt) {
+|                        match = 0;
+|                    } else if (patInt < objInt) {
+|                        match = -1;
+|                    } else {
+|                        match = 1;
+|                    }
+|                    break;
+|                }
+|                case REAL: {
+|                    result = Tcl_GetDoubleFromObj(interp, listv[i],
+|                            &objDouble);
+|                    if (result != TCL_OK) {
+|                        return result;
+|                    }
+|                    if (patDouble == objDouble) {
+|                        match = 0;
+|                    } else if (patDouble < objDouble) {
+|                        match = -1;
+|                    } else {
+|                        match = 1;
+|                    }
+|                    break;
+|                }
+|            }
+|            if (match == 0) {
+|                /*
+|                 * Normally, binary search is written to stop when it
+|                 * finds a match.  If there are duplicates of an element in
+|                 * the list, our first match might not be the first occurance.
+|                 * Consider:  0 0 0 1 1 1 2 2 2
+|                 * To maintain consistancy with standard lsearch semantics,
+|                 * we must find the leftmost occurance of the pattern in the
+|                 * list.  Thus we don't just stop searching here.  This
+|                 * variation means that a search always makes log n
+|                 * comparisons (normal binary search might "get lucky" with
+|                 * an early comparison).
+|                 */
+|                index = i;
+|                upper = i;
+|            } else if (match > 0) {
+|                if (isIncreasing) {
+|                    lower = i;
+|                } else {
+|                    upper = i;
+|                }
+|            } else {
+|                if (isIncreasing) {
+|                    upper = i;
+|                } else {
+|                    lower = i;
+|                }
+|            }
+|        }
+|    } else {
+|        for (i = offset; i < listc; i++) {
+|            match = 0;
+|            switch ((enum modes) mode) {
+|                case SORTED:
+|                case EXACT: {
+|                    switch ((enum datatypes) dataType) {
+|                        case ASCII: {
+|                            bytes = Tcl_GetStringFromObj(listv[i], &elemLen);
+|                            if (length == elemLen) {
+|                                match = (memcmp(bytes, patternBytes,
+|                                        (size_t) length) == 0);
+|                            }
+|                            break;
+|                        }
+|                        case DICTIONARY: {
+|                            bytes = Tcl_GetString(listv[i]);
+|                            match =
+|                                (DictionaryCompare(bytes, patternBytes) == 0);
+|                            break;
+|                        }
+|                        case INTEGER: {
+|                            result = Tcl_GetIntFromObj(interp, listv[i],
+|                                    &objInt);
+|                            if (result != TCL_OK) {
+|                                return result;
+|                            }
+|                            match = (objInt == patInt);
+|                            break;
+|                        }
+|                        case REAL: {
+|                            result = Tcl_GetDoubleFromObj(interp, listv[i],
+|                                    &objDouble);
+|                            if (result != TCL_OK) {
+|                                return result;
+|                            }
+|                            match = (objDouble == patDouble);
+|                            break;
+|                        }
+|                    }
+|                    break;
+|                }
+|                case GLOB: {
+|                    match = Tcl_StringMatch(Tcl_GetString(listv[i]),
+|                            patternBytes);
+|                    break;
+|                }
+|                case REGEXP: {
+|                    match = Tcl_RegExpMatchObj(interp, listv[i], patObj);
+|                    if (match < 0) {
+|                        return TCL_ERROR;
+|                    }
+|                    break;
+|                }
+|            }
+|            /* Invert match condition for -not */
+|            if (notMatch) {
+|                match = (match != 0 ? 0 : 1);
+|            }
+|
+|            /* Process the possible match for this element */
+|            if (match != 0) {
+|                if (allData == TRUE) {
+|                    if (returnData) {
+|                        /* Append data */
+|                        Tcl_ListObjAppendElement(interp, listPtr,listv[i]);
+|                    } else {
+|                        /* Append index */
+|                        Tcl_ListObjAppendElement(interp, listPtr,Tcl_NewIntObj(i));
+|                    }
+|                } else {
+|                    index = i;
+|                    break;
+|                }
+|            }
+|        }
+|    }
+|    /*
+|     * Return either a list (-all) or a single element
+|     */
+|    if (allData) {
+|        Tcl_SetObjResult(interp,listPtr);
+|    } else {
+|        if (returnData) {
+|            if (index < 0) { /* Return a null */
+|                Tcl_SetObjResult(interp,Tcl_NewObj());
+|            } else {         /* Return one datum */
+|                Tcl_SetObjResult(interp,listv[index]);
+|            }
+|        } else {
+|            Tcl_SetIntObj(Tcl_GetObjResult(interp), index);
+|        }
+|    }
+|    return TCL_OK;
+|}
 
 ~ Notes
 
