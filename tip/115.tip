@@ -1,13 +1,13 @@
-TIP:		115
-Title:		Making Tcl Truly 64-Bit Ready
-State:		Draft
-Type:		Project
-Tcl-Version:	9.0
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Created:	23-Oct-2002
+TIP:            115
+Title:          Making Tcl Truly 64-Bit Ready
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Oct-2002
+Post-History:   
+Tcl-Version:    9.0
 
 ~ Abstract
 
@@ -33,18 +33,24 @@ into an ''unsigned int'' in most of those places where it is not
 already an unsigned value) but on the majority of 64-bit platforms
 this is still a 32-bit type, which is a major restriction.  However,
 on the vast majority of those platforms ''long'' is a 64-bit type, and
-so a suitable replacement.  (The exception to this is the Alpha, but
+so a suitable replacement.  (The exceptions to this are the Alpha - but
 that is unusual in that both ''int'' and ''long'' are 64-bit types
 there, meaning that the platform will be unaffected by such an
-alteration.)
+alteration - and Win64, which has a 32-bit ''long'' but 64-bit
+pointers.)
+
+Luckily, standards like POSIX have already been dealing with this
+problem before us, and the types ''size_t'' (which is unsigned) and
+''ssize_t'' (which is signed) exist for the sorts of uses we're
+interested in (i.e. they are both the same size as each other, and
+''size_t'' is large enough to describe the size of any allocatable
+memory chunk.)
 
 ~ Details of Changes
 
 The key changes will be to change the lengths of the following types
-from ''int'' to ''long'' in all appropriate places (maintaining the
-''unsigned'' where it already exists; most length types in Tcl have to
-be signed because negative values are used to flag that the length
-should be figured out from the data itself.)
+from ''int'' to ''ssize_t'' in all appropriate places, and ''unsigned
+int'' to ''size_t'' likewise (mainly in memory allocation routines.)
 
  * ''Tcl_Obj'' - the ''length'' member.  (Potentially the ''refCount''
    member needs updating as well, but that's less critical.)
@@ -112,7 +118,14 @@ that the changes in types required to deal with larger entities will
 make these rearrangements largely unnecessary and/or pointless.
 (Inefficiency in statically-allocated structures won't matter as the
 number of instances will remain comparatively small, even in very
-large programs.)
+large programs.)  Once the changes are applied, there is typically at
+most a single ''int'' field per structure, usually holding either a
+reference count, a set of flags, or a Tcl result code.
+
+It should also be noted that all structures are always going to be
+correctly aligned internally as we never use C's bitfield support, so
+structure alignment is purely an issue of efficiency, and not of correct
+access to the fields.
 
 ~ Copyright
 
