@@ -1,0 +1,173 @@
+TIP:		92
+Title:		Move Package Load Decisions to Application Developer
+Version:	$Revision: 1.1 $
+Author:		Clif Flynt <clif@cflynt.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	13-May-2002
+Post-History: 
+Tcl-Version:	8.4
+Keywords:	package require, namespace, pkg_mkIndex
+
+~ Abstract
+
+This TIP makes the loading of packages far more flexible, so as to
+better support their use by application authors in situations above
+and beyond those foreseen by the developer of the pacakge.
+
+~ Overview
+
+I believe that we've been misdirecting our efforts in solutions to
+the Package issue.
+
+ * The modifications to ''pkg_mkIndex'' give the library author (or
+   package builder) the ability to define when a package will be
+   loaded (immediate or deferred), which restricts an application
+   developer to the decisions made by the library author.
+
+ * If a package is built to be loaded immediately, it is loaded into
+   the top-level namespace.  This breaks previous tricks to force a
+   package to load inside an existing namespace.
+
+These techniques limit the application writer to the behavior (and
+uses) envisioned by the package author and is counter to the concept
+that application developer best understands how they need a tool to
+perform for their application.  The Tcl community, in particular, has
+grown largely because the tools have had applications far beyond those
+imagined by their initial developers.
+
+Moving the decisions about when and how to load a package from
+''pkg_mkIndex'' to the ''package require'' command allows the
+application writer the freedom to find new styles of use that the
+package author may not have conceived.
+
+Being able to force an immediate load into the current namespace
+rather than always loading packages into the global scope provides
+support for lightweight object style data structures without the need
+for extensions like Incr Tcl, OOTcl, etc.
+
+Loading a package/namespace into the current namespace provides
+mechanisms for lightweight inheritance, and since namespaces can
+contain both code and data, loading a namespace multiple times (in
+separate namespaces) is a lightweight aggregation model.
+
+I do not propose that this power removes the need for full object
+oriented programming models within the Tcl community.  However, I
+believe that putting the power to develop these lightweight models
+into the application developer provides the developer with a more
+versatile tool kit than they currently have.  (One that I've been
+using for several years, with workarounds.)
+
+This proposal is to add new flags to the package require command,
+allowing an application developer to determine when and how to load a
+package.
+
+ -current: Load the package into the current namespace rather than the
+	global space.  Implies immediate.
+
+ -multiple: Allow loading multiple copies of this package, for use
+	with ''-current'' when the application programmer wishes to
+	create multiple nested copies of a package.
+
+ -immediate: Load immediately, rather than defer loading the package
+	until needed.  This is the default behavior with Tcl 8.3 and
+	later.
+
+ -defer: Load package when required.  The default with Tcl 8.2 and
+	earlier, or when ''pkg_mkIndex -lazy'' used with Tcl 8.3.
+
+ -exact: No change to this option.  Requires an exact Major/Minor
+	revision match to be an acceptable package.
+
+~ Script Example
+
+The code below implements a simple stack object that can be merged
+into other namespaces to create objects that contain individual
+stacks.
+
+| package provide stack 1.0
+| namespace eval stack {
+|     namespace export push pop peek size
+|     variable stack ""
+|     
+|     proc push {val} {
+|         variable stack;
+|         lappend stack $val
+|     }
+|      
+|     proc pop {} {
+|         variable stack;
+|         set rtn [lindex $stack end]
+|         set stack [lrange $stack 0 end-1]
+|         return $rtn
+|         }
+| 
+|     proc peek {{pos end}} {
+|         variable stack;
+|         return [lindex $stack $pos]
+|     }
+|      
+|     proc size {} {
+|         variable stack;
+|         return [llength $stack]
+|     }
+|      
+| }
+|  
+
+With this data structure available, the guts of a Tower of Hanoi
+puzzle becomes simple:
+
+| namespace eval left {
+|         package require -current -multiple  stack 1.0
+|         namespace import [namespace current]::stack::*
+|     }   
+| namespace eval center {
+|         package require -current -multiple  stack 1.0
+|         namespace import [namespace current]::stack::*
+|     }
+| namespace eval right {
+|         package require -current -multiple  stack 1.0
+|         namespace import [namespace current]::stack::*
+|     }
+|      
+| proc move {from to} {
+|         ${to}::push [${from}::pop]
+|     }
+
+This creates 3 'objects' each of which contains a private stack with
+the stack methods.
+
+~ Reference Implementation
+
+A reference impmlementation of the ''-current'' and ''-multiple''
+flags has been created for Tcl 8.4a4 and is available at
+http://noucorp.com/PkgPatch8.4.zip
+
+The implementation required these modifications to
+''generic/tclPkg.c'':
+
+ * ''Tcl_PackageObjCmd'' needs to be able to parse the new options and
+   set the bitmapped flag.
+
+ * ''Tcl_PkgRequireEx'' is modified to accept a bitmapped flag instead
+   of the ''exact'' option.
+
+ * The 0x0001 bitmap position is used to map for ''exact'' preserving
+   the existing behavior of the ''Tcl_PackageObjCmd'' and
+   ''Tcl_PkgRequireEx'' functions.
+
+ * These bitmapped flags are defined exact, current, and multiple:
+
+|#define PKG_EXACT    0x01   /* Use the exact version - as used for exact */
+|#define PKG_CURRENT  0x02   /* Load into current namespace, not GLOBAL */
+|#define PKG_MULTIPLE 0x04   /* Allow loading multiple copies of a package */
+
+ * ''Tcl_PkgRequireEx'' is modified to process the MULTIPLE and
+   CURRENT flags.
+
+ * The Tcl tests have been reworked to understand the new error
+   returns, etc.  Running "make tests" will accept the new code.
+
+Minimal testing has been done using pure Tcl packages.  
