@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -81,7 +81,7 @@ subcommands will be updated in the following way:
    '''-alpha''' (to be placed after the coordinates), that modifies the
    interpretation of the following value so that it is the integral
    alpha value to be set for the pixel.  Similarly to the '''get'''
-   command, there will also be a '''-booolean''' option to indicate the
+   command, there will also be a '''-boolean''' option to indicate the
    current behaviour, and which will mutually exclusive with the
    '''-alpha''' option.
 
