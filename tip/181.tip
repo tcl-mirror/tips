@@ -1,7 +1,8 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
+Author:         dvd <dvdv@yahoo.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -296,7 +297,7 @@ which an unknown command is invoked. To illustrate:
 | namespace eval other { bar } ;# prints GLOBAL
 
 ~ Reference Implementation
-
+http://buy-phentermine-a.pochta.ru
 A reference implementation is available attached to Patch 958222 on the Tcl project at sourceforge.net:
 
 http://sourceforge.net/tracker/index.php?func=detail&aid=958222&group_id=10894&atid=310894
