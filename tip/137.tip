@@ -1,8 +1,8 @@
 TIP:            137
 Title:          Specifying Script Encodings for [source] and tclsh
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Anton Kovalenko <a_kovalenko@fromru.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        29-May-2003
