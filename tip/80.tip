@@ -1,9 +1,9 @@
 TIP:            80
 Title:          Additional Options for 'lsearch'
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Tom Wilkason <tom.wilkason@home.com>
 Author:         Tom Wilkason <tom.wilkason@cox.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        02-Jan-2002
