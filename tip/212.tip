@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	11-Aug-2004
 Keywords:	tcl, dict, update, script
@@ -64,6 +64,14 @@ must be a valid dictionary or the variable must be unset, which is
 interpreted as an empty dictionary) and written once, and that ''no''
 traces are set up; ''dictVarName'' is completely independent of the
 ''varName''s during the execution of ''bodyScript''.
+
+Also note that step 3 is only carried out if ''bodyScript'' completes
+with a result code of TCL_OK, TCL_RETURN, TCL_BREAK or TCL_CONTINUE,
+and that the result code of the overall command will be the result
+code of the script (or TCL_ERROR if something else goes wrong of
+course, e.g. with reading or writing the variable containing the
+dictionary.)  The result of the command (in the TCL_OK case) will be
+the empty string.
 
 ~ Examples
 
