@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
@@ -60,6 +60,10 @@ part), virtually all scripts would break.
 
 Note that each namespace's path is isolated from the path of every
 other namespace, including the parent namespace.
+
+~ Implementation
+
+A patch is available[http://sf.net/tracker/?func=detail&aid=1159942&group_id=10894&atid=310894].
 
 ~ Copyright
 
