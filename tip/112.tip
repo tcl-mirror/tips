@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.12 $
+Version:        $Revision: 2.13 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -167,10 +167,11 @@ that the implementing command may itself be an ensemble command.
 |   }
 |
 |   namespace eval potato {       ;# Exported
-|      proc north {} {puts 6}     ;# Not exported
-|      proc south {} {puts 7}     ;# Not exported
+|      proc north {x} {puts 6,$x} ;# Not exported
+|      proc south {x} {puts 7,$x} ;# Not exported
+|      # Notice we resolve names locally, and Tcl metachars are not special
 |      namespace ensemble create -map {
-|         north ::carrot::potato::north
+|         north {north [$meta[$chars}
 |      }
 |   }
 |}
@@ -182,7 +183,7 @@ that the implementing command may itself be an ensemble command.
 |carrot ?                         ;# ERROR: Alternatives "bar", "foo" and "potato"
 |carrot potato                    ;# ERROR: Missing argument
 |carrot potato ?                  ;# ERROR: Try "north" instead
-|carrot potato north              ;# Prints 6
+|carrot potato north              ;# Prints 6,[$meta[$chars
 |carrot turnip alpha              ;# ERROR: "turnip" not known
 |carrot::turnip alpha             ;# Prints 4
 |carrot::turnip::beta             ;# Prints 5
@@ -191,6 +192,7 @@ that the implementing command may itself be an ensemble command.
 |spud north                       ;# Prints 6
 |spud south                       ;# ERROR: "south" not known
 |carrot potato north              ;# ERROR: No ::carrot::potato command
+|# Reconfigure spud; notice we get different name resolution now!
 |namespace ensemble configure spud -map {
 |   north {puts NORTH} south {puts SOUTH}
 |}
