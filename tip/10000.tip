@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.64 $
+Version:        $Revision: 1.65 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -37,6 +37,8 @@ Gotta try the log message...
 Hmmm... no cookies!
 Donal says it's better now...
 ...but I still don't see any fields filled in for me...
+
+''still trying to get the cookies working - DKF''
 
 ~ Submission Test
 
@@ -97,6 +99,10 @@ This document has been placed in the public domain.
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.64  2001/04/18 15:05:02  tclhttpd
+| Revision through web from Don Porter <dgp@users.sourceforge.net>
+| ...not working yet.
+|
 | Revision 1.63  2001/04/18 15:03:39  tclhttpd
 | Revision through web from Don Porter <dgp@users.sourceforge.net>
 | Trying fixed cookies...
