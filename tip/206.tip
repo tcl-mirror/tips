@@ -1,13 +1,13 @@
-TIP:		206
-Title:		Add an [ftruncate] Command
-Version:	$Revision: 1.1 $
-Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	25-Jun-2004
-Post-History:	
-Tcl-Version:	8.5
+TIP:            206
+Title:          Add an [ftruncate] Command
+Version:        $Revision: 1.2 $
+Author:         Joe Mistachkin <joe@mistachkin.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Jun-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -29,10 +29,8 @@ workaround cannot be used.
 
 The channel specified by ''channelId'' must refer to a file that was
 opened for writing.  The ''length'' argument must be greater than or
-equal to zero and can be bigger than the current size of the file. If
-the ''length'' argument is omitted, the file will be truncated to zero
-bytes.  This command will return any errors received from the
-operating system.
+equal to zero and can be bigger than the current size of the file.  If
+the ''length'' argument is omitted, the file will be truncated at the current access position.  This command will return any errors received from the operating system.
 
 ~~Example Usage
 
