@@ -1,11 +1,11 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
 Author:         Todd M. Helfter <tmh@purdue.edu>
-Author:         Chengye Mao <chengye@bellsouth.net>
+Author:         Chengye Mao <chengye.geo@yahoo.com>
 Author:         George B. Smith <gbs@k9haven.com>
 Author:         Miguel Bañón <bagnonm@safelayer.com>
 State:          Draft
@@ -123,7 +123,7 @@ assigned:
 
    45. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
+   46. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
 
    47. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -137,7 +137,7 @@ assigned:
    51. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		         Joe English <jenglish@flightlab.com> (Unix)
 
-   52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
+   52. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
 
    53. ''[focus]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -153,7 +153,7 @@ assigned:
 
    59. ''Safe Tk'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   60. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
+   60. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
 
    61. ''Tk_Win Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -166,7 +166,7 @@ assigned:
    65. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				    Joe English <jenglish@flightlab.com>
 
-   66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye@bellsouth.net>
+   66. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
 
    67. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
