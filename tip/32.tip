@@ -1,6 +1,6 @@
 TIP:            32
-Title:          Add Tcl_Obj support to traces
-Version:        $Revision: 1.7 $
+Title:          Add Tcl_Obj-enabled counterpart to Tcl_CreateTrace
+Version:        $Revision: 1.8 $
 Author:         David Cuthbert <dacut@kanga.org>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -14,16 +14,16 @@ Tcl-Version:    8.4a2
 
 ~ Abstract
 
-This document proposes to add a counterpart to Tcl_CreateTrace that
-manages callbacks using Tcl_Obj pointers instead of character strings.
+This document proposes to add Tcl_Obj support for trace procedures written
+in C.
 
 ~ Rationale
 
 The ''Tcl_Obj'' system was introduced in version 8.0, making
 computations (potentially) much more efficient by eliminating many
 type conversions to and from strings.  However, the trace API
-continues to require character strings in the callbacks fired from
-the ''Tcl_CreateTrace'' function.
+continues to require character strings in both command and variable
+traces.
 
 In addition, the ''Tcl_CreateTrace'' function interacts rather badly
 with the bytecode compiler, since it forbids inlining of functions.
