@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -26,14 +26,54 @@ In order to facilitate such future build tools, the build information
 should be made available to Tcl scripts.
 
 ~ Specification
+Every variable defined in the unix tclConfig.sh should be registered using '''Tcl_RegisterConfig''', with the possible exception of obviously redundant variables such as THREAD.
 
-The web page http://mini.net/tcl/tclConfig.sh contains a parser to
-understand a ''tclConfig.sh'' and set variables in the ''::tclConfig''
-namespace.
+Because Windows and other platforms don't have a tclConfig.sh, the following fields are desirable for hand construction:
+----
+'''Compilation:'''
+ * TCL_CC # C compiler to use for compilation.
 
-~ TODO
+ * TCL_DEFS # -D flags for use with the C compiler.
 
-I will analyse the contents of tclConfig.sh and specify which fields should be added (more likely, which fields should be left out.)
+ * TCL_INCLUDE_SPEC # String to pass to the compiler so that an extension can find installed Tcl headers.
+
+ * TCL_LIB_FILE # The name of the Tcl library
+
+ * TCL_LIBS # Additional libraries to use when linking Tcl.
+
+ * TCL_SHLIB_CFLAGS # Flags to pass to cc when compiling the components of a shared library:
+
+ * TCL_CFLAGS_WARNING # Flags to pass to cc to get warning messages
+
+ * TCL_EXTRA_CFLAGS # Extra flags to pass to cc:
+----
+'''Linking:'''
+
+ * TCL_SHLIB_LD # Base command to use for combining object files into a shared library:
+
+ * TCL_SHLIB_LD_LIBS # dependent libraries should be included when linking shared libraries
+
+ * TCL_SHLIB_SUFFIX # Suffix to use for the name of a shared library.
+
+ * TCL_LD_FLAGS # Flags to pass to the compiler when linking object files into an executable tclsh or tcltest binary.
+
+ * TCL_COMPAT_OBJS # Additional object files linked with Tcl to provide compatibility with standard facilities from ANSI C or POSIX.
+
+ * TCL_LIB_FLAG # -l flag to pass to the linker to pick up the Tcl library
+
+ * TCL_LIB_SPEC # String to pass to linker to pick up the Tcl library from its installed directory.
+
+----
+'''Stub Support:'''
+
+ * TCL_SUPPORTS_STUBS # Tcl supports stub.
+
+ * TCL_STUB_LIB_FILE # The name of the Tcl stub library (.a):
+
+ * TCL_STUB_LIB_FLAG # -l flag to pass to the linker to pick up the Tcl stub library
+ * TCL_STUB_LIB_SPEC # String to pass to linker to pick up the Tcl stub library from its installed directory.
+ * TCL_STUB_LIB_PATH # Path to the Tcl stub library in the install directory.
+----
 
 ~ Comments
 
@@ -45,7 +85,7 @@ should pass those values into
 That would make all the values available
 to scripts via the '''::tcl::pkgconfig''' command. -- Good idea.  Done.
 
-Several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage: let the people who need the data construct an evaluation which serves their purposes because (a) the form is easy enough to evaluate, as in the parser I threw together, (b) there might be information in the verbatim form which needs to be preserved.  Comments welcome.
+Several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage: let the people who need the data construct an evaluation which serves their purposes because (a) the form is easy enough to evaluate, as in the parser I threw together [http://mini.net/tcl/tclConfig.sh], (b) there might be information in the verbatim form which needs to be preserved.  Comments welcome.
 
 ~ Copyright
 
