@@ -1,0 +1,60 @@
+TIP:		176
+Title:		Add String Index Values
+Author:		Damon Courtney <damon@unreality.com>
+Tcl-Version:	8.5
+Version:	$Revision: 1.1 $
+Type:		Project
+State:		Draft
+Vote:		Pending
+Created:	16-Mar-2004
+Post-History:	
+
+~Abstract
+
+This TIP proposes to add small functionality to the standard index
+(end-1) values acceptable by most Tcl commands.
+
+~Rationale
+
+Most of Tcl's commands that accept an integer index of some kind also
+accept a string index in the format of ''end-N''.  This is an
+extremely useful feature which I hope to extend just slightly by
+allowing simple addition to the standard index forms to be done during
+index processing.  The change is mostly just syntactic sugar, but it
+extends a functionality that is already there and does not change any
+other syntax.
+
+~Proposal
+
+Under this TIP, the following would all be valid indexes (N and M are
+integers):
+
+ N: Standard numeric indexing style.
+
+ end-N: Standard end-relative indexing style.
+
+ M+N: ''New'' offset-to-known-point style.
+
+ end+N: ''New'' past-end style.
+
+This allows for shorthand list and string operations like so:
+
+|set x [lsearch $list $elem]
+|set new [lrange $list $x-1 $x+1]
+|
+|set x [string first $string "foo"]
+|set new [string range $string $x $x+5]
+
+And so on...
+
+~Implementation
+
+The code itself is just some simple changes to ''TclGetIntForIndex()''
+in ''generic/tclUtil.c''.  Because the core commands in Tcl and Tk
+alredy use this private function for index values, the commands which
+already accept the standard ''end-N'' index will now accept the new
+indexes.
+
+~Copyright
+
+This document has been placed in the public domain.
