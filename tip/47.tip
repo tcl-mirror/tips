@@ -1,12 +1,12 @@
 TIP:            47
 Title:          Modifying Tk to Allow Writing X Window managers
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        19-Jul-2001
 Post-History:   
 Tcl-Version:    8.4
