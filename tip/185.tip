@@ -1,6 +1,6 @@
 TIP:		185
 Title:		Null Handling
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Tcl-Version:	8.5
 Author:		John H. Harris <JHHarris@valley.net>
 Created:	08-Apr-2004
@@ -248,11 +248,11 @@ syntax.  Consider the string:
 This string represents a list whose second element is a list containing
 a null.  We expect this behavior:
 
-|  % llindex -null ~ $s 1 1 
+|  % lindex -null ~ $s 1 1 
 |  ~
 |  % lset -nullify {} s 1 2 {}
 |  a {b0 {null}! {null}!} c
-|  % llindex -null NUL $s 1 2
+|  % lindex -null NUL $s 1 2
 |  NUL
 
 '''Join''' creates a string from a list and must understand
