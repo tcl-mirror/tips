@@ -1,6 +1,6 @@
 TIP:           17
 Title:         Redo Tcl's filesystem
-Version:       $Revision: 1.2 $
+Version:       $Revision: 1.3 $
 Author:        Vince Darley <vince@santafe.edu>
 State:         Draft
 Type:          Project
@@ -138,11 +138,13 @@ implementation.
 
   > or (with vfs hooked in)
 
-|Tcl_Obj -> string -> vfilesystem -> pick-filesystem -> convert-to-native -> native-call
+|Tcl_Obj -> string -> vfilesystem -> pick-filesystem
+|                          -> convert-to-native -> native-call
 
   > and
 
-|Tcl_Obj -> string -> vfilesystem -> pick-filesystem -> Tcl_NewStringObj -> Tcl-vfs-call
+|Tcl_Obj -> string -> vfilesystem -> pick-filesystem
+|                          -> Tcl_NewStringObj -> Tcl-vfs-call
 
   > to
 
@@ -193,38 +195,38 @@ procedure.  The current hookable procedure list is as follows:
 |                             * binary compatibility can be assured */
 |    Tcl_FilesystemVersion version;  
 |                            /* Version of the filesystem type. */
-|    TclStatProc_ *statProc; /* Function to process a 'Tcl_Stat()' call */
+|    TclStatProc_ *statProc; /* Function to process 'Tcl_Stat()' */
 |    TclAccessProc_ *accessProc;            
-|                            /* Function to process a 'Tcl_Access()' call */
+|                            /* Function to process 'Tcl_Access()' */
 |    TclOpenFileChannelProc_ *openFileChannelProc; 
-|                            /* Function to process a 'Tcl_OpenFileChannel()' call */
+|                            /* Function to process 'Tcl_OpenFileChannel()' */
 |    TclMatchFilesTypesProc_ *matchFilesTypesProc;  
-|                            /* Function to process a 'Tcl_MatchFilesTypes()' */
+|                            /* Function to process 'Tcl_MatchFilesTypes()' */
 |    TclGetCwdProc_ *getCwdProc;     
-|                            /* Function to process a 'Tcl_GetCwd()' call */
+|                            /* Function to process 'Tcl_GetCwd()' */
 |    TclChdirProc_ *chdirProc;            
-|                            /* Function to process a 'Tcl_Chdir()' call */
+|                            /* Function to process 'Tcl_Chdir()' */
 |    TclLstatProc_ *lstatProc;            
-|                            /* Function to process a 'Tcl_Lstat()' call */
+|                            /* Function to process 'Tcl_Lstat()' */
 |    TclCopyFileProc_ *copyFileProc; 
-|                            /* Function to process a 'Tcl_CopyFile()' call */
+|                            /* Function to process 'Tcl_CopyFile()' */
 |    TclDeleteFileProc_ *deleteFileProc;            
-|                            /* Function to process a 'Tcl_DeleteFile()' call */
+|                            /* Function to process 'Tcl_DeleteFile()' */
 |    TclRenameFileProc_ *renameFileProc;            
-|                            /* Function to process a 'Tcl_RenameFile()' call */
+|                            /* Function to process 'Tcl_RenameFile()' */
 |    TclCreateDirectoryProc_ *createDirectoryProc;            
-|                            /* Function to process a 'Tcl_CreateDirectory()' call */
+|                            /* Function to process 'Tcl_CreateDirectory()' */
 |    TclCopyDirectoryProc_ *copyDirectoryProc;            
-|                            /* Function to process a 'Tcl_CopyDirectory()' call */
+|                            /* Function to process 'Tcl_CopyDirectory()' */
 |    TclRemoveDirectoryProc_ *removeDirectoryProc;            
-|                            /* Function to process a 'Tcl_RemoveDirectory()' call */
+|                            /* Function to process 'Tcl_RemoveDirectory()' */
 |    TclLoadFileProc_ *loadFileProc; 
-|                            /* Function to process a 'Tcl_LoadFile()' call */
+|                            /* Function to process 'Tcl_LoadFile()' */
 |    TclUnloadFileProc_ *unloadFileProc;            
 |                            /* Function to unload a previously successfully
 |                             * loaded file */
 |    TclReadlinkProc_ *readlinkProc; 
-|                            /* Function to process a 'Tcl_Readlink()' call */
+|                            /* Function to process 'Tcl_Readlink()' */
 |    TclListVolumesProc_ *listVolumesProc;            
 |                            /* Function to list any filesystem volumes added
 |                             * by this filesystem */
@@ -232,11 +234,11 @@ procedure.  The current hookable procedure list is as follows:
 |                            /* Function to list all attributes strings which
 |                             * are valid for this filesystem */
 |    TclFileAttrsGetProc_ *fileAttrsGetProc;
-|                            /* Function to process a 'Tcl_FileAttrsGet()' call */
+|                            /* Function to process 'Tcl_FileAttrsGet()' */
 |    TclFileAttrsSetProc_ *fileAttrsSetProc;
-|                            /* Function to process a 'Tcl_FileAttrsSet()' call */
+|                            /* Function to process 'Tcl_FileAttrsSet()' */
 |    TclUtimeProc_ *utimeProc;       
-|                            /* Function to process a 'Tcl_Utime()' call */
+|                            /* Function to process 'Tcl_Utime()' */
 |    TclNormalizePathProc_ *normalizePathProc;       
 |                            /* Function to normalize a path */
 |} Tcl_Filesystem;
