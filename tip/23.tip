@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -234,7 +234,7 @@ units, each to be assigned one or more maintainers:
 
    >  20. ''[tk_optionMenu]'' -
      doc/optionMenu.n,
-     library/optionMenu.tcl
+     library/optMenu.tcl
 
    Widget Options: 
 
@@ -768,6 +768,8 @@ units, each to be assigned one or more maintainers:
      README,
      */README,
      */*/README,
+     changes,
+     license.terms,
      tk4.0.ps,
      doc/options.n
      mac/bugs.doc,
@@ -805,7 +807,6 @@ units, each to be assigned one or more maintainers:
      unix/aclocal.m4,
      unix/configure.in,
      unix/install-sh,
-     unix/mkLinks,
      unix/tcl.m4,
      unix/tk.spec,
      unix/tkConfig.sh.in
@@ -856,9 +857,9 @@ their portion of Tk.  Some of the following files define Tk's
 API and should be changed only with TCT approval.
 
    * ChangeLog,
-     changes,
      doc/tkvars.n,
      doc/TkInitStubs.3,
+     doc/man.macros,
      generic/tk.decls,
      generic/tk.h,
      generic/tkInt.decls,
@@ -884,7 +885,10 @@ The following files are generated, so they don't need maintainers.
      generic/tkIntXlibDecls.h,
      generic/tkPlatDecls.h,
      generic/tkStubInit.c,
+     library/demos/tclIndex
+     library/tclIndex
      unix/configure,
+     unix/mkLinks,
      win/configure
 
 ~ Platform Dependencies
