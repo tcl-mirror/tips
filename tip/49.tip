@@ -1,0 +1,100 @@
+TIP:          49
+Title:        I/O Subsystem: Add API Tcl_OutputBuffered(chan)
+Version:      $Revision: 1.1 $
+Author:       Rolf Schroedter <rolf.schroedter@dlr.de>
+State:        Draft
+Type:         Project
+Vote:         Pending
+Created:      25-Jul-2001
+Post-History:
+Tcl-Version:  8.4
+
+~ Abstract
+
+This document proposes the new public function ''Tcl_OutputBuffered()'',
+analogous to the existing public function ''Tcl_InputBuffered()''.
+
+~ Rationale
+
+Tcl has a ''Tcl_InputBuffered()'' function but no analog
+function for the output buffer. 
+A ''Tcl_OutputBuffered()'' function would be useful
+for non-blocking channel drivers which need to know the 
+number of bytes pending in Tcl's output queue.
+
+The implementation of [35] allows one to query the number of bytes 
+in the channels input and output queues with a ''[fconfigure -queue]''
+option. This is a useful feature especially for serial ports
+because the input/output may be really slow or even stall.
+
+On the driver level only the number of bytes in the system queue
+can be queried. For a non-blocking channel there may also be
+some pending output in Tcl buffers. 
+Obviously there is not much sense to know only the byte counter
+at driver level without knowing ''Tcl_OutputBuffered()''.
+
+~ Related Ideas
+
+It could also be useful to add general ''[fconfigure -inputbuffer
+-outputbuffer]'' options for all channels returning the values from
+''Tcl_InputBuffered(chan)'' and ''Tcl_OutputBuffered(chan)'' respectively.
+
+At this opportunity the code of ''Tcl_Seek()'' and ''Tcl_Tell()''
+may be shortened, because it repeats the code of 
+''Tcl_InputBuffered()'' and ''Tcl_OutputBuffered()''.
+
+~ Implementation
+
+This function would be added to ''generic/tclIO.c'' and be 
+stubs enabled. This new API should not have any impact
+on existing applications.
+
+The implementation is analog to what is done in ''Tcl_Tell()'':
+
+|
+|/*
+| *----------------------------------------------------------------------
+| *
+| * Tcl_OutputBuffered --
+| *
+| *	Returns the number of bytes of output currently buffered in the
+| *	common internal buffer of a channel.
+| *
+| * Results:
+| *	The number of output bytes buffered, or zero if the channel is not
+| *	open for writing.
+| *
+| * Side effects:
+| *	None.
+| *
+| *----------------------------------------------------------------------
+| */
+|
+|int
+|Tcl_OutputBuffered(chan)
+|    Tcl_Channel chan;			/* The channel to query. */
+|{
+|    ChannelState *statePtr = ((Channel *) chan)->state;
+|					/* State of real channel structure. */
+|    ChannelBuffer *bufPtr;
+|    int bytesBuffered;
+|
+|    for (bytesBuffered = 0, bufPtr = statePtr->outQueueHead;
+|	bufPtr != (ChannelBuffer *) NULL;
+|	bufPtr = bufPtr->nextPtr) {
+|	bytesBuffered += (bufPtr->nextAdded - bufPtr->nextRemoved);
+|    }
+|    if ((statePtr->curOutPtr != (ChannelBuffer *) NULL) &&
+|	    (statePtr->curOutPtr->nextAdded > statePtr->curOutPtr->nextRemoved)) {
+|        statePtr->flags |= BUFFER_READY;
+|        bytesBuffered +=
+|            (statePtr->curOutPtr->nextAdded - statePtr->curOutPtr->nextRemoved);
+|    }
+|    return bytesBuffered;
+|}
+|
+
+~ Copyright
+
+This document has been placed in the public domain.
+
