@@ -1,6 +1,6 @@
 TIP:            222
 Title:          Add [wm attributes -alpha] Attribute on Windows
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -25,9 +25,8 @@ for fade-in splash screens or fancy demos.
 ~ Specification
 
 A new attribute '''-alpha''' will be recognized by '''wm attributes'''.  It will
-take a value from 0 (opaque) to 100 (full transparent) that signifies the
-percentage transparency of the toplevel.  Thus, '''-alpha 10''' would make the
-toplevel 10% transparent (mostly visible).
+take a double value from 0.0 (completely transparent) to 1.0 (opaque) that signifies the
+percentage transparency of the toplevel.  Thus, '''-alpha 0.9''' would make the toplevel 90% visible (10% transparent).  Any value outside [0.0..1.0] will be constrained to the nearest bound.
 
 There are some special considerations for this feature.  It only works on
 Windows 2000/XP+.  The code handles the dynamic lookup of the necessary
@@ -38,7 +37,7 @@ will always return 0 (opaque).
 Layered windows cannot use the CS_CLASSDC class style, so an alternative
 class must be made available.  This is handled in the implementation
 transparently, with ''UpdateWrapper'' choosing the appropriate class as
-necessary.  Transparent windows will use '''TkTransparentToplevel''' as their
+necessary.  Transparent windows will use '''TkToplevelNoDC''' as their
 class name (normal is '''TkToplevel''').
 
 Efforts have been made to reduce calls to ''UpdateWrapper''.
@@ -50,6 +49,8 @@ See Tk Patch 892194 [http://sf.net/support/tracker.php?aid=892194]
 The reference patch implements the functionality along with one bug fix to
 ''UpdateWrapper'' - correct setting of the Z order of the window based on the
 previous wrapper window.
+
+While this patch addresses Windows alpha transparency, it is available for other platforms.  It is recommended that the same format be used across platforms.
 
 ~ Comments
 
