@@ -1,6 +1,6 @@
 TIP:            45
 Title:          Empty index lists for [lindex] and [lset]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -43,11 +43,11 @@ An empty list of indices is a convenient means of specifying the root.
  1. The specification of ''lindex'' in [22] shall be amended so that
     the forms:
 
-|       lindex list
+|  lindex list
 
     and
 
-|       lindex list {}
+|  lindex list {}
 
     will return the value of the entire list.  The ''list'' parameter
     is not required to be a well-formed Tcl list when
@@ -56,11 +56,11 @@ An empty list of indices is a convenient means of specifying the root.
  1. The specification of ''lset'' in [33] shall be amended so that
     the forms:
 
-|       lset var value
+|  lset var value
 
     and
 
-|       lset var {} value
+|  lset var {} value
 
     will simply store the supplied value into the variable named ''var''.
     Neither the old nor the new value of ''var'' is required to be
