@@ -1,6 +1,6 @@
 TIP:            35
 Title:          Enhanced Support for Serial Communications
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Rolf Schroedter <rolf.schroedter@dlr.de>
 Author:         Rolf Schroedter <Rolf.Schroedter@dlr.de>
 State:          Draft
@@ -73,8 +73,9 @@ serial communications:
  -xchar {xonChar xoffChar}: ''(Windows and Unix)''.  This option is
     used to change the software handshake characters.  Normally the
     operating system default should be DC1 (0x11 hex) and DC3 (0x13
-    hex) representing the ASCII standard XON and XOFF characters.  The
-    -xchar option cannot be queried.
+    hex) representing the ASCII standard XON and XOFF characters.  
+    When queried -xchar returns a list of two characters representing 
+    the XON and XOFF characters respectively.
 
  -timeout msec: ''(Windows and Unix''. This option is used to set 
     the timeout for blocking read operations. It specifies the 
