@@ -1,0 +1,128 @@
+TIP:		180
+Title:		Add a Megawidget Support Core Package
+Author:		Damon Courtney <damon@unreality.com>
+Tcl-Version:	8.5
+Created:	22-Mar-2003
+Version:	$Revision: 1.1 $
+Type:		Project
+State:		Draft
+Vote:		Pending
+Post-History:	
+Keywords:	Tk
+
+~Abstract
+
+This TIP proposes the addition of a "megawidget" package to Tk as a
+core package which contains a set of functions useful for building
+megawidgets with standard script-level behaviour in Tk.
+
+~Rationale
+
+It's obvious (to me at least) from the (growing) number of pure-Tcl
+megawidget packages that it would be very helpful for Tk to provide
+some mechanism to help all these various packages do things in some
+standard way.
+
+For example, there is a base set of options and commands that are
+supported by all Tk core widgets that should also be supported in any
+megawidget.  Now, most of the packages do their job at supporting
+these, but I think a lot of it could be done very easily through a
+common method that would ensure that any megawidget created in this
+manor has not only a standard set of options and commands, but those
+commands will also produce standard error messages and the like.
+
+Though I am not opposed to this TIP being added to Tk's core, I
+propose it as a core package only because the only time its functions
+are really needed is when working with a megawidget library.  These
+functions don't do much to help the average Tk developer and are
+mostly meant for the developer's developer.
+
+This TIP does not seek to tell megawidget extension writers how they
+should write their widgets.  Eveyone has their own ideas of how that
+should be done.  This package merely provides some helper functions to
+try and speed up the most common widget functions.
+
+~Specification
+
+The commands for this package are all written in C for speed reasons.
+After testing different megawidget packages, I find that most of them
+are very slow at the most basic widget functions like '''cget''' and
+'''configure'''.  That was why I set out to write all of the standard
+functions in C and provide the hooks for various packages to use them
+instead of all the homegrown solutions that have been used.
+
+The following commands would be part of the package:
+
+'''::megawidget::class'' ''widgetClass''
+
+ > Define a new megawidget class.
+
+'''::megawidget::commands''' ''widgetClass'' ?''command ...''?
+
+ > Define a list of subcommands available to widgets of
+   ''widgetClass''.
+
+'''::megawidget::options''' ''widgetClass'' ?''optionList ...''?
+
+ > Define the options available to widgets of ''widgetClass''.  An
+   ''optionList'' is a list describing the option:
+
+ > ''type option dbClass dbName defVale''
+
+ >	''type'' can be: '''boolean, int, double, string, enum, color,
+	font, bitmap, border, relief, cursor, justify, anchor,
+	synonym, pixels, window'''
+
+'''::megawidget::create''' ''widgetName widgetClass commandName''
+
+ > Create a new megawidget of class ''widgetClass'' from
+   ''widgetName''.  ''widgetName'' must already exist as a widget, and
+   its widget command will be renamed to ''commandName'' and replaced
+   by a new command that will handle the defined subcommands for the
+   widget class.
+
+'''::megawidget::cget''' ''pathName option''
+
+ > Get the value of a megawidget option for ''pathName''.  This
+   function is also called as a result of [''pathName'' '''cget'''].
+
+'''::megawidget::configure''' ''pathName'' ?''option''? ?''value
+option value ...''?
+
+ > Configure or query option values for the megawidget ''pathName''.
+   This function is also called as a result of [''pathName''
+   '''configure'''].
+
+The options of a widget are stored and retrieved in dictionaries.  The
+'''configure''' and '''cget''' commands are handled by the widget
+command after a widget is created, and all other commands are passed
+to the author to handle.
+
+Some options (like '''-cursor''', '''-background''',
+'''-borderwidth''', '''-bg''', '''-bd''') should probably be created
+for all megawidgets, but that has yet to be decided and is open for
+discussion.
+
+~Author's Note
+
+I have completed work on this package with all the functions written
+in C and with great care to keep them as fast and efficient as
+possible.
+
+Porting the BWidget ButtonBox to SNIT and doing some test is what got
+me to this point.  I was simply trying to create a widget and do a
+cget.  The results were pretty disappointing considering the very
+basic cget command.
+
+ Native Tk widget: 2 microseconds
+
+ BWidget widget:   60 microseconds
+
+ SNIT widget:      260 microseconds
+
+With '''::megawidget::cget''', I get around 4 microseconds, which is
+pretty close to native Tk widgets.
+
+~Copyright
+
+This document has been placed in the public domain.
