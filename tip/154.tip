@@ -1,6 +1,6 @@
 TIP:            154
 Title:          Add Named Colors to Tk
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Damon Courtney <damon@unreality.com>
 State:          Draft
 Type:           Project
@@ -78,8 +78,8 @@ The '''delete''' subcommand deletes a named color.
 
 ~~Options
 
-The -color option specifies any acceptable color in Tk as the color to
-use.  The -light1 and -dark1 options specify the border shadings to
+The '''-color''' option specifies any acceptable color in Tk as the color to
+use.  The '''-light1''' and '''-dark1''' options specify the border shadings to
 use for this color when it is used as a border.  They are named with a
 1 because I think in the future we will end up with more levels of
 shading.  Windows already has two levels, we just ignore the second
