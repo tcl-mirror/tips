@@ -1,0 +1,26 @@
+TIP:            0
+Title:          Charter of the Tcl Core Team
+Version:        $Revision: 1.1.1.1 $
+Author:         John Ousterhout <john.ousterhout@ajubasolutions.com>
+Author:         James Ingham <jingham@cygnus.com>
+State:          Accepted
+Type:           Process
+Vote:           Pending
+Created:        07-Sep-2000
+Post-History: 
+
+~ Abstract
+
+This TIP contains the charter of the Tcl Core Team. It defines the
+scope of its work, its organization and working procedures.
+
+~ Charter
+
+Most of the relevant information is already written up and can be
+found at http://dev.scriptics.com/community/coreteam/ and
+http://dev.scriptics.com/community/coreteam/faq.html
+
+~ Copyright
+
+This document has been placed in the public domain.
+
