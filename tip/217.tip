@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -65,13 +65,8 @@ new variable memory overhead, and no more than three additional integer
 comparisons and one integer assignment per use of '''lsort''' if the 
 new option is not invoked.
 
-Compared to an initial pure Tcl implementation, the reference 
-implementation takes 15% of the execution time for a list of 50,000 
-random real numbers, and just 9% of the execution time for a list 
-of 5,000 random reals.  
-
-This pure Tcl implementation was provided by Lars Hellström.  It is
-considerably faster from an earlier version proposed by by the author:
+Compared to a pure Tcl implementation, the reference 
+implementation is 3 to 7 times faster.  This pure Tcl implementation was provided by Lars Hellström.  It is considerably faster than the one shown in an earlier version of this TIP:
 
 |  proc lsort-indices {itemL} {
 |    set pairL [list]
@@ -85,7 +80,17 @@ considerably faster from an earlier version proposed by by the author:
 |    set indexL
 |  } 
 
-[editorial note:  timing data in comparison to Lars' version will appear here very shortly, for list sizes 100, 200, 400, 800, 1600, 5000.]
+The following timing data are the mean '''time''' returned from 20 different lists of random reals, with 10 iterations each.
+
+|  List size  Ref. Imp.  Pure Tcl  Speedup
+|  ---------  ---------  --------  -------   
+|      100       13.1      47.9      3.7
+|      200       33.9     224.1      6.6
+|      300       45.0     303.1      6.7
+|      400       62.0     360.6      5.8
+|      800      142.3     655.0      4.6
+|     1600      486.2    1150.0      2.4
+|     5000     1582.5    4847.6      3.1 
 
 ~ Proposed Documentation
 
