@@ -1,6 +1,6 @@
 TIP:            4
 Title:          Tcl Release and Distribution Philosophy
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brent Welch <welch@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Larry W. Virden <lvirden@cas.org>
@@ -133,9 +133,9 @@ others not listed.
 
  > 1. FTP server
 
- > 1. HTML generation
+ > 1. HTML and JavaScript generation
 
- > 1. Math utilities
+ > 1. Math and statistics utilities
 
  > 1. MIME encoder and parser
 
@@ -149,9 +149,11 @@ others not listed.
 
  > 1. Event counters and interval timers
 
- > 1. Sturctures: including tree, stack, graph, queue
+ > 1. Structures: including tree, stack, graph, queue
 
  > 1. URI parsing
+
+ > 1. Text string manipulation utilities (trim, tab, etc.)
 
  1. BLT.
 
