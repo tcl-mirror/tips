@@ -1,6 +1,6 @@
 TIP:            3
 Title:          TIP Format
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Accepted
@@ -136,7 +136,7 @@ should occur exactly once:
 
    Version:
 	Specifies the version of the document.  Usually something like
-	$Revision: 1.2 $. (Initially $Revision: 1.2 $ should be used, which
+	$Revision: 1.3 $. (Initially $Revision: 1.3 $ should be used, which
 	is then changed by the version control to contain the actual
 	revision number.
 
@@ -475,6 +475,28 @@ Here is the code
 |
 |This is an example long TIP reference tip:3 that should be expanded in
 |a renderer-specific way...
+|
+|This is an example non-reference - ''index[[3]]'' - that should not
+|be rendered as a link (to this document or anywhere else) at all.
+|Note that the dashes in the previous sentence (with whitespace on
+|each side) are candidates for rendering as long dashes (em-dashes) on
+|output-media which support this.
+|
+| Supported URLs: should be http, https, mailto, news, newsrc, ftp and
+|   gopher.  Test here...
+|
+| > HTTP URL - http://purl.org/thecliff/tcl/wiki/
+|
+| > HTTPS URL - https://sourceforge.net/
+|
+| > FTP URL - ftp://src.doc.ic.ac.uk/packages/tcl/tcl/
+|
+| > NEWS URL - news:comp.lang.tcl
+|
+| > MAILTO URL - mailto:fellowsd@cs.man.ac.uk?subject=TIP3
+| 
+| > Others (might not be valid links!) - gopher://info.mcc.ac.uk,
+|   newsrc:2845823825
 
 and here is the rendered result.
 
@@ -488,6 +510,28 @@ and here is the rendered result.
 
 This is an example long TIP reference tip:3 that should be expanded in
 a renderer-specific way...
+
+This is an example non-reference - ''index[[3]]'' - that should not
+be rendered as a link (to this document or anywhere else) at all.
+Note that the dashes in the previous sentence (with whitespace on
+each side) are candidates for rendering as long dashes (em-dashes) on
+output-media which support this.
+
+ Supported URLs: should be http, https, mailto, news, newsrc, ftp and
+   gopher.  Test here...
+
+ > HTTP URL - http://purl.org/thecliff/tcl/wiki/
+
+ > HTTPS URL - https://sourceforge.net/
+
+ > FTP URL - ftp://src.doc.ic.ac.uk/packages/tcl/tcl/
+
+ > NEWS URL - news:comp.lang.tcl
+
+ > MAILTO URL - mailto:fellowsd@cs.man.ac.uk?subject=TIP3
+ 
+ > Others (might not be valid links!) - gopher://info.mcc.ac.uk,
+   newsrc:2845823825
 
 ----
 
