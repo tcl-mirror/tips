@@ -1,11 +1,12 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Mo DeJong <no@spam.com>
 Author:         Larry W. Virden <lvirden@yahoo.com>
+Author:         John Ousterhout <ouster@pacbell.net>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -71,7 +72,7 @@ will not unreasonably deny a TIP.  Reasons for denying TIP status
 include gross malformatting, inappropriate copyright, duplication of
 effort, being technically unsound, or not in keeping with the Tcl
 philosophy; the TCT and after that John Ousterhout
-<ouster@pacbell.net> is the final arbitrator of the
+(http://home.pacbell.net/ouster/) is the final arbitrator of the
 latter, as defined in the charter ([0]).
 
 Discussion concerning a TIP should initially be kept out of the
@@ -202,7 +203,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.17 $
+|Version:       $Revision: 1.18 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
