@@ -1,6 +1,6 @@
 TIP:            17
 Title:          Redo Tcl's filesystem
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -79,6 +79,7 @@ implementation.
 
   > This TIP seeks to provide a ''complete'' implementation of virtual
     file system support, rather than these piecemeal functions.
+
   > Fortunately, since Tcl is already abstracted across three
     different filesystem types (through the Tclp...) functions, it is
     not that big a task to abstract away to any generic filesystem.
@@ -117,7 +118,7 @@ implementation.
     cached information).  Mounting/unmounting filesystems will
     obviously modify the filesystemEpoch.
 
-> A relatively complete implementation of this TIP, and a sample "vfs"
+ > A relatively complete implementation of this TIP, and a sample "vfs"
     extension
     now exist, and have been tested through TclKit.  On the "virtual"
     half of this tip, the implementation is known to be reasonably
