@@ -1,6 +1,6 @@
 TIP:            29
 Title:          Allow array syntax for Tcl lists
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -92,6 +92,13 @@ These drawbacks have led prominent individuals such as Richard
 Stallman (http://www.vanderburg.org/Tcl/war/0000.html) to assert that
 Tcl lacks arrays.
 
+''This proposal includes the absolute minimum of functionality needed
+to provide array-style indexing for variables containing Tcl list
+objects.''  The reason for this limitation is that omitted
+functionality can be added later without breaking existing scripts.
+On the other hand, ill-considered extensions may turn into something
+that we're doomed to support forever.
+
 ~ Specification
 
 This TIP's proposed change can be stated succinctly:
@@ -99,10 +106,13 @@ This TIP's proposed change can be stated succinctly:
  > Wherever the notation ''a(x)'' may be used to refer to an array
    element in the language, allow it also to refer to an element of a
    list, provided that the variable ''a'' is scalar and the value
-   ''x'' is a non-negative integer.
+   ''x'' is an index suitable for the ''lindex'' command.
 
-   ''Exception:'' Read traces and ''upvar'' calls designating
-   individual list elements shall not be supported.
+   ''Exception:'' Traces, ''unset'' and ''upvar'' calls designating
+   individual list elements shall not be supported.  (As a consequence
+   of this rule, list elements may also not appear as linked variables
+   in C code, implying that they also cannot appear as ''-variable''
+   or ''-textvariable'' options on Tk widgets.)
 
 Note that this change is backward compatible with existing Tcl
 scripts!  If a notation like ''a(x)'' is used to refer to a scalar
@@ -142,18 +152,22 @@ string into an empty list.  Nowhere does this proposal introduce
 behavior that depends on a specific internal representation for any
 variable.
 
-In the proposed syntax, negative or non-numeric subscripts
-shall cause errors, as shall referring to variables that
-do not contain well-formed lists.  Read
-operations shall support subscripts ranging from zero to one less than
-the length of the list.  Write operations shall support subscripts
-ranging from zero to the length of the list, that is, it shall be
-legal to store into the element one space beyond the current last
-element (which shall have the effect of expanding the list length by
-one).  Unset operations may use only a subscript equal to one less
-than the length of the list, that is, it shall be legal to unset only
-the last element of the list.  Unsetting this element shall have the
-effect of shrinking the list by one member.
+This proposal the syntax of the subscript shall be precisely those
+values that are accepted as the second argument to the ''lindex'' command.
+In other words, the subscript may be an integer ''N'', or the string
+''end'' or ''end-N''.  The value of ''N'' may not be less than zero
+nor greater than nor equal to the length of the list on any usage that
+reads a list element.  
+
+A usage that writes a list element may use an integer equal to
+ the length of the list, or the string ''end+1'', to designate
+the element one past the end.  In other words,
+
+|  set a(end+1) foo
+
+will have the same effect as:
+
+|  lappend a foo
 
 With the proposed change in syntax, the procedure to shuffle a list
 becomes much more straightforward:
@@ -198,6 +212,195 @@ will ''not'' be supported.  However, the commoner form:
 
 will, of course, work as expected.
 
+~ Discussion
+
+Several reviewers expressed concern about the reuse of array syntax.
+In particular, the alternative syntax $a<$element> was proposed
+repeatedly.  Alas, there is no good alternative syntax that will not
+break at least some existing scripts.  The proposed syntax using
+angle-brackets is a poor choice, because Tcl scripts that generate
+Web pages frequently have code like:
+
+|  puts "<$tag>$text</$tag>
+
+that would be broken horribly by such a change.
+
+There are several obvious extensions to the proposal that are not
+addressed, and these omissions are intentional.
+
+   * The proposal makes no attempt to deal with multiple subscripts
+     as a means of accessing nested lists.
+
+Use of multiple subscripts is closely related to the withdrawn [22]
+(which the author of this TIP intends to revive).  If the related TIP
+is accepted, the syntax for the subscript could readily be expanded
+so that it could be a Tcl list giving the subscripts in lexicographic
+sequence.  For example
+
+| set a(2 3) foo
+
+could be used to set the fourth element of the third sublist.
+
+   * The proposal allows the ''set'' command (or any other use of
+     ''Tcl_SetVar2Ex'') to set only the elements that are in the list
+     already plus the one one beyond the end.
+
+Tcl lists are fundamentally dense arrays.  Allowing non-contiguous
+elements, that is, sparse arrays, is a fundamental change to their
+semantics.  Such a change is not contemplated at this time.
+
+   * The proposal does not allow the ''unset'' command (or any
+     other command that arrives at ''Tcl_UnsetVar2'') to delete members
+     of a list.
+
+Earlier versions of the proposal had proposed to permit:
+
+|  unset a([expr { [llength $a] - 1}])
+
+or equivalently:
+
+|  unset a(end)
+
+to reduce the length of the list by one.  In subsequent discussions,
+the reviewers found it distasteful that the proposed syntax did not
+permit unsetting interior elements of a list.  Alas, the discussion
+did not arrive at a consensus on what the precise semantics of such
+an operation ought to be.  Some reviewers favored attempting to emulate
+sparse arrays (again, a fundamental change to the semantics of
+Tcl lists that is not contemplated at this time).  Others preferred
+the semantics of shifting the remaining elements, so that
+
+|   unset a($n)
+
+would always be equivalent to
+
+|   set a [lreplace $a $n $n]
+
+except for performance.  Both camps found it overly restrictive to
+limit the semantics of ''unset'' to those of the original proposal.
+Because the two groups failed to achieve a consensus, the author of
+this TIP finds it prudent to forbid ''unset'' altogether in the
+initial implementation.
+
+   * The ''array'' command continues to operate only on associative
+     arrays.
+
+Lists are a simple enough structure that the full power of the
+''array'' command is not required to deal with them, and having it
+work on lists as well as arrays seems like needless effort.  Moreover,
+existing code may well depend on a combination of ''[array exists]''
+and ''[info exists]'' to distinguish associative arrays from scalar
+variables (including lists).
+
+   * The ''upvar'' command cannot address individual list elements.
+
+Extending the syntax in this fashion would make ''upvar'' more
+consistent in its behavior, but appears to be expensive, in terms of
+both performance (tracking down the linked references if a list is
+rebuilt) and the effort required for implementation (the author of
+this TIP is unlikely to have the time required to implement the
+necessary changes to ''struct Var'' and the associated code).
+
+   * No traces on list elements shall be supported.  List elements
+     cannot function as linked variables in C code.
+
+The original proposal had specified how write and unset, but not read,
+traces could be implemented.  The original proposed functionality is
+described in the Appendix.  The author of this TIP had proposed it
+primarily so that list elements could function as linked variables
+(for instance, in the ''-variable'' and ''-textvariable'' options
+of Tk widgets).
+
+Once again, this part of the original proposal failed for lack of
+consensus among the reviewers.  Some felt that supporting read traces
+in one context but not another would be overly confusing.  Moreover,
+the proposal as written would cause write traces on the elements to fire
+if the internal representation of a variable shimmered between a list
+and something else.  Some reviewers found the excess trace callbacks
+to be objectionable.  
+
+At least one reviewer proposed a separate ''trace add element'' syntax
+for list-element traces.  This syntax would address some of the
+concerns about the lack of read traces (there's no reason that ''trace
+add element'' should function the same as ''trace add variable'').
+Alas, it would not address the problem of linked variables, which was
+the main reason for having the traces in the first place.
+
+Given the lack of consensus, the author of this TIP finds it prudent
+to withdraw or postpone this portion of the proposal.
+
+~ See Also
+
+[22] - withdrawn.
+
+~ Reference Implementation
+
+No reference implementation has yet been developed; the author of this
+TIP wishes to solicit the opinions of the Tcl community before
+spending a lot of time implementing a possibly bad idea.
+
+~ Change history
+
+''12 March 2001:'' Added detailed discussion of the specific subscript
+ranges supported by read, write and unset operations.  Changed the discussion
+to reject the alternative of padding an array when setting an index beyond
+the end.  Added discussion of the details of write and unset traces, and
+rejecting read traces as being infeasible to implement.  Clarified the
+example of creating an empty list so as to avoid any misapprehension that
+these changes depend on list variables' having a particular representation
+at any given time; in fact, every detail of this proposal is tolerant of
+shimmering.
+
+''13 March 2001:'' Fixed a copy-and-paste error in the 'incrementElement'
+example, and added to the discussion the fact that all operations will
+throw errors in the event of a malformed list.
+
+''30 March 2001:'' Revised yet again, in an attempt to remove as
+much controversial functionality as possible and reduce the TIP to the
+minimum useful subset, on the grounds that it is prudent to avoid
+supporting functionality that may later prove ill-considered.
+
+~ Summary of objections
+
+''DeJong,'' ''English'' (non-voting), ''Flynt'' (non-voting),
+''Harrison,'' ''Ingham,'' ''Lehenbauer,'' ''Polster,'' (non-voting),
+''Porter,'' and ''Sofer'' (non-voting), expressed concern that the
+proposed syntax is confusing, since the target object could be either
+an associative array or a linear array (that is, a Tcl list).
+These objections varied in stridency from "yes, it is a risk, and
+I'm prepared to accept it," to "this will just be too confusing, and I
+can't countenance this proposal."
+
+''Hobbs'' found the original proposal's omission of reverse indexing
+distasteful.  The current version of the proposal embraces his
+suggested change.
+
+''Cuthbert'' (non-voting), ''Hobbs'', and ''Porter'' expressed concern
+over the semantics of ''unset.'' Since consensus was not achieved, the
+current version of the proposal defers implementation of ''unset.''
+
+Several reviewers, most notably ''Ousterhout,'' found the proposed
+''trace'' semantics distasteful.  The current version of the proposal
+eliminates ''trace'' on list elements.
+
+Several reviewers appeared to labor under the misconception that this
+TIP introduces behavior that is dependent at run time upon the
+internal representation of a Tcl object.  It does not; it is tolerant
+of shimmering in all cases.
+
+Several reviewers objected to the proposal on the grounds that it does
+not specify a general object system and how such a system would allow
+for generic containers with array syntax.  The author's intention in
+writing it was not to propose such a system, but only to propose a
+small piece of syntactic sugar, implementable here and now, that is
+compatible with that broader vision.
+
+~ Appendix: Possible implementation of read and unset traces.
+
+The original proposal contained the following language, which could
+be used as a guide if traces on list elements are contemplated at a
+future time.
+
 Write and unset traces on list elements shall be supported; it shall
 be permissible to write:
 
@@ -214,7 +417,7 @@ that it no longer has a member with the given index.
 
 Read traces on list elements shall ''not'' be supported.  It is
 too difficult at this point to define what their semantics should be.
-For instance, if a program executes
+For instance, if a program executes the following code:
 
 |   trace add variable x(0) read readCallback
 |   set x [list foo bar grill]
@@ -258,105 +461,6 @@ In any event, after the conclusion of a trace callback, the saved
 Tcl_Obj will have its reference count decremented and be replaced with
 the current element of the list (with reference count appropriately
 incremented, of course).
-
-~ Discussion
-
-There are several obvious extensions to the proposal that are not
-addressed, and these omissions are intentional.
-
-   * One possibility is to provide a syntax (perhaps negative
-     subscripts) to allow numbering from the end of the list as well
-     as the beginning.
-
-   * Another possibility is to provide a notation for multiple
-     subscripts, to allow surgical changes to be made in lists of
-     lists.
-
-These changes are not addressed primarily because the author of this
-TIP foresees that they are likely to cause undesirable interactions
-with future attempts to implement other types of indexed data
-structure, such as the maps, vectors, and matrices of products like
-BLT and Feather.  In a fully developed Tcl 9.0, it would be desirable
-for all of these objects to support similar interfaces; this TIP
-proposes a minimal first step.
-
-   * The ''array'' command continues to operate only on associative
-     arrays.
-
-Lists are a simple enough structure that the full power of the
-''array'' command is not required to deal with them, and having it
-work on lists as well as arrays seems like needless effort.  Moreover,
-existing code may well depend on a combination of ''[array exists]''
-and ''[info exists]'' to distinguish associative arrays from scalar
-variables (including lists).
-
-   * We might wish to extend ''upvar'' syntax to allow a list element
-     to be designated.
-
-Extending the syntax in this fashion would make ''upvar'' more
-consistent in its behavior, but appears to be expensive, in terms of
-both performance (tracking down the linked references if a list is
-rebuilt) and the effort required for implementation (the author of
-this TIP is unlikely to have the time required to implement the
-necessary changes to ''struct Var'' and the associated code).  In
-fact, the author of this TIP would much rather deprecate the use of
-''upvar'' to refer to array elements.  A disproportionate amount of
-code goes into supporting this seldom-used feature.
-
-   * We might wish to extend ''unset'' so that
-
-|     unset x(2)
-
-     would be synonymous with
-
-|     set x [lreplace $x 2 2]
-
-     that is, to allow deletion of interior elements of a list.
-
-   * We might wish to allow writing to elements beyond the end
-     of the list, so that
-
-|     set x [list foo]
-|     set x(2) bar
-
-     would result in a three-element list,
-
-|     foo {} bar
-
-The author of this TIP rejects the last two alternatives because they
-conflict with most users' expectations of how arrays behave.  Allowing
-''write'' and ''unset'' operations to create lists having unspecified
-elements suggests an implementation of sparse arrays.  While sparse
-arrays are a useful concept, and there are efficient and elegant data
-structures to support them, they have distinctly different semantics
-from Tcl lists and it seems likely that the conceptual conflict will
-cause trouble over time.
-
-~ See Also
-
-[22]
-
-~ Reference Implementation
-
-No reference implementation has yet been developed; the author of this
-TIP wishes to solicit the opinions of the Tcl community before
-spending a lot of time implementing a possibly bad idea.
-
-~ Change history
-
-''12 March 2001:'' Added detailed discussion of the specific subscript
-ranges supported by read, write and unset operations.  Changed the discussion
-to reject the alternative of padding an array when setting an index beyond
-the end.  Added discussion of the details of write and unset traces, and
-rejecting read traces as being infeasible to implement.  Clarified the
-example of creating an empty list so as to avoid any misapprehension that
-these changes depend on list variables' having a particular representation
-at any given time; in fact, every detail of this proposal is tolerant of
-shimmering.
-
-''13 March 2001:'' Fixed a copy-and-paste error in the 'incrementElement'
-example, and added to the discussion the fact that all operations will
-throw errors in the event of a malformed list.
 
 ~ Copyright
 
