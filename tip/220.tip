@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 State:          Draft
 Type:           Project
@@ -26,23 +26,21 @@ that is due in part to the core channel handler behaviour.
 The problem is that the user has requested a read-only or write-only
 channel, but the ''tclvfs'' close process absolutely requires fuller
 access to the channel.  For example: a user's write-only chan has to
-be read by close in order to be processed.  Another example: a user's
-read-only channel has to be initially seeded by a memchan.
+be read by close in order to be processed.
 
-This can be modelled by the opener of a channel (in this case, the
-''tclvfs'' code) opening it with its required permissions and casting
-them away before handing them to a user, subsequently re-aquiring full
-possible channel permissions at the point where the channel needs to
-be closed - that is, immediately before the ''tclvfs'' close callback
-is invoked.
+This can be modelled by the ''owner'' of a channel (in this case, the
+''tclvfs'' code) opening it with minimal permissions, handing the
+channel to a user, then subsequently re-aquiring full possible channel
+permissions at the point where the channel needs to be closed - that 
+is, immediately before the ''tclvfs'' close callback is invoked.
 
 ~ Safety
 
    * Escalation of privilege is controlled with the Tcl core, and is
      unavailable to extensions.
 
-   * Privilege is only granted (via its close callback) to the entity
-     which opened the channel.
+   * Privilege is only granted to the entity which opened the channel,
+     because only that entity implements the close callback.
 
    * The creator/opener can't operate with any permissions it could
      not have obtained at creation/opening time, since they are
