@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -46,6 +46,8 @@ The text widget has a number of limitations:
 
   1. Even though 'search' can operate optionally on all text or just non-elided text, there is no easy way to retrieve the actual string which matched in the latter case, if the match spans characters on either side of an elided range.
 
+  1. Fix a few quirks of the 'search' subcommand.
+
 This TIP is, therefore, to fix these limitations, as follows:
 
   1. Make internal changes to the text widget so it keeps track of the
@@ -72,6 +74,8 @@ This TIP is, therefore, to fix these limitations, as follows:
      work whether the relevant indices are currently displayed or not.  And make ''tk::TextUpDownLine'' operate in terms of display lines.
 
   1. Add an option ''-displaychars'' to ''get'' which, if given, restricts the returned characters to be just those which are not elided.
+
+  1. Fix 'search -all -backwards' so that it returns the matches in the correct backwards sequence, even within each individual line.  Also add the options '-overlap' (to allow matches which overlap each other to be returned) and '-strictlimits' to prevent matches which would extend beyond the strict [[pos,limit]] range.
 
 Each of these proposals is discussed and presented in full detail
 below.
@@ -287,6 +291,10 @@ This is a simple new option to the ''get'' subcommand, which now has the syntax 
 | set match [.text get -displaychars $found "$found + $num chars"]
 
 Previously, achieving something like the second line was quite complex.
+
+~ Search subcommand
+
+In Tk8.5a0 at present ''search -all -backwards ...'' returns the list of indices backwards from line to line, but forwards within each line (a side-effect of backwards matching being implemented as repeated forward searches).  This quirk has been removed.
 
 ~ Backward Compatibility
 
