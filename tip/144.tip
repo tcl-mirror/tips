@@ -1,6 +1,6 @@
 TIP:            144
 Title:          Argument Expansion Syntax
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         <dgp@users.sf.net>
@@ -64,9 +64,11 @@ information on each line and it gets to be first on the line.
 
 If a word starts with a pair of braces, "{}", and is followed by a non
 whitespace character it signifies argument expansion.  The braces are
-removed and the rest of the word is parsed as any other word.  The
+removed and the rest of the word is parsed and substituted as any other
+word.  The
 character after the removed "{}" counts as a first character in the
-rules about open braces and double quotes.  The word is then parsed as
+rules about open braces and double quotes.  After substitution, the
+word is then parsed as
 a list (as if with ''Tcl_SplitList()'' or ''Tcl_GetListFromObj'') and
 each element of the list is added to the command being built as a
 separate word with no further parsing.
