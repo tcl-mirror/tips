@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -30,7 +30,7 @@ assigned:
 
    1. ''Appearance'' -
 
-   1. ''[*button] and [label]'' -
+   1. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>
 
    1. ''Canvas Basics'' -
 
@@ -38,11 +38,11 @@ assigned:
 
    1. ''Canvas PostScript'' -
 
-   1. ''[entry]'' -
+   1. ''[entry]'' - Allen Flick <allenflick@home.com>
 
    1. ''[frame] and [toplevel]'' -
 
-   1. ''[listbox]'' -
+   1. ''[listbox]'' - Allen Flick <allenflick@home.com>
 
    1. ''Generic Menus'' -
 
@@ -134,9 +134,9 @@ assigned:
 
    1. ''[grab]'' -
 
-   1. ''[option]'' -
+   1. ''[option]'' - Allen Flick <allenflick@home.com>
 
-   1. ''[send]'' -
+   1. ''[send]'' - Allen Flick <allenflick@home.com>
 
    1. ''[tk_focus*]'' -
 
@@ -194,7 +194,7 @@ assigned:
 
    1. ''Win Build'' -
 
-   1. ''Test Tools'' -
+   1. ''Test Tools'' - Allen Flick <allenflick@home.com>
 
    1. ''Logos'' -
 
