@@ -1,14 +1,14 @@
-TIP:		165
-Title:		A User-Data Field for Virtual Events
-Keywords:	Tk, substitution
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	17-Nov-2003
-Post-History:	
+TIP:            165
+Title:          A User-Data Field for Virtual Events
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        17-Nov-2003
+Post-History:   
+Keywords:       Tk,substitution
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -64,16 +64,14 @@ handled synchronously or asynchronously, respectively) to increment
 the reference count.
 
 The contents of that field will be substituted in binding scripts
-using the ''%d'' substitution ("d" for "data"), with a NULL being
-treated like an empty string.  In order to properly support
-substitution of empty strings, the %d substitution in this case will
-be done using brace/list-style quoting normally.  This is different to
-the other binding substitutions, but required to handle the empty
-string correctly.
+using the '''%d''' substitution ("d" for "data"), with a NULL being
+treated like an empty string.  Empty strings (and NULLs) will be
+substituted as {}, similarly to the ''%A'' substitution when a key
+press does not have a character associated with it.
 
 Generation of a virtual event with a non-NULL ''user_data'' field will
-be done using a new event-field option to ''event generate'':
-''-data''.  The value passed to that option will be the object to
+be done using a new event-field option to '''event generate''':
+'''-data'''.  The value passed to that option will be the object to
 place inside the ''user_data'' field.
 
 ~ Reference Implementation
