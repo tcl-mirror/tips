@@ -1,9 +1,9 @@
 TIP:		138
 Title:		New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Kevin Kenny <kennykb@acm.org>
 Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	29-May-2003
