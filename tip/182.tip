@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -42,7 +42,7 @@ make certain kinds of user interface more robust.  For example:
 A new math function named bool would be added to the list of functions
 supported by the [[expr]] command.
 
- > '''expr {bool(''' ''value'' ''')}]'''
+ > '''expr bool(''' ''value'' ''')'''
 
 This would return "1" for any value of ''value'' that is non-zero
 (plus all non-numeric strings accepted as true by
