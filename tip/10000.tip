@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.39 $
+Version:        $Revision: 1.40 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -30,7 +30,7 @@ proposed in [13].
 ~ Submission Test
 
 Some browsers are spinning their wheels after submission...
-one...
+one... two...
 
 ~ Author Add Test
 
