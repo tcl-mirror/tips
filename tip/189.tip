@@ -1,6 +1,6 @@
 TIP:		189
 Title:		Tcl Modules
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Andreas Kupries <akupries@shaw.ca>
 Author:		Jean-Claude Wippler <jcw@equi4.com>
 Author:		Jeff Hobbs <jeffh@activestate.com>
@@ -16,7 +16,7 @@ Post-History:
 
 This document describes a new mechanism for the handling of packages
 by the Tcl Core which differs from the existing system in important
-details and makes different tradeoffs with regard to flexibility of
+details and makes different trade-offs with regard to flexibility of
 package declarations and to access to the filesystem.  This mechanism
 is called "Tcl Modules".
 
@@ -36,7 +36,7 @@ heighten this cost as it force rescans of the filesystem.
 Installations the where directories in the ''auto_path'' are large or
 mounted from remote hosts are hit especially hard by this (Network
 delays).  All of this together causes a slow startup of tclsh and
-tcl-based applications.
+Tcl-based applications.
 
 "'''Tcl Modules'''" on the other hand is designed with less
 flexibility in mind and to allow implementations to glean as much
@@ -69,7 +69,7 @@ It does not come without penalties however.
 
  > On the gripping hand the only regular packages required will be
    packages supporting the virtual filesystems employed by modules
-   (more on that later), so a transformation of a instalation based on
+   (more on that later), so a transformation of a installation based on
    a set of regular packages to the form above is quite feasible.
 
 
@@ -186,9 +186,9 @@ named 'ice', unqualified.
 Before the search is started the name of the requested package is
 translated into a partial path, using the following algorithm:
 
- * All occurences of '::' in the package name are replaced by the
+ * All occurrences of '::' in the package name are replaced by the
    appropriate directory separator character for the platform we are
-   on.  For unix for example this is '/'.
+   on.  For Unix for example this is '/'.
 
 Example:
 
@@ -206,11 +206,11 @@ glob searches to perform, how much of them, and when.
 Independent of that the implemented algorithm has to reject all files
 where the filename does not match the regular expression given in the
 previous section.  For the remaining files "provide scripts" are
-generated and added to the package ifneeded database.
+generated and added to the '''package ifneeded''' database.
 
 The algorithm has to fall back to the previous unknown handler when
 none of the found module files satisfied the request.  If the request
-was satisfied no fallback is required.
+was satisfied no fall-back is required.
 
 ~~ Provide and Index Scripts
 
@@ -256,7 +256,7 @@ in.
 
 "Tcl Modules" is implemented in Tcl, as a new handler command for
 '''package unknown'''.  This command calls the previously installed
-handler when its own search fails, thereby ensuring proper fallback to
+handler when its own search fails, thereby ensuring proper fall-back to
 the regular package search.
 
 All code and data structures implementing "Tcl Modules" reside in the
@@ -272,7 +272,7 @@ through the following public commands:
 
  > The command enforces the restriction that no path may be an
    ancestor directory of any other path on the list.  If the new path
-   violates this restriction an error wil be raised.
+   violates this restriction an error will be raised.
 
  > If the path is already present as is no error will be raised and no
    action will be taken.
@@ -318,7 +318,7 @@ versions of Tcl coexisting with each other as they could share the
 directory hierarchy containing packages between the various Tcl cores.
 This is not possible anymore, at least not in a simple manner.
 
-For the majority of installatons however, i.e. those without only one
+For the majority of installations however, i.e. those without only one
 version of Tcl installed, or controlled environments like the inside
 of starkits and starpacks, this loss is irrelevant and of no
 consequence.
@@ -337,13 +337,13 @@ a hypothetical '''package about''' command.
 
 The latter approach has the definite advantage that it was possible to
 query the database of metadata for a particular package without
-having to actually load said package, as a load may fail if the tcl
-shell used to query the database does not fulfill the preconditions
+having to actually load said package, as a load may fail if the Tcl
+shell used to query the database does not fulfil the preconditions
 for that package.
 
 Both approaches listed above assume that it makes sense to query the
-database of metadata for all installed packages from a plain tcl
-shell.  In other words, to use the standard tcl shell also as the tool
+database of metadata for all installed packages from a plain Tcl
+shell.  In other words, to use the standard Tcl shell also as the tool
 to directly manage an installation.
 
 It is possible to extend the proposal made in this document to handle
