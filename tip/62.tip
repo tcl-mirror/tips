@@ -1,6 +1,6 @@
 TIP:            62
 Title:          Add Support for Command Tracing
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Hemang Lavana <HemangLavana@users.sourceforge.net>
 Author:         Vince Darley <vince.darley@eurobios.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
@@ -159,58 +159,59 @@ command ''name'' will not remove the execution traces.
 The following script defines a procedure ''foo'' and illustrates 
 several cases as to how its execution can be traced.
 
-# Define the proc foo
-proc foo {var} {
-     return [string index $var [expr {$var*2}]]
-}
-
-# Command to invoke on trace activation
-proc print {args} {
-    puts stdout "PRINT: $args"
-}
-
-proc main {} {
-    puts stdout "================CASE 1========================="
-    puts stdout "Trace proc foo only"
-    trace add execution foo {enter leave} {print exec}
-    foo 4
-
-    puts stdout "================CASE 2========================="
-    puts stdout "Trace proc foo as well as all commands within it"
-    trace add execution foo {enterstep leavestep} {print step}
-    foo 4
-
-    # Remove all traces
-    trace remove execution foo {enter leave} {print exec}
-    trace remove execution foo {enterstep leavestep} {print step}
-
-    puts stdout "================CASE 3========================="
-    puts stdout "Add a trace on string command"
-    trace add execution string {enter leave} {print exec}
-    foo 4
-    trace remove execution string {enter leave} {print exec}
-}
-main
+|    # Define the proc foo
+|    proc foo {var} {
+|         return [string index $var [expr {$var*2}]]
+|    }
+|    
+|    # Command to invoke on trace activation
+|    proc print {args} {
+|        puts stdout "PRINT: $args"
+|    }
+|    
+|    proc main {} {
+|        puts stdout "================CASE 1========================="
+|        puts stdout "Trace proc foo only"
+|        trace add execution foo {enter leave} {print exec}
+|        foo 4
+|    
+|        puts stdout "================CASE 2========================="
+|        puts stdout "Trace proc foo as well as all commands within it"
+|        trace add execution foo {enterstep leavestep} {print step}
+|        foo 4
+|    
+|        # Remove all traces
+|        trace remove execution foo {enter leave} {print exec}
+|        trace remove execution foo {enterstep leavestep} {print step}
+|    
+|        puts stdout "================CASE 3========================="
+|        puts stdout "Add a trace on string command"
+|        trace add execution string {enter leave} {print exec}
+|        foo 4
+|        trace remove execution string {enter leave} {print exec}
+|    }
+|    main
 
 The expected output of running the above script would be:
-===================CASE 1========================
-Trace proc foo only
-PRINT: exec {foo 4} enter
-PRINT: exec {foo 4} 0 {} leave
-===================CASE 2=======================
-Trace proc foo as well as all commands within it
-PRINT: exec {foo 4} enter
-PRINT: step {expr {$var*2}} enterstep
-PRINT: step {expr {$var*2}} 0 8 leavestep
-PRINT: step {string index 4 8} enterstep
-PRINT: step {string index 4 8} 0 {} leavestep
-PRINT: step {return {}} enterstep
-PRINT: step {return {}} 2 {} leavestep
-PRINT: exec {foo 4} 0 {} leave
-===================CASE 3=======================
-Add a trace on string command
-PRINT: exec {string index 4 8} enter
-PRINT: exec {string index 4 8} 0 {} leave
+
+|    ===================CASE 1========================
+|    Trace proc foo only
+|    PRINT: exec {foo 4} enter
+|    PRINT: exec {foo 4} 0 {} leave
+|    ===================CASE 2=======================
+|    Trace proc foo as well as all commands within it
+|    PRINT: exec {foo 4} enter
+|    PRINT: step {expr {$var*2}} enterstep
+|    PRINT: step {expr {$var*2}} 0 8 leavestep
+|    PRINT: step {string index 4 8} enterstep
+|    PRINT: step {string index 4 8} 0 {} leavestep
+|    PRINT: step {return {}} enterstep
+|    PRINT: step {return {}} 2 {} leavestep
+|    PRINT: exec {foo 4} 0 {} leave
+|    ===================CASE 3=======================
+|    Add a trace on string command
+|    PRINT: exec {string index 4 8} enter
+|    PRINT: exec {string index 4 8} 0 {} leave
 
 Case 1 specifies a enter and leave trace on proc foo.
 Here the proc foo is fully byte-code-compiled.
