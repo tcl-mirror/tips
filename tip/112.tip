@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.20 $
+Version:        $Revision: 2.21 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -103,7 +103,8 @@ The options available for creation and configuring are:
    ''invoked''.  Note that the words in the dictionary values that give
    the commands to map to (as opposed to any arguments to them) are
    always resolved (if not absolute) relative to the namespace which is
-   running [[namespace create]] or [[namespace configure]].
+   running [[namespace ensemble create]] or [[namespace ensemble
+   configure]].
 
  -prefix: This boolean option (which is on by default) controls whether
    unambiguous prefixes of ensemble commands are recognized as if they
