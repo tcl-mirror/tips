@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -113,10 +113,12 @@ assigned:
 
    1. ''Pathname Management'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac)
+        Jim Ingham <jingham@apple.com> (Mac),
+	Vincent Darley <vincentdarley@users.sourceforge.net>
 
    1. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                        Jim Ingham <jingham@apple.com> (Mac)
+                        Jim Ingham <jingham@apple.com> (Mac),
+			Vincent Darley <vincentdarley@users.sourceforge.net>
 
    1. ''Init - Library - Autoload'' -
         Don Porter <dgp@users.sourceforge.net>,
