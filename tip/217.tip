@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -92,9 +92,9 @@ The following timing data are the mean '''time''' returned from 20 different lis
 |     5000     1582.5    4847.6      3.1 
 
 At present, the Reference Implementation does not file the 
-'''-indices''' switch in the C list of '''lsort''' switches, or the 
-C switch statement that interprets them.  This is anything if not 
-ironic for the '''lsort''' function, and ought to be corrected.
+'''-indices''' switch alphabetically in the C list of '''lsort''' 
+switches, or the C switch statement that interprets them.  This 
+simple needs to be corrected before final check-in.
 
 ~ Suggested Documentation
 
@@ -143,7 +143,7 @@ In reply to Lars, James Salsman
 provided timing data and an efficient alternative to 
 the '''-keycommand''' idea using this TIP's '''-indices''' proposal.
 
-~ Credits
+~ Acknowledgements
 
 Thanks also to George Peter Staplin and Richard Suchenwirth for their 
 kind help and good ideas at the genesis of this TIP.
