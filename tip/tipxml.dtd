@@ -2,29 +2,29 @@
 
 <!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
 
-<!-- $Id: tipxml.dtd,v 1.4 2001-10-31 11:10:15 dkf Exp $ -->
+<!-- $Id: tipxml.dtd,v 1.5 2001-10-31 13:28:14 dkf Exp $ -->
 
 <!-- This document is placed in the Public Domain. -->
 
 <!-- ================================================================== -->
-<!-- Entity declarations (a character, and several content models.)     -->
+<!-- Entity declarations (a character, and several content models.)	-->
 <!-- ================================================================== -->
-<!ENTITY ff "&#12;"> <!-- form feeds are relatively common characters -->
-                     <!-- in patches included verbatim... -->
+<!ENTITY ff "&#12;"> <!-- Form feeds are relatively common characters	-->
+                     <!-- in verbatim sections that are patches.	-->
 
 <!-- Basic datatypes... -->
-<!ENTITY % url 	      "CDATA"> <!-- only permit URLs, may be partial -->
-<!ENTITY % num 	      "CDATA"> <!-- only permit non-negative integers -->
+<!ENTITY % url 	      "CDATA"> <!-- Only permit URLs, may be partial.	-->
+<!ENTITY % num 	      "CDATA"> <!-- Only permit non-negative integers.	-->
 
-<!-- simplify header declaration (later) by partitioning -->
+<!-- Simplify header declaration (later) by partitioning.		-->
 <!ENTITY % header.req "title, author+, status, history, created">
 <!ENTITY % header.opt "discussions*, keyword*, obsoletes*, obsoleted*">
 
-<!-- kinds of 'paragraphs': only inner can go inside lists -->
+<!-- Kinds of 'paragraphs': only inner can go inside lists.		-->
 <!ENTITY % in.par     "enumerate | para | pre   | itemize | describe" >
 <!ENTITY % out.par    "%in.par;  | rule | quote | index   | image" >
 
-<!-- Mixed content for conventional paragraphs -->
+<!-- Mixed content for conventional paragraphs.				-->
 <!ENTITY % emphtext   "#PCDATA | url | tipref">
 <!ENTITY % text       "%emphtext; | emph">
 
@@ -42,13 +42,13 @@
 <!ELEMENT title  (#PCDATA)>
 <!ELEMENT author (#PCDATA)>
 <!ATTLIST author address %url; #REQUIRED>
-<!ELEMENT status (#PCDATA)><!-- Content is the CVS Revision/Id -->
+<!ELEMENT status (#PCDATA)>	<!-- Content is the CVS Revision/Id.	-->
 <!ATTLIST status
 	type  (process|project|informative) 'informative'
 	state (draft|active|accepted|deferred|final|rejected|withdrawn) 'draft'
 	vote  (prior|during|after|none) 'prior'
 	tclversion CDATA #IMPLIED
-	><!-- require tclversion when type='project' -->
+	>		<!-- Require tclversion ony when type='project'	-->
 <!ELEMENT created EMPTY>
 <!ATTLIST created
 	day   %num; #REQUIRED
@@ -92,7 +92,7 @@
 <!ELEMENT pre   (#PCDATA)>
 <!ATTLIST pre   xml:space (default|preserve) 'preserve'>
 <!ELEMENT rule  EMPTY>
-<!ELEMENT index EMPTY>
+<!ELEMENT index ANY>		<!-- Actually a processing instruction. -->
 <!ATTLIST index kind (short|medium|long) 'medium'>
 <!ELEMENT image EMPTY>
 <!ATTLIST image
@@ -111,13 +111,13 @@
 <!ELEMENT item.e    (%in.par;)*>
 <!ELEMENT item.d    (%in.par;)*>
 
-<!ATTLIST item.e  index %num;  #REQUIRED>
+<!ATTLIST item.e  index %num; #REQUIRED>
 <!ATTLIST item.d  name  CDATA #REQUIRED>
 
 <!-- ================================================================== -->
 <!-- Elements that are part of the flow of text in a paragraph.         -->
 <!-- ================================================================== -->
-<!ELEMENT emph (%emphtext;)*> <!-- emphs may not be nested -->
+<!ELEMENT emph (%emphtext;)*>		<!-- Emphs may not be nested.	-->
 <!ELEMENT url EMPTY>
 <!ATTLIST url ref %url; #REQUIRED>
 <!ELEMENT tipref EMPTY>
