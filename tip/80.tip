@@ -1,6 +1,6 @@
 TIP:		80
 Title:		Additional Options for 'lsearch'
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Tom Wilkason <tom.wilkason@home.com>
 State:		Draft
 Type:		Project
@@ -12,7 +12,7 @@ Post-History:
 
 ~ Abstract
 
-This TIP proposes addtional options for the ''lsearch'' command to
+This TIP proposes additional options for the ''lsearch'' command to
 return and work with all matching items in the return rather than the
 first matching item.
 
@@ -23,7 +23,7 @@ list that matches a pattern.  However it is often useful to find all
 of the items in the list that match a pattern.  This TIP proposes
 adding options to return the entire list of matches.  With this
 capability, additional options are proposed to return the data rather
-than the indicies (since you often want to work the the data anyway),
+than the indices (since you often want to work the the data anyway),
 and to add an option to return the logical exclusion of the matching
 items (i.e. those that don't match the search pattern).
 
@@ -34,9 +34,9 @@ I propose the following options be added to ''lsearch'':
 Option: -all
 
  > Returns a list of all indices that match the search condition
-   (rather than the first one).  The indicies are returned low to high
+   (rather than the first one).  The indices are returned low to high
    order.  For a no match condition, a {} (empty result) is returned.
-   If the the ''-all'' or ''-data'' switchs are not specified, a -1 is
+   If the the ''-all'' or ''-data'' switches are not specified, a -1 is
    returned for a no match condition just as it is done now.
 
 Option: -data
