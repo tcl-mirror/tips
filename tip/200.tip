@@ -1,15 +1,15 @@
-TIP:		200
-Title:		Listing the Values in an Array
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
-Author:		Dossy Shiobara <dossy@panoptic.com>
-Created:	20-May-2004
-Keywords:	Tcl
+TIP:            200
+Title:          Listing the Values in an Array
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Dossy Shiobara <dossy@panoptic.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-May-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -54,24 +54,26 @@ with the following syntax:
 This returns a list of values that are contained in the array in the
 "natural order" of the values within the array.  The optional
 ''globPattern'' argument allows for returning only some of the values
-in the array (those that match the pattern according to the rules of
-'''string match''', of course).  The pattern will not change the
+in the array (those values for keys that match the pattern according
+to the rules of '''string match''').  The pattern will not change the
 ordering of the list; it only filters the result.
 
 The order of the values returned shall be such that the following two
 '''foreach''' iterations shall behave identically (modulo traces on
 the array variable):
 
-|foreach {name value} [array get AnyArray] {
+|foreach {name value} [array get AnyArray $pattern] {
 |   AnyScript
 |}
 
-|foreach name [array names AnyArray] value [array values AnyArray] {
+|foreach name  [array names  AnyArray $pattern] \
+|        value [array values AnyArray $pattern] {
 |   AnyScript
 |}
 
 Note that this implies that the resulting list from '''array values'''
-may well contain duplicates.
+may well contain duplicates, and that none of the values actually
+returned will necessarily match the supplied pattern.
 
 ~ Copyright
 
