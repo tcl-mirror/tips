@@ -1,12 +1,12 @@
 TIP:		94
 Title:		Add Listbox -activestyle Option
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Jeff Hobbs <JeffH@ActiveState.com>
 State:		Draft
 Type:		Project
 Created:	29-May-2002
 Tcl-Version:	8.4
-Vote:		Pending
+Vote:		In progress
 Post-History:	
 
 ~ Abstract
