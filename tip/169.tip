@@ -1,6 +1,6 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -110,8 +110,7 @@ A reference implementation based on Tcl 8.5 is available at:
 
 http://sourceforge.net/tracker/?func=detail&atid=312997&aid=994629&group_id=12997
 
-This includes some new tests.  Documentation has been updated (but not
-in the patch listed).
+This includes new tests and documentation.
 
 Incidentally, this patch also fixes the long-standing problem where renaming the text widget breaks the undo-stack (which used to record the actual widget name).
 
