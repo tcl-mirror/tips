@@ -1,14 +1,14 @@
-TIP:		190
+TIP:            190
 Title:          Implementation Choices for Tcl Modules
-Version:        $Revision: 1.2 $
-Author:		Andreas Kupries <akupries@shaw.ca>
-Author:		Jean-Claude Wippler <jcw@equi4.com>
-Author:		Jeff Hobbs <jeffh@activestate.com>
+Version:        $Revision: 1.3 $
+Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Jean-Claude Wippler <jcw@equi4.com>
+Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
-Type:           Informational
+Type:           Informative
 Vote:           Pending
 Created:        24-Mar-2004
-Post-History:	
+Post-History:   
 
 ~ Abstract
 
@@ -115,9 +115,8 @@ application and then use it.  The problem is a limitation in most
 implementations of alternate filesystem: they are not able to mount a
 virtual file again as a directory, i.e. ''nested'' mounting.  This
 however is required when a Tcl Module using the any-kit approach is
-placed into a wrapped application.  Note that this could actually also
-be a limitation in the VFS core of Tcl itself, further investigation
-is required.
+placed into a wrapped application.  It was thought for a while that
+this could be a limitation in the VFS core of Tcl itself, but further investigation proved this to be wrong. This proof came in the form of TROFS, the ''Tcl Read Only Filesystem'', by Don Porter. This filesystem supports nesting and thus shows that the Tcl core is strong enough for this as well. It is the implementation of a filesystem which determines if nesting is possible or not, and most do not support this.
 
 See also SF bug report ''[[941872]] path<->FS function limitations''
 [http://sf.net/tracker/?func=detail&aid=941872&group_id=10894&atid=110894]
