@@ -1,6 +1,6 @@
 TIP:            74
 Title:          wm stackorder command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Mo DeJong <mdejong@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -92,12 +92,13 @@ list.
 
 ~ Reference Implementation
 
-A reference implementation has been created for X windows based
-systems.  It makes use of the ''XQueryTree()'' function to lookup the
-stacking order of toplevel windows in the root window.  The patch and
-test cases can be found in Tk patch 481148 at SourceForge.  Windows,
-Mac OS, and Mac OS X have yet to be implemented and would require
-assistance from area maintainers.
+A reference implementation has been created for X windows and Win32
+systems. The X version makes us of the ''XQueryTree()'' function
+while the Windows version depends on the ''EnumWindows()'' Win32 API.
+Both implementations query the stacking order of toplevel windows
+in the root window.  The patch, test cases, and documentation changes
+can be found in Tk patch 481148 at SourceForge.  Porting to MacOS
+and MacOS X will require assistance from area maintainers.
 
 ~ Alternatives
 
@@ -197,7 +198,7 @@ It would not even be possible to query the position of the
 parent window that can be passed to ''winfo children''.
 
 Since modifying ''winfo children'' could cause some
-serious problems and it would ultimately be ineffective,
+serious problems and would ultimately be ineffective,
 this alternative was rejected. Instead, the documentation
 for the ''winfo children'' command should be updated to
 indicate that toplevel windows are not returned in stacking
@@ -210,16 +211,16 @@ The logic of the ''wm stackorder'' command is rather insulated from
 the rest of the Tk core.  Changing the implementation of
 ''Tk_RestackWindow()'' and keeping the ''TkWindow->childList'' up to
 date w.r.t. external changes would be more risky since it could affect
-other parts of the core. Calling ''XQueryTree()'' seems less error
-prone that monitoring notification events although it might be more
-expensive in terms of processing time. We might speed things up by
+other parts of the core. Doing an explicit query to find the stacking
+order seems a lot less error prone when compared to monitoring events
+from the window manager. We might speed things up by
 also storing wrapper pointers in the map table so that a call to
-''Tk_IdToWindow()'' with a wrapper X id would work, but it is not
+''Tk_IdToWindow()'' with a wrapper id would work, but it is not
 clear that would help since the ''XQueryTree()'' likely takes up
 most of the function processing time.
 
 It is also not known how difficult or costly this functionality will
-be to implement on Windows, Mac OS, or Mac OS X.
+be to implement on Mac OS, or Mac OS X.
 
 ~ Copyright
 
