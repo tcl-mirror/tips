@@ -1,14 +1,14 @@
-TIP:		183
-Title:		Add a Binary Flag to [open]
-Version:	$Revision: 1.1 $
-Author:		Andreas Leitgeb <avl@logic.at>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	24-Mar-2004
-Keywords:	Tcl
-Post-History:	
+TIP:            183
+Title:          Add a Binary Flag to [open]
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        24-Mar-2004
+Post-History:   
+Keywords:       Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -52,6 +52,42 @@ manual page.)  POSIX's ''open()'' doesn't know about binary or
 non-binary files, but Tcl does, so a new keyword "BINARY" could be
 introduced to offer this feature also to those who prefer
 list-of-flags syntax.
+
+~ Discussion
+
+There have been comments that the C-like version of access is
+just legacy, hard to grok/remember and other general bad things
+about even the existing things. Those who don't like/use "r","w",
+"r+", anyway, (and who always use {WRITE CREAT TRUNC} instead of 
+just "w") are not affected by any additional "b". There is no
+'''need''' to use it that way.  fconfigure still remains.
+(Partially I agree with them, the "r+" and "w+" are indeed
+lousy, and "a" is just a legacy design-bug -- seeks to end
+just once instead of before each write. Using that is like begging
+for race-conditions to bite. -- On the other hand "r" and "w", with
+or without "b" are unbeatably concise and still self-explaining.)
+
+Some proposed adding -options for all kinds of things. Specifying
+the access-options as -read or -write ...   My comment to this:
+If you like it verbose, use list-syntax for access-flags. This
+TIP is '''not''' about getting rid of legacy-C-syntax for flags.
+
+Some said, that if "b" (BINARY) is added, then sooner or 
+later every fconfigure option would have to be added to "open",
+(and some even proposed that). Thats beside the point. Does
+anybody really doubt that "-translation binary" is by far
+the most common option used with fconfigure? And open does
+really ask for that but not for any other one (at least not 
+as loudly :-).
+
+Another comment was about difficulties to implement "b", because
+lower-level functions (Tcl_FSOpenFileChannelProc was mentioned)
+would have to be changed for that.  That is not true, because 
+the "b" could be recognized and removed at top level (Tcl_OpenObjCmd)
+before passing the remaining string down the levels.
+
+"open binaryfile r -translation binary" is not really any convenience.
+It's almost as verbose as calling fconfigure explicitly.
 
 ~ Copyright
 
