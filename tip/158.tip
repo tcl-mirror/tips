@@ -1,6 +1,6 @@
 TIP:            158
 Title:          Distinguish the two 'Enter' keys on Windows
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Wolfgang Groﬂbauer <Go2DevNull@magro-soft.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -130,9 +130,9 @@ nothing.
 Third, the TIP contains no mention of what the result of this TIP is on
 the x-platform Tk developer.  That they must now have this:
 
- | bind ... <Return>  "pressReturn"
- | bind ... <KP_Enter>  "pressEnter" ; # only useful on Unix
- | bind ... <Extended-Return>  "pressEnter" ; # only useful on Windows
+| bind ... <Return>  "pressReturn"
+| bind ... <KP_Enter>  "pressEnter" ; # only useful on Unix
+| bind ... <Extended-Return>  "pressEnter" ; # only useful on Windows
 
 i.e. rather than making their life easier, it has been made more complex!
 (In fact the TIP as a whole seems to have a bias against anyone even
