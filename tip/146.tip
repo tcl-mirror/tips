@@ -1,6 +1,6 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -50,13 +50,24 @@ For shrinking a grid without weight there are three options.
     further shrinking.  (Clip according to anchor)
 
 I think 2. makes more sense than 1., but it does mean a minor
-compatiblity breach.
+compatiblity breach.  Also, with 2., behaviour 1. and 3. can be emulated
+but the other way around is harder.
 
-Also, with 2., behaviour 1. and 3. can be emulated but the other
-way around is harder.
+With 2, there are also two choises how to break compatibility depending
+on the default anchor.
 
-In this TIP's specification it is still undecided what to do with
-shrinking.
+2., with default anchor ''center'':  Anyone relying on the bottom/left
+clipping will find things clip all around.  Potentially an important widget
+in the nw corner can end up outside.
+
+2., with default anchor ''nw'':  Anyone relying on the centering will find
+things ending up in the nw corner.  Probably just a visual difference.
+
+I can't see that any of those two are significantly worse than the other.
+
+Finally, the question "what would you do if backwards compatiblity was
+not an aspect?" clearly answers "2. with default anchor ''nw''",
+leading to the specification in this TIP.
 
 ~ Specification
 
@@ -64,20 +75,15 @@ A new subcommand ''grid anchor'' is added.  It is similar to ''grid
 propagate'' in that it configures an aspect of a grid manager.
 
 The syntax is ''grid anchor master ?value?'' where ''value'' is a
-standard anchor value with ''center'' as default.
+standard anchor value with ''nw'' as default.
 
 Whenever there is extra space in the grid manager and all weights
 are zero, the layout is placed within its master according to the
 master's anchor value.
 
-~ Future Work
-
-I believe it would make more sense to have "nw" as default anchor but
-if shinking behaviour #1 is chosen for compatibility it can't be.
-Maybe it can be done in 9.0.
-
-Though, if shrinking #2 is chosen, default anchor could just as
-well be "nw".
+Whenever there is too little space in the grid manager and all weights
+are zero or all columns have reached their minimumn size, the layout is
+clipped according to the master's anchor value.
 
 ~ Shrink example
 
