@@ -1,6 +1,6 @@
 TIP:            69
 Title:          Improvements for the Tcl Hash Table
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         George A. Howlett <gah@siliconmetrics.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -233,15 +233,15 @@ value.
 
 ''Don Porter <dgp@users.sf.net>''
 
- > It appears that the recommendations of this section have already
+ > ''It appears that the recommendations of this section have already
    been implemented in Tcl 8.4.  In particular, when the symbol
    TCL_HASH_KEY_STORE_HASH == 1 (as it does by default), then the
-   hash value is stored in each entry instead of the bucketPtr.
+   hash value is stored in each entry instead of the bucketPtr.''
 
- > If that is correct, then I recommend this section of the TIP be
+ > ''If that is correct, then I recommend this section of the TIP be
    removed.  If not, more detail about how this proposal differs
    from the 8.4 implementation, and an argument why the proposal
-   is superior are in order.
+   is superior are in order.''
 
 ~ Better Memory Performance 
 
@@ -347,10 +347,10 @@ properly hash the 64-bit pointer address.
 
 ''Don Porter <dgp@users.sf.net>''
 
- > Pardon the interruption, but I do not understand what is meant
+ > ''Pardon the interruption, but I do not understand what is meant
    by the assertion that hashing of 64-bit pointers "can possibly
    fail".  I've used Tcl on a 64-bit Alpha system for years, hashing
-   64-bit pointers the whole time.  What failures should I be seeing?
+   64-bit pointers the whole time.  What failures should I be seeing?''
 
 | #define RANDOM_INDEX(tablePtr, i) \
 |    (((((long) (i))*1103515245) >> (tablePtr)->downShift) & (tablePtr)->mask)
