@@ -1,6 +1,6 @@
 TIP:		141
 Title:		Multiple Initial-Files in [tk_getOpenFile]
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		David N. Welton <davidw@dedasys.com>
 State:		Accepted
 Type:		Project
@@ -11,35 +11,84 @@ Post-History:
 
 ~ Abstract
 
-This TIP proposes modifying the semantics of the -initialfile option
-when the [[tk_get*File]] commands are asked to select multiple files
-so as to allow several files to be selected initially.
+This TIP proposes modifying the semantics of the '''-initialfile'''
+option when the '''tk_get*File''' commands are asked to select
+multiple files so as to allow several files to be selected initially.
 
 ~ Rationale
 
-The [[tk_getOpenFile]] command has a -multiple option, which allows
-multiple files to be selected in the dialog.  It also has an
--initialfile argument.  However, at the present time, at least on
-Unix, it is impossible to have multiple files selected initially with
--initialfile.  This TIP proposes that -initialfile take a list of
-files if -multiple is also passed as an argument.
+The '''tk_getOpenFile''' command has a '''-multiple''' option, which
+allows multiple files to be selected in the dialog.  It also has an
+'''-initialfile''' argument.  However, at the present time, at least
+on Unix, it is impossible to have multiple files selected initially
+with '''-initialfile'''.  This TIP proposes that '''-initialfile'''
+take a list of files if '''-multiple''' is also passed as an argument.
 
 As it is possible to select multiple files, it should also be possible
 to have multiple files be selected when the widget is created via the
--initialfile switch.
+'''-initialfile''' switch.
 
-An issue which must be carefully investigated before this proposal can
-be accepted is whether it is technically feasible on systems other
-than Unix (which the author has no access to).
+~~ Additional Notes from Kevin Kenny
+
+~~~ On -initialdir
+
+If the '''-initialdir''' value is not a well-formed path name in its
+filesystem (for instance, if a component name contains a null byte or
+a character that is not permissible), the behavior is as if
+'''-initialdir''' was not specified.
+
+If the object designated by the '''-initialdir''' value does not
+exist, or if it is not a directory, nor a symbolic link to one, the
+behavior is as if '''-initialdir''' was not specified.
+
+If the '''-initialdir''' value is the empty string, the behavior is as
+if '''-initialdir''' was not specified.
+
+~~~ On -initialfile
+
+If '''-multiple''' ''0'' is specified, or '''tk_getSaveFile''' was
+called, the '''-initialfile''' value is interpreted as a file name.
+If '''-multiple''' ''1'' is specified to '''tk_getOpenFile''', the
+'''-initialfile''' value is interpreted as a list of file names.  A
+list that is not well formed (for example, one containing unbalanced
+braces) is not an error, but instead causes the '''-initialfile'''
+option to be ignored.
+
+For each file name in the '''-initialfile''' value, the system joins
+the directory provided on the '''-initialdir''' option (or the current
+working directory if no '''-initialdir''' is supplied) with the
+'''-initialfile'''.  The resulting path name is normalized as with
+'''file normalize''' and then separated into directory and tail
+components as with '''file dirname''' and '''file tail'''.  Any errors
+in this process cause the file name to be ignored.
+
+Once the file name is separated into its components, the directory
+part is checked:
+
+ * If the '''-initialdir''' option was supplied, and the directory
+   part of the file name differs from the result of normalizing the
+   '''-initialdir''' value, the file name is ignored.
+
+ * If the '''-initialdir''' option was not supplied, and the directory
+   part of the file name designates a directory in the file system,
+   the '''-initialdir''' value is set to that directory.  Otherwise,
+   (since the file cannot exist), the file name is ignored.
+
+ * If the given file exists, or if '''tk_getSaveFile was called''',
+   the tail part of the file name is added to a list of files to
+   select within the initial directory.
+
+Once '''-initialdir''' and ''-initialfile''' have both been parsed,
+the initial directory is known, and the list of initial files is
+identified; the files are known to be relative to the initial
+directory, and (for '''tk_getOpenFile''') are known to exist.
 
 ~ Reference Implementation
 
-The reference implementation exists in a patch available from:
-
-http://sf.net/tracker/?func=detail&aid=657656&group_id=12997&atid=362997
-
-which also includes new tests for the Tk test suite.  It does not
-contain updated documentation at this stage.
+The reference implementation exists in a patch
+[http://sf.net/tracker/?func=detail&aid=657656&group_id=12997&atid=362997]
+which also includes new tests for the Tk test suite and updated
+documentation.
 
 ~ Copyright
 
