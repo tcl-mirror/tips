@@ -1,6 +1,6 @@
 TIP:            54
 Title:          Using PURLs to Unite the Tcl Webspace
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Draft
 Type:           Process
@@ -102,14 +102,17 @@ everyday names to refer to entities in the proposed domain. These
 examples should not be seen as suggestions for the concrete naming
 scheme used by the domain.
 
-   * ''announce'' - Direct reference to a page explaining how to announce packages, applications and other tcl-related news and linking to the relevant newsgroups, mail archives and submission addresses. This includes, but is not restricted to
+   * ''announce'' - Direct reference to a page explaining how to
+     announce packages, applications and other tcl-related news and
+     linking to the relevant newsgroups, mail archives and submission
+     addresses. This includes, but is not restricted to:
 
-   > A link to the newsgroup ''comp.lang.tcl.announce''.
+   > * A link to the newsgroup ''comp.lang.tcl.announce''.
 
-   > A link to the eGroups/Yahoo archive of the c.l.t.a newsgroup.
+   > * A link to the eGroups/Yahoo archive of the c.l.t.a newsgroup.
 
-   > The submission address of c.l.t.a. to directly submit via
-     email announcements.
+   > * The submission address of c.l.t.a. to directly submit via email
+       announcements.
 
    * ''newsletter'' - Direct reference to an archive of ''Tcl-URL!''.
 
