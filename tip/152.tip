@@ -1,6 +1,6 @@
 TIP:		152
 Title:		New -detail Option for tk_messageBox
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Mats Bengtsson <matben@privat.utfors.se>
 State:		Draft
 Type:		Project
@@ -8,6 +8,7 @@ Tcl-Version:	8.5
 Vote:		Pending
 Created: 	26-Aug-2003
 Obsoletes:	25
+Post-History:	
 
 ~ Abstract
 
