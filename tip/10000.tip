@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.83 $
+Version:        $Revision: 1.84 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -10,6 +10,7 @@ Author:         <dgp@user.sourceforge.net>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
 Author:         Kevin B KENNY <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
+Author:         Test User <test@example.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
