@@ -1,0 +1,125 @@
+TIP:            221
+Title:          Extend [bgerror] to Accept Return Options
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Sep-2004
+Post-History:   
+Keywords:       bgerror return options
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes an extension to Tcl's '''bgerror''' interface
+so that the full set of return options ([90]) can be passed to it.
+
+~ Background
+
+Whenever a script is evaluated as part of handling an event, and
+that script evaluation returns TCL_ERROR or some other non-TCL_OK
+return code it is not equipped to handle, then the code that
+evaluates that script is expected to call ''Tcl_BackgroundError''
+to report the exceptional code to the application.
+
+Then ''Tcl_BackgroundError'' will arrange for the command
+'''bgerror''' to be called during an idle event.  It is intended
+that each application will define a '''::bgerror''' command to its
+liking so that background errors are reported (or ignored) as
+the application prefers.
+
+The defined syntax for '''bgerror''' is currently
+
+ > '''bgerror''' ''message''
+
+The '''bgerror''' command receives as its only argument a copy of
+what the interp result was when ''Tcl_BackgroundError'' was called.
+This is presumably an error message.
+
+When '''bgerror''' is called, it is also arranged that the
+variables '''::errorInfo''' and '''::errorCode''' are set to
+the same values they had when ''Tcl_BackgroundError'' was called.
+This is effectively another set of arguments passed through a
+side channel.
+
+Note that the non-TCL_OK return code that triggered
+the ''Tcl_BackgroundError'' call is not itself made known to 
+'''bgerror'''.  Nor is the ''-level'', ''-errorline'', or other
+return option information made possible by [90] passed along
+to '''bgerror''' in any way.
+
+~ Proposal
+
+Extend the '''bgerror''' interface so that a dictionary of return
+options is passed in as an additional argument:
+
+ > '''bgerror''' ''message'' ''returnOptionsDictionary''
+
+The new second argument to '''bgerror''' will be a Tcl dict value ([111])
+holding the value of the interp's return options dictionary at the
+time ''Tcl_BackgroundError'' was called.
+
+Stored in that dictionary will be values for the ''-level'' and ''-code''
+keys, and when those values indicate a TCL_ERROR triggered the
+''Tcl_BackgroundError'' call, the ''-errorinfo'', ''-errorcode'',
+and ''-errorline'' keys will have values as well.  Any other
+return options present in the interp's return options  dictionary
+at the time ''Tcl_BackgroundError'' is called will also be available
+in the argument passed to '''bgerror'''.
+
+Note that after this change, applications will be able to
+define a '''bgerror''' command that has no need to consult
+the variables '''::errorInfo''' or '''::errorCode''' at all.
+
+~ Detailed changes
+
+The private '''BgError''' struct will be re-written.  The '''errorMsg'''
+field will be changed to type ''(Tcl_Obj *)''.  The '''errorInfo''' and
+'''errorCode''' fields will be dropped.  A '''returnOptions''' field
+of type ''(Tcl_Obj *)'' will be added.
+
+The ''Tcl_BackgroundError'' routine will fill the '''errorMsg'''
+and '''returnOptions''' fields of a '''BgError''' with the
+result and return options dictionary of the interp, respectively,
+and arrange for idle handling just as it does now.
+
+The ''HandleBgErrors'' routine will pull the '''errorMsg'''
+and '''returnOptions''' fields from each '''BgError''' struct
+and construct a '''bgerror''' command with them as arguments.
+That command will be evaluated making use of ''TclObjInvoke'',
+with the same fallback to call a hidden '''bgerror''' that is
+already in place.  When calling '''bgerror''' with two arguments,
+the variables '''::errorInfo''' and '''::errorCode''' will not
+be set to match the entries in the return options dictionary.
+
+~ Compatibility
+
+Existing applications making use of the '''bgerror''' interface
+provide a '''bgerror''' command that expects exactly one argument.
+When Tcl attempts to call '''bgerror''' with two arguments, an
+error will result.
+
+To continue to compatibly support these applications, any TCL_ERROR
+returned by the '''bgerror''' calls with two arguments will lead
+to a fallback of calling '''bgerror''' with only one argument.
+During this fallback handling, the variables '''::errorInfo'''
+and '''::errorCode''' will be set to the values of the
+corresponding keys in the return options dictionary, if appropriate.
+
+The final fallback if a TCL_ERROR is returned from all four attempts
+to call '''bgerror'''  (exposed and hidden with two and one arguments)
+will continue to be a message written to the stderr channel
+of the process as determined by ''Tcl_GetStdChannel(TCL_STDERR)''.
+
+~ Reference Implementation
+
+Pending...
+
+~ Comments
+
+Please make any comments here.
+
+~ Copyright
+
+This document has been placed in the public domain.
