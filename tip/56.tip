@@ -1,11 +1,11 @@
 TIP:		56
 Title:		Standardize Call Interface to Tcl_Eval* Functions
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.4
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 Created:	28-Aug-2001
 
