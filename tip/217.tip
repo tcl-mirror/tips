@@ -1,8 +1,8 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         James P. Salsman <james@bovik.org>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        26-Aug-2004
