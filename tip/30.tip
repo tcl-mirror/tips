@@ -1,12 +1,13 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
 Author:         Todd M. Helfter <tmh@purdue.edu>
 Author:         Chengye Mao <chengye@bellsouth.net>
 Author:         George B. Smith <gbs@k9haven.com>
+Author:         Miguel Bañón <bagnonm@safelayer.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -189,7 +190,7 @@ assigned:
 
    77. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   78. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   78. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>, Miguel Bañón <bagnonm@safelayer.com>
 
    79. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
 
