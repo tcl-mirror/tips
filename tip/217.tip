@@ -1,6 +1,6 @@
 TIP:            217
 Title:          Getting Sorted Indices out of Lsort
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         James P. Salsman <james@bovik.org>
 State:          Draft
 Type:           Project
@@ -16,23 +16,26 @@ An '''-indices''' option is proposed for the '''lsort''' command, returning the 
 
 ~ Rationale
 
-When corresponding parallel lists must be accessed in the order given
-by sorting them all according to one of them used as a list of keys, it
-is necessary to obtain the indices of the key list's elements in the 
-order they would be sorted without actually sorting the list.  For 
-example, a list of first names and a corresponding list of last names 
-can be displayed in side-by-side Tk listboxes, and we may want to 
-sort both lists by either one used as the sorting key, or we may want
-to simultaniously iterate over both in either order. In order to do so, 
-merely sorting a list is unhelpful; we must obtain the indices of the 
-key list in the order that its corresponding elements would be sorted.
+When corresponding parallel lists must be simultaneously sorted or 
+accessed in the order given by sorting them all according to one used 
+as a list of keys, it is necessary to obtain the indices of the key list's elements in the order that they would be sorted, without 
+actually sorting the list.  For example, a list of first names and a 
+corresponding list of last names can be displayed in side-by-side Tk 
+listboxes, in which case we may want to sort both lists by either one 
+used as the sorting key, or we may want to simultaneously iterate over 
+both in either order.  To do so, merely sorting a list is unhelpful; 
+we need to obtain the indices of the key list in the order that its 
+corresponding elements would be sorted.
 
 Tk listboxes, database I/O, and statistics applications often 
 involve heavy use of parallel lists.  For this and other reasons, many
 programming languages starting at least as early as APL, up to 
-present-day numerics-oriented languages such as MATLAB, have included 
-the ability to directly obtain the indices required to access a list in 
-sorted order.
+present-day, numerics-oriented languages such as MATLAB, have included 
+the ability to directly obtain the indices required to access a list 
+(or "vector") in sorted order.  As shown below, the pure Tcl solution 
+to this problem can take more than 10 times as long as the given 
+reference implementation, which adds virtually no overhead when it is
+not invoked.
 
 ~ Proposed Specification
 
@@ -54,17 +57,17 @@ This means an alternative (though less efficient for single lists) mechanism for
 Available at http://www.bovik.org/lsort-indices-diff.txt
 
 That reference implementation is a 109-line context diff, involving 
-adding 20 lines of code to ''tclCmdIL.c'', no additional memory overhead
-and only one additional integer comparison if the new option is not
-invoked.
+adding 20 lines of code to ''tclCmdIL.c'', only one additional int 
+of data memory overhead, and just one additional integer comparison 
+at run time if the new option is not invoked.
 
 Compared to the following pure Tcl implementation, the reference 
-implementation takes just 15% of the execution time for a list of 
-50,000 random reals, and just 9% of the execution time for a list 
+implementation takes 15% of the execution time for a list of 50,000 
+random real numbers, and just 9% of the execution time for a list 
 of 5,000 random reals.  
 
 This pure Tcl implementation was adapted by Richard Suchenwirth from 
-an earlier version by the author.
+an earlier version by the author:
 
 | proc lsort-indices list {
 |   if [llength $list] {
@@ -100,7 +103,7 @@ lines:
 |  0 2 1
 |  % lsort -indices -unique -decreasing -real -index 0 \
 |          {{1.2 a} {34.5 b} {34.5 c} {5.6 d}}
-|  1 2 0
+|  2 3 0
 
 ~ Copyright
 
