@@ -1,9 +1,9 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        28-Jan-2004
