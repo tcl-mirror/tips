@@ -1,6 +1,6 @@
 TIP:            221
 Title:          Extend [bgerror] to Accept Return Options
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -107,10 +107,11 @@ During this fallback handling, the variables '''::errorInfo'''
 and '''::errorCode''' will be set to the values of the
 corresponding keys in the return options dictionary, if appropriate.
 
-The final fallback if a TCL_ERROR is returned from all four attempts
-to call '''bgerror'''  (exposed and hidden with two and one arguments)
-will continue to be a message written to the stderr channel
-of the process as determined by ''Tcl_GetStdChannel(TCL_STDERR)''.
+If a TCL_ERROR is returned from all four attempts
+to call '''bgerror'''  (exposed and hidden with two and one arguments),
+the ultimate fallback will continue to be a message written to the
+stderr channel of the process as determined
+by ''Tcl_GetStdChannel(TCL_STDERR)''.
 
 ~ Reference Implementation
 
