@@ -1,0 +1,100 @@
+TIP:		174
+Title:		Math Operators as Commands
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Kristoffer Lawson <setok@altparty.org>
+Created:	15-Mar-2004
+
+~ Abstract
+
+This TIP describes a proposal for math operators in Tcl as seperate
+commands, acting much like the equivalent in the Lisp language.  This
+would make simple usage of mathematics much clearer and could possibly
+facilitate a clean path for future [[expr]] extendibility.
+
+~ Rationale
+
+While the [[expr]] command works fairly well for longer mathematical
+expressions, it is extremely tedious for the most common uses, such as
+handling indices.  Take the following example:
+
+| set newList [lrange $list [expr {$idx - 5}] [expr {$idx + 5}]]
+
+Many find this particular aspect of Tcl unappealing.  It gets
+increasingly difficult to read as more and more simple mathematical
+expressions build up.
+
+In addition all functions related to mathematics are contained within
+the [[expr]] command with its own separate syntax and thus we
+effectively have two different kinds funtions with no obvious relation
+to one another: Tcl commands and mathematical functions.  This has
+been shown to be quite confusing to a new user and decreases the
+elegance of Tcl as a whole.
+
+~ Proposed Change
+
+ 1. I propose a group of Tcl commands which would handle mathematical
+    operations without the need to use [[expr]].  Each command would
+    take a varying amount of arguments and would work such that the
+    operator is applied to the combination of the first and second
+    argument.  The result of this combination is then used with the
+    operator for the third argument etc.  If only one argument is
+    given, it is returned as is.  A sample implementation of the ''+''
+    command in Tcl follows:
+
+| proc + {r args} {
+|     foreach operand $args {
+|         set r [expr {$r + $operand}]
+|     }
+|     return $r
+| }
+ 
+ 2. The exceptions to rule number 1 are the operators ! (logical NOT),
+    ~ (bitwise NOT) and x?y:z (if-then-else).  The first two only
+    accept one argument while if-then-else accepts three.
+
+ 3. All operator commands will be kept in the tcl::math::ops
+    namespace, from which they would most commonly be imported to the
+    global namespace.  Alternatively the math::ops namespace could be
+    used.
+
+ 4. Each [[expr]] mathematical function will be mirrored into a Tcl
+    command of the same name with the same results as its [[expr]]
+    counterpart.
+
+ 5. Each mathematical command will be kept in the tcl::math namespace.
+    Alternatively the math namespace could be used.
+
+ 6. As a result of 4 and 5, current [[expr]] functions will be marked
+    in the documentation as deprecated and that the Tcl commands
+    should be used instead, with a warning in the documentation that
+    they may be removed at some future time.  They will, however, be
+    kept in the language for as long as deemed necessary for purposes
+    of backwards compatibility.  [[expr]] functions offer no benefit
+    over their command counterparts and only result in extra
+    complexity and redundancy, which is something Tcl has done well to
+    avoid.
+
+ 7. The other aspects of the [[expr]] command will not be affected.
+ 
+As an example use, let us change the lrange line from above:
+
+| set newList [lrange $list [- $idx 5] [+ $idx 5]]
+
+This is clearly shorter and much easier on the eyes.  There is no need
+to consider the effects of bracing expressions.
+
+It is not the purpose of this TIP to discuss the necessity of
+providing an interface for dynamic [[expr]] expansion, but with the
+above interface we could possibly build a mechanism for doing this, by
+adding new commands to the appropriate namespace.  This would offer an
+alternative to [133].  Problems of precedence etc. that may result in
+such a facility are beyond the scope of this TIP.
+ 
+~ Copyright
+
+This document has been placed in the public domain.
