@@ -1,0 +1,68 @@
+TIP:		97
+Title:		Moving Vertices of Canvas Items
+Version:	$Revision: 1.1 $
+Author:		Agnar Renolen <agnar.renolen@emap.no>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Created:	07-Jun-2002
+Post-History:	
+
+~ Abstract
+
+This TIP proposes a canvas subcommand (or possibly two) that allows
+for replacing characters in text objects and to move individual
+vertices of line and polygon items.
+
+~ Rationale
+
+Interactive graphics programs often allow users to modify shapes of
+objects by selecting and dragging the vertices.  Moving one vertex of
+a canvas item in the current version of Tk, (at least as far as I can
+find out from the documentation), can only be done by first removing
+the coordinate by ''dchars'' and then insert the new one by
+''insert'', or for geometric items like lines and polygons using the
+''coords'' command to obtain and reset the coordinates, after having
+modified the coordinate list by ''lrepace''.
+
+The most important issue here, I think, is performance.  I believe
+that the current way of moving a vertex can be slow in some scenarios.
+
+The ''rchars'' command is proposed merely to conform with the
+''dchars'' and ''insert'' commands, which both operate on lines,
+polygons and text items, hence ''rchars'' should do that as well.
+
+~ Specification
+
+Two canvas widget commands are proposed: ''imove'' and ''rchars''.
+The following command is proposed to move a vertex of any canvas item:
+
+ > ''canvas'' imove ''tagOrID index x y''
+
+This command will move the ''index''th point of the item identified by
+''tagOrID'' to the new position given by ''x'' and ''y''.  The command
+should work for all canvas items.
+
+The following command provides a similar functionality, but conforms
+to the current ''insert'' and ''dchars'' commands.
+
+ > ''canvas'' rchars ''tagOrID first last string''
+
+This command will:
+
+ for text items: replace the characters in the range ''first'' and
+    ''last'' (inclusive) with the characters in ''string''.
+
+ for line and polygon items: replace the coordinates in the range
+    ''first'' and ''last'' (inclusive) with the coordinates specified
+    in ''string''.
+
+The names of the commands are negotiable.  The ''imove'' command is
+not strictly necessary as the ''rchars'' command can be used to obtain
+the same result.  However, I believe that a separate ''imove'' command
+can be implemented with a better performance with ''rchars''.
+
+~ Copyright
+
+This document has been placed in the public domain.
