@@ -1,9 +1,9 @@
 TIP:            124
 Title:          High-Resolution Absolute Time Values From [clock]
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Mark Harrison <mh@pixar.com>
 Author:         Kevin Kenny <kennykb@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        20-Dec-2002
