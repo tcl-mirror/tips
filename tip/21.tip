@@ -1,6 +1,6 @@
 TIP:            21
-Title:          Asymmetric Padding in the Pack Geometry Manager
-Version:        $Revision: 1.2 $
+Title:          Asymmetric Padding in the Pack and Grid Geometry Managers
+Version:        $Revision: 1.3 $
 Author:         D. Richard Hipp <drh@hwaci.com>
 State:          Draft
 Type:           Project
