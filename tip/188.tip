@@ -1,6 +1,6 @@
 TIP:		188
 Title:		Add 'string is wide' to the 'string is' Subcommand
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Kenny <kennykb@acm.org>
 State:		Draft
 Type:		Project
@@ -38,8 +38,8 @@ whitespace.
 
 Patches that implement '''string is wide''', provide test cases for
 it, and update ''doc/string.n'' to include it are available at
-SourceForge as Tcl feature request
-#940915[http://sf.net/tracker/?func=detail&atid=360894&aid=940915&group_id=10894].
+SourceForge as Tcl Patch
+#940915[http://sf.net/tracker/?func=detail&atid=310894&aid=940915&group_id=10894].
 
 ~ Copyright
 
