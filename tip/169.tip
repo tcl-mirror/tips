@@ -1,7 +1,8 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Brian Griffin <bgriffin@model.com>
+Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -40,22 +41,74 @@ is used to propagate widget updates when the data changes.
 |set peer [$widget peer create .peer]
 
 Once a peer is created it has all the rights and privileges of the
-creating parent.  There is no restriction on the peer's window 
-pathname.  The creating parent may also be destroyed without affecting the peer; only when the last window (peer or parent) is destroyed 
-will the data be deleted.
-
-Bindings are not shared, but remain with the widget.  This includes
-tag bindings.
+creating parent.  There is no restriction on the peer's window pathname.
+The creating parent may also be destroyed without affecting the peer;
+only when the last window (peer or parent) is destroyed will the data be
+deleted.
 
 In keeping with Tcl's introspection nature, a "peer names" method is
-added that will return a list of peer widgets. (should this list
-include itself?)
+added that will return a list of peer widgets.  This list does not
+include itself.
+
+Lastly, 'peer create' takes optional arguments to specify that the peer 
+only shows a subset of the lines from the parent:
+
+|set peer [$widget peer create .peer 53 125]
+
+will create a peer which contains lines 53 to 125 of the parent.
+
+~ Detailed Description
+
+All geometry/pixel-height information for peer widgets are calculated
+separately for each peer.  This means each peer can have different
+height, width, scrollbar state, (even overall font size) with no
+problems.
+
+The 'sel', 'insert', 'current' tag/marks are not shared.  They are
+widget specific.  Similarly the '-window' attribute of any embedded
+window is not shared, but widget specific (i.e. it can be configured
+separately for each peer).  The '-create' option of an embedded window
+now supports % substitution of its script to allow multiple peers all to
+have embedded windows in a relatively easy fashion.  '%W' is substituted
+by the embedding text widget pathname and '%%' by '%'.  So, for example,
+the following test works nicely:
+
+|test textWind-17.6 {peer widget window configuration} {
+|    catch {destroy .t .tt}
+|    pack [text .t]
+|    .t delete 1.0 end
+|    .t insert 1.0 "Some sample text"
+|    toplevel .tt
+|    pack [.t peer create .tt.t]
+|    .t window create 1.2 -create {frame %W.f -width 10 -height 20 -bg blue}
+|    update ; update
+|    set res [list [.t window configure 1.2 -window] \
+|      [.tt.t window configure 1.2 -window]]
+|    destroy .tt .t
+|    set res
+|} {{-window {} {} {} .t.f} {-window {} {} {} .tt.t.f}}
+
+All top-level text configuration options are widget-specific except
+those which involve the undo/redo/modified status of the widget, which
+are shared.
+
+Bindings are not shared, but remain with the widget.  Currently this
+includes tag bindings (but see below).
+
+~ Queries
+
+I think it would be better if tag bindings were shared (given that tags 
+are shared).  Unless anyone has a use-case showing why they should be
+independent, I'll update the implementation accordingly.
 
 ~ Reference Implementation
 
-A reference implementation based on Tcl 8.4.5 can be found at ftp://ftp.model.com/pub/tcl/textpeer845.tgz  This archive contains
-modified tkText*.[ch] files that implement the [$w peer create] and
-[$w peer names] methods described above.
+A reference implementation based on Tcl 8.5 is available at:
+
+http://sourceforge.net/tracker/?func=detail&atid=312997&aid=994629&group_id=12997
+
+This includes some new tests.  Documentation has been updated (but not
+in the patch listed).
 
 ~ Copyright
 
