@@ -1,6 +1,6 @@
 TIP:            60
 Title:          EXTERN Macro Change to Support a Wider Set of Attributes
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -84,14 +84,17 @@ In example.h is this:
 |#else
 |#   define EXPORT(a,b) a b
 |#endif
-
+|
 |EXTERN EXPORT(int,Example_Init) _ANSI_ARGS_((Tcl_Interp *interp));
 
 That work is doing the same job, but I prefer the method that I'm proposing.
 
-Is->
+Is>
+
 |	EXTERN int Foobar_Init (Tcl_Interp *interp);
-Want->
+
+Want>
+
 |	EXTERN(int) Foobar_Init (Tcl_Interp *interp);
 
 ~ Reference Implementation
