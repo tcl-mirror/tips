@@ -1,9 +1,10 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         János Holányi <csani@lme.linux.hu>
 Author:         <m13666@maidfnzgnl.ru>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Salvatore Sanfilippo <antirez@invece.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -92,6 +93,37 @@ taken from regsub(n))'':
 This has the disadvantage of being incompatible with existing code
 that makes use of the -regexp option to [[switch]] and which may well
 have characters matching the above sequences inside already.
+
+Another alternative can be to specify either -submatches, or -subindexes and
+use three elements for every switch case. The first is the regexp,
+the second the list of vars like in the [regexp] command, and the
+last the script to execute.
+
+|set string [getSomeComplexProtocolLine]
+|switch -regexp -submatches {
+|    {EHLO (.*)} {match heloarg} {
+|       puts "Helo $heloarg"
+|    }
+|    {MAIL FROM: <(.*)@(.*)>} {match user host} {
+|       puts "Mail from $user at $host"
+|    }
+|    {QUIT} {} {
+|       exit
+|    }
+|    default {} {
+|       puts "What a strange SMTP command!"
+|    }
+|}  
+
+Usually submatches have quite logical names, so it is possible
+that to refer they by name instead of to use [lindex] can be
+more comfortable. Another minor advantage of this is that variable
+names are very near the script, so it shouldn't be hard to follow
+what the script is doing.
+
+On the other side this changes a well-known fact of switch getting
+as input two elements for every case, and is possibly (probably)
+harder to implement.
 
 ~Reference Implementation
 
