@@ -1,0 +1,40 @@
+TIP:		113
+Title:		Multi-Line Searches in the Text Widget
+Version:	$Revision: 1.1 $
+Author:		Vince Darley <vincentdarley@users.sourceforge.net>
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	11-Oct-2002
+State:		Draft
+Post-History:	
+
+~ Abstract
+
+This TIP proposes extending the implementation of the ''$textwidget
+search'' subcommand to allow matching of both exact strings and regexp
+patterns which span multiple lines.
+
+~ Proposal
+
+If the string/pattern given to the ''search'' subcommand contains
+sub-strings/patterns which match newlines, then it will be possible
+for that command to return a match which spans multiple lines.  Where
+a match could occur both within a single line and across multiple
+lines, the first such match will be found, and the length of the match
+will follow the usual regexp rules, as documented in the regexp man
+page.
+
+This should be able to be implemented reasonably efficiently, given
+the ''TCL_REG_CANMATCH'' flag supported by the regexp library, with no
+impact at all on the speed of matching single lines.
+
+No additional flags or options are required, so there is no visible
+change to the Tcl language (beyond a minor change to the text widget
+man page to remove the "single line" caveat)
+
+There is as yet no reference implementation.
+
+~ Copyright
+
+This document has been placed in the public domain.
