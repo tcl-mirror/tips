@@ -2,8 +2,12 @@
 
 <!-- Written by Donal K. Fellows (fellowsd@cs.man.ac.uk), 1-5 Nov. 2000 -->
 
+<!-- $Id: tipxml.dtd,v 1.4 2001-10-31 11:10:15 dkf Exp $ -->
+
 <!-- This document is placed in the Public Domain. -->
 
+<!-- ================================================================== -->
+<!-- Entity declarations (a character, and several content models.)     -->
 <!-- ================================================================== -->
 <!ENTITY ff "&#12;"> <!-- form feeds are relatively common characters -->
                      <!-- in patches included verbatim... -->
@@ -17,19 +21,22 @@
 <!ENTITY % header.opt "discussions*, keyword*, obsoletes*, obsoleted*">
 
 <!-- kinds of 'paragraphs': only inner can go inside lists -->
-<!ENTITY % in.par     "para     | pre   | itemize | enumerate | describe" >
-<!ENTITY % out.par    "%in.par; | quote | rule    | index     | image" >
+<!ENTITY % in.par     "enumerate | para | pre   | itemize | describe" >
+<!ENTITY % out.par    "%in.par;  | rule | quote | index   | image" >
 
 <!-- Mixed content for conventional paragraphs -->
-<!ENTITY % emphtext   "#PCDATA   | url | tipref">
+<!ENTITY % emphtext   "#PCDATA | url | tipref">
 <!ENTITY % text       "%emphtext; | emph">
 
-<!-- The outermost element of a TIP -->
+<!-- ================================================================== -->
+<!-- The outermost element of a TIP.                                    -->
+<!-- ================================================================== -->
 <!ELEMENT TIP (header, abstract, body)>
 <!ATTLIST TIP number %num; #REQUIRED>
 
 <!-- ================================================================== -->
-<!-- Headers... -->
+<!-- TIP headers that are used for managing an archive.                 -->
+<!-- ================================================================== -->
 <!ELEMENT header (%header.req;, %header.opt;)>
 
 <!ELEMENT title  (#PCDATA)>
@@ -60,15 +67,26 @@
 <!ATTLIST obsoleted   tip  %num; #REQUIRED>
 
 <!-- ================================================================== -->
-<!-- The body of a TIP -->
+<!-- The body of a TIP: sections consist of paragraph-like content      -->
+<!--          optionally followed by subsections, subsections consist   -->
+<!--          of paragraph-like content followed by subsubsections, and -->
+<!--          subsubsections may only contain paragraph-like content.   -->
+<!-- ================================================================== -->
 <!ELEMENT body (section)+>
 
 <!ELEMENT abstract (%text;)*>
-<!ELEMENT section  (%out.par;)*>
+<!ELEMENT section  ((%out.par;)*, subsection*)>
 <!ATTLIST section  title CDATA #REQUIRED>
 
+<!ELEMENT subsection ((%out.par;)*, subsubsection*)>
+<!ATTLIST subsection  title CDATA #REQUIRED>
+
+<!ELEMENT subsubsection (%out.par;)*>
+<!ATTLIST subsubsection title CDATA #REQUIRED>
+
 <!-- ================================================================== -->
-<!-- Particles of sections... -->
+<!-- Particles of sections, all conceptually paragraph-like...          -->
+<!-- ================================================================== -->
 <!ELEMENT para  (%text;)*>
 <!ELEMENT quote (%text;)*>
 <!ELEMENT pre   (#PCDATA)>
@@ -83,7 +101,9 @@
 	>
 
 <!-- ================================================================== -->
-<!-- Lists... -->
+<!-- Lists are a special kind of paragraph-like content that can hold   -->
+<!--          some kinds of paragraph-like content but not all.         -->
+<!-- ================================================================== -->
 <!ELEMENT itemize   (item.i)+>
 <!ELEMENT enumerate (item.e)+>
 <!ELEMENT describe  (item.d)+>
@@ -95,7 +115,8 @@
 <!ATTLIST item.d  name  CDATA #REQUIRED>
 
 <!-- ================================================================== -->
-<!-- elements that can be embedded in paragraph-content -->
+<!-- Elements that are part of the flow of text in a paragraph.         -->
+<!-- ================================================================== -->
 <!ELEMENT emph (%emphtext;)*> <!-- emphs may not be nested -->
 <!ELEMENT url EMPTY>
 <!ATTLIST url ref %url; #REQUIRED>
