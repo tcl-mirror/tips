@@ -1,11 +1,11 @@
 TIP:            26
 Title:          Enhancements for the Tk Text Widget
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Ludwig Callewaert <ludwig_callewaert@frontierd.com>
 Author:         Ludwig Callewaert <ludwig.callewaert@belgacom.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        20-Feb-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl
