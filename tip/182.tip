@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -46,7 +46,7 @@ supported by the [[expr]] command.
 
 This would return "1" for any value of ''value'' that is non-zero
 (plus all non-numeric strings accepted as true by
-''Tcl_GetBoolean()'') and "0" otherwise.
+''Tcl_GetBoolean()'') and "0" otherwise.  If the value cannot be converted to a boolean, an error is raised.
 
 ~ Reference Implementation
 
