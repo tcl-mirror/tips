@@ -1,6 +1,6 @@
 TIP:            79
 Title:          Add Deletion Callback to Tcl_CreateObjTrace
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Final
 Type:           Project
@@ -9,7 +9,7 @@ Created:        03-Jan-2002
 Post-History:   
 Discussions-To: news:comp.lang.tcl
 Keywords:       trace,Tcl_Obj
-Tcl-Version:    8.5
+Tcl-Version:    8.4
 
 ~ Abstract
 
