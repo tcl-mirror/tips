@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Accepted
 Type:           Process
@@ -57,7 +57,7 @@ minimal units.
 
 ~ Proposal
 
-Tcl shall be divided into the following 52 functional units, each to be
+Tcl shall be divided into the following 53 functional units, each to be
 assigned one or more maintainers:
 
    Events: 
@@ -185,6 +185,11 @@ assigned one or more maintainers:
    >   1. ''list Object Type'' - doc/ListObj.3,
      generic/tclListObj.c,
      tests/listObj.test
+
+   >   1. ''dict Object Type'' - doc/DictObj.3,
+     doc/dict.n,
+     generic/tclDictObj.c,
+     tests/dict.test
 
    Fundamental Built-in Commands: 
 

@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -20,7 +20,7 @@ of Tcl ([16]).
 
 ~ Assignments
 
-Listed below are Tcl's 52 functional units, in the same order as
+Listed below are Tcl's 53 functional units, in the same order as
 in [16].  See [16] for the precise definition of what code belongs to
 what area.  The area names are changed to match the Categories in Tcl's
 SourceForge Bug Manager (http://sourceforge.net/bugs/?group_id=10894).
@@ -74,6 +74,8 @@ assigned:
    13. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
    14. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+
+   14. ''Dict Object'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
 
    15. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
