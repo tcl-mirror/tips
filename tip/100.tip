@@ -1,6 +1,6 @@
 TIP:            100
 Title:          Add Support for Unloading Dynamic Libraries Loaded with [load]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         George Petasis <petasis@iit.demokritos.gr>
 State:          Draft
 Type:           Project
@@ -172,7 +172,7 @@ If the developer cannot remove all reference to functions to the
 library, its better to not provide at all these two functions, so as
 unload to never attempt to unload the library.
 
-~ Dependencies among Libraries
+~ Dependencies Among Libraries
 
 It is possible that a library A has been loaded that exports some
 symbols.  Then a library B is loaded, that has dependencies (i.e. uses
@@ -186,10 +186,10 @@ if such symbols remain, even if the unload system call has been made
 for the library.  Both libraries A and B have to be unloaded in order
 for A to be really removed from the address space.
 
-~ Reference implementation
+~ Reference Implementation
 
 A reference implementation can be found at:
-https://sourceforge.net/tracker/index.php?func=detail&aid=823486&group_id=10894&atid=310894
+http://sf.net/tracker/?func=detail&aid=823486&group_id=10894&atid=310894
 
 ~ Copyright
 
