@@ -1,12 +1,13 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.40 $
+Version:        $Revision: 1.41 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Pavel Goran <pvgoran@newmail.ru>
 Author:          <dgp@users.sf.net>
+Author:         Daniel A. Steffen <das@users.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -39,9 +40,7 @@ of their expertise.
 For each of Tcl's functional units, the following maintainers are
 assigned:
 
-   1. ''Notifier'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                     Jim Ingham <jingham@apple.com> (Mac),
-                     Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX)
+   1. ''Notifier'' - Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX)
 
    1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -52,16 +51,11 @@ assigned:
    1. ''XT Notifier'' - 
 
    1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
-                              Daniel Steffen <das@users.sourceforge.net> (Mac),
-                              Jim Ingham <jingham@apple.com> (Mac),
-			      Jeff Hobbs <JeffH@ActiveState.com>
+ 			      Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Variables'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Environment Variables'' -
-        Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac)
-	Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Environment Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -103,8 +97,6 @@ assigned:
 
    1. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
                           Rolf Schroedter <Rolf.Schroedter@dlr.de> (WinSerial),
-                          Daniel Steffen <das@users.sourceforge.net> (Mac),
-                          Jim Ingham <jingham@apple.com> (Mac),
 			  Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''dde Package'' - Pat Thoyts <patthoyts@users.sourceforge.net>,
@@ -125,29 +117,27 @@ assigned:
         Don Porter <dgp@users.sourceforge.net>
 
    1. ''Pathname Management'' -
-        Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac),
 	Vincent Darley <vincentdarley@users.sourceforge.net>,
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                        Jim Ingham <jingham@apple.com> (Mac),
-			Vincent Darley <vincentdarley@users.sourceforge.net>,
-			Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''File System'' - Vincent Darley <vincentdarley@users.sourceforge.net>,
+			Jeff Hobbs <JeffH@ActiveState.com>,
+                        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                        Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Init - Library - Autoload'' -
         Don Porter <dgp@users.sourceforge.net>,
-        Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac),
-	Jeff Hobbs <JeffH@ActiveState.com>
+        Jeff Hobbs <JeffH@ActiveState.com>,
+        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+        Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
-                             Daniel Steffen <das@users.sourceforge.net> (Mac),
-                             Jim Ingham <jingham@apple.com> (Mac),
                              Jan Nijtmans <j.nijtmans@chello.nl>,
-			     Jeff Hobbs <JeffH@ActiveState.com>
+			     Jeff Hobbs <JeffH@ActiveState.com>,
+                             Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                             Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>,
                               Joe Mistachkin <joe@mistachkin.com>
@@ -166,40 +156,32 @@ assigned:
    1. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
-                      Daniel Steffen <das@users.sourceforge.net> (Mac),
-                      Jim Ingham <jingham@apple.com> (Mac),
 		      Jeff Hobbs <JeffH@ActiveState.com>,
                       Joe Mistachkin <joe@mistachkin.com>
 
    1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
-                              Daniel Steffen <das@users.sourceforge.net> (Mac),
-                              Jim Ingham <jingham@apple.com> (Mac),
 			      Jeff Hobbs <JeffH@ActiveState.com>,
                               Joe Mistachkin <joe@mistachkin.com>
 
-   1. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                          Jim Ingham <jingham@apple.com> (Mac),
-			  Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>,
+                          Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                          Jim Ingham <jingham@apple.com> (Mac OS X)
+			  
 
    1. ''Portability Support'' -
         Mo DeJong <mdejong@cygnus.com>,
-        Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac),
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>,
+   1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>,
+        Jeff Hobbs <JeffH@ActiveState.com>,
 	Lloyd Lim <lloydlim@users.sourceforge.net>,
-	Acacio Cruz <acacio@users.sf.net> (BSD)
+	Acacio Cruz <acacio@users.sf.net> (BSD),
+        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+        Jim Ingham <jingham@apple.com> (Mac OS X),
 
    1. ''Configuration Reporting'' - Andreas Kupries <a.kupries@westend.com>
 
    1. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
-
-   1. ''[[resource]]'' - Daniel Steffen <das@users.sourceforge.net>
-                      Jim Ingham <jingham@apple.com>
-
-   1. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
-                       Jim Ingham <jingham@apple.com>
 
 ~ Orphaned Categories
 
@@ -207,7 +189,14 @@ The following Categories in Tcl's SourceForge Bug Tracker should be
 mapped to new Categories corresponding to a maintained area of Tcl,
 when seeking the appropriate maintainer:
 
-   1. ''Other'' - Used for reports that span several categories.  Also
+   54. ''[[resource]] (obsolete)'' - Used for closed old reports about
+		the '''resource''' command that was implemented only on
+		the now unsupported Mac Classic platform.
+
+   55. ''Mac Classic (obsolete)'' - Used for closed old reports about
+		other issues on the now unsupported Mac Classic platform.
+
+   69. ''Other'' - Used for reports that span several categories.  Also
 		  includes many closed old reports from before the time
 		  the current categories were established.
 
