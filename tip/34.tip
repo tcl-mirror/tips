@@ -1,6 +1,6 @@
 TIP:            34
 Title:          Modernize TEA Build System
-Version:        $Revision: 2.4 $
+Version:        $Revision: 2.5 $
 Author:         Mo DeJong <supermo@bayarea.net>
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 State:          Accepted
@@ -58,7 +58,7 @@ ramifications.
 This change cannot be made incrementally, so there is a real danger of
 breaking the build for configurations that currently work.  For this
 reason, it would be a good idea to wait until a 8.4 release branch has
-been created before adding suck a change to the CVS HEAD.  The cross
+been created before adding such a change to the CVS HEAD.  The cross
 compiling section will describe some of the other maintenance benefits
 that can be realized by using ''config.sub'' and ''config.guess''.
 
