@@ -1,14 +1,15 @@
-TIP:		29
-Title:		Allow array syntax for Tcl lists
-Version:	$Revision: 1.1 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	07-Mar-2001
-Post-History:	
-Tcl-Version:	9.0
-Discussions-To:	news:comp.lang.tcl,mailto:kennykb@acm.org
+TIP:            29
+Title:          Allow array syntax for Tcl lists
+Version:        $Revision: 1.2 $
+Author:         Kevin Kenny <kennykb@acm.org>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        07-Mar-2001
+Post-History:   
+Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
+Tcl-Version:    9.0
 
 ~ Abstract
 
@@ -215,6 +216,10 @@ necessary changes to ''struct Var'' and the associated code).  In
 fact, the author of this TIP would much rather deprecate the use of
 ''upvar'' to refer to array elements.  A disproportionate amount of
 code goes into supporting this seldom-used feature.
+
+~ See Also
+
+[22]
 
 ~ Reference Implementation
 
