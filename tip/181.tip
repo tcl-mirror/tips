@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 Author:         1User <10q@ngs.com>
 Author:         durik <as@hotmail.com>
@@ -10,6 +10,7 @@ Author:         dff <cd@dd.com>
 Author:         man <ggg@mail.com>
 Author:         Zalupa <z@z.zoz>
 Author:         Jeff Hobbs <jeffh@activestate.com>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -19,6 +20,191 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-edited by JH to remove sp*mification
+edited by JH to remove sp*mification - reverted to 1.8 by RS
 
-edited by JH to remove sp*mification - needs revert to last good version
+Abstract
+This TIP proposing adding a new namespace subcommand, unknown, which would register a per-namespace procedure for dealing with unknown commands.
+
+Rationale
+There is an occassional need within Tcl scripts to change the way in which command names are resolved. For instance, when implementing language constructs such as object systems, or some functional programming ideas (such as anonymous first-class functions). In the case of implementing an object system, you may want a command to be searched for in the class namespace and then in the namespaces of any super-classes (assuming you have implemented classes in terms of namespaces containing procs). When trying to do anonymous functions, a useful technique is auto-expansion of leading word if a command is not found ([1] is an example of this technique).
+
+Furthermore, it is sometimes useful to create new behaviour for what happens when a command doesn't exist at all in the interpreter, for instance to implement custom auto-loading mechanisms.
+
+At present, Tcl's command resolution procedure tries to find commands in the current namespace, and then the global namespace, before finally using the global ::unknown proc to deal with unknown commands. There are several drawbacks with this mechanism.
+
+Firstly, it is not possible to override the command resolution process from Tcl, except by redefining the ::unknown procedure to perform your custom lookup. This is difficult if you are writing a package, as good style dictates that you shouldn't override the global ::unknown procedure without being explicitly asked to do so.
+
+Secondly, as Tcl searches for a hard-coded fallback procedure name (::unknown), in order to override it's functionality you have to rename it and then install your own replacement - and the new version becomes the default fallback behaviour for the entire application. In the case of implementing custom auto-loading behaviour, you may only want to override the behaviour for your package, and not for the entire interpreter. Currently, the only way to do this is to define a new ::unknown procedure which does pattern matching on the command name it is passed.
+
+Finally, if a package does override the ::unknown procedure it has to be careful to save the old handler, and then invoke it for commands which it is not interested in. This is an error-prone approach, and results in a cascade of procedure calls, often with each one only interested in a subset of the commands being searched for.
+
+Related TIPs
+There have been two previous attempts at modifying Tcl's command resolution process. TIP #52 proposed that the search order be changed to traverse the complete namespace hierachy from most specific namespace to the most general (the global namespace). This TIP was withdrawn as it was not backwards compatible. TIP #142 proposed a global variable which would hold a namespace search path. This TIP was also withdrawn as it does not allow different namespaces to have different search paths.
+
+Proposed Change
+This TIP proposes that the handling of unknown commands be done on a per-namespace basis through the introduction of an unknown subcommand of the namespace command.
+
+namespace unknown ?commandPrefix?
+
+The subcommand would accept either zero or one argument(s). If no arguments are given, the command returns the handler for the current namespace. The optional argument commandPrefix is a command (strictly a prefix list consisting of a command and optional arguments) to execute if command lookup from the current namespace fails. The command will be concatenated with the full invocation line of the command being searched for (i.e. the command name and all arguments), and evaluated in the scope of the current namespace. The first word in the list given must be a command name which must be able to be resolved without resorting to the unknown mechanism (i.e. it must either be a command in the current or global namespace, or be fully-qualified). If this cannot be done, a stock error message will be generated referring to the original unknown command (and not the missing handler) - this is how Tcl currently behaves if no ::unknown procedure exists.
+
+The command resolution procedure would be altered from this:
+
+Lookup command in current namespace.
+
+If that fails, lookup command in global namespace.
+
+If that fails, call global ::unknown procedure.
+
+to this:
+
+Lookup command in current namespace.
+
+If that fails, lookup command in global namespace.
+
+If that fails, call the unknown handler for the namespace in which the unknown command was invoked.
+
+Note that this TIP does not change (or allow changing) the default command resolution procedure - the current and global namespaces are always searched before the unknown handler is called. This is so that resolution of the unknown handler itself can be performed, and so that the handler can be implemented without resorting to fully qualifying every command in it (e.g. having to use ::set).
+
+The default unknown handler for the global namespace is a handler called ::unknown. The default handler for other namespaces calls the global unknown handler. This means that by default, we have exactly the same mechanism that exists currently in Tcl. In order to change the mechanism for an individual namespace, you may register a new unknown handler for that namespace. When no handler is registered for a namespace, then a call to namespace unknown will return an empty string (for non-global namespaces) or ::unknown for the global namespace. This is so that a distinction can be made between namespaces which have no handler set, and namespaces which have had an unknown handler called ::unknown deliberately registered for them. With this scheme it is possible to set a global per-interpreter unknown command handler by setting the unknown handler for the global namespace. This can then be overridden on a per-namespace basis, if required.
+
+The calling of unknown handlers registered with namespace unknown would be identical to the current calling of the ::unknown procedure - the handler will be called with the command name and all of its arguments, as it was originally invoked.
+
+Setting the unknown handler to {} (an empty string) restores the default handler (::unknown for global namespace, global unknown handler for all other namespaces).
+
+Notes on Ensembles
+TIP #112 (Namespaces are Ensembles are Commands) added some features which allow for flexible handling of unknown subcommands when using ensembles. It is worth noting here that this is not the same thing as handling unknown commands in general. For instance, consider the following code:
+
+namespace eval foo {
+   proc useful {args} { ... }
+
+   namespace eval bar {
+      proc carrot {arg1 args} {
+         useful $arg1
+      }
+   }
+}
+This case is thus different to that solved with ensembles.
+
+Examples
+Here are a few examples of the proposed functionality, in order to illustrate how it would work in practice. Firstly, here is the example from the previous section implemented via a custom unknown handler:
+
+namespace eval foo {
+   proc useful {args} { puts "USEFUL: $args" }
+
+   namespace eval bar {
+      namespace unknown [list resolve]
+      proc resolve {args} { namespace eval ::foo $args }
+      proc carrot {arg1 args} {
+         useful $arg1
+      }
+   }
+}
+Here is a more complicated example, of an object system with public/protected methods, showing how 'namespace unknown and namespace ensemble can be used together:
+
+namespace eval SuperClass {
+   # Define our "public" methods
+   namespace export hello create
+   namespace ensemble create
+   # Proc to create a new "instance"
+   proc create {name} {
+      namespace ensemble create -command $name
+   }
+
+   # This proc is "public"
+   proc hello {} { puts "Hello from SuperClass!" }
+
+   # This proc is "protected" - can be called by subclasses, but not directly
+   # via the ensemble
+   proc SomePrivateMethod {args} { puts "SUPER PRIVATE: $args" }
+}
+namespace eval SubClass {
+   # Public methods
+   namespace export do create
+   namespace ensemble create
+   # Handler to delegate to superclass
+   namespace unknown [list delegateSuper ::SuperClass]
+   proc delegateSuper {superclass args} {
+      uplevel 1 [list namespace eval $superclass $args]
+   }
+
+   proc create {name} {
+      # Create superclass instance
+      SuperClass create $name.super
+      # Create our instance
+      namespace ensemble create -command $name \
+              -unknown [list SubClass::dispatch $name.super]
+   }
+
+   # Used for handling direct calls to super class methods
+   proc dispatch {super this method args} {
+      return [linsert $args 0 $super $method]
+   }
+
+   # Our public method
+   proc do {arg1 args} {
+      SomePrivateMethod $arg1
+   }
+}
+
+SubClass create ::foo
+foo do a b c ;# -> prints "a"
+foo hello    ;# -> prints "Hello from SuperClass!"
+foo SomePrivateMethod ;# -> error...
+Finally, here is an example of an unknown handler which does more complicated processing:
+
+namespace eval foo {
+   namespace unknown infix
+
+   # Allow infix-style syntax
+   proc infix {args} {
+      if {[regexp (.+):$ [lindex $args 0] -> name]} {
+         set args [lreplace $args 0 0 $name =]
+      } ;# allow REBOL-style assignments (foo: bar; bar: 17+4)
+      if {[lindex $args 1]=="="} {
+         # maybe an assignment like "x = 3+4" ? (Blanks matter!)
+         upvar [lindex $args 0] _x
+         set rest [lrange $args 2 end]
+         if {[llength [info commands [lindex $args 2]]]} {
+            return [set _x [uplevel eval $rest]]
+         }
+         set _x $rest                ;# this should always work...
+         catch {set _x [expr $rest]} ;# ...but maybe expr is happy
+         return $_x
+      } elseif {[regexp {^([^ ]+)\+\+$} $args -> vname]} {
+         uplevel [list incr $vname]  ;# allow things lie "i++" ...
+      } elseif {[regexp {^([^ ]+)--$} $args -> vname]} {
+         uplevel [list incr $vname -1]         ;# ... or "j--"
+      } elseif {[regexp {^[-+/\*\.0-9 ()]+$} $args]} {
+         return [expr $args]         ;# pure expression? "(17+4)/3"
+      } else {
+         # Error
+         error "invalid command \"[lindex $args 0]\""
+      }
+   }
+
+   proc dostuff {} {
+      v = info tclversion
+      s = this is a string
+      j = sqrt(2)*3
+   }
+}
+This last example is taken from the Radical Language Modification page on the wiki[2].
+
+As a final note, there is a useful side-effect to always resolving the unknown handler itself in the current namespace, in that an unknown handler can be registered for the global namespace which is not fully qualified, and it will be resolved relative to the namespace in which an unknown command is invoked. To illustrate:
+
+ # Set global unknown handler to unqualified name
+ namespace unknown unknown
+ namespace eval foo { proc unknown {args} { puts "FOO" } }
+ proc unknown {args} { puts "GLOBAL" }
+
+ bar ;# prints GLOBAL
+ namespace eval foo { bar } ;# prints FOO
+ namespace eval other { bar } ;# prints GLOBAL
+Reference Implementation
+A reference implementation is available attached to Patch 958222 on the Tcl project at sourceforge.net:
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=958222&group_id=10894&atid=310894
+
+Copyright
+This document has been placed in the public domain.
