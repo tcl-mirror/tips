@@ -2,10 +2,10 @@ TIP:		98
 Title:		Adding Transparency Compositing Rules to Photo Images
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	09-Jun-2001
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Type:		Project
-State:		Draft
-Vote:		In progress
+State:		Accepted
+Vote:		Done
 Tcl-Version:	8.4
 Post-History:	
 
