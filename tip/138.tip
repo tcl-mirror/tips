@@ -1,0 +1,87 @@
+TIP:		138
+Title:		New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables
+Version:	$Revision: 1.1 $
+Author:		Kevin Kenny <kennykb@acm.org>
+Author:		Joe Mistachkin <joe@mistachkin.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	29-May-2003
+Post-History:	
+Keywords:	thread specific data, hash table, memory allocation
+Tcl-Version:	8.5
+
+~ Abstract
+
+This TIP proposes a new flag in the Tcl hash table API in support of a
+proposed rework of thread-specific data management.
+
+~ Introduction
+
+The Tcl hash table constructor, ''Tcl_InitCustomHashTable'', provides
+a reasonably flexible means of creating a hash table that is managed
+by the application.  It allows for custom procedures to calculate hash
+values for keys, to compare keys for equality, and to allocate and
+free hash table entries.
+
+It always, however, allocates the hash table itself by means of
+''ckalloc'' and ''ckfree''. This use of Tcl's main allocator is
+normally not a problem, but a recent application of custom hash tables
+has exposed the need, from time to time, of using the system allocator
+(''TclpSysAlloc'' and ''TclpSysFree'') directly.
+
+The motivating problem is that thread-specific data on certain
+versions of Windows is limited to only a small number of blocks per
+process (64 on at least one version).  The proposed fix, which Joe
+Mistachkin is pursuing, involves replacing the system calls for
+managing thread-local storage with calls that manage the
+thread-specific data blocks in a per-thread hash table.
+
+Reviewing and testing the change revealed an unfortunate circular
+dependency.  A call to ''Tcl_CreateHashTable'' would attempt to
+allocate the array of hash buckets by a call to ''ckalloc'' - which
+translates to ''TclpAlloc''.  On a threaded build, the first thing
+done in this routine is to retrieve the allocation cache via
+''TclpGetAllocCache.''  This in turn, once we avoid the use of
+''TlsAlloc'', winds up trying to create a thread-specific data block
+to hold the allocation cache.  The new thread-specific data manager in
+turn must allocate a hash table for the thread-specific data blocks.
+The outcome is endless recursion.
+
+The fix for the problem is simple - have either the allocation cache,
+the thread-specific data hash, or both, allocated off the system heap
+rather than the thread-specific allocation cache.  Unfortunately,
+''Tcl_InitCustomHashTable'' provides no way to accomplish this.
+
+~ Proposal
+
+The ''flags'' word in the ''Tcl_HashKeyType'' data structure shall be
+augmented with an additional value, ''TCL_HASH_KEY_SYSTEM_HASH''.  If
+this bit is set in the structure passed to ''Tcl_CreateHashTable'',
+then all memory allocated internally to manage the hash keys shall be
+obtained via direct calls to ''TclpSysAlloc'', ''TclpSysRealloc'', and
+''TclpSysFree'' rather than ''Tcl_Alloc'', ''Tcl_Realloc'' and
+''Tcl_Free.''
+
+~ Alternatives
+
+The authors considered and rejected the alternative of advancing
+''TCL_HASH_KEY_TYPE_VERSION'' and defining in the structure three new
+function pointers to allocate, reallocate, and free memory blocks.
+The additional complexity (and associated performance degradation)
+associated with dealing with two structure versions appeared to be
+unnecessary; it is difficult to imagine a situation where any
+allocator other than the system allocator or Tcl's own will be desired
+for the 'buckets' array, which varies widely in size.  Custom
+small-block allocators make much more sense for the hash values than
+they do for the table of hash buckets.
+
+~ Implementation Notes
+
+An implementation of this change is available from the SourceForge
+patch manager as item 731356.  It is part of a larger overhaul of the
+thread-specific data manager.
+
+~ Copyright
+
+This document is placed in the public domain.
