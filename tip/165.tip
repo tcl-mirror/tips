@@ -1,0 +1,85 @@
+TIP:		165
+Title:		A User-Data Field for Virtual Events
+Keywords:	Tk, substitution
+Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Version:	$Revision: 1.1 $
+Tcl-Version:	8.5
+Type:		Project
+State:		Draft
+Vote:		Pending
+Created:	17-Nov-2003
+Post-History:	
+
+~ Abstract
+
+This TIP proposes adding to virtual events a new field that is not
+interpreted by Tk.  This will make it far easier for user-code to pass
+information between creators and consumers of events instead of
+forcing the use of fragile global variables for this purpose.
+
+~ Rationale
+
+Virtual events are a powerful mechanism in Tk for representing
+window-related occurrences which are not part of the underlying window
+system's basic event model.  Examples of these higher-level events
+include <<MenuSelect>> and <<ListboxSelect>>, both of which may
+represent either particular key actions or particular mouse
+movements/clicks, but neither of which has deep significance to the
+windowing system.  They are very important to the application though!
+
+There is a problem with virtual events though, and that is that they
+do not provide a way of passing some kind of event-specific
+information via the event.  This means, among other things, that
+neither of the events mentioned above can actually say what it was
+that was selected, despite the fact that that would be a natural piece
+of information to include.
+
+Other potential uses include in a drag-and-drop system, where the
+information passed might be the data being dropped, and perhaps even
+inside Tk itself where refactoring many widgets (e.g. the spinbox or
+the scrollbar) to use virtual events for their semantic events would
+allow for programmers to track what is going on more easily, a
+refactoring which would require extra information describing which
+subcomponent of those widgets is being activated.  (Actually doing
+such a refactoring is outside the scope of this TIP though.)
+
+~ Specification
+
+To make this happen, an extra field is required in the XVirtualEvent
+defined in ''generic/tk.h'', which will be placed at the end of the
+structure and which will be declared like this (in keeping with the
+field naming scheme in the rest of that structure):
+
+|   Tcl_Obj *user_data;
+
+This field will normally be NULL, but if not it must be a pointer to a
+''Tcl_Obj'' structure with a non-zero reference count.  (This will
+still leave the XVirtualEvent structure smaller than an XCrossingEvent
+so no change to core structure sizes will be seen.)  Once the event
+has had all its binding callbacks called on it, the reference count of
+the user_data field will be decremented once (if it is non-NULL, of
+course.)  It will be up to the caller of ''Tk_HandleEvent()'' or
+''Tk_QueueWindowEvent()'' (depending on whether the event is being
+handled synchronously or asynchronously, respectively) to increment
+the reference count.
+
+The contents of that field will be substituted in binding scripts
+using the ''%d'' substitution ("d" for "data"), with a NULL being
+treated like an empty string.  In order to properly support
+substitution of empty strings, the %d substitution in this case will
+be done using brace/list-style quoting normally.  This is different to
+the other binding substitutions, but required to handle the empty
+string correctly.
+
+Generation of a virtual event with a non-NULL ''user_data'' field will
+be done using a new event-field option to ''event generate'':
+''-data''.  The value passed to that option will be the object to
+place inside the ''user_data'' field.
+
+~ Reference Implementation
+
+Not written yet.
+
+~ Copyright
+
+This document is placed in the public domain.
