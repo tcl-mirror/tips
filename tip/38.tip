@@ -1,6 +1,6 @@
 TIP:		38
 Title:          Add Support for Default Bindtags
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:         Bryan Oakley <boakley@austin.rr.com>
 State:		Draft
 Type:           Project
@@ -55,7 +55,9 @@ default for all.
 meta-characters, ala bind:
 
  %C: the widget class
+
  %W: the widget path for a specific instance of a widget
+
  %%: replaced with a single %
 
 For example:
