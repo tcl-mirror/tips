@@ -1,6 +1,6 @@
 TIP:            72
 Title:          64-Bit Value Support for Tcl on 32-Bit Platforms
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -183,6 +183,40 @@ argument will need to be recompiled (the size of ''Tcl_Value''
 changes), and functions that accept arguments of any type
 (''TCL_EITHER'') will need to be rewritten to handle wide integer
 values.  (I do not expect this to affect many extensions at all.)
+
+~ Why Tcl_WideInt?
+
+I chose the name ''Tcl_WideInt'' for the type because it represents a
+wider-than-normal integer.  Alternatives that were considered and
+rejected were:
+
+ Tcl_LongLong: This takes its name from the name of the underlying C
+    type used in many UNIX compilers, but that in turn was chosen
+    because it meant that no new keywords would be added to the
+    language, and not out of any feeling that the type name itself is
+    of any wider merit. Seeing as Tcl is a keyword-less language, there
+    is no particular reason for going down this route (which would
+    lead to things like a ''longlong()'' type conversion function added
+    to the [[expr]] command, which is really very ugly indeed...) It
+    is also not universally the name of the underlying type; the Windows
+    world is different (as usual.)
+
+ Tcl_Int64: This name, by contrast, comes more from the Windows world.
+    It's major problem is that it specifies eternally what the size of
+    the type is, whereas at some point in the future (when 64-bit words
+    are the norm) we may want to support something wider still (though
+    I do not yet know what uses we would put 128-bit integers to.)  I
+    believe that the name of a type is part of its specification, but
+    that the size of the type is less so.  ''Tcl_Int64'' is also ugly
+    when it comes to derivations of the name for things like the type
+    converter in [[expr]] (again) and the names of variables containing
+    values of the type (internally, as formal parameters, and as fields
+    of structures) and may well clash on systems where the C compiler
+    gives real meaning to ''int64'' by default.  By contrast,
+    ''Tcl_WideInt'' lends itself well to generating variable names
+    (''wideValue'', ''widePtr'', etc., and even just plain ''w'' in the
+    implementation of the bytecode execution engine) which, as the
+    person implementing the changes, was a major consideration.
 
 ~ Copyright
 
