@@ -2,7 +2,7 @@ TIP:		98
 Title:		Adding Transparency Compositing Rules to Photo Images
 Author:		Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Created:	09-Jun-2001
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Type:		Project
 State:		Final
 Vote:		Done
@@ -62,14 +62,15 @@ described above.
 
 ~ Implementation Notes
 
-Proposed implementation patch: https://sourceforge.net/tracker/index.php?func=detail&aid=566765&group_id=12997&atid=312997
+Proposed implementation patch:
+https://sourceforge.net/tracker/index.php?func=detail&aid=566765&group_id=12997&atid=312997
 
 The proposed implementation of this TIP naturally includes
 backward-compatibility functions that allow pre-compiled extensions to
 continue to operate without recompilation (provided they use Stubs for
 linking.)  Furthermore, extension authors can also define the symbol
-''USE_OLD_PHOTO_PUT_BLOCK'' when compiling and have source-level
-compatibility with the old functions.
+''USE_COMPOSITELESS_PHOTO_PUT_BLOCK'' when compiling and have
+source-level compatibility with the old functions.
 
 The proposed implementation also creates ''TkSubtractRegion'' as a new
 internal function; it is the analogue of ''XSubtractRegion'' as
