@@ -1,15 +1,16 @@
-TIP:		170
-Title:		Better Support for Nested Lists
-Version:	$Revision: 1.2 $
-Author:		Sergey Babkin <babkin@freebsd.org>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	30-Jan-2004
-Post-History:	
+TIP:            170
+Title:          Better Support for Nested Lists
+Version:        $Revision: 1.3 $
+Author:         Sergey Babkin <babkin@freebsd.org>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        30-Jan-2004
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 Nested lists are easy to create with Tcl but then manipulating them is
 not easy. For example, think about how to change a value nested in a
@@ -159,7 +160,7 @@ nested lists but to the lists in general.
    ''not'' replace ''concat'', which can be used to assemble lists
    from pieces in different argument strings.  The command returns the
    concatenated list.
-  
+
 |mset list-of-variable-names list-of-values
 
  > Set the values from the value list to the variable in the variable
@@ -202,7 +203,6 @@ nested lists but to the lists in general.
 |      return $res
 |   }
 
-
 |lvdup count element-list
 
  > This returns a list produced by duplicating the element-list count
@@ -228,6 +228,20 @@ fair amounts for both correctness and efficiency by usage in the Not A
 Commander project, the formal test suite would have to be written.
 Further progress in this direction depends on acceptance of this
 proposal.
+
+~Comments
+
+Messages on the TCLCORE mailing list have pointed out
+that nearly everything proposed here is either equivalent
+to, or trivially created by composition of the existing
+commands '''lindex''', '''lrange''', '''lset''',
+'''lassign''', and '''lrepeat'''.  The only novel
+thing proposed is the ability of '''lset''' to
+create new list elements.  If that's still desired,
+a separate new TIP proposing that alone would be 
+the best way to deal with that.
+
+I call on the author to withdraw this TIP.
 
 ~Copyright
 
