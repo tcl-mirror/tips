@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -40,135 +40,145 @@ assigned:
                      Jim Ingham <jingham@apple.com> (Mac),
                      Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX)
 
-   1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   2. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Timer Events'' - Kevin Kenny <kennykb@acm.org>
+   3. ''Timer Events'' - Kevin Kenny <kennykb@acm.org>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Async Events'' - 
+   4. ''Async Events'' - 
 
-   1. ''XT Notifier'' - 
+   5. ''XT Notifier'' - 
 
-   1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
+   6. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
                               Daniel Steffen <das@users.sourceforge.net> (Mac),
-                              Jim Ingham <jingham@apple.com> (Mac)
+                              Jim Ingham <jingham@apple.com> (Mac),
+			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Variables'' - Miguel Sofer <mig@utdt.edu>
+   7. ''Variables'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Environment Variables'' -
+   8. ''Environment Variables'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac)
+	Jeff Hobbs <JeffH@ActiveState.com>
+   9. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Linked C Variables'' - 
+   10. ''Compiler and Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Compiler and Objects'' - Miguel Sofer <mig@utdt.edu>
+   11. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Conversions from String'' - 
+   12. ''ByteArray Objects'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''ByteArray Objects'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   13. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   14. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   15. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   16. ''Commands I-L'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands I-L'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   17. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   18. ''History'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''History'' - 
+   19. ''Interp Command'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Interp Command'' - 
+   20. ''Namespaces'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Namespaces'' - Miguel Sofer <mig@utdt.edu>
+   21. ''Procedures'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Procedures'' - Miguel Sofer <mig@utdt.edu>
+   22. ''Scan Command'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Scan Command'' - 
+   23. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>
+   24. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>
+   25. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>
-
-   1. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
+   26. ''Channel Types'' - Andreas Kupries <a.kupries@westend.com>,
                           Rolf Schroedter <Rolf.Schroedter@dlr.de> (WinSerial),
                           Daniel Steffen <das@users.sourceforge.net> (Mac),
-                          Jim Ingham <jingham@apple.com> (Mac)
+                          Jim Ingham <jingham@apple.com> (Mac),
+			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''dde Package'' - Kevin Kenny <kennykb@acm.org>
+   27. ''dde Package'' - Kevin Kenny <kennykb@acm.org>
 
-   1. ''http Package'' - 
+   28. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''msgcat Package'' - 
+   29. ''msgcat Package'' - 
 
-   1. ''opt Package'' - 
+   30. ''opt Package'' - 
 
-   1. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
+   31. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
 
-   1. ''Safe Base'' - 
+   32. ''Safe Base'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Tcltest'' - 
+   33. ''Tcltest'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Pathname Management'' -
+   34. ''Pathname Management'' -
         Daniel Steffen <das@users.sourceforge.net> (Mac),
         Jim Ingham <jingham@apple.com> (Mac),
-	Vincent Darley <vincentdarley@users.sourceforge.net>
+	Vincent Darley <vincentdarley@users.sourceforge.net>,
+	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
+   35. ''File System'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
                         Jim Ingham <jingham@apple.com> (Mac),
-			Vincent Darley <vincentdarley@users.sourceforge.net>
+			Vincent Darley <vincentdarley@users.sourceforge.net>,
+			Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Init - Library - Autoload'' -
+   36. ''Init - Library - Autoload'' -
         Don Porter <dgp@users.sourceforge.net>,
         Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac)
+        Jim Ingham <jingham@apple.com> (Mac),
+	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>
+   37. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
+   38. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
                              Daniel Steffen <das@users.sourceforge.net> (Mac),
                              Jim Ingham <jingham@apple.com> (Mac),
-                             Jan Nijtmans <j.nijtmans@chello.nl>
+                             Jan Nijtmans <j.nijtmans@chello.nl>,
+			     Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Memory Allocation'' - 
+   39. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Memory Preservation'' - 
+   40. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Regexp'' -
+   41. ''Regexp'' -
 
-   1. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   42. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>
+   43. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Bytecodes'' - Miguel Sofer <mig@utdt.edu>
+   44. ''Bytecodes'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
+   45. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
                       Daniel Steffen <das@users.sourceforge.net> (Mac),
-                      Jim Ingham <jingham@apple.com> (Mac)
+                      Jim Ingham <jingham@apple.com> (Mac),
+		      Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
+   46. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
                               Daniel Steffen <das@users.sourceforge.net> (Mac),
-                              Jim Ingham <jingham@apple.com> (Mac)
+                              Jim Ingham <jingham@apple.com> (Mac),
+			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
-                          Jim Ingham <jingham@apple.com> (Mac)
+   47. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
+                          Jim Ingham <jingham@apple.com> (Mac),
+			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Portability Support'' -
+   48. ''Portability Support'' -
         Mo DeJong <mdejong@cygnus.com>,
         Daniel Steffen <das@users.sourceforge.net> (Mac),
-        Jim Ingham <jingham@apple.com> (Mac)
+        Jim Ingham <jingham@apple.com> (Mac),
+	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>
+   49. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Other Tools'' - 
+   50. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''resource Command'' - Daniel Steffen <das@users.sourceforge.net>
+   51. ''resource Command'' - Daniel Steffen <das@users.sourceforge.net>
                       Jim Ingham <jingham@apple.com>
 
-   1. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
-                      Jim Ingham <jingham@apple.com>
+   52. ''Macintosh'' - Daniel A. Steffen <steffen@ics.mq.edu.au>,
+                       Jim Ingham <jingham@apple.com>
 
 ~ Orphaned Categories
 
@@ -178,38 +188,38 @@ when seeking the appropriate maintainer:
 
    1. ''Build'' - map to ''Configure and Build Tools''.
 
-   1. ''Clock'' - map to ''Time Measurement''.
+   2. ''Clock'' - map to ''Time Measurement''.
 
-   1. ''CodeCleanup'' - map to section of code being cleaned up.
+   3. ''CodeCleanup'' - map to section of code being cleaned up.
 
-   1. ''Commands'' - map to the specific command or one of ''A-H'',
+   4. ''Commands'' - map to the specific command or one of ''A-H'',
       ''I-L'', or ''M-Z''.
 
-   1. ''Docs'' - no longer a separate Category.  Map to the section
+   5. ''Docs'' - no longer a separate Category.  Map to the section
       of code being documented.
 
-   1. ''Exec and Pipe'' - map to ''Channel Types''.
+   6. ''Exec and Pipe'' - map to ''Channel Types''.
 
-   1. ''File System (trash)'' - map to ''File System''.
+   7. ''File System (trash)'' - map to ''File System''.
 
-   1. ''I18N'' - map to ???
+   8. ''I18N'' - map to ???
 
-   1. ''Installation'' - map to ''Configure and Build Tools''.
+   9. ''Installation'' - map to ''Configure and Build Tools''.
 
-   1. ''Other'' - reassign once area is determined.
+   10. ''Other'' - reassign once area is determined.
 
-   1. ''Other IO'' - reassign to appropriate ''Channel'' category.
+   11. ''Other IO'' - reassign to appropriate ''Channel'' category.
 
-   1. ''Packaging'' - map to ???
+   12. ''Packaging'' - map to ???
 
-   1. ''Sockets'' - map to ''Channel Types''.
+   13. ''Sockets'' - map to ''Channel Types''.
 
-   1. ''Tests'' - no longer a separate Category.  Map to the section
+   14. ''Tests'' - no longer a separate Category.  Map to the section
       of code being tested.
 
-   1. ''Unix'' - map to specific problem on Unix.
+   15. ''Unix'' - map to specific problem on Unix.
 
-   1. ''Windows'' - map to specific problem on Windows.
+   16. ''Windows'' - map to specific problem on Windows.
 
 ~ Sections Without Maintainers
 
