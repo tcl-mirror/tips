@@ -1,6 +1,6 @@
 TIP:            87
 Title:          Allow Tcl Access to the Recursion Limit
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Stephen Trier <sct@po.cwru.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -52,7 +52,7 @@ proposed in this TIP will make this possible in pure Tcl code.
    recursion limits.
 
  > If an interpreter changes its own recursion limit to a value lower
-   than the current the Tcl_Eval nesting level, the limit will be
+   than the current Tcl_Eval nesting level, the limit will be
    changed, then an error message appropriate to this particular
    situation will be issued by the recursionlimit command.
    (Error text: "falling back due to new recursion limit")
