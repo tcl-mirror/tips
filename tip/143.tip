@@ -1,6 +1,6 @@
 TIP:            143
 Title:          An Interpreter Resource Limiting Framework
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -38,7 +38,30 @@ sledgehammers to take to this particular nut.  Luckily we control the
 execution environment - it is a Tcl interpreter after all - so we can
 implement our own checks.  It is this that is the aim of this TIP.
 
-~General Specification
+~~Efficiency
+
+Efficiency of any resource monitoring system is naturally a major
+concern; it is relatively simple to create a resource monitoring system
+but quite a lot harder to arrange for that monitoring to be cheap enough
+that its use does not greatly impact on the general speed of the program
+(in this case, Tcl.)  The costs of checking time limits in particular
+can be somewhat excessive because of the necessity of performing a
+system call to carry out the check, but if you're performing any action
+a lot, it can get costly.
+
+My strategy for limiting the impact upon performance is to provide a
+programmer-tunable per-limit parameter called the granularity.  This
+specifies how often (out of all the locations in the processing of the
+Tcl interpreter and bytecode engine) the limits should be checked; the
+granularity is per-limit because there is this distinct difference in
+the cost of checking different kinds of limits, and the limits are
+tunable because the ideal frequency depends very largely on the code
+being limited.  This can be combined with the fact that the test to see
+if ''any'' limits have been turned on can be made extremely cheap (i.e.
+just a comparison of a memory location to zero) and it allows unlimited
+interpreters to perform at almost the same speed as before.
+
+~A Tcl API for Limit Control
 
 I propose to add a subcommand '''limit''' to the '''interp''' command and
 to the object-like interpreter access commands.  It will be an error
@@ -67,13 +90,14 @@ the following:
 
  -value: For controlling the actual value of the limit, and expected
    to be an integer value of some form when a limit is set.  If no
-   limit is set, the '''-value''' property will always be the empty string.
+   limit is set, the '''-value''' property will always be the empty
+   string.
 
  -command: A Tcl script to be executed in the global namespace of the
    interpreter reading/writing the property when the limit is found to
    be exceeded in the limited interpreter.  If no command callback is
-   defined ''for this interpreter'', the '''-command''' option will be the
-   empty string.  Note that multiple interpreters may set command
+   defined ''for this interpreter'', the '''-command''' option will be
+   the empty string.  Note that multiple interpreters may set command
    callbacks that are distinct from each other; an interpreter may not
    see what other interpreters have installed (except by running a
    script in those foreign interpreters, of course.)  The order of
@@ -248,29 +272,6 @@ reason (including a call to '''Tcl_LimitRemoveHandler''' and deleting
 the limited interpreter) the ''deleteProc'' is called to release the
 resources consumed by the ''clientData'' context.
 
-~Possible Future Directions
-
-There are some obvious other things that could be brought within this
-framework, but which I've left out for various reasons:
-
- call stack: We already do limiting of this, so bring that within this
-   framework would be a nice regularisation.  On the other hand, such
-   a change would not be backward-compatible, and it might not be safe
-   to perform the callbacks either (especially as overflowing the
-   stack is fatal in a way that overrunning on time is not.)
-
- memory: Limiting the amount of memory that an interpreter may
-   allocate for its own use would be very nice.  But conceptually
-   difficult to do (what about memory shared between interpreters?),
-   expensive to keep track of (memory debugging is known to add a lot
-   of overhead, and memory limiting would be more intrusive) and a
-   really big change technically too (i.e. you'd be rewriting a
-   significant fraction of the Tcl C API to make sure that every
-   memory allocation knows which interpreter owns it.)
-
- open channels, file sizes, etc.: Most other things can be limited in
-   Tcl right now without special support.
-
 ~Use Cases
 
 ~~WebServices
@@ -303,6 +304,29 @@ could be impacted by some malicious code to be controllable, having
 control over the number of commands that may be executed and how long
 those commands may take gives a much higher degree of control than
 currently exists, and is thus a monotonic improvement.
+
+~Possible Future Directions
+
+There are some obvious other things that could be brought within this
+framework, but which I've left out for various reasons:
+
+ call stack: We already do limiting of this, so bring that within this
+   framework would be a nice regularisation.  On the other hand, such
+   a change would not be backward-compatible, and it might not be safe
+   to perform the callbacks either (especially as overflowing the
+   stack is fatal in a way that overrunning on time is not.)
+
+ memory: Limiting the amount of memory that an interpreter may
+   allocate for its own use would be very nice.  But conceptually
+   difficult to do (what about memory shared between interpreters?),
+   expensive to keep track of (memory debugging is known to add a lot
+   of overhead, and memory limiting would be more intrusive) and a
+   really big change technically too (i.e. you'd be rewriting a
+   significant fraction of the Tcl C API to make sure that every
+   memory allocation knows which interpreter owns it.)
+
+ open channels, file sizes, etc.: Most other things can be limited in
+   Tcl right now without special support.
 
 ~Implementation
 
