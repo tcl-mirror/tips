@@ -1,14 +1,14 @@
 TIP:            14
 Title:          Access to Tk Photo Image Transparency
-Version:        $Revision: 2.0 $
+Version:        $Revision: 2.1 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
-Tcl-Version:	8.4.0
 Vote:           Pending
 Created:        22-Nov-2000
-Keywords:	Tk, photo, transparency, internal, access
 Post-History:   
+Keywords:       Tk,photo,transparency,internal,access
+Tcl-Version:    8.4.0
 
 ~ Abstract
 
@@ -77,20 +77,23 @@ member is (currently) internal, I propose adding the function to the
 ~ Changes to the Tcl-Level API
 
 I propose to add an extra subcommand to photo image instances which
-will provide all the access to transparency data, and eventually allow
-for manipulation of it as well.  I propose to call this subcommand
-''transparency'' and it will have subsubcommands to provide access to
-the various facilities it provides.  Initially I will provide a
-''get'' subsubcommand to allow the testing of the transparency of a
-single pixel (returned as a boolean value); I anticipate that this
-will be expanded in the future to allow the manipulation of
-transparencies of rectangular regions (both getting and setting) but I
-do not supply such at this stage.
+will provide all the access to and manipulation of transparency data.
+I propose to call this subcommand ''transparency'' and it will have
+subsubcommands to provide access to the various facilities it provides.
+Initially I will provide a ''get'' subsubcommand to allow the testing
+of the transparency of a single pixel (returned as a boolean value),
+and a ''set'' subsubcommand to allow the setting of the transparency of
+a single pixel.  I anticipate that these will be expanded in the future
+to allow the manipulation of transparencies of rectangular regions
+(both getting and setting) but I do not supply such at this stage.
 
 |   image create photo phImg -file thingy.gif
 |   if {[phImg transparency get 0 0]} {
 |      # Top-left pixel is transparent...
 |   }
+|
+|   # Toggle transparency...
+|   phImg transparency set 0 0 [expr {![phImg transparency get 0 0]}]
 
 ~ Partial Sample Implementation Patch
 
