@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -119,10 +119,11 @@ the following releases of Tcl/Tk:
 The following branch tags label branches of development from which
 releases of Tcl/Tk are generated:
 
-   * ''HEAD'' - current development of new features; spawns 8.4.''X''
-     releases.
+   * ''HEAD'' - current development of new features; spawns future
+     alpha and beta releases.
 
-   * ''core-8-3-1-branch'' - bug fix branch; spawns 8.3.X releases.
+   * ''core-8-4-branch'' - bug fix branch; spawns 8.4.''X'' releases
+     after 8.4.2.
 
 ~ Branch Tags - Features
 
@@ -178,6 +179,8 @@ have been merged into an official branch, or rejected.
    * ''core-8-3-1-io-rewrite'' (Tcl) - Work rewriting Tcl's IO Channels
      to correct problems with the implementation of stacked channels.
      Merged into Tcl 8.3.2 and Tcl 8.4a2.
+
+   * ''core-8-3-1-branch'' - Spawned Tcl/Tk 8.3.X releases.
 
    * ''core-8-2-1-branch'' - Spawned Tcl/Tk 8.2.X releases.
 
