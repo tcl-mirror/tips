@@ -1,13 +1,13 @@
-TIP:           6
-Title:         Include [Incr Tcl] in the Core Tcl distribution
-Version:       $Revision: 1.2 $
-Author:        Mark Harrison <markh@usai.asiainfo.com>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.4.0
-Vote:          Pending
-Created:       16-Oct-2000
-Post-History:
+TIP:            6
+Title:          Include [Incr Tcl] in the Core Tcl distribution
+Version:        $Revision: 1.3 $
+Author:         Mark Harrison <markh@usai.asiainfo.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Oct-2000
+Post-History:   
+Tcl-Version:    8.4.0
 
 ~ Abstract
 
@@ -17,13 +17,17 @@ Include [[Incr Tcl]] in the Core Tcl distribution.
 
 [[incr Tcl]] (http://tcltk.com/itcl/) shall be included in the core
 Tcl distribution.  It shall be included in the Tcl source tree, and
-built as part of the standard Tcl distribution.  It shall remain a
-dynamically loaded extension, accessible via "package require" and
-"namespace import".
+built as part of the standard Tcl distribution.
 
-Specifically not included are "itclsh" and the obsolete "itcl_*"
-commands.  These can be provided in an independent itcl compatibility
-package for those that need it.
+Specific items:
+
+*  "itclsh" will not be included
+
+*  "itcl_*" commands will not be included
+
+*  everything will move from ::itcl to ::
+
+*  the "find" subcommands will be reintegrated into "info"
 
 ~ Rationale
 
