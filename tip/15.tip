@@ -1,14 +1,14 @@
 TIP:            15
 Title:          Functions to List and Detail Math Functions
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
-Tcl-Version:	8.4.0
 Vote:           Pending
 Created:        22-Nov-2000
-Keywords:	Tcl, expr, function, introspection
 Post-History:   
+Keywords:       Tcl,expr,function,introspection
+Tcl-Version:    8.4.0
 
 ~ Abstract
 
@@ -31,6 +31,11 @@ I propose the creation of two functions that fulfil this rôle;
 ''Tcl_GetMathFuncInfo'' and ''Tcl_ListMathFuncs''.  These functions
 will be documented on the same manual page as ''Tcl_CreateMathFunc''.
 
+Furthermore, I also propose that the ''info'' command in the Tcl
+interpreter be extended to include a new subcommand, ''functions'',
+which will allow Tcl scripts to discover the list of installed
+functions (by acting as a thin veneer over ''Tcl_ListMathFuncs''.)
+
 ~ Tcl_GetMathFuncInfo
 
 This function will take an interpreter reference, a function name (as
@@ -49,6 +54,11 @@ allocated by Tcl, and should be freed with ''Tcl_Free''.
 |                        ClientData *clientDataPtr);
 
 The parameter names are chosen by analogy with ''Tcl_CreateMathFunc''.
+
+In the case where a math function is defined internally by the bytecode
+engine and has no standard implementation (all the builtin functions in
+8.4a2 are like this) the value placed in the variable indicated by the
+''procPtr'' argument will be NULL.
 
 ~ Tcl_ListMathFuncs
 
@@ -71,7 +81,13 @@ returned (albeit one that is not a simple value.)  It is not
 anticipated that the performance of this function will need to be
 crucial to too many applications.
 
-Maybe this should be mapped to an ''info'' subcommand.
+~ info functions
+
+This new subcommand will provide access from Tcl scripts to the
+functionality of ''Tcl_ListMathFuncs''.  It will take a single optional
+argument consisting of a pattern to pass on as the ''pattern'' argument
+(with the absence of the argument indicating that NULL is to be passed
+instead.)
 
 ~ Copyright
 
