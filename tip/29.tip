@@ -1,11 +1,11 @@
 TIP:            29
 Title:          Allow array syntax for Tcl lists
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        07-Mar-2001
 Post-History:   
 Discussions-To: news:comp.lang.tcl,mailto:kennykb@acm.org
