@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -274,7 +274,7 @@ With that structure, we are confident the resource is always
 freed, but any error or exception will be presented to the
 caller exactly as if it had never been caught in the first place.
 
-Finally, two examples of how to use the new features in a 
+Here are two examples of how to use the new features in a 
 control structure proc.  The essence of a control structure
 command is its ability to evaluate a script in the caller's
 context, preserving the illusion that no additional stack
@@ -325,7 +325,7 @@ the stack trace before ''uplevel'' added anything.  Then we could add
 our own information (drawing in part on the new "-errorline" value
 available to us now at the script level).
 
-Finally, we confirm that either approach solves the original problem:
+We confirm that either approach solves the original problem:
 
 | % proc a {} {eval {return -code error}}
 | % proc b {} {myEval {return -code error}}
@@ -336,6 +336,34 @@ Finally, we confirm that either approach solves the original problem:
 | 1
 | % catch c
 | 1
+
+Finally, the new feature make possible a utility command that
+can be of use to people making simple control structure commands,
+or doing simple wrapping, where there is no need to augment the
+stack trace, or to treat any return codes in a special way:
+
+| namespace eval control {
+|     proc ascaller script {
+|         if {[info level] < 2} {
+|             return -code error \
+|                     "[lindex [info level 0] 0] called outside a proc"
+|         }
+|         variable result
+|         variable options
+|         set code [uplevel 2 \
+|                 [list ::catch $script   [namespace which -variable result] \
+|                                         [namespace which -variable options]]]
+|         if {$code == 0} {
+|             return $result
+|         }
+|         dict incr options -level 2
+|         return -options $options $result
+|     }
+| }
+
+Within a proc, ''ascaller $script'' will take care of all aspects
+of evaluating ''$script'' in the caller context, and exiting as
+appropriate for all non-TCL_OK return codes.
 
 ~ Potential Concerns
 
