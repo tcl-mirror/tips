@@ -1,14 +1,14 @@
-TIP:		125
-Title:		Adding [wm toplevel] Subcommand
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Brian Griffin <bgriffin@model.com>
-Created:	20-Jan-2003
-Keywords:	reparent
+TIP:            125
+Title:          Adding [wm toplevel] Subcommand
+Version:        $Revision: 1.2 $
+Author:         Brian Griffin <bgriffin@model.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Jan-2003
+Post-History:   
+Keywords:       reparent
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -33,7 +33,7 @@ children widgets of the frame will follow along, unchanged.
 ~ Reference Implementation
 
 ftp://ftp.model.com/pub/tcl/reframe contains patch files as well as
-Linux and Win32 builds of 8.3.4.  A 8.4.1 build will appear soon.
+Linux and Win32 builds of 8.3.4 and 8.4.1.
 
 The ''demo.tcl'' file illustrates the basic function.
 
@@ -46,6 +46,24 @@ ain't got no Mac)
 What happens with "." (the main window) or when ''-use''/''-container''
 options are in use is unknown.  Most likely, these conditions would
 restrict the use of this command.
+
+What to do with menus which can be part of a Toplevel?
+
+~ Alternatives
+
+An alternative to extending the wm command is to make this feature either a method or a configure option of the Toplevel and Frame widget.
+
+A. [$w detach] to convert a Frame into a Toplevel, and [$w attach] to convert a Toplevel into a Frame.
+
+B. [$w configure -toplevel 1] to convert a Frame into a Toplevel, and [$w configure -toplevel 0] to convert a Toplevel into a Frame.
+
+These different approaches (wm, method, config) depend on how the feature is viewed.  One view is that the of changing the nature or class  (Toplevel, Frame) of the widget.  An alternative view is that of changing "who" manages the widget (wm, place, grid, pack).
+
+I suppose another alternative is to follow the precedent of the geometry managers:
+
+* wm $w ?-transient <parent>? ?-overrideredirect <boolean>? ...
+
+* wm forget $w
 
 ~ Copyright
 
