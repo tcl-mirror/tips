@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.33 $
+Version:        $Revision: 1.34 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -128,7 +128,8 @@ The keys and values in the dictionary ''value'' of the "-options"
 option are pulled out and treated as additional ''option value''
 arguments to the ''return'' command.  Note that this "-options" option
 for option expansion is offered only because Tcl itself has no
-syntax for argument expansion, as observed many, many times before.
+syntax for argument expansion, as observed many,
+many times before (for example, [103]).
 
 The ''result'' argument, if any, is stored in the interp as the
 result of the ''return'' command.  In default operation, this
