@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -55,6 +55,12 @@ format will be up to the particular image format code, as always.)
    pair of hex digits that specify an integer alpha value in the range
    0 (fully transparent) to 255 (fully opaque).
 
+ * Any pixel colour format that is not the empty string and which does
+   not have a '''@A''' suffix may have a '''#X''' suffix, where X is a
+   single hex digit that specifies an integer alpha value in the range
+   0 (fully transparent) to 255 (fully opaque).  This is expanded in
+   range from 4 bits wide to 8 bits wide by multiplication by 0x11.
+
  * All pixel colours that have neither of the foregoing suffixes are
    to be interpreted as being fully opaque, which is the current
    situation anyway.
@@ -64,6 +70,20 @@ format will be up to the particular image format code, as always.)
    value of the red channel, green channel, blue channel and alpha
    channel respectively in that order.  An absent alpha channel is to
    be interpreted as full opacity.
+
+ * Two additional pixel formats are to be supported, consisting of a
+   '''#''' followed by exactly four or eight hexadecimal digits.  When
+   four digits are present, they will be interpreted as containing data
+   for the ''ARGB'' channels (in that order), and each digit will be
+   expanded internally to 8-bits wide by multiplication by 0x11.  When
+   eight digits are present, they will be interpreted as containing data
+   for the ''ARGB'' channels (in that order) with two digits for each
+   channel.
+
+ > Note that these formats are '''#ARGB''' not '''#RGBA''' because
+   '''#ARGB''' seems to occur more commonly on the web and the other way
+   round can be written with the addition of an extra '''#''' (i.e. as
+   '''#RGB#A''').
 
 Additionally, the ''photoImageInstance'' '''transparency''' command's
 subcommands will be updated in the following way:
@@ -98,6 +118,17 @@ Retrieve the alpha value of a pixel near the middle of the image
 created previously.
 
 |set aVal [transExample transparency get 5 5 -alpha]
+
+Create a green box with a simple shadow effect
+
+|image create photo foo
+|# Make a simple graduated fill varying in alpha for the shadow
+|for {set i 14} {$i>0} {incr i -1} {
+|   set i2 [expr {$i+30}]
+|   foo put [format black%x [expr {15-$i}]] -to $i $i $i2 $i2
+|}
+|# Put a solid green rectangle on top
+|foo put #080 -to 0 0 30 30
 
 ~Reference Implementation
 
