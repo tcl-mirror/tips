@@ -1,6 +1,6 @@
 TIP:            75
 Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         János Holányi <csani@lme.linux.hu>
 Author:         <m13666@maidfnzgnl.ru>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
@@ -66,7 +66,7 @@ if the ''default'' branch is taken.
 ~Example
 
 |set string "some long complicated message"
-|switch -matchvar foo -indexvar bar {
+|switch -matchvar foo -indexvar bar -regexp -- $string {
 |   {\w*(e)\w*} {
 |      puts "matched [lindex $foo 0] with 'e' at [lindex $bar 1 0]"
 |   }
