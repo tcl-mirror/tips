@@ -1,9 +1,9 @@
 TIP:            53
 Title:          Addition of 'assert' Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Gerald W. Lester <Gerald.Lester@aspentech.com>
 Author:         Kevin Kenny <kennykb@acm.org>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        14-Aug-2001
