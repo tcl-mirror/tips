@@ -1,17 +1,18 @@
-TIP:		75
-Title:		Refer to Sub-RegExps Inside 'switch -regexp' Bodies
-Version:	$Revision: 1.1 $
-Author:		János Holányi <csani@lme.linux.hu>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	28-Nov-2001
-Post-History:	
-Tcl-Version:	8.4
+TIP:            75
+Title:          Refer to Sub-RegExps Inside 'switch -regexp' Bodies
+Version:        $Revision: 1.2 $
+Author:         János Holányi <csani@lme.linux.hu>
+Author:          <m13666@maidfnzgnl.ru>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Nov-2001
+Post-History:   
 Discussions-To: http://purl.org/mini/cgi-bin/chat.cgi
-Keywords:	switch,regexp,parentheses
+Keywords:       switch,regexp,parentheses
+Tcl-Version:    8.4
 
-~Abstract
+~ Abstract
 
 Currently, it is necessary to match a regular expression against a
 string twice in order to get the sub-expressions out of the matched
