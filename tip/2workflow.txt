@@ -1,0 +1,7 @@
+  Draft --> Accepted --> Final
+   ^ |
+   | +----> Rejected
+   | |
+   | +----> Withdrawn
+   | V
+Deferred

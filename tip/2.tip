@@ -1,0 +1,249 @@
+TIP:	 2
+Title:	 TIP Guidelines
+Version: $Id: 2.tip,v 1.1 2000-11-30 13:07:34 fellowsd Exp $
+Author:  Andreas Kupries <a.kupries@westend.com>
+Author:  Donal K. Fellows <fellowsd@cs.man.ac.uk>
+State:	 Draft
+Type:	 Process
+Vote:	 Pending
+Created: 12-Sep-2000
+Post-History: 
+
+~ Abstract
+
+This document describes and defines the editorial process a TCT
+document (TIP) has to go through before accepted as official.
+
+~ What is a TIP?
+
+TIP stands for Tcl Improvement Proposal.  A TIP is a design document
+providing information to the Tcl community, or describing a new
+feature for Tcl.  The TIP should provide a concise technical
+specification of the feature and a rationale for the feature.
+
+We intend TIPs to be the primary mechanisms for proposing new
+features, for collecting community input on an issue, and for
+documenting the design decisions that have gone into Tcl.  The TIP
+author is responsible for building consensus within the community and
+documenting dissenting opinions.
+
+Because the TIPs are maintained as text files under revision control,
+their history is the historical record of the feature proposal.  This
+historical record is available by the normal (CVS?) commands for
+retrieving older revisions.  For those without direct access to the
+CVS tree, you can browse the current and past TIP revisions via
+http://tip.web.site/
+
+Further details on the arguments behind the evolution of the TIP
+concept and formatting can be found in the archive of the ''tclcore''
+mailing list at http://dev.scriptics.com/lists/tclcore/
+
+~ Kinds of TIPs
+
+There are three kinds of TIPs.  A project TIP describes a new (or
+significantly updated) feature or implementation for Tcl.  An
+informative TIP describes a Tcl design issue, or provides general
+guidelines or information to the Tcl community, but does not propose a
+new feature.  A process TIP is like an informative TIP but the
+provided guidelines are mandatory in a certain context (as specified
+in the TIP itself).
+
+Voting by the TCT as per the charter (see [0]) is required to make a
+project or process TIP official.
+
+~ TIP Workflow
+
+The TIP editor, Donal K. Fellows <fellowsd@cs.man.ac.uk> ''pro tem'',
+assigns numbers for each TIP and changes its status.
+
+Everyone in the community can submit a TIP to the TIP editor.  It
+should contain at least a proposed title and a rough, but fleshed out,
+draft of the TIP.
+
+If the TIP editor approves, he will assign the TIP a number, label it
+as either project, process or informational, give it status ''Draft'',
+and create and check-in the initial draft of the TIP.  The TIP editor
+will not unreasonably deny a TIP.  Reasons for denying TIP status
+include gross malformatting, inappropriate copyright, duplication of
+effort, being technically unsound, or not in keeping with the Tcl
+philosophy; the TCT and after that John Ousterhout
+<john.ousterhout@ajubasolutions.com> is the final arbitrator of the
+latter, as defined in the charter ([0]).
+
+Discussion concerning a TIP should initially be kept out of the
+tclcore and tct mailing lists.  Instead, comments should be sent to,
+and collected by, the TIP author, who has the responsibility to
+incorporate these comments into the document.
+
+''Note:'' It has been proposed to create a new mailing list for each
+TIP to handle its discussion.  Rejection and finalization of the TIP
+closes the mailing list, but not the archive.  Together with the CVS
+history a complete record of the development of a TIP will be
+available.
+
+The authors of the TIP are responsible for writing the TIP and
+marshaling community support for it.  The structure of a TIP is
+described in detail in [3].
+
+A project TIP consists of two parts, a design document and a reference
+implementation.  The TIP should be reviewed and accepted before a
+reference implementation is begun, unless a reference implementation
+will aid people in studying the TIP.  The implementation can be given
+in the form of code, patch, or URL to same - before it can be
+considered ''Final''; small reference implementations may be placed
+inside the TIP itself, and large reference implementations should be
+held externally and linked to by reference (typically URL.)
+
+Process and Informational TIPs do not need an implementation.
+
+TIP authors are responsible for collecting community feedback on a TIP
+before submitting it for review (the creation of a TIP is a part of
+that review process.)  However, wherever possible, long open-ended
+discussions on public mailing lists should be avoided.  A better
+strategy is to encourage public feedback directly to the TIP author,
+who collects and integrates the comments back into the TIP.
+
+Once the authors have completed a TIP, they must inform the Tcl Core
+Team that it is ready for review.  TIPs are reviewed by the Tcl Core
+Team and (for Project TIPs) the maintainers for the relevant parts of
+the core, who may accept or reject a TIP or send it back to the
+author(s) for revision (as detailed in [0].)  The acceptance or
+rejection of a TIP will cause its state to be changed accordingly to
+''Accepted'' or ''Rejected''.
+
+Once a TIP requiring a reference implementation has been accepted, the
+reference implementation must be completed.  When the reference
+implementation is complete and accepted by the TCT (who can reject it
+if they feel the implementation would damage the rest of the core) the
+status will be changed to ''Final''.
+
+A TIP can also be assigned status ''Deferred''.  The TIP author or the
+editor can assign the TIP this status when no progress is being made
+on the TIP.  Once a TIP is deferred, the TIP editor can re-assign it
+to ''Draft'' status.
+
+A TIP can also be ''Withdrawn'' by the author.  Perhaps after all is
+said and done, the author believes it was not a good idea.  It is
+still important to have a record of this fact.  It is expected that
+''Accepted'' TIPs will only be withdrawn very rarely, and ''Final''
+TIPs only under exceptional circumstances.
+
+TIP workflow is as follows:
+
+#image:2workflow TIP Workflow
+
+Some informative TIPs may also have a status of ''Active'' if they are
+never meant to be completed.  For example: [1].
+
+~ What belongs in a successful TIP?
+
+Each TIP should have the following parts:
+
+ 1. ''Title'' - a short, descriptive title.
+
+ 2. ''Author''(s) - names and contact info (email addresses) for each
+    author.
+
+ 3. ''Abstract'' - a short (typically <200 word) description of the
+    technical issue being addressed.
+
+ 4. ''Copyright''/public domain - Each TIP must either be explicitly
+    labelled in the public domain (the preferred 'license') or the
+    Open Publication License (http://www.opencontent.org/openpub/).
+    It is recommended that this be done by making the last section of
+    the document be a copyright heading, with the body describing what
+    copyright (if any) the document is released under.
+
+ 5. ''Specification'' - Project TIPs should have a technical
+    specification that should describe the syntax and semantics of any
+    new language feature.  The specification should be detailed enough
+    to allow (competing) interoperable implementations for any of the
+    current Tcl platforms.
+
+ 6. ''Rationale'' - The rationale fleshes out the specification by
+    describing what motivated the design and why particular design
+    decisions were made.  It should describe alternate designs that
+    were considered and related work, ''e.g.'' how the feature is
+    supported in other languages.
+
+ >  The rationale should provide evidence of consensus within the
+    community and discuss important objections or concerns raised
+    during discussion.
+
+ 7. ''Reference Implementation'' - The reference implementation must
+    be completed before any TIP requiring such is given status
+    ''Final'', but it need not be completed before the TIP is
+    accepted.  It is better to finish the specification and rationale
+    first and reach consensus on it before writing code.
+
+ >  The final implementation must include test code and documentation
+    appropriate for either the Tcl language reference or the standard
+    library reference.
+
+~ TIP Style
+
+TIPs are written in plain ASCII text with an RFC822-like header and
+embedded sequences suitable for Wiki-like processing as indicated in
+[3].
+
+There are Tcl scripts that converts the TIP into HTML for viewing on
+the web.  Scripts for producing other formats are available too, for
+example LaTeX and plain ASCII.
+
+~ Sample Process TIP
+
+(With thanks to William H. Duquette <William.H.Duquette@jpl.nasa.gov>
+for suggesting this.)  Note that the TIP Editor is responsible for
+allocating TIP numbers, so you can leave that unfilled.
+
+|TIP:           ???
+|Title:         The TIP Title as Plain Text
+|Version:       $Revision: 1.1 $
+|Author:        Author Name <author@somewhere.com>
+|State:         Draft
+|Type:          Project
+|Tcl-Version:   8.4
+|Vote:          Pending
+|Created:       31-Feb-1999
+|Post-History:
+|
+|~ Abstract
+|
+|This is an example of how to write a simple project TIP.  This is the
+|abstract which should consist of a single paragraph of under 200
+|words.  If you need more than this, you should stop and think about
+|writing a real abstract, not a whole section!  :^)
+|
+|~ Some Sections
+|
+|Yada yada yada.  Look at the sources to the various TIPs for tricks
+|on how to do various things.  ''Note that for complete legal safety,
+|you must specify what copyright is used.''  We prefer public domain,
+|as it allows others (notably the TIP editor(s)) to maintain the TIP
+|as necessary without having to seek permission.
+|
+|I also prefer to make sure TIP and section titles are capitalized
+|according to the usual rules of English.
+|
+|~ Copyright
+|
+|This document has been placed in the public domain.
+
+A more complex example is [7] by Kevin Kenny <kennykb@acm.org> (the
+source is at http://www.cs.man.ac.uk/fellowsd-bin/TIP/7.tip) and which
+includes demonstrations of how to use advanced features like figures
+and verbatim text.  His is a very high quality TIP though, and it has
+been though several revisions; don't feel too put off if your first
+attempt isn't quite as good...
+
+~ Patches
+
+For preference, patches to Tcl should be stored separately on another
+website or submitted as a separate file.  This is because (quite
+rightly) the news:comp.lang.tcl.announce moderator does not allow
+patches to be posted on that newsgroup.  If you want a patch to be
+incorporated into the archive, please contact the TIP Editor.
+
+~ Copyright
+
+This document has been placed in the public domain.

@@ -1,0 +1,95 @@
+TIP:           6
+Title:         Include [Incr Tcl] in the Core Tcl distribution
+Version:       $Id: 6.tip,v 1.1 2000-11-30 13:07:35 fellowsd Exp $
+Author:        Mark Harrison <markh@usai.asiainfo.com>
+State:         Draft
+Type:          Project
+Tcl-Version:   8.4.0
+Vote:          Pending
+Created:       16-Oct-2000
+Post-History:
+
+~ Abstract
+
+Include [[Incr Tcl]] in the Core Tcl distribution.
+
+~ Proposal
+
+[[incr Tcl]] (http://tcltk.com/itcl/) shall be included in the core
+Tcl distribution.  It shall be included in the Tcl source tree, and
+built as part of the standard Tcl distribution.  It shall remain a
+dynamically loaded extension, accessible via "package require" and
+"namespace import".
+
+Specifically not included are "itclsh" and the obsolete "itcl_*"
+commands.  These can be provided in an independent itcl compatibility
+package for those that need it.
+
+~ Rationale
+
+The lack of a standard object and data abstraction system continues to
+hinder Tcl development.
+
+  > "Lets face it, not including any sort of OO system is one of
+    the major failings of Tcl. Indexing into global arrays is
+    a sad hack when compared to a real OO system."
+           ''- Mo DeJong <mdejong@cygnus.com>''
+
+Earlier this year, it seemed that it would finally be included in Tcl
+8.4, but that plan was rescinded.
+
+Note that this is distinct from the "batteries included" (BI)
+distribution, and is not intended to be a model for building the BI
+distribution.  It is a special case for inclusion in the core tcl
+command set, since a "class" command is a fundamental language
+construct.
+
+~ Alternatives
+
+Include [[incr Tcl]] in a "batteries included" (BI) distribution.
+
+Many people will not opt for the BI distribution ([4]) due to its
+larger size.  It is quite likely that (for example) a Linux
+distribution my include Tcl as a standard component, but place the BI
+on a supplemental disk.
+
+~ Objections
+
+''I don't want any object system included!''
+
+You can delete the [[incr Tcl]] library with no harm to your code.
+
+''John Ousterhout hates objects!''
+
+This misconception is primarily due to a misreading of one of his
+papers.  A better summary of his position is that "scripting is a
+better solution than objects in many cases."  John Ousterhout has told
+me that he will not stand in the way of adding object-oriented
+programming to Tcl.
+
+''[[incr Tcl]]'s object model is not good!''
+
+[[incr Tcl]] supports the same object model as C++ and Java.  Many
+programmers are familiar with this model and accept it as a good
+model.
+
+''The CLOS object model is better!''
+
+Quoting John Ousterhout, "People vote with their feet".  For whatever
+reason, slot-based systems failed to gain as much popularity as
+C++/Java-like systems.
+
+''There are many Tcl object systems to choose from!''
+
+None are even a fraction as long-lived, popular, or well-supported as
+[[incr Tcl]].
+
+~ Special Provisions
+
+Since [[incr Tcl]] still exists as a separately named entity, this TIP
+shall not be construed as relieving any individual from the
+responsibility of providing appropriate [[incr Apparel]].
+
+~ Copyright
+
+This document has been placed in the public domain.
