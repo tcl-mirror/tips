@@ -1,6 +1,6 @@
 TIP:            169
 Title:          Add Peer Text Widgets
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -30,8 +30,8 @@ data.
 
 The proposed implementation splits the widget structure into two
 pieces, sharable data and widget specific rendering parts.  The text
-tree, tags, marks, images, and undo stack would be placed in a
-reference counted, shared section, while the tkwin, fonts, colors,
+tree, tags (including their colours and fonts), marks, images, and undo stack would be placed in a
+reference counted, shared section, while the widget configuration options for tkwin, fonts, colors,
 bindings, etc., would remain with the widget.  A method (peer create)
 is added that will create a new widget that will share the data with
 it's "parent."  The shared data also contains a list of peers which
@@ -91,10 +91,10 @@ All top-level text configuration options are widget-specific except
 those which involve the undo/redo/modified status of the widget, which
 are shared.
 
-Bindings are not shared, but remain with the widget.  Currently this
-includes tag bindings (but see below).
+~ To Do
 
-~ Queries
+In the current patch (and in the original version of this TIP), bindings are not shared, but remain with the widget.  Currently this
+includes tag bindings (but see below).
 
 I think it would be better if tag bindings were shared (given that tags 
 are shared).  Unless anyone has a use-case showing why they should be
