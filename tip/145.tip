@@ -1,6 +1,6 @@
 TIP:            145
 Title:          Enhanced Tk Font Handling
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -36,14 +36,14 @@ changes to the system-wide font selection.
 
 ~ Proposed Changes
 
-~~ Generic changes
+1. Generic changes
 
 The named font creation routine ''CreateNamedFont'' is to be exposed
 on the public API as ''Tk_CreateNamedFont''.  Also, the code used to
 delete a named font should be factored out into an API function,
 ''Tk_DeleteNamedFont''.
 
-~~ Windows platform specific changes
+2. Windows platform specific changes
 
 A ''TkWinSetupSystemFonts'' function is to be created which obtains
 the font description for the system fonts and calls
@@ -74,21 +74,21 @@ proposed that these should really be "monospace", "serif" and
 and "fantasy" but there seems no good reason to include these two
 names.
 
-~~ System defined fonts
+~ System defined fonts
 
-~~~ Windows
+1. Windows
 
 The current set of special font names that Tk defines under windows
 are as follows, all with  -underline 0 -overstrike 0 -slant roman
 
-    ansi           -family {MS Sans Serif}  -size 8  -weight normal
-    ansifixed      -family {Courier New}    -size 10 -weight normal
-    defaultgui     -family {MS Shell Dlg}   -size 8  -weight normal
-    device         -family System           -size 10 -weight bold
-    fixed          -family {Courier New}    -size 10 -weight normal
-    oemfixed       -family Terminal         -size 9  -weight normal
-    system         -family System           -size 10 -weight bold
-    systemfixed    -family Fixedsys         -size 9  -weight normal
+|    ansi           -family {MS Sans Serif}  -size 8  -weight normal
+|    ansifixed      -family {Courier New}    -size 10 -weight normal
+|    defaultgui     -family {MS Shell Dlg}   -size 8  -weight normal
+|    device         -family System           -size 10 -weight bold
+|    fixed          -family {Courier New}    -size 10 -weight normal
+|    oemfixed       -family Terminal         -size 9  -weight normal
+|    system         -family System           -size 10 -weight bold
+|    systemfixed    -family Fixedsys         -size 9  -weight normal
 
 These are: ansi, windows variable pitch system font; ansifixed, a
 monospace version of ansi; defaultgui, default GDI font for menus and
@@ -96,12 +96,12 @@ dialog boxes; system, used for system.....
 
 We can additionally provide from Windows system settings
 
-    TkCaptionFont      -family {Trebuchet MS} -size 10 -weight bold
-    TkIconFont         -family Tahoma         -size 8  -weight normal
-    TkMenuFont         -family Tahoma         -size 8  -weight normal
-    TkMessageFont      -family Tahoma         -size 8  -weight normal
-    TkSmallCaptionFont -family Tahoma         -size 8  -weight bold
-    TkStatusFont       -family Tahoma         -size 8  -weight normal
+|    TkCaptionFont      -family {Trebuchet MS} -size 10 -weight bold
+|    TkIconFont         -family Tahoma         -size 8  -weight normal
+|    TkMenuFont         -family Tahoma         -size 8  -weight normal
+|    TkMessageFont      -family Tahoma         -size 8  -weight normal
+|    TkSmallCaptionFont -family Tahoma         -size 8  -weight bold
+|    TkStatusFont       -family Tahoma         -size 8  -weight normal
 
 These are fairly obvious. The caption font appears in the window title
 bar, the icon font for desktop icons, message font for message boxes,
@@ -110,94 +110,95 @@ thin title bars. Finally status font is the font used for tooltips and
 status bars. All these Tk* fonts can be changed via the Windows
 Desktop properties dialog.
 
-~~~ Motif
+2. Motif
 
-    XmNbuttonFontList		(for pushbuttons in dialogs)
-    XmNlabelFontList		(for labels)
-    XmNtextFontList		(for text entry fields)
-    XmNdefaultFontList		(for everything else)
+|    XmNbuttonFontList		(for pushbuttons in dialogs)
+|    XmNlabelFontList		(for labels)
+|    XmNtextFontList		(for text entry fields)
+|    XmNdefaultFontList		(for everything else)
 
-~~~ GNOME
+3. GNOME
 
 Gnome or GTK+ documentation, but the Gnome 2.2 "Font Preferences"
 dialog lets you specify:
 
-    Application font
-    Desktop font
-    Window title font
-    Terminal font
+|    Application font
+|    Desktop font
+|    Window title font
+|    Terminal font
 
 It appears that all GTK+ UI controls use the same "Application" font.
 
-~~~ KDE
+4. KDE
 
 KDE's font preferences dialog lists:
 
-    General
-    Fixed Width
-    Toolbar
-    Menu
-    Window Title
-    Taskbar
+|    General
+|    Fixed Width
+|    Toolbar
+|    Menu
+|    Window Title
+|    Taskbar
 
-~~~ Aqua
+5. Aqua
 
 Aqua defines the following [2]:
 
-     System font
-     Emphasized system font
-     Small system font
-     Emphasized small system font
-     Application font
-     Label font
-     Mini system font
+|     System font
+|     Emphasized system font
+|     Small system font
+|     Emphasized small system font
+|     Application font
+|     Label font
+|     Mini system font
 
-    The system font is used for text in menus, modeless dialogs, and titles
-    of document windows [...]
-    The small system font is used for informative text in alerts [...]. It
-    is also the default font for headings in lists, for help tags, and for
-    text in the small versions of many controls.
-    If your application creates text documents, use the application
-    font as the default for user-created content.
-    The label font is used for labels with controls such as sliders and icon
-    bevel buttons.
-    If necessary, the mini system font can be used for utility window labels
-    and text.
-    Use emphasized system fonts sparingly.
+The system font is used for text in menus, modeless dialogs, and titles
+of document windows [...]
+The small system font is used for informative text in alerts [...]. It
+is also the default font for headings in lists, for help tags, and for
+text in the small versions of many controls.
+If your application creates text documents, use the application
+font as the default for user-created content.
+The label font is used for labels with controls such as sliders and icon
+bevel buttons.
+If necessary, the mini system font can be used for utility window labels
+and text.
+Use emphasized system fonts sparingly.
 
 An alternative reference [3] lists
 
-    kThemeSystemFont
-    kThemeSmallSystemFont
-    kThemeSmallEmphasizedSystemFont
-    kThemeViewsFont
-    kThemeEmphasizedSystemFont
-    kThemeApplicationFont
-    kThemeLabelFont
-    kThemeMenuTitleFont
-    kThemeMenuItemFont
-    kThemeMenuItemMarkFont
-    kThemeMenuItemCmdKeyFont
-    kThemeWindowTitleFont
-    kThemePushButtonFont
-    kThemeUtilityWindowTitleFont
-    kThemeAlertHeaderFont
-    kThemeSystemFontDetail
-    kThemeSystemFontDetailEmphasized
-    kThemeToolbarFont
+|    kThemeSystemFont
+|    kThemeSmallSystemFont
+|    kThemeSmallEmphasizedSystemFont
+|    kThemeViewsFont
+|    kThemeEmphasizedSystemFont
+|    kThemeApplicationFont
+|    kThemeLabelFont
+|    kThemeMenuTitleFont
+|    kThemeMenuItemFont
+|    kThemeMenuItemMarkFont
+|    kThemeMenuItemCmdKeyFont
+|    kThemeWindowTitleFont
+|    kThemePushButtonFont
+|    kThemeUtilityWindowTitleFont
+|    kThemeAlertHeaderFont
+|    kThemeSystemFontDetail
+|    kThemeSystemFontDetailEmphasized
+|    kThemeToolbarFont
 
-~~ Suggested Tk font aliases
+~ Suggested Tk font aliases
 
 From all the above this TIP suggests that the following names be provided
 for all platforms and where possible these map to system defined fonts.
 
-TkDefaultFont the default for all GUI items not otherwise specified.
-TkFixedFont standard fixed width font
-TkMenuFont used for menu items
-TkCaptionFont used for window and dialog caption bars
-TkSmallCaptionFont used for captions on contained windows or tool dialogs.
-TkIconFont font in use for icon captions
-TkTooltipFont a font to use for tooltip windows (transient information windows)
+> TkDefaultFont: the default for all GUI items not otherwise specified.
+> TkFixedFont: standard fixed width font
+> TkMenuFont: used for menu items
+> TkCaptionFont: used for window and dialog caption bars
+> TkSmallCaptionFont: used for captions on contained windows or tool dialogs.
+> TkIconFont: font in use for icon captions
+> TkTooltipFont: a font to use for tooltip windows (transient 
+information windows)
 
 ~ Implementation
 
@@ -206,7 +207,9 @@ http://sf.net/tracker/?func=detail&aid=780617&group_id=12997&atid=312997
 ~ Bibliography
 
 [1] http://www.w3.org/TR/REC-CSS2/fonts.html#generic-font-families
+
 [2] http://developer.apple.com/documentation/UserExperience/Conceptual/AquaHIGuidelines/AHIGFonts/index.html
+
 [3] http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/appearance_manager/constant_15.html
 
 ~ Copyright
