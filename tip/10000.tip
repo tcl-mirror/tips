@@ -1,11 +1,12 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.44 $
+Version:        $Revision: 1.45 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <a.kupries@westend.com>
+Author:          <dgp@user.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -30,7 +31,7 @@ proposed in [13].
 ~ Submission Test
 
 Some browsers are spinning their wheels after submission...
-one... two... three... four... five...
+Looks like this is fixed now.
 
 Looks like there needs to be a minimum size of the POST
 submission to trigger the problem, sooo.....
@@ -103,11 +104,12 @@ blah blah blah blah blah blah blah blah blah blah blah blah
 
 ~ Author Add Test
 
-Checking fix for missing Abstract after adding a new Author.
+Checking fix for missing Abstract after adding a new Author...
+Fixed.
 
 ~ Reload/caching Test
 
-See if additional HTTP headers help...
+See if additional HTTP headers help... Yes.
 
 ~ Test
 
@@ -140,7 +142,7 @@ there more than here.
 
 ~ ChangeLog
 
-''Removed'' 
+$Log: not supported by cvs2svn $
 
 ~ Copyright
 
