@@ -1,14 +1,15 @@
-TIP:		53
-Title:		Addition of 'assert' Command
-Author: 	Gerald W. Lester <Gerald.Lester@aspentech.com>
-Type:		Project
-Vote:		Pending
-State:		Draft
-Created:	14-Aug-2001
+TIP:            53
+Title:          Addition of 'assert' Command
+Version:        $Revision: 1.2 $
+Author:         Gerald W. Lester <Gerald.Lester@aspentech.com>
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Aug-2001
 Post-History:   
-Tcl-Version:	8.4
-Version:	$Revision: 1.1 $
-Keywords:	bytecode,compiler
+Keywords:       bytecode,compiler
+Tcl-Version:    8.4
 
 ~ Abstract
 
@@ -51,7 +52,6 @@ The manual entry for the ''assert'' command is included here:
 
 |   assert booleanExpression messageText
 
-
 ~DESCRIPTION
 
  > This command has no effect if the assert_enabled command line
@@ -69,6 +69,24 @@ The manual entry for the ''assert'' command is included here:
    ''messageText'' to standard out and ''exit'' with a status code of
    1.
 
+----
+
+~ REMARKS
+
+The bytecode compiler (8.4a4) contains code that recognizes a
+no-op procedure of the form:
+
+|proc no-op args {}
+
+and generates no bytecode if such a procedure is called with
+arguments that have no side effects.
+
+The ''control'' package within tcllib implements a ''::control::assert''
+procedure that provides all the requested functionality.
+
+These two, taken together, provide an implementation of the requested
+functionality that is acceptable to the original author of this TIP.
+The TIP is therefore withdrawn.
 ----
 
 ~ Copyright
