@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -38,34 +38,46 @@ assigned:
 
    2. ''Appearance'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>,
+				  Jeff Hobbs <JeffH@ActiveState.com>,
+				  Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
+   4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			  Jan Nijtmans <j.nijtmans@chello.nl>
 
-   5. ''Canvas Items'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
+   5. ''Canvas Items'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			 Jan Nijtmans <j.nijtmans@chello.nl>
 
    6. ''Canvas PostScript'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   7. ''[entry]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   7. ''[entry]'' - Allen Flick <allenflick@home.com>,
+		    Jeff Hobbs <JeffH@ActiveState.com>
 
    8. ''[frame] and [toplevel]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-	Peter Spjuth <peter.spjuth@space.se>
+				   Peter Spjuth <peter.spjuth@space.se>
 
-   9. ''[listbox]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   9. ''[listbox]'' - Allen Flick <allenflick@home.com>,
+		      Jeff Hobbs <JeffH@ActiveState.com>
 
-   10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
+   10. ''Generic Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			   Todd Helfter <tmh@purdue.edu>
 
-   11. ''Mac Menus'' - George B. Smith <gbs@k9haven.com>, Daniel Steffen <das@users.sourceforge.net>
+   11. ''Mac Menus'' - George B. Smith <gbs@k9haven.com>,
+		       Daniel Steffen <das@users.sourceforge.net>
 
-   12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
+   12. ''Unix Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			Todd Helfter <tmh@purdue.edu>
 
-   13. ''Win Menus'' - Jeff Hobbs <JeffH@ActiveState.com>, Todd Helfter <tmh@purdue.edu>
+   13. ''Win Menus'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		       Todd Helfter <tmh@purdue.edu>
 
    14. ''[message]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   15. ''[scale]'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   15. ''[scale]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		     Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   16. ''[scrollbar]'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   16. ''[scrollbar]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
    17. ''[spinbox]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -77,144 +89,180 @@ assigned:
 
    21. ''[panedwindow]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   22. ''Option Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   22. ''Style Engine'' - Frédéric Bonnet <frederic.bonnet@free.fr>
 
-   23. ''Relief'' - Jeff Hobbs <JeffH@ActiveState.com>, Frédéric Bonnet <fredericbonnet@free.fr>
+   23. ''Option Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			    Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   24. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   24. ''Relief'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		    Frédéric Bonnet <fredericbonnet@free.fr>
 
-   25. ''Conversions From String'' - Jeff Hobbs <JeffH@ActiveState.com>
+   25. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			      Jan Nijtmans <j.nijtmans@chello.nl>,
+			      Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   26. ''Objects'' -  Jeff Hobbs <JeffH@ActiveState.com>
+   26. ''Conversions From String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   27. ''Utility Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
+   27. ''Objects'' -  Jeff Hobbs <JeffH@ActiveState.com>
 
-   28. ''Colormaps and Visuals'' - Jeff Hobbs <JeffH@ActiveState.com>
+   28. ''Utility Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   29. ''Color Names'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   29. ''Colormaps and Visuals'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   30. ''Cursor Names'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   30. ''Color Names'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   31. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   31. ''Cursor Names'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			  Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   32. ''Generic Dialog Support'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   32. ''Key Symbols'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   33. ''[tk_chooseColor]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
+   33. ''Generic Dialog Support'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+				    Jeff Hobbs <JeffH@ActiveState.com>
 
-   34. ''[tk_dialog]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   34. ''[tk_chooseColor]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   35. ''[tk_chooseDirectory]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
+   35. ''[tk_dialog]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+			 Jeff Hobbs <JeffH@ActiveState.com>,
+			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   36. ''[tk_get*File]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
+   36. ''[tk_chooseDirectory]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+				  Jeff Hobbs <JeffH@ActiveState.com>
 
-   37. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
+   37. ''[tk_get*File]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+			   Jeff Hobbs <JeffH@ActiveState.com>
 
-   38. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   38. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> (Unix),
+			     Jeff Hobbs <JeffH@ActiveState.com>
 
-   39. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+   39. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>
+
+   40. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>,
 			   Kevin Griffin <vertov@artstar.com>
 
-   40. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   41. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   41. ''Photo Image|GIF'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   42. ''Photo Image|GIF'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   42. ''Photo Image|PPM'' - Jan Nijtmans <j.nijtmans@chello.nl>
+   43. ''Photo Image|PPM'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   43. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
+   44. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   44. ''Mac Fonts'' - George B. Smith <gbs@k9haven.com>, Daniel Steffen <das@users.sourceforge.net>
+   45. ''Mac Fonts'' - George B. Smith <gbs@k9haven.com>,
+		       Daniel Steffen <das@users.sourceforge.net>
 
-   45. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
+   46. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   46. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
+   47. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   47. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
+   48. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>,
+				 Chengye Mao <chengye.geo@yahoo.com>
 
-   48. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
+   49. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		    Peter Spjuth <peter.spjuth@space.se>
 
-   49. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
+   50. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		    Peter Spjuth <peter.spjuth@space.se>
 
-   50. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>, Peter Spjuth <peter.spjuth@space.se>
+   51. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		     Peter Spjuth <peter.spjuth@space.se>
 
-   51. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
-		         Joe English <jenglish@flightlab.com> (Unix), Daniel Steffen <das@users.sourceforge.net> (Mac)
+   52. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
+		         Joe English <jenglish@flightlab.com> (Unix),
+			 Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   52. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   53. ''[selection]'' - Jeff Hobbs <JeffH@ActiveState.com>,
 		         Joe English <jenglish@flightlab.com> (Unix)
 
-   53. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
+   54. ''[console]'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		       Chengye Mao <chengye.geo@yahoo.com>
 
-   54. ''[focus]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   55. ''[focus]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   55. ''[grab]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   56. ''[grab]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   56. ''[option]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   57. ''[option]'' - Allen Flick <allenflick@home.com>,
+		      Jeff Hobbs <JeffH@ActiveState.com>
 
-   57. ''[send]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   58. ''[send]'' - Allen Flick <allenflick@home.com>,
+		    Jeff Hobbs <JeffH@ActiveState.com>,
+		    Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   58. ''[tk_focus*]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   59. ''[tk_focus*]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   59. ''[tk_setPalette]'' - Jeff Hobbs <JeffH@ActiveState.com>
+   60. ''[tk_setPalette]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   60. ''Safe Tk'' - Jeff Hobbs <JeffH@ActiveState.com>
+   61. ''Safe Tk'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   61. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
+   62. ''Geometry Functions'' - Jeff Hobbs <JeffH@ActiveState.com>,
+				Chengye Mao <chengye.geo@yahoo.com>
 
-   62. ''Tk_Win Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
+   63. ''Tk_Win Functions'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   63. ''Graphic Contexts'' - Jeff Hobbs <JeffH@ActiveState.com>
+   64. ''Graphic Contexts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   64. ''Generic Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
+   65. ''Generic Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   65. ''Mac Window Operations'' - George B. Smith <gbs@k9haven.com>, Daniel Steffen <das@users.sourceforge.net>
+   66. ''Mac Window Operations'' - George B. Smith <gbs@k9haven.com>,
+				   Daniel Steffen <das@users.sourceforge.net>
 
-   66. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   67. ''Unix Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				    Joe English <jenglish@flightlab.com>
 
-   67. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>, Chengye Mao <chengye.geo@yahoo.com>
+   68. ''Win Window Operations'' - Jeff Hobbs <JeffH@ActiveState.com>,
+				   Chengye Mao <chengye.geo@yahoo.com>
 
-   68. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
+   69. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   69. ''Event Loop'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
+   70. ''Event Loop'' - Jeff Hobbs <JeffH@ActiveState.com>,
+			Jan Nijtmans <j.nijtmans@chello.nl>
 
-   70. ''Error Handling'' - Jeff Hobbs <JeffH@ActiveState.com>
+   71. ''Error Handling'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   71. ''Atoms'' - Jeff Hobbs <JeffH@ActiveState.com>
+   72. ''Atoms'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   72. ''Argv Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
+   73. ''Argv Parsing'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   73. ''Application Embedding'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
+   74. ''Application Embedding'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   74. ''wish'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
+   75. ''wish'' - Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   75. ''Mac DND Tclets'' - Daniel Steffen <das@users.sourceforge.net>
+   76. ''Mac DND Tclets'' - Daniel Steffen <das@users.sourceforge.net>
 
-   76. ''Widget Tour'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   77. ''Widget Tour'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+			 Jeff Hobbs <JeffH@ActiveState.com>
 
-   77. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
+   78. ''Square Demo'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   78. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   79. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>,
+			 Jeff Hobbs <JeffH@ActiveState.com>
 
-   79. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>, Miguel Bañón <bagnonm@safelayer.com>
+   80. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>,
+		  Miguel Bañón <bagnonm@safelayer.com>
 
-   80. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
+   81. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   81. ''Portability'' - Jeff Hobbs <JeffH@ActiveState.com>
+   82. ''Portability'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   82. ''X11 Emulation'' - Jeff Hobbs <JeffH@ActiveState.com>
+   83. ''X11 Emulation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   83. ''Mac Build'' - George B. Smith <gbs@k9haven.com>, Daniel Steffen <das@users.sourceforge.net>
+   84. ''Mac Build'' - George B. Smith <gbs@k9haven.com>,
+		       Daniel Steffen <das@users.sourceforge.net>
 
-   84. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   85. ''Unix Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
 			Mo DeJong <mdejong@cygnus.com>,
 			Lloyd Lim <lloydlim@users.sourceforge.net>
 
-   85. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
-			Mo DeJong <mdejong@cygnus.com>
+   86. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		       Mo DeJong <mdejong@cygnus.com>
 
-   86. ''Test Tools'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>, Daniel Steffen <das@users.sourceforge.net> (Mac)
+   87. ''Test Tools'' - Allen Flick <allenflick@home.com>,
+			Jeff Hobbs <JeffH@ActiveState.com>,
+			Daniel Steffen <das@users.sourceforge.net> (Mac)
 
-   87. ''Logos'' - Jeff Hobbs <JeffH@ActiveState.com>
+   88. ''Logos'' - Jeff Hobbs <JeffH@ActiveState.com>
 
 ~ General Categories
 
