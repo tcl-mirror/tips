@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -65,7 +65,7 @@ See the 'testfilelink' command in tclTest.c, which is a partial implementation (
 http://sourceforge.net/tracker/index.php?func=detail&aid=562970&group_id=10894&atid=310894
 ''
 
-These implementations need to be updated with the '-linktype' option, but are otherwise fully functional.
+this final implementation on sourceforge includes the '-linktype' option, some docs and tests.  Some further tests will also be added.
 
 ~ Copyright
 
