@@ -1,6 +1,6 @@
 TIP:            27
 Title:          CONST Qualification on Pointers in Tcl API's
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -86,73 +86,28 @@ This TIP proposes that, wherever possible, Tcl API's that accept
 pointers to constant data have their signatures in ''tcl.decls'' and
 the corresponding source files adjusted to add the CONST qualifier.
 
-In order to preserve backward compatibility of stubs-enabled
-extensions, it will be necessary to provide entries in the existing
-stub table slots corresponding to the API's that lack the CONST
-qualifiers.  The reason for this is subtle: nowhere is it guaranteed
-that the binary representation of a ''const char *'' is identical to
-that of a ''char *''.  In fact, there are machine architectures,
-rarely encountered, that support "tagged pointers" and actually
-enforce const-ness at the hardware level.  On these machines, a
-pointer to non-constant memory differs in at least the tag bits from
-one to constant memory.
+The change introduces a potential incompatibility in that code
+compiled on a (hypothetical) architecture where pointers to constant
+data have a different representation from those to non-constant
+data will not load against the revised stub table.  This incompatibility
+is, in fact, not thought to be a problem, since no known port of
+Tcl has encountered such an architecture.
 
-The slots in the stub table corresponding to the non-CONST API's can
-be filled with wrapper functions.  For example, the following function
-definition of ''Tcl_SetStringObj_NONCONST'' will use the implicit
-casting inherent in C to call the function with the new API.
-
-|void
-|Tcl_SetStringObj_NONCONST(Tcl_Obj* obj, /* Object to set */
-|                          char* bytes,  /* String value to assign */
-|                          int length)   /* Length of the string */
-|{
-|    Tcl_SetStringObj( obj, bytes, length );
-|}
-
-This sort of definition is so simple that ''tools/genStubs.tcl'' will
-be extended to generate it.  For example, the declaration of
-''Tcl_SetStringObj'' that once appeared as:
-
-|declare 65 generic {
-|    void Tcl_SetStringObj( Tcl_Obj* objPtr, char* bytes, int length )
-|}
-
-can be replaced with:
-
-|declare 458 -nonconst 65 generic {
-|    void Tcl_SetStringObj( Tcl_Obj* objPtr, CONST char* bytes, int length )
-|}
-
-declaring that slot 458 in the stubs table is to be used for the new
-API accepting a CONST char* for the string, while slot 65 remains used
-for the legacy implementation.
-
-One reviewer of a draft of this TIP asked whether it would be possible
-to avoid doing thie wrapper function in the common case where the
-representations of "pointer-to-CONST-char" and "pointer-to-char" are
-identical.  The problem with this approach is that ''genStubs.tcl''
-does not run on the target platform.  Anything that happens at stub
-generation time must generate files that are identical among all the
-targets.  The author of this TIP has chosen not to address that
-particular complexity, and the reference implementation generates
-wrappers for all modified API's.
-
-So far, we have discussed only changes that are completely compatible
-with existing implementations.  It is neither possible nor desirable,
-however, to preserve drop-in compatibility across all the API's.  The
-earliest example in the stub table is the ''Tcl_PkgRequireEx''
-function.  This function is declared to return ''char *''; the pointer
-it returns, however, is into memory managed by the Tcl library.  Any
-attempt by an extension to scribble on this memory or free it will
-result in corruption of Tcl's internal data structures; it is
-therefore safer and more informative to return ''CONST char *''.
-(This particular example is also highly unlikely to break any existing
-extension; the author of this TIP has yet to see one actually use the
-return value.)
+If we confine the scope of this TIP to adding CONST only to
+parameters, we preserve complete compatibility with existing
+implementations.  It is neither possible nor desirable, however, to
+preserve drop-in compatibility across all the API's.  The earliest
+example in the stub table is the ''Tcl_PkgRequireEx'' function.  This
+function is declared to return ''char *''; the pointer it returns,
+however, is into memory managed by the Tcl library.  Any attempt by an
+extension to scribble on this memory or free it will result in
+corruption of Tcl's internal data structures; it is therefore safer
+and more informative to return ''CONST char *''.  (This particular
+example is also highly unlikely to break any existing extension; the
+author of this TIP has yet to see one actually use the return value.)
 
 Some of the API's, such as ''Tcl_GetStringFromObj'', will continue to
-return writable pointers into memory inside the Tcl library.
+return pointers into writable memory inside the Tcl library.
 ''Tcl_GetStringFromObj'', for instance, deals with memory that is
 managed co-operatively between extensions and the Tcl library; one
 simply must trust extensions to do the right thing (for instance, not
@@ -166,8 +121,9 @@ on performance that it is probably not desirable to change it.  The
 cases where the Tcl library does this sort of temporary modification,
 however, must be documented in the programmers' manual.  They affect
 thread safety and positioning of data in read-only memory.  One can
-foresee, too, that cleaning up the other API's will tempt programmers
-less to use unsafe casts on the ones that remain.
+foresee that cleaning up the API's that do not suffer from
+this problem will mean that programmers will be  less tempted
+to use unsafe casts on the ones that remain.
 
 Finally, there are a handful of API's that are essentially impossible
 to clean up portably; the ones that accept variable arguments come to
@@ -222,8 +178,7 @@ discovered that the ''file'' parameter to ''Tcl_DbNewStringObj'' was
 also a constant string.  With more enthusiasm than caution, he decided
 to attack the corresponding parameter in all the ''TCL_MEM_DEBUG''
 interfaces.  (In retrospect, it would probably have been easier to
-tackle this issue separately, but it would have resulted in the
-proliferation of wrappers in the stubs table.)  This change wound up
+tackle this issue separately.)  This change wound up
 cutting across virtually all of the external interfaces to
 ''tclStringObj.c'' and ''tclBinary.c'' and the associated
 documentation.
@@ -242,24 +197,89 @@ APIs, plus about a dozen static functions, needed to have the CONST
 qualifier added to at least one pointer.  After these changes were
 made, the test suite compiled, linked, and passed all regression tests
 with all combinations of the NODEBUG and TCL_MEM_DEBUG options.  It
-was necessary to cast away CONST-ness only in the return values from
-the wrappers providing non-CONST interfaces to the four functions,
+was nowhere necessary to cast away CONST-ness.  
+
+Possible incompatibility with existing extensions was present
+only in that the return values from the four functions,
 ''Tcl_PkgPresent'', ''Tcl_PkgPresentEx'', ''Tcl_PkgRequire'', and
-''Tcl_PkgRequireEx''.  These four functions return pointers to memory
+''Tcl_PkgRequireEx'' had the CONST qualifier added.
+ These four functions return pointers to memory
 that must not be modified nor freed by the caller, so the CONST
 qualifier is desirable, but existing extensions may depend on storing
 the pointer in a variable that lacks the qualifier.
+This level of incompatibility in a minor release has been
+thought acceptable in the past; changes required to extensions
+are trivial, and once changed, the extensions continue to back-port
+cleanly to older releases.
 
-The changes have been uploaded to the SourceForge patch manager
-as patch number 404026; this set of patches is proposed as the
-first round of changes to support this TIP.
+An earlier version of these changes was uploaded to the SourceForge
+patch manager as patch number 404026.  The revised version will be
+added under the same patch number as soon as the author's technical
+problems with uploading patches are resolved.  (The major difference
+between the two patches is that the first patch implements the
+two-Stub approach described under "Rejected alternatives" below.
 
 The success of this change has convinced the author of this TIP that
 the rest of the changes can be implemented in a staged manner, with
-little or no source-level incompatibility being introduced for
+little source-level incompatibility being introduced for
 extensions (and absolutely no incompatibility for stubs-enabled
 extensions compiled and linked against earlier versions of the
 library).
+
+~ Rejected alternatives
+
+The initial version of this TIP attempted to preserve backward
+compatibility of stubs-enabled extensions, even on a hypothetical
+architecture where pointer-to-constant and pointer-to-nonconstant
+have different representations.
+
+If this level of backward compatibility is desired,
+it will be necessary to provide entries in the existing
+stub table slots corresponding to the API's that lack the CONST
+qualifiers.
+
+The slots in the stub table corresponding to the non-CONST API's can
+be filled with wrapper functions.  For example, the following function
+definition of ''Tcl_SetStringObj_NONCONST'' will use the implicit
+casting inherent in C to call the function with the new API.
+
+|void
+|Tcl_SetStringObj_NONCONST(Tcl_Obj* obj, /* Object to set */
+|                          char* bytes,  /* String value to assign */
+|                          int length)   /* Length of the string */
+|{
+|    Tcl_SetStringObj( obj, bytes, length );
+|}
+
+This sort of definition is so simple that ''tools/genStubs.tcl''
+was extended in the original patch accompanying this TIP
+to generate it.  For example, the declaration of
+''Tcl_SetStringObj'' that once appeared as:
+
+|declare 65 generic {
+|    void Tcl_SetStringObj( Tcl_Obj* objPtr, char* bytes, int length )
+|}
+
+was replaced with:
+
+|declare 458 -nonconst 65 generic {
+|    void Tcl_SetStringObj( Tcl_Obj* objPtr, CONST char* bytes, int length )
+|}
+
+declaring that slot 458 in the stubs table is to be used for the new
+API accepting a CONST char* for the string, while slot 65 remains used
+for the legacy implementation.
+
+The difficulty with this approach, which caused it to be
+rejected, is that it introduces ''forward'' incompatibility.
+Any extension compiled against header files from after the change
+will fail to load against the stubs table from before the change.
+This incompatibility would require extension authors to maintain
+sets of header files for (at least) the earliest version of Tcl
+that they intend to support, rather than always being able to compile
+against the most current set.  This problem was thought to be worse
+than the hypothetical and possibly non-existent problem of differing
+pointer representations.
 
 ~ Procedural note
 
@@ -273,14 +293,14 @@ where it is appropriate, provided that:
    * the documentation of the API is updated to reflect the
      addition of the CONST qualifier; and
 
-   * the stubs table entry for the API is replaced with a pair
-     of entries, with the original entry designating a trampoline
-     procedure.  The syntax for this change in the ''.decls'' file
-     is discussed above.
-
 Individual TIP's detailing the changes to particular APIs shall
 ''not'' be required, provided that the changes comply with these
 guidelines.
+
+~ Change history
+
+12 March 2001: Rejected the two-Stubs alternative and reworked
+the patches to use only one Stub per modified function.
 
 ~ Copyright
 
