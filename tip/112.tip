@@ -1,6 +1,6 @@
 TIP:            112
 Title:          Ensembles are Namespaces are Commands
-Version:        $Revision: 2.3 $
+Version:        $Revision: 2.4 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -64,36 +64,23 @@ ensemble command for any namespace by default.
 
 The [[namespace ensemble]] command will have the following subcommands:
 
- create: For creating a new ensemble for the ''current'' namespace.  The
-   command will take an optional argument giving the name of the ensemble
-   to create, and then a list of option value pairs (as defined below) to
+ create: For creating a new ensemble for the ''current'' namespace. The
+   command takes a list of option value pairs (as defined below) to
    set the ensemble up with.  As stated above, the default command name
    is exactly the name of the namespace, but any other name may be
-   supplied; if it does not start with a namespace separator, the name
-   will be taken as being relative to the current namespace.
-
- > As a side note, there is no ambiguity between the optional command
-   name and the option value list, as the option value list is always an
-   even number of arguments.
+   supplied (via the -command option); if it does not start with a
+   namespace separator, the name will be taken as being relative to
+   the current namespace.
 
  configure: For reading and writing the configuration of a particular
    ensemble.  The command takes an argument specifying the name of the
    ensemble to configure, and then works with either no extra arguments
    (when it retrieves the entire ensemble configuration), one extra
    argument (the name of the option to retrieve), or a list of option
-   value pairs to configure the ensemble with.  The name that this
-   subcommand looks up is the original (qualified) command that the
-   ensemble was created with.
+   value pairs to configure the ensemble with.
 
- info: For producing a list of ensembles associated with the current
-   namespace.  Takes an optional pattern that matches which ensembes to
-   return in the list; the pattern is matched against the original
-   (qualified) command that the ensemble was created with.
-
- delete: For destroying ensembles associated with the current namespace.
-   Takes an optional pattern for constraining what ensembles are deleted;
-   the pattern is matched against the original (qualified) command that
-   the ensemble was created with.
+ exists: This subcommand (which takes a single argument) tests whether
+   a command (with the given name) exists and is an ensemble.
 
 The options available for creation and configuring are:
 
@@ -130,8 +117,10 @@ The options available for creation and configuring are:
    (which is ideal for when the ensemble's configuration has been updated
    by the unknown subcommand handler.)
 
- -command: This read-only option lets you retrieve the original name of
-   the ensemble command.
+Ensemble creation takes an extra option value pair:
+
+ -command: This option allows you to override what the name of the
+   ensemble to create is.
 
 Given an ensemble command created by the above mechanism, calling the
 command will first of all match the subcommand to its implementing
