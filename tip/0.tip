@@ -1,26 +1,286 @@
 TIP:            0
-Title:          Charter of the Tcl Core Team
-Version:        $Revision: 1.1.1.1 $
-Author:         John Ousterhout <john.ousterhout@ajubasolutions.com>
-Author:         James Ingham <jingham@cygnus.com>
-State:          Accepted
+Title:          Tcl Core Team Basic Rules
+Version:        $Revision: 2.0 $
+Author:         John Ousterhout <ouster@interwoven.com>
+State:          Draft
 Type:           Process
-Vote:           Pending
-Created:        07-Sep-2000
-Post-History: 
+Vote:           Done
+Created:        11-Dec-2000
+Post-History:
 
 ~ Abstract
 
-This TIP contains the charter of the Tcl Core Team. It defines the
-scope of its work, its organization and working procedures.
+This TIP describes the mission, structure, and operating procedures
+of the Tcl Core Team (TCT).  When in doubt about how the TCT works,
+consult this document as the final authority.
 
-~ Charter
+~ Introduction
 
-Most of the relevant information is already written up and can be
-found at http://dev.scriptics.com/community/coreteam/ and
-http://dev.scriptics.com/community/coreteam/faq.html
+The Tcl Core Team is a self-organizing group of Tcl experts who are
+responsible for the evolution and management of the Tcl core.  The
+Tcl Core Team decides what goes into releases; it implements, tests,
+and documents new features and bug fixes; it manages the release
+process; and it also manages the Tcl Developer Exchange Web site.
+
+~ Scope: the Tcl Core
+
+The phrase "Tcl core" refers to the Tcl interpreter and the Tk
+toolkit (the packages previously released by Sun, Scriptics, and
+Ajuba).  We also include the Tcl Developer Exchange Web site and
+the Tcl bug database in the Tcl core.  The Tcl Core Team may also
+of more comprehensive "batteries included" releases.  We expect
+other Tcl development teams to form independently from the Tcl
+Core Team to manage additional projects, such as popular extensions.
+The Tcl Core Team may eventually spin off some of its activities
+into separate teams.
+
+~ Team Membership
+
+The Tcl Core Team is a small group of people who are making major
+contributions to the development of the Tcl core and who are highly
+respected and trusted by the Tcl community.  Team members are expected
+to invest significant amounts of their time to improve the Tcl core.
+
+The original group of Team members was elected by the Tcl community,
+but the TCT now handles its own membership according to rules described
+here.  To become a member of the Team you must be nominated by an
+existing member and voted on by the existing Team; you must receive
+you should first demonstrate your development skills and leadership by
+participating in development projects under the auspices of an
+existing team member.
+
+Inactive or disruptive members of the team can be removed by a vote
+of other Team members: a 2/3 majority of those voting is required to
+remove a Team member.
+
+~ Communication
+
+The primary mechanism for communicating with the Tcl Core Team is the
+mail alias tcl-core@lists.sourceforge.net.  This is a public mailing
+list;  anyone interested in following the discussions of the TCT is
+welcome to join the mailing list.  Email sent to this alias is
+archived, so you can review previous discussions at SourceForge.
+
+~ Basic Organizational Structure
+
+The team structure is simple and flat.  All members have equal
+standing: there is no Chairman.  The Tcl Core Team makes its own
+rules and chooses its own members as described in this document.
+after discussion, the change is voted on by the Team and must
+receive 2/3 of the votes cast.  The person proposing a rules change
+is responsible for making sure that the change is properly
+implemented after it has been approved (e.g. by modifying this
+TIP, creating additional tools, etc.).
+
+~ 2/3 Vote
+
+Wherever a 2/3 vote is called for in this document, it means that a
+proposal must receive ''two-thirds of the votes cast'', not votes
+from two-thirds of all TCT members.
+
+~ Projects and Maintainers
+
+Tcl improvements are organized around two key ideas: ''projects''
+and ''maintainers''.  Most of the activities of the Tcl Core
+Team consist of projects.  A project can consist of a bug
+fix, a new feature in the Tcl core, a new facility in the Tcl
+Developer Exchange, or anything else except a change to this
+TIP.  We divide projects into two general categories: bug
+fixes and feature changes.  In general, if a project requires
+manual entries to be updated then it is a feature change;  when
+in doubt, a project is a feature change .  Bug fixes use a
+more streamlined process for implementation, whereas feature
+changes require discussion and approval in advance.
+
+A maintainer is someone who has taken primary responsibility for
+a portion of the Tcl sources.  Many maintainers will be members of
+the Tcl Core Team, but the Team may also select maintainers from
+outside the Tcl Core Team.  We hope to find enough maintainers to
+cover all of the Tcl sources, but we will appoint a ''default
+maintainer'' to handle the parts of Tcl for which no other maintainer
+has volunteered.  We'll also try to have backup maintainers who
+can step in when the primary maintainers are on vacation or
+otherwise unavailable.
+
+A maintainer accepts several responsibilities, including the
+following:
+
+ * Monitoring the bug database for bugs in his/her area.
+
+ * Arranging for bugs to be fixed, either by doing it
+   himself/herself or finding someone else to do it.
+
+ * Coordinating and reviewing all modifications to his/her area.
+
+ * Providing assistance to other people working in his/her area.
+
+~ Project Life-Cycle: Approval, Implementation, Integration; TYANNOTT
+
+The project for a feature change goes through three stages: approval,
+implementation, and integration.
+
+A project starts when a member of the Tcl Core Team proposes it to
+the Team.  Proposals are submitted by emailing TIPs (Tcl Improvement
+Proposals) to the Tcl Core Team.  The format of TIPs is described
+in a separate TIP.  Whoever proposes a project is responsible for
+making sure it is properly implemented.  A proposal without a
+committed implementor cannot be approved.
+
+Project approval is done through a process called ''TYANNOTT'':
+Two Yes's And No No's Or Two Thirds.  In order for a project to be
+approved it must have support from at least one other member of the
+Tcl Core Team besides the proposer.  Once a project has been proposed
+and discussed, if there are no objections and there is a vote of
+confidence from a second team member ("Two Yes's And No No's"),
+then the project is approved.  If objections remain after the
+discussion, then the proposer must summarize the objections and
+call for a vote of the TCT; a 2/3 vote is required for approval.
+The idea here is that most projects will be no-brainers and we want
+a simple decision process that doesn't get in the way of progress.
+On the other hand, the Tcl Core Team can only work effectively if
+it is highly collegial; if the Team can't reach pretty clear
+agreement on a project (i.e more than 1/3 of the TCT objects to it)
+then the project needs to be rethought.
+
+The second phase of a project is implementation.  The proposer is
+responsible for the implementation, either doing it himself/herself
+or arranging for someone else to do it.  The implementation is done
+in a private work area and may not be integrated with the official
+sources until the third phase, below.
+
+The third phase of a project is integrating the results back into
+the official Tcl repository.  This is where maintainers come in.
+First, before any change can be applied to the official Tcl sources,
+the implementor must post it as a patch to the SourceForge patch
+manager.  This rule applies regardless of the type of change (anything
+from a 1-line bug fix to a major new feature) and regardless of who
+is proposing the change.  We use the SourceForge patch manager to
+record all changes and also to facilitate discussion about the
+changes before they are applied.
+
+When a patch arrives in the SourceForge patch manager, the
+appropriate maintainer reviews it and works with the proposer
+to revise it as necessary.  Other people can also review the
+patch, since it is public.  If changes are needed, a revised
+patch is logged in the patch manager (the final version of
+the patch must always appear in the SourceForge patch manager).
+Once the maintainer is satisfied with the patch, it can be applied
+to the Tcl sources.  If the patch implementor has write access
+to the sources that he or she can apply the patch once the
+maintainer has approved it.  If the patch implementor doesn't
+have write access to the sources than the maintainer applies
+the patch.
+
+Maintainers are responsible for watching the SourceForge patch
+manager to make sure that incoming patches in their area are dealt
+with quickly.
+
+If the implementor of a patch is the maintainer, then he/she can
+apply the patch to the Tcl sources immediately after logging it in
+the SourceForge patch manager, without waiting for additional
+approval.  However, if someone objects to the patch then the
+maintainer must be prepared to revise it after the fact.
+
+~ Fast Path for Bug Fixes
+
+For a bug fix, no initial proposal or approval is required.  The
+only approval needed is for the maintainer to review the patch
+before it is applied to the sources.  For example, we invite everyone
+in the Tcl community to fix bugs and submit patches to the SourceForge
+patch manager.
+
+~ Implementors Outside the Tcl Core Team
+
+We encourage people outside the Tcl Core Team to get involved with
+Tcl development.  For example, anyone can submit patches for bug
+fixes.  It's also fine for someone outside the Tcl core team to
+propose a feature change and then implement it, but there must be
+a sponsor on the Tcl Core Team who will take personal responsibility
+for it.  Typically the sponsor will be the maintainer for the area
+of the change.  It is the sponsor's responsibility to provide whatever
+level of supervision is appropriate to ensure that the project is
+executed well.  If the implementor for a project is not a TCT member
+then they cannot vote for approval: TYANNOTT requires the sponsor
+plus one other Team member.
+
+~ Raising Concerns
+
+If you have concerns about a project, the best time to raise them is
+during the initial discussion.  Once a project has been approved, the
+best approach is to raise the issue directly with the implementor;
+most issues should get resolved quickly this way.  If you can't find
+the implementor or can't reach agreement, and if the implementor is
+not a member of the Tcl Core Team, the next person to talk to is the
+Tcl Core Team member in charge of the project.  If you still can't get
+satisfaction, then raise the issue with the entire Tcl Core Team by
+leading a discussion.  Once all the issues are out, you can either
+withdraw your objection or summarize the issues (on both sides!) and
+call for a vote.  If you aren't a member of the Tcl Core Team
+you will need to convince a Team member to manage the discussion
+and vote.
+
+Even if a project has received initial approval, a Team member can
+object to the project later (e.g. if they believe it hasn't been
+implemented properly).  If the objection isn't resolved there will
+be an additional vote of the Team, and the project cannot be applied
+to the official sources unless it receives a 2/3 majority of
+the votes cast.  At the same time, Team members are expected to
+raise their objections as early as possible; it would be somewhat
+anti-social to raise a basic design objection late in the
+implementation of a project when it could have been raised during
+the initial approval.
+
+~ Disagreements Over Patches
+
+Normally, patches are not reviewed by the entire TCT; once the
+relevant maintainer has reviewed and approved them then they can
+be integrated.  However, everyone is invited to review as many
+patches as they wish.  If someone on the TCT objects to a patch
+and can't resolve the objection with the implementor and/or
+maintainer, then it gets discussed by the entire Tcl Core Team with
+the usual rules: if anyone on the Tcl Core Team has an objection
+that isn't resolved by the discussion, then a 2/3 vote is required
+to retain the patch.  Thus if an implementor reaches a disagreement
+with a maintainer he/she can appeal to the entire Tcl Core Team.
+Or, if someone on the Tcl Core Team objects to a patch applied by
+a maintainer, they too can start a discussion in the whole team.
+The goal of the maintainer mechanism is to simplify and speed up
+improvements in the common case where everyone is in agreement,
+while still allowing the entire Tcl Core Team to offer input and
+resolve disagreements.
+
+~ Changes that Span Areas
+
+If a change involves several different areas of the Tcl sources,
+with different maintainers, then one of the maintainers acts as
+coordinator (presumably the one whose area has the most changes).
+It is their responsibility to consult with other maintainers whose
+areas are affected, so that all relevant maintainers are happy
+before the patch is applied to the sources.
+
+~ Write Access to the Tcl Sources and the Web Site
+
+Everyone in the Tcl Core Team has write access to all the sources
+and the Web site, but they may only make changes consistent with
+approved projects.  The Tcl Core Team can also give access to other
+people who are working on projects.  For example, as part of a project
+proposal a Tcl Core Team member can propose that the work will be
+done by someone outside the team, and that that person should have
+write access for putting back changes.  Giving out write access is
+part of a project decision, with the associated rules for approval.
+However, if someone outside the Tcl Core Team has write access, it
+must be under the auspices of a Tcl Core Team member; the Tcl
+Core Team member is personally responsible for making sure the
+project is completed satisfactorily and/or cleaning up any messes.
+
+~ Deadlock Resolution
+
+If something should go wrong with the TCT organization and the Tcl
+Core Team deadlocks to a point where it can't make meaningful
+progress, then John Ousterhout <ouster@interwoven.com> will step in as
+benevolent dictator and make enough unilateral decisions to break the
+deadlock.
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
