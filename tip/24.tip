@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -147,7 +147,7 @@ assigned:
 			     Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>,
-                              Joe Mistachkin <mistachkin@users.sourceforge.net>
+                              Joe Mistachkin <joe@mistachkin.com>
 
    1. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -163,13 +163,13 @@ assigned:
                       Daniel Steffen <das@users.sourceforge.net> (Mac),
                       Jim Ingham <jingham@apple.com> (Mac),
 		      Jeff Hobbs <JeffH@ActiveState.com>,
-                      Joe Mistachkin <mistachkin@users.sourceforge.net>
+                      Joe Mistachkin <joe@mistachkin.com>
 
    1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
                               Daniel Steffen <das@users.sourceforge.net> (Mac),
                               Jim Ingham <jingham@apple.com> (Mac),
 			      Jeff Hobbs <JeffH@ActiveState.com>,
-                              Joe Mistachkin <mistachkin@users.sourceforge.net>
+                              Joe Mistachkin <joe@mistachkin.com>
 
    1. ''Release Notes'' - Daniel Steffen <das@users.sourceforge.net> (Mac),
                           Jim Ingham <jingham@apple.com> (Mac),
