@@ -1,0 +1,77 @@
+TIP:		164
+Title:		Add Rotate Subcommand to the Canvas Widget
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	17-Nov-2003
+Post-History:	
+Tcl-Version:	8.5
+Keywords:	Tk, canvas
+
+~ Abstract
+
+This TIP proposes to add a ''rotate'' subcommand to the canvas widget
+to facilitate rotating items in very much the same way as is now
+possible with scaling and moving.
+
+~ Rationale
+
+The canvas currently allows a programmer to scale and move items, but
+the third common affine transformation, rotation, is not supported.
+This can in itself be simulated by a script (simply get the
+coordinates of all items involved, transform them and set the new
+coordinates), but if you have several hundreds or even thousands of
+items this gets very slow.
+
+~ Proposal
+
+Rotation is easy for polygons and lines: simply transform the
+coordinates.  For circles and circular arcs new bounding boxes must be
+calculated and in addition for arcs the starting angle must be
+changed.
+
+Implementing rotation should consider what to do with items that can
+not (easily) be rotated: text items, rectangles, non-circular ovals
+and arcs, widgets and images.  Currently, text can not be drawn at an
+arbitrary angle, so I propose to only transform the coordinates at
+which the text is "anchored".  A similar strategy can be used for
+widgets and images.
+
+For rectangles and general ovals and arcs there are two choices:
+
+ * Transforming the item into a polygon would solve the definition
+   problem (these items are defined by a bounding box and the
+   orientation is implicitly assumed), but might break scripts that
+   look for a particular type of item.
+
+ * Therefore we will simply calculate a new bounding box and ''ignore
+   changes in orientation''.
+
+The new command would become:
+
+| $canvas rotate $itemOrTag $x $y $angle
+
+where the arguments are very similar to those of the scale subcommand
+and angle is in degrees (a positive angle means rotate
+counter-clockwise).
+
+~ Reference Implementation
+
+A reference implementation does ''not'' yet exist.
+
+~ Questions
+
+Should this TIP also consider the possibility of reflections in a line?
+
+Should this TIP also consider more general linear transformations (to
+be specified via a 2x2 matrix)?  What about full affine
+transformations (i.e. with the translation components)?
+
+If we implement these from the start, we need to do only a little more
+work.
+
+~ Copyright
+
+This document is placed in the public domain.
