@@ -1,7 +1,8 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -245,6 +246,14 @@ of community discussion.
    perhaps some special case handling that could be difficult to
    document, it appears this would open up a way for a safe interp to
    force code to be evaluated in a trusted interp.
+
+''DKF notes that:''
+
+ > you can work around the problem with a TCL_EVAL return code by
+   never permitting it to cross an interpreter boundary; if it would
+   go to a different interp at a particular point, immediately before
+   is when the evaluation should occur instead.  Care would need to
+   be taken over infinite loops of TCL_EVAL returns, of course...
 
 ~ Generalization
 
