@@ -1,6 +1,6 @@
 TIP:            122
 Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Martin Weber <ephaeton@gmx.net>
 Author:         Martin Weber <Ephaeton@gmx.net>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
@@ -72,16 +72,16 @@ It is not at all clear from reading Tcl or Tk's documentation what the
 behaviour of the above options will be.  It turns out that:
 
 1. after a convoluted call-chain, ends up calling
-tcl_wordBreakAfter/Before which use tcl_wordchars and tcl_nonwordchars.
+tcl_wordBreakAfter/Before which use tcl_wordchars and tcl_nonwordchars (which actually are defined differently on Windows vs Unix/MacOS!!).
 
 2. uses 'isalnum(char)' or '_' to define a word (hard-coded in Tk's
-tkTextIndex.c)
+tkTextIndex.c) (in Tk8.5a0 this has been fixed to use ''Tcl_UniCharIsWordChar'')
 
-3. uses Tcl's regexp engine's definition of a word.
+3. uses Tcl's regexp engine's definition of a word (this ought to be the same as that used in (2)).
 
 4. Anything separated by white-space from something else, used with '-wrap word' to define line-wrapping in text widgets (and canvases).
 
-It is quite likely that all four of the above are different under some
+It is quite likely that most of the above are different under some
 circumstances or some platforms/locales, and certainly if the
 user/developer wants to create a text widget with a different word
 definition, they basically can't in any consistent way.
