@@ -1,0 +1,115 @@
+TIP:		40
+Title:		Documentation Generator for Tcl Scripts
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	04-Jul-2001
+Post-History: 
+Tcl-Version:	8.0
+Keywords:	documentation, automatic generation, HTML, reference
+
+~ Abstract
+
+This TIP proposes the adoption of a standard documentation format for
+Tcl scripts and the implementation of a simple tool that will extract
+this documentation from the source code so that it may be turned into
+a programmer's guide.  This is in essence akin to documentation tools
+like the well-known ''javadoc'' utility for Java programs and Eiffel's
+short utility.
+
+~ Introduction
+
+The style guide by Ray Johnson presents a documentation standard that
+is easy to use and is in fact adopted in the Tcl/Tk distribution.
+Other than this, the standard has not been enforced or encouraged.  It
+is also not backed up by some tool (as far as I know) that can
+generate pretty looking documents from this.  As a consequence, styles
+of documentation may vary widely and at times it is necessary to read
+the source code (looking for descriptions) to understand how to use
+the script.
+
+The availability of such a tool may encourage people to use the
+standard, as the costs of generating the documentation are relatively
+low.  The tool must accommodate for variations and therefore be
+flexible; for instance by providing customisable procedures to support
+the user's preferred header format.
+
+The tool also needs to distinguish the types of output: in many cases
+HTML output is desirable to make it look pretty and provide hypertext
+facilities, in other cases it should provide plain text, formatted so
+that it can be read in any ordinary text editor or printed quickly.
+
+Parallel to the development of such a tool, a standard or checklist
+should be assembled of what information programmer ought to provide,
+the version of Tcl/Tk, extensions that need to be present, what
+functionality is offered and so on.
+
+~ Rationale
+
+Automatic documentation generation has two goals: improving usability
+and improving maintainability.  The first means: pleasant looking
+documentation, at low cost for the author, is easy to use.  One can
+also avoid reading the source code.
+
+Improving the maintainability is achieved by having more or less
+technical documentation near the code.  There is no need for separate
+documents, something which enhances the risk of discrepancies.
+
+~ What Information
+
+A user clearly needs different information than a maintainer.  For the
+user it is important to know what functionality is provided, what
+other packages or extensions are needed, which (public) procedures are
+available and how to use them.
+
+For the maintainer: having an overview of the source files helps
+finding the procedures.  Part of this information can be extracted
+directly from the source (such as via inspection of the proc, package
+and namespace statements).
+
+~ Formats
+
+Use the format proposed by the style guide as a guideline (certainly 
+for the reference implementation):
+
+| # pkg_compareExtension --
+| #
+| #  Used internally by pkg_mkIndex to compare the extension of a file to
+| #  a given extension. On Windows, it uses a case-insensitive comparison
+| #  because the file system can be file insensitive.
+| #
+| # Arguments:
+| #  fileName     name of a file whose extension is compared
+| #  ext          (optional) The extension to compare against; you must
+| #               provide the starting dot.
+| #               Defaults to [info sharedlibextension]
+| #
+| # Results:
+| #  Returns 1 if the extension matches, 0 otherwise
+
+(This comes from the "package.tcl" script file that came with Tcl
+8.3.1, it is consistent with the Tcl style guide by Ray Johnson)
+
+~ Requirements
+
+The requirements are simple to describe:
+
+ * Implementation must be a Tcl script, to guarantee availability and
+   portability.
+
+ * Easy to extend to new documentation formats (Implementation note:
+   small procedures that register the information piece by piece)
+
+ * Easy to extend to new output formats (Implementation note: small
+   procedures that format the registered information)
+
+ * Properly deal with organisational aspects: source file, package,
+   namespace.
+
+ * Provide at least two levels of detail: how to use, how to maintain
+
+~ Copyright
+
+This document is placed in the public domain.
