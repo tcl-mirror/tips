@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -88,7 +88,9 @@ able to successfully get this done at http://tcltk.org/sourceforge
 This document does not include instructions on how to use CVS.  See
 the following references for assistance with learning CVS.
 
-  >	''Add references here please.''
+  http://cvsbook.red-bean.com/cvsbook.html
+
+  >	''Add more references here please.''
 
 ~ How do I volunteer to be a maintainer?
 
