@@ -1,0 +1,560 @@
+TIP:		219
+Title:		Tcl Channel Reflection API
+Version:	$Revision: 1.1 $
+Author:		Andreas Kupries <andreas_kupries@users.sf.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	09-Sep-2004
+Tcl-Version:	8.5
+Post-History:	
+
+~ Abstract
+
+This document describes an API which reflects the Channel Driver API
+of the core I/O system up into the Tcl level, for the implementation
+of channel types in Tcl.  It is built on top of [208] ('Add a chan
+command') and also an independent companion to the forthcoming TIPs on
+a 'Tcl Channel Transformation Reflection API' and a Tcl Filesystem
+Reflection API'. As the later TIPs bring the ability of writing
+channel transformations and filesystems in Tcl itself into the core so
+this TIP provides the facilities for the implementation of new channel
+types in Tcl.  This document specifies version ''1'' of the channel
+reflection API.
+
+~ Motivation / Rationale
+
+The purpose of this and the other reflection TIPs is to provide all
+the facilities required for the creation and usage of wrapped files (=
+virtual filesystems attached to executables and binary libraries)
+within the core.
+
+While it is possible to implement and place all the proposed
+reflectivity in separate and external packages, this however means
+that the core itself cannot make use of wrapping technology and
+virtual filesystems to encapsulate and attach its own data and library
+files to itself. This is something which is desirable as it can make
+the deployment and embedding of the core easier, due to having less
+files to deal with, and a higher degree of self-containment.
+
+One possible application of a completely self-contained core library
+would be, for example, the Tcl browser plugin.
+
+While it is also possible to create a special purpose filesystem and
+channel driver in the core for this type of thing, it is however my
+belief that the general purpose framework specified here is a better
+solution as it will also give users of the core the freedom to
+experiment with their own ideas, instead of constraining them to what
+we managed to envision.
+
+Another use for reflected channels was found when creating the
+reference implementation: As helper for testing the generic I/O system
+of Tcl, by creating channels which forcibly return errors, bogus data,
+and the like.
+
+~ Specification
+
+~~ Introduction
+
+This specification has to address two questions to make the reflection
+work.
+
+ * How are the driver functions reflected into the Tcl level ?
+
+ * How are file events generated in the Tcl level communicated back to
+   the C level?  This includes routing to the correct channel.
+
+~~ C Level API
+
+There is no C API to specify. The Tcl core already has a standard API
+for the creation of channel drivers from the C level.
+
+~~ Tcl Level API
+
+The Tcl Level API consists of two new subcommands added to the
+ensemble command 'chan' specified by TIP #208. The new subcommands
+are:
+
+ * '''create''' ''mode cmdprefix''
+
+ > This subcommand creates a new script level channel using the
+   command prefix ''cmdprefix'' as its handler. The API this handler
+   has to provide is specified below, in the section "Command Handler
+   API". The handle of the new channel is returned as the result of
+   the command, and the channel is open. Use the regular '''close'''
+   command to remove the channel.
+
+ > The argument ''mode'' specifies if the channel is opened for
+   reading, writing, or both. It is a list containing any of the
+   strings '''read''' or '''write'''. The list has to have at least
+   one element, as a channel you can neither write to nor read from
+   makes no sense. The handler command for the new channel has to
+   support the chosen mode. An error is thrown if that is not the
+   case.
+
+ > We have chosen to use ''early binding'' of the handler command. See
+   the section "Early versus Late Binding of the Handler Command" for
+   more detailed explanations.
+
+ * '''postevent''' ''channel eventspec''
+
+ > This subcommand notifies the channel represented by ''channel''
+   that the event(s) listed in the ''eventspec'' have occurred. The
+   argument ''eventspec'' is a list containing any of '''read''' and
+   '''write'''. At least one element is required (It does not make
+   sense to invoke the command if there are no events to post).
+
+ > Note that this subcommand can be used only on channel handles which
+   were created/opened with the subcommand '''create'''. Application
+   to channels like files, sockets, etc. is not possible and will
+   cause the generation of an error.
+
+ > As only the Tcl level of a channel should post events to it we also
+   restrict usage of this command to the interpreter the handler
+   command is in. In other words, posting events to a reflected
+   channel from a different interpreter than its implementation is not
+   allowed.
+
+ > Another restriction is that it is not possible to post events the
+   I/O core has not registered interest in. Trying to do so will cause
+   the method to throw an error. See the method '''watch''' in section
+   "Command Handler API" as well.
+
+~~ Command Handler API
+
+The Tcl-level handler command for a reflected channel is an ensemble
+that has to support the following subcommands, as listed below. Note
+that the term ''ensemble'' is used to generically describe all command
+(prefixes) which are able to process subcommands. This TIP is ''not''
+tied to the recently introduced 'namespace ensemble's.
+
+ * '''initialize''' ''channel mode''
+
+ > This is the first call the command handler will receive for the
+   given new ''channel''. It is his responsibility to set up any
+   internal data structures it needs to keep track of the channel and
+   its state.
+
+ > The return value of the method has to be a list containing two
+   elements, the version of the reflection API, and a list containing
+   the names of all methods which are supported by this handler.
+
+ > Any error thrown by the method will abort the creation of the
+   channel and no channel will be created. The thrown error will
+   appear as error thrown by '''chan create'''.
+
+ > '''Important''' - If the creation of the channel was aborted due to
+   failures in '''initialize''' then the method '''finalize''' will
+   ''not'' be called.
+
+ > This method has no equivalent at the C level.
+
+ > The current version is ''1''.
+
+ > It was considered to return only the list of optional methods
+   supported by the handler. The chosen method however should make the
+   code in the C layer more regular. Another advantage of this is that
+   it allows the C level to better check if the API it expects is
+   matching the API provided by the handler.
+
+ > The argument ''mode'' tells the handler if the channel was opened
+   for reading, writing, or both. It is a list containing any of the
+   strings '''read''' or '''write''', or a unique abbreviation
+   thereof. The list will contain at least one element, as a channel
+   you can neither write to nor read from makes no sense.
+
+ > The method has to throw an error if the chosen mode is not
+   supported by the handler command.
+
+ * '''finalize''' ''channel''
+
+ > The method is called when the channel was '''close'''d, and is the
+   last call a handler can receive for the given ''channel''. This
+   happens just before the destruction of the C level data structures.
+   Still, the command handler must not access the channel anymore in
+   no way. It is now his responsibility to clean up any internal
+   resources it allocated to this channel.
+
+ > The return value of the method is a POSIX error code, or the empty
+   string. The latter is equivalent to error code "0", which signals
+   EOK, i.e. no error. The error codes can be appropriate integer
+   numbers, or symbolic names, like EOK, ENOMEM, EINVAL, etc. Symbolic
+   names are converted internally to their associated integer number.
+
+ > Any error thrown by the method causes the C level to signal the
+   POSIX error EINVAL. It would be nice if the message of such an
+   error could show up as an error of the '''close''' command, however
+   the current C-level channel driver API is not able to do this.
+
+ > The equivalent C-level function is ''Tcl_DriverCloseProc''.
+
+ > This method is not invoked if the creation of the channel was
+   aborted during '''initialize'''.
+
+ * '''read''' ''channel count''
+
+ > This method is ''optional''. It is called when the user requests
+   data from a channel. ''count'' specifies how many ''bytes'' have
+   been requested. If the method is not supported then it is not
+   possible to read from the channel handled by the command.
+
+ > The return value of the method is taken as the requested data. If
+   the returned data contains more bytes than requested an error will
+   be signaled and later thrown by the command which performed the
+   read (usually '''gets''' or '''read'''). Returning less bytes than
+   requested is acceptable however.
+
+ > If the method throws an error the command which performed the read
+   will throw an error as well, however the actual error message
+   created by the method will not be present. The current C-level
+   channel driver API is not able to propagate this information.
+
+ > The equivalent C-level function is ''Tcl_DriverInputProc''.
+ 
+ * '''write''' ''channel data''
+
+ > This method is ''optional''. It is called when the user writes data
+   to the channel. Note that the ''data'' are bytes, not characters.
+   Any type of transformation (EOL, encoding) configured for the
+   channel has already been applied at this point. If the method is
+   not supported then it is not possible to write to the channel
+   handled by the command.
+
+ > The return value of the method is taken as the number of bytes
+   written by the channel. Anything non-numeric will cause an error to
+   be signaled and later thrown by the command which performed the
+   write. A negative value implies that the write failed. Returning a
+   value greater than the number of bytes given to the handler, or
+   zero, is forbidden and will cause the C level to throw errors.
+
+ > If the method throws an error the command which performed the write
+   (usually '''puts''') will throw an error as well, however the
+   actual error message created by the method will not be present. The
+   current C-level channel driver API is not able to propagate this
+   information.
+
+ > The equivalent C-level function is ''Tcl_DriverOutputProc''.
+
+ * '''seek''' ''channel offset base''
+
+ > This method is ''optional''. It is responsible for the handling of
+   seek and tell requests on the channel. If it is not supported then
+   seeking will not be possible for the channel.
+
+ > ''base'' is one of
+
+ > * '''start''' - Seeking is relative to the beginning of the
+     channel.
+
+ > * '''current''' - Seeking is relative to the current seek position.
+
+ > * '''end''' - Seeking is relative to the end of the channel.
+
+ > The base argument of the builtin '''seek''' command takes the same
+   names.
+
+ > The ''offset'' is an integer number specifying the amount of
+   ''bytes'' to seek forward or backward. A positive number will seek
+   forward, and a negative number will seek backward.
+
+ > A channel may provide only limited seeking. For example sockets can
+   seek forward, but not backward.
+
+ > The return value of the method is taken as the (new) location of
+   the channel, counted from the start. This has to be an integer
+   number greater than or equal to zero. If the method throws an error
+   the command which performed the seek will throw an error as well,
+   however the actual error message created by the method will not be
+   present. The current C-level channel driver API is not able to
+   propagate this information.
+
+ > The offset/base combination of 0/"current" signals a '''tell'''
+   request, i.e. seek nothing relative to the current location, making
+   the new location identical to the current one, which is then
+   returned.
+
+ > The equivalent C-level functions are ''Tcl_DriverSeekProc'', and
+   ''Tcl_DriverWideSeekProc'' (where possible).
+
+ * '''configure''' ''channel option value''
+
+ * '''configure''' ''channel option''
+
+ * '''configure''' ''channel''
+
+ > This method is ''optional''. It is for reading and writing the type
+   specific options.
+
+ > Per call with three arguments one option has to be written. Each
+   call with two arguments has to return the value of the specified
+   option.  If called with only one argument then it has to return a
+   list of all options and their values. This list has to have an even
+   number of elements.
+
+ > The return value of the method is ignored when setting an option.
+   Otherwise it is interpreted as specified above. If the method
+   throws an error the command which performed the (re)configuration
+   or query (usually '''fconfigure''') will appear to have thrown this
+   error.
+
+ > The equivalent C-level functions are ''Tcl_DriverSetOptionProc''
+   and ''Tcl_DriverGetOptionProc''.
+
+ * '''watch''' ''channel eventspec''
+
+ > This methods notifies the Tcl level that the specified channel is
+   interesting in the events listed in the ''eventspec''. This is a
+   list containing any of '''read''' and '''write''', and any unique
+   abbreviation thereof. The empty list is allowed as well and signals
+   that the channel does not wish to be notified of any events. In
+   other words, it has to disable event generation at the Tcl level.
+
+ > The return value of the method is ignored. Any error thrown by the
+   method is ignored as well.
+
+ > The equivalent C-level function is ''Tcl_DriverWatchProc''.
+
+ > This method interacts with '''chan postevent'''. Trying to post an
+   event not listed in the last call to this method will cause an
+   error.
+
+ * '''blocking''' ''channel mode''
+
+ > This method is ''optional''. It handles changes to the blocking
+   mode of the channel. The ''mode'' is a boolean flag. True means
+   that the channel has to be set to blocking. False means that the
+   channel should be non-blocking.
+
+ > The return value of the method is a POSIX error code, or the empty
+   string. The latter is equivalent to error code "0", which signals
+   EOK, i.e. no error. The error codes can be appropriate integer
+   numbers, or symbolic names, like EOK, ENOMEM, EINVAL, etc. Symbolic
+   names are converted internally to their associated integer number.
+
+ > If the method throws an error the command which performed the
+   change (usually ''fconfigure'') will throw an error as well,
+   however the actual error message created by the method will not be
+   present. The current C-level channel driver API is not able to
+   propagate this information.
+
+ > The equivalent C-level function is ''Tcl_DriverBlockModeProc''.
+
+Notes:
+
+ * The function ''Tcl_DriverGetHandleProc'' is not supported.  There
+   is no equivalent handler method at the Tcl level.
+
+ * The function ''Tcl_DriverHandlerProc'' is not supported. There is
+   no equivalent handler method at the Tcl level. The function has no
+   relevance to base channels, which we work with here, only for
+   channel transformations. See TIPs #... ('Tcl Channel Transformation
+   Reflection API') for more information on the issue.
+
+ * The function ''Tcl_DriverFlushProc'' is not supported. The reason
+   for this: The current generic I/O layer of Tcl does not use this
+   function at all, nowhere. Therefore support at the Tcl level makes
+   no sense either. We can always extend the API defined here (and
+   change its version number) should the function be used at some time
+   in the future.
+
+~~ Interaction with Threads and Other Interpreters.
+
+A channel created with the '''chan create''' command knows the
+interpreter it was created in and executes its handler command only in
+that interpreter, even if the channel is shared with and/or has been
+moved into a different interpreter. This is easy to accomplish, by
+evaluating the handler command only in the context of the original
+interpreter.
+
+The channel also knows the thread it was created in and executes its
+handler command only in that thread, even if the channel has been
+moved into a different thread. This is not so easy to accomplish, but
+still possible and feasible. It is done by:
+
+ * Detecting if a driver function is called from a different thread,
+   and
+
+ * Forwarding the invocation of the handler script to the original
+   thread via specialized events. This means that an event loop has to
+   be active in the original thread, able to process these events.
+
+Note that this also allows the creation of a channel whose two
+endpoints live in two different threads and provide a stream-oriented
+bridge between these threads. In other words we can provide a way for
+regular stream communication between threads instead of having to send
+commands.
+
+When a thread or interpreter is deleted all channels created with the
+'''chan create''' command using this thread/interpreter as their
+computing base will be deleted as well, in all interpreters they have
+been shared with or moved into, and in whatever thread they have been
+moved to. This pulls the rug out under the other thread(s) and/or
+interpreter(s), this however cannot be avoided. Trying to use such a
+channel will cause the generation of the regular error about unknown
+channel handles.
+
+~~ Interaction with Safe Interpreters
+
+The new subcommands '''create''' and '''postevent''' of '''chan''' are
+safe and therefore made accessible to safe interpreters.
+
+While '''create''' arranges for the execution of code this code is
+always executed within the safe interpreter, even if the channel was
+moved (See previous section).
+
+The subcommand '''postevent''' can trigger the execution of fileevent
+handlers, however if they are executed in trusted interpreters then
+they were registered by these interpreters as well. (Moving channels
+between threads strips fileevent handlers, and just between
+interpreters keeps them, and executes them where they were added).
+
+~~ Early versus Late Binding of the Handler Command
+
+We have two principal methods for using the handler command. These are
+called early and late binding.
+
+Early binding means that the command implementation to use is
+determined at the time of the creation of the channel, i.e. when
+'''chan create''' is executed, before any methods are called.
+Afterward it cannot change. The result of the command resolution is
+stored internally and used until the channel is destroyed. Renaming
+the handler command has no effect. In other words, the system will
+automatically call the command under the new name. The destruction of
+the handler command is intercepted and causes the channel to close as
+well.
+
+Late binding means that the handler command is stored internally
+essentially as a string, and this string is mapped to the
+implementation to use for each and every call to a method of the
+handler. Renaming the command, or destroying it means that the next
+call of a handler method will fail, causing the higher level channel
+command to fail as well. Depending on the method the error message may
+not be able to explain the reason of that failure.
+
+Another problem with this approach is that the context for the
+resolution of the command name has to be specified explicitly to avoid
+problems with relative names. Early binding resolves once, in the
+context of the '''chan create'''. Late binding performs resolution
+anywhere where channel commands like '''puts''', '''gets''', etc. are
+called, i.e. in a random context. To prevent problems with different
+commands of the same name in several namespaces it becomes necessary
+to force the usage of a specific fixed context for the resolution.
+
+Note that moving a different command into place after renaming the
+original handler allows the Tcl level to change the implementation
+dynamically at runtime. This however is not really an advantage over
+early binding as the early bound command can be written such that it
+delegates to the actual implementation, and that can then be changed
+dynamically as well.
+
+~~ Miscellanea
+
+The channel reflection API reserves the driver type "tclrchannel" for
+itself. Usage of this driver type by other channel types is not
+allowed.
+
+~ Examples
+
+~~ Driver Implementations
+
+A simple way of implementing new types of channels is to use any of
+the various object systems for Tcl. Create a class for the channel
+type. Create the new channel in the constructor for new objects and
+store the channel handle. Make the new object the command handler for
+the channel. This automatically translates the sub commands for the
+command handler into object methods. Implement the various methods
+required. when the object is deleted close the channel, and delete the
+object when the channel announces that it has been '''close'''d. This
+part is a bit tricky, flags have to be used to break the potential
+cycle.
+
+Another possibility is to implement the command handler as a regular
+command, together with a creation command wrapping around '''chan
+create''' and a backend which keeps track of all handles created by it
+and their state, associated data, etc.
+
+| object based example ...
+|
+|  snit::type new_channel {
+|      constructor {mode args} {
+|          # Handle args ...
+|          set chan [chan create $mode $self]
+|      }
+|      destructor {
+|          # ... delete internal state ...
+|          if {$dead} return
+|          set dead 1
+|          close $chan
+|      }
+|
+|      method handle {} {return $chan}
+|      variable chan
+|      variable dead 0
+|
+|      method finalize {dummy} {
+|          if {$dead} return
+|          set dead 1
+|          $self destroy
+|      }
+|      method initialize {dummy mode} {}
+|      method read       {dummy count} {}
+|      method write      {dummy data} {}
+|      method seek       {dummy offset base} {}
+|      method configure  {dummy args} {}
+|      method watch      {dummy events} {}
+|      method blocking   {dummy isblocking} {}
+|  }
+|
+|  proc newchannel_open {args} {
+|      return [[new_channel %AUTO% {expand}$args] handle]
+|  }
+
+~~ Other Possible Drivers
+
+ * Memory channel based on a string. Block and/or FIFO oriented.
+
+ * Null device. Writable, not writable. WOM device. Data sink.
+
+ * Random data (Writing to it may re-seed the PRNG).
+
+ * Zero channel. Readable, returns a stream of binary 0s. Not writable.
+
+ * FIFO channel between different threads.
+
+ * Optimized virtual filesystem implementations.
+
+ > Current VFS implementations have to use the package ''memchan'' to
+   provide the channels when a file in them is opened, which
+   necessitates that for all open files all of their data is in
+   memory, possibly even more than once (when several channels are
+   open on the same file). A reflected driver however allows
+   implementations which keep only part of the data in memory. Or
+   nearly none at all if the VFS provides computed information / is
+   based on some data structure.
+
+ > A more concrete example would be a driver which provides access to
+   files stored in some archive file. Using a reflect driver the
+   archive file can be memory mapped and the driver will then read
+   whatever data is needed when requested. Currently it will have to
+   copy the data into a ''memchan'' channel, i.e duplicate it in
+   memory.
+
+ > Note that of course the internals of the archive file may limit the
+   amount of memory savings we can achieve. If for example the file we
+   wish to access is stored in a compressed form we will have to
+   decompress it in memory at least to the highest location requested
+   so far. And any write operation (if allowed) will have to keep the
+   data in memory until it has been compressed and committed.
+
+~ Reference Implementation
+
+A reference implementation is provided at SourceForge
+[http://sourceforge.net/support/tracker.php?aid=1025294].
+
+~ Comments
+
+''[[ Add comments on the document here ]]''
+
+~ Copyright
+
+This document has been placed in the public domain.
