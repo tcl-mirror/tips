@@ -1,6 +1,6 @@
 TIP:            111
 Title:          Dictionary Values and Manipulators
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <dcargo@marix.com>
 State:          Draft
@@ -312,6 +312,115 @@ There are a few other commands that change:
 
  * [[string map]] will take a dictionary instead of (or as well as) a
    list as its map argument.
+
+~ C API
+
+There will be a new public structure and a few new public functions to
+allow C-level access to dictionary values:
+
+The new structure (called ''Tcl_DictSearch'') will be there to allow
+for searches (i.e. traversals) of a dictionary.  This TIP does not
+specify the fields of the structure; the declaration is just to allow
+for allocation of these structures on the C stack.
+
+Many public API functions are capable of generating error messages;
+these generally indicate some type-conversion failure.  Sharing
+constraint violations (where applicable) cause panics as they indicate
+basic programming errors which should not be causable by scripts.  The
+public API functions are:
+
+|Tcl_Obj *Tcl_NewDictObj(void);
+|Tcl_Obj *Tcl_DbNewDictObj(CONST char *file, int line);
+
+These functions (in non-debug and debug versions) create a new
+dictionary object and return it.
+
+|int Tcl_DictObjPut(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+|        Tcl_Obj *keyPtr, Tcl_Obj *valuePtr);
+
+This function inserts a new key/value pair into a dictionary, or
+updates a key/value pair already in the dictionary.  The dictionary
+object must be unshared.  Note that both the key and value objects
+will have their reference count increased.  The return value is a
+normal TCL_OK/TCL_ERROR result, with the ''interp'' for error
+reporting.
+
+|int Tcl_DictObjGet(Tcl_Interp *interp, Tcl_Obj *dictPtr, Tcl_Obj *keyPtr,
+|        Tcl_Obj **valuePtrPtr);
+
+This function looks up the value for a key in a dictionary.  The
+variable pointed to by the ''valuePtrPtr'' argument is updated to
+contain a reference to the value, or a NULL if there is no mapping for
+the key in the dictionary.  No reference counts are manipulated by
+this function.  The return value is a normal TCL_OK/TCL_ERROR result,
+with the ''interp'' for error reporting.
+
+|int Tcl_DictObjRemove(Tcl_Interp *interp, Tcl_Obj *dictPtr, Tcl_Obj *keyPtr);
+
+This function removes the key/value pair with the given key from the
+dictionary.  It is not an error if the key is not present in the
+dictionary.  The dictionary must be unshared.  The return value is a
+normal TCL_OK/TCL_ERROR result, with the ''interp'' for error
+reporting.
+
+|int Tcl_DictObjSize(Tcl_Interp *interp, Tcl_Obj *dictPtr, int *sizePtr);
+
+This function updates the integer variable pointed to by ''sizePtr''
+with the number of key/value pairs in the dictionary.  The return
+value is a normal TCL_OK/TCL_ERROR result, with the ''interp'' for
+error reporting.
+
+|int Tcl_DictObjFirst(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+|        Tcl_DictSearch *searchPtr,
+|        Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr);
+
+This function starts a search of (i.e. iteration over) the given
+dictionary, using the structure pointed to by ''searchPtr'' as
+context.  The return value is a normal TCL_OK/TCL_ERROR result, with
+the ''interp'' for error reporting.  Three variables are updated to
+indicate what was found; ''keyPtrPtr'' is used for reporting the key
+of a key/value pair and ''valuePtrPtr'' is used for reporting the
+corresponding value.  Finally, ''donePtr'' is used for indicating
+whether the search has found all the values; if the variable it points
+to is set to 1 there are no key/value pairs in the dictionary
+(i.e. the variables pointed to by ''keyPtrPtr'' and ''valuePtrPtr''
+were not updated), but if the variable is set to 0, a key/value pair
+was found and ''Tcl_DictObjNext()'' should be called to discover
+whether that was the last value or if there are further ones in the
+dictionary.  Note that if this function indicates that the search is
+not done but the calling code wishes to extract no further values from
+the dictionary, ''Tcl_DictObjDone()'' ''must'' be called to release
+the internal locks on the representation of the value.
+
+|void Tcl_DictObjNext(Tcl_DictSearch *searchPtr,
+|        Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr);
+
+This function gets the next key/value pair from the search of a
+dictionary, using the search referenced by ''searchPtr''.  The meaning
+of the ''keyPtrPtr'', ''valuePtrPtr'' and ''donePtr'' variables is
+much the same as in ''Tcl_DictObjFirst()'', along with the restriction
+that if the function indicates that the search is not done but the
+calling code wishes to extract no further values from the dictionary,
+''Tcl_DictObjDone()'' ''must'' be called to release the internal locks
+on the representation of the value.
+
+|void Tcl_DictObjDone(Tcl_DictSearch *searchPtr);
+
+This function terminates a search of a dictionary before all the
+values in the dictionary have been iterated over, releasing the
+internal locks on the dictionary representation.
+
+|int Tcl_DictObjPutKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+|        int keyc, Tcl_Obj *CONST *keyv, Tcl_Obj *valuePtr);
+
+This function is a variant on ''Tcl_DictObjPut()'' that takes a list
+of keys so as to work with nested dictionaries.
+
+|int Tcl_DictObjRemoveKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+|        int keyc, Tcl_Obj *CONST *keyv);
+
+This function is a variant on ''Tcl_DictObjRemove()'' that takes a
+list of keys so as to work with nested dictionaries.
 
 ~ Examples
 
