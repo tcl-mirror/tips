@@ -1,0 +1,65 @@
+TIP:            61
+Title:          Make TK_NO_SECURITY Run-Time Switchable
+Version:        $Revision: 1.1 $
+Author:         Jeff Hobbs <JeffH@ActiveState.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Sep-2001
+Tcl-Version:	8.4
+Post-History:   
+
+~ Abstract
+
+This TIP changes the compile time Tk define TK_NO_SECURITY to be
+switchable at run-time.
+
+~ Rationale
+
+The TK_NO_SECURITY compile time #define is available to disable some
+security checking when send is used.  The direct comments in the
+Makefile are:
+
+| # To turn off the security checks that disallow incoming sends when
+| # the X server appears to be insecure, reverse the comments on the
+| # following lines:
+| SECURITY_FLAGS		=
+| #SECURITY_FLAGS		= -DTK_NO_SECURITY
+
+I propose to make this switch configurable at runtime through a ''tk
+securesend'' option.
+
+~ Benefits
+
+Users would be able to debug between Tk applications on Unix using
+''send'' without having to compile a special version of Tk or
+manipulating the security settings of their X server to Tk's liking
+(which can then conflict with other work).  It is common for users in
+internal ("safe") networks to open up access to an X server with
+''xhost +machine''.
+
+~ Drawbacks
+
+By allowing security to be disabled, users do possibly open up their
+system to attack.  However, secure is the default setting, and any
+paranoid users can ''rename send {}'' to ensure that it is not used at
+all.
+
+~ Reference Implementation
+
+A full patch for this feature is available at:
+
+http://sf.net/tracker/?func=detail&aid=456732&group_id=12997&atid=312997
+
+The proposal adds one element to the private ''TkDisplay'' structure
+(configuration for secure send is done per display), and creates the
+Tcl level command:
+
+|	tk securesend ?-displayof window? ?boolean?
+
+It leaves the TK_NO_SECURITY flag alone.  If specified, send is
+insecure by default, otherwise it is secure.
+
+~ Copyright  
+
+This document has been placed in the public domain.
