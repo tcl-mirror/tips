@@ -1,0 +1,111 @@
+TIP:		76
+Title:		Make 'regsub' Return a String
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Bruce Hartweg <B.Hartweg@compaq.com>
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	29-Nov-2001
+
+~ Abstract
+
+This TIP proposes altering the [[regsub]] command so that it can
+return the substituted string as the result of the command.
+
+~ Rationale
+
+In many of the most common uses of the [[regsub]] command, the
+substituted string is used only once in the immediately following
+command.  However, the [[regsub]] command only provides the
+substituted string via a variable, with the result of the command
+itself being the number of substitutions performed.  For many uses of
+the command, it is the substituted string though that is the most
+useful result, especially if some other transformation is going to be
+applied to it (like further [[regsub]] commands or some other Tcl
+command like one of the [[string]] subcommands or [[subst]].)  This
+TIP proposes a mechanism for providing the ability to return the
+string as the command's result, and in a way that is
+backward-compatible with existing scripts.
+
+~ Specification
+
+|   regsub ?switches? exp string subSpec ?varName?
+
+If ''varName'' is supplied the new string is written there and the
+number of substitutions are returned (same as current behavior).  If
+''varName'' is not supplied than the new string is returned as the
+result of the [[regsub]] command.
+
+~ Reference Implementation
+
+This is a pretty easy change, although I do not currently have an
+environment where I can actually build and test this the following
+should create the desired behavior.
+
+File: ''tcl/generic/tclCmdMZ.c''
+
+Function: ''Tcl_RegsubObjCmd''
+
+Currently (v 1.52):
+
+|    if (objc - idx != 4) {
+|	 Tcl_WrongNumArgs(interp, 1, objv,
+|		 "?switches? exp string subSpec varName");
+|	 return TCL_ERROR;
+|    }
+
+which should be changed to:
+
+|    objc -= idx;
+|    if (objc != 3 || objc != 4) {
+|	 Tcl_WrongNumArgs(interp, 1, objv,
+|		 "?switches? exp string subSpec ?varName?");
+|	 return TCL_ERROR;
+|    }
+
+and then at the end change this:
+
+|    if (Tcl_ObjSetVar2(interp, objv[3], NULL, resultPtr, 0) == NULL) {
+|	 Tcl_AppendResult(interp, "couldn't set variable \"",
+|		 Tcl_GetString(objv[3]), "\"", (char *) NULL);
+|	 result = TCL_ERROR;
+|    } else {
+|	 /*
+|	  * Set the interpreter's object result to an integer object
+|	  * holding the number of matches.
+|	  */
+|
+|	 Tcl_SetIntObj(Tcl_GetObjResult(interp), numMatches);
+|    }
+
+to this:
+
+|    if (objc == 4) {
+|        if (Tcl_ObjSetVar2(interp, objv[3], NULL, resultPtr, 0) == NULL) {
+|            Tcl_AppendResult(interp, "couldn't set variable \"",
+|        	     Tcl_GetString(objv[3]), "\"", (char *) NULL);
+|            result = TCL_ERROR;
+|        } else {
+|            /*
+|             * Set the interpreter's object result to an integer object
+|             * holding the number of matches.
+|             */
+|
+|            Tcl_SetIntObj(Tcl_GetObjResult(interp), numMatches);
+|        }
+|    } else {
+|           /*
+|            * No varname supplied, return string as result
+|            */
+|           Tcl_SetObjResult(interp, resultPtr);
+|    }
+
+And then minor updates to the man page to show that ''varName'' is
+optional.
+
+~ Copyright
+
+This document has been placed in the public domain.
