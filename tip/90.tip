@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -183,6 +183,25 @@ to the caller's caller.  Likewise,
 would cause a normal return to the caller's caller's caller
 (again absent an intervening ''catch''), something
 that can't currently be accomplished.
+
+The ''catch'' command shall have syntax:
+
+| catch script ?resultVar? ?optionsVar?
+
+The new argument ''optionsVar'', if present, will be the
+name of a variable in which a dictionary of return options
+should be stored.  The return options stored in that dictionary
+are exactly those needed so that the evaluation of
+
+| catch $script result options
+| return -options $options $result
+
+is completely indistinguishable (except for the existence
+and values of variables "result" and "options") from the
+direct evaluation of ''$script'' by the interpreter.  In
+particular, any values of the "::errorCode" and "::errorInfo"
+variables are the same as if there were never a ''catch'' in
+the first place.
 
 ~ Examples
 
