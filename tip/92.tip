@@ -1,6 +1,6 @@
 TIP:		92
 Title:		Move Package Load Decisions to Application Developer
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Clif Flynt <clif@cflynt.com>
 State:		Draft
 Type:		Project
@@ -14,7 +14,7 @@ Keywords:	package require, namespace, pkg_mkIndex
 
 This TIP makes the loading of packages far more flexible, so as to
 better support their use by application authors in situations above
-and beyond those foreseen by the developer of the pacakge.
+and beyond those foreseen by the developer of the package.
 
 ~ Overview
 
@@ -141,7 +141,7 @@ the stack methods.
 
 ~ Reference Implementation
 
-A reference impmlementation of the ''-current'' and ''-multiple''
+A reference implementation of the ''-current'' and ''-multiple''
 flags has been created for Tcl 8.4a4 and is available at
 http://noucorp.com/PkgPatch8.4.zip
 
