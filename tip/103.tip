@@ -1,12 +1,12 @@
 TIP:            103
 Title:          Argument Expansion Command
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        15-Jun-2002
 Post-History:   
 Tcl-Version:    8.5
