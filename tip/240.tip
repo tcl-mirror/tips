@@ -1,6 +1,6 @@
 TIP:		240
 Title:		An Ensemble Command to Manage Processes
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Steve Bold <stevebold@hotmail.com>
 State:		Draft
 Type:		Project
@@ -78,23 +78,23 @@ implementation cost is low.
 There shall be a new ensemble command, '''process''', with at least
 four subcommands.
 
- 1. The sub-command '''invoke''' takes 4 arguments, these being:
+ 1. The sub-command '''invoke''' takes 4 arguments and invokes a
+    sub-process, returning the process id of the child process. The
+    arguments are (in order):
  
  > * a list containing the program name invoke and its arguments
 
  > * a channel to be connected to the stdin stream of the child
-     process
+     process (or an empty string if the channel is to be disconnected
+     in the child process).
 
  > * a channel to be connected to the stdout stream of the child
-     process
+     process (or an empty string if the channel is to be disconnected
+     in the child process).
 
  > * a channel to be connected to the stderr stream of the child
-     process
-
- > The empty string can be given instead of a channel name, in which
-   case the channel will be disconnected in the child process.
- 
- > '''invoke''' returns the process id of the child process
+     process (or an empty string if the channel is to be disconnected
+     in the child process).
 
  2. The sub-command '''pipe''' takes no arguments and returns a two
     element list containing the input and output channels of the pipe
@@ -245,7 +245,8 @@ error handling needed for a robust implementation.
  1. For convenient use, the functionality proposed here needs to be
     supplemented with additional commands providing a higher level
     interface, perhaps one of them being similar to the
-    '''bgExecLike''' example given previously. Given that:
+    '''bgExecLike''' example given previously.  The author has decided
+    to omit this feature from the TIP because:
 
  > * such commands can be implemented in pure Tcl using the commands
      described here
@@ -256,8 +257,6 @@ error handling needed for a robust implementation.
  > * it could even be argued that such commands are more appropriate
      in tcllib rather than the Tcl core
     
- > The author has decided to omit this feature from the TIP.
-
  2. The behaviour of '''status''' and '''wait''' when given an invalid
     process id may be considered unhelpful. Both will return
     immediately claiming the process is still running.  This reflects
@@ -265,18 +264,17 @@ error handling needed for a robust implementation.
     may be a Windows specific issue, the author plans to investigate
     this further.
 
- 3. Each channel passed to the '''invoke''' command must have a valid
-    file handle, consequently when running on Windows:
+ 3. As with the current implementation of '''exec''', each channel
+    passed to '''process invoke''' must have a valid underlying OS
+    file handle. Consequently when running on Windows:
 
  > * use of a wish standard channel will be immediately rejected
 
  > * use of a socket will be accepted but will trigger an error in the
      child process when the handle is used.
 
- > This behaviour is identical to that of channel redirection in
-   '''exec'''.
-
- 4. Efficiency - this proposal does have some theoretical
+ 4. Efficiency - The author has not yet attempted a detailed
+    performance study, but this proposal does have some theoretical
     inefficiencies when compared to a pure C implementation, such as
     '''bgexec''':
 
@@ -287,8 +285,6 @@ error handling needed for a robust implementation.
      pipe is just going to be used to link together two processes in a
      pipeline.
 
- > The author has not yet attempted a performance comparison.
- 
 ~ Related Possibilities for Future Enhancements
 
  1. For Windows, an important limitation that is not addressed by this
