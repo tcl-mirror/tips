@@ -1,6 +1,6 @@
 TIP:            153
-Title:          Adding a [winfo tophierarchy] Command
-Version:        $Revision: 1.2 $
+Title:          Enhancing the [winfo toplevel] Command
+Version:        $Revision: 1.3 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
