@@ -1,7 +1,8 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Don Porter <dgp@users.sourceforge.net>
+Author:          <dgp@user.sourceforge.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -550,7 +551,7 @@ One big advantage of a feature branch is that any Developer may commit
 changes to a feature branch without all the publication, review, and
 approval overhead required when committing patches to the HEAD or
 stable branches.  On the feature branches you can go through multiple
-revisions reasonable quickly and spend the administrative overhead
+revisions reasonably quickly and spend the administrative overhead
 only at the end when it is time to apply the finished product to the
 official branches.
 
