@@ -1,16 +1,17 @@
-TIP:		214
-Title:		Add New Object Introspection Command
-Author:		Ulrich Schöbel <usus@aladyn.de>
-Created:	24-Aug-2004
-Keywords:	Tcl,info,representation
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-State:		Draft
-Type:		Project
-Vote:		Pending
-Post-History:	
+TIP:            214
+Title:          Add New Object Introspection Command
+Version:        $Revision: 1.2 $
+Author:         Ulrich Schöbel <usus@aladyn.de>
+Author:         Larry W. Virden <lvirden@yahoo.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        24-Aug-2004
+Post-History:   
+Keywords:       Tcl,info,representation
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP proposes the new '''representation''' subcommand to ''info'''
 which returns the internal representation of a variable's contents.
@@ -18,10 +19,10 @@ which returns the internal representation of a variable's contents.
 ~Rationale
 
 Inspired by a posting on news:comp.lang.tcl by Victor Wagner, I
-considered a facility to obtain the internal representation of a
-the value in variable to be useful.
+considered a facility to obtain the internal representation of 
+the value of a variable to be useful.
 
-   * It further completes the Tcl introspection commands.
+   * It further extends the Tcl introspection commands.
 
    * It offers a method to check the type of a variable without
      conversion.
