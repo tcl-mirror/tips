@@ -1,6 +1,6 @@
 TIP:            72
 Title:          64-Bit Value Support for Tcl on 32-Bit Platforms
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
 Type:           Project
@@ -119,7 +119,7 @@ To resolve this problem, I will introduce:
     supply a channel driver will be maintained (though the size of
     offset reportable through the interface will naturally be limited.)
 
- 7. 'Tcl_FSStat'' and ''Tcl_FSLstat'' will all be
+ 7. ''Tcl_FSStat'' and ''Tcl_FSLstat'' will all be
     updated to use a stat structure reference that can contain 64-bit
     wide values.  This will enable various [[file]] subcommands (and
     [[glob]] with some options) to work correctly with files over 2GB
@@ -156,6 +156,10 @@ To resolve this problem, I will introduce:
 
  11. ''Tcl_LinkVar'' will be extended to be given the ability to link
      with a wide C variable (via a TCL_LINK_WIDE_INT flag).
+
+ 12. The ''tcl_platform'' array will gain a new member, ''wordSize'',
+     which will give the native size of machine words on the host
+     platform (actually whatever ''sizeof(long)'' returns.)
 
 ~ Summary of Incompatibilities and Fixes
 
