@@ -1,6 +1,6 @@
 TIP:            99
 Title:          Add 'file link' to Tcl
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -27,14 +27,14 @@ error is returned.  If ''target'' is given then creates a link from
 ''source'' to ''target''.  
 
 The type of link created is platform
-specific, but is by default a symbolic or soft link where this is supported.  Where the user wishes to specify the type of the link explicitly, the option '-type linktype' can be given.  Accepted values for linktype will be "soft" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
+specific, but is by default a symbolic link where this is supported.  Where the user wishes to specify the type of the link explicitly, the option '-type linktype' can be given.  Accepted values for linktype will be "symbolic" and "hard".  On filesystems that either do not support any links, or do not support the specific type requested, an error message will be returned (in particular Windows 95, 98 and ME
 do not support any symbolic links at present, but Unix, MacOS
 and Windows NT/2000/XP (on NTFS drives) do).
 
 The TIP proposes implementing:
 
 |           Unix,MacOSX       Win-NTFS             MacOS
-|soft:          yes        directories-only         yes
+|symbolic:      yes        directories-only         yes
 |hard:          yes          files-only              no
 
 ~ Rationale
@@ -44,7 +44,7 @@ http://groups.google.com/groups?dq=&hl=en&lr=&ie=UTF8&oe=UTF8&threadm=4dd3bea3.0
 for a recent thread), and if Tcl can read links (''file readlink'',
 ''file lstat''), it really ought to be able to write them.
 
-Discussion has shown that both soft and hard links are desirable.
+Discussion has shown that both symbolic and hard links are desirable.
 
 ~ Alternatives
 
