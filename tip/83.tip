@@ -1,8 +1,8 @@
 TIP:            83
 Title:          Augment Tcl_EvalFile with Tcl_EvalChannel and Tcl_EvalUrl
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Marian Szczepkowski <marian@mail.jozep.com.au>
-Author:          <dgp@users.sf.net>
+Author:         <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -197,6 +197,7 @@ Snipped from 8.3 source.
 The VFS extension interface of Tcl 8.4 plus the tclvfs and
 vfs::http packages provide the ability to [[source]] an URL.
 I believe that makes this proposal out of date.
+
 ~ Copyright
 
 This document has been placed in the public domain.
