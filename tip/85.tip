@@ -1,6 +1,6 @@
 TIP:            85
 Title:          Custom Comparisons in Tcltest
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -111,13 +111,13 @@ http://sf.net/tracker/?func=detail&aid=490298&group_id=10894&atid=360894
 
 ''Don Porter <dgp@users.sf.net>''
 
-> As written, this TIP adds only one new acceptable value for the
+ > As written, this TIP adds only one new acceptable value for the
   ''-match'' option to [[test]], the value ''custom''.  The meaning
   of ''custom'' is then determined by the routine previously registered
   with [[customMatchProc]].  Only one custom match routine can be
   active at a time.
 
-> It would be an improvement to have [[customMatchProc]] take two
+ > It would be an improvement to have [[customMatchProc]] take two
   arguments.  First a new legal value for ''-match'', and second the
   ''proc'' that implements that matching option.  In this way, any
   number of custom matching options can be accomodated simultaneuosly
@@ -131,7 +131,7 @@ http://sf.net/tracker/?func=detail&aid=490298&group_id=10894&atid=360894
 | }
 | tcltest::customMatchProc list listMatcher
 
-> If desired, the existing legal values for ''-match'' could be
+ > If desired, the existing legal values for ''-match'' could be
   re-implemented as examples of this extensible matching scheme.
 
 ~ Copyright
