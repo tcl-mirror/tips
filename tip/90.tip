@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -180,9 +180,9 @@ to the caller's caller.  Likewise,
 
 | return -level 3 -code ok
 
-would cause a normal return to the caller's caller's caller, something
-that can't currently be accomplished (again absent an intervening
-''catch'').
+would cause a normal return to the caller's caller's caller
+(again absent an intervening ''catch''), something
+that can't currently be accomplished.
 
 ~ Examples
 
