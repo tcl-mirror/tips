@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -48,67 +48,67 @@ added to the CVS repository.
 The following tags in the Tcl and Tk CVS repositories correspond to
 the following releases of Tcl/Tk:
 
-   * core-8-4-a3 - Tcl/Tk 8.4a3
+   * ''core-8-4-a3'' - Tcl/Tk 8.4a3
 
-   * core-8-4-a2 - Tcl/Tk 8.4a2
+   * ''core-8-4-a2'' - Tcl/Tk 8.4a2
 
-   * core-8-4-a1 - Tcl/Tk 8.4a1
+   * ''core-8-4-a1'' - Tcl/Tk 8.4a1
 
-   * core-8-3-4 - Tcl/Tk 8.3.4
+   * ''core-8-3-4'' - Tcl/Tk 8.3.4
 
-   * core-8-3-3 - Tcl/Tk 8.3.3
+   * ''core-8-3-3'' - Tcl/Tk 8.3.3
 
-   * core-8-3-2 - Tcl/Tk 8.3.2
+   * ''core-8-3-2'' - Tcl/Tk 8.3.2
 
-   * core-8-3-1 - Tcl/Tk 8.3.1
+   * ''core-8-3-1'' - Tcl/Tk 8.3.1
 
-   * core-8-3-0 - Tcl/Tk 8.3.0
+   * ''core-8-3-0'' - Tcl/Tk 8.3.0
 
-   * core-8-3-b2 - Tcl/Tk 8.3b2
+   * ''core-8-3-b2'' - Tcl/Tk 8.3b2
 
-   * core-8-3-b1 - Tcl/Tk 8.3b1
+   * ''core-8-3-b1'' - Tcl/Tk 8.3b1
 
-   * core-8-2-3 - Tcl/Tk 8.2.3
+   * ''core-8-2-3'' - Tcl/Tk 8.2.3
 
-   * core-8-2-2 - Tcl/Tk 8.2.2
+   * ''core-8-2-2'' - Tcl/Tk 8.2.2
 
-   * core-8-2-1 - Tcl/Tk 8.2.1
+   * ''core-8-2-1'' - Tcl/Tk 8.2.1
 
-   * core-8-2-0 - Tcl/Tk 8.2.0
+   * ''core-8-2-0'' - Tcl/Tk 8.2.0
 
-   * core-8-2-b3 - Tcl/Tk 8.2b3
+   * ''core-8-2-b3'' - Tcl/Tk 8.2b3
 
-   * core-8-2-b2 - Tcl/Tk 8.2b2
+   * ''core-8-2-b2'' - Tcl/Tk 8.2b2
 
-   * core-8-2-b1 - Tcl/Tk 8.2b1
+   * ''core-8-2-b1'' - Tcl/Tk 8.2b1
 
-   * core-8-1-1 - Tcl/Tk 8.1.1
+   * ''core-8-1-1'' - Tcl/Tk 8.1.1
 
-   * core-8-1-0 - Tcl/Tk 8.1.0
+   * ''core-8-1-0'' - Tcl/Tk 8.1.0
 
-   * core-8-1-b3 - Tcl/Tk 8.1b3
+   * ''core-8-1-b3'' - Tcl/Tk 8.1b3
 
-   * core-8-1-b2 - Tcl/Tk 8.1b2
+   * ''core-8-1-b2'' - Tcl/Tk 8.1b2
 
-   * core-8-1-b1 - Tcl/Tk 8.1b1
+   * ''core-8-1-b1'' - Tcl/Tk 8.1b1
 
-   * core-8-0-5 - Tcl/Tk 8.0.5
+   * ''core-8-0-5'' - Tcl/Tk 8.0.5
 
-   * core-8-0-4 - Tcl/Tk 8.0.4
+   * ''core-8-0-4'' - Tcl/Tk 8.0.4
 
-   * core-8-0-3 - Tcl/Tk 8.0.3
+   * ''core-8-0-3'' - Tcl/Tk 8.0.3
 
-   * core-8-0-2 - Tcl/Tk 8.0p2
+   * ''core-8-0-2'' - Tcl/Tk 8.0p2
 
 ~ Branch Tags - Official Development
 
 The following branch tags label branches of development from which
 releases of Tcl/Tk are generated:
 
-   * HEAD - current development of new features; spawns 8.4aX
+   * ''HEAD'' - current development of new features; spawns 8.4aX
      releases.
 
-   * core-8-3-1-branch - bug fix branch; spawns 8.3.X releases.
+   * ''core-8-3-1-branch'' - bug fix branch; spawns 8.3.X releases.
 
 ~ Branch Tags - Features
 
@@ -117,25 +117,29 @@ devloped and tested.  No releases of Tcl/Tk will be spawned from these
 branches.  As the features mature, they will be merged onto the HEAD
 branch, or they may be rejected.
 
-   * core-8-4-win-speedup (Tk) - Work on improving performance of Tk
-     on the Windows platforms.
+   * ''core-8-4-win-speedup'' (Tk) - Work on improving performance of
+     Tk on the Windows platforms.
 
-   * msofer-bcEngine (Tcl) - Work on improving performance of the
+   * ''msofer-bcEngine'' (Tcl) - Work on improving performance of the
      bytecode engine.
 
-   * daves-mk-branch (Tcl) - On-going work to improve the native
+   * ''daves-mk-branch'' (Tcl) - On-going work to improve the native
      windows makefiles.  One top-root makefile.win will serve as the
      starting point for MSVC++, BCC, and Watcom.  Extreme use of
      shared info will highlight this new system.  This is not TEA -
      this is anti-TEA. (maintained by davygrvy@pobox.com)
 
-   * daves-chop-branch (Tcl) - Attempts to modularize subsystems so
+   * ''daves-chop-branch'' (Tcl) - Attempts to modularize subsystems so
      they can be easily removed at compile-time.  First step towards
      a 'tinytcl' on the HEAD rather than starting with an older
      version.  (maintained by davygrvy@pobox.com)
 
-   * dkf-64bit-support-branch - Work on supporting 64-bit numbers,
-     particularly on 32-bit platforms (including large file support.)
+   * ''dkf-64bit-support-branch'' (Tcl) - Work on supporting 64-bit
+     numbers, particularly on 32-bit platforms (including large file
+     support.)
+
+   * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
+     Kupries and the platform maintainers on implementing [59].
 
 ~ Dead Branches
 
@@ -144,23 +148,23 @@ developed.  Some are old official branches from which releases are no
 longer being spawned.  Others are feature development branches that
 have been merged into an official branch, or rejected.
 
-   * kennykb-tip-22-33 (Tcl) - Work on implementing the changes
+   * ''kennykb-tip-22-33'' (Tcl) - Work on implementing the changes
      described in TIP's #22 and #33.  Abandoned.
 
-   * dgp-privates-into-namespace (Tk) - Work on moving Tk's private
+   * ''dgp-privates-into-namespace'' (Tk) - Work on moving Tk's private
      commands and variables into the ::tk namespace and its children.
      Merged into Tk 8.4a3.
 
-   * core-8-3-1-io-rewrite (Tcl) - Work rewriting Tcl's IO Channels to
-     correct problems with the implementation of stacked channels.
+   * ''core-8-3-1-io-rewrite'' (Tcl) - Work rewriting Tcl's IO Channels
+     to correct problems with the implementation of stacked channels.
      Merged into Tcl 8.3.2 and Tcl 8.4a2.
 
-   * core-8-2-1-branch - Spawned Tcl/Tk 8.2.X releases.
+   * ''core-8-2-1-branch'' - Spawned Tcl/Tk 8.2.X releases.
 
-   * core-8-1-branch-old - Spawned Tcl/Tk 8.1bX releases.
+   * ''core-8-1-branch-old'' - Spawned Tcl/Tk 8.1bX releases.
 
-   * dev-stubs-branch, dev-8-1-stubs-branch - Two branches on which
-     the stubs interfaces were developed.  Merged into Tcl 8.1.
+   * ''dev-stubs-branch'', ''dev-8-1-stubs-branch'' - Two branches on
+     which the stubs interfaces were developed.  Merged into Tcl 8.1.
 
 ~ Copyright
 
