@@ -1,6 +1,6 @@
 TIP:            155
 Title:          Fix Some of the Text Widget's Limitations
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Vince Darley <vince@santafe.edu>
 State:          Draft
 Type:           Project
@@ -47,6 +47,8 @@ The text widget has a number of limitations:
      by display lines, unless the line is actually currently displayed
      (and even then the code is rather complex).
 
+  1. Even though 'search' can operate optionally on all text or just non-elided text, there is no easy way to retrieve the actual string which matched in the latter case, if the match spans characters on either side of an elided range.
+
 This TIP is, therefore, to fix these limitations, as follows:
 
   1. Make internal changes to the text widget so it keeps track of the
@@ -71,6 +73,8 @@ This TIP is, therefore, to fix these limitations, as follows:
      displaylines'' index offsets which work like ''linestart'',
      ''lineend'', ''+/- N lines'' but with display lines, and which
      work whether the relevant indices are currently displayed or not.
+
+  1. Add an option ''-visiblechars'' to ''get'' which, if given, restricts the returned characters to be just those which are not elided.
 
 Each of these proposals is discussed and presented in full detail
 below.
@@ -247,6 +251,15 @@ relevant contents into another text widget which is unmapped and making
 sure the desired lines are visible in that widget, and finally
 performing the desired operations on the copy before deleting it all!
 
+~ Get -visiblechars
+
+This is a simple new option to the ''get'' subcommand, which now has the syntax ''.text get ?-visiblechars? ?--? index1 ?index2....?''.  This means the following code now makes sense:
+
+| set found [.text search -elide -count num $pattern $pos]
+| set match [.text get -visiblechars $found "$found + $num chars"]
+
+Previously, achieving something like the second line was quite complex.
+
 ~ Backward Compatibility
 
 All of the above changes simply extend the functionality of the text
@@ -296,11 +309,9 @@ line of text.
 
 ~ Open questions
 
- 1. How to resolve the possible confusion between ''chars'' and ''indices''.
+ 1. How to resolve the confusion between ''chars'' and ''indices''?  In particular, there is no easy way of doing ''$idx +N actualcharacters'' because ''$idx +N chars'' actually moves N indices forwards.
 
- 2. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.
-
- 3. Add suitable _-visible_ flags to _get_ and/or _search_ for greater agreement with _count_.
+ 2. Whether to change the old behaviour of +/- lines to use x-pixel calculations instead of byte-indices (thereby avoiding the cursor bobbling around when there are multi-byte characters or even worse when there are images, proportional fonts, tabs, etc).  The difficult issue is how to define the behaviour when wrapping is enabled.  What does it mean to move ''-1 line'' when we are currently already on a wrapped line?
 
 ~ Out of Scope
 
@@ -336,7 +347,7 @@ these are listed here for completeness:
     widget (e.g. a code parser's current internal state), which might
     make true parsing for syntax colouring significantly easier.
 
-  * Pixel calculations.  None of the pixel-calculation machinery is exposed in the text widget's public API (C or Tcl).  It might be useful to be able to ask 'How many pixels are in this text widget?', or 'What text index is 37597 pixels from the top?', etc.
+  * Pixel calculations.  None of the pixel-calculation machinery is exposed in the text widget's public API (C or Tcl).  It might be useful to be able to ask 'How many pixels are in this text widget?', or 'What text index is 37597 pixels from the top?', etc.  Of course given the machinery available actually caches positions and is not guaranteed to be up to date, it is questionable what value would be gained from exposing these.
 
 None of these is included in the current TIP or current
 implementation.  If interested members of the community wish to extend
