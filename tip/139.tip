@@ -3,10 +3,10 @@ Title:		Publish Part of Tcl's Namespace API
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Jun-2003
 Type:		Project
-State:		Accepted
+State:		Final
 Vote:		Done
 Tcl-Version:	8.5
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Post-History:	
 
 ~ Abstract
