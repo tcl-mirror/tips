@@ -1,9 +1,9 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.35 $
+Version:        $Revision: 1.36 $
 Author:         Don Porter <dgp@users.sourceforge.net>
-Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
-Author:         Kevin B KENNY <kennykb@acm.org>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Pavel Goran <pvgoran@newmail.ru>
 State:          Draft
@@ -19,7 +19,7 @@ of Tcl ([16]).
 
 ~ Assignments
 
-Listed below are Tcl's 54 functional units, in the same order as
+Listed below are Tcl's 55 functional units, in the same order as
 in [16].  See [16] for the precise definition of what code belongs to
 what area.  The area names are changed to match the Categories in Tcl's
 SourceForge Bug Manager (http://sourceforge.net/bugs/?group_id=10894).
@@ -74,19 +74,21 @@ assigned:
 
    1. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Dict Object'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>
+   1. ''Dict Object'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>
 
-   1. ''Commands A-H'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands A-H'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands I-L'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands I-L'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands M-Z'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''[[history]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''[[interp]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>,
+      Jeff Hobbs <JeffH@ActiveState.com>,
+      Donal K. Fellows <donal.k.fellows@man.ac.uk> (especially ensembles)
 
    1. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
