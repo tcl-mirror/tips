@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -163,7 +163,7 @@ be a Category in the SourceForge Tracker for Tk:
      tests/menuDraw.test,
      tests/menubut.test
 
-   >  11. ''Mac OS X Menus'' -
+   >  11. ''Aqua Menus'' -
      macosx/tkMacOSXMenu.c,
      macosx/tkMacOSXMenu.r,
      macosx/tkMacOSXMenubutton.c,
@@ -425,7 +425,7 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkFont.h,
      tests/font.test
 
-   >  45. ''Mac OS X Fonts'' -
+   >  45. ''Aqua Fonts'' -
      macosx/tkMacOSXFont.c
 
    >  46. ''Unix Fonts'' -
@@ -597,12 +597,21 @@ be a Category in the SourceForge Tracker for Tk:
      tests/wm.test,
      xlib/xgc.c
 
-   >  66. ''Mac OS X Window Operations'' -
+   >  66. ''Aqua Window Operations'' -
+     macosx/tkMacOSXCarbonEvents.c
+     macosx/tkMacOSXDebug.c
+     macosx/tkMacOSXDebug.h
      macosx/tkMacOSXDraw.c,
      macosx/tkMacOSXEmbed.c,
+     macosx/tkMacOSXEvent.c
+     macosx/tkMacOSXEvent.h
      macosx/tkMacOSXHLEvents.c,
+     macosx/tkMacOSXKeyEvent.c
+     macosx/tkMacOSXMouseEvent.c
+     macosx/tkMacOSXNotify.c
      macosx/tkMacOSXRegion.c,
      macosx/tkMacOSXSubwindows.c,
+     macosx/tkMacOSXWindowEvent.c
      macosx/tkMacOSXWm.c,
      macosx/tkMacOSXWm.h,
      macosx/tkMacOSXXStubs.c
