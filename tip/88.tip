@@ -1,0 +1,76 @@
+TIP:		88
+Title:		Extend Tcl Process Id Control via 'pid'
+State:		Draft
+Type:		Project
+Tcl-Version:	8.4
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <JeffH@ActiveState.com>
+Created:	11-Mar-2002
+
+~ Abstract
+
+This TIP proposes extended the [[pid]] command to provide more
+control over native processes in Tcl.
+
+~ Rationale
+
+Certain process control functions have shown themselves to be portable
+and of high usefulness to Tcl programmers.  Most of these already
+exist in TclX, but simply requiring that extension isn't always
+acceptable.  The [[pid]] command in Tcl is a command that is often
+overlooked, and so simple that it lends itself easily to being
+enhanced with new syntax.  This TIP proposes adding subcommands to
+[[pid]] that extend the process control functionality of pure Tcl.
+
+~ Specification
+
+|   pid ?fileId?
+|   pid id ?-uid uid? ?-gid gid? ?-parent parentId?
+|   pid kill ?-group bool? ?-signal signalType? fileIdOrPid ?fileIdOrPid ...?
+|   pid wait ?-nohang bool? ?-untraced bool? ?-group bool? ?fileIdOrPid?
+
+The first line is the current definition for [[pid]], which is to
+return the name of the current process id, or that attached to a
+''fileId'' (as returned by [[open]] or [[socket]]).  I propose to add
+''kill'', ''id'', and ''wait''.  These commands are adapted almost
+directly from TclX, but changed to work as a subcommand of [[pid]],
+with changes to the options to specify booleans to keep name/value
+option pairing.  The [[pid id]] command would be for Unix only.  The
+''-parent'' option would be read-only (like ''-longname'' for [[file
+attributes]]).
+
+~ Reference Implementation
+
+Although TclX's current documentation denies it, the ''kill'' is
+already implemented for Windows as well as Unix, and ''wait'' has been
+available on both for a while.  Macintosh implementations for OS 9 and
+below would need to be created, or the documentation would need to
+stress that these are not available there (OS X is Unix based).
+
+File: ''tcl/mac/tclMacChan.c''
+
+File: ''tcl/unix/tclUnixPipe.c''
+
+File: ''tcl/win/tclWinPipe.c''
+
+Function: ''Tcl_PidObjCmd''
+
+~ Future Potential
+
+What this also provides is a blueprint for future process management
+functions like these:
+
+|   pid nice ?-level niceLevel? fileIdOrPid
+|   pid list ?pattern?
+|   pid signal ...
+
+[[pid nice]] is easy to implement, while [[pid list]] is very much
+platform sensitive.  [[pid signal]] is of course another oft-requested
+feature for the core.  These aren't to be addressed in this TIP, but
+are just ideas for the future.
+
+~ Copyright
+
+This document has been placed in the public domain.
