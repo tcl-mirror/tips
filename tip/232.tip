@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -171,7 +171,7 @@ parameters of type '''TCL_EITHER''' may find that they do not
 get type coercion from parameters of new numeric types, such as
 extended-precision integers.  The coding change to replace them
 with Tcl commands is fairly easy and mechanical, at a level of
-effort comparable to that needed for [73].  Moreover,
+effort comparable to that needed for [72].  Moreover,
 once it is completed, a math function will be using the
 known '''Tcl_CreateObjCmd''' API, which has been stable since
 Tcl 8.0 and is unlikely to change substantially in future releases.
