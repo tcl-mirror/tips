@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Kevin B KENNY <kennykb@acm.org>
@@ -79,15 +79,15 @@ assigned:
 
    17. ''Commands M-Z'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   18. ''History'' - Jeff Hobbs <JeffH@ActiveState.com>
+   18. ''[[history]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   19. ''Interp Command'' - Jeff Hobbs <JeffH@ActiveState.com>
+   19. ''[[interp]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   20. ''Namespaces'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   20. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   21. ''Procedures'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   21. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   22. ''Scan Command'' - Jeff Hobbs <JeffH@ActiveState.com>
+   22. ''[[scan]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    23. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
