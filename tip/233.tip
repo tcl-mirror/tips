@@ -1,6 +1,6 @@
 TIP:            233
 Title:          Virtualization of Tcl's Sense of Time
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -24,7 +24,7 @@ The purpose of this change is to allow code embedding the Tcl core,
 like simulators of all kind, to manipulate Tcl's sense of
 time. Currently everything in the core dependent on time, like event
 handling and all clock operations will always operate in real-time, as
-the core gets the basic information directyl from the operating
+the core gets the basic information directly from the operating
 system. At least in simulators however it can make sense to have Tcl
 run in the virtual time, and not real-time. This is currently not
 possible, and this TIP proposes to change this, and how.
@@ -34,28 +34,49 @@ possible, and this TIP proposes to change this, and how.
 At the Tcl level nothing changes. All changes are at the C level,
 extending and changing existing APIs.
 
-One new function, '''Tcl_SetTimeProc''', is added to the public API
-of the core. Its signature is:
+Two new functions, '''Tcl_SetTimeProc''' and '''Tcl_QueryTimeProc''',
+are added to the public API of the core. Their signatures are:
 
 | void Tcl_SetTimeProc(Tcl_GetTimeProc *getProc,
 |                      Tcl_ScaleTimeProc *scaleProc,
 |                      ClientData clientData);
 |
+| void Tcl_QueryTimeProc(Tcl_GetTimeProc **getProc,
+|                        Tcl_ScaleTimeProc **scaleProc,
+|                        ClientData *clientData);
+|
 | typedef void (Tcl_GetTimeProc)   (Tcl_Time *timebuf, ClientData clientData);
 | typedef void (Tcl_ScaleTimeProc) (Tcl_Time *timebuf, ClientData clientData);
 
-The function registers two related handler functions with the
+The first function registers two related handler functions with the
 core. The first handler function is a replacement for
 '''Tcl_GetTime''', or rather the OS access made by
 '''Tcl_GetTime'''. The other handler function is used by the Tcl
 notifier to convert wait/block times from virtual into real time.
+
+The second function returns the currently registered handler
+functions. If no external handlers were set then this will return the
+handlers accessing and processing the native time of the OS.
+
+Any handler pair specified has to return data which is consistent
+between them. In other words, setting one handler of the pair to
+something assuming a 10-times slowdown, and the other handler of the
+pair to something assuming a two-times slowdown is wrong and not
+allowed.
+
+The set handlers are allowed to run the delivered time backwards,
+however this should be avoided. We have to allow it as the native time
+can run backwards as the user can fiddle with the system time one way
+or other. Note that the insertion of the hooks will not change the
+behaviour of the Tcl core with regard to this situation, i.e. the
+existing behaviour is retained.
 
 The implementations of '''Tcl_GetTime''' and '''TclpGetClicks''' are
 changed to check for the presence of a handler first, and will ask the
 operating system for the current time if and only if no handler has
 been registered. Both use the handler ''Tcl_GetTimeProc''.
 
-The implementations of '''Tcl_WaitForEvent''' and
+The implementations of '''Tcl_Sleep''', '''Tcl_WaitForEvent''' and
 '''NotifierThreadProc''' are changed to check for the presence of a
 handler as well, and will invoke it with the current wait/block time
 if it is present. The handler is not invoked if it is either not
