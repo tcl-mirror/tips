@@ -1,7 +1,8 @@
 TIP:            54
 Title:          Using PURLs to Unite the Tcl Webspace
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 State:          Draft
 Type:           Process
 Vote:           Pending
@@ -26,7 +27,7 @@ disadvantage of not being able to use the existing sites and bind them
 into a whole. This is further aggravated by the fact that the
 'natural' domain names, like for example http://www.tcl.com/ and
 http://www.tcl.org are already taken by other entities, commercial and
-not, and thus not available anymore.
+not, and thus not available anymore.  We do have control of the http://www.tcl-tk.net/ domain, provided by David Welton.
 
 Instead of giving up at this point I propose to use PURLs a.k.a.
 ''Persistent URLs'' to construct a virtual website (the ''Tcl space'')
@@ -156,7 +157,7 @@ currently consisting of
 
    * Gordon Johnstone <gordonjohnstone@earthling.net>
 
-   * Jeffrey Hobbs <jeff@hobbs.com>
+   * Jeffrey Hobbs <jeff@hobbs.org>
 
    * Don Libes <libes@nist.gov>
 
