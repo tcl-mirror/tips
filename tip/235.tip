@@ -1,13 +1,14 @@
-TIP:		235
-Title:		Exposing a C API for Ensembles
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-Created:	10-Dec-2004
+TIP:            235
+Title:          Exposing a C API for Ensembles
+Version:        $Revision: 1.3 $
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        10-Dec-2004
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -28,35 +29,35 @@ possible.
 
 This TIP proposes exposing the following functions:
 
- Tcl_CreateEnsemble: Create an ensemble linked to a particular
-   namespace.
+ Tcl_CreateEnsemble(interp, name, namespacePtr, flags): Create an ensemble linked to a particular
+   namespace and return the command token for the namespace command.
 
- Tcl_FindEnsemble: Locate a command token for an ensemble. Has an
+ Tcl_FindEnsemble(interp, objPtr, flags): Locate a command token for an ensemble. Has an
    argument that controls whether failure to find an ensemble is an
    error.
 
- Tcl_IsEnsemble: Test whether a command token refers to an ensemble.
+ Tcl_IsEnsemble(token): Test whether a command token refers to an ensemble.
 
- Tcl_GetEnsembleSubcommandList, Tcl_SetEnsembleSubcommandList: Read
+ Tcl_GetEnsembleSubcommandList(interp,token,objPtrPtr), Tcl_SetEnsembleSubcommandList(interp,token,objPtr): Read
    and write the (fixed) list of subcommands of the ensemble.
    Equivalent to manipulating the '''-subcommands''' option.
 
- Tcl_GetEnsembleMappingDict, Tcl_SetEnsembleMappingDict: Read and
+ Tcl_GetEnsembleMappingDict(interp,token,objPtrPtr), Tcl_SetEnsembleMappingDict(interp,token,objPtr): Read and
    write the dictionary that maps subcommands to prefixes of
    implementation commands. Equivalent to manipulating the '''-map'''
    option.
 
- Tcl_GetEnsembleUnknownHandler, Tcl_SetEnsembleUnknownHandler: Read
+ Tcl_GetEnsembleUnknownHandler(interp,token,objPtrPtr), Tcl_SetEnsembleUnknownHandler(interp,token,objPtr): Read
    and write the command prefix list that is used to implement the
    unknown-subcommand handler. Equivalent to manipulating the
    '''-unknown''' option.
 
- Tcl_GetEnsembleFlags, Tcl_SetEnsembleFlags: Read and write the flags
+ Tcl_GetEnsembleFlags(interp,token,flagsPtr), Tcl_SetEnsembleFlags(interp,token,flags): Read and write the flags
    for the ensemble. Currently there is only one settable flag bit,
    TCL_ENSEMBLE_PREFIX, which is present exactly when '''-prefix'''
    option is true.
 
- Tcl_GetEnsembleNamespace: Reads the namespace associated with the
+ Tcl_GetEnsembleNamespace(interp,token,namespacePtrPtr): Reads the namespace associated with the
    ensemble; this value may not be altered.
 
 ~ Reference Implementation
