@@ -1,6 +1,6 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -151,7 +151,7 @@ It follows this tip fairly closely in its effects, but diverges in the implement
 |   set p [list ::tcl::lambda:: x {string length $x}]
 |   set p {::tcl::lambda:: x {string length $x}}
 
-although the last version will prevent autocleanup (due to the name stored in a shared literal).
+although the last version will prevent autocleanup (due to the name being stored in a shared literal).
 
 ~ Copyright
 
