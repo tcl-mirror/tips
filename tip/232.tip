@@ -1,0 +1,98 @@
+TIP:		232
+Title:		Creating New Math Functions for the 'expr' Command
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	26-Nov-2004
+Post-History:	
+Tcl-Version:	8.5
+Keywords:	math, expr, Tcl
+
+~ Abstract
+
+This TIP proposes to expose the '''Tcl_CreateMathFunc()''' function to
+the script level, so that programmers can define new math functions
+using Tcl procedures.
+
+~ Rationale
+
+It has long been possible to define new (mathematical) functions for
+the '''expr''' command via the C API - the function
+'''Tcl_CreateMathFunc()''' is meant for this. However, it is not
+possible to define new math functions at the script level, so that you
+could use a Tcl procedure instead of a C function.
+
+There exist one or two extensions that allow this, most notably
+"funcproc" by D. Fellows - <http://wiki.tcl.tk/541>), but as the Tcl
+core does not allow it, it remains a somewhat hidden feature.  The
+current TIP aims at making the functionality of such extensions
+standard by introducing a new command.
+
+With "scripted" math functions you can simplify such complex and
+error-prone expressions as:
+
+|  set max [expr {$max>($a+1)? $max : ($a+1)}]
+
+or
+
+|  set f [expr { $x*[J0 $x] + [J1 [expr {2.0*$x}] }]
+
+to the more regular:
+
+|  set max [expr {max($max,$a+1)}]
+
+and
+
+|  set f [expr { $x*J0($x) + J1(2.0*$x) }]
+
+(assuming the additional functions max, J0 and J1 have been defined of
+course).
+
+To quote Donal Fellows:
+
+ > "If you are interested in going the other way - writing functions
+   for '''expr''' in Tcl without the use of square brackets (useful
+   for when you want to expose expressions to users without having to
+   tell them to learn all about Tcl, no matter how much that would
+   benefit them in the long run.  This sort of situation also requires
+   the use of safe interpreters) - then you will probably find
+   http://www.man.ac.uk/~zzcgudf/tcl/#scripts/funcproc very
+   interesting indeed."
+
+~ Proposed New Command
+
+The functionality hinted at above can be implemented by a single new
+command:
+
+ > '''exprfunc''' ''funcname procname''
+
+where:
+
+ * ''funcname'' is the name of the function as it is known to the
+   '''expr''' command
+
+ * ''procname'' is the Tcl procedure that implements the command
+
+The implementation is to be such that:
+
+ * Use is made of the object-style interface to avoid unnecessary
+   string conversions
+
+ * The result of the function is either well-defined or an error is
+   raised if the procedure raises an error
+
+There are a few restrictions to procedures used in this way, as the
+'''expr''' command does not deal well with functions that can have a
+variable number of arguments: they can not use the magical "args"
+argument or optional arguments.
+
+~ Reference Implementation
+
+A reference implementation does ''not'' yet exist, but Donal Fellows's
+funcproc code is a good starting point.
+
+~ Copyright
+
+This document is placed in the public domain.
