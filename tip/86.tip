@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Saving [proc] File and Line Number Information in [source]
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -185,6 +185,7 @@ current state for the breakpoint is returned.  With three or more arguments,
 new breakpoints are created.  If created with a state of zero,
 the breakpoint is considered inactive.  Setting the state of a
 breakpoint to the empty string effectively deletes the breakpoint.
+A state set to an N greater than zero triggers every Nth time.
 
 ~ Changes
 
