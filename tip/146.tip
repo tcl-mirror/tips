@@ -1,8 +1,8 @@
 TIP:            146
 Title:          Add Overall Anchoring to the Grid Geometry Manager
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        05-Aug-2003
