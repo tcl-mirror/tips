@@ -1,6 +1,6 @@
 TIP:		159
 Title:		Extending Tk 'wm' Command to Support Coloured Icons
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Georgios Petasis <petasis@iit.demokritos.gr>
 State:		Draft
 Type:		Project
@@ -273,6 +273,9 @@ very small, so I have included it here:
 Note that also I have a reference implementation of the first approach
 (passing a colour pixmap instead of a bitmap), in case we decide to
 follow this approach (or both simultaneously :-) ).
+
+See also:
+http://sf.net/tracker/?func=detail&aid=815751&group_id=12997&atid=312997
 
 ~ Notes
 
