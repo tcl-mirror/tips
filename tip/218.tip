@@ -1,8 +1,9 @@
 TIP:            218
 Title:          Tcl Channel Driver Thread State Actions
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,7 +14,7 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This document specifies a modification of the public definition of
-channel drivers for the Tcl I/O system to fixes a bug in the transfer
+channel drivers for the Tcl I/O system to fix a bug in the transfer
 of channels between threads affecting all drivers requiring
 thread-specific initialization.
 The targets for the change are Tcl 8.4.''x'' (note that this is an API
@@ -43,7 +44,10 @@ state of the driver is '''not''' initialized at all in that case,
 causing a crash when trying to use the transfered channel.
 
 This is a general problem all channel drivers maintaining per-thread
-state will run into. And on Windows most channel drivers will '''have to''' maintain per-thread state. This is imposed by the design of the Tcl Notifier. It manages Event Sources on a per-thread basis, and this implies that the Event Source for channel driver has to maintain per-thread a list of the channels belonging to a thread to make setup and checking for events efficient. A process global list would be possible, but would also not be very fast, as it would require locking for each search through it, and such searches happens per iteration per active eventloop per Tcl thread.
+state will run into. And on Windows most channel drivers will '''have to''' maintain per-thread state.
+This is imposed by the design of the Tcl Notifier.
+It manages Event Sources on a per-thread basis, and this implies that the Event Source for channel drivers has to maintain, per-thread, a list of the channels belonging to a thread to make setup and checking for events efficient.
+A process global list would be possible, but would also not be very fast, as it would require locking for each search through it, and such searches happens per iteration per active eventloop per Tcl thread.
 
 What is needed is some way to initialize the thread-specific state of
 a channel driver for a specific thread, whenever a channel is created
@@ -58,8 +62,7 @@ solution without API changes, making external drivers second class. In
 8.4 the ad-hoc solution is even incomplete, not covering the sockets,
 only files.
 
-This TIP has been written to remedy this deficiency for both 8.4 and
-8.5.
+This TIP has been written to remedy this deficiency for both 8.4 and 8.5.
 
 ~ Specification
 
@@ -69,10 +72,10 @@ low-level socket operation, or during the transfer itself. The first
 will slow down all socket operations (one additional check for
 per-thread initialization per operation (read, write, seek, ...)), the
 second introduces code specific to channel types into the transfer
-code. Neither solution is considered acceptable, they are mere
+code. Neither solution is considered acceptable; they are mere
 band-aids.
 
-Instead of using one of the band-aids described above this TIP
+Instead of using one of the band-aids described above, this TIP
 proposes to solve the general problem of per-thread channel driver
 initialization by extending the public structure of channel drivers
 with one new function pointer.
@@ -80,11 +83,11 @@ with one new function pointer.
 The purpose of this function is not directly the initialization of
 per-thread information, but to provide the driver with notifications
 when a channel of its type is removed from or added to a thread, by
-whatever means (Creation, deletion, transfer, ...).  This can be used
-to initialize the per-thread data of the channel driver, but for other
-thread-specific actions of the driver as well.
+whatever means (creation, deletion, transfer, ...).  This can be used
+not only to initialize the per-thread data of the channel driver,
+but for other thread-specific actions of the driver as well.
 
-As we are modifying a public structure we have to distinguish between
+As we are modifying a public structure, we have to distinguish between
 older drivers not supporting the new function and new drivers which
 do. The 'Tcl_ChannelType' structure contains a version field just for
 this purpose. Currently known versions of drivers are version 0 to 3,
@@ -96,7 +99,7 @@ introduces channel driver version 4.
 
 The definition of the new version tag is
 
-| #define TCL_CHANNEL_VERSION_4	((Tcl_ChannelTypeVersion) 0x4)
+| #define TCL_CHANNEL_VERSION_4 ((Tcl_ChannelTypeVersion) 0x4)
 
 The signature of the new function is
 
@@ -135,9 +138,9 @@ The new definition of structure ''Tcl_ChannelType'' is
 |      * Only valid in TCL_CHANNEL_VERSION_4 channels or later
 |      */
 |     Tcl_DriverThreadActionProc *threadActionProc;
-| 					/* Procedure to call to notify
-| 					 * the driver of thread specific
-| 					 * activity for a channel.
+|                                       /* Procedure to call to notify
+|                                        * the driver of thread specific
+|                                        * activity for a channel.
 |                                        * May be NULL. */
 | } Tcl_ChannelType;
 
@@ -150,7 +153,7 @@ the new function (or NULL if it does not exist).
 ~ Discarded Solutions
 
 It was initially proposed to extend the driver structure with a
-function having only a very narrow purpose, the initialization of the
+function having only a very narrow purpose- the initialization of the
 thread specific data of the driver.
 
 This was dropped because the solution actually proposed is more
