@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -122,9 +122,8 @@ The remainder of this document will cover the following topics
 
 ~~ Module Definition
 
-A Tcl Module is a Tcl Package contained in a ''single'' file.  This
-file has to be '''source'''able.  In other words, a Tcl Module is
-always imported via:
+A Tcl Module is a Tcl Package contained in a ''single'' file, and no
+other files required by it.  This file has to be '''source'''able.  In other words, a Tcl Module is always imported via:
 
 | source module_file
 
