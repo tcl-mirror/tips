@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.52 $
+Version:        $Revision: 1.53 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -50,6 +50,8 @@ Attempt to add a new section via the web interface (in a frame).
 
 Are anonymous changes possible?
 
+Check that updates of TIP renderer didn't break editing...
+
 ~ Testing the interface
 
 <Andreas Kupries>
@@ -87,6 +89,9 @@ This document has been placed in the public domain.
 ~ ChangeLog
 
 | $Log: not supported by cvs2svn $
+| Revision 1.52  2001/02/25 20:56:32  tclhttpd
+| Revision through web from Kevin B Kenny <kennykb@acm.org> (15111)
+|
 | Revision 1.51  2001/02/25 20:51:14  tclhttpd
 | Revision through web from Kevin B KENNY <kennykb@acm.org> (15024)
 |
