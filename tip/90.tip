@@ -1,6 +1,6 @@
 TIP:            90
 Title:          Enable [return -code] in Control Structure Procs
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 State:          Draft
@@ -205,6 +205,11 @@ direct evaluation of ''$script'' by the interpreter.  In
 particular, any values of the "::errorCode" and "::errorInfo"
 variables are the same as if there were never a ''catch'' in
 the first place.
+
+In addition, when the result of ''catch'' is TCL_ERROR, the
+value in the ''errorLine'' field of the ''Interp'' struct
+will be stored as the value of the "-errorline" key in the
+return options dictionary.
 
 This specification may seem a bit complex, but it makes possible
 very simple solutions to the problems posed above.
