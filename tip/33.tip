@@ -1,6 +1,6 @@
 TIP:            33
 Title:          Add 'lset' command to assign to list elements.
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -19,9 +19,579 @@ them as such because there is no convenient way to assign to
 individual elements.  This TIP proposes a new command, ''lset'', to
 rectify this limitation.
 
-TIP:            33
-Title:          Add 'lset' command to assign to list elements.
-Version:        $Revision: 1.7 $i as a list of
+~ Rationale
+
+The implementation of lists in Tcl has evolved far beyond the original
+conception.  While lists were originally conceived to be strings with
+a particular syntax that allowed them to be parsed as lists, the
+internal representation of a list is now an array of pointers to
+''Tcl_Obj'' structures.
+
+Tcl programmers, for the most part, have not taken advantage of this
+evolution.  Code that uses hash tables where linear arrays would be a
+more appropriate structure is still extremely common.  Moreover, it is
+difficult to update lists in place, even if their internal
+representations are known not to be shared.  One example of this
+difficulty is seen in the discussions
+(http://purl.org/thecliff/tcl/wiki/941)
+of how best to shuffle a list of items.  The discussion began with a
+naïve implementation of Jon Bentley's method of performing random
+swaps:
+
+|  proc shuffle1 { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp [lindex $list $j]
+|          set list [lreplace $list $j $j [lindex $list $i]]
+|          set list [lreplace $list $i $i $temp]
+|      }
+|      return $list
+|  }
+
+Aside from the fact that the syntax obscures what the program is
+doing, the implementation suffers from an obscure performance problem.
+When the ''lreplace'' calls in the ''shuffle1'' procedure are
+executed, the internal representation of ''list'' has two references:
+the value of the variable, and the parameter passed to ''lreplace''.
+The multiple references force ''lreplace'' to copy the list, leading
+to quadratic performance when large lists are shuffled.
+
+It is possible, albeit difficult, to alleviate this problem by careful
+management of the lifetime of ''Tcl_Obj'' structures, but this change
+complicates the code.  The simplest way to fix the performance is
+probably to use Donal Fellows's implementation of the ''K''
+combinator:
+
+| proc K { x y } { set x }
+
+which allows the caller of ''lreplace'' to extract the value of
+''list'', change the value of ''list'' so that the extracted value is
+unshared, and then pass the extracted value as a parameter to
+''lreplace:''
+
+|  proc shuffle1a { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp1 [lindex $list $j]
+|          set temp2 [lindex $list $i]
+|          set list [lreplace [K $list [set list {}]] $j $j $temp2]
+|          set list [lreplace [K $list [set list {}]] $i $i $temp1]
+|      }
+|      return $list
+|  }
+
+Now the performance of the code is ''O(n)'' where ''n'' is the length
+of the list, but the programmer's intent has been seriously obscured!
+Moreover, the performance is still rather poor: Tcl makes an atrocious
+showing, for instance, in Doug Bagley's 'Great Computer Language
+Shootout' (http://www.bagley.org/~doug/shootout/).
+
+~ Specification
+
+This TIP proposes an 'lset' command with the syntax:
+
+|  lset varName indexList value
+
+or
+
+|  lset varName index1 index2... value
+
+where:
+
+ > ''varName'' is the name of a variable in the caller's scope.
+
+ > If ''objc==4'', then the ''indexList'' parameter is interpreted as
+   a list of ''index'' arguments; if ''objc>4'', then the ''index''
+   arguments are inline on the command line.
+
+ > In either case, Each ''index'' argument is an index in the content
+   of ''varName'' or one of its sublists (see below).  The format of
+   ''index'' is either an integer whose value is at least zero and
+   less than the length of the corresponding list, or else the literal
+   string ''end'', optionally followed with a hyphen and an integer
+   whose value is at least zero and less than the length of the
+   corresponding list.
+
+ > ''value'' is a value that is to be stored as a list element.
+
+The return value of the command, if successful, is the new value
+of ''varName.''
+
+The simplest form of the command:
+
+|  lset varName index value
+
+replaces, in place, the ''index'' element of ''varName'' with the
+specified ''value''.  For example, the code:
+
+|  set x {a b c}
+|  lset x 1 d
+
+results in ''x'' having the value ''a d c''.  The result, except
+for performance considerations and the details of error reporting,
+is roughly the same as the Tcl code:
+
+|  proc lset { varName index value } {
+|      upvar 1 $varName list
+|      set list [lreplace $list $index $index $value]
+|      return $list
+|  }
+
+except that where the ''lreplace'' command permits indices outside the
+existing list elements, the proposed ''lset'' command forbids them.
+
+If multiple ''index'' arguments are supplied to the ''lset'' command,
+they refer to successive sublists in a hierarchical fashion.  Thus,
+
+|   lset varName $i $j value
+
+or, equivalently,
+
+|   lset varName [list $i $j] value
+
+asks to change the value of the ''j''th element in the ''i''th sublist
+of ''varName''.  Hence, the code:
+
+|   set x {{a b c} {d e f} {g h i}}
+|   lset x 1 1 j; # -or- lset x {1 1} j
+
+changes the value of ''x'' to
+
+|   {a b c} {d j f} {g h i}
+
+and the code
+
+|   set y {{{a b} {c d}} {{e f} {g h}}}
+|   lset y 1 0 1 i; # -or- lset y {1 0 1} i
+
+changes the value of ''y'' to
+
+|   {{a b} {c d}} {{e i} {g h}}
+
+This notation also dovetails prettily with the extension of the
+''lindex'' command proposed in [22].  The command
+
+|   lindex $y 1 0 1; # -or- lindex y {1 0 1}
+
+will extract the element that is set by the command
+
+|   lset $y 1 0 1 $value
+
+The ''lset'' command will throw an error and leave the variable
+unchanged if it is presented with fewer than three arguments, if any
+of the ''index'' arguments is out of range or ill-formed, or if any of
+the data being manipulated cannot be converted to lists.  It will
+throw an error after modifying the variable if any write trace on the
+variable fails.
+
+With the proposed ''lset'' command, the procedure to shuffle a list
+becomes much more straightforward:
+
+|  proc shuffle1b { list } {
+|      set n [llength $list]
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp [lindex $list $j]
+|          lset list $j [lindex $list $i]
+|          lset list $i $temp
+|      }
+|      return $list
+|  }
+
+The given implementation copies the list only once, the first time
+that the line:
+
+|          lset list $j [lindex $list $i]
+
+is executed.  Thereafter, the list is an unshared object, and the
+replacements are performed in place.
+
+~ Reference Implementation
+
+The author has implemented a simpler variant of the proposed command
+as an object command, and also proposes to bytecode compile it,
+although the implementation of bytecode compilation is incomplete.
+The reference implementation also does not yet expand ''objv[[ 2 ]]''
+as a list in the case where ''objc==4,'' and is known to have memory
+leaks where ill-formed index arguments are presented.  It is given
+here as ''concept code'' and to present its impact on performance of
+some common list operations.  (Obviously, it will be completed and
+reviewed with the relevant maintainers prior to being committed to the
+Core.)
+
+The core of the implementation is the following procedure:
+
+|int
+|Tcl_LsetObjCmd( clientData, interp, objc, objv )
+|    ClientData clientData;      /* Not used. */
+|    Tcl_Interp *interp;         /* Current interpreter. */
+|    int objc;                   /* Number of arguments. */
+|    Tcl_Obj *CONST objv[];      /* Argument values. */
+|{
+|
+|    Tcl_Obj* listPtr;           /* Pointer to the list being altered. */
+|    Tcl_Obj* subListPtr;        /* Pointer to a sublist of the list */
+|    Tcl_Obj* finalValuePtr;     /* Value finally assigned to the variable */
+|    int index;                  /* Index of the element being replaced */
+|    int result;                 /* Result to return from this function */
+|    int listLen;                /* Length of a list being examined */
+|    Tcl_Obj** elemPtrs;         /* Pointers to the elements of a
+|                                 * list being examined */
+|    int i;
+|
+|    /* Check parameter count */
+|
+|    if ( objc < 4 ) {
+|        Tcl_WrongNumArgs( interp, 1, objv, "listVar index ?index...? value" );
+|        return TCL_ERROR;
+|    }
+|
+|    /* Look up the list variable */
+|
+|    listPtr = Tcl_ObjGetVar2( interp, objv[ 1 ], (Tcl_Obj*) NULL,
+|                              TCL_LEAVE_ERR_MSG );
+|    if ( listPtr == NULL ) {
+|        return TCL_ERROR;
+|    }
+|
+|    /* Make sure that the list value is unshared. */
+|
+|    if ( Tcl_IsShared( listPtr ) ) {
+|        listPtr = Tcl_DuplicateObj( listPtr );
+|    }
+|
+|    finalValuePtr = listPtr;
+|
+|    /*
+|     * If there are multiple 'index' args, handle each arg except the
+|     * last by diving into a sublist.
+|     */
+|
+|    for ( i = 2; ; ++i ) {
+|
+|        /* Take apart the list */
+|
+|        result = Tcl_ListObjGetElements( interp, listPtr,
+|                                         &listLen, &elemPtrs );
+|        if ( result != TCL_OK ) {
+|            return result;
+|        }
+|
+|        /* Derive the index of the requested sublist */
+|
+|        result = TclGetIntForIndex( interp, objv[i], (listLen - 1), &index );
+|        if ( result != TCL_OK ) {
+|            return result;
+|        }
+|
+|        if ( ( index < 0 ) || ( index >= listLen ) ) {
+|
+|            Tcl_SetObjResult( interp,
+|                              Tcl_NewStringObj( "list index out of range",
+|                                                -1 ) );
+|            return TCL_ERROR;
+|        }
+|
+|        /* Break out of the loop if we've extracted the innermost sublist. */
+|
+|        if ( i >= ( objc - 2 ) ) {
+|            break;
+|        }
+|
+|        /*
+|         * Extract the appropriate sublist, and make sure that it is unshared.
+|         */
+|
+|        subListPtr = elemPtrs[ index ];
+|        if ( Tcl_IsShared( subListPtr ) ) {
+|            subListPtr = Tcl_DuplicateObj( subListPtr );
+|            result = Tcl_ListObjSetElement( interp, listPtr, index,
+|                                            subListPtr );
+|            if ( result != TCL_OK ) {
+|                return TCL_ERROR;
+|            }
+|        } else {
+|            Tcl_InvalidateStringRep( listPtr );
+|        }
+|
+|        listPtr = subListPtr;
+|    }
+|
+|    /* Store the result in the list element */
+|
+|    result = Tcl_ListObjSetElement( interp, listPtr, index, objv[objc-1] );
+|    if ( result != TCL_OK ) {
+|        return result;
+|    }
+|
+|    /* Finally, update the variable so that traces fire. */
+|
+|    listPtr = Tcl_ObjSetVar2( interp, objv[1], NULL, finalValuePtr,
+|                              TCL_LEAVE_ERR_MSG );
+|    if ( listPtr == NULL ) {
+|        return TCL_ERROR;
+|    }
+|       
+|    Tcl_SetObjResult( interp, listPtr );
+|    return result;
+|
+|}
+
+The procedure depends on a new service function,
+''Tcl_ListObjSetElement'':
+
+|int
+|Tcl_ListObjSetElement( interp, listPtr, index, valuePtr )
+|    Tcl_Interp* interp;         /* Tcl interpreter; used for error reporting
+|                                 * if not NULL */
+|    Tcl_Obj* listPtr;           /* List object in which element should be
+|                                 * stored */
+|    int index;                  /* Index of element to store */
+|    Tcl_Obj* valuePtr;          /* Tcl object to store in the designated
+|                                 * list element */
+|{
+|    int result;                 /* Return value from this function */
+|    List* listRepPtr;           /* Internal representation of the list
+|                                 * being modified */
+|    Tcl_Obj** elemPtrs;         /* Pointers to elements of the list */
+|    int elemCount;              /* Number of elements in the list */
+|
+|    /* Ensure that the listPtr parameter designates an unshared list */
+|
+|    if ( Tcl_IsShared( listPtr ) ) {
+|        panic( "Tcl_ListObjSetElement called with shared object" );
+|    }
+|    if ( listPtr->typePtr != &tclListType ) {
+|        result = SetListFromAny( interp, listPtr );
+|        if ( result != TCL_OK ) {
+|            return result;
+|        }
+|    }
+|    listRepPtr = (List*) listPtr->internalRep.otherValuePtr;
+|    elemPtrs = listRepPtr->elements;
+|    elemCount = listRepPtr->elemCount;
+|
+|    /* Ensure that the index is in bounds */
+|
+|    if ( index < 0 || index >= elemCount ) {
+|        if ( interp != NULL ) {
+|            Tcl_SetObjResult( interp,
+|                              Tcl_NewStringObj( "list index out of range",
+|                                                -1 ) );
+|            return TCL_ERROR;
+|        }
+|    }
+|
+|    /* Add a reference to the new list element */
+|
+|    Tcl_IncrRefCount( valuePtr );
+|
+|    /* Remove a reference from the old list element */
+|
+|    Tcl_DecrRefCount( elemPtrs[ index ] );
+|
+|    /* Stash the new object in the list */
+|
+|    elemPtrs[ index ] = valuePtr;
+|
+|    /* Invalidate and free any old string representation */
+|
+|    Tcl_InvalidateStringRep( listPtr );
+|
+|    return TCL_OK;
+|    
+|}
+
+Even without bytecode compilation, the performance improvement of
+array-based applications that can be achieved by the ''lset'' command
+is substantial.  The following table shows run times in microseconds
+(on a 550 MHz Pentium III laptop, running a modified Tcl 8.4 on
+Windows NT 4.0, Service Pack #6) of the three implementations of
+''shuffle'' that appear in this TIP.
+
+|                    RUN TIMES IN MICROSECONDS
+|
+|                                Version
+|                     shuffle1       shuffle1a       shuffle1b
+|                     (Naive)      (K combinator)  (lset command)
+| List length
+|        1                 26               32              27            
+|       10                108              152             101
+|      100               1627             1462             936
+|     1000             117831            14789            9574
+|    10000       Test stopped           152853           96912
+
+Similar (30-50%) improvements are observed on many of the array
+related benchmarks that have been proposed.  Bytecode compilation is
+expected to produce even greater improvements.
+
+Another area where ''lset'' can achieve a major performance gain is in
+memory usage.  The author of this TIP has benchmarked competing
+implementations of heapsort, one using Tcl arrays, and the other using
+''lset'' to manipulate lists as linear arrays.  When sorting 80000
+elements, the Tcl-array-based implementation used 12.7 megabytes of
+memory; the list-based implementation was faster and used only 5.6
+megabytes.  The explanation is simple: each entry in the hash table
+requires an allocated block of twenty bytes of memory, plus the space
+required for the hash key.  The hash key is a string, and requires at
+least six bytes.  When both of these objects are aligned and padded
+with the overheads imposed by ''ckalloc'', they require about 80 bytes of
+memory on the Windows NT platform.  The memory cost of an element of a
+Tcl list, by comparison, is four bytes to hold the pointer to the
+object.
+
+~ Discussion
+
+There are several objections that can be foreseen to this proposal.
+
+   * ''Why implement the command in the Core and not as an extension?''
+
+   > In a word, ''performance.''  At the present state of Tcl
+     development, only Core commands can be bytecoded.  The cost of
+     the hash table lookups in the ''Tcl_ObjGetVar2'' and
+     ''Tcl_ObjSetVar2'' calls is significant, and can be eliminated
+     from many common usages by the bytecode compiler.  Since this
+     command is likely to appear in inner loops, it is important to
+     squeeze every bit of possible performance out of it.
+
+   * ''Why a new command in the global namespace?''
+
+   > The author of this TIP feels that having a single added command
+     that is parallel to the existing list commands is not polluting
+     the namespace excessively.  It would be a shame if this proposal
+     founders upon the Naming of Names.
+
+   * ''Why a new command, rather than including this functionality in
+     the proposed functionality of an extensible command for list
+     manipulation?''
+
+   > The author of this TIP has yet to see a formal proposal of any
+     extensible list manipulation command; the closest thing appears
+     to be Andreas Kupries's ''listx'' package
+     (http://www.oche.de/~akupries/tcltk.html).  Given the size and
+     complexity of any such modification, it is unlikely that it will
+     be available in the Core in time for an 8.4 release.  The
+     performance improvements achievable by the ''lset'' command are
+     needed urgently.
+
+   * ''Isn't this [29] warmed over?''
+
+   > Several objectors to [29] indicated that they were willing to
+     consider list element assignment implemented as a new command.
+
+   * ''Doesn't this proposal depend on multiple ''index'' arguments to
+     ''lindex'' ([22])?
+
+   > This proposal can stand alone.  If multiple ''index'' arguments
+     to ''lindex'' are also accepted, the resulting symmetry is
+     pleasing.  Having multiple ''index'' args to ''lset'' is much
+     more important, because it is horribly difficult to implement
+     equivalent functionality in pure Tcl without introducing
+     excessive calls to ''Tcl_DuplicateObj''.  In fact, the reference
+     implementation of ''lset'' presented in this TIP was motivated by
+     the fact that its author gave up on the task and resorted to C.
+
+~ Implementation Notes
+
+Having two versions of the syntax for the ''lset'' command is perhaps
+unattractive, but neither can be left out effectively.
+
+The syntax where the indices are packaged as a single list allows a
+''cursor'' into complex list structure to be maintained in a single
+variable.  The list element that the cursor designates can be altered
+with a single call to the ''lset'' command, without needing to resort
+to ''eval'' (a command that is both expensive and dangerous) to expand
+the indices inline.
+
+The syntax where each index is a first-class object is motivated by
+the performance of array-based algorithms.  Programmers who are using
+lists as arrays know exactly how many subscripts they have, and in
+fact are generally iterating through them.  A typical sort of usage
+might be the naïve matrix multiplication shown below.
+
+| # Construct a matrix with 'rows' rows and 'columns' columns
+| # having an initial value of 'initCellValue' in each cell.
+| 
+| proc matrix { rows columns { initCellValue {} } } {
+|     set oneRow {}
+|     for { set i 0 } { $i < $columns } { incr i } {
+|         lappend oneRow $initCellValue
+|     }
+|     set matrix {}
+|     for { set i 0 } { $i < $rows } { incr i } {
+|         lappend matrix $oneRow
+|     }
+|     return $matrix
+| }
+| 
+| # Multiply two matrices
+| 
+| proc matmult { x y } {
+| 
+|     set m [llength $x];                 # Number of rows of left matrix
+|     set n [llength [lindex $x 0]];      # Number of columns of left matrix
+| 
+|     if { $n != [llength $y] } {
+|         return -code error "rank error: left operand has $n columns\
+|                             while right operand has [llength $y] rows"
+|     }
+| 
+|     set k [llength [lindex $y 0]];      # Number of columns of right matrix
+| 
+|     # Construct a matrix to hold the product
+| 
+|     set product [matrix $m $k]
+| 
+|     for { set i 0 } { $i < $m } { incr i } {
+|         for { set j 0 } { $j < $k } { incr j } {
+|             lset product $i $j 0.0
+|             for { set r 0 } { $r < $n } { incr r } {
+|                 set term [expr { [lindex $x $i $r] * [lindex $y $r $j] }]
+|                 lset product $i $j [expr { [lindex $product $i $j] + $term }]
+|             }
+|         }
+|     }
+| 
+|     return $product
+| }
+
+Note how we have an [[lset]] operation in the innermost loop, executed
+(m*n*k) times.
+
+If in this instance, we have to write:
+
+|                 set indices [list $i $j]
+|                 lset product $indices \
+|                     [expr { [lindex $product $indices] + $term }]
+
+in place of the [[lset]] shown above, we add the cost of forming the
+list of indices to the cost of the inner loop.  This cost is not to be
+sneezed at -- it's two expensive calls to ''ckalloc.''  (The cost can
+be avoided, at some cost in readability, by maintaning a variable
+containing the index list, and altering its elements with other uses
+of [[lset]].)
+
+Richard Suchenwirth suggested the compromise that appears in this
+proposal.  This scheme will perilous to performance if implemented
+naively.  If the implementation of [[lset]] simply calls
+''Tcl_ListObjGetElements'', look what happens to the inner loop of our
+''shuffle1b'' procedure:
+
+|      for { set i 0 } { $i < $n } { incr i } {
+|          set j [expr {int(rand()*$n)}]
+|          set temp [lindex $list $j]
+|          lset list $j [lindex $list $i]
+|          lset list $i $temp
+|      }
+
+   * Initially, {set i 0} sets i to the constant "0"; it is a string.
+
+   * Evaluating the conditional {$i < $n} will shimmer i to an integer;
+     now it's an integer.  (We had to do a call to strtol here.)
+
+   * The [[lindex $list $i]] call now has to consider $i as a list of
      indices, and shimmers it to the list.  This discards the internal
      rep, parses the string rep into a list, and then reconverts its
      first element to an integer.
