@@ -1,7 +1,8 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
+Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -139,6 +140,16 @@ procedure's ''Tcl_Obj'' is freed.
 
 The real Tcl procedure may live in the '''::lambda''' namespace in
 order to be self-introspective.
+
+~ Reference Implementation
+
+A reference implementation is being developed in Patch #939190 [https://sourceforge.net/tracker/index.php?func=detail&aid=939190&group_id=10894&atid=310894].
+
+It follows this tip fairly closely in its effects, but diverges in the implementation strategy. It implements autocleaning procs, and defines lambda expressions as autocleaning procs in the ::tcl::lambda namespace. The example above can be defined equivalently as
+
+   set p [lambda x {string length $x}]
+   set p [list ::tcl::lambda:: x {string length $x}]
+   set p {::tcl::lambda:: x {string length $x}}
 
 ~ Copyright
 
