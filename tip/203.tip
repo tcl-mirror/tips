@@ -1,6 +1,6 @@
 TIP:            203
 Title:          Create tclConfig.sh-Equivalent in Tcl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Colin McCormack <coldstore@users.sourceforge.net>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
@@ -15,16 +15,12 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This proposal requires the build-time creation of a file
-''tclConfig.tcl'' that is equivalent to ''tclConfig.sh'' in both
-logical content and location.
+This proposal requires the registration of information about the built process, currently stored in tclConfig.sh, by means of the Tcl_RegisterConfig mechanism set out in [Tip 59].
 
 ~ Rationale
 
 Packages such as Critcl[http://www.equi4.com/critcl.html], and indeed
-anything which tries to build extensions under Tcl need more
-introspection to discover the ground rules of construction in the
-installation in which they find themselves.
+anything written in pure tcl which tries to build extensions under Tcl need more introspection to discover the ground rules of construction in the installation in which they find themselves.
 
 In order to facilitate such future build tools, the build information
 should be made available to Tcl scripts.
@@ -35,9 +31,9 @@ The web page http://mini.net/tcl/tclConfig.sh contains a parser to
 understand a ''tclConfig.sh'' and set variables in the ''::tclConfig''
 namespace.
 
-Anything similar would suffice, whether it's added to a ''dict'' under
-'''info''', '''tcl_platform''', or placed in a namespace doesn't
-greatly matter.
+~ TODO
+
+I will analyse the contents of tclConfig.sh and specify which fields should be added (more likely, which fields should be left out.)
 
 ~ Comments
 
@@ -49,7 +45,7 @@ should pass those values into
 That would make all the values available
 to scripts via the '''::tcl::pkgconfig''' command.
 
-I think the Tip 59 mechanism is a good one, with the considerable advantage of providing the data directly.  My only concern is one of implementation: several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage, let the people who use the data evaluate it as they wish.
+Several of the assigned values in tclConfig.sh contain references to other variables - should these be reproduced verbatim, or evaluated prior to registration?  I'm leaning toward verbatim storage: let the people who need the data construct an evaluation which serves their purposes because (a) the form is easy enough to evaluate, as in the parser I threw together, (b) there might be information in the verbatim form which needs to be preserved.  Comments welcome.
 
 ~ Copyright
 
