@@ -1,6 +1,6 @@
 TIP:            224
 Title:          Add New [array] Subcommands 'incr' and 'value'
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
 Type:           Project
@@ -30,6 +30,7 @@ substantially reduce the complexity of much Tcl code.
 
 Two new subcommands will be added to '''array''', being '''incr''' and
 '''value'''.
+Both commands take an array name and an elem parameter, but, no string match is performed on elem.
 
 ~~ array incr
 
@@ -46,8 +47,7 @@ double values (based on the rules for addition in '''expr''').
  > '''array value''' ''var elem'' ?''value'' ?''init''??
 
 The '''array value''' would just return the current contents of
-''var''(''elem'') if it exists, or ''value'' otherwise.  
-No string match is performed on elem. If the
+''var''(''elem'') if it exists, or ''value'' otherwise.   If the
 ''init'' parameter resolves to true (as determined by
 ''Tcl_GetBooleanFromObj()'' of course), the variable is initialized to
 ''value'' if it doesn't already exist.  The default for ''value'' is
