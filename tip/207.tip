@@ -1,6 +1,6 @@
 TIP:            207
 Title:          Add a -namespace Option to [interp invokehidden]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -41,7 +41,8 @@ the current documentation dictates with the following notable
 exceptions:
 
    * The '''-namespace''' specifies the target namespace context in
-     the slave interpreter where the command should be invoked.
+     the slave interpreter where the command should be invoked starting
+     from the global namespace in the slave interpreter.
 
    * The target namespace context specified by the '''-namespace'''
      option is created in the slave interpreter if it does not already
