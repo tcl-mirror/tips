@@ -1,6 +1,6 @@
 TIP:            74
 Title:          wm stackorder command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Mo DeJong <mdejong@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -101,8 +101,8 @@ assistance from area maintainers.
 
 ~ Alternatives
 
-Instead of adding a new wm stackorder command, one could
-adjust the behavior of the ''winfo children''. The
+Instead of adding a new ''wm stackorder'' command, one could
+adjust the behavior of ''winfo children''. The
 documentation currently reads:
 
  winfo children window:
@@ -144,7 +144,7 @@ as toplevels are moved up and down in the stacking order.
 Both of these alternatives have some serious implementation issues.
 The ''TkWmStackorderToplevel()'' function is very slow. The X based
 implementation recurses through each window in the Tk hierarchy to
-create a mapping of wrapper window ids to TkWindows. The function
+create a mapping of wrapper window ids to ''TkWindow''s. The function
 then queries the X server to find each X window that is a child of
 the root screen and checks to see if the window exists in the
 mapping. When compared to ''winfo children'', which just loops
