@@ -1,8 +1,9 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
+Author:         Jan Nijtmans <j.nijtmans@chello.nl>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -32,9 +33,9 @@ assigned:
 
    3. ''[*button] and [label]'' - Allen Flick <allenflick@home.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>
+   4. ''Canvas Basics'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
 
-   5. ''Canvas Items'' - Jeff Hobbs <JeffH@ActiveState.com>
+   5. ''Canvas Items'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
 
    6. ''Canvas PostScript'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -70,7 +71,7 @@ assigned:
 
    22. ''Relief'' - Jeff Hobbs <JeffH@ActiveState.com>, Frédéric Bonnet <fredericbonnet@free.fr>
 
-   23. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>
+   23. ''Built-in Bitmaps'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
 
    24. ''Conversions From String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -98,15 +99,15 @@ assigned:
 
    36. ''[tk_messageBox]'' - Donal K. Fellows <fellowsd@cs.man.ac.uk> ''(Unix)'', Jeff Hobbs <JeffH@ActiveState.com>
 
-   37. ''Image Basics'' -
+   37. ''Image Basics'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   38. ''Bitmap Images'' -
+   38. ''Bitmap Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   39. ''Photo Images'' -
+   39. ''Photo Images'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   40. ''Photo Image|GIF'' -
+   40. ''Photo Image|GIF'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
-   41. ''Photo Image|PPM'' -
+   41. ''Photo Image|PPM'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
    42. ''Generic Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -160,7 +161,7 @@ assigned:
 
    67. ''Events'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   68. ''Event Loop'' - Jeff Hobbs <JeffH@ActiveState.com>
+   68. ''Event Loop'' - Jeff Hobbs <JeffH@ActiveState.com>, Jan Nijtmans <j.nijtmans@chello.nl>
 
    69. ''Error Handling'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -180,7 +181,7 @@ assigned:
 
    77. ''Other Demos'' - Donal K. Fellows <fellowsd@cs.man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   78. ''L10N'' -
+   78. ''L10N'' - Jan Nijtmans <j.nijtmans@chello.nl>
 
    79. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>
 
