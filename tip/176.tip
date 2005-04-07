@@ -1,6 +1,6 @@
 TIP:            176
 Title:          Add String Index Values
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Damon Courtney <damon@unreality.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -12,8 +12,9 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to add small functionality to the standard index
-(end-1) values acceptable by most Tcl commands.
+This TIP proposes extended index formats to be recognized by
+'''TclGetIntForIndex''', supporting simple index arithmetic
+for string and list indices.
 
 ~Rationale
 
@@ -25,20 +26,8 @@ index processing.  The change is mostly just syntactic sugar, but it
 extends a functionality that is already there and does not change any
 other syntax.
 
-~Proposal
-
-Under this TIP, the following would all be valid indexes (N and M are
-integers):
-
- N: Standard numeric indexing style.
-
- end-N: Standard end-relative indexing style.
-
- M+N: ''New'' offset-to-known-point style.
-
- end+N: ''New'' past-end style.
-
-This allows for shorthand list and string operations like so:
+The aim of the proposal is to allow shorthand list and string
+operations like so:
 
 |set x [lsearch $list $elem]
 |set new [lrange $list $x-1 $x+1]
@@ -46,17 +35,91 @@ This allows for shorthand list and string operations like so:
 |set x [string first $string "foo"]
 |set new [string range $string $x $x+5]
 
-And so on...
+~Proposal
+
+The description of the supported index formats documented for
+the '''string index''' command will be updated to read:
+
+   * ''integer''
+
+   >   * For any index value that passes '''string is integer -strict''',
+         the char specified at this integral index (e.g. '''2''' would
+         refer to the '''c''' in '''abcd''').
+
+   * end
+
+   >   * The last char of the string (e.g.  '''end''' would refer to
+         the '''d''' in '''abcd''').
+
+   * end-''N''
+
+   >   * The last char of the string minus the specified integer
+         offset ''N'' (e.g. '''end-1''' would refer to the '''c'''
+         in '''abcd''').
+
+   * end+''N''
+
+   >   * The last char of the string plus the specified integer
+         offset ''N'' (e.g. '''end+-1''' would refer to the '''c'''
+         in '''abcd''').
+
+   * ''M''+''N''
+
+   >   * The char specified at the integral index that is the sum of
+         integer values ''M'' and ''N'' (e.g.  '''1+1''' would refer
+         to the '''c''' in '''abcd''').
+
+   * ''M''-''N''
+
+   >   * The char specified at the integral index that is the difference
+         of integer values ''M'' and ''N'' (e.g. '''2-1''' would refer to
+         the '''b''' in '''abcd''').
+
+   * In the specifications above, the integer value ''M'' contains no
+     trailing whitespace and the integer value ''N'' contains no
+     leading whitespace.
+
+The internal routine '''TclGetIntForIndex''' will be updated to
+implement the parsing specified by the documentation above.
+
+The documentation of all Tcl commands that call '''TclGetIntForIndex'''
+to parse index values will be updated to refer to the documentation
+for '''string index''' for a description of the index format.  This
+documentation update will remove any mention that the index values
+'''e''' and '''en''' are supported (as prefixes of '''end''').  Their
+support will be continued for compatibility, but that support will
+now be undocumented and deprecated.
+
+The implementation of the commands '''regexp -start''' and
+'''regsub -start''' will be updated to call '''TclGetIntForIndex'''
+so that the full set of index formats will be supported.  (Currently
+only integer values are accepted).
+
+The error message produced by '''TclGetIntForIndex''' when parsing
+an invalid index will be updated to give the advice
+'''must be integer?[+-]integer? or end?[+-]integer?''',
+in agreement with the extended set of index formats.
 
 ~Implementation
 
-The code itself is just some simple changes to ''TclGetIntForIndex()''
-in ''generic/tclUtil.c''.  Because the core commands in Tcl and Tk
-alredy use this private function for index values, the commands which
-already accept the standard ''end-N'' index will now accept the new
-indexes.
+Tcl Patch 1165695 is a draft implementation.  It accomplishes everything
+proposed above except the update to the error message.  If this proposal
+is accepted, that change, plus the large number of test suite updates
+it would require, will be added.  Tests of the new functionality are
+also still to come.
 
-Tcl Patch 1165695 is a draft implementation.
+~Compatibility
+
+Support for the index format end-''N'' where ''N'' is an integer
+with leading whitespace is removed by this proposal.  For example
+the string '''end- 1''' will no longer be recognized as a valid index.
+Most programmers are surprised to learn that this format is supported
+currently, so this incompatibility is not expected to cause much
+of a problem.
+
+~Discussion Summary
+
+fill this in.
 
 ~Copyright
 
