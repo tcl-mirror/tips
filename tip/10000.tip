@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.150 $
+Version:        $Revision: 1.151 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -40,7 +40,7 @@ Lars Hellstrøm did not write this
 The description of the supported index formats documented for
 the '''string index''' command will be updated to read:
 
-   * ''integer'':       For any index value that passes
+   * ''integer'' :       For any index value that passes
      '''string is integer -strict''', the char specified at this
      integral index (e.g. '''2''' would refer to the '''c''' in '''abcd''').
 
