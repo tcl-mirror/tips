@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.149 $
+Version:        $Revision: 1.150 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -35,80 +35,59 @@ can take place.
 
 Lars Hellstrøm did not write this
 
-~ Rationale
+~Proposal
 
-This document serves a purpose similar to the Graffiti page
-(http://purl.org/thecliff/tcl/wiki/34.html) at the Tcl'ers
-Wiki [http://purl.org/thecliff/tcl/wiki/].
+The description of the supported index formats documented for
+the '''string index''' command will be updated to read:
 
-It will also be useful for testing the web editing interface
-proposed in [13].
+   * ''integer'':       For any index value that passes
+     '''string is integer -strict''', the char specified at this
+     integral index (e.g. '''2''' would refer to the '''c''' in '''abcd''').
 
-~ Test
+   * '''end''':         The last char of the string (e.g.
+     '''end''' would refer to the '''d''' in '''abcd''').
 
-Here's a simple edit test.
+   * '''end-'''''N'':   The last char of the string minus the
+     specified integer offset ''N'' (e.g. '''end-1''' would refer
+     to the '''c''' in '''abcd''').
 
-Test of ''italic'', '''bold''' and ''mixed '''bold'' and italic''' text.
+   * '''end+'''''N'':   The last char of the string plus the
+     specified integer offset ''N'' (e.g. '''end+-1''' would refer
+     to the '''c''' in '''abcd''').
 
-~~Subsection test
+   * ''M'''''+'''''N'': The char specified at the integral index
+     that is the sum of integer values ''M'' and ''N'' (e.g.
+     '''1+1''' would refer to the '''c''' in '''abcd''').
 
-foobarsoom
+   * ''M'''''-'''''N'': The char specified at the integral index
+     that is the difference of integer values ''M'' and ''N''
+     (e.g. '''2-1''' would refer to the '''b''' in '''abcd''').
 
-spam test
+   * In the specifications above, the integer value ''M'' contains no
+     trailing whitespace and the integer value ''N'' contains no
+     leading whitespace.
 
-~~~Subsubsection test
+The internal routine '''TclGetIntForIndex''' will be updated to
+implement the parsing specified by the documentation above.
 
-spong wibble
+The documentation of all Tcl commands that call '''TclGetIntForIndex'''
+to parse index values will be updated to refer to the documentation
+for '''string index''' for a description of the index format.  This
+documentation update will remove any mention that the index values
+'''e''' and '''en''' are supported (as prefixes of '''end''').  Their
+support will be continued for compatibility, but that support will
+now be undocumented and deprecated.
 
- depth test: depth test
+The implementation of the commands '''regexp -start''' and
+'''regsub -start''' will be updated to call '''TclGetIntForIndex'''
+so that the full set of index formats will be supported.  (Currently
+only integer values are accepted).
 
- > > foo ''bar'' '''spong'''
+The error message produced by '''TclGetIntForIndex''' when parsing
+an invalid index will be updated to give the advice
+'''must be integer?[+-]integer? or end?[+-]integer?''',
+in agreement with the extended set of index formats.
 
- > some more test stuff
-
-~ Reference Implementation
-
-A reference implementation does ''not'' yet exist.
-
-~ Copyright
-
-Public domain
-
-~ Abstract
-
-This TIP proposes a '''-nocase''' option for the '''lsearch'''
-command to allow for case-insensitive searching of the specified
-list.
-
-~ Rationale
-
-The '''lsearch''' command is very flexible and powerful; however, 
-in certain situations, the ability to perform case insensitive searches
-is absolutely required (such as searching fully qualified file names on 
-file systems that do not differentiate between upper and lower case).
-Without the '''-nocase''' option, various unnatural workarounds are 
-required.  In addition, the '''-nocase''' option will finally bring the 
-'''lsearch''' command into parity with the other comparison related 
-operations, including '''string compare''', '''string match''', and '''regexp'''.
-
-~ Specification
-
- > '''lsearch''' ?'''-nocase'''? ''list'' ''pattern''
-
-The '''-nocase''' option can be used with '''-ascii''', '''-exact''', '''-glob''', 
-and '''-regexp''' options.  The '''-nocase''' option has no effect when used with 
-the '''-dictionary''', '''-integer''', or '''-real''' options.
-
-~ Reference Implementation
-
-A reference implementation of this TIP is availble
-[http://sourceforge.net/tracker/index.php?func=detail&aid=1152746&group_id=10894&atid=310894].
-
-~ Encoding test
-
-from Lars Hellstrøm.    
-
-Kevin tries to enter the mælstrøm of encoding tests.
 
 ~ Copyright
 
