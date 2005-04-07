@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.154 $
+Version:        $Revision: 1.155 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -42,29 +42,38 @@ the '''string index''' command will be updated to read:
 
    * ''integer''
 
-   >   * For any index value that passes
-     '''string is integer -strict''', the char specified at this
-     integral index (e.g. '''2''' would refer to the '''c''' in '''abcd''').
+   >   * For any index value that passes '''string is integer -strict''',
+         the char specified at this integral index (e.g. '''2''' would
+         refer to the '''c''' in '''abcd''').
 
-   * '''end'''
-   >   * The last char of the string (e.g.
-     '''end''' would refer to the '''d''' in '''abcd''').
+   * end
 
-   * '''end-'''''N'' --   The last char of the string minus the
-     specified integer offset ''N'' (e.g. '''end-1''' would refer
-     to the '''c''' in '''abcd''').
+   >   * The last char of the string (e.g.  '''end''' would refer to
+         the '''d''' in '''abcd''').
 
-   * '''end+'''''N'' --   The last char of the string plus the
-     specified integer offset ''N'' (e.g. '''end+-1''' would refer
-     to the '''c''' in '''abcd''').
+   * end-''N''
 
-   * ''M'''''+'''''N'' -- The char specified at the integral index
-     that is the sum of integer values ''M'' and ''N'' (e.g.
-     '''1+1''' would refer to the '''c''' in '''abcd''').
+   >   * The last char of the string minus the specified integer
+         offset ''N'' (e.g. '''end-1''' would refer to the '''c'''
+         in '''abcd''').
 
-   * ''M'''''-'''''N'' -- The char specified at the integral index
-     that is the difference of integer values ''M'' and ''N''
-     (e.g. '''2-1''' would refer to the '''b''' in '''abcd''').
+   * end+''N''
+
+   >   * The last char of the string plus the specified integer
+         offset ''N'' (e.g. '''end+-1''' would refer to the '''c'''
+         in '''abcd''').
+
+   * ''M''+''N''
+
+   >   * The char specified at the integral index that is the sum of
+         integer values ''M'' and ''N'' (e.g.  '''1+1''' would refer
+         to the '''c''' in '''abcd''').
+
+   * ''M''-''N''
+
+   >   * The char specified at the integral index that is the difference
+         of integer values ''M'' and ''N'' (e.g. '''2-1''' would refer to
+         the '''b''' in '''abcd''').
 
    * In the specifications above, the integer value ''M'' contains no
      trailing whitespace and the integer value ''N'' contains no
