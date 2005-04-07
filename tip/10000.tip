@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.155 $
+Version:        $Revision: 1.156 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -34,72 +34,6 @@ can take place.
 ~ Testing Non-ASCII Characters...
 
 Lars Hellstrøm did not write this
-
-~Proposal
-
-The description of the supported index formats documented for
-the '''string index''' command will be updated to read:
-
-   * ''integer''
-
-   >   * For any index value that passes '''string is integer -strict''',
-         the char specified at this integral index (e.g. '''2''' would
-         refer to the '''c''' in '''abcd''').
-
-   * end
-
-   >   * The last char of the string (e.g.  '''end''' would refer to
-         the '''d''' in '''abcd''').
-
-   * end-''N''
-
-   >   * The last char of the string minus the specified integer
-         offset ''N'' (e.g. '''end-1''' would refer to the '''c'''
-         in '''abcd''').
-
-   * end+''N''
-
-   >   * The last char of the string plus the specified integer
-         offset ''N'' (e.g. '''end+-1''' would refer to the '''c'''
-         in '''abcd''').
-
-   * ''M''+''N''
-
-   >   * The char specified at the integral index that is the sum of
-         integer values ''M'' and ''N'' (e.g.  '''1+1''' would refer
-         to the '''c''' in '''abcd''').
-
-   * ''M''-''N''
-
-   >   * The char specified at the integral index that is the difference
-         of integer values ''M'' and ''N'' (e.g. '''2-1''' would refer to
-         the '''b''' in '''abcd''').
-
-   * In the specifications above, the integer value ''M'' contains no
-     trailing whitespace and the integer value ''N'' contains no
-     leading whitespace.
-
-The internal routine '''TclGetIntForIndex''' will be updated to
-implement the parsing specified by the documentation above.
-
-The documentation of all Tcl commands that call '''TclGetIntForIndex'''
-to parse index values will be updated to refer to the documentation
-for '''string index''' for a description of the index format.  This
-documentation update will remove any mention that the index values
-'''e''' and '''en''' are supported (as prefixes of '''end''').  Their
-support will be continued for compatibility, but that support will
-now be undocumented and deprecated.
-
-The implementation of the commands '''regexp -start''' and
-'''regsub -start''' will be updated to call '''TclGetIntForIndex'''
-so that the full set of index formats will be supported.  (Currently
-only integer values are accepted).
-
-The error message produced by '''TclGetIntForIndex''' when parsing
-an invalid index will be updated to give the advice
-'''must be integer?[+-]integer? or end?[+-]integer?''',
-in agreement with the extended set of index formats.
-
 
 ~ Copyright
 
