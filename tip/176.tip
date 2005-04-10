@@ -1,6 +1,6 @@
 TIP:            176
 Title:          Add String Index Values
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Damon Courtney <damon@unreality.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -84,7 +84,10 @@ implement the parsing specified by the documentation above.
 
 The documentation of all Tcl commands that call '''TclGetIntForIndex'''
 to parse index values will be updated to refer to the documentation
-for '''string index''' for a description of the index format.  This
+for '''string index''' for a description of the index format. 
+These commands include '''lindex''', '''linsert''', '''lrange''',
+'''lreplace''', '''lsearch''', '''lset''', '''lsort''', and
+'''string'''.  This
 documentation update will remove any mention that the index values
 '''e''' and '''en''' are supported (as prefixes of '''end''').  Their
 support will be continued for compatibility, but that support will
