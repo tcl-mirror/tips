@@ -1,6 +1,6 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
@@ -85,6 +85,8 @@ symbols at runtime. (The other library, libXext, is virtually
 universally available.)
 
 For Win9x, Microsoft has published example code at [http://www.microsoft.com/msj/0200/c/c0200.aspx].
+
+Windows CE 3.0 and up has GetIdleTime() for this purpose.
 
 ~ Reference Implementation
 
