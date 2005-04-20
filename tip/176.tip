@@ -1,8 +1,9 @@
 TIP:            176
 Title:          Add String Index Values
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Damon Courtney <damon@unreality.com>
 Author:         Don Porter <dgp@users.sf.net>
+Author:         Damon Courtney <damon-tcl@tclhome.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -122,7 +123,11 @@ of a problem.
 
 ~Discussion Summary
 
-fill this in.
+This feature is added as a quick, simple convenience to having to always use a full-blown expression for a minor task.
+
+It was briefly discussed that since indexes already allowed a space between the - and the N we should continue to support this, but it makes the implementation harder, and no one seemed to care that much.  The fact that it breaks backwards compatibility is a small issue since no one seems to use indexes in this manner anyway.
+
+The idea of making indexes extend a list beyond its length by doing something like [linsert $list end+10 $elem] was discussed but tabled since it is much harder to implement and is really outside the scope of this TIP.  This may be something to discuss for a future TIP though.
 
 ~Copyright
 
