@@ -1,6 +1,6 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -20,12 +20,12 @@ set initial translation to binary (rather than auto).
 
 ~ Rationale
 
-ANSI-C ''fopen()'' supports an additional flag "b" in the mode-
+ANSI-C ''fopen()'' supports an additional flag "b" in the ''mode''
 parameter especially for non-POSIX platforms, where it makes sure that
 no conversion takes place at reading or writing.  The manual page for
-open mentions that [[fconfigure]] should be used as a substitute for
+open mentions that '''fconfigure''' should be used as a substitute for
 the missing "b"-flag but I don't see anything wrong with a "b" flag as
-a possible shortcut for this [[fconfigure]]-call, so this TIP proposes
+a possible shortcut for this '''fconfigure'''-call, so this TIP proposes
 that the ''access'' argument to '''open''' should support '''b''' as
 an additional letter (anywhere within the argument when used in the
 first form documented on the manual page) which will cause the initial
@@ -47,7 +47,7 @@ This extra flag would only affect the initial translation state.
 
 ~ Enhancement
 
-Tcl's [[open]] also tries to adopt the POSIX ''open()'' parameters
+Tcl's '''open''' also tries to adopt the POSIX ''open()'' parameters
 (i.e. the second form documented for the ''access'' parameter on the
 manual page.)  POSIX's ''open()'' doesn't know about binary or
 non-binary files, but Tcl does, so a new keyword "BINARY" could be
