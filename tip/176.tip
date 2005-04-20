@@ -1,12 +1,12 @@
 TIP:            176
 Title:          Add String Index Values
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Damon Courtney <damon@unreality.com>
 Author:         Don Porter <dgp@users.sf.net>
 Author:         Damon Courtney <damon-tcl@tclhome.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        16-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
