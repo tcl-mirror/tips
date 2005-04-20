@@ -1,16 +1,16 @@
-TIP:		245
-Title:		Discover User Inactivity Time
-Version:	$Revision: 1.2 $
-Author:		Pascal Scheffers <pascal@scheffers.net>
-Author:		Reinhard Max <max@tclers.tk>
-Author:		Neil Madden <nem@cs.nott.ac.uk>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	15-Apr-2005
-Post-History:	
-Keywords:	Tk
-Tcl-Version:	8.5
+TIP:            245
+Title:          Discover User Inactivity Time
+Version:        $Revision: 1.3 $
+Author:         Pascal Scheffers <pascal@scheffers.net>
+Author:         Reinhard Max <max@tclers.tk>
+Author:         Neil Madden <nem@cs.nott.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Apr-2005
+Post-History:   
+Keywords:       Tk
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -52,7 +52,7 @@ long '''Tk_UserInactiveTime'''(''display'')
 
  Display *display (in): used to determine which display to query for
     user inactive time.
- 
+
 '''Tk_UserInactiveTime()''' returns a positive integer, the number of
 milliseconds since the last time the user interacted with the system
 (note that this is not necessarily the time since the user interacted
@@ -66,11 +66,11 @@ safe interpreters.
 
 ~ Implementation Notes
 
-Windows 2000 and later have ''GetLastUserInfo'' to obtain the
+Windows 2000 and later have ''GetLastInputInfo'' to obtain the
 information, earlier platforms do not have this symbol in user32.dll.
 This symbol will be dynamically obtained upon the first call of
 ''Tk_UserInactiveTime()'' on windows. If the symbol is not available,
-''Tk_UserInactiveTime()'' will return -1. ''GetLastUserInfo()'' has no
+''Tk_UserInactiveTime()'' will return -1. ''GetLastInputInfo()'' has no
 notion of displays, and as a result the display argument is
 ignored. The behaviour of the command is unknown for terminal
 services, remote desktop, VNC, Citrix and other remote screen systems.
