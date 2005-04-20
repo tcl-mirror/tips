@@ -1,6 +1,6 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
@@ -83,6 +83,8 @@ proper solution for that scenario would require an additional TIP to
 export TclLoadFile, Tcl_FSLoadFile is not sufficient, to resolve the
 symbols at runtime. (The other library, libXext, is virtually
 universally available.)
+
+For Win9x, Microsoft has published example code at [http://www.microsoft.com/msj/0200/c/c0200.aspx].
 
 ~ Reference Implementation
 
