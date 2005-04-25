@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Improved Debugger Support
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -231,13 +231,22 @@ assertions.
 
 ~ Reference Implementation
 
+This patch is against Tcl 8.4.9 and represents a complete rework
+of the approach.
+
+http://pdqi.com/download/tclline-8.4.9.diff.gz
+
+There is a simple demonstration debugger script: ''tgdb.tcl''.
+
+http://pdqi.com/download/tgdb.tcl
+
+~ Previous/Old Reference Implementation
+
 http://pdqi.com/download/tclline-cvs.diff.gz - Patch against CVS head.
 
 http://pdqi.com/download/tclline-8.4.6.diff.gz - Patch against Tcl 8.4.6
 
-The patch against the CVS head is as of June 13/2004 and should
-be considered the definitive patch.  The 8.4.6 patch is provided
-for convienience and may or may not be updated.
+The CVS patch was against the CVS head is as of June 13/2004.
 These have been lightly tested against numerous small Tcl programs.
 
 There is also an initial version of a debugger: ''tgdb''.
