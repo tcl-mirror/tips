@@ -1,11 +1,11 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        26-Nov-2004
 Post-History:   
 Keywords:       math,expr,Tcl
@@ -13,7 +13,13 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes to replace Tcl's math functions, ordinarily created using the '''Tcl_CreateMathFunc()''' function, with ordinary Tcl commands created in a known namespace, '''::tcl::mathfunc'''. This change has two chief motivations: it allows programmers to define new math functions at the Tcl level, and it encapsulates the '''Tcl_Value''' API so that new math functions can work on data types that are not described adequately as '''Tcl_Value''' objects.
+This TIP proposes to replace Tcl's math functions, ordinarily created
+using the '''Tcl_CreateMathFunc()''' function, with ordinary Tcl
+commands created in a known namespace, '''::tcl::mathfunc'''. This
+change has two chief motivations: it allows programmers to define new
+math functions at the Tcl level, and it encapsulates the
+'''Tcl_Value''' API so that new math functions can work on data types
+that are not described adequately as '''Tcl_Value''' objects.
 
 ~ Rationale
 
@@ -177,7 +183,7 @@ statistical noise; variable access (with corresponding checks for traces)
 and bytecode overhead quickly comes to dominate the performance for
 all but the simplest expressions.
 
-~ Safe interpreters
+~ Safe Interpreters
 
 It is not anticipated that exposing this functionality in a safe interpreter
 will present any new problems for safety.  Any functionality that the
