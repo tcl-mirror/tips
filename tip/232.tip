@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -147,7 +147,7 @@ math functions operate:
     that has not yet been defined.  That is:
 
 |   proc foo { x } {
-|       set have_f [llength [info commands ::tcl::math::f]]
+|       set have_f [llength [info commands ::tcl::mathfunc::f]]
 |       if { $have_f } {
 |           return [expr { f($x) }]
 |       } else {
