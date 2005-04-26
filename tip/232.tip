@@ -1,6 +1,6 @@
 TIP:            232
 Title:          Creating New Math Functions for the 'expr' Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -209,10 +209,10 @@ but the authors of this TIP would prefer to avoid the code bloat.
 
 ~ Reference Implementation
 
-A reference implementation exists in Kevin Kenny's sandbox and will be
-committed to the '''kennykb-tcl-numerics''' branch as soon as voting
-completes on [132]; the reason for waiting is so that the Tcl Core Team
-can examine the branch as that TIP's reference implementation.
+A reference implementation is committed on the 'tcl-numerics-branch'
+at SourceForge and may be retrieved with
+
+| cvs -d:ext:USERID@cvs.sourceforge.net:/cvsroot/tcl checkout -rTIP232 tcl_numerics
 
 ~ Copyright
 
