@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -145,12 +145,12 @@ arbitrary precision.  Specifically:
     an ''mp_int'' structure in ''libtommath'').  The integer
     will be an encoding comprising:
 
- > > * one bit representing the sign of the number
+ > * one bit representing the sign of the number
 
- > > * fifteen bits giving the size of allocated memory in the digit
+ > * fifteen bits giving the size of allocated memory in the digit
        array.
 
- > > * fifteen bits giving the size of used memory in the digit array.
+ > * fifteen bits giving the size of used memory in the digit array.
 
  >  The reason for this tight encoding is that the size of a
     ''Tcl_Obj'' shall not change, and yet an ''mp_int'' structure can
