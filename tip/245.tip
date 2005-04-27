@@ -1,6 +1,6 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
@@ -29,7 +29,7 @@ these kinds of applications to use Tk if there was a simple way to get
 the length of time which the user has been inactive, which is
 information available on all supported platforms.
 
-Applications that take some kind of user input from channels that bypass the system's mechanisms for detecting user activity might want to tell the system to reset the inactivity timer because they received input that has to be treated as user inactivity. An example for this would be barcode readers connected via serial lines that are read directly by the application.
+Applications that take some kind of user input from channels that bypass the system's mechanisms for detecting user activity might want to tell the system to reset the inactivity timer because they received input that has to be treated as user activity. An example for this would be barcode readers connected via serial lines that are read directly by the application.
 
 ~ Specification
 
