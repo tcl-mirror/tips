@@ -1,6 +1,6 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
@@ -15,8 +15,8 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes a new subcommand, '''inactive''', to the '''tk'''
-command, as well as a ''Tk_UserInactiveTime'' C function to discover
-the number of milliseconds the user has been inactive. For most
+command, as well as ''Tk_GetUserInactiveTime'' and ''Tk_ResetUserInactiveTime'' C functions to discover
+the number of milliseconds the user has been inactive and reset that timer to zero respectively. For most
 environments, this is the time since the user last used the keyboard
 or mouse.
 
@@ -28,6 +28,8 @@ inactive time has elapsed. It would make it easier for authors of
 these kinds of applications to use Tk if there was a simple way to get
 the length of time which the user has been inactive, which is
 information available on all supported platforms.
+
+Applications that take some kind of user input from channels that bypass the system's mechanisms for detecting user activity might want to tell the system to reset the inactivity timer because they received input that has to be treated as user inactivity. An example for this would be barcode readers connected via serial lines that are read directly by the application.
 
 ~ Specification
 
@@ -44,25 +46,30 @@ display of the application's main window.
 If querying the user inactive time is not supported by the system,
 '''tk inactive''' will return -1.
 
- > '''tk''' '''inactive''' ?'''-displayof''' ''window''?
+If the literal string '''reset''' is given as an additional argument, the timer is reset and an empty string is returned.
+
+ > '''tk''' '''inactive''' ?'''-displayof''' ''window''? ?'''reset'''?
 
 ~~ C API
 
-long '''Tk_UserInactiveTime'''(''display'')
+long '''Tk_GetUserInactiveTime'''(''display'')
 
  Display *display (in): used to determine which display to query for
     user inactive time.
 
-'''Tk_UserInactiveTime()''' returns a positive integer, the number of
+'''Tk_GetUserInactiveTime()''' returns a positive integer, the number of
 milliseconds since the last time the user interacted with the system
 (note that this is not necessarily the time since the user interacted
 with the application.)
+
+void '''Tk_ResetUserInactiveTime'''(''display'')
+ Display *display(in): used to determine on which display the user inactivity timer is to be reset.
 
 ~ Safe Interpreters
 
 User inactive time can be used for timing attacks and will not be made
 available in safe interpreters, '''tk inactive''' will return -1 in
-safe interpreters.
+safe interpreters. Calling '''tk inactive reset''' in a safe interpreter will throw an error.
 
 ~ Implementation Notes
 
