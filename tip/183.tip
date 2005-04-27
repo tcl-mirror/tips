@@ -1,11 +1,11 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        24-Mar-2004
 Post-History:   
 Keywords:       Tcl
