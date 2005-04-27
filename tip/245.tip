@@ -1,6 +1,6 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
@@ -15,9 +15,8 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes a new subcommand, '''inactive''', to the '''tk'''
-command, as well as ''Tk_GetUserInactiveTime'' and ''Tk_ResetUserInactiveTime'' C functions to discover
-the number of milliseconds the user has been inactive and reset that timer to zero respectively. For most
-environments, this is the time since the user last used the keyboard
+command, as well as '''Tk_GetUserInactiveTime''' and '''Tk_ResetUserInactiveTime''' C functions to discover
+the number of milliseconds the user has been inactive and reset that timer to zero respectively. For most environments, this is the time since the user last used the keyboard
 or mouse.
 
 ~ Rationale
@@ -63,7 +62,8 @@ milliseconds since the last time the user interacted with the system
 with the application.)
 
 void '''Tk_ResetUserInactiveTime'''(''display'')
- Display *display(in): used to determine on which display the user inactivity timer is to be reset.
+
+ Display *display (in): used to determine on which display the user inactivity timer is to be reset.
 
 ~ Safe Interpreters
 
