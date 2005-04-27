@@ -1,0 +1,137 @@
+TIP:		246
+Title:		Unify Pattern Matching
+Version:	$Revision: 1.1 $
+Author:		Reinhard Max <max@tclers.tk>
+Type:		Project
+State:		Draft
+Vote:		Pending
+Created:	27-Apr-2005
+Tcl-Version:	8.5
+Keywords:	pattern, match, glob, exact, regexp, case sensitive, Tcl
+Post-History:	
+
+~ Abstract
+
+Many Tcl commands take arguments that are patterns to match
+against. Some of these commands allow options to specify whether the
+pattern should be treated as a literal, a glob pattern, or a regular
+expression, and whether or not matching should be case sensitive.
+This TIP proposes a unique set of options for all commands that accept
+pattern arguments.
+
+~ Rationale
+
+It is hard to memorize which of the commands that take a pattern
+argument allows to modify the matching mode, and in which way. With
+this TIP in place pattern matching will be orthogonal throughout Tcl,
+so the rules learned once can be applied to every command that uses
+pattern matching.
+
+~ Current situation
+
+The following commands currently take pattern arguments with varying
+combinations of switches to specify their behaviour:
+
+   * '''array get''' ''arrayName'' ?''pattern''?
+
+   * '''array names''' ''arrayName'' ?''mode''? ?''pattern''?
+
+   * '''array values''' ''arrayName'' ?''pattern''?
+
+   * '''array unset''' ''arrayName'' ?''pattern''?
+
+   * '''dict filter''' ''dictionaryValue'' '''key''' ''globPattern''
+
+   * '''dict filter''' ''dictionaryValue'' '''value''' ''globPattern''
+
+   * '''dict keys''' ''dictionaryValue'' ?''globPattern''?
+
+   * '''dict values''' ''dictionaryValue'' ?''globPattern''?
+
+   * '''lsearch''' ?''options...''? ''list pattern''
+
+   * '''parray''' ''arrayName'' ?''pattern''?
+
+   * '''string match''' ?'''-nocase'''? ''pattern string''
+
+   * '''switch''' ?''options...''? ''string pattern body''
+
+   * '''namespace children''' ?''namespace''? ?''pattern''?
+
+   * '''namespace export''' ?'''-clear'''? ?''pattern pattern ...''?
+
+   * '''namespace forget''' ?''pattern pattern ...''?
+
+   * '''namespace import''' ?'''-force'''? ?''pattern pattern ...''?
+
+   * '''info commands''' ?''pattern''?
+
+   * '''info functions''' ?''pattern''?
+
+   * '''info globals''' ?''pattern''?
+
+   * '''info locals''' ?''pattern''?
+
+   * '''info procs''' ?''pattern''?
+
+   * '''info vars''' ?''pattern''?
+
+   * '''registry keys''' ''keyName'' ?''pattern''?
+
+   * '''registry values''' ''keyName'' ?''pattern''?
+
+The following commands which also take pattern arguments are outside
+the scope of this TIP:
+
+   * Commands that match patterns against file names: '''auto_import''',
+     '''auto_mkindex''', '''pkg_mkIndex''', '''tcltest'''.
+
+   * Commands that use regular expressions by design: '''regexp''',
+     and '''regsub'''.
+
+   * The '''case''' command, because it is deprecated
+
+~ Specification
+
+The commands listed above shall allow for two optional switches, one
+that specifies the matching mode, and can be '''-exact''',
+'''-glob''', or '''-regexp''', and one that specifies case
+sensitivity, and can be '''-case''', or '''-nocase'''. Their current
+behaviour shall become the default behaviour in absence of the
+respective switch. (Some commands may accept other switches as well.)
+
+Also shall there be two new manual pages, one that describes glob
+matching similar to the ''re_syntax'' page, and one that describes the
+pattern matching options. These manuals shall be referenced by the
+manuals for the individual commands instead of repeating the detailed
+descriptions.
+
+~ Objections
+
+Some of the mentioned commands could become somewhat slower when they
+need to check for more options. This needs to be checked when
+implementing this TIP.
+
+~ Reference Implementation
+
+There is no reference implementation yet.
+
+The idea is to have common code for option checking, and matching,
+that can be used by all mentioned commands. That way it would be easy
+to add new algorithms or options, and have them immediately available
+for all commands that can do pattern matching.
+
+The C API for this will first be worked out as a private API when
+creating the reference implementation and later be published by a
+separate TIP, so that extensions can also make use of it.
+
+~ Notes
+
+There might be need for a similar unification in Tk as well, but
+that's outside the scope of this TIP, and should be easy to add once
+this TIP is implemented so that Tcl provides the needed
+infrastructure.
+
+~ Copyright
+
+This document has been placed in the public domain.
