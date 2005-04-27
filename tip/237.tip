@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -293,7 +293,7 @@ arbitrary precision.  Specifically:
 
  > * The ~ operator shall follow the algebraic identity:
 
- > > > ~a == -a - 1
+ > > ~a == -a - 1
 
  > > This identity holds if ''a'' is represented in any word size
      large enough to hold it without overflowing.  It therefore
