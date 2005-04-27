@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
@@ -308,11 +308,11 @@ arbitrary precision.  Specifically:
      together with De Morgan's laws, can reduce the operation to the
      base case:
 
- > > * a>=0, b<0: a&b == a & ~( ~b ) == a & ( - b - 1 )
+ > > * if a>=0, b<0, a&b == a & ~( ~b ) == a & ( - b - 1 )
 
- > > * a<0, b>=0: symmetric with the above.
+ > > * if a<0, b>=0, symmetric with the above.
 
- > > * a<0, b<0: a & b = ~( ~a | ~b ) = -( ( -a - 1 ) | ( -b - 1 ) ) - 1
+ > > * if a<0, b<0, a & b = ~( ~a | ~b ) = -( ( -a - 1 ) | ( -b - 1 ) ) - 1
 
  > * The base case of the ''|'' (''a|b'') operator shall be defined in
      the obvious way if ''a'' and ''b'' are both positive:
@@ -334,11 +334,11 @@ arbitrary precision.  Specifically:
      identity above, together with the contrapositive law, can reduce
      the operation to the base case:
 
- > > * a>=0, b<0: a^b == ~( a ^ ~b ) == -( a ^ ( -b - 1 ) ) - 1
+ > > * if a>=0, b<0, a^b == ~( a ^ ~b ) == -( a ^ ( -b - 1 ) ) - 1
 
- > > * a<0, b>=0: symmetric with the above.
+ > > * if a<0, b>=0, symmetric with the above.
 
- > > * a<0, b<0: a^b == ~a ^ ~b == ( -a - 1 ) ^ ( -b - 1 )
+ > > * if a<0, b<0, a^b == ~a ^ ~b == ( -a - 1 ) ^ ( -b - 1 )
 
  > * The abs(), ceil(), double(), floor(), int(), round(), sqrt(), and
      wide() math functions shall all be modified to accept
