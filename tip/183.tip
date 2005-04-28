@@ -1,9 +1,9 @@
 TIP:            183
 Title:          Add a Binary Flag to [open]
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        24-Mar-2004
