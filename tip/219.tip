@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -92,28 +92,29 @@ are:
    support the chosen mode. An error is thrown if that is not the
    case.
 
- > We have chosen to use ''early binding'' of the handler command. See
+ > We have chosen to use ''late binding'' of the handler command. See
    the section "Early versus Late Binding of the Handler Command" for
    more detailed explanations.
 
  * '''postevent''' ''channel eventspec''
 
- > This subcommand notifies the channel represented by ''channel''
-   that the event(s) listed in the ''eventspec'' have occurred. The
-   argument ''eventspec'' is a list containing any of '''read''' and
-   '''write'''. At least one element is required (It does not make
-   sense to invoke the command if there are no events to post).
+ > This subcommand is for use by command handlers, it notifies the
+   channel represented by ''channel'' that the event(s) listed in the
+   ''eventspec'' have occurred. The argument ''eventspec'' is a list
+   containing any of '''read''' and '''write'''. At least one element
+   is required (It does not make sense to invoke the command if there
+   are no events to post).
 
  > Note that this subcommand can be used only on channel handles which
    were created/opened with the subcommand '''create'''. Application
    to channels like files, sockets, etc. is not possible and will
    cause the generation of an error.
 
- > As only the Tcl level of a channel should post events to it we also
-   restrict usage of this command to the interpreter the handler
-   command is in. In other words, posting events to a reflected
-   channel from a different interpreter than its implementation is not
-   allowed.
+ > As only the Tcl level of a channel, i.e. its command handler,
+   should post events to it we also restrict the usage of this command
+   to the interpreter the handler command is in. In other words,
+   posting events to a reflected channel from a different interpreter
+   than its implementation is in is not allowed.
 
  > Another restriction is that it is not possible to post events the
    I/O core has not registered interest in. Trying to do so will cause
@@ -135,9 +136,18 @@ tied to the recently introduced 'namespace ensemble's.
    internal data structures it needs to keep track of the channel and
    its state.
 
- > The return value of the method has to be a list containing two
-   elements, the version of the reflection API, and a list containing
-   the names of all methods which are supported by this handler.
+ > The return value of the method has to be a list containing the
+   names of all methods which are supported by this handler. This
+   implicitly tells the C level the version of the API used by the
+   command handler making a separate version number redundant. Hence
+   our decision to leave such a number out of the API. Any changes to
+   the API will be either the elimination of methods, or the
+   introduction of new ones. An existing method cannot change its
+   signature (arguments, and result), a new method has to be
+   introduced for this. All of this implies that this method,
+   '''initialize''', '''is unchangeable''' after the TIP has been
+   committed, as it is the entry point through which the C level will
+   determine the API version before it knows anything else.
 
  > Any error thrown by the method will abort the creation of the
    channel and no channel will be created. The thrown error will
@@ -149,8 +159,6 @@ tied to the recently introduced 'namespace ensemble's.
 
  > This method has no equivalent at the C level.
 
- > The current version is ''1''.
-
  > It was considered to return only the list of optional methods
    supported by the handler. The chosen method however should make the
    code in the C layer more regular. Another advantage of this is that
@@ -159,9 +167,10 @@ tied to the recently introduced 'namespace ensemble's.
 
  > The argument ''mode'' tells the handler if the channel was opened
    for reading, writing, or both. It is a list containing any of the
-   strings '''read''' or '''write''', or a unique abbreviation
-   thereof. The list will contain at least one element, as a channel
-   you can neither write to nor read from makes no sense.
+   strings '''read''' or '''write'''. The C-level doing the call will
+   never generate abbreviations of these strings. The list will always
+   contain at least one element, as a channel you can neither write to
+   nor read from makes no sense.
 
  > The method has to throw an error if the chosen mode is not
    supported by the handler command.
@@ -278,36 +287,50 @@ tied to the recently introduced 'namespace ensemble's.
 
  * '''configure''' ''channel option value''
 
- * '''configure''' ''channel option''
+ > This method is ''optional''. It is for writing the type specific
+   options.
 
- * '''configure''' ''channel''
+ > Per call one option has to be written.
 
- > This method is ''optional''. It is for reading and writing the type
+ > The return value of the method is ignored. If the method throws an
+   error the command which performed the (re)configuration or query
+   (usually '''fconfigure''') will appear to have thrown this error.
+
+ > The equivalent C-level function is ''Tcl_DriverSetOptionProc''.
+
+ * '''cget''' ''channel option''
+
+ > This method is ''optional''. It is used when reading a single type
+   specific option.
+
+ > The call has to return the value of the specified option. If the
+   method throws an error the command which performed the
+   (re)configuration or query (usually '''fconfigure''') will appear
+   to have thrown this error.
+
+ > The equivalent C-level function is ''Tcl_DriverGetOptionProc''.
+
+ * '''cgetall''' ''channel''
+
+ > This method is ''optional''. It is used for reading all type
    specific options.
 
- > Per call with three arguments one option has to be written. Each
-   call with two arguments has to return the value of the specified
-   option.  If called with only one argument then it has to return a
-   list of all options and their values. This list has to have an even
-   number of elements.
+ > It has to return a list of all options and their values. This list
+   has to have an even number of elements. If the method throws an
+   error the command which performed the (re)configuration or query
+   (usually '''fconfigure''') will appear to have thrown this error.
 
- > The return value of the method is ignored when setting an option.
-   Otherwise it is interpreted as specified above. If the method
-   throws an error the command which performed the (re)configuration
-   or query (usually '''fconfigure''') will appear to have thrown this
-   error.
-
- > The equivalent C-level functions are ''Tcl_DriverSetOptionProc''
-   and ''Tcl_DriverGetOptionProc''.
+ > The equivalent C-level function is ''Tcl_DriverGetOptionProc''.
 
  * '''watch''' ''channel eventspec''
 
  > This methods notifies the Tcl level that the specified channel is
    interesting in the events listed in the ''eventspec''. This is a
-   list containing any of '''read''' and '''write''', and any unique
-   abbreviation thereof. The empty list is allowed as well and signals
-   that the channel does not wish to be notified of any events. In
-   other words, it has to disable event generation at the Tcl level.
+   list containing any of '''read''' and '''write'''. The C-level
+   doing the call will never generate abbreviations of these strings.
+   The empty list is allowed as well and signals that the channel does
+   not wish to be notified of any events. In other words, it has to
+   disable event generation at the Tcl level.
 
  > The return value of the method is ignored. Any error thrown by the
    method is ignored as well.
@@ -356,6 +379,8 @@ Notes:
    no sense either. We can always extend the API defined here (and
    change its version number) should the function be used at some time
    in the future.
+
+~~ Error handling / POSIX codes
 
 ~~ Interaction with Threads and Other Interpreters.
 
@@ -434,11 +459,13 @@ not be able to explain the reason of that failure.
 Another problem with this approach is that the context for the
 resolution of the command name has to be specified explicitly to avoid
 problems with relative names. Early binding resolves once, in the
-context of the '''chan create'''. Late binding performs resolution
-anywhere where channel commands like '''puts''', '''gets''', etc. are
-called, i.e. in a random context. To prevent problems with different
-commands of the same name in several namespaces it becomes necessary
-to force the usage of a specific fixed context for the resolution.
+context of the '''chan create''' call. Late binding performs
+resolution anywhere where channel commands like '''puts''',
+'''gets''', etc. are called, i.e. in a random context. To prevent
+problems with different commands of the same name in several
+namespaces it becomes necessary to force the usage of a specific fixed
+context for the resolution. The only context suitoable for such is the
+global context (per ''uplevel #0'', not ''namespace eval ::'').
 
 Note that moving a different command into place after renaming the
 original handler allows the Tcl level to change the implementation
@@ -446,6 +473,10 @@ dynamically at runtime. This however is not really an advantage over
 early binding as the early bound command can be written such that it
 delegates to the actual implementation, and that can then be changed
 dynamically as well.
+
+However, despite all this late binding is so far the method of choice
+for the implementation of callbacks, be they in Tcl, or Tk; and has
+been chosen for the reflection as well.
 
 ~~ Miscellanea
 
