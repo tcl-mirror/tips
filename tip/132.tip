@@ -1,9 +1,9 @@
 TIP:            132
 Title:          Revised Floating-Point Conversions in Tcl
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        31-Mar-2003
