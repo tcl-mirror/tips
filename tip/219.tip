@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -295,7 +295,8 @@ tied to the recently introduced 'namespace ensemble's.
  * '''cget''' ''channel option''
 
  > This method is ''optional''. It is used when reading a single type
-   specific option.
+   specific option. If this method is supported then the method
+   '''cgetall''' has to be supported as well.
 
  > The call has to return the value of the specified option.
 
@@ -308,7 +309,8 @@ tied to the recently introduced 'namespace ensemble's.
  * '''cgetall''' ''channel''
 
  > This method is ''optional''. It is used for reading all type
-   specific options.
+   specific options. If this method is supported then the method
+   '''cget''' has to be supported as well.
 
  > It has to return a list of all options and their values. This list
    has to have an even number of elements.
