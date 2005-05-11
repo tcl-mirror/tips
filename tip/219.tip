@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -389,9 +389,10 @@ addition of two new functions to Tcl's public stub table.
 
  > void '''Tcl_ChannelSetInterpState''' (Tcl_Channel ''chan'', Tcl_InterpState ''state'')
 
- > > This function stores an interpreter state in a channel. It has to
-     be used by channel drivers wishing to pass a regular Tcl error
-     message to the generic layer of the I/O core.
+ > > This function stores an interpreter state in a channel. A
+     previously stored state will be discarded. It has to be used by
+     channel drivers wishing to pass a regular Tcl error message to
+     the generic layer of the I/O core.
 
  > Tcl_InterpState '''Tcl_ChannelGetInterpState''' (Tcl_Channel ''chan'')
 
