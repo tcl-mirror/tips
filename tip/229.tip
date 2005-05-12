@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
@@ -42,24 +42,50 @@ with the following syntax:
 
 This command sets and queries the current namespace's command name
 resolution path. If ''list'' is present, '''namespace path''' sets the
-path to the list of namespace names in the list and returns the empty
-string. If it is absent, '''namespace path''' doesn't change anything
-and returns the current path.
+path to the list of namespaces named in the list and returns the empty
+string; all the namespaces must exist or an error is thrown. If it is
+absent, '''namespace path''' doesn't change anything and returns the
+current path.
+
+~~ Updates to Other Commands
+
+The '''info commands''' command shall be updated so that, when no
+namespace is present in its pattern part, it shall return all
+(matching) commands that are visible without namespace qualifiers at
+this point. The '''info procs''' command will not be so modified.
 
 ~~ Name Path Behaviour
 
 Only names without a namespace separator in them are resolved using
-the namespace's path. When resolving command names, the current
-namespace is always (unless a resolver is installed, of course)
-preferred, and the global namespace is always checked after everything
-in the path. This means that the old behaviour is exactly what you get
-when the path is empty, and also ensures that virtually all scripts
-continue to work when a path is set; if it was possible to remove the
-global namespace from the actual path (as opposed to the settable
-part), virtually all scripts would break.
+the namespace's path (names starting with a namespace separator are
+always resolved with respect to the root of the namespace hierarchy,
+and it is massively easier to only resolve local names instead of
+names with a namespace component as well). When resolving command
+names, the current namespace is always (unless a resolver is
+installed, of course) preferred, and the global namespace is always
+checked after everything in the path. This means that the old
+behaviour is exactly what you get when the path is empty, and also
+ensures that virtually all scripts continue to work when a path is
+set; if it was possible to remove the global namespace from the actual
+path (as opposed to the settable part), virtually all scripts would
+break. If an extension installs a custom name resolver, that
+completely overrides the command name resolution path mechanism (to
+maximize backward-compatability; it is not anticipated that much code
+will try to mix the two mechanisms in a namespace).
 
 Note that each namespace's path is isolated from the path of every
-other namespace, including the parent namespace.
+other namespace, including the parent namespace. Systems using the
+'''namespace path''' mechanism as part of an implementation of
+inheritance will want to set up the path for each object namespace
+explicitly (this value can be statically precomputed on a per-class
+basis); indeed, where multiple inheritance is involved it will
+probably be more efficient to compute the path than let Tcl guess.
+
+The path is parsed completely at the time the '''namespace path'''
+command is run, and the resulting list of namespaces is used
+directly. If a namespace on some namespaces' path is deleted, it is
+immediately excised from the path of every namespace that refers to
+it.
 
 ~ Implementation
 
