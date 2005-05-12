@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -131,6 +131,12 @@ accept booleans in the broader sense, even if using an
 interface that may be narrow.
 
 | fconfigure $chan -blocking [expr {bool($value)}]
+
+This is, of course, equivalent to
+
+| fconfigure $chan -blocking [expr {!!$value}]
+
+but should be easier on the code-reading eyes.
 
 ~ Copyright
 
