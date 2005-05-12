@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -108,8 +108,8 @@ A "quick and dirty" implementation would be (see [232]):
 
 | proc ::tcl::matchfunc::bool x {expr {!!$x}}
 
-A preferred implementation is at Tcl Patch 1160562.
-[http://sourceforge.net/support/tracker.php?aid=1160562]
+A preferred implementation is at Tcl Patch 1165062.
+[http://sourceforge.net/support/tracker.php?aid=1165062]
 The preferred implementation has somewhat nicer error message
 reporting, and has greater potential for bytecode performance
 improvements.
