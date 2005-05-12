@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -141,9 +141,6 @@ branch, or they may be rejected.
    * ''core-8-4-win-speedup'' (Tk) - Work on improving performance of
      Tk on the Windows platforms.
 
-   * ''msofer-bcEngine'' (Tcl) - Work on improving performance of the
-     bytecode engine.
-
    * ''daves-mk-branch'' (Tcl) - On-going work to improve the native
      windows makefiles.  One top-root makefile.win will serve as the
      starting point for MSVC++, BCC, and Watcom.  Extreme use of
@@ -167,6 +164,8 @@ branch, or they may be rejected.
      Tcl's numeric properties, including support for large integers
      and rationals, and improvements to Tcl's floating point
      conversions.
+
+   * ''msofer-wcodes-branch'' (Tcl) - Experimental features for the bytecode engine.
 
 ~ Dead Branches
 
@@ -201,6 +200,9 @@ have been merged into an official branch, or rejected.
 
    * ''dev-stubs-branch'', ''dev-8-1-stubs-branch'' - Two branches on
      which the stubs interfaces were developed.  Merged into Tcl 8.1.
+
+   * ''msofer-bcEngine'' (Tcl) - Work on improving performance of the
+     bytecode engine.
 
 ~ Copyright
 
