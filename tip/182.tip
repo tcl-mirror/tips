@@ -1,6 +1,6 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -27,7 +27,8 @@ There have long been two distinct notions of the set
 of string values that are recognized as boolean values.
 
 The '''Tcl_GetBoolean()''' routine recognizes the following
-strings, in all case variations, and ''nothing else'' as
+strings and their unique prefixes, in all case variations,
+and ''nothing else'' as
 valid boolean values: '''0''', '''1''', '''yes''', '''no''',
 '''true''', '''false''', '''on''', '''off'''.  Several
 script-level commands are implemented by calls to
