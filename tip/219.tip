@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -415,6 +415,7 @@ acceptable. It is proposed to solve this problem through the
 addition of four new functions to Tcl's public stub table.
 
  > void '''Tcl_SetChannelError'''       (Tcl_Channel ''chan'', Tcl_Obj* ''msg'')
+
  > void '''Tcl_SetChannelErrorInterp''' (Tcl_Interp* ''ip'',   Tcl_Obj* ''msg'')
 
  > > These functions store an error message in a channel or
@@ -425,6 +426,7 @@ addition of four new functions to Tcl's public stub table.
  > > The refCount of ''msg'' is incremented by one.
 
  > void '''Tcl_GetChannelError'''       (Tcl_Channel ''chan'', Tcl_Obj** ''msg'')
+
  > void '''Tcl_GetChannelErrorInterp''' (Tcl_Interp* ''ip'',   Tcl_Obj** ''msg'')
 
  > > These function retrieve an error message stored in a channel
