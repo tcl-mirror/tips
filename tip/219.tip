@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -21,8 +21,6 @@ channel transformations and filesystems in Tcl itself into the core so
 this TIP provides the facilities for the implementation of new channel
 types in Tcl.  This document specifies version ''1'' of the channel
 reflection API.
-
-~ Motivation / Rationale
 
 The purpose of this and the other reflection TIPs is to provide all
 the facilities required for the creation and usage of wrapped files (=
@@ -385,42 +383,60 @@ returning POSIX error codes.
 This limitation makes the debugging of problems in a channel command
 handler at least very difficult. As such it is considered not
 acceptable. It is proposed to solve this problem through the
-addition of two new functions to Tcl's public stub table.
+addition of four new functions to Tcl's public stub table.
 
- > void '''Tcl_ChannelSetInterpState''' (Tcl_Channel ''chan'', Tcl_InterpState ''state'')
+ > void '''Tcl_SetChannelError'''       (Tcl_Channel ''chan'', int ''code'', Tcl_Obj* ''msg'')
+ > void '''Tcl_SetChannelErrorInterp''' (Tcl_Interp* ''ip'',   int ''code'', Tcl_Obj* ''msg'')
 
- > > This function stores an interpreter state in a channel. A
-     previously stored state will be discarded. It has to be used by
-     channel drivers wishing to pass a regular Tcl error message to
-     the generic layer of the I/O core.
+ > > These functions store a code/message pair in a channel or
+     interpreter. A previously stored pair will be discarded. They
+     have to be used by channel drivers wishing to pass a regular Tcl
+     error message to the generic layer of the I/O core.
 
- > Tcl_InterpState '''Tcl_ChannelGetInterpState''' (Tcl_Channel ''chan'')
+ > void '''Tcl_GetChannelError'''       (Tcl_Channel ''chan'', int* ''code'', Tcl_Obj** ''msg'')
+ > void '''Tcl_GetChannelErrorInterp''' (Tcl_Interp* ''ip'',   int* ''code'', Tcl_Obj** ''msg'')
 
- > > This function retrieves an interpreter state stored in a channel,
-     and also resets the channel to have no state stored in it. It will
-     return NULL if the channel had no state stored in it to begin with.
-     I.e. after an invocation of '''Tcl_ChannelGetInterpState''' for a
-     channel C all following invocations will return NULL for that channel,
-     until an intervening '''Tcl_ChannelSetInterpState''' again stored a
-     state in C.
-
-Together with the functions of [226] for the retrieval and setting of
-interpreter states from/into Tcl interpreters this allows the transfer
-of arbitrary Tcl error messages.
+ > > These function retrieve a code/message pair stored in a channel
+     or interpreter, and also resets the channel/interpreter to have
+     no pair stored in it. They will return NULL if no pair was stored
+     to begin with.  I.e. after an invocation of
+     '''Tcl_GetChannelError*''' for a channel/interpreter object C all
+     following invocations will return NULL for that object, until an
+     intervening '''Tcl_SetChannelError*''' again stored a pair in C.
 
 This solution is not very elegant, but anything else will require an
 incompatible redefinition of the whole channel driver structure and of
 the driver functions.
 
-It should also be noted that the information in '''Tcl_InterpState'''
-refers to '''Tcl_Obj'''ects, binding it to a single thread. I.e. a
+It should also be noted that usage of '''Tcl_Obj'''ects for the
+message storage binds the information to a single thread. I.e. a
 transfer across thread boundaries is not possible. This however is not
 required here and thus no limitation.
 
-The two functions have been made public as I can imagine that even C
+The four functions have been made public as I can imagine that even C
 level drivers might wish to use this facility to generate more
 explicit and readable error messages than is provided through POSIX
 error codes and the errno API.
+
+A previous revision of this TIP specified only two functions, storing
+the data only in channels. This however proved to be inadequate. It
+allows the transfer of messages for most driver functions, but not
+''close''. Storing an error message in the channel structure which is
+destroyed is not helpful. So we need the functions for storing data in
+interpreters. Conversely, providing only two functions storing the
+information in an interpreter, is inadequate as well. The
+circumstances for that to happen are actually very limited, but they
+can happen. First, most driver functions are not given an interpreter
+reference when called, and actually do not know which interpreter
+caused their invocation. The only remedy we have is that the channel
+structure has to have an interpreter reference to the interpreter of
+the command handler, for the calls into the Tcl level. This could be
+used in most circumstances, except when threads are enabled and the
+channel was transfered out of the thread containing that
+interpreter. We are not allowed to use this interpreter from the
+channel thread, and again have no other reference available. So for
+this the code/message pair has to be stored in a channel as the sole
+place available.
 
 I wish to thank Joe English and Vince Darley for their input with
 regard to the limitations of error propagation in the I/O core and
