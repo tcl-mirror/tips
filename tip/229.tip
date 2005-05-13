@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
@@ -43,9 +43,9 @@ with the following syntax:
 This command sets and queries the current namespace's command name
 resolution path. If ''list'' is present, '''namespace path''' sets the
 path to the list of namespaces named in the list and returns the empty
-string; all the namespaces must exist or an error is thrown. If it is
-absent, '''namespace path''' doesn't change anything and returns the
-current path.
+string; all the namespaces must exist or an error is thrown. If no
+''list'' argument is provided, '''namespace path''' doesn't change
+anything and returns the current path.
 
 ~~ Updates to Other Commands
 
