@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -501,12 +501,12 @@ Below a list of driver functions, and which of the
  * '''Tcl_DriverGetHandleProc'''
 
  > Must '''not''' use any of the new functions. It is only a low-level
- > function, and not used by Tcl commands.
+   function, and not used by Tcl commands.
 
  * '''Tcl_DriverHandlerProc'''
 
  > Must '''not''' use any of the new functions. Is internally called
- > and has no ability to return any type of error whatsoever.
+   and has no ability to return any type of error whatsoever.
 
 A previous revision of this TIP specified only two functions, storing
 the data only in channels. This however proved to be inadequate. It
