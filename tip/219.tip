@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -386,6 +386,7 @@ acceptable. It is proposed to solve this problem through the
 addition of four new functions to Tcl's public stub table.
 
  > void '''Tcl_SetChannelError'''       (Tcl_Channel ''chan'', int ''code'', Tcl_Obj* ''msg'')
+
  > void '''Tcl_SetChannelErrorInterp''' (Tcl_Interp* ''ip'',   int ''code'', Tcl_Obj* ''msg'')
 
  > > These functions store a code/message pair in a channel or
@@ -394,6 +395,7 @@ addition of four new functions to Tcl's public stub table.
      error message to the generic layer of the I/O core.
 
  > void '''Tcl_GetChannelError'''       (Tcl_Channel ''chan'', int* ''code'', Tcl_Obj** ''msg'')
+
  > void '''Tcl_GetChannelErrorInterp''' (Tcl_Interp* ''ip'',   int* ''code'', Tcl_Obj** ''msg'')
 
  > > These function retrieve a code/message pair stored in a channel
