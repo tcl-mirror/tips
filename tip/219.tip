@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -482,17 +482,17 @@ Below a list of driver functions, and which of the
  * '''Tcl_DriverSetOptionProc'''
 
  > Has already the ability to pass arbitrary error messages. Must
- > '''not''' use any of the new functions.
+   '''not''' use any of the new functions.
 
  * '''Tcl_DriverGetOptionProc'''
 
  > Has already the ability to pass arbitrary error messages. Must
- > '''not''' use any of the new functions.
+   '''not''' use any of the new functions.
 
  * '''Tcl_DriverWatchProc'''
 
  > Must '''not''' use any of the new functions. Is internally called
- > and has no ability to return any type of error whatsoever.
+   and has no ability to return any type of error whatsoever.
 
  * '''Tcl_DriverBlockModeProc'''
 
