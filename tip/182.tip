@@ -1,11 +1,11 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        23-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
@@ -115,14 +115,11 @@ The preferred implementation has somewhat nicer error message
 reporting, and has greater potential for bytecode performance
 improvements.
 
-Documentation and tests will be developed when the proposal
-is Accepted.
-
 ~ Rationale
 
 First, this simply makes a nice parallel with the existing "casting"
 functions.  It does away with the surprise expressed by some that
-a language making use of doubles, ints, and booleans provides
+a language making use of doubles, integers, and booleans provides
 '''double()''' and '''int()''', but not '''bool()'''.
 
 Second, because we have this bifurcated opinion about what
