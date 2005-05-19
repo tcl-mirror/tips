@@ -1,6 +1,6 @@
 TIP:            178
 Title:          [info pid] and [info tid] Subcommands
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -38,6 +38,17 @@ following reasons:
  * It is the opinion of the author that ''informational'' commands,
    such as '''pid''' should really be subcommands of '''info''' as we 
    start to move forward with the development of Tcl.
+
+~ Justification
+
+The '''info tid''' command should be in the core because the identity of
+the currently executing thread is just as fundamental on all modern
+operating systems as the current process identity.  Once the thread
+identity is known, it can be used to communicate with other processes
+and threads in useful ways that do not require the Thread package.
+Loading the entire Thread package just to get the identity of the
+currently executing thread is overkill and may not be a good solution
+in application embedding scenarios.
 
 ~ Proposed Change
 
