@@ -1,17 +1,17 @@
-TIP:		242
-Title:		Preselect Filter on tk_get*File Dialogs
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Brian Griffin <bgriffin@model.com>
-Created:	03-Mar-2005
+TIP:            242
+Title:          Preselect Filter on tk_get*File Dialogs
+Version:        $Revision: 1.2 $
+Author:         Brian Griffin <bgriffin@model.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Mar-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes adding an '''-initialtype''' option to the
+This TIP proposes adding an '''-typevariable''' option to the
 '''tk_getOpenFile''' and '''tk_getSaveFile''' dialog box
 commands. This option will preselect the filter from the
 '''-filetypes''' list based on the type name.
@@ -28,13 +28,15 @@ selecting the filter, the UI can be made friendlier to the user since
 the current operation is mostly similar to previous operations. For
 example, if you just opened a .txt file, the next open the user
 performs is most likely also a .txt file, so requiring the user to
-adjust the filter again is extra, unnecessary work.
+adjust the filter again is extra work and should be unnecessary.
 
 ~ Proposed Change
 
-Add an '''-initialtype''' option to '''tk_getOpenFile''' and
-'''tk_getSaveFile'''. The value will be the filter name, that is,
-index 0 of the extension definition.  For example, given:
+Add a '''-typevariable''' option to '''tk_getOpenFile''' and
+'''tk_getSaveFile'''. The variable referenced will be used as an
+in/out parameter. The variables value will be used to select 
+a type from the -filetypes list. The variable will be updated when the 
+call returns to the current filter selection. For example, given:
 
 |    set types {
 |        {{Text Files}       {.txt}        }
@@ -44,10 +46,11 @@ index 0 of the extension definition.  For example, given:
 |        {{GIF Files}        {}        GIFF}
 |        {{All Files}        *             }
 |    }
-|    tk_getOpenFile -types $types
+|    tk_getOpenFile -filetypes $types -typevariable type
 
-For selecting .c files for the filter, the '''-initialtype''' option
-would be "-initialtype {C Source Files}".
+To preselect .c files for the filter, set type {C Source Files}. 
+If the filter is changed to {TCL Scripts}, for example, the variable 
+"type" is modified to the value {TCL Scripts}.
 
 ~ Reference Implementation
 
