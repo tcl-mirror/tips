@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Created:	03-Nov-2004
 
@@ -56,14 +56,13 @@ this point. The '''info procs''' command will not be so modified.
 
 ~~ Name Path Behaviour
 
-Only names without a namespace separator in them are resolved using
-the namespace's path (names starting with a namespace separator are
-always resolved with respect to the root of the namespace hierarchy,
-and it is massively easier to only resolve local names instead of
-names with a namespace component as well). When resolving command
-names, the current namespace is always (unless a resolver is
-installed, of course) preferred, and the global namespace is always
-checked after everything in the path. This means that the old
+Only names without a leading namespace separator in them are resolved
+using the namespace's path. When resolving command names, resolving
+relative to the current namespace is always preferred (unless a
+resolver is installed, of course), and resolution relative to the
+global namespace is always done after resolving relative to everything
+in the path (unless the global namespace is explicitly in the path,
+when it happens earlier). This means that the old
 behaviour is exactly what you get when the path is empty, and also
 ensures that virtually all scripts continue to work when a path is
 set; if it was possible to remove the global namespace from the actual
@@ -86,6 +85,31 @@ command is run, and the resulting list of namespaces is used
 directly. If a namespace on some namespaces' path is deleted, it is
 immediately excised from the path of every namespace that refers to
 it.
+
+~~ Examples
+
+The following script returns "::foo":
+
+|namespace eval ::foo {
+|   proc boo {} {namespace current}
+|   namespace eval bar {
+|      namespace path ::foo
+|      boo
+|   }
+|}
+
+The following script return "::foo::bar":
+
+|namespace eval ::foo {
+|   proc boo {} {namespace current}
+|   namespace eval bar {
+|      proc boo {} {namespace current}
+|   }
+|   namesspace eval spong {
+|      namespace path ::foo
+|      bar::boo
+|   }
+|}
 
 ~ Implementation
 
