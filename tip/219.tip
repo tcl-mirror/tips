@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -401,7 +401,7 @@ Notes:
    change its version number) should the function be used at some time
    in the future.
 
-~~ Error handling / POSIX codes
+~~ Error handling
 
 The current I/O core's ability to handle arbitrary Tcl error messages
 is very limited. ''Tcl_DriverGetOptionProc'' and
@@ -507,6 +507,32 @@ Below a list of driver functions, and which of the
 
  > Must '''not''' use any of the new functions. Is internally called
    and has no ability to return any type of error whatsoever.
+
+Given the information above the following public functions of the Tcl
+C API are affected by these changes. I.e. when these functions are
+called the channel may now contain a stored arbitrary error message
+requiring processing by the caller.
+
+ * '''Tcl_StackChannel'''
+ * '''Tcl_Seek'''
+ * '''Tcl_Tell'''
+ * '''Tcl_ReadRaw'''
+ * '''Tcl_Read'''
+ * '''Tcl_ReadChars'''
+ * '''Tcl_Gets'''
+ * '''Tcl_GetsObj'''
+ * '''Tcl_Flush'''
+ * '''Tcl_WriteRaw'''
+ * '''Tcl_WriteObj'''
+ * '''Tcl_Write'''
+ * '''Tcl_WriteChars'''
+
+The API functions below are unchanged, they still leave all their
+error information in the interpreter result.
+
+ * '''Tcl_Close'''
+ * '''Tcl_UnregisterChannel'''
+ * '''Tcl_UnstackChannel'''
 
 A previous revision of this TIP specified only two functions, storing
 the data only in channels. This however proved to be inadequate. It
