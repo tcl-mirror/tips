@@ -1,11 +1,11 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        23-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
