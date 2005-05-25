@@ -1,9 +1,9 @@
 TIP:            182
 Title:          Add [expr bool] Math Function
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Mar-2004
