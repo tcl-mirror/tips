@@ -1,10 +1,10 @@
 TIP:            242
 Title:          Preselect Filter on tk_get*File Dialogs
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Brian Griffin <bgriffin@model.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        03-Mar-2005
 Post-History:   
 Tcl-Version:    8.5
