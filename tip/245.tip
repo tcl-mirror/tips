@@ -1,10 +1,10 @@
 TIP:            245
 Title:          Discover User Inactivity Time
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        15-Apr-2005
