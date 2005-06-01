@@ -4,9 +4,9 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		John K. Ousterhout <ouster@pacbell.net>
-Created:	01-Sep-1994
+Created:	01-Jun-2005
 
 ~ Abstract
 
@@ -16,9 +16,9 @@ be written in the same style for clarity.
 
 ~~NOTE
 
-''A transcription of the original version of this file into PDF is
-available online at http://tcl.sourceforge.net/engManual.pdf - Donal
-K. Fellows''
+''A transcription of the original version (dated September 1, 1994) of
+this file into PDF is available online at
+http://tcl.sourceforge.net/engManual.pdf - Donal K. Fellows''
 
 ~ Introduction
 
