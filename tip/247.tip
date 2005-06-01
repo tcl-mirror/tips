@@ -4,7 +4,7 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		John K. Ousterhout <ouster@pacbell.net>
 Created:	01-Jun-2005
 
@@ -266,7 +266,7 @@ names for the arguments as well as their types. The names aren’t
 required for compilation (for example, the declaration for Tcl_Eval
 could have been written as
 
-|	EXTERN int Tcl_Eval _ANSI_ARGS_((Tcl_Interp *, char *));
+|   EXTERN int Tcl_Eval _ANSI_ARGS_((Tcl_Interp *, char *));
 
 in Figure 1) but the names provide additional information about the
 arguments.
@@ -695,9 +695,9 @@ only one statement in the block. Thus you shouldn’t write code like
 
 but rather
 
-|if (filePtr->numLines == 0) {
-|    return -1;
-|}
+|   if (filePtr->numLines == 0) {
+|       return -1;
+|   }
 
 This approach makes code less dense, but it avoids potential mistakes
 when adding additional lines to an existing single-statement block. It
@@ -709,15 +709,15 @@ There is one exception to the rule about enclosing blocks in {}. For
 if statements with cascaded else if clauses, you may use a form like
 the following:
 
-|if (strcmp(argv[1], "delete") == 0) {
-|    ...
-|} else if (strcmp(argv[1], "get") == 0) {
-|    ...
-|} else if (strcmp(argv[1], "set") == 0) {
-|    ...
-|} else {
-|    ...
-|}
+|   if (strcmp(argv[1], "delete") == 0) {
+|       ...
+|   } else if (strcmp(argv[1], "get") == 0) {
+|       ...
+|   } else if (strcmp(argv[1], "set") == 0) {
+|       ...
+|   } else {
+|       ...
+|   }
 
 ~~Continuation lines are indented 8 spaces
 
