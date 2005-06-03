@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -554,8 +554,8 @@ requiring processing by the caller.
 
  * '''Tcl_WriteChars'''
 
-The API functions below are unchanged, they still leave all their
-error information in the interpreter result.
+The API functions below are unchanged. Especially the functions below
+leave all their error information in the interpreter result.
 
  * '''Tcl_Close'''
 
