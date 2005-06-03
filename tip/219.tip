@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -19,6 +19,19 @@ command') and also an independent companion to [230] ('Tcl Channel Transformatio
 Reflection API'). As the later TIPs bring the ability of writing
 channel transformations and filesystems in Tcl itself into the core so
 this TIP provides the facilities for the implementation of new channel
+types in Tcl.  This document specifies version ''1'' of the channel
+reflection API.
+
+~ Abstract
+
+This document describes an API which reflects the Channel Driver API
+of the core I/O system up into the Tcl level, for the implementation
+of channel types in Tcl.  It is built on top of [208] ('Add a chan
+command') and also an independent companion to [230] ('Tcl Channel
+Transformation Reflection API') and [228] ('Tcl Filesystem Reflection
+API'). As the later TIPs bring the ability of writing channel
+transformations and filesystems in Tcl itself into the core so this
+TIP provides the facilities for the implementation of new channel
 types in Tcl.  This document specifies version ''1'' of the channel
 reflection API.
 
@@ -66,8 +79,8 @@ work.
 
 ~~ C Level API
 
-There is no C API to specify. The Tcl core already has a standard API
-for the creation of channel drivers from the C level.
+Four functions are added to the public C API. See section 'Error
+handling' for their detailed specification.
 
 ~~ Tcl Level API
 
@@ -226,7 +239,8 @@ tied to the recently introduced 'namespace ensemble's.
  * '''write''' ''channel data''
 
  > This method is ''optional''. It is called when the user writes data
-   to the channel. Note that the ''data'' are bytes, not characters.
+   to the channel. Note that the ''data'' are bytes, not characters
+   (The underlying Tcl_ObjType is ''ByteArray'').
    Any type of transformation (EOL, encoding) configured for the
    channel has already been applied at this point. If the method is
    not supported then it is not possible to write to the channel
@@ -418,10 +432,10 @@ addition of four new functions to Tcl's public stub table.
 
  > void '''Tcl_SetChannelErrorInterp''' (Tcl_Interp* ''ip'',   Tcl_Obj* ''msg'')
 
- > > These functions store an error message in a channel or
-     interpreter. A previously stored message will be discarded. They
-     have to be used by channel drivers wishing to pass a regular Tcl
-     error message to the generic layer of the I/O core.
+ > > These functions store error information in a channel or
+     interpreter. Previously stored information will be discarded. They
+     have to be used by channel drivers wishing to pass regular Tcl
+     error information to the generic layer of the I/O core.
 
  > > The refCount of ''msg'' is incremented by one.
 
@@ -429,20 +443,20 @@ addition of four new functions to Tcl's public stub table.
 
  > void '''Tcl_GetChannelErrorInterp''' (Tcl_Interp* ''ip'',   Tcl_Obj** ''msg'')
 
- > > These function retrieve an error message stored in a channel
-     or interpreter O, and also resets O to have no message stored in
-     it. They will return NULL if no message was stored to begin with.
+ > > These function retrieve error information stored in a channel
+     or interpreter O, and also resets O to have no information stored in
+     it. They will return NULL if no information was stored to begin with.
 
  > > I.e. after an invocation of '''Tcl_GetChannelError*''' for a
      channel/interpreter object O all following invocations will
      return NULL for that object, until an intervening
-     invocation of '''Tcl_SetChannelError*''' again stored a message
+     invocation of '''Tcl_SetChannelError*''' again stored information
      in O.
 
  > > The ''msg' argument is not allowed to be NULL.
 
- > > The refCount of the returned message is not touched. The
-     reference previously help by the channel or interpreter is now
+ > > The refCount of the returned information is not touched. The
+     reference previously held by the channel or interpreter is now
      held by the caller of the function and it is its responsibility
      to release that reference when it is done with the object.
 
@@ -451,7 +465,7 @@ incompatible redefinition of the whole channel driver structure and of
 the driver functions.
 
 It should also be noted that usage of '''Tcl_Obj'''ects for the
-message storage binds the information to a single thread. I.e. a
+information storage binds the information to a single thread. I.e. a
 transfer across thread boundaries is not possible. This however is not
 required here and thus no limitation.
 
@@ -459,6 +473,20 @@ The four functions have been made public as I can imagine that even C
 level drivers might wish to use this facility to generate more
 explicit and readable error messages than is provided through POSIX
 error codes and the errno API.
+
+The information talked about in the API specifications above is
+''not'' a plain string, but has to be a list of uneven length. The
+last element will be interpreted as the actual error message in
+question, and the preceding elements are considered as option/value
+pairs containing additional information about the error, like the
+''errorCode'', etc. I.e. they are an extensible dictionary containing
+the details of the error beyond the basic message.
+
+As a '''safety precaution''' any ''-level'' specification submitted by
+the driver will be stripped out of the options to prevent the driver
+from being able to force the user application into the execution of
+arbitrary multi-level returns, i.e. from arbitrarily changing the
+control-flow of the application itself.
 
 Below a list of driver functions, and which of the
 ''Tcl_SetChannelError*''' functions they are allowed to use.
@@ -514,38 +542,24 @@ called the channel may now contain a stored arbitrary error message
 requiring processing by the caller.
 
  * '''Tcl_StackChannel'''
-
  * '''Tcl_Seek'''
-
  * '''Tcl_Tell'''
-
  * '''Tcl_ReadRaw'''
-
  * '''Tcl_Read'''
-
  * '''Tcl_ReadChars'''
-
  * '''Tcl_Gets'''
-
  * '''Tcl_GetsObj'''
-
  * '''Tcl_Flush'''
-
  * '''Tcl_WriteRaw'''
-
  * '''Tcl_WriteObj'''
-
  * '''Tcl_Write'''
-
  * '''Tcl_WriteChars'''
 
-All other API functions are unchanged. Especially the functions below
-leave all their error information in the interpreter result.
+The API functions below are unchanged, they still leave all their
+error information in the interpreter result.
 
  * '''Tcl_Close'''
-
  * '''Tcl_UnregisterChannel'''
-
  * '''Tcl_UnstackChannel'''
 
 A previous revision of this TIP specified only two functions, storing
