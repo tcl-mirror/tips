@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -19,19 +19,6 @@ command') and also an independent companion to [230] ('Tcl Channel Transformatio
 Reflection API'). As the later TIPs bring the ability of writing
 channel transformations and filesystems in Tcl itself into the core so
 this TIP provides the facilities for the implementation of new channel
-types in Tcl.  This document specifies version ''1'' of the channel
-reflection API.
-
-~ Abstract
-
-This document describes an API which reflects the Channel Driver API
-of the core I/O system up into the Tcl level, for the implementation
-of channel types in Tcl.  It is built on top of [208] ('Add a chan
-command') and also an independent companion to [230] ('Tcl Channel
-Transformation Reflection API') and [228] ('Tcl Filesystem Reflection
-API'). As the later TIPs bring the ability of writing channel
-transformations and filesystems in Tcl itself into the core so this
-TIP provides the facilities for the implementation of new channel
 types in Tcl.  This document specifies version ''1'' of the channel
 reflection API.
 
@@ -79,8 +66,8 @@ work.
 
 ~~ C Level API
 
-Four functions are added to the public C API. See section 'Error
-handling' for their detailed specification.
+Four functions are added to the public C API. See section '''Error
+handling''' for their detailed specification.
 
 ~~ Tcl Level API
 
@@ -475,7 +462,7 @@ explicit and readable error messages than is provided through POSIX
 error codes and the errno API.
 
 The information talked about in the API specifications above is
-''not'' a plain string, but has to be a list of uneven length. The
+'''not''' a plain string, but has to be a list of uneven length. The
 last element will be interpreted as the actual error message in
 question, and the preceding elements are considered as option/value
 pairs containing additional information about the error, like the
