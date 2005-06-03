@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -529,24 +529,38 @@ called the channel may now contain a stored arbitrary error message
 requiring processing by the caller.
 
  * '''Tcl_StackChannel'''
+
  * '''Tcl_Seek'''
+
  * '''Tcl_Tell'''
+
  * '''Tcl_ReadRaw'''
+
  * '''Tcl_Read'''
+
  * '''Tcl_ReadChars'''
+
  * '''Tcl_Gets'''
+
  * '''Tcl_GetsObj'''
+
  * '''Tcl_Flush'''
+
  * '''Tcl_WriteRaw'''
+
  * '''Tcl_WriteObj'''
+
  * '''Tcl_Write'''
+
  * '''Tcl_WriteChars'''
 
 The API functions below are unchanged, they still leave all their
 error information in the interpreter result.
 
  * '''Tcl_Close'''
+
  * '''Tcl_UnregisterChannel'''
+
  * '''Tcl_UnstackChannel'''
 
 A previous revision of this TIP specified only two functions, storing
