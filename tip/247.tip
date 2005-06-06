@@ -4,7 +4,7 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		John K. Ousterhout <ouster@pacbell.net>
 Created:	01-Jun-2005
 
@@ -195,6 +195,9 @@ incorporate the templates when needed, then you can modify them for
 the particular situation in which they are used. This should make it
 easy for you to conform to the conventions without a lot of typing
 overhead.
+
+#image:247fig1 Figure 1. An example of a header file. The file
+engManual/proto.h contains a template for header files.
 
 Each header file contains the following parts, which are labelled in
 Figure 1:
