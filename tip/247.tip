@@ -4,7 +4,7 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		John K. Ousterhout <ouster@pacbell.net>
 Created:	01-Jun-2005
 
@@ -31,7 +31,7 @@ have documentation that describes each of its arguments and its
 result, and there must exist test scripts that exercise every line of
 code.  Second, the conventions guarantee that all of the Tcl and Tk
 code has a uniform style. This makes it easier for us to use, read,
-and maintain each other’s code.
+and maintain each other's code.
 
 Most of the conventions originated in the Sprite operating system
 project at U.C. Berkeley.  At the beginning of the Sprite project my
@@ -45,22 +45,22 @@ and Tk, I decided to stick with the Sprite conventions. This document
 is based heavily on ''The Sprite Engineering Manual''.
 
 There are few things that I consider non-negotiable, but the contents
-of this manual are one of them. I don’t claim that these conventions
-are the best possible ones, but the exact conventions don’t really
+of this manual are one of them. I don't claim that these conventions
+are the best possible ones, but the exact conventions don't really
 make that much difference. The most important thing is that we all do
 things the same way. Given that the core Tcl and Tk code follows the
 conventions, changing the rules now would cause more harm than good.
 
 Please write your code so that it conforms to the conventions from the
-very start. For example, don’t write comment-free code on the
-assumption that you’ll go back and put the comments in later once the
-code is working. This simply won’t happen. Regardless of how good your
+very start. For example, don't write comment-free code on the
+assumption that you'll go back and put the comments in later once the
+code is working. This simply won't happen. Regardless of how good your
 intentions are, when it comes time to go back and put in the comments
-you’ll find that you have a dozen more important things to do; as the
+you'll find that you have a dozen more important things to do; as the
 body of uncommented code builds up, it will be harder and harder to
 work up the energy to go back and fix it all. One of the fundamental
 rules of software is that its structure only gets worse over time; if
-you don’t build it right to begin with, it will never get that way
+you don't build it right to begin with, it will never get that way
 later. When I write code I typically write the procedure headers for a
 whole file before I fill in any of the bodies.
 
@@ -96,7 +96,7 @@ such as how to interface them to the rest of an application.
 Each package has a unique short ''prefix''. The prefix is used in file
 names, procedure names, and variable names in order to prevent name
 conflicts with other packages. For example, the prefix for Tcl is tcl;
-Tcl’s exported header file is called tcl.h and exported procedures and
+Tcl's exported header file is called tcl.h and exported procedures and
 variables have names like Tcl_Eval.
 
 ~~Version numbers
@@ -129,7 +129,7 @@ following categories:
    file is eventually installed in a system directory such as
    /usr/local/include; it is what clients of the package #include in
    their C code. As a general rule of thumb, the package header file
-   should define as few things as possible: it’s very hard to change
+   should define as few things as possible: it's very hard to change
    an exported feature since it breaks client code that uses the
    package, so the less you export, the easier it will be to make
    changes to the package. Thus, for example, try not to make the
@@ -139,12 +139,12 @@ following categories:
    the C files in the package.  The internal header file has a name
    like tclInt.h or tkInt.h, consisting of the the package prefix
    followed by Int.h. The internal header file describes features that
-   are used in multiple files within the package but aren’t exported
+   are used in multiple files within the package but aren't exported
    out of the package. For example, key package structures and
    internal utility procedures are defined in the internal header
    file. The internal header file should also contain #includes for
    other headers that are used widely within the package, so they
-   don’t have to be included over and over in each code file. As with
+   don't have to be included over and over in each code file. As with
    the package header, the internal header file should be as small as
    possible: structures and procedures that are only used in a single
    C file in the package should not appear in it.
@@ -176,9 +176,9 @@ widgets, and they are needed only in the source files that implement
 the particular widgets, so I thought it would be easier to manage
 these headers separately from tkInt.h). If you have lots of internal
 header files, such as one for each source file, then you will end up
-with lots of #include statements in each C file and you’ll find that
+with lots of #include statements in each C file and you'll find that
 either (a) you #include every header in every C file (in which case
-there’s not much advantage to having the separate .h files) or (b) you
+there's not much advantage to having the separate .h files) or (b) you
 are constantly adding and deleting #include statements as you modify
 source files.
 
@@ -209,13 +209,13 @@ Figure 1:
     controls distribution; different notices may be used on different
     files, depending on whether the file is to be released freely or
     restricted. The wording in copyright notices is sensitive (e.g.
-    the use of upper case is important) so don’t make changes in
+    the use of upper case is important) so don't make changes in
     notices without checking with a legal authority.
 
  Revision string: the contents of this string are managed
     automatically by the source code control system for the file, such
     as RCS or SCCS (RCS is used in the example in the figure). It
-    identifies the file’s current revision, date of last modification,
+    identifies the file's current revision, date of last modification,
     and so on.
 
  Multiple include #ifdef: when a large application is developed with
@@ -249,7 +249,7 @@ Figure 1:
     EXTERN can then be #defined to either extern or extern "C" to
     allow the header file to be used in both C and C++ programs.  The
     header file tcl.h contains code to #define the EXTERN symbol; if
-    your header file doesn’t #include tcl.h, you can copy the code
+    your header file doesn't #include tcl.h, you can copy the code
     from tcl.h to your header file.
 
 ~~_ANSI_ARGS_ prototypes
@@ -265,7 +265,7 @@ depending on whether or not an ANSI C compiler is being used. The
 _ANSI_ARGS_ macro is defined in tcl.h.
 
 In the argument lists in procedure prototypes, be sure to specify
-names for the arguments as well as their types. The names aren’t
+names for the arguments as well as their types. The names aren't
 required for compilation (for example, the declaration for Tcl_Eval
 could have been written as
 
@@ -298,7 +298,7 @@ file by searching for the formfeed characters.
 
 The first page of a code file is a header page. It contains overall
 information that is relevant throughout the file, which consists of
-everything but the definitions of the file’s procedures.  The header
+everything but the definitions of the file's procedures.  The header
 page typically has six parts, as shown in Figure 2:
 
 #image:247fig2 Figure 2. An example of a header page. Part of the text
@@ -320,9 +320,9 @@ contains a template for a header page.
  Include statements: all of the #include statements for the file
     should appear on the header file just after the version string. In
     general there should be very few #include statements in a given
-    code file, typically just for the package’s internal header file
+    code file, typically just for the package's internal header file
     and porting header file. If additional #includes are needed they
-    should appear in the package’s internal header file or porting
+    should appear in the package's internal header file or porting
     header file.
 
  Declarations: any structures used only in this file should be
@@ -346,11 +346,11 @@ engManual/proto.c provides a template for a header page.
 Source files should never contain extern statements. Instead, create
 header files to hold the extern statements and #include the header
 files. This makes code files easier to read and makes it easier to
-manage the extern statements, since they’re centralized in .h files
+manage the extern statements, since they're centralized in .h files
 instead of spread around dozens of code files. For example, the
 internal header file for a package has extern statements for all of
 the procedures that are used by multiple files within the package but
-aren’t exported outside it.
+aren't exported outside it.
 
 ~~Procedure headers
 
@@ -368,7 +368,7 @@ of three parts:
 
 #image:247fig4 Figure 4. The header for a procedure with side effects.
 
- Abstract: the first lines in the header give the procedure’s name,
+ Abstract: the first lines in the header give the procedure's name,
     followed by a brief description of what the procedure does. This
     should not be a detailed description of how the procedure is
     implemented, but rather a high-level summary of its overall
@@ -379,7 +379,7 @@ of three parts:
  Results: this portion of the header describes describes how the
     procedure affects things that are immediately visible to its
     caller. This includes the return value of the procedure and any
-    modifications made to the caller’s variables via pointer
+    modifications made to the caller's variables via pointer
     arguments, such as intPtr in Figure 3.
 
  Side Effects: the last part of the header describes changes the
@@ -399,9 +399,9 @@ after the procedure name, etc.).
 ~~Procedure declarations
 
 The procedure declaration should also follow exactly the syntax in
-Figures 3 and 4. The first line gives the type of the procedure’s
+Figures 3 and 4. The first line gives the type of the procedure's
 result. All procedures must be typed: use void if the procedure
-returns no result. The second line gives the procedure’s name and its
+returns no result. The second line gives the procedure's name and its
 argument list. If there are many arguments, they may spill onto
 additional lines (see Sections 5.1 and 5.5 for information about
 indentation). After this come the declarations of argument types, one
@@ -410,11 +410,11 @@ a brief description of the argument. Every argument must be explicitly
 declared, and every argument must have a comment.
 
 This form for argument declarations is the old form that predates ANSI
-C. It’s important to use the old form so that your code will compile
-on older pre-ANSI compilers. Hopefully there aren’t too many of these
+C. It's important to use the old form so that your code will compile
+on older pre-ANSI compilers. Hopefully there aren't too many of these
 compilers left, and perhaps in a few years we can switch to the ANSI
-form, but for now let’s be safe. Every procedure should also have an
-ANSI-style prototype either on the file’s header page or in a header
+form, but for now let's be safe. Every procedure should also have an
+ANSI-style prototype either on the file's header page or in a header
 file, so this approach still allows full argument checking.
 
 ~~Parameter order
@@ -422,7 +422,7 @@ file, so this approach still allows full argument checking.
 Procedure parameters may be divided into three categories. In
 parameters only pass information into the procedure (either directly
 or by pointing to information that the procedure reads).  Out
-parameters point to things in the caller’s memory that the procedure
+parameters point to things in the caller's memory that the procedure
 modifies. In-out parameters do both. Below is a set of rules for
 deciding on the order of parameters to a procedure:
 
@@ -476,7 +476,7 @@ clarify the module structure of your code.
 
 The ideal variable name is one that instantly conveys as much
 information as possible about the purpose of the variable it refers
-to. When choosing names, play devil’s advocate with yourself to see if
+to. When choosing names, play devil's advocate with yourself to see if
 there are ways that a name might be misinterpreted or confused. Here
 are some things to consider:
 
@@ -496,14 +496,14 @@ are some things to consider:
     Fmt_Convert.
 
  3. Could this name be confused with some other name? For example,
-    it’s probably a mistake to have two variables s and string in the
+    it's probably a mistake to have two variables s and string in the
     same procedure, both referring to strings: it will be hard for
     anyone to remember which is which. Instead, change the names to
     reflect their functions. For example, if the strings are used as
     source and destination for a copy operation, name them src and
     dst.
 
- 4. Is the name so generic that it doesn’t convey any information? The
+ 4. Is the name so generic that it doesn't convey any information? The
     variable s from the previous paragraph is an example of this;
     changing its name to src makes the name less generic and hence
     conveys more information.
@@ -540,7 +540,7 @@ certain properties of a variable just from its name.
     Sprite not to require Ptr suffixes for strings, since they are
     always referenced with pointers. However, if a variable holds a
     pointer to a string pointer, then it must have the Ptr suffix
-    (there’s just one less level of Ptr for strings than for other
+    (there's just one less level of Ptr for strings than for other
     structures).
 
 |   TkWindow *winPtr;
@@ -568,14 +568,14 @@ certain properties of a variable just from its name.
     in lower case, in spite of the rules above. The reason for this
     rule is that these names are likely to typed interactively, and I
     thought that using all lower case would make it easier to type
-    them. In retrospect I’m not sure this was a good idea; in any
+    them. In retrospect I'm not sure this was a good idea; in any
     case, Tcl procedure and variable names should follow the same
     rules as C procedures and variables.
 
 ~~Names reflect package structure
 
 Names that are exported outside a single file must include the package
-prefix in order to make sure that they don’t conflict with global
+prefix in order to make sure that they don't conflict with global
 names defined in other packages. The following rules define how to use
 package prefixes in names:
 
@@ -591,9 +591,9 @@ package prefixes in names:
 |   extern Tcl_Interp *Tcl_CreateInterp(void);
 
  2. If a module contains several files, and if a name is used in
-    several of those files but isn’t used outside the package, then
+    several of those files but isn't used outside the package, then
     the name must have the package prefix but no underscore. The
-    prefix guarantees that the name won’t conflict with a similar name
+    prefix guarantees that the name won't conflict with a similar name
     from a different package; the missing underscore indicates that
     the name is private to the package.
 
@@ -611,7 +611,7 @@ package prefixes in names:
 
 The following variable names are used consistently throughout Tcl and
 Tk. Please use these names for the given purposes in any code you
-write, and don’t use the names for other purposes.
+write, and don't use the names for other purposes.
 
  clientData: Used for variables of type ClientData, which are
     associated with callback procedures.
@@ -623,7 +623,7 @@ write, and don’t use the names for other purposes.
     clients.
 
  iPtr: Used for variables of type Interp *, which are pointers to
-    Tcl’s internal structures for interpreters. Tcl procedures often
+    Tcl's internal structures for interpreters. Tcl procedures often
     have an argument named interp, which is copied into a local
     variable named iPtr in order to access the contents of the
     interpreter.
@@ -636,7 +636,7 @@ write, and don’t use the names for other purposes.
     for the window structures managed by Tk.
 
  winPtr: Used for variables of type TkWindow *, which are pointers to
-    Tk’s internal structures for windows. Tk procedures often take an
+    Tk's internal structures for windows. Tk procedures often take an
     argument named tkwin and immediately copy the argument into a
     local variable named winPtr in order to access the contents of the
     window structure.
@@ -644,7 +644,7 @@ write, and don’t use the names for other purposes.
 ~Low-level coding conventions
 
 This section describes several low-level syntactic rules for writing C
-code. The reason for having these rules is not because they’re better
+code. The reason for having these rules is not because they're better
 than all other ways of structuring code, but in order to make all our
 code look the same.
 
@@ -711,7 +711,7 @@ The only case where a { appears on a line by itself is the initial {
 for the body of a procedure (see Figures 3 and 4).
 
 Always use curly braces around compound statements, even if there is
-only one statement in the block. Thus you shouldn’t write code like
+only one statement in the block. Thus you shouldn't write code like
 
 |   if (filePtr->numLines == 0) return -1;
 
@@ -745,9 +745,9 @@ the following:
 
 You should use continuation lines to make sure that no single line
 exceeds 80 characters in length. Continuation lines should be indented
-8 spaces so that they won’t be confused with an immediately-following
+8 spaces so that they won't be confused with an immediately-following
 nested block (see Figure 7). Pick clean places to break your lines for
-continuation, so that the continuation doesn’t obscure the structure
+continuation, so that the continuation doesn't obscure the structure
 of the statement. For example, if a procedure call requires
 continuation lines, make sure that each argument is on a single line.
 If the test for an if or while command spans lines, try to make each
@@ -765,7 +765,7 @@ symbolically, and you should always use them instead of embedding
 specific numbers in your code. However, it is generally a bad idea to
 use macros for complex operations; procedures are almost always better
 (for example, you can set breakpoints inside procedures but not in the
-middle of macros). The only time that it is OK to use #define’s for
+middle of macros). The only time that it is OK to use #define's for
 complex operations is if the operations are critical to performance
 and there is no other way to get the performance (have you measured
 the performance before and after to be sure it matters?).
@@ -790,7 +790,7 @@ code in order to use it correctly.  Second, people will read the
 documentation to find out how your code works internally, so they can
 fix bugs or add new features; again, good documentation will allow
 them to make their fixes or enhancements while learning the minimum
-possible about your code. More documentation isn’t necessarily better:
+possible about your code. More documentation isn't necessarily better:
 wading through pages of documentation may not be any easier than
 deciphering the code. Try to pick out the most important things that
 will help people to understand your code and focus on these in your
@@ -801,25 +801,25 @@ documentation.
 The most important things to document are those that affect many
 different pieces of a program.  Thus it is essential that every
 procedure interface, every structure declaration, and every global
-variable be documented clearly. If you haven’t documented one of these
+variable be documented clearly. If you haven't documented one of these
 things it will be necessary to look at all the uses of the thing to
-figure out how it’s supposed to work; this will be time-consuming and
+figure out how it's supposed to work; this will be time-consuming and
 error-prone.
 
 On the other hand, things with only local impact may not need much
-documentation. For example, in short procedures I don’t usually have
+documentation. For example, in short procedures I don't usually have
 comments explaining the local variables. If the overall function of
-the procedure has been explained, and if there isn’t much code in the
+the procedure has been explained, and if there isn't much code in the
 procedure, and if the variables have meaningful names, then it will be
 easy to figure out how they are used. On the other hand, for long
 procedures with many variables I usually document the key variables.
-Similarly, when I write short procedures I don’t usually have any
-comments in the procedure’s code: the procedure header provides enough
+Similarly, when I write short procedures I don't usually have any
+comments in the procedure's code: the procedure header provides enough
 information to figure out what is going on. For long procedures I
 place a comment block before each major piece of the procedure to
 clarify the overall flow through the procedure.
 
-~~Don’t just repeat what’s in the code
+~~Don't just repeat what's in the code
 
 The most common mistake I see in documentation (besides it not being
 there at all) is that it repeats what is already obvious from the
@@ -859,16 +859,16 @@ in variable or procedure names. For example, the comment
 |    * ...
 
 which appears in the header for the Sprite procedure VmMapPage,
-doesn’t provide any new information. Everything in the comment is
-already obvious from the procedure’s name. Here is a much more useful
+doesn't provide any new information. Everything in the comment is
+already obvious from the procedure's name. Here is a much more useful
 comment:
 
 |   /*
 |    * VmMapPage --
 |    *
-|    * Make the given physical page addressable in the kernel’s
+|    * Make the given physical page addressable in the kernel's
 |    * virtual address space. This procedure is used when the
-|    * kernel needs to access a user’s page.
+|    * kernel needs to access a user's page.
 |    * ...
 
 This comment tells why you might want to use the procedure, in
@@ -885,7 +885,7 @@ right next to the declaration for the structure, including the general
 rules for how the structure is used. You need not explain the fields
 of the structure again in the code that uses the structure; people can
 always refer back to the structure declaration for this. The principal
-documentation for each procedure goes in the procedure header. There’s
+documentation for each procedure goes in the procedure header. There's
 no need to repeat this information again in the body of the procedure
 (but you might have additional comments in the procedure body to fill
 in details not described in the procedure header). If a library
@@ -906,31 +906,31 @@ the header page of one of the files implementing the decision.
 ~~Write clean code
 
 The best way to produce a well-documented system is to write clean and
-simple code. This way there won’t be much to document. If code is
+simple code. This way there won't be much to document. If code is
 clean, it means that there are a few simple ideas that explain its
 operation; all you have to do is to document those key ideas. When
 writing code, ask yourself if there is a simple concept behind the
 code. If not, perhaps you should rethink the code. If it takes a lot
 of documentation to explain a piece of code, it is a sign that you
-haven’t found an elegant solution to the problem.
+haven't found an elegant solution to the problem.
 
 ~~Document as you go
 
 It is extremely important to write the documentation as you write the
-code. It’s very tempting to put off the documentation until the end;
+code. It's very tempting to put off the documentation until the end;
 after all, the code will change, so why waste time writing
-documentation now when you’ll have to change it later? The problem is
+documentation now when you'll have to change it later? The problem is
 that the end never comes - there is always more code to write. Also,
 the more undocumented code that you accumulate, the harder it is to
 work up the energy to document it. So, you just write more
-undocumented code. I’ve seen many people start a project fully
+undocumented code. I've seen many people start a project fully
 intending to go back at the end and write all the documentation, but
-I’ve never seen anyone actually do it.
+I've never seen anyone actually do it.
 
-If you do the documentation as you go, it won’t add much to your
-coding time and you won’t have to worry about doing it later. Also,
+If you do the documentation as you go, it won't add much to your
+coding time and you won't have to worry about doing it later. Also,
 the best time to document code is when the key ideas are fresh in your
-mind, which is when you’re first writing the code. When I write new
+mind, which is when you're first writing the code. When I write new
 code, I write all of the header comments for a group of procedures
 before I fill in any of the bodies of the procedures. This way I can
 think about the overall structure and how the pieces fit together
@@ -939,13 +939,13 @@ before getting bogged down in the details of individual procedures.
 ~~Document tricky situations
 
 If code is non-obvious, meaning that its structure and correctness
-depend on information that won’t be obvious to someone reading it for
+depend on information that won't be obvious to someone reading it for
 the first time, be sure to document the non-obvious information. One
 good indicator of a tricky situation is a bug. If you discover a
 subtle property of your program while fixing a bug, be sure to add a
-comment explaining the problem and its solution. Of course, it’s even
+comment explaining the problem and its solution. Of course, it's even
 better if you can fix the bug in a way that eliminates the subtle
-behavior, but this isn’t always possible.
+behavior, but this isn't always possible.
 
 ~Testing
 
@@ -956,11 +956,11 @@ verify that it behaves correctly. For example, Tcl contains a large
 suite of tests that exercise nearly all of the Tcl functionality.
 Whenever you write new code you should write Tcl test scripts to go
 with that code and save the tests in files so that they can be re-run
-later. Writing test scripts isn’t as tedious as it may sound. If
-you’re developing your code carefully you’re already doing a lot of
+later. Writing test scripts isn't as tedious as it may sound. If
+you're developing your code carefully you're already doing a lot of
 testing; all you need to do is type your test cases into a script file
 where they can be re-used, rather than typing them interactively where
-they vanish into the void after they’re run.
+they vanish into the void after they're run.
 
 ~~Basics
 
@@ -1037,32 +1037,32 @@ style where there is one file for each Tcl command or group of related
 commands, and the tests are grouped within the file by sub-command or
 features. In this approach the relationship between tests and
 particular pieces of code is much less obvious, so it is harder to
-maintain the tests as the code evolves. I don’t recommend using this
+maintain the tests as the code evolves. I don't recommend using this
 approach for new tests.
 
 ~~Coverage
 
 When writing tests, you should attempt to exercise every line of
 source code at least once.  There will be occasionally be code that
-you can’t exercise, such as code that exits the application, but
+you can't exercise, such as code that exits the application, but
 situations like this are rare. You may find it hard to exercise some
-pieces of code because existing Tcl commands don’t provide fine enough
+pieces of code because existing Tcl commands don't provide fine enough
 control to generate all the possible execution paths (for example, at
-the time I wrote the test suite for Tcl’s dynamic string facility
+the time I wrote the test suite for Tcl's dynamic string facility
 there were very few Tcl commands using the facility; some of the
 procedures were not called at all). In situations like this, write one
 or more new Tcl commands just for testing purposes. For example, the
 file tclTest.c in the Tcl source directory contains a command
 testdstring, which provides a number of options that allow all of the
 dynamic string code to be exercised. tclTest.c is only included in a
-special testing version of tclsh, so the testdstring command isn’t
+special testing version of tclsh, so the testdstring command isn't
 present in normal Tcl applications. Use a similar approach in your own
 code, where you have an extra file with additional commands for
 testing.
 
-It’s not sufficient just to make sure each line of code is executed by
+It's not sufficient just to make sure each line of code is executed by
 your tests. In addition, your tests must discriminate between code
-that executes correctly and code that isn’t correct.  For example,
+that executes correctly and code that isn't correct.  For example,
 write tests to make sure that the then and else branches of each if
 statement are taken under the correct conditions. For loops, run
 different tests to make the loop execute zero times, one time, and two
@@ -1077,7 +1077,7 @@ ways, and exercise the different possible interactions.
 Tcl and Tk use a modified memory allocator that checks for several
 kinds of memory allocation errors, such as freeing a block twice,
 failing to free a block, or writing past the end of a block. In order
-to use this allocator, don’t call malloc, free, or realloc
+to use this allocator, don't call malloc, free, or realloc
 directly. Call ckalloc instead of malloc, ckfree instead of free, and
 ckrealloc instead of realloc. These procedures behave identically to
 malloc, free, and realloc except that they monitor memory
@@ -1100,7 +1100,7 @@ allocator. If you need a new block to be zeroed, call memset to clear
 its contents.
 
 If you compile with TCL_MEM_DEBUG, then an additional Tcl command
-named memory will appear in your application (assuming that you’re
+named memory will appear in your application (assuming that you're
 using the standard Tcl or Tk main program).  The memory command has
 the following options:
 
@@ -1158,11 +1158,11 @@ allocator.
 ~~Fixing bugs
 
 Whenever you find a bug in your code it means that the test suite
-wasn’t complete. As part of fixing the bug, you should add new tests
+wasn't complete. As part of fixing the bug, you should add new tests
 that detect the presence of the bug. I recommend writing the tests
-after you’ve located the bug but before you fix it. That way you can
+after you've located the bug but before you fix it. That way you can
 verify that the bug happens before you implement the fix and goes away
-afterwards, so you’ll know you’ve really fixed something. Use bugs to
+afterwards, so you'll know you've really fixed something. Use bugs to
 refine your testing approach: think about what you might be able to do
 differently when you write tests in the future to keep bugs like this
 one from going undetected.
@@ -1173,7 +1173,7 @@ I also use tests as a way of illustrating the need for tricky code. If
 a piece of code has an unusual structure, and particularly if the code
 is hard to explain, I try to write additional tests that will fail if
 the code is implemented in the obvious manner instead of using the
-tricky approach. This way, if someone comes along later, doesn’t
+tricky approach. This way, if someone comes along later, doesn't
 understand the documentation for the code, decides the complex
 structure is unnecessary, and changes the code back to the simple (but
 incorrect) form, the test will fail and the person will be able to use
@@ -1184,7 +1184,7 @@ they provide a useful addition.
 ~~Test independence
 
 Try to make tests independent of each other, so that each test can be
-understood in isolation.  For example, one test shouldn’t depend on
+understood in isolation.  For example, one test shouldn't depend on
 commands executed in a previous test. This is important because the
 test suite allows tests to be run selectively: if the tests depend on
 each other, then false errors will be reported when someone runs a few
@@ -1194,8 +1194,8 @@ For convenience, you may execute a few statements in the test file to
 set up a test configuration and then run several tests based on that
 configuration. If you do this, put the setup code outside the calls to
 the test procedure so it will always run even if the individual tests
-aren’t run. I suggest keeping a very simple structure consisting of
-setup followed by a group of tests.  Don’t perform some setup, run a
+aren't run. I suggest keeping a very simple structure consisting of
+setup followed by a group of tests.  Don't perform some setup, run a
 few tests, modify the setup slightly, run a few more tests, modify the
 setup again, and so on. If you do this, it will be hard for people to
 figure out what the setup is at any given point and when they add
@@ -1244,7 +1244,7 @@ machine-dependent code for other systems and from the main body of
 your code. The only "conditional" code left will be the code that
 selects which version to link with.
 
-You won’t be able to eliminate #ifdefs completely, but please avoid
+You won't be able to eliminate #ifdefs completely, but please avoid
 them as much as possible. If you end up with code that has a lot of
 #ifdefs, this should be a warning to you that something is wrong. See
 if you can find a way to re-organize the code (perhaps using the
@@ -1253,12 +1253,12 @@ techniques described later in this section) to reduce the number of
 
 ~~Organize by feature, not by system
 
-Don’t think about porting issues in terms of specific systems.
+Don't think about porting issues in terms of specific systems.
 Instead, think in terms of specific features that are present or
-absent in the systems. For example, don’t divide your code up
+absent in the systems. For example, don't divide your code up
 according to what is needed in HP-UX versus Solaris versus Windows.
 Instead, consider what features are present in the different systems;
-for example, some systems have a waitpid procedure, while others don’t
+for example, some systems have a waitpid procedure, while others don't
 yet provide one, and some systems have ANSI C compilers that support
 procedure prototypes, while some systems do not.
 
@@ -1270,17 +1270,17 @@ feature separately ("what do I do if there is no waitpid?"); this
 replaces one large problem with several smaller problems that can be
 dealt with individually. Lastly, the autoconf program can be used to
 check for the presence or absence of particular features and configure
-your code automatically. Once you’ve gotten your code running on
-several different systems, you’ll find that many new systems can be
+your code automatically. Once you've gotten your code running on
+several different systems, you'll find that many new systems can be
 handled with no additional work: their features are similar to those
-in systems you’ve already considered, so autoconf can handle them
+in systems you've already considered, so autoconf can handle them
 automatically.
 
 ~~Use emulation
 
 One of the cleanest ways to handle porting problems is with emulation:
 assume the existence of certain procedures, such as those in the POSIX
-standard, and if they don’t exist on a given system then write
+standard, and if they don't exist on a given system then write
 procedures to emulate the desired functionality with the facilities
 that are present on the system. For example, when Tcl first started
 being used widely I discovered that many systems did not support the
@@ -1288,16 +1288,16 @@ waitpid kernel call, even though it was part of the POSIX standard.
 So, I wrote a waitpid procedure myself, which emulated the
 functionality of waitpid using the wait and wait3 kernel calls. The
 best way to emulate waitpid was with wait3, but unfortunately wait3
-wasn’t available everywhere either, so the emulation worked
+wasn't available everywhere either, so the emulation worked
 differently on systems that had wait3 and those that supported only
 wait. The autoconf program checks to see which of the kernel calls are
-available, includes the emulation for waitpid if it isn’t available,
+available, includes the emulation for waitpid if it isn't available,
 and sets a compiler flag that indicates to the emulation code whether
 or not wait3 is available.
 
 You can also emulate using #defines in a header file. For example, not
-all systems support symbolic links, and those that don’t support
-symbolic links don’t support the lstat kernel call either. For these
+all systems support symbolic links, and those that don't support
+symbolic links don't support the lstat kernel call either. For these
 systems Tcl uses stat to emulate lstat with the following statement in
 tclUnix.h:
 
@@ -1306,8 +1306,8 @@ tclUnix.h:
 If a header file is missing on a particular system, write your own
 version of the header file to supply the definitions needed by your
 code. Then you can #include your version in your code if the system
-doesn’t have a version of its own. For example, here is the code in
-tclUnix.h that handles unistd.h, which isn’t yet available on all UNIX
+doesn't have a version of its own. For example, here is the code in
+tclUnix.h that handles unistd.h, which isn't yet available on all UNIX
 systems:
 
 |   #ifdef HAVE_UNISTD_H
@@ -1318,7 +1318,7 @@ systems:
 
 The configure script generated by autoconf checks for the existence of
 unistd.h in the system include directories and sets HAVE_UNISTD_H if
-it is present. If it isn’t present, tclUnix.h includes a version from
+it is present. If it isn't present, tclUnix.h includes a version from
 the Tcl source tree.
 
 ~~Use autoconf
@@ -1327,7 +1327,7 @@ The GNU autoconf program provides a powerful way to configure your
 code for different systems. With autoconf you write a script called
 configure.in that describes the porting issues for your software in
 terms of particular features that are needed and what to do if they
-aren’t present. Before creating a release of your software you run
+aren't present. Before creating a release of your software you run
 autoconf, which processes configure.in and generates a shell script
 called configure. You then include configure with your distribution.
 
@@ -1343,7 +1343,7 @@ code.
 
 In spite of all the above advice, you will still end up needing some
 conditional compilation, for example to include alternate header files
-where standard ones are missing or to #define symbols that aren’t
+where standard ones are missing or to #define symbols that aren't
 defined on the system. Put all of this code in the porting header file
 for the package, then #include this header file in each of the source
 files of the package. With this approach you only need to change a
@@ -1357,7 +1357,7 @@ tclPort.h and tkPort.h for examples of porting header files.
 
 Each package should contain a file named changes that keeps a log of
 all significant changes made to the package. The changes file provides
-a way for users to find out what’s new in each new release, what bugs
+a way for users to find out what's new in each new release, what bugs
 have been fixed, and what compatibility problems might be introduced
 by the new release. The changes file should be in chronological order.
 Just add short blurbs to it each time you make a change. Here is a
