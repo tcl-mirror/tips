@@ -4,7 +4,7 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		John K. Ousterhout <ouster@pacbell.net>
 Created:	01-Jun-2005
 
@@ -301,6 +301,10 @@ information that is relevant throughout the file, which consists of
 everything but the definitions of the file’s procedures.  The header
 page typically has six parts, as shown in Figure 2:
 
+#image:247fig2 Figure 2. An example of a header page. Part of the text
+of the copyright notice has been omitted. The file engManual/proto.c
+contains a template for a header page.
+
  Abstract: the first few lines give the name of the file and a brief
     description of the overall functions provided by the file, just as
     in header files.
@@ -357,6 +361,12 @@ and body for the procedure. See Figures 3 and 4 for examples. The
 header should contain everything that a caller of the procedure needs
 to know in order to use the procedure, and nothing else. It consists
 of three parts:
+
+#image:247fig3 Figure 3. The header comments and declaration for a
+ procedure. The file engManual/prochead contains a template for this
+ information.
+
+#image:247fig4 Figure 4. The header for a procedure with side effects.
 
  Abstract: the first lines in the header give the procedure’s name,
     followed by a brief description of what the procedure does. This
@@ -661,6 +671,12 @@ indented to the same level as the surrounding code. Use proper English
 in comments: write complete sentences, capitalize the first word of
 each sentence, and so on.
 
+#image:247fig5 Figure 5. Comments in code have the form shown above,
+using full lines, with lined-up stars, the /* and */ symbols on
+separate lines, and blank separator lines around each comment (except
+that the leading blank line can be omitted if the comment is at the
+beginning of a code block).
+
 ~~Declaration comments are side-by-side
 
 When documenting the arguments for procedures and the members of
@@ -675,6 +691,9 @@ same line as the end of the text. For structure declarations it is
 usually useful to have a block of comments preceding the declaration,
 as in Figure 6. This comments before the declaration use the format
 given in Section 5.2.
+
+#image:247fig6 Figure 6. Use side-by-side comments when declaring
+structure members and procedure arguments.
 
 ~~Curly braces: { goes at the end of a line
 
@@ -736,6 +755,8 @@ line have the same nesting level of parentheses if possible. I try to
 start each continuation line with an operator such as *, &&, or ||;
 this makes it clear that the line is a continuation, since a new
 statement would never start with such an operator.
+
+#image:247fig7 Figure 7. Continuation lines are indented 8 spaces.
 
 ~~Avoid macros except for simple things
 

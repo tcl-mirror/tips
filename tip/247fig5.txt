@@ -1,0 +1,23 @@
+if (searchPtr->linesLeft <= 0) {
+    goto searchOver;
+}
+
+/*
+ * The outermost loop iterates over lines that may potentially contain
+ * a relevant tag transition, starting from the current segment in
+ * the current line.
+ */
+
+segPtr = searchPtr->nextPtr;
+while (1) {
+    /*
+     * Check for more tags on the current line.
+     */
+
+    for ( ; segPtr != NULL; segPtr = segPtr->nextPtr) {
+        if (segPtr == searchPtr->lastPtr) {
+            goto searchOver;
+        }
+        ...
+    }
+}

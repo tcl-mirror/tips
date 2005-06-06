@@ -1,0 +1,17 @@
+/*
+ * The following structure defines a variable trace, which is used to
+ * invoke a specific C procedure whenever certain operations are performed
+ * on a variable.
+ */
+
+typedef struct VarTrace {
+    Tcl_VarTraceProc *traceProc;/* Procedure to call when operations given
+				 * by flags are performed on variable. */
+    ClientData clientData;	/* Argument to pass to proc. */
+    int flags;			/* What events the trace procedure is
+				 * interested in: OR-ed combination of
+				 * TCL_TRACE_READS, TCL_TRACE_WRITES, and
+				 * TCL_TRACE_UNSETS. */
+    struct VarTrace *nextPtr;	/* Next in list of traces associated with
+				 * a particular variable. */
+} VarTrace;

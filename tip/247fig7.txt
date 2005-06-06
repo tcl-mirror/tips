@@ -1,0 +1,11 @@
+if ((linePtr->position.lineIndex > position.lineIndex)
+	|| ((linePtr->position.lineIndex == position.lineIndex)
+	&& ((linePtr->position.charIndex + linePtr->length)
+	> position.charIndex))) {
+    return;
+}
+line = Mx_GetLine(newPtr->fileInfoPtr->file,
+	linePtr->position.lineIndex, (int *) NULL);
+XDrawImageString(mxwPtr->display, mxwPtr->fileWindow,
+	mxwPtr->textGc, x, y + mxwPtr->fontPtr->ascent,
+	control, 2);

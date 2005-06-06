@@ -1,0 +1,53 @@
+	| /*
+	|  * tclLink.c --
+	|  *
+	|  * This file implements linked variables (a C variable that is
+Abstract|  * tied to a Tcl variable). The idea of linked variables was
+	|  * first suggested by Andreas Stolcke and this implementation is
+	|  * based heavily on a prototype implementation provided by
+	|  * him.
+	   *
+	|  * Copyright (c) 1993 The Regents of the University of California.
+	|  * All rights reserved.
+	|  *
+	|  * Permission is hereby granted, without written agreement and without
+Copyright  * license or royalty fees, to use, copy, modify, and distribute this
+	|  * software and its documentation for any purpose, provided that the
+	|  * above copyright notice and the following two paragraphs appear in
+	|  * all copies of this software.
+	|  *
+	|  * ...
+	   */
+
+Revision| static char rcsid[] = "$Header: /user6/ouster/tcl/RCS/tclLink.c,v 1.5 94/04/23
+String	| 16:12:30 ouster Exp $ SPRITE (Berkeley)";
+
+Includes| #include "tclInt.h"
+
+	| /*
+	|  * For each linked variable there is a data structure of the following
+	|  * type, which describes the link and is the clientData for the trace
+	|  * set on the Tcl variable.
+	|  */
+	|
+	| typedef struct Link {
+	|     Tcl_Interp *interp;	/* Interpreter containing Tcl variable. */
+Decls.	|     char *addr;		/* Location of C variable. */
+	|     int type;			/* Type of link (TCL_LINK_INT, etc.). */
+	|     int writable;		/* Zero means Tcl variable is read-only. */
+	|     union {
+	|         int i;
+	|         double d;
+	|     } lastValue;		/* Last known value of C variable; used to
+	|				 * avoid string conversions. */
+	| } Link;
+
+	| /*
+	|  * Prototypes for procedures referenced only in this file:
+	|  */
+Proto-	|
+types	| static char *			LinkTraceProc _ANSI_ARGS_((ClientData clientData,
+	| 				    Tcl_Interp *interp, char *name1, char *name2,
+	| 				    int flags));
+	| static char *			StringValue _ANSI_ARGS_((Link *linkPtr,
+	| 	  			    char *buffer));

@@ -1,0 +1,32 @@
+/*
+ *--------------------------------------------------------------
+ *
+ * ScaleBitmap --
+ *
+ *	This procedure is invoked to rescale a bitmap item in a
+ *	canvas. It is one of the standard item procedures for
+ *	bitmap items, and is invoked by the generic canvas code,
+ *	for example during the "scale" widget command.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	The item referred to by itemPtr is rescaled so that the
+ *	following transformation is applied to all point coordinates:
+ *		x' = originX + scaleX*(x-originX)
+ *		y' = originY + scaleY*(y-originY)
+ *
+ *--------------------------------------------------------------
+ */
+
+static void
+ScaleBitmap(canvasPtr, itemPtr, originX, originY, scaleX, scaleY)
+    Tk_Canvas *canvasPtr;	/* Canvas containing rectangle. */
+    Tk_Item *itemPtr;		/* Rectangle to be scaled. */
+    double originX, originY;	/* Origin about which to scale rect. */
+    double scaleX;		/* Amount to scale in X direction. */
+    double scaleY;		/* Amount to scale in Y direction. */
+{
+    ...
+}
