@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.32 $
+Version:        $Revision: 1.33 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -321,7 +321,8 @@ assigned one or more maintainers:
      tests/remote.tcl,
      tests/socket.test
 
- 25. '''Channel System''' -  doc/fileevent.n,
+ 25. '''Channel System''' - doc/chan.n,
+     doc/fileevent.n,
      doc/ChnlStack.3,
      doc/CrtChnlHdlr.3,
      doc/CrtCloseHdlr.3,
@@ -333,6 +334,7 @@ assigned one or more maintainers:
      generic/tclIO.c,
      generic/tclIO.h,
      generic/tclPipe.c,
+     tests/chan.test,
      tests/io.test
 
  26. '''Channel Transformations''' - generic/tclIOGT.c,
