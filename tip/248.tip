@@ -1,0 +1,72 @@
+TIP:		248
+Title:		Distribute Tile with Tk
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	08-Jun-2005
+
+~ Abstract
+
+This TIP proposes that all source distributions of Tk from 8.5 onwards
+should include a distribution of Tile, and recommends that all binary
+distributions follow suit.
+
+~ Rationale
+
+It is well known that Tk has been lacking in graphical glitz for a few
+years; GUI standards have moved on whereas Tk has remained largely
+static. The core of Tk is still great (e.g. its resizing behaviour is
+second to none) but fancy shaded buttons are what modern users expect.
+But due to the sterling work of Joe English and others, the Tile
+package is available which offers a new set of widgets for use on top
+of the Tk foundation, and which provide that extra graphical polish by
+leveraging underlying graphics layers (e.g. the Luna theming engine on
+Windows XP, the Aqua theming on MacOSX, etc.) This is ''exactly'' what
+we need, so we should ensure that every user of Tk can take advantage
+of these new capabilities (universality is important) through updating
+our distribution strategy.
+
+This TIP does not propose managing Tile under the same rules as Tk, as
+it's still a software project in considerably more flux than the
+Tcl/Tk core. (Nor does this TIP preclude such action being taken in
+the future.)
+
+Note that although the Tile widgets are ''mostly'' drop-in
+replacements for the Tk core widgets, they are not perfect stand-ins
+due to the differences in the way state is managed. This means that
+this TIP categorically does not propose the replacement of Tk's
+widgets with Tile's.
+
+~ Proposed Changes
+
+ 1. Distributions of the Tk source tree made by the TCT are to include
+    a source distribution of the Tile package in the subdirectory
+    ''tile'' of the main distribution directory (though we might want
+    to also provide a lean-and-mean distribution as well.) This
+    directory naming policy has been chosen by analogy with the
+    ''libtommath'' distribution in Tcl 8.5.
+
+ 2. To facilitate mixing of widgets between Tk and Tile, all Tk's
+    widget creation commands are to be ''additionally'' declared in
+    the '''::tk''' namespace and [['''namespace export''']]ed from
+    there.
+
+~ Recommendations for Distributors of Binary Versions of Tk
+
+This TIP strongly recommends that binary distributors install the Tile
+package at the same time as the Tk package. It does ''not'' require it
+though; there are too many strange edge conditions and complicating
+factors (e.g. the difference between Tile in tclkit and Tile in a
+starkit, or where an application is locked to a particular
+distribution of Tcl/Tk) outside the reasonable scope of this TIP. But
+generally-programmable distributions of Tk really should minimally
+have a way of getting hold of the Tile package, preferably by just
+saying the usual '''package require''', of course.
+
+~ Copyright
+
+This document has been placed in the public domain.
