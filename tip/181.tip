@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 Author:         dvd <dvdv@yahoo.com>
 State:          Draft
@@ -19,38 +19,28 @@ dealing with unknown commands.
 ~ Rationale
 
 There is an occassional need within Tcl scripts to change the way in
-which command names are resolved.  For instance, when implementing
-language constructs such as object systems, or some functional
-programming ideas (such as anonymous first-class functions).  In the
-case of implementing an object system, you may want a command to be
-searched for in the class namespace and then in the namespaces of any
-super-classes (assuming you have implemented classes in terms of
-namespaces containing procs).  When trying to do anonymous functions,
-a useful technique is auto-expansion of leading word if a command is
-not found ([http://wiki.tcl.tk/11141] is an example of this
-technique).
+which command names are resolved, for instance when implementing
+language constructs such as object systems or lexically-scoped
+commands. Many of these issues are addressed by the newly-accepted
+'''namespace path''' command [229]. However, there are still a few
+situations where more customized behaviour is required. For instance,
+implementing custom per-namespace command auto-loading, or to use
+auto-expansion of leading word as in TOOT ([http://wiki.tcl.tk/11543]).
+Currently, the only way to perform such customized command resolution
+behaviour is to override the global '''::unknown''' proc to install your
+custom handler. There are several drawbacks with this mechanism.
 
-Furthermore, it is sometimes useful to create new behaviour for what
-happens when a command doesn't exist at all in the interpreter, for
-instance to implement custom auto-loading mechanisms.
-
-At present, Tcl's command resolution procedure tries to find commands
-in the current namespace, and then the global namespace, before
-finally using the global '''::unknown''' proc to deal with unknown
-commands.  There are several drawbacks with this mechanism.
-
-Firstly, it is not possible to override the command resolution process
-from Tcl, except by redefining the '''::unknown''' procedure to
-perform your custom lookup. This is difficult if you are writing a package, as
-good style dictates that you shouldn't override the global
-'''::unknown''' procedure without being explicitly asked to do so.
+Firstly, it is difficult to override the global '''::unknown''' proc
+if you are writing a package, as good style dictates that you shouldn't
+override commands outside your package namespace without being explicitly
+asked to do so.
 
 Secondly, as Tcl searches for a hard-coded fallback procedure name
 ('''::unknown'''), in order to override it's functionality you have to
 rename it and then install your own replacement - and the new version
 becomes the default fallback behaviour for the entire application.  In
 the case of implementing custom auto-loading behaviour, you may only
-want to override the behaviour for your package, and not for the
+want to override the behaviour for your namespace, and not for the
 entire interpreter.  Currently, the only way to do this is to define a
 new '''::unknown''' procedure which does pattern matching on the
 command name it is passed.
@@ -70,7 +60,11 @@ to the most general (the global namespace).  This TIP was withdrawn as
 it was not backwards compatible.  [142] proposed a global variable
 which would hold a namespace search path.  This TIP was also withdrawn
 as it does not allow different namespaces to have different search
-paths.
+paths.  [229] proposed the '''namespace path''' command as a way of
+specifying a per-namespace search path for command resolution.  This
+TIP was accepted, and provides a good general mechanism for custom
+command resolution.  The current TIP is complementary to [229] and can
+be used to handle cases where more flexible behaviour is required.
 
 ~ Proposed Change
 
@@ -84,7 +78,7 @@ The subcommand would accept either zero or one argument(s).  If no
 arguments are given, the command returns the handler for the current
 namespace. The optional argument ''commandPrefix'' is a
 command (strictly a prefix list consisting of a command and optional
-arguments) to execute if command lookup from the current namespace fails.
+arguments) to execute if normal command lookup from the current namespace fails.
 The command will be concatenated with the full invocation line of the
 command being searched for (i.e. the command name and all arguments),
 and evaluated in the scope of the current namespace.  The first word in the
@@ -100,25 +94,29 @@ The command resolution procedure would be altered from this:
 
    1. Lookup command in current namespace.
 
-   2. If that fails, lookup command in global namespace.
+   2. If that fails, use path supplied by '''namespace path'''.
 
-   3. If that fails, call global '''::unknown''' procedure.
+   3. If that fails, lookup command in global namespace.
+
+   4. If that fails, call global '''::unknown''' procedure.
 
 to this:
 
    1. Lookup command in current namespace.
 
-   2. If that fails, lookup command in global namespace.
+   2. If that fails, use path supplied by '''namespace path'''.
 
-   3. If that fails, call the unknown handler for the namespace in
+   3. If that fails, lookup command in global namespace.
+
+   4. If that fails, call the unknown handler for the namespace in
 which the unknown command was invoked.
 
 Note that this TIP does not change (or allow changing) the default
-command resolution procedure - the current and global namespaces
-are always searched before the unknown handler is called. This is so
-that resolution of the unknown handler itself can be performed, and
-so that the handler can be implemented without resorting to fully
-qualifying every command in it (e.g. having to use ::set).
+command resolution procedure - the current, namespace path, and global
+namespaces are always searched before the unknown handler is called. This is
+so that resolution of the unknown handler itself can be performed, and so
+that the handler can be implemented without resorting to fully qualifying
+every command in it (e.g. having to use ::set).
 
 The default unknown handler for the global namespace is a
 handler called '''::unknown'''.  The default handler for other namespaces
@@ -140,146 +138,35 @@ The calling of unknown handlers registered with '''namespace
 unknown''' would be identical to the current calling of the
 '''::unknown''' procedure - the handler will be called with the
 command name and all of its arguments, as it was originally invoked.
+The handler should be a valid Tcl list representing a command and 
+possible initial arguments. For instance, a single handler proc could
+be used for several namespaces with the namespace passed as an
+argument:
 
-Setting the unknown handler to {} (an empty string) restores the default
+| proc handleunknown {ns cmd args} { ... }
+| namespace eval foo { namespace unknown [list ::handleunknown ::foo] }
+| namespace eval bar { namespace unknown [list ::handleunknown ::bar] }
+
+Setting the unknown handler to {} (an empty list) restores the default
 handler ('''::unknown''' for global namespace, global unknown handler
 for all other namespaces).
 
-~ Notes on Ensembles
+Additionally, this TIP proposes adding two new public functions to the
+Tcl C-API to expose this functionality at the C-level. The proposed
+new functions are:
 
-[112] (Namespaces are Ensembles are Commands) added some features
-which allow for flexible handling of unknown subcommands when using
-ensembles.  It is worth noting here that this is not the same thing as
-handling unknown commands in general.  For instance, consider the
-following code:
+| Tcl_Obj *Tcl_GetNamespaceUnknownHandler( Tcl_Interp*		interp,
+|					   Tcl_Namespace*	nsPtr);
 
-|namespace eval foo {
-|   proc useful {args} { ... }
-|
-|   namespace eval bar {
-|      proc carrot {arg1 args} {
-|         useful $arg1
-|      }
-|   }
-|}
+Returns the unknown command handler registered for the given namespace, or
+NULL if none is.
 
-This case is thus different to that solved with ensembles.
+| int Tcl_SetNamespaceUnknownHandler(      Tcl_Interp*		interp,
+|					   Tcl_Namespace*	nsPtr,
+|					   Tcl_Obj*		handlerPtr);
 
-~ Examples
-
-Here are a few examples of the proposed functionality, in order to
-illustrate how it would work in practice.  Firstly, here is the
-example from the previous section implemented via a custom unknown
-handler:
-
-|namespace eval foo {
-|   proc useful {args} { puts "USEFUL: $args" }
-|
-|   namespace eval bar {
-|      namespace unknown [list resolve]
-|      proc resolve {args} { namespace eval ::foo $args }
-|      proc carrot {arg1 args} {
-|         useful $arg1
-|      }
-|   }
-|}
-
-Here is a more complicated example, of an object system with
-public/protected methods, showing how ''''namespace unknown''' and
-'''namespace ensemble''' can be used together:
-
-|namespace eval SuperClass {
-|   # Define our "public" methods
-|   namespace export hello create
-|   namespace ensemble create
-|   # Proc to create a new "instance"
-|   proc create {name} {
-|      namespace ensemble create -command $name
-|   }
-|
-|   # This proc is "public"
-|   proc hello {} { puts "Hello from SuperClass!" }
-|
-|   # This proc is "protected" - can be called by subclasses, but not directly
-|   # via the ensemble
-|   proc SomePrivateMethod {args} { puts "SUPER PRIVATE: $args" }
-|}
-|namespace eval SubClass {
-|   # Public methods
-|   namespace export do create
-|   namespace ensemble create
-|   # Handler to delegate to superclass
-|   namespace unknown [list delegateSuper ::SuperClass]
-|   proc delegateSuper {superclass args} {
-|      uplevel 1 [list namespace eval $superclass $args]
-|   }
-|
-|   proc create {name} {
-|      # Create superclass instance
-|      SuperClass create $name.super
-|      # Create our instance
-|      namespace ensemble create -command $name \
-|              -unknown [list SubClass::dispatch $name.super]
-|   }
-|
-|   # Used for handling direct calls to super class methods
-|   proc dispatch {super this method args} {
-|      return [linsert $args 0 $super $method]
-|   }
-|
-|   # Our public method
-|   proc do {arg1 args} {
-|      SomePrivateMethod $arg1
-|   }
-|}
-|
-|SubClass create ::foo
-|foo do a b c ;# -> prints "a"
-|foo hello    ;# -> prints "Hello from SuperClass!"
-|foo SomePrivateMethod ;# -> error...
-
-Finally, here is an example of an unknown handler which does more
-complicated processing:
-
-|namespace eval foo {
-|   namespace unknown infix
-|
-|   # Allow infix-style syntax
-|   proc infix {args} {
-|      if {[regexp (.+):$ [lindex $args 0] -> name]} {
-|         set args [lreplace $args 0 0 $name =]
-|      } ;# allow REBOL-style assignments (foo: bar; bar: 17+4)
-|      if {[lindex $args 1]=="="} {
-|         # maybe an assignment like "x = 3+4" ? (Blanks matter!)
-|         upvar [lindex $args 0] _x
-|         set rest [lrange $args 2 end]
-|         if {[llength [info commands [lindex $args 2]]]} {
-|            return [set _x [uplevel eval $rest]]
-|         }
-|         set _x $rest                ;# this should always work...
-|         catch {set _x [expr $rest]} ;# ...but maybe expr is happy
-|         return $_x
-|      } elseif {[regexp {^([^ ]+)\+\+$} $args -> vname]} {
-|         uplevel [list incr $vname]  ;# allow things lie "i++" ...
-|      } elseif {[regexp {^([^ ]+)--$} $args -> vname]} {
-|         uplevel [list incr $vname -1]         ;# ... or "j--"
-|      } elseif {[regexp {^[-+/\*\.0-9 ()]+$} $args]} {
-|         return [expr $args]         ;# pure expression? "(17+4)/3"
-|      } else {
-|         # Error
-|         error "invalid command \"[lindex $args 0]\""
-|      }
-|   }
-|
-|   proc dostuff {} {
-|      v = info tclversion
-|      s = this is a string
-|      j = sqrt(2)*3
-|   }
-|}
-
-This last example is taken from the Radical Language Modification page
-on the wiki[http://wiki.tcl.tk/495].
+Sets the unknown command handler for the namespace, or resets it to the
+default if handlerPtr is NULL or an empty list.
 
 As a final note, there is a useful side-effect to always resolving the
 unknown handler itself in the current namespace, in that an unknown
@@ -297,10 +184,12 @@ which an unknown command is invoked. To illustrate:
 | namespace eval other { bar } ;# prints GLOBAL
 
 ~ Reference Implementation
-http://buy-phentermine-a.pochta.ru
+
 A reference implementation is available attached to Patch 958222 on the Tcl project at sourceforge.net:
 
 http://sourceforge.net/tracker/index.php?func=detail&aid=958222&group_id=10894&atid=310894
+
+The current patch is called tip181-4.patch
 
 ~ Copyright
 
