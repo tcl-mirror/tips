@@ -1,8 +1,7 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
-Author:         dvd <dvdv@yahoo.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
