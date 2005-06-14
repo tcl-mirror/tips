@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -24,7 +24,7 @@ commands. Many of these issues are addressed by the newly-accepted
 '''namespace path''' command [229]. However, there are still a few
 situations where more customized behaviour is required. For instance,
 implementing custom per-namespace command auto-loading, or to use
-auto-expansion of leading word as in TOOT ([http://wiki.tcl.tk/11543]).
+auto-expansion of leading word as in TOOT [http://wiki.tcl.tk/11543].
 Currently, the only way to perform such customized command resolution
 behaviour is to override the global '''::unknown''' proc to install your
 custom handler. There are several drawbacks with this mechanism.
@@ -86,8 +86,8 @@ must be able to be resolved without resorting to the unknown
 mechanism (i.e. it must either be a command in the current or global namespace,
 or be fully-qualified).  If this cannot be done, a stock error message will
 be generated referring to the original unknown command (and ''not'' the
-missing handler) - this is how Tcl currently behaves if no ::unknown procedure
-exists.
+missing handler) - this is how Tcl currently behaves if no '''::unknown'''
+procedure exists.
 
 The command resolution procedure would be altered from this:
 
@@ -127,7 +127,7 @@ for a namespace, then a call to '''namespace unknown''' will return an
 empty string (for non-global namespaces) or '''::unknown''' for the
 global namespace. This is so that a distinction can be made between
 namespaces which have no handler set, and namespaces which have
-had an unknown handler called ::unknown deliberately registered for
+had an unknown handler called '''::unknown''' deliberately registered for
 them.  With this scheme it is possible to set a global per-interpreter
 unknown command handler by setting the unknown handler for the
 global namespace. This can then be overridden on a per-namespace
@@ -150,22 +150,26 @@ Setting the unknown handler to {} (an empty list) restores the default
 handler ('''::unknown''' for global namespace, global unknown handler
 for all other namespaces).
 
+~~ C API
+
 Additionally, this TIP proposes adding two new public functions to the
 Tcl C-API to expose this functionality at the C-level. The proposed
 new functions are:
 
-| Tcl_Obj *Tcl_GetNamespaceUnknownHandler( Tcl_Interp*		interp,
-|					   Tcl_Namespace*	nsPtr);
+| Tcl_Obj *Tcl_GetNamespaceUnknownHandler(Tcl_Interp *interp,
+|                                         Tcl_Namespace *nsPtr);
 
-Returns the unknown command handler registered for the given namespace, or
-NULL if none is.
+Returns the current unknown command handler registered for the given
+namespace, or NULL if none is.
 
-| int Tcl_SetNamespaceUnknownHandler(      Tcl_Interp*		interp,
-|					   Tcl_Namespace*	nsPtr,
-|					   Tcl_Obj*		handlerPtr);
+| int Tcl_SetNamespaceUnknownHandler(Tcl_Interp *interp,
+|                                    Tcl_Namespace *nsPtr,
+|                                    Tcl_Obj *handlerPtr);
 
 Sets the unknown command handler for the namespace, or resets it to the
-default if handlerPtr is NULL or an empty list.
+default if ''handlerPtr'' is NULL or an empty list.
+
+~~ Consequences
 
 As a final note, there is a useful side-effect to always resolving the
 unknown handler itself in the current namespace, in that an unknown
@@ -184,9 +188,8 @@ which an unknown command is invoked. To illustrate:
 
 ~ Reference Implementation
 
-A reference implementation is available attached to Patch 958222 on the Tcl project at sourceforge.net:
-
-http://sourceforge.net/tracker/index.php?func=detail&aid=958222&group_id=10894&atid=310894
+A reference implementation is available attached to Patch 958222 on the Tcl project at SourceForge
+[http://sf.net/tracker/?func=detail&aid=958222&group_id=10894&atid=310894].
 
 The current patch is called tip181-4.patch
 
