@@ -1,13 +1,14 @@
-TIP:		250
-Title:		Efficient Access to Namespace Variables
-Version:	$Revision: 1.1 $
-Author:		Will Duquette <will@wjduquette.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	19-Jun-2005
-Post-History:	
+TIP:            250
+Title:          Efficient Access to Namespace Variables
+Version:        $Revision: 1.2 $
+Author:         Will Duquette <will@wjduquette.com>
+Author:         miguel sofer <msofer@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jun-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -28,7 +29,7 @@ of the instance namespace:
 
 | upvar ${selfns}::myvar myvar
 
-The fully-qualified variable name, "${selfns}::myvar", must be
+The fully-qualified variable name "${selfns}::myvar" must be
 recomputed each time the method is called, which is a significant
 source of method-call overhead.  This TIP proposes a mechanism for
 avoiding many of these costs while also allowing people to write
@@ -38,9 +39,16 @@ With '''namespace upvar''', the code would look like this:
 
 | namespace upvar $selfns myvar myvar
 
-In this case, both "$selfns" and "myvar" can be resident in the
-strings table, allowing for better byte-compilation and improved
-efficiency.
+The speed gains come from:
+   * it avoids building and then destroying a Tcl_Obj for the fully qualified name
+   * it avoids parsing the fully qualified name into its namespace/tail components, creating and then destroying the corresponding Tcl_Objs
+   * it may reuse a cached namespace in the internal representation of ${selfns}
+
+In addition, the programmer's intention is easier to see in a command
+| namespace upvar $selfns var1 var1 var2 var2 var3 var3
+than in the currently necessary
+| upvar 0 ${selfns}::var1 var1 ${selfns}::var2 var2 ${selfns}::var3 var3
+where the fact that all variables come from the same namespace is not so obvious.
 
 ~ Specification
 
@@ -50,11 +58,10 @@ The syntax of the new subcommand is as follows:
 
 The semantics are identical to the following '''upvar''' call:
 
- > '''upvar''' ''ns''::''otherVar'' ''myVar'' ?''ns''::''otherVar''
+ > '''upvar 0''' ''ns''::''otherVar'' ''myVar'' ?''ns''::''otherVar''
    ''myVar''...?
 
-That is, the variable ''otherVar'' in namespace ''ns'' is aliased to
-variable ''myVar'' in the local scope.
+That is, the variable ''otherVar'' in namespace ''ns'' (as resolved from the local scope) is aliased to variable ''myVar'' in the local scope.
 
 ~ Reference Implementation
 
