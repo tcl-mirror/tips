@@ -1,0 +1,66 @@
+TIP:		250
+Title:		Efficient Access to Namespace Variables
+Version:	$Revision: 1.1 $
+Author:		Will Duquette <will@wjduquette.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	19-Jun-2005
+Post-History:	
+
+~ Abstract
+
+This TIP proposes a new '''namespace''' subcommand, '''namespace
+upvar''', to efficiently alias namespace variables into the current
+scope.
+
+~ Rationale
+
+A pure-Tcl object system which defines a namespace to contain the
+variables for each object instance must either duplicate the object's
+method code in each instance namespace, or define the method code such
+that it exists in one namespace but accesses data from another.  The
+Snit package [http://www.wjduquette.com/snit] does the latter.
+Instance variables are declared automatically within each method body
+using code like this, where "selfns" is a variable containing the name
+of the instance namespace:
+
+| upvar ${selfns}::myvar myvar
+
+The fully-qualified variable name, "${selfns}::myvar", must be
+recomputed each time the method is called, which is a significant
+source of method-call overhead.  This TIP proposes a mechanism for
+avoiding many of these costs while also allowing people to write
+clearer code.
+
+With '''namespace upvar''', the code would look like this:
+
+| namespace upvar $selfns myvar myvar
+
+In this case, both "$selfns" and "myvar" can be resident in the
+strings table, allowing for better byte-compilation and improved
+efficiency.
+
+~ Specification
+
+The syntax of the new subcommand is as follows:
+
+ > '''namespace upvar''' ''ns otherVar myVar'' ?''otherVar myVar'' ...?
+
+The semantics are identical to the following '''upvar''' call:
+
+ > '''upvar''' ''ns''::''otherVar'' ''myVar'' ?''ns''::''otherVar''
+   ''myVar''...?
+
+That is, the variable ''otherVar'' in namespace ''ns'' is aliased to
+variable ''myVar'' in the local scope.
+
+~ Reference Implementation
+
+A reference implementation of '''namespace upvar''' is to be provided
+by Miguel Sofer.
+
+~ Copyright
+
+This document has been placed in the public domain.
