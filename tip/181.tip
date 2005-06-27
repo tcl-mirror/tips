@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -73,7 +73,8 @@ subcommand of the '''namespace''' command.
 
  > '''namespace unknown''' ?''commandPrefix''?
 
-The subcommand would accept either zero or one argument(s).  If no 
+The subcommand would accept either zero or one argument(s), and is similar
+in interface to the '''interp bgerror''' command added by [221].  If no 
 arguments are given, the command returns the handler for the current
 namespace. The optional argument ''commandPrefix'' is a
 command (strictly a prefix list consisting of a command and optional
