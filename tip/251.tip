@@ -1,0 +1,68 @@
+TIP:		251
+Title:		Enhance the 'list' Command
+Author:		Brian Schmidt <contact@schmidtsrus.net>
+Version:	$Revision: 1.1 $
+Type:		Project
+State:		Draft
+Vote:		Pending
+Created:	28-Jun-2005
+Tcl-Version:	8.5
+Post-History:	
+
+~Abstract
+
+This TIP proposes enhancing the existing '''list''' command to serve
+as a top-level command container for all the related list commands
+that have proliferated over time, as well as future new list-based
+commands.
+
+~Rationale
+
+There are numerous top-level commands for lists already. This command
+would centralize them, making it easier for new users to see all the
+related list commands.  The enhanced 'list' would be consistent with
+the new top-level commands '''chan''' [208] and '''dict''' [111], as
+well as the existing '''string''' and '''file''' commands.
+
+~Specification
+
+A new command '''list''' will be added with the following syntax:
+
+|list append     ;equivalent to lappend
+|list index      ;equivalent to lindex
+|list insert     ;equivalent to linsert
+|list create     ;equivalent to list
+|list length     ;equivalent to llength
+|list range      ;equivalent to lrange
+|list replace    ;equivalent to lreplace
+|list search     ;equivalent to lsearch
+|list set        ;equivalent to lset
+|list sort       ;equivalent to lsort
+|list concat     ;equivalent to concat
+|list join       ;equivalent to join
+
+Each represents the existing command that is commented. The arguments
+to each would remain what the current command takes.
+
+Note that '''split''' is not included as it ideally should be part of
+the '''string''' top-level command as it operates on a string and
+returns a list (i.e. '''string split''' would be like the current
+'''split''' command, see [252]).
+
+The old commands could then potentially be deprecated:
+
+|lappend
+|lindex
+|linsert
+|llength
+|lrange
+|lreplace
+|lsearch
+|lset
+|lsort
+|concat
+|join
+
+~Copyright
+
+This document has been placed in the public domain.
