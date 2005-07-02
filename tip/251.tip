@@ -1,7 +1,7 @@
 TIP:		251
 Title:		Enhance the 'list' Command
 Author:		Brian Schmidt <contact@schmidtsrus.net>
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Type:		Project
 State:		Draft
 Vote:		Pending
@@ -20,7 +20,7 @@ commands.
 
 There are numerous top-level commands for lists already. This command
 would centralize them, making it easier for new users to see all the
-related list commands.  The enhanced 'list' would be consistent with
+related list commands.  The enhanced '''list''' would be consistent with
 the new top-level commands '''chan''' [208] and '''dict''' [111], as
 well as the existing '''string''' and '''file''' commands.
 
