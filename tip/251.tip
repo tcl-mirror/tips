@@ -1,6 +1,6 @@
 TIP:            251
 Title:          Enhance the 'list' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Brian Schmidt <contact@schmidtsrus.net>
 Author:         Brian Schmidt <contact@SchmidtsRUs.net>
 State:          Draft
@@ -68,7 +68,7 @@ The old commands could then potentially be deprecated:
 
 Incompatability with the existing list command could potentially be solved by allowing the list command *without* one of the defined options to be shorthand for the new "list create ..." command option.
 If the first argument to the new list command is not one of the known options then "list create ..." is assumed by default.
-For example,
+|For example,
 list {my list}
 
 would be equivalent to:
