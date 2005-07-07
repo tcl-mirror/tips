@@ -1,15 +1,16 @@
-TIP:		251
-Title:		Enhance the 'list' Command
-Author:		Brian Schmidt <contact@schmidtsrus.net>
-Version:	$Revision: 1.2 $
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	28-Jun-2005
-Tcl-Version:	8.5
-Post-History:	
+TIP:            251
+Title:          Enhance the 'list' Command
+Version:        $Revision: 1.3 $
+Author:         Brian Schmidt <contact@schmidtsrus.net>
+Author:         Brian Schmidt <contact@SchmidtsRUs.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Jun-2005
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP proposes enhancing the existing '''list''' command to serve
 as a top-level command container for all the related list commands
@@ -62,6 +63,31 @@ The old commands could then potentially be deprecated:
 |lsort
 |concat
 |join
+
+~Incompatabilities
+
+Incompatability with the existing list command could potentially be solved by allowing the list command *without* one of the defined options to be shorthand for the new "list create ..." command option.
+If the first argument to the new list command is not one of the known options then "list create ..." is assumed by default.
+For example,
+list {my list}
+
+would be equivalent to:
+list create {my list}
+
+Thus I think the only existing scripts that would break would be those that actually utilize the list command (and have at least 2 arguments?) and that have as their first argument one of the new list command's options.  Only code with lists defined exactly as follows would break:
+
+list append ?arg...
+list index ?arg...
+list insert ?arg...
+list create ?arg...
+list length ?arg...
+list range ?arg...
+list replace ?arg...
+list search ?arg...
+list set ?arg...
+list sort ?arg...
+list concat ?arg...
+list join ?arg... 
 
 ~Copyright
 
