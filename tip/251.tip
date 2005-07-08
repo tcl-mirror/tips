@@ -1,6 +1,6 @@
 TIP:            251
 Title:          Enhance the 'list' Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brian Schmidt <contact@schmidtsrus.net>
 Author:         Brian Schmidt <contact@SchmidtsRUs.net>
 State:          Draft
@@ -66,16 +66,18 @@ The old commands could then potentially be deprecated:
 
 ~Incompatabilities
 
-Incompatability with the existing list command could potentially be solved by allowing the list command *without* one of the defined options to be shorthand for the new "list create ..." command option.
-If the first argument to the new list command is not one of the known options then "list create ..." is assumed by default.
+Incompatability with the existing list command could potentially be solved by allowing the list command ''without'' one of the defined options to be shorthand for the new '''list create''' command option.
+If the first argument to the new list command is not one of the known options then '''list create''' is assumed by default.
 
 For example,
-list {my list}
+
+|list {my list}
 
 would be equivalent to:
-list create {my list}
 
-Thus I think the only existing scripts that would break would be those that actually utilize the list command (and have at least 2 arguments?) and that have as their first argument one of the new list command's options.  Only code with lists defined exactly as follows would break:
+|list create {my list}
+
+Thus I think the only existing scripts that would break would be those that actually utilize the '''list''' command (and have at least 2 arguments?) and that have as their first argument one of the new list command's options.  Only code with lists defined exactly as follows would break:
 
 |list append ?arg...
 |list index ?arg...
