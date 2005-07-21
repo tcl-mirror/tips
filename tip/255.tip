@@ -1,6 +1,6 @@
 TIP:		255
 Title:		Add 'min' and 'max' [expr] Functions
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Jeff Hobbs <jeffh@activestate.com>
 State:		Draft
 Type:		Project
@@ -26,7 +26,7 @@ of arguments.
 
 The '''min''' and '''max''' functions shall be created using Tcl
 commands (in a namespace such all namespaces will pick them up by
-default) in the new 8.5 '''expr''' function style. They will take one
+default) in the new 8.5 '''expr''' function style [232]. They will take one
 or more numeric arguments (of any valid numeric type) and return the
 minimum or maximum value of those numbers (depending on which function
 was invoked).
