@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -45,7 +45,7 @@ Recommended specification:
 The '''-interp''' option takes the place of the optional final
 ''interp'' argument.
 
-The '''-package''' option replaces the optional ''packageName'' argument.  The user specifies just the partial function name without the "_Init" or "_SafeInit", as before.  The function is called with the Tcl interpreter to initialize as the sole argument.  If this option is not specified, no Init call is made.  This contrasts with the old variation, where the package name was inferred from the library filename and always called.  The purpose is to allow '''load''' to become a more general command.
+The '''-package''' option replaces the optional ''packageName'' argument.  The user specifies just the partial function name without the "_Init" or "_SafeInit", as before.  The function is called with the Tcl interpreter to initialize as the sole argument.  If this option is not specified, the name is inferred from the filename.  If '''-function''' is specified, the Init call is not made.
 
 The '''-function''' option takes a C function name to find the symbol
 of (via dlsym(), GetProcAddress(), or related function).  If
