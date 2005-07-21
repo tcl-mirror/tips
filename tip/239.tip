@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -86,6 +86,10 @@ Not all platforms may support library loading to a degree required for this TIP 
 The use of '''--''' as a option end switch was debated as unnecessary since there is only one fixed argument.  JH likes the use of it for the completeness it gives the use of switches.
 
 The '''load''' command will determine the use of the new form by checking if more than one argument is given and the first argument starts with a '''-'''.  This should not affect any existing extensions, as dynamic library filenames beginning with '''-''' are rare.
+
+Here is a reference to Perl's dynamic library loading functionality:
+
+http://aspn.activestate.com/ASPN/Perl/Products/ActivePerl/5.8/lib/DynaLoader.html
 
 ~ Examples
 
