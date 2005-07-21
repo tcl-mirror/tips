@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -36,6 +36,7 @@ Recommended specification:
  > '''load''' ?'''-function''' ''funcName''? ?'''-interp'''
    ''interp''?  ?'''-call''' ''initName''? ?'''-keeplibrary'''?
    ?'''--'''? ''fileName|libref''
+
  > returns library pointer reference value
 
 The '''-interp''' option takes the place of the optional final
