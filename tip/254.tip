@@ -1,0 +1,58 @@
+TIP:		254
+Title:		New Types for Tcl_LinkVar
+Author:		Rene Meyer <rene.meyer@sturmit.de>
+Version:	$Revision: 1.1 $
+Type:		Project
+State:		Draft
+Vote:		Pending
+Created:	21-Jul-2005
+Tcl-Version:	8.5
+Post-History:	
+
+~ Abstract
+
+Currently only a limited set of types of C variable may be linked to
+using Tcl_LinkVar. This TIP proposes extending this to cover all the
+basic numeric C types.
+
+~ Rationale
+
+With the current implementation it is not possible to link the
+following types directly to a Tcl variable, making it much more
+difficult to couple such variables to the Tcl level (compared with
+'''int''' or '''double''' variables). This TIP fixes this, making it
+easier to link C variables and embedded Tcl code.
+
+ * '''char'''
+
+ * '''unsigned char'''
+
+ * '''short'''
+
+ * '''unsigned short'''
+
+ * '''unsigned int'''
+
+ * '''long'''
+
+ * '''unsigned long'''
+
+ * '''float'''
+
+There will be no impact on current applications.
+
+~ Specification
+
+The new types are inserted as new '''#define TCL_LINK_*''' statements
+in the ''tcl.h'' header file and in the '''switch''' statements in the
+''Tcl_Link'' functions.
+
+The documentation of ''Tcl_*Link*'' should mention the new types.
+
+~ Reference Implementation
+
+A reference implementation will be uploaded to SourceForge soon.
+
+~ Copyright
+
+This document has been placed in the public domain.
