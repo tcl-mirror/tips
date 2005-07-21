@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -68,8 +68,8 @@ new in 8.5):
 
 New specification:
 
- > '''unload''' ?'''-interp''' ''interp''? ?'''-call'''
-   ''uninitName''? ?'''-keeplibrary'''? ?'''--'''?
+ > '''unload''' ?'''-interp''' ''interp''? ?'''-package'''
+   ''packageName''? ?'''-keeplibrary'''? ?'''--'''?
    ''fileName||libref''
 
 I removed the ''-nocomplain'' option.  The user should simply '''catch''' the command if they wish to suppress the types of errors that unload would throw.
