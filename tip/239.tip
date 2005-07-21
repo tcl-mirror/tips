@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -33,18 +33,19 @@ Current specification:
 
 Recommended specification:
 
- > '''load''' ?'''-function''' ''funcName''? ?'''-interp'''
-   ''interp''?  ?'''-call''' ''initName''? ?'''-keeplibrary'''?
-   ?'''--'''? ''fileName|libref''
+ > '''load''' ?'''-function''' ''funcName''?
+   ?'''-interp''' ''interp''? ?'''-call''' ''list''?
+   ?'''-package''' ''packageName''? ?'''-keeplibrary'''? ?'''--'''?
+   ''fileName||libref''
 
  > returns library pointer reference value
 
 The '''-interp''' option takes the place of the optional final
 ''interp'' argument.
 
-The '''-call''' option replaces the ''packageName'' argument.  The
-user specifies just the partial function name without the "_Init" or
-"_SafeInit", as before.  The function is called without parameters.  If the user specifies {}, no init call will be made.
+The '''-package''' option replaces the optional ''packageName'' argument.  The user specifies just the partial function name without the "_Init" or "_SafeInit", as before.  The function is called with the Tcl interpreter to initialize as the sole argument.  If this option is not specified, no Init call is made.  This contrasts with the old variation, where the package name was inferred from the library filename and always called.  The purpose is to allow '''load''' to become a more general command.
+
+The '''-call''' option is a secret option that does magical things.
 
 The '''-function''' option takes a C function name to find the symbol
 of (via dlsym(), GetProcAddress(), or related function).  If
@@ -56,6 +57,8 @@ upon success, it remains open until a call to '''unload''' is made.
 The '''-keeplibrary''' option set a flag to indicate the library should not be unloaded by Tcl.  This is needed in cases where the library may register functions (eg, via C's '''atexit''') that are needed beyond the lifetime of Tcl finalization.  This should only be used when necessary.
 
 An error is thrown if the library cannot be loaded, otherwise a library pointer reference value is returned (unless '''-function''' is used).
+
+'''load''' could take a library pointer reference as an argument for repeated '''-function''' requests.
 
 I will also recommend obsoleting the existing '''unload''' call to use
 this new functional spec style.  Current spec, to be unsupported (it's
@@ -82,9 +85,7 @@ Not all platforms may support library loading to a degree required for this TIP 
 
 The use of '''--''' as a option end switch was debated as unnecessary since there is only one fixed argument.  JH likes the use of it for the completeness it gives the use of switches.
 
-The '''load''' command will determine the use of the new form by checking if more than one argument is given and the first argument starts with a '''-'''.
-
-It was mentioned that '''load''' should return a token or command that can then be used to invoke further commands.  This may assist in adding future ffidl-like functionality, but it may muddle the cleanliness of the API.
+The '''load''' command will determine the use of the new form by checking if more than one argument is given and the first argument starts with a '''-'''.  This should not affect any existing extensions, as dynamic library filenames beginning with '''-''' are rare.
 
 ~ Examples
 
