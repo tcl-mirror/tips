@@ -1,6 +1,6 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
@@ -34,15 +34,16 @@ Current specification:
 Recommended specification:
 
  > '''load''' ?'''-function''' ''funcName''? ?'''-interp'''
-   ''interp''?  ?'''-call''' ''initName''? ?'''--'''? ''fileName''
+   ''interp''?  ?'''-call''' ''initName''? ?'''-keeplibrary'''?
+   ?'''--'''? ''fileName|libref''
+ > returns library pointer reference value
 
 The '''-interp''' option takes the place of the optional final
 ''interp'' argument.
 
 The '''-call''' option replaces the ''packageName'' argument.  The
 user specifies just the partial function name without the "_Init" or
-"_SafeInit", as before.  If the user specifies {}, no init call will
-be made.
+"_SafeInit", as before.  The function is called without parameters.  If the user specifies {}, no init call will be made.
 
 The '''-function''' option takes a C function name to find the symbol
 of (via dlsym(), GetProcAddress(), or related function).  If
@@ -51,7 +52,9 @@ ignored and the return value is the pointer location to the function,
 or 0 if it is not found.  When this is used, the library is not closed
 upon success, it remains open until a call to '''unload''' is made.
 
-An error is thrown if the library cannot be loaded.
+The '''-keeplibrary''' option set a flag to indicate the library should not be unloaded by Tcl.  This is needed in cases where the library may register functions (eg, via C's '''atexit''') that are needed beyond the lifetime of Tcl finalization.  This should only be used when necessary.
+
+An error is thrown if the library cannot be loaded, otherwise a library pointer reference value is returned (unless '''-function''' is used).
 
 I will also recommend obsoleting the existing '''unload''' call to use
 this new functional spec style.  Current spec, to be unsupported (it's
@@ -63,7 +66,7 @@ New specification:
 
  > '''unload''' ?'''-interp''' ''interp''? ?'''-call'''
    ''uninitName''? ?'''-keeplibrary'''? ?'''--'''?
-   ''fileName''
+   ''fileName||libref''
 
 I removed the ''-nocomplain'' option.  The user should simply '''catch''' the command if they wish to suppress the types of errors that unload would throw.
 
@@ -92,6 +95,8 @@ shipped in package:
 |     load -call {} $dir/libopenssl.so
 | }
 | load $dir/libtls1.5.so
+
+This would handle the extracting of dependent libraries in starkits automatically (and their subsequent disposal).
 
 Another example would be Oratcl 4.3's use of dynamic Oracle library
 callouts, which it has to do by hand due to the lack of this
