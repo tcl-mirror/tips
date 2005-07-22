@@ -1,13 +1,13 @@
-TIP:		254
-Title:		New Types for Tcl_LinkVar
-Author:		Rene Meyer <rene.meyer@sturmit.de>
-Version:	$Revision: 1.1 $
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	21-Jul-2005
-Tcl-Version:	8.5
-Post-History:	
+TIP:            254
+Title:          New Types for Tcl_LinkVar
+Version:        $Revision: 1.2 $
+Author:         Rene Meyer <rene.meyer@sturmit.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Jul-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -51,7 +51,8 @@ The documentation of ''Tcl_*Link*'' should mention the new types.
 
 ~ Reference Implementation
 
-A reference implementation will be uploaded to SourceForge soon.
+A reference implementation is available as Patch #1242844 on
+SourceForge[http://sf.net/support/tracker.php?aid=1242844].
 
 ~ Copyright
 
