@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -440,7 +440,7 @@ addition of four new functions to Tcl's public stub table.
      invocation of '''Tcl_SetChannelError*''' again stored information
      in O.
 
- > > The ''msg' argument is not allowed to be NULL.
+ > > The ''msg'' argument is not allowed to be NULL. Nor are the ''chan'' and ''ip'' arguments.
 
  > > The refCount of the returned information is not touched. The
      reference previously held by the channel or interpreter is now
