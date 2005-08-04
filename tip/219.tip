@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -78,11 +78,11 @@ are:
  * '''create''' ''mode cmdprefix''
 
  > This subcommand creates a new script level channel using the
-   command prefix ''cmdprefix'' as its handler. The API this handler
-   has to provide is specified below, in the section "Command Handler
-   API". The handle of the new channel is returned as the result of
-   the command, and the channel is open. Use the regular '''close'''
-   command to remove the channel.
+   command prefix ''cmdprefix'' as its handler. The ''cmdprefix''
+   has to be a list. The API this handler has to provide is specified
+   below, in the section "Command Handler API". The handle of the new
+   channel is returned as the result of the command, and the channel
+   is open. Use the regular '''close''' command to remove the channel.
 
  > The argument ''mode'' specifies if the channel is opened for
    reading, writing, or both. It is a list containing any of the
@@ -128,6 +128,10 @@ that has to support the following subcommands, as listed below. Note
 that the term ''ensemble'' is used to generically describe all command
 (prefixes) which are able to process subcommands. This TIP is ''not''
 tied to the recently introduced 'namespace ensemble's.
+
+Of the available methods the handler '''has to''' support
+'''initialize''', '''finalize''', and '''watch''', always.
+The other methods are optional.
 
  * '''initialize''' ''channel mode''
 
@@ -353,12 +357,8 @@ tied to the recently introduced 'namespace ensemble's.
    not wish to be notified of any events. In other words, it has to
    disable event generation at the Tcl level.
 
- > The return value of the method is ignored.
-
- > Any error thrown by the method is ignored as well.
-
- > Any exception beyond ''error'', like ''break'', etc. is treated as
-   and converted to an error.
+ > Any return value of the method is ignored. This includes errors
+   thrown by the method, break, continue, and custom return codes.
 
  > The equivalent C-level function is ''Tcl_DriverWatchProc''.
 
