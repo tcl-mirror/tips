@@ -1,6 +1,6 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -424,7 +424,10 @@ addition of four new functions to Tcl's public stub table.
      have to be used by channel drivers wishing to pass regular Tcl
      error information to the generic layer of the I/O core.
 
- > > The refCount of ''msg'' is incremented by one.
+ > > The refCount of ''msg'' is unchanged when the functions had to
+     rewrite ''msg' per the safety precautions explained below, as a
+     properly modified copy of ''msg'' is stored, and not ''msg''
+     itself. Otherwise the refCount of ''msg'' is incremented by one.
 
  > void '''Tcl_GetChannelError'''       (Tcl_Channel ''chan'', Tcl_Obj** ''msg'')
 
@@ -470,10 +473,10 @@ pairs containing additional information about the error, like the
 the details of the error beyond the basic message.
 
 As a '''safety precaution''' any ''-level'' specification submitted by
-the driver will be stripped out of the options to prevent the driver
-from being able to force the user application into the execution of
-arbitrary multi-level returns, i.e. from arbitrarily changing the
-control-flow of the application itself.
+the driver and a non-zero will be rewritten to a value of ''0'' to
+prevent the driver from being able to force the user application into
+the execution of arbitrary multi-level returns, i.e. from arbitrarily
+changing the control-flow of the application itself. Analogously any ''-code'' specification with a non-zero value which is not ''error'' is rewritten to value ''1'' (i.e. ''error'').
 
 Below a list of driver functions, and which of the
 ''Tcl_SetChannelError*''' functions they are allowed to use.
