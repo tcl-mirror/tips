@@ -1,12 +1,12 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 State:          Draft
 Type:           Project
 Vote:           Pending
-Created:        14-Jan-2004
+Created:        14-Jan-2005
 Post-History:   
 Tcl-Version:    8.5
 
