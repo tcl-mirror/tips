@@ -1,13 +1,14 @@
-TIP:		249
-Title:		Unify Tcl's Parsing of Numbers
-Version:	$Revision: 1.1 $
-Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	13-Jun-2005
-Post-History:	
-Tcl-Version:	8.5
+TIP:            249
+Title:          Unify Tcl's Parsing of Numbers
+Version:        $Revision: 1.2 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+Author:         David S. Cargo <escargo@skypoint.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Jun-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -81,7 +82,7 @@ In the diagram, "Start" represents the start state of the machine.
 The leading and trailing whitespace that is allowed for all numbers
 is not diagrammed, for clarity.
 
-Non-final states of the machine are represented by small ovals.
+Intermediate states of the machine are represented by small ovals.
 Large rectangles represent final states, and are labeled with
 the type of number that will result.  Note that any number can
 optionally begin with a '+' or '-' character, which will not
@@ -102,7 +103,7 @@ merits further discussion.
     hold even if the string is presented to ''Tcl_GetDoubleFromObj'',
     which today interprets it as decimal.
 
- 3. A leading zero,followed by the letter 'X' (case insensitive) and a
+ 3. A leading zero, followed by the letter 'X' (case insensitive) and a
     string of hexadecimal digits is interpreted as a hexadecimal
     integer.  Again, the smallest representation needed is chosen.
 
