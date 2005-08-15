@@ -1,11 +1,11 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        09-Sep-2004
 Post-History:   
 Tcl-Version:    8.5
@@ -75,7 +75,7 @@ The Tcl Level API consists of two new subcommands added to the
 ensemble command 'chan' specified by TIP #208. The new subcommands
 are:
 
- * '''create''' ''mode cmdprefix''
+ * '''chan create''' ''mode cmdprefix''
 
  > This subcommand creates a new script level channel using the
    command prefix ''cmdprefix'' as its handler. The ''cmdprefix''
@@ -96,7 +96,7 @@ are:
    the section "Early versus Late Binding of the Handler Command" for
    more detailed explanations.
 
- * '''postevent''' ''channel eventspec''
+ * '''chan postevent''' ''channel eventspec''
 
  > This subcommand is for use by command handlers, it notifies the
    channel represented by ''channel'' that the event(s) listed in the
@@ -133,7 +133,7 @@ Of the available methods the handler '''has to''' support
 '''initialize''', '''finalize''', and '''watch''', always.
 The other methods are optional.
 
- * '''initialize''' ''channel mode''
+ * ''handlerCmd'' '''initialize''' ''channel mode''
 
  > This is the first call the command handler will receive for the
    given new ''channel''. It is his responsibility to set up any
@@ -182,7 +182,7 @@ The other methods are optional.
  > The method has to throw an error if the chosen mode is not
    supported by the handler command.
 
- * '''finalize''' ''channel''
+ * ''handlerCmd'' '''finalize''' ''channel''
 
  > The method is called when the channel was '''close'''d, and is the
    last call a handler can receive for the given ''channel''. This
@@ -205,7 +205,7 @@ The other methods are optional.
  > This method is not invoked if the creation of the channel was
    aborted during '''initialize'''.
 
- * '''read''' ''channel count''
+ * ''handlerCmd'' '''read''' ''channel count''
 
  > This method is ''optional''. It is called when the user requests
    data from a channel. ''count'' specifies how many ''bytes'' have
@@ -227,7 +227,7 @@ The other methods are optional.
 
  > The equivalent C-level function is ''Tcl_DriverInputProc''.
 
- * '''write''' ''channel data''
+ * ''handlerCmd'' '''write''' ''channel data''
 
  > This method is ''optional''. It is called when the user writes data
    to the channel. Note that the ''data'' are bytes, not characters
@@ -253,7 +253,7 @@ The other methods are optional.
 
  > The equivalent C-level function is ''Tcl_DriverOutputProc''.
 
- * '''seek''' ''channel offset base''
+ * ''handlerCmd'' '''seek''' ''channel offset base''
 
  > This method is ''optional''. It is responsible for the handling of
    seek and tell requests on the channel. If it is not supported then
@@ -297,7 +297,7 @@ The other methods are optional.
  > The equivalent C-level functions are ''Tcl_DriverSeekProc'', and
    ''Tcl_DriverWideSeekProc'' (where possible).
 
- * '''configure''' ''channel option value''
+ * ''handlerCmd'' '''configure''' ''channel option value''
 
  > This method is ''optional''. It is for writing the type specific
    options.
@@ -315,7 +315,7 @@ The other methods are optional.
 
  > The equivalent C-level function is ''Tcl_DriverSetOptionProc''.
 
- * '''cget''' ''channel option''
+ * ''handlerCmd'' '''cget''' ''channel option''
 
  > This method is ''optional''. It is used when reading a single type
    specific option. If this method is supported then the method
@@ -329,7 +329,7 @@ The other methods are optional.
 
  > The equivalent C-level function is ''Tcl_DriverGetOptionProc''.
 
- * '''cgetall''' ''channel''
+ * ''handlerCmd'' '''cgetall''' ''channel''
 
  > This method is ''optional''. It is used for reading all type
    specific options. If this method is supported then the method
@@ -347,7 +347,7 @@ The other methods are optional.
 
  > The equivalent C-level function is ''Tcl_DriverGetOptionProc''.
 
- * '''watch''' ''channel eventspec''
+ * ''handlerCmd'' '''watch''' ''channel eventspec''
 
  > This methods notifies the Tcl level that the specified channel is
    interesting in the events listed in the ''eventspec''. This is a
@@ -366,7 +366,7 @@ The other methods are optional.
    event not listed in the last call to this method will cause an
    error.
 
- * '''blocking''' ''channel mode''
+ * ''handlerCmd'' '''blocking''' ''channel mode''
 
  > This method is ''optional''. It handles changes to the blocking
    mode of the channel. The ''mode'' is a boolean flag. True means
