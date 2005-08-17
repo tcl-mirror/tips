@@ -1,19 +1,18 @@
-TIP:		248
-Title:		Distribute Tile with Tk
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Donal K. Fellows <dkf@users.sf.net>
-Created:	08-Jun-2005
+TIP:            248
+Title:          Distribute Tile with Tk
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <dkf@users.sf.net>
+Author:         Jeff Hobbs <jeffh@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Jun-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes that all source distributions of Tk from 8.5 onwards
-should include a distribution of Tile, and recommends that all binary
-distributions follow suit.
+This TIP proposes that the tile themed widget set be integrated into Tk from 8.5 onwards as the static package Ttk.
 
 ~ Rationale
 
@@ -21,7 +20,7 @@ It is well known that Tk has been lacking in graphical glitz for a few
 years; GUI standards have moved on whereas Tk has remained largely
 static. The core of Tk is still great (e.g. its resizing behaviour is
 second to none) but fancy shaded buttons are what modern users expect.
-But due to the sterling work of Joe English and others, the Tile
+Through the sterling work of Joe English and others, the Tile
 package is available which offers a new set of widgets for use on top
 of the Tk foundation, and which provide that extra graphical polish by
 leveraging underlying graphics layers (e.g. the Luna theming engine on
@@ -30,10 +29,7 @@ we need, so we should ensure that every user of Tk can take advantage
 of these new capabilities (universality is important) through updating
 our distribution strategy.
 
-This TIP does not propose managing Tile under the same rules as Tk, as
-it's still a software project in considerably more flux than the
-Tcl/Tk core. (Nor does this TIP preclude such action being taken in
-the future.)
+This TIP acknowledges that Tile is a project that is still in development, but the current state is stable enough for inclusion and will encourage wider use.  It is expected that more changes will come later.  This TIP proposes integration of Tile into the Tk core as the Ttk package.  It would be part of the standard core, but have a version different from the overarching Tk (much as Tcl has the http package).  This will allow for minor user-level changes and continued rapid development as part of the larger Tk framework (eg, Tk patchlevel releases can have minor version bumps to the Ttk package).
 
 Note that although the Tile widgets are ''mostly'' drop-in
 replacements for the Tk core widgets, they are not perfect stand-ins
@@ -43,29 +39,22 @@ widgets with Tile's.
 
 ~ Proposed Changes
 
- 1. Distributions of the Tk source tree made by the TCT are to include
-    a source distribution of the Tile package in the subdirectory
-    ''tile'' of the main distribution directory (though we might want
-    to also provide a lean-and-mean distribution as well.) This
-    directory naming policy has been chosen by analogy with the
-    ''libtommath'' distribution in Tcl 8.5.
+ 1. Full integration of the Tile package into the Tk source tree.
+    This would include renaming of source files to fit inside the
+    Tk directory structure.  A static package named Ttk will
+    signify their availability and specific version.
 
  2. To facilitate mixing of widgets between Tk and Tile, all Tk's
     widget creation commands are to be ''additionally'' declared in
     the '''::tk''' namespace and [['''namespace export''']]ed from
-    there.
+    there.  Allowing users to mix class Tk and themed Ttk widgets
+    improves the overall richness and flexibility of Tk applications.
 
-~ Recommendations for Distributors of Binary Versions of Tk
+~ Discussion
 
-This TIP strongly recommends that binary distributors install the Tile
-package at the same time as the Tk package. It does ''not'' require it
-though; there are too many strange edge conditions and complicating
-factors (e.g. the difference between Tile in tclkit and Tile in a
-starkit, or where an application is locked to a particular
-distribution of Tcl/Tk) outside the reasonable scope of this TIP. But
-generally-programmable distributions of Tk really should minimally
-have a way of getting hold of the Tile package, preferably by just
-saying the usual '''package require''', of course.
+See the discussion in the thread at http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/2761205.
+
+Tile is expected to continue as an 8.4-compatible package while 8.4 is still the standard stable version.
 
 ~ Copyright
 
