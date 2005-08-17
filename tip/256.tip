@@ -1,0 +1,82 @@
+TIP:		256
+Title:		Implement tabular and wordprocessor style tabbing
+Version:	$Revision: 1.1 $
+Author:		Vince Darley <vince@santafe.edu>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	12-Aug-2005
+Post-History:	
+
+~ Abstract
+
+There are two common style of tabbing in the computer world: that used
+for a regular table of information, and that used by a
+word-processor/text editor. This TIP proposes to add support for the
+latter to Tk's '''text''' widget.
+
+~ Overview
+
+Tk's '''text''' widget has historically only supported a ''tabular''
+style of tabbing, where the n'th tab character is associated
+explicitly with the n'th tab stop (irrespective of whether that stop
+is to the left or right of the current x-position - if that stop is to
+the left then a single space is inserted as a fallback). A
+''wordprocessor'' (or typewriter) has a different style in which a tab
+character is associated with the next tab stop to the right of the
+current x-position.
+
+This TIP proposes to add wordprocessor-style tabbing to Tk's
+'''text''' widget.
+
+Tk 8.4 only supports tabular tabbing (although this is not clearly
+documented at all). Tk 8.5 at present actually only supports
+wordprocessor style tabbing (and fixed a bunch of other bugs present
+in Tk 8.4's tab handling). This behaviour change was an inadvertent
+result of fixing bugs in the code without the correct behaviour being
+very clearly specified. Hence this TIP will restore the old behaviour
+(minus bugs) as the default, and add the option of the new
+wordprocessor style behaviour.
+
+~ Proposal
+
+The '''-tabs''' configuration option to the '''text''' widget and to
+'''text''' widget tags takes a list of arguments. These arguments are
+typically positions or modifiers (left, right, etc) representing the
+tab stops. Tk will now interpret the first element of the list
+specially. If that element is exactly '''wordprocessor''' or exactly
+'''tabular''' then it will specify that style of tabbing. If it is
+anything else it will be interpreted in the old way. The default style
+of tabbing (if no special first element is provided) will be
+'''tabular''' for compatibility with Tk 8.4. Neither style name may be
+abbreviated.
+
+Here's an example usage:
+
+|pack [text .t]
+|.t config -tab {0.5i 1.0i 1.5i 2.0i 2.5i 3.0i 3.5i 4.0i 4.5i}
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t insert end "a\tb\tc\tasdbcanasdasd\te\tf\tg\n"
+|.t tag configure wordprocessor \
+|        -tab {wordprocessor 0.5i 1.0i 1.5i 2.0i 2.5i 3.0i 3.5i 4.0i 4.5i}
+|.t tag add wordprocessor 3.0 5.0
+|.t tag configure tabular \
+|        -tab {tabular 0.5i 1.0i 1.5i 2.0i 2.5i 3.0i 3.5i 4.0i 4.5i}
+|.t tag add tabular 5.0 7.0
+
+~ Implementation
+
+An example implementation (minus tests and documentation) is available
+at SourceForge
+[https://sf.net/tracker/?func=detail&aid=1247835&group_id=12997&atid=112997].
+The bug report also contains some further discussion on this issue.
+
+~ Copyright
+
+This document has been placed in the public domain.
