@@ -1,6 +1,6 @@
 TIP:            248
-Title:          Distribute Tile with Tk
-Version:        $Revision: 1.2 $
+Title:          Integrate Tile into Tk as Ttk
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <dkf@users.sf.net>
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
@@ -12,7 +12,8 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes that the tile themed widget set be integrated into Tk from 8.5 onwards as the static package Ttk.
+This TIP proposes that the tile themed widget set be integrated into
+Tk from 8.5 onwards as the static package Ttk.
 
 ~ Rationale
 
@@ -29,7 +30,15 @@ we need, so we should ensure that every user of Tk can take advantage
 of these new capabilities (universality is important) through updating
 our distribution strategy.
 
-This TIP acknowledges that Tile is a project that is still in development, but the current state is stable enough for inclusion and will encourage wider use.  It is expected that more changes will come later.  This TIP proposes integration of Tile into the Tk core as the Ttk package.  It would be part of the standard core, but have a version different from the overarching Tk (much as Tcl has the http package).  This will allow for minor user-level changes and continued rapid development as part of the larger Tk framework (eg, Tk patchlevel releases can have minor version bumps to the Ttk package).
+This TIP acknowledges that Tile is a project that is still in
+development, but the current state is stable enough for inclusion and
+will encourage wider use.  It is expected that more changes will come
+later.  This TIP proposes integration of Tile into the Tk core as the
+Ttk package.  It would be part of the standard core, but have a
+version different from the overarching Tk (much as Tcl has the http
+package).  This will allow for minor user-level changes and continued
+rapid development as part of the larger Tk framework (eg, Tk
+patchlevel releases can have minor version bumps to the Ttk package).
 
 Note that although the Tile widgets are ''mostly'' drop-in
 replacements for the Tk core widgets, they are not perfect stand-ins
@@ -52,9 +61,11 @@ widgets with Tile's.
 
 ~ Discussion
 
-See the discussion in the thread at http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/2761205.
+See the discussion in the thread at
+http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/2761205.
 
-Tile is expected to continue as an 8.4-compatible package while 8.4 is still the standard stable version.
+Tile is expected to continue as an 8.4-compatible package while 8.4 is
+still the standard stable version.
 
 ~ Copyright
 
