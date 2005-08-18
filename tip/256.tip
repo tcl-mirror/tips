@@ -1,6 +1,6 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -31,8 +31,8 @@ current x-position.
 This TIP proposes to add wordprocessor-style tabbing to Tk's
 '''text''' widget.
 
-Tk 8.4 only supports tabular tabbing (although this is not clearly
-documented at all). Tk 8.5 at present actually only supports
+Tk 8.4 only supports tabular tabbing (except for the special ''-tabs {}'' case, which uses wordprocessor style 8-tabs), although none of this is not clearly
+documented at all. Tk 8.5 at present actually only supports
 wordprocessor style tabbing (and fixed a bunch of other bugs present
 in Tk 8.4's tab handling). This behaviour change was an inadvertent
 result of fixing bugs in the code without the correct behaviour being
@@ -74,7 +74,7 @@ The above behaves completely differently in Tk 8.4 and 8.5 at present.
 
 ~ Implementation
 
-An example implementation (minus tests and documentation) is available
+An example implementation, with documentation (but minus tests) is available
 at SourceForge
 [https://sf.net/tracker/?func=detail&aid=1247835&group_id=12997&atid=112997].
 The bug report also contains some further discussion on this issue.
