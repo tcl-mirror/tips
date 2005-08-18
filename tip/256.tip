@@ -1,6 +1,6 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -47,6 +47,8 @@ A new '''-tabstyle''' configuration option will be added to the '''text''' widge
 of tabbing will be
 '''tabular''' for compatibility with Tk 8.4. Neither style name may be
 abbreviated.
+
+As a result of this change, abbreviations such as '''-ta''' or '''-tab''' will become ambiguous and trigger an error.  This is considered a bug in the calling script (and a trivial thing to fix in such scripts).  Similar ambiguities have been introduced by TIPs in the past (e.g. with ''grid'').
 
 Here's an example usage:
 
