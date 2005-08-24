@@ -1,11 +1,11 @@
 TIP:            219
 Title:          Tcl Channel Reflection API
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        09-Sep-2004
 Post-History:   
 Tcl-Version:    8.5
