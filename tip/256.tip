@@ -1,6 +1,6 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -48,7 +48,7 @@ of tabbing will be
 '''tabular''' for compatibility with Tk 8.4. Neither style name may be
 abbreviated.
 
-As a result of this change, abbreviations such as '''-ta''' or '''-tab''' will become ambiguous and trigger an error.  This is considered a bug in the calling script (and a trivial thing to fix in such scripts).  Similar ambiguities have been introduced by TIPs in the past (e.g. with ''grid'').  It may actually be a useful ambiguity, in that it will alert script writers to the fact that new tabbing functionality is available, and a decision on desired tab style needs to be made.
+As a result of this change, abbreviations such as '''-ta''' or '''-tab''' will become ambiguous and trigger an error.  This is considered a bug in the calling script (and a trivial thing to fix in such scripts).  Similar ambiguities have been introduced by TIPs in the past (e.g. with ''grid'').  It may actually be a useful ambiguity, in that it will alert script writers to the fact that new tabbing functionality is available, and in particular that a decision on desired tab style needs to be made.
 
 In addition the strange difference in Tk 8.4 between an empty '''-tabs''' value and any other value will be changed for Tk 8.5 - it will use the '''-tabstyle''' option to determine how to interpret tabs under all circumstances, and use the '''-tabs''' list simply to determine the location of the tab stops.
 
@@ -78,7 +78,7 @@ The above behaves completely differently in Tk 8.4 and 8.5 at present.
 
 ~ Implementation
 
-An example implementation, with documentation (but minus tests) is available
+A full implementation, with documentation and tests is available
 at SourceForge
 [https://sf.net/tracker/?func=detail&aid=1247835&group_id=12997&atid=112997].
 The bug report also contains some further discussion on this issue.
