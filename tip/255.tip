@@ -1,11 +1,11 @@
 TIP:		255
 Title:		Add 'min' and 'max' [expr] Functions
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Jeff Hobbs <jeffh@activestate.com>
-State:		Draft
+State:		Accepted
 Type:		Project
 Tcl-Version:	8.5
-Vote:		In progress
+Vote:		Done
 Created:	21-Jul-2005
 Post-History:	
 
