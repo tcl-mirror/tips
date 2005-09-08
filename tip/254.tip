@@ -1,8 +1,8 @@
 TIP:            254
 Title:          New Types for Tcl_LinkVar
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Rene Meyer <rene.meyer@sturmit.de>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        21-Jul-2005
