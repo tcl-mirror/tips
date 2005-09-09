@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.33 $
+Version:        $Revision: 1.34 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -346,6 +346,7 @@ assigned one or more maintainers:
      doc/OpenTcp.3,
      doc/pid.n,
      generic/tclIOSock.c,
+     generic/tclIORChan.c,
      tests/pid.test,
      tests/winConsole.test,
      tests/winPipe.test,
