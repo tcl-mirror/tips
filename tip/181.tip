@@ -1,6 +1,6 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
@@ -117,6 +117,30 @@ namespaces are always searched before the unknown handler is called. This is
 so that resolution of the unknown handler itself can be performed, and so
 that the handler can be implemented without resorting to fully qualifying
 every command in it (e.g. having to use ::set).
+
+It also should be noted that the unknown handler that is called is for
+the namespace that ''invoked'' the unknown command, rather than the
+namespace which is the ''target'' of the call. There are a number of
+reasons for this decision: Firstly, there is no guarantee that the
+target namespace actually exists (this might be a reason why the command
+was not found). In that case, there would be no target namespace unknown
+handler, and we would be forced to fallback on the global default.
+Secondly, the mechanism is designed mainly for namespace authors who
+wish to implement some custom behaviour that affects the operation of
+their own code, e.g., custom auto-loading of missing commands, or more
+sophisticated command lookup procedures, etc. This suggests that the
+responsibility for dealing with unknown commands should fall on the
+originating namespace, rather than being placed on arbitrary other
+namespaces. It is believed that this is the most sensible, and the most
+predictable, behaviour for an unknown command mechanism. In addition,
+with the introduction of '''namespace ensemble''' [112] there now exists
+a flexible mechanism for handling the opposite behaviour, allowing the
+target namespace to handle requests for unknown commands (e.g.,
+forwarding requests). The author of the present TIP considers this to be
+the right division of responsibility, as ensembles should become the
+default mechanism for accessing public operations of external
+namespaces, and also an ensemble command can be guaranteed that the
+target namespace does indeed exist.
 
 The default unknown handler for the global namespace is a
 handler called '''::unknown'''.  The default handler for other namespaces
