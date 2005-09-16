@@ -1,13 +1,14 @@
-TIP:		162
-Title:		IPv6 Sockets for Tcl
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.2 $
-Author:		Rafael Martínez Torres <rafael.martinez@novagnet.com>
-Created:	23-Oct-2003
+TIP:            162
+Title:          IPv6 Sockets for Tcl
+Version:        $Revision: 1.3 $
+Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
+Author:         fredi <fredkor_ccm@hotmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        23-Oct-2003
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
