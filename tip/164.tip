@@ -1,14 +1,15 @@
-TIP:		164
-Title:		Add Rotate Subcommand to the Canvas Widget
-Version:	$Revision: 1.1 $
-Author:		Arjen Markus <arjen.markus@wldelft.nl>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	17-Nov-2003
-Post-History:	
-Tcl-Version:	8.5
-Keywords:	Tk, canvas
+TIP:            164
+Title:          Add Rotate Subcommand to the Canvas Widget
+Version:        $Revision: 1.2 $
+Author:         Arjen Markus <arjen.markus@wldelft.nl>
+Author:         Dimitrios Zachariadis <dzach@hol.gr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        17-Nov-2003
+Post-History:   
+Keywords:       Tk,canvas
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -71,6 +72,12 @@ transformations (i.e. with the translation components)?
 
 If we implement these from the start, we need to do only a little more
 work.
+
+~ Comments
+
+It might be useful to utilize the -anchor Tk option in all canvas items and add a new "-anchoroffset $x,$y" option, where $x $y be canvas distances relevant to the anchor position. Once defined, or with their default values, the -anchor and -anchoroffset values combined will provide the item's center, for placement and rotation purposes. Item sets, constituting symbols, can then be manipulated easily.
+
+It could probably be beneficial to add an -angle option (and an accomplanying -angleunit one), to persist a rotation angle in the configuration database. The presence of an angle value other than zero would help negate rotation, thus re-instating the item to its initial orientation.
 
 ~ Copyright
 
