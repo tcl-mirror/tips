@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 Author:         Don Porter <dgp@users.sf.net>
@@ -142,10 +142,10 @@ arbitrary precision.  Specifically:
     ''mp_int'' without needing to do any memory management.
 
  3. The ''internalRep'' union in the ''Tcl_Obj'' structure
-    shall be augmented with a ''ptrAndIntRep'' field.  This field shall
+    shall be augmented with a ''ptrAndLongRep'' field.  This field shall
     be a structure comprising a pointer and a long integer.  The
     pointer will designate an array of digits (the ''dp'' member of
-    an ''mp_int'' structure in ''libtommath'').  The integer
+    an ''mp_int'' structure in ''libtommath'').  The long integer
     will be an encoding comprising:
 
  > * one bit representing the sign of the number
@@ -173,10 +173,11 @@ arbitrary precision.  Specifically:
    be stored as the internal rep of a ''Tcl_Obj'', a copy of the
    ''mp_int'' value will be allocated from the heap, and a pointer
    to the copy stored in the pointer field.  A value of '''-1'''
-   in the integer field will indicate this unpacked storage option.
+   in the long integer field will indicate this unpacked storage option.
 
- 4. A new ''tclBignumType'' shall be added to the set of registered
-    object types; it will have the ''ptrAndLongRep'' internal
+ 4. A new ''tclBignumType'' (with type name '''bignum''') shall be
+    added to the internal set of object types; it will have the
+    ''ptrAndLongRep'' internal
     representation, and the usual four conversion routines.
 
  5. The ''wideIntRep'' field in the ''internalRep'' union shall remain
@@ -184,7 +185,7 @@ arbitrary precision.  Specifically:
     library that deals with it shall be removed.  The routines,
     ''Tcl_GetWideIntFromObj'', ''Tcl_SetWideIntObj'', and
     ''Tcl_NewWideIntObj'' shall remain as part of the API, but will
-    create objects with either ''integer'' or ''bignum'' internal
+    create objects with either ''int'' or ''bignum'' internal
     representations.
 
  6. The '''expr''' command shall be reworked so that all integer
