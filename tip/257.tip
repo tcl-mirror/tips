@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Will Duquette <will@wjduquette.com>
 Author:		Steve Landers <steve@digitalsmarties.com>
@@ -18,9 +18,10 @@ Obsoletes:	50
 ~ Abstract
 
 This TIP proposes adding OO support to the Tcl core, semantically
-based on XOTcl. The commands it defines will be in the ::oo namespace,
-which is not used by any current mainstream OO system, and it will be
-designed specifically to allow classic XOTcl to be built on top.
+based on XOTcl. The commands it defines will be in the '''::oo'''
+namespace, which is not used by any current mainstream OO system, and
+it will be designed specifically to allow classic XOTcl to be built on
+top.
 
 ~ Rationale and Basic Requirements
 
@@ -281,7 +282,7 @@ is the mechanism for defining classes for maximal public access.
 
 The above classes and metaclasses will be implemented such that they
 can be used as a foundation for the '''::xotcl::Class''' and
-'''::xotcl::Object'' metaclasses (see below for a discussion).
+'''::xotcl::Object''' metaclasses (see below for a discussion).
 
 ~~~ Inheritance
 
@@ -289,7 +290,7 @@ A class may wish to make use of the capabilities of
 '''oo::struct''' internally without exporting its methods.
 
 '''Therefore''', the inheritance mechanism should be extended such
-that the newly defined class can declare whether a parent classes's
+that the newly defined class can declare whether a parent class's
 methods should be exported or not.
 
 ~~~ Object Creation
@@ -524,448 +525,6 @@ subcommands take additional arguments.
 
  > '''self target'''
 
-~~ Core Objects
-
-The following classes are defined, and are the only pre-constructed
-objects in the core system.
-
-~~~ oo::object
-
- > '''oo::object'' ''name''
-
-Constructs a new object called ''name'' of class ''oo::object''; the
-object is represented as a command in the current scope.
-'''oo::object''' returns the fully qualified command name. If ''name''
-is the empty string, '''oo::object''' generates a name automatically
-that is guaranteed to not clash with any existing command name.
-
-The name of an object is also the name of a command in the form of an
-ensemble where the subcommands of the ensemble are the ''exported''
-method names of the object.
-
-The new object has two predefined non-exported methods: '''eval''' and
-'''variable'''.  Other subcommands and other behaviour can be added
-using '''oo::define'''.
-
-'''oo::object''' serves as the base class for all other '''oo::'''
-classes.
-
-~~~~ Methods
-
-The instances of '''oo::object''' (i.e. all objects and classes) have
-the following methods:
-
- eval: This non-exported method concatenates its arguments according
-   to the rules of '''concat''', and evaluates the resulting script in
-   the namespace associated with the object. The result of the script
-   evaluation is the result of the ''object'' '''eval''' method.
-
- > ''object'' '''eval''' ?''arg'' ''arg'' ...?
-
- variable: This non-exported method takes an arbitrary number of
-   ''unqualified'' variable names and binds the variable with that
-   name in the object's namespace to the same name in the current
-   scope. If an argument consists of a two-element list, the first
-   element is the name of the variable to bind in the object's
-   namespace, and the second element is the name of the variable to
-   bind in the current scope.
-
- > ''object'' '''variable''' ?''varName'' ''varName'' ...?
-
-~~~~ Unknown Method Handling
-
-When an attempt is made to invoke an unknown method on any object, the
-core then attempts to pass ''all'' the arguments (including the
-command name) to the public '''unknown''' method of the object. If no
-such method exists, an error message is generated. Instances of the
-core '''oo::object''' class do not have an '''unknown''' method by
-default.
-
-~~~ oo::class
-
-This class is the class of all classes (i.e. its instances are objects
-that manufacture objects according to a standard pattern). Note that
-'''oo::object''' is an instance of '''oo::class''', as is
-'''oo::class''' itself.
-
- > '''oo::class''' ''name'' ?''definition''?
-
-This creates a new class called ''name''; the class is an object in
-its own right (of class '''oo::class'''), and hence is represented as
-a command in the current scope. '''oo::class''' returns the fully
-qualified command name. If ''name'' is the empty string,
-'''oo::class''' generates a name automatically.
-
-The new class command is used to define objects which belong to the
-class, just as '''oo::object''' is. By default, instances of the new
-class have no more behaviour than instances of '''oo::object''' do;
-new class behavior can be added to the class in two ways. First, a
-''definition'' can be specified when creating the class; second,
-additional behaviour can be added to the class using '''oo::define'''.
-
-The definition, if given, consists of a series of statements that map
-to the subcommands of '''oo::define'''. The following three code
-snippets are equivalent; each defines a class called '''::dog''' whose
-instances will have two subcommands: '''bark''' and '''chase'''.
-
-|# Method 1
-|oo::class dog
-|oo::define dog method bark {} {
-|    puts "Woof, woof!"
-|}
-|
-|oo::define dog method chase {thing} {
-|    puts "Chase $thing!"
-|}
-
-|# Method 2
-|oo::class dog
-|
-|oo::define dog {
-|    method bark {} {
-|        puts "Woof, woof!"
-|    }
-|
-|    method chase {thing} {
-|        puts "Chase $thing!"
-|    }
-|}
-
-|# Method 3
-|oo::class dog {
-|    method bark {} {
-|        puts "Woof, woof!"
-|    }
-|
-|    method chase {thing} {
-|        puts "Chase $thing!"
-|    }
-|}
-
-~~~~ Constructor
-
-The constructor for '''oo::class''' concatenates its arguments and
-passes the resulting script to '''oo::define''' (along with the
-fully-qualified name of the created class, of course).
-
-~~~~ Methods
-
-The instances of '''oo::class''' have the following methods:
-
- create: Creates a new instance of the class with the given name. All
-   subsequent arguments are given to the class's constructor. The
-   result of the '''create''' method is always the fully-qualified
-   name of the newly-created object. Syntax:
-
- > ''class'' '''create''' ''objName'' ?''arg'' ''arg'' ...?
-
- new: Creates a new instance of the class with an automatically chosen
-   name.  All subsequent arguments are given to the class's
-   constructor.  The result of the '''new''' method is always the
-   fully-qualified name of the newly-created object. Syntax:
-
- > ''class'' '''new''' ?''arg'' ''arg'' ...?
-
- unknown: Classes define an unknown-method handler. This is used to
-   hand off attempts to create a class using the syntax:
-
-|oo::class foo bar
-
- > to the '''create''' or '''new''' method, depending on whether the
-   class name is an empty string or not.
-
-~~~ oo::definer
-
-This metaclass (subclass of '''oo::class''') arranges for its
-instances to have the following methods, each of which is delegated to
-the identically-named subcommand of the '''oo::define''' command
-described below, operating on the class instance that is an instance
-of '''oo::definer'''.
-
- > abstract, constructor, destructor, export, filter, filterguard,
-   forward, invariant, method, mixin, parameter, superclass, unexport
-
-Thus, the following commands are equivalent:
-
-|# Method 1
-|oo::definer dog
-|oo::define dog method bark {} {
-|    puts "Woof, woof!"
-|}
-
-|# Method 2
-|oo::definer dog
-|dog method bark {} {
-|    puts "Woof, woof!"
-|}
-
-~~~~ Constructor
-
-The '''oo::definer''' constructor just passes all its arguments to its
-parent constructor (i.e. the '''oo::class''' constructor).
-
-~~~ oo::struct
-
-This class (subclass of '''oo::object''') has no default constructor.
-It has the following exported methods:
-
- append: This is the analog of the core Tcl '''append''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''append''' ''varName'' ?''arg'' ''arg'' ...?
-
- array: This is the analog of the core Tcl '''array''' command except
-   that the array name is resolved in the context of the object's
-   namespace.
-
- > ''struct'' '''array''' ''subcommand'' ''varName'' ?''arg''
-   ''arg'' ...?
-
- eval: This is a public exposure of the '''eval''' method defined by
-   the '''oo::object''' class.
-
- exists: This is the analog of the core Tcl '''info exists''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''exists''' ''varName''
-
- incr: This is the analog of the core Tcl '''incr''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''incr''' ''varName'' ?''increment''?
-
- lappend: This is the analog of the core Tcl '''lappend''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''lappend''' ''varName'' ?''arg'' ''arg'' ...?
-
- set: This is the analog of the core Tcl '''set''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''set''' ''varName'' ?''value''?
-
- trace: This is the analog of the core Tcl '''trace''' command
-   operating on variables (no other types of tracable items are
-   supported by this method) except that variable names are resolved
-   in the context of the object's namespace.
-
- > ''struct'' '''trace''' ''subcommand'' ?''arg'' ''arg'' ...?
-
- unset: This is the analog of the core Tcl '''unset''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''unset''' ?''varName'' ''varName'' ...?
-
- vwait: This is the analog of the core Tcl '''vwait''' command
-   except that the variable name is resolved in the context of the
-   object's namespace.
-
- > ''struct'' '''vwait''' ''varName''
-
-The following non-exported methods are defined:
-
- var: This method takes one argument, the name of a variable to be
-   resolved in the context of the object's namespace, and returns the
-   fully qualified name of the variable such that it can be used with
-   extensions such as Tk (e.g. for the '''label''' widget's
-   '''-textvariable''' option). This method does not assign any value
-   to the variable. Syntax:
-
- > ''struct'' '''var''' ''varName''
-
- > It is expected that this convenience method will normally be used
-   solely through the '''my''' command.
-
-~~ Introspection Support
-
-The core Tcl '''info''' command shall be extended in the following
-ways:
-
- * An '''object''' subcommand that shall provide information about a
-   particular object. Its first argument shall be the name of an
-   object to get information about, its second argument shall be a
-   subsubcommand indicating the type of information to retrieve and
-   all subsequent arguments shall be arguments, as appropriate. The
-   following types of information shall be available:
-
- > args: Returns the list of arguments to a method supported by an
-   object.
-
- > > '''info object''' ''object'' '''args''' ''method''
-
- > body: Returns the body of a method supported by an object.
-
- > > '''info object''' ''object'' '''body''' ''method''
-
- > check: Returns the current list of enabled assertion types for an
-   object (see the documentation for '''oo::check''' for the list of
-   acceptable assertion types).
-
- > > '''info object''' ''object'' '''check'''
-
- > class: Returns the class of an object, or if ''className'' is
-   specified, whether the object is (directly or indirectly through
-   inheritance or mixin) an instance of the named class.
-
- > > '''info object''' ''object'' '''class''' ?''className''?
-
- > default: Returns whether a particular argument to a method has a
-   default value specified, much as '''info default''' does for a
-   normal procedure argument.
-
- > > '''info object''' ''object'' '''default''' ''method'' ''argName''
-     ''defaultValueVar''
-
- > filters: Returns the list of filters defined for an object.
-
- > > '''info object''' ''object'' '''filters'''
-
- > filterguards: Returns the list of filter-guards for a particular
-   filter.
-
- > > '''info object''' ''object'' '''filterguards''' ''name''
-
- > invariants: Returns the list of invariants defined for an object.
-
- > > '''info object''' ''object'' '''invariants'''
-
- > isa: Returns boolean information about how an object relates to the
-   class hierarchy. Supports a range of subcommands to allow the
-   specification of what sort of test is to be performed:
-
- > > class: Returns whether the named object is a class.
-
- > > > '''info object''' ''object'' '''isa class'''
-
- > > metaclass: Returns whether the named object is a class that is
-     not of immediate type '''oo::class''' but rather one of its
-     subtypes instead.
-
- > > > '''info object''' ''object'' '''isa metaclass'''
-
- > > mixin: Returns whether the named object has ''mixinClassName'' as
-     one of its mixins.
-
- > > > '''info object''' ''object'' '''isa mixin''' ''mixinClassName''
-
- > > object: Returns whether ''object'' really names an object.
-
- > > > '''info object''' ''object'' '''isa object'''
-
- > > typeof: Returns whether the objec is of type ''class'' (i.e. an
-     instance of that class or an instance of a subclass of that
-     class).
-
- > > > '''info object''' ''object'' '''isa typeof''' ''class''
-
- > methods: Returns the list of methods defined for an object.
-
- > > '''info object''' ''object'' '''methods'''
-
- > mixins: Returns the list of mixins for an object.
-
- > > '''info object''' ''object'' '''mixins'''
-
- > post: Returns the postcondition for the named method, or an empty
-   string if no postcondition has been defined.
-
- > > '''info object''' ''object'' '''post'''
-
- > pre: Returns the precondition for the named method, or an empty
-   string if no precondition has been defined.
-
- > > '''info object''' ''object'' '''pre'''
-
- > vars: Returns the list of all variables defined within the object,
-   or optionally just those that match ''pattern'' according to the
-   rules of '''string match'''.
-
- > > '''info object''' ''object'' '''vars''' ?''pattern''?
-
- * A '''class''' subcommand that shall provide information about a
-   particular class. Its first argument shall be the name of a class
-   to get information about, its second argument shall be a
-   subsubcommand indicating the type of information to retrieve and
-   all subsequent arguments shall be arguments, as appropriate. The
-   following types of information shall be available:
-
- > abstract: Returns whether the named class is an abstract class.
-
- > > '''info class''' ''class'' '''abstract'''
-
- > args: Returns the list of arguments to a method supported by an
-   object.
-
- > > '''info class''' ''object'' '''args''' ''method''
-
- > body: Returns the body of a method supported by an object.
-
- > > '''info class''' ''object'' '''body''' ''method''
-
- > default: Returns whether a particular argument to a method has a
-   default value specified, much as '''info default''' does for a
-   normal procedure argument.
-
- > > '''info class''' ''object'' '''default''' ''method'' ''argName''
-     ''defaultValueVar''
-
- > filters: Returns the list of filters defined for an object.
-
- > > '''info class''' ''object'' '''filters'''
-
- > filterguards: Returns the list of filter-guards for a particular
-   filter.
-
- > > '''info class''' ''object'' '''filterguards''' ''name''
-
- > instances: Returns a list of all direct instances of the class (but
-   not instances of any subclasses of the class).
-
- > > '''info class''' ''class'' '''instances'''
-
- > invariants: Returns the list of invariants defined for an object.
-
- > > '''info class''' ''object'' '''invariants'''
-
- > methods: Returns the list of methods defined for an object.
-
- > > '''info class''' ''object'' '''methods'''
-
- > mixins: Returns the list of mixins for an object.
-
- > > '''info class''' ''object'' '''mixins'''
-
- > parameters: Returns a list of all parameters defined by the class.
-
- > > '''info class''' ''class'' '''parameters'''
-
- > post: Returns the postcondition for the named method, or an empty
-   string if no postcondition has been defined.
-
- > > '''info class''' ''object'' '''post'''
-
- > pre: Returns the precondition for the named method, or an empty
-   string if no precondition has been defined.
-
- > > '''info class''' ''object'' '''pre'''
-
- > subclasses: Returns a list of all subclasses of the class, or
-   optionally just those that match ''pattern''.
-
- > > '''info class''' ''class'' '''subclasses''' ?''pattern''?
-
- > superclasses: Returns a list of all superclasses of the named class
-   in the class hierarchy. The list will be ordered in
-   inheritance-precedence order.
-
- > > '''info class''' ''class'' '''superclasses'''
-
 ~~ The oo::define Command
 
  > '''oo::define''' ''objectOrClass'' ''subcommand'' ?''arg'' ...?
@@ -978,7 +537,7 @@ commands are the subcommands of '''oo::define'''; this is a notational
 convenience, as the two forms are semantically equivalent. (Note that
 the context in which ''script'' executes is otherwise not defined.)
 
-~~~~ Class-related Subcommands
+~~~ Class-related Subcommands
 
 The subcommands of '''oo::define''' (which may be unambiguously
 abbreviated when not in the script form) shall be:
@@ -1020,9 +579,9 @@ abbreviated when not in the script form) shall be:
 
  > In classic XOTcl, the destructor is simply a method; it must
    explicitly call the parent destructor using XOTcl's next command.
-   In '''oo::''' the chain of destructors is called in the proper
-   sequence automatically and independently of the content of any
-   particular destructor.
+   In the core OO system, the chain of destructors is called in the
+   proper sequence automatically and independently of the content of
+   any particular destructor.
 
  > Note that destructors are called whenever the object is deleted by
    any mechanism (except when the overall interpreter is deleted, when
@@ -1148,7 +707,7 @@ abbreviated when not in the script form) shall be:
    unexported method is accessible only to the object's own code,
    through the '''my''' command.
 
-~~~~ Per-Object Subcommands
+~~~ Per-Object Subcommands
 
 The following subcommands are all per-object versions of the class
 subcommands listed above. When they are applied to a class, they
@@ -1209,6 +768,456 @@ object to set the assertion checking behaviour of. The special type
 '''all''' can be specified to select all assertion types.
 
  > '''oo::check''' ''object'' ''assertTypeList''
+
+~ Core Objects
+
+The following classes are defined, and are the only pre-constructed
+objects in the core system.
+
+~~ oo::object
+
+The root of the class hierarchy is '''oo::object'''.
+
+ > '''oo::object''' ''name''
+
+Constructs a new object called ''name'' of class ''oo::object''; the
+object is represented as a command in the current scope.
+'''oo::object''' returns the fully qualified command name. If ''name''
+is the empty string, '''oo::object''' generates a name automatically
+that is guaranteed to not clash with any existing command name.
+
+The name of an object is also the name of a command in the form of an
+ensemble where the subcommands of the ensemble are the ''exported''
+method names of the object.
+
+The new object has two predefined non-exported methods: '''eval''' and
+'''variable'''.  Other subcommands and other behaviour can be added
+using '''oo::define'''.
+
+'''oo::object''' serves as the base class for all other core OO system
+classes.
+
+~~~ Methods
+
+The instances of '''oo::object''' (i.e. all objects and classes) have
+the following methods:
+
+ eval: This non-exported method concatenates its arguments according
+   to the rules of '''concat''', and evaluates the resulting script in
+   the namespace associated with the object. The result of the script
+   evaluation is the result of the ''object'' '''eval''' method.
+
+ > ''object'' '''eval''' ?''arg'' ''arg'' ...?
+
+ variable: This non-exported method takes an arbitrary number of
+   ''unqualified'' variable names and binds the variable with that
+   name in the object's namespace to the same name in the current
+   scope. If an argument consists of a two-element list, the first
+   element is the name of the variable to bind in the object's
+   namespace, and the second element is the name of the variable to
+   bind in the current scope.
+
+ > ''object'' '''variable''' ?''varName'' ''varName'' ...?
+
+~~~ Unknown Method Handling
+
+When an attempt is made to invoke an unknown method on any object, the
+core then attempts to pass ''all'' the arguments (including the
+command name) to the public '''unknown''' method of the object. If no
+such method exists, an error message is generated. Instances of the
+core '''oo::object''' class do not have an '''unknown''' method by
+default.
+
+~~ oo::class
+
+This class is the class of all classes (i.e. its instances are objects
+that manufacture objects according to a standard pattern). Note that
+'''oo::object''' is an instance of '''oo::class''', as is
+'''oo::class''' itself.
+
+ > '''oo::class''' ''name'' ?''definition''?
+
+This creates a new class called ''name''; the class is an object in
+its own right (of class '''oo::class'''), and hence is represented as
+a command in the current scope. '''oo::class''' returns the fully
+qualified command name. If ''name'' is the empty string,
+'''oo::class''' generates a name automatically.
+
+The new class command is used to define objects which belong to the
+class, just as '''oo::object''' is. By default, instances of the new
+class have no more behaviour than instances of '''oo::object''' do;
+new class behavior can be added to the class in two ways. First, a
+''definition'' can be specified when creating the class; second,
+additional behaviour can be added to the class using '''oo::define'''.
+
+The definition, if given, consists of a series of statements that map
+to the subcommands of '''oo::define'''. The following three code
+snippets are equivalent; each defines a class called '''::dog''' whose
+instances will have two subcommands: '''bark''' and '''chase'''.
+
+|# Method 1
+|oo::class dog
+|
+|oo::define dog method bark {} {
+|    puts "Woof, woof!"
+|}
+|
+|oo::define dog method chase {thing} {
+|    puts "Chase $thing!"
+|}
+
+|# Method 2
+|oo::class dog
+|
+|oo::define dog {
+|    method bark {} {
+|        puts "Woof, woof!"
+|    }
+|
+|    method chase {thing} {
+|        puts "Chase $thing!"
+|    }
+|}
+
+|# Method 3
+|oo::class dog {
+|    method bark {} {
+|        puts "Woof, woof!"
+|    }
+|
+|    method chase {thing} {
+|        puts "Chase $thing!"
+|    }
+|}
+
+~~~ Constructor
+
+The constructor for '''oo::class''' concatenates its arguments and
+passes the resulting script to '''oo::define''' (along with the
+fully-qualified name of the created class, of course).
+
+~~~ Methods
+
+The instances of '''oo::class''' have the following methods:
+
+ create: Creates a new instance of the class with the given name. All
+   subsequent arguments are given to the class's constructor. The
+   result of the '''create''' method is always the fully-qualified
+   name of the newly-created object. Syntax:
+
+ > ''class'' '''create''' ''objName'' ?''arg'' ''arg'' ...?
+
+ new: Creates a new instance of the class with an automatically chosen
+   name.  All subsequent arguments are given to the class's
+   constructor.  The result of the '''new''' method is always the
+   fully-qualified name of the newly-created object. Syntax:
+
+ > ''class'' '''new''' ?''arg'' ''arg'' ...?
+
+ unknown: Classes define an unknown-method handler. This is used to
+   hand off attempts to create a class using the syntax:
+
+|oo::class foo bar
+
+ > to the '''create''' or '''new''' method, depending on whether the
+   class name is an empty string or not.
+
+~~ oo::definer
+
+This metaclass (subclass of '''oo::class''') arranges for its
+instances to have the following methods, each of which is delegated to
+the identically-named subcommand of the '''oo::define''' command
+described below, operating on the class instance that is an instance
+of '''oo::definer'''.
+
+ > abstract, constructor, destructor, export, filter, filterguard,
+   forward, invariant, method, mixin, mixinguard, parameter,
+   superclass, unexport
+
+Thus, the following commands are equivalent:
+
+|# Method 1
+|oo::definer dog
+|oo::define dog method bark {} {
+|    puts "Woof, woof!"
+|}
+
+|# Method 2
+|oo::definer dog
+|dog method bark {} {
+|    puts "Woof, woof!"
+|}
+
+~~~ Constructor
+
+The '''oo::definer''' constructor just passes all its arguments to its
+parent constructor (i.e. the '''oo::class''' constructor).
+
+~~ oo::struct
+
+This class (subclass of '''oo::object''') has no default constructor.
+It has the following exported methods:
+
+ append: This is the analog of the core Tcl '''append''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''append''' ''varName'' ?''arg'' ''arg'' ...?
+
+ array: This is the analog of the core Tcl '''array''' command except
+   that the array name is resolved in the context of the object's
+   namespace.
+
+ > ''struct'' '''array''' ''subcommand'' ''varName'' ?''arg''
+   ''arg'' ...?
+
+ eval: This is a public exposure of the '''eval''' method defined by
+   the '''oo::object''' class.
+
+ exists: This is the analog of the core Tcl '''info exists''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''exists''' ''varName''
+
+ incr: This is the analog of the core Tcl '''incr''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''incr''' ''varName'' ?''increment''?
+
+ lappend: This is the analog of the core Tcl '''lappend''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''lappend''' ''varName'' ?''arg'' ''arg'' ...?
+
+ set: This is the analog of the core Tcl '''set''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''set''' ''varName'' ?''value''?
+
+ trace: This is the analog of the core Tcl '''trace''' command
+   operating on variables (no other types of tracable items are
+   supported by this method) except that variable names are resolved
+   in the context of the object's namespace.
+
+ > ''struct'' '''trace''' ''subcommand'' ?''arg'' ''arg'' ...?
+
+ unset: This is the analog of the core Tcl '''unset''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''unset''' ?''varName'' ''varName'' ...?
+
+ vwait: This is the analog of the core Tcl '''vwait''' command
+   except that the variable name is resolved in the context of the
+   object's namespace.
+
+ > ''struct'' '''vwait''' ''varName''
+
+The following non-exported methods are defined:
+
+ var: This method takes one argument, the name of a variable to be
+   resolved in the context of the object's namespace, and returns the
+   fully qualified name of the variable such that it can be used with
+   extensions such as Tk (e.g. for the '''label''' widget's
+   '''-textvariable''' option). This method does not assign any value
+   to the variable. Syntax:
+
+ > ''struct'' '''var''' ''varName''
+
+ > It is expected that this convenience method will normally be used
+   solely through the '''my''' command.
+
+~ Introspection Support
+
+The core Tcl '''info''' command shall be extended in the following
+ways.
+
+~~ An [info object] Subcommand
+
+An '''object''' subcommand that shall provide information about a
+particular object. Its first argument shall be the name of an object
+to get information about, its second argument shall be a subsubcommand
+indicating the type of information to retrieve and all subsequent
+arguments shall be arguments, as appropriate. The following types of
+information shall be available:
+
+ args: Returns the list of arguments to a method supported by an
+   object.
+
+ > '''info object''' ''object'' '''args''' ''method''
+
+ body: Returns the body of a method supported by an object.
+
+ > '''info object''' ''object'' '''body''' ''method''
+
+ check: Returns the current list of enabled assertion types for an
+   object (see the documentation for '''oo::check''' for the list of
+   acceptable assertion types).
+
+ > '''info object''' ''object'' '''check'''
+
+ class: Returns the class of an object, or if ''className'' is
+   specified, whether the object is (directly or indirectly through
+   inheritance or mixin) an instance of the named class.
+
+ > '''info object''' ''object'' '''class''' ?''className''?
+
+ default: Returns whether a particular argument to a method has a
+   default value specified, much as '''info default''' does for a
+   normal procedure argument.
+
+ > '''info object''' ''object'' '''default''' ''method'' ''argName''
+     ''defaultValueVar''
+
+ filters: Returns the list of filters defined for an object.
+
+ > '''info object''' ''object'' '''filters'''
+
+ filterguards: Returns the list of filter-guards for a particular
+   filter.
+
+ > '''info object''' ''object'' '''filterguards''' ''name''
+
+ invariants: Returns the list of invariants defined for an object.
+
+ > '''info object''' ''object'' '''invariants'''
+
+ isa: Returns boolean information about how an object relates to the
+   class hierarchy. Supports a range of subcommands to allow the
+   specification of what sort of test is to be performed:
+
+ > class: Returns whether the named object is a class.
+
+ > > '''info object''' ''object'' '''isa class'''
+
+ > metaclass: Returns whether the named object is a class that is not
+     of immediate type '''oo::class''' but rather one of its subtypes
+     instead.
+
+ > > '''info object''' ''object'' '''isa metaclass'''
+
+ > mixin: Returns whether the named object has ''mixinClassName'' as
+     one of its mixins.
+
+ > > '''info object''' ''object'' '''isa mixin''' ''mixinClassName''
+
+ > object: Returns whether ''object'' really names an object.
+
+ > > '''info object''' ''object'' '''isa object'''
+
+ > typeof: Returns whether the objec is of type ''class'' (i.e. an
+     instance of that class or an instance of a subclass of that
+     class).
+
+ > > '''info object''' ''object'' '''isa typeof''' ''class''
+
+ methods: Returns the list of methods defined for an object.
+
+ > '''info object''' ''object'' '''methods'''
+
+ mixins: Returns the list of mixins for an object.
+
+ > '''info object''' ''object'' '''mixins'''
+
+ post: Returns the postcondition for the named method, or an empty
+   string if no postcondition has been defined.
+
+ > '''info object''' ''object'' '''post'''
+
+ pre: Returns the precondition for the named method, or an empty
+   string if no precondition has been defined.
+
+ > '''info object''' ''object'' '''pre'''
+
+ vars: Returns the list of all variables defined within the object, or
+   optionally just those that match ''pattern'' according to the rules
+   of '''string match'''.
+
+ > '''info object''' ''object'' '''vars''' ?''pattern''?
+
+~~ An [info class] Subcommand
+
+A '''class''' subcommand that shall provide information about a
+particular class. Its first argument shall be the name of a class to
+get information about, its second argument shall be a subsubcommand
+indicating the type of information to retrieve and all subsequent
+arguments shall be arguments, as appropriate. The following types of
+information shall be available:
+
+ abstract: Returns whether the named class is an abstract class.
+
+ > '''info class''' ''class'' '''abstract'''
+
+ args: Returns the list of arguments to a method supported by an
+   object.
+
+ > '''info class''' ''object'' '''args''' ''method''
+
+ body: Returns the body of a method supported by an object.
+
+ > '''info class''' ''object'' '''body''' ''method''
+
+ default: Returns whether a particular argument to a method has a
+   default value specified, much as '''info default''' does for a
+   normal procedure argument.
+
+ > '''info class''' ''object'' '''default''' ''method'' ''argName''
+     ''defaultValueVar''
+
+ filters: Returns the list of filters defined for an object.
+
+ > '''info class''' ''object'' '''filters'''
+
+ filterguards: Returns the list of filter-guards for a particular
+   filter.
+
+ > '''info class''' ''object'' '''filterguards''' ''name''
+
+ instances: Returns a list of all direct instances of the class (but
+   not instances of any subclasses of the class).
+
+ > '''info class''' ''class'' '''instances'''
+
+ invariants: Returns the list of invariants defined for an object.
+
+ > '''info class''' ''object'' '''invariants'''
+
+ methods: Returns the list of methods defined for an object.
+
+ > '''info class''' ''object'' '''methods'''
+
+ mixins: Returns the list of mixins for an object.
+
+ > '''info class''' ''object'' '''mixins'''
+
+ parameters: Returns a list of all parameters defined by the class.
+
+ > '''info class''' ''class'' '''parameters'''
+
+ post: Returns the postcondition for the named method, or an empty
+   string if no postcondition has been defined.
+
+ > '''info class''' ''object'' '''post'''
+
+ pre: Returns the precondition for the named method, or an empty
+   string if no precondition has been defined.
+
+ > '''info class''' ''object'' '''pre'''
+
+ subclasses: Returns a list of all subclasses of the class, or
+   optionally just those that match ''pattern''.
+
+ > '''info class''' ''class'' '''subclasses''' ?''pattern''?
+
+ superclasses: Returns a list of all superclasses of the named class
+   in the class hierarchy. The list will be ordered in
+   inheritance-precedence order.
+
+ > '''info class''' ''class'' '''superclasses'''
 
 ~ XOTcl Features Omitted from the Core OO System
 
@@ -1296,15 +1305,15 @@ namespace omitted, XOTcl classes are in upper case).
 |        |       _______|_________
 |        |      |                 |
 |        |  +-------+        +--------+
-|        `--| class |        | struct |<-.
-|           +-------+        +---------  |
-|              ,^.               ,^.     |
-|               |                 |      |
+|        `--| class |        | struct |
+|           +-------+        +--------+
+|              ,^.               ,^.
+|               |                 |
+|          +---------+       +--------+
+|          | definer |       | Object |<-.
 |          +---------+       +--------+  |
-|          | definer |       | Object |  | creates
-|          +---------+       +--------+  |
 |              ,^.               ,^.     |
-|               |_________________|      |
+|               |_________________|      | creates
 |                        |               |
 |                    +-------+           |
 |                    | Class |-----------'
