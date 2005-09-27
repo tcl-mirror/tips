@@ -1,8 +1,9 @@
 TIP:            249
 Title:          Unify Tcl's Parsing of Numbers
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -180,7 +181,8 @@ of Tcl.
 
 Third, ''Tcl_GetDoubleFromObj'' will be both more and less permissive
 than before.  It will no longer accept constants with a leading zero
-and no decimal point or 'E'.  On the other hand, it will accept
+and no decimal point or 'E' that are invalid octal numbers.
+On the other hand, it will accept
 constants that are too large to fit in a '''Tcl_WideInt'''; somewhat
 surprisingly, '''string repeat 9 50''' cannot today be interpreted as
 a double.  '''string is double''' will follow ''Tcl_GetDoubleFromObj''
