@@ -1,8 +1,7 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
-Author:         Kevin Kenny <kennykb@acm.org >
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -13,16 +12,16 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP adds the capability to perform computations on integer 
-values of arbitrary precision.
+This TIP adds the capability to perform computations on integer values
+of arbitrary precision.
 
 ~ Rationale
 
 There have been a number of issues in Tcl 8.4 dealing with the limited
-range of native integers and wide values.  The original ideas of [72],
+range of native integers and wide values. The original ideas of [72],
 while they have given at least the basics of 64-bit integer support,
 have also introduced some subtle violations of the doctrine that
-"everything is a string."  Some of these have been insidious bugs -
+"everything is a string." Some of these have been insidious bugs -
 [http://sf.net/tracker/?func=detail&aid=868489&group_id=10894&atid=110894]
 and
 [http://sf.net/tracker/?func=detail&aid=1006626&group_id=10894&atid=110894]
@@ -40,7 +39,7 @@ performing any arithmetic operation that overflows:
 
 With things as they stand,
 [http://sf.net/tracker/?func=detail&aid=1006626&group_id=10894&atid=110894]
-is nearly unfixable.  It causes misconversion of large floating point
+is nearly unfixable. It causes misconversion of large floating point
 numbers that look like integers:
 
 |    % set x -9223372036854775809
@@ -53,12 +52,12 @@ numbers that look like integers:
 The reason here is that the string of digits is first converted to a
 64-bit unsigned integer ('''Tcl_WideUInt'''). The '-' sign causes the
 unsigned integer to be interpreted as a signed integer, and the sign
-reversed.  Since interpreting the unsigned integer as signed yields an
+reversed. Since interpreting the unsigned integer as signed yields an
 overflow, the result is positive rather than negative and gives the
 odd behaviour shown above.
 
 Of course, even if the implementation of 64-bit arithmetic were bug
-free, there would be uses for arithmetic of higher precision.  One
+free, there would be uses for arithmetic of higher precision. One
 example is that several Tcl users have attempted pure-Tcl
 implementations of RSA and Diffie-Hellman cryptographic algorithms.
 These algorithms depend on arithmetic of high precision; implementing
@@ -78,32 +77,32 @@ library.
 ~ Proposal
 
 This TIP proposes augmenting Tcl with code for processing integers of
-arbitrary precision.  Specifically:
+arbitrary precision. Specifically:
 
  1. The ''libtommath'' library [http://math.libtomcrypt.org/] shall be
     added in a subdirectory of the Tcl source tree, parallel to
-    ''generic/'', ''compat/'', etc.  This library implements
-    arithmetic on integers of arbitrary precision. For the rationale
-    behind this library, and some of the precise integration details,
-    see "Choice of Libary" below.
+    ''generic/'', ''compat/'', etc. This library implements arithmetic
+    on integers of arbitrary precision. For the rationale behind this
+    library, and some of the precise integration details, see "Choice
+    of Libary" below.
 
  2. New functions, ''Tcl_NewBignumObj'', ''Tcl_SetBignumObj'',
     ''Tcl_GetBignumFromObj'' and ''Tcl_GetBignumAndClearObj'' shall be
     added to the Tcl library. They shall be specified as follows:
 
  > Tcl_NewBignumObj: Creates an object containing an integer of
-      arbitrary precision.  The ''value'' argument gives the integer
-      in the format native to ''libtommath''. ''Upon return, the value
+      arbitrary precision. The ''value'' argument gives the integer in
+      the format native to ''libtommath''. ''Upon return, the value
       argument is cleared, because its digit array has had its
       ownership transferred to the Tcl library.''
 
  > > Tcl_Obj *'''Tcl_NewBignumObj'''(mp_int *''value'')
 
  > Tcl_SetBignumObj: Changes the value of an object to an integer of
-      arbitrary precision.  The ''value'' argument gives the integer
-      in the format native to ''libtommath''.  As with other
-      '''Tcl_SetFooObj''' routines, the '''Tcl_Obj''' having its
-      value set must be unshared (copy on write).  As with
+      arbitrary precision. The ''value'' argument gives the integer in
+      the format native to ''libtommath''. As with other
+      '''Tcl_SetFooObj''' routines, the '''Tcl_Obj''' having its value
+      set must be unshared (copy on write). As with
       '''Tcl_NewBignumObj''', the ''value'' argument is cleared on
       return and the digit list is owned by Tcl thereafter.
 
@@ -111,78 +110,77 @@ arbitrary precision.  Specifically:
 
  > Tcl_GetBignumFromObj: Interprets an object as a large integer, and
     constructs a copy of that large integer in the ''value'' argument.
-    Returns ''TCL_OK'' if successful.  On failure, stores an error
+    Returns ''TCL_OK'' if successful. On failure, stores an error
     message in the result of ''interp'' and returns ''TCL_ERROR''.
 
  > > int '''Tcl_GetBignumFromObj'''(Tcl_Interp *''interp'', Tcl_Obj*''objPtr'', mp_int *''value'')
 
  > Tcl_GetBignumAndClearObj: Interprets an object as a large integer,
-      and stores the large integer in the ''value'' argument.  Returns
-      ''TCL_OK'' if successful.  On failure, stores an error message
-      in the result of ''interp'' and returns ''TCL_ERROR''.  Calls
-      '''Tcl_Panic''' if the object is shared.  The object is reset to
+      and stores the large integer in the ''value'' argument. Returns
+      ''TCL_OK'' if successful. On failure, stores an error message in
+      the result of ''interp'' and returns ''TCL_ERROR''. Calls
+      '''Tcl_Panic''' if the object is shared. The object is reset to
       the empty state prior to return from this call.
 
  > > int '''Tcl_GetBignumAndClearObj'''(Tcl_Interp *''interp'', Tcl_Obj*''objPtr'', mp_int *''value'')
 
- > The memory management of these routines deserves some explanation.
-    For performance, it is desirable that copying bignums be avoided
-    as far as possible.  For this reason, the digit array stored in
-    the ''mp_int'' object will be stored by pointer in the Tcl
-    internal representation.  This will result in memory problems
+ >  The memory management of these routines deserves some
+    explanation. For performance, it is desirable that copying bignums
+    be avoided as far as possible. For this reason, the digit array
+    stored in the ''mp_int'' object will be stored by pointer in the
+    Tcl internal representation. This will result in memory problems
     unless the ''mp_int'' appears to be destroyed after it has been
     placed in a Tcl object, since further calls to the ''libtommath''
     functions may reallocate the array.
 
- > Similarly, when retrieving a large integer from an object, if the
+ >  Similarly, when retrieving a large integer from an object, if the
     object retains an internal representation with the ''mp_int'', the
-    ''mp_int'' must be copied.  Code that intends to overwrite or
+    ''mp_int'' must be copied. Code that intends to overwrite or
     destroy an unshared object immediately can avoid the copy by using
     the call that clears the object; this call returns the original
     ''mp_int'' without needing to do any memory management.
 
- 3. The ''internalRep'' union in the ''Tcl_Obj'' structure
-    shall be augmented with a ''ptrAndLongRep'' field.  This field shall
-    be a structure comprising a pointer and a long integer.  The
-    pointer will designate an array of digits (the ''dp'' member of
-    an ''mp_int'' structure in ''libtommath'').  The long integer
-    will be an encoding comprising:
+ 3. The ''internalRep'' union in the ''Tcl_Obj'' structure shall be
+    augmented with a ''ptrAndLongRep'' field. This field shall be a
+    structure comprising a pointer and a long integer. The pointer
+    will designate an array of digits (the ''dp'' member of an
+    ''mp_int'' structure in ''libtommath''). The long integer will be
+    an encoding comprising:
 
  > * one bit representing the sign of the number
 
  > * fifteen bits giving the size of allocated memory in the digit
-       array.
+     array.
 
  > * fifteen bits giving the size of used memory in the digit array.
 
  >  The reason for this tight encoding is that the size of a
     ''Tcl_Obj'' shall not change, and yet an ''mp_int'' structure can
-    be stored in the internal representation.  This encoding will
-    allow packing and unpacking the object with a few Boolean
-    operations and shifts rather than needing to use a pointer
-    internal representation and dynamically allocated memory to store
-    the ''mp_int''.  This packed representation is adequate to 
-    represent integers of (2**15 - 1) ''mp_digit''s (or 917,476 bits,
-    since libtommath does its arithmetic in base 2**28).  Since
-    cryptographic algorithms,
-    floating point conversions, and most number theoretic work will
-    not exceed this length, the packed representation should cover
-    nearly all values used in practice.
+    be stored in the internal representation. This encoding will allow
+    packing and unpacking the object with a few Boolean operations and
+    shifts rather than needing to use a pointer internal
+    representation and dynamically allocated memory to store the
+    ''mp_int''. This packed representation is adequate to represent
+    integers of (2**15 - 1) ''mp_digit''s (or 917,476 bits, since
+    libtommath does its arithmetic in base 2**28). Since cryptographic
+    algorithms, floating point conversions, and most number theoretic
+    work will not exceed this length, the packed representation should
+    cover nearly all values used in practice.
 
- > When an ''mp_int'' value too large for that tight packing is to
-   be stored as the internal rep of a ''Tcl_Obj'', a copy of the
-   ''mp_int'' value will be allocated from the heap, and a pointer
-   to the copy stored in the pointer field.  A value of '''-1'''
-   in the long integer field will indicate this unpacked storage option.
+ >  When an ''mp_int'' value too large for that tight packing is to be
+    stored as the internal rep of a ''Tcl_Obj'', a copy of the
+    ''mp_int'' value will be allocated from the heap, and a pointer to
+    the copy stored in the pointer field. A value of '''-1''' in the
+    long integer field will indicate this unpacked storage option.
 
  4. A new ''tclBignumType'' (with type name '''bignum''') shall be
     added to the internal set of object types; it will have the
-    ''ptrAndLongRep'' internal
-    representation, and the usual four conversion routines.
+    ''ptrAndLongRep'' internal representation, and the usual four
+    conversion routines.
 
  5. The ''wideIntRep'' field in the ''internalRep'' union shall remain
     (lest there be extensions that use it), but all code in the Tcl
-    library that deals with it shall be removed.  The routines,
+    library that deals with it shall be removed. The routines,
     ''Tcl_GetWideIntFromObj'', ''Tcl_SetWideIntObj'', and
     ''Tcl_NewWideIntObj'' shall remain as part of the API, but will
     create objects with either ''int'' or ''bignum'' internal
@@ -190,15 +188,15 @@ arbitrary precision.  Specifically:
 
  6. The '''expr''' command shall be reworked so that all integer
     arithmetic is performed ''as if'' all integers are of arbitrary
-    precision.  In practice, numbers between LONG_MIN and LONG_MAX shall
-    be stored in native long integers.  The operators shall perform type
-    promotions as needed.  The command shall avoid (as far as
-    practicable) performing arbitrary-precision arithmetic when native
-    long ints are presented. Specifically:
+    precision. In practice, numbers between LONG_MIN and LONG_MAX
+    shall be stored in native long integers. The operators shall
+    perform type promotions as needed. The command shall avoid (as far
+    as practicable) performing arbitrary-precision arithmetic when
+    native long ints are presented. Specifically:
 
  > * Mixed mode arithmetic with floating point numbers shall work as
      it does today; the argument that is not a floating point number
-     shall be converted.  Note that it will be possible for conversion
+     shall be converted. Note that it will be possible for conversion
      to overflow the floating-point arithmetic range; in this case,
      the value shall be replaced with ''Inf''.
 
@@ -214,12 +212,12 @@ arbitrary precision.  Specifically:
  > * The binary '**' operator (and the ''pow'' function) shall promote
      to an arbitrary precision integer conservatively: when computing
      'a**b', it will precompute 'ceil(log2(a)*b)', and promote if this
-     logarithm exceeds LONG_BITS-1.  The result shall be demoted to an
+     logarithm exceeds LONG_BITS-1. The result shall be demoted to an
      integer if it fits.
 
  > * The binary '*' operator, if either argument is an
      arbitary-precision integer, shall promote the other to an
-     arbitrary-precision integer.  If both are native integers, and
+     arbitrary-precision integer. If both are native integers, and
      ''Tcl_WideInt'' is at least twice the width of a native ''long'',
      then the product will be computed in a ''Tcl_WideInt'', and the
      result will be either demoted to a ''long'' (if it fits) or
@@ -227,12 +225,12 @@ arbitrary precision.  Specifically:
 
  > > In the case where ''Tcl_WideInt'' is not at least twice the width
      of ''long'', the product will be computed to arbitrary precision
-     and then demoted if it fits in a ''long''.  ''This case is the
+     and then demoted if it fits in a ''long''. ''This case is the
      only identified place where arbitrary-precision arithmetic will
      be used on native integers.''
 
  > * The binary '/' operator, if either argument is an
-     arbitrary-precision integer, shall promote the other.  If the
+     arbitrary-precision integer, shall promote the other. If the
      quotient fits in a ''long'', it shall be demoted.
 
  > * The binary '%' operator, in computing ''a%b'', shall do the
@@ -256,24 +254,24 @@ arbitrary precision.  Specifically:
  > * The binary ''+'' and ''-'' operators, if either operand is an
      arbitrary-precision integer, shall promote the other operand to
      an arbitrary-precision integer, compute the result to arbitrary
-     precision, and demote the result to ''long'' if it fits.  If both
+     precision, and demote the result to ''long'' if it fits. If both
      operands are native ''long'', and ''Tcl_WideInt'' is larger than
      a native ''long'', then the result will be computed to
      ''Tcl_WideInt'' precision, and demoted to ''long'' if it fits.
 
  > > In the case where ''Tcl_WideInt'' is only as wide as ''long'',
      the operators shall test for overflow when adding numbers of like
-     sign or subtracting numbers of opposite sign.  If the sign of the
+     sign or subtracting numbers of opposite sign. If the sign of the
      result of one of these operations differs from the sign of the
      first operand, overflow has occurred; the result is promoted to
      an arbitrary precision integer and the sign is restored.
 
  > * The ''<<'' operator shall fail if its second operand is an
      arbitrary-precision integer and the first is nonzero (because
-     this case must exceed the allowable number of digits).  It
-     returns an arbitrary-precision integer if its first argument is
-     an arbitrary-precision integer, or if the shift will overflow.
-     The overflow check for ''long'' values (''a<<b'') is
+     this case must exceed the allowable number of digits). It returns
+     an arbitrary-precision integer if its first argument is an
+     arbitrary-precision integer, or if the shift will overflow. The
+     overflow check for ''long'' values (''a<<b'') is
 
  > > * if ''b''>LONG_BITS-1, overflow.
 
@@ -283,7 +281,7 @@ arbitrary precision.  Specifically:
 
  > * The '>>' operator ''a>>b'', shall return 0 (''a>=0'') or -1
      (''a<0'') if ''b'' is an arbitrary-precision integer (it would
-     have shifted away all significant bits).  Otherwise, the shift
+     have shifted away all significant bits). Otherwise, the shift
      shall be performed to the precision of ''a'', and if ''a'' was an
      arbitrary-precision integer, the result shall be demoted to a
      ''long'' if it fits.
@@ -292,7 +290,7 @@ arbitrary precision.  Specifically:
      knowing only the signs of the operands wben native ''long''
      values are compared with arbitrary-precision integers.
      Arbitrary-precision comparison is needed only when comparing
-     arbitrary-precision integers of like sign.  In any case, the
+     arbitrary-precision integers of like sign. In any case, the
      result is a native ''long''.
 
  > * The ''eq'', ''ne'', ''in'', and ''ni'' operators work only on
@@ -306,7 +304,7 @@ arbitrary precision.  Specifically:
  > > ~a == -a - 1
 
  > > This identity holds if ''a'' is represented in any word size
-     large enough to hold it without overflowing.  It therefore
+     large enough to hold it without overflowing. It therefore
      generalizes to integers of arbitary precision; essentially,
      negative numbers are thought of as "twos-complement numbers with
      an infinite number of 1 bits at the most significant end."
@@ -314,7 +312,7 @@ arbitrary precision.  Specifically:
  > * The base case of the ''&'' (''a&b'') operator shall be defined in
      the obvious way if ''a'' and ''b'' are both positive;
      corresponding bits of their binary representation will be ANDed
-     together.  For negative operands, the algebraic identity above,
+     together. For negative operands, the algebraic identity above,
      together with De Morgan's laws, can reduce the operation to the
      base case:
 
@@ -327,7 +325,7 @@ arbitrary precision.  Specifically:
  > * The base case of the ''|'' (''a|b'') operator shall be defined in
      the obvious way if ''a'' and ''b'' are both positive:
      corresponding bits of their binary representation will be ORed
-     together.  For negative operands, the algebraic identity above,
+     together. For negative operands, the algebraic identity above,
      together with De Morgan's laws, can reduce the operation to the
      base case:
 
@@ -340,7 +338,7 @@ arbitrary precision.  Specifically:
  > * The base case of the ''^'' (''a^b'') operator shall be defined in
      the obvious way if ''a'' and ''b'' are both positive:
      corresponding bits of their binary representation will be
-     EXCLUSIVE ORed together.  For negative operands, the algebraic
+     EXCLUSIVE ORed together. For negative operands, the algebraic
      identity above, together with the contrapositive law, can reduce
      the operation to the base case:
 
@@ -352,36 +350,34 @@ arbitrary precision.  Specifically:
 
  > * The abs(), ceil(), double(), floor(), int(), round(), sqrt(), and
      wide() math functions shall all be modified to accept
-     arbitrary-precision integers as parameters.  All these functions
+     arbitrary-precision integers as parameters. All these functions
      will continue to return the same "type" as they do now (integer
      vs. floating point), but the domain and/or range will be extended
      to permit arbitrarily large integers as appropriate.
 
- > * A new function, ''entier($x)'' will be introduced; the
-     function coerces ''$x'' to an integer of appropriate size.
-     ''entier()'' is distinguished from ''int()'' in that
-     ''int()'' results in an integer limited to the size of the
-     native long integer always, while
-     ''entier()'' results in whatever size of integer is needed
+ > * A new function, ''entier($x)'' will be introduced; the function
+     coerces ''$x'' to an integer of appropriate size. ''entier()'' is
+     distinguished from ''int()'' in that ''int()'' results in an
+     integer limited to the size of the native long integer always,
+     while ''entier()'' results in whatever size of integer is needed
      to hold the full value.
 
  7. The '''incr''' and '''dict incr''' commands shall work on
-    arbitary-precision values.  Specifically, [[incr a $n]] will
-    behave like [[set a [[expr { $a + $n }]]]] with the constraint
-    that ''$a'' and ''$b'' must both be integers.
+    arbitary-precision values. Specifically, [[incr a $n]] will behave
+    like [[set a [[expr { $a + $n }]]]] with the constraint that
+    ''$a'' and ''$b'' must both be integers.
 
- 8. The '''format''' and '''scan''' commands will acquire ''%lld'', 
-    ''%lli'', ''%llo'', ''%llx''
-    and ''%llX'' specifiers that format their arguments as
-    arbitrary-precision decimal, (decimal/any format), octal,
-    and hexadecimal integers,
-    respectively.  The format specifier ''%llu'' is invalid and
-    will cause an error.  The ''%llo'' and ''%llx'' specifiers, unlike
-    their native-integer counterparts, will format ''signed''
-    numbers; the result of [[format %#llx -12345]] will not be
-    0xffffcfc7, but rather -0x3039.  (If an application requires
-    hexadecimal numbers in two's complement notation, it can
-    get them by forcing a number to be positive:
+ 8. The '''format''' and '''scan''' commands will acquire ''%lld'',
+    ''%lli'', ''%llo'', ''%llx'' and ''%llX'' specifiers that format
+    their arguments as arbitrary-precision decimal, (decimal/any
+    format), octal, and hexadecimal integers, respectively. The format
+    specifier ''%llu'' is invalid and will cause an error. The
+    ''%llo'' and ''%llx'' specifiers, unlike their native-integer
+    counterparts, will format ''signed'' numbers; the result of
+    [[format %#llx -12345]] will not be 0xffffcfc7, but rather
+    -0x3039. (If an application requires hexadecimal numbers in two's
+    complement notation, it can get them by forcing a number to be
+    positive:
 
 |     set x -12345
 |     set x64bit [expr { $x & ((1<<64) - 1) }]
@@ -391,11 +387,11 @@ arbitrary precision.  Specifically:
 
  9. User defined math functions will be able to gain access to a
     ''bignumValue'' only if they are created using the techniques
-    described in [232].  The Tcl command that implements the user
+    described in [232]. The Tcl command that implements the user
     defined math function will be able to receive a '''bignum'''
-    Tcl_Obj value just as it can receive any other Tcl_ObjType.
-    The legacy ''Tcl_Value'' structure, will '''not''' be updated
-    to add a bignum-valued field.
+    Tcl_Obj value just as it can receive any other Tcl_ObjType. The
+    legacy ''Tcl_Value'' structure, will '''not''' be updated to add a
+    bignum-valued field.
 
 ~ Integration Details
 
@@ -403,7 +399,7 @@ The ''libtommath'' source code shall be extracted from the
 distributions available at [http://math.libtomcrypt.org/] and brought
 into the CVS repository as a ''vendor branch'' (see
 [https://www.cvshome.org/docs/manual/cvs-1.11.18/cvs_13.html#SEC103]
-for a discussion of managing vendor branches.  It appears that all the
+for a discussion of managing vendor branches. It appears that all the
 necessary modifications to integrate this source code with Tcl can be
 made in the single file, ''tommath.h''; it is likely that the
 ''tools/'' directory in the Tcl source tree will contain a Tcl script
@@ -420,12 +416,12 @@ Berkeley ''mp'' API.
 ~ Choice of Library
 
 The ''libtommath'' code is chosen from among a fairly large set of
-possible third-party bignum codes.  Among the ones considered were:
+possible third-party bignum codes. Among the ones considered were:
 
  GMP: The Gnu GMP library is probably the fastest and most complete of
-  the codes available.  Alas, it is licensed under LGPL, which would
+  the codes available. Alas, it is licensed under LGPL, which would
   require all distributors who prepare binary Tcl distributions to
-  include the GMP source code.  I chose to avoid any legal
+  include the GMP source code. I chose to avoid any legal
   entanglements, and avoided GMP for this reason.
 
  The original Berkeley mp library: This library is atrociously slow,
@@ -434,12 +430,12 @@ possible third-party bignum codes.  Among the ones considered were:
  Gnu Calc: GPL licensed. A non-starter for that reason.
 
  mpexpr: This Tcl extension has been available for many years and is
-  released under the BSD license.  (It was the basis for Gnu Calc but
-  predates the fork, and hence is not GPL-contaminated.)  It would
+  released under the BSD license. (It was the basis for Gnu Calc but
+  predates the fork, and hence is not GPL-contaminated.) It would
   certainly be a possibility, but the code is not terribly well
   documented, is slow by today's standards, and still uses
-  string-based Tcl API's.  It would be a considerable amount of work
-  to bring it into conformance with today's Tcl core engineering
+  string-based Tcl API's. It would be a considerable amount of work to
+  bring it into conformance with today's Tcl core engineering
   practices.
 
  OpenSSL: The OpenSSL library includes a fast and well-documented
@@ -455,23 +451,23 @@ Several libraries implemented in C++ were dismissed out of hand,
 because of the deployment issues associated with C++ runtime libraries
 and static constructors.
 
-The ''libtommath'' code is released to the Public Domain.  Its author,
+The ''libtommath'' code is released to the Public Domain. Its author,
 Tom St. Denis, explicitly and irrevocably authorizes its use for any
-purpose, without fee, and without attribution.  So license
-incompatiilities aren't going to be an issue.  The documentation is
+purpose, without fee, and without attribution. So license
+incompatibilities aren't going to be an issue. The documentation is
 wonderful (Tom has written a book of several hundred pages
 [http://book.libtomcrypt.org/draft/tommath.pdf] describing the
 algorithms used), and the code is lucid.
 
 The chief disadvantage to ''libtommath'' is that it is a one-person
-effort, and hence has the risk of becoming orphaned.  I consider this
-risk to be of acceptable severity, because of the quality of the
-code. The Tcl maintainers could take it on quite readily.
+effort, and hence has the risk of becoming orphaned. I consider this
+risk to be of acceptable severity, because of the quality of the code.
+The Tcl maintainers could take it on quite readily.
 
 ~ Additional Possibilities
 
 The Tcl library will actually use only about one-third of
-''libtommath'' to implement the ''expr'' command.  In particular, the
+''libtommath'' to implement the ''expr'' command. In particular, the
 library functions for squaring, fast modular reduction, modular
 exponentiation, greatest common divisor, least common multiple, Jacobi
 symbol, modular inverse, primality testing and the solution of linear
@@ -481,18 +477,18 @@ Tcl library to save memory footprint.
 Nevertheless, these operations would be extremely useful in an
 extension, so that programs that don't live with tight memory
 constraints can do things like fast Diffie-Hellman or RSA
-cryptography.  We should probably consider a 'bignum' package to be
+cryptography. We should probably consider a 'bignum' package to be
 bundled with the core distribution that would add appropriate math
 functions wrapping these operations.
 
 ~ Reference Implementation
 
-A feature complete implementation is present 
-on the CVS branch called 'kennykb-numerics-branch'.
+A feature complete implementation is present on the CVS branch called
+'kennykb-numerics-branch'.
 
 ~ Copyright
 
-Copyright © 2005 by Kevin B. Kenny.  All rights reserved.  
+Copyright © 2005 by Kevin B. Kenny. All rights reserved.
 
 This document may be distributed subject to the terms and conditions
 set forth in the Open Publication License, version 1.0
