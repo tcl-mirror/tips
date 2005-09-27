@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 Author:         Don Porter <dgp@users.sf.net>
@@ -390,15 +390,12 @@ arbitrary precision.  Specifically:
  >  will yield '0xffffffffffffcfc7'.
 
  9. User defined math functions will be able to gain access to a
-    ''bignumValue'' in the ''Tcl_Value'' structure, and a TCL_BIGNUM
-    value in the ''Tcl_ValueType'' enumeration.  User defined
-    functions that accept arguments of type TCL_WIDE_INT will have
-    precision reduced appropriately (leading to possible "integer
-    value too large to represent" conversion errors).  User defined
-    functions that accept arguments of type TCL_EITHER will no longer
-    ever get a TCL_WIDE_INT argument, but may get a TCL_BIGNUM.  (Note
-    that if [232] becomes final, then ''Tcl_Value'' becomes something
-    of an historical aberration.)
+    ''bignumValue'' only if they are created using the techniques
+    described in [232].  The Tcl command that implements the user
+    defined math function will be able to receive a '''bignum'''
+    Tcl_Obj value just as it can receive any other Tcl_ObjType.
+    The legacy ''Tcl_Value'' structure, will '''not''' be updated
+    to add a bignum-valued field.
 
 ~ Integration Details
 
@@ -490,12 +487,8 @@ functions wrapping these operations.
 
 ~ Reference Implementation
 
-No reference implementation is present as yet; the plan is to develop
-it on the CVS branch called 'tcl-numerics-branch'.  Vote will not be
-called until the implementation is far enough along to convince the
-Tcl Core Team that it is practicable in the 8.5 release schedule.
-(The author hopes to enlist other volunteers to assist with the
-effort.)
+A feature complete implementation is present 
+on the CVS branch called 'kennykb-numerics-branch'.
 
 ~ Copyright
 
