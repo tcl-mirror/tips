@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
 Author:         Don Porter <dgp@users.sf.net>
@@ -190,23 +190,21 @@ arbitrary precision.  Specifically:
 
  6. The '''expr''' command shall be reworked so that all integer
     arithmetic is performed ''as if'' all integers are of arbitrary
-    precision.  In practice, numbers between INT_MIN and INT_MAX shall
-    be stored in native integers.  The operators shall perform type
+    precision.  In practice, numbers between LONG_MIN and LONG_MAX shall
+    be stored in native long integers.  The operators shall perform type
     promotions as needed.  The command shall avoid (as far as
     practicable) performing arbitrary-precision arithmetic when native
-    ints are presented. Specifically:
+    long ints are presented. Specifically:
 
  > * Mixed mode arithmetic with floating point numbers shall work as
      it does today; the argument that is not a floating point number
      shall be converted.  Note that it will be possible for conversion
      to overflow the floating-point arithmetic range; in this case,
-     the value shall be replaced with ''Inf'' (assuming the approval
-     of [132]) or yield the error, "floating-point value too large to
-     represent".
+     the value shall be replaced with ''Inf''.
 
  > For arithmetic involving only integers:
 
- > * The unary '-' operator shall promote INT_MIN to a mp_int; this is
+ > * The unary '-' operator shall promote LONG_MIN to a mp_int; this is
      the only input that can cause it to overflow.
 
  > * The unary '+' and '!' operators require no promotion; '+' does
@@ -216,7 +214,7 @@ arbitrary precision.  Specifically:
  > * The binary '**' operator (and the ''pow'' function) shall promote
      to an arbitrary precision integer conservatively: when computing
      'a**b', it will precompute 'ceil(log2(a)*b)', and promote if this
-     logarithm exceeds INT_BITS-1.  The result shall be demoted to an
+     logarithm exceeds LONG_BITS-1.  The result shall be demoted to an
      integer if it fits.
 
  > * The binary '*' operator, if either argument is an
@@ -240,10 +238,10 @@ arbitrary precision.  Specifically:
  > * The binary '%' operator, in computing ''a%b'', shall do the
      following:
 
- > > * If ''a'' and ''b'' are both native integers, the result is also
-       a native integer.
+ > > * If ''a'' and ''b'' are both native long integers, the result is
+       also a native long integer.
 
- > > * If ''a'' is a native integer but ''b'' is an
+ > > * If ''a'' is a native long integer but ''b'' is an
        arbitrary-precision integer, then ''a<b'', and ''a%b'' can be
        computed without division.
 
@@ -354,16 +352,16 @@ arbitrary precision.  Specifically:
 
  > * The abs(), ceil(), double(), floor(), int(), round(), sqrt(), and
      wide() math functions shall all be modified to accept
-     arbitrary-precision integers as parameters.  The sqrt() function
-     will return the greatest integer less than 
-     or equal to the square root when
-     its result is greater than the largest odd integer exactly
-     represented in a floating-point number.
+     arbitrary-precision integers as parameters.  All these functions
+     will continue to return the same "type" as they do now (integer
+     vs. floating point), but the domain and/or range will be extended
+     to permit arbitrarily large integers as appropriate.
 
  > * A new function, ''entier($x)'' will be introduced; the
      function coerces ''$x'' to an integer of appropriate size.
      ''entier()'' is distinguished from ''int()'' in that
-     ''int()'' results in a 32-bit integer always, while
+     ''int()'' results in an integer limited to the size of the
+     native long integer always, while
      ''entier()'' results in whatever size of integer is needed
      to hold the full value.
 
@@ -373,19 +371,21 @@ arbitrary precision.  Specifically:
     that ''$a'' and ''$b'' must both be integers.
 
  8. The '''format''' and '''scan''' commands will acquire ''%lld'', 
-    ''%llo'', ''%llx''
+    ''%lli'', ''%llo'', ''%llx''
     and ''%llX'' specifiers that format their arguments as
-    arbitrary-precision decimal, octal, and hexadecimal integers,
-    respectively.  The ''%llo'' and ''%llx'' specifiers, unlike
+    arbitrary-precision decimal, (decimal/any format), octal,
+    and hexadecimal integers,
+    respectively.  The format specifier ''%llu'' is invalid and
+    will cause an error.  The ''%llo'' and ''%llx'' specifiers, unlike
     their native-integer counterparts, will format ''signed''
-    numbers; the result of [[format %#llx 12345]] will not be
+    numbers; the result of [[format %#llx -12345]] will not be
     0xffffcfc7, but rather -0x3039.  (If an application requires
     hexadecimal numbers in two's complement notation, it can
     get them by forcing a number to be positive:
 
-|     set x -0x12345
+|     set x -12345
 |     set x64bit [expr { $x & ((1<<64) - 1) }]
-|     puts [format %llx $x]
+|     format %#llx $x64bit
 
  >  will yield '0xffffffffffffcfc7'.
 
