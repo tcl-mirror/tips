@@ -1,8 +1,9 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kennykb@acm.org >
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -100,7 +101,9 @@ arbitrary precision.  Specifically:
 
  > Tcl_SetBignumObj: Changes the value of an object to an integer of
       arbitrary precision.  The ''value'' argument gives the integer
-      in the format native to ''libtommath''.  As with
+      in the format native to ''libtommath''.  As with other
+      '''Tcl_SetFooObj''' routines, the '''Tcl_Obj''' having its
+      value set must be unshared (copy on write).  As with
       '''Tcl_NewBignumObj''', the ''value'' argument is cleared on
       return and the digit list is owned by Tcl thereafter.
 
@@ -133,10 +136,10 @@ arbitrary precision.  Specifically:
 
  > Similarly, when retrieving a large integer from an object, if the
     object retains an internal representation with the ''mp_int'', the
-    ''mp_int'' must be copied.  Code that intends to overwrite an
-    unshared object immediately can avoid the copy by using the call
-    that clears the object; this call returns the original ''mp_int''
-    without needing to do any memory management.
+    ''mp_int'' must be copied.  Code that intends to overwrite or
+    destroy an unshared object immediately can avoid the copy by using
+    the call that clears the object; this call returns the original
+    ''mp_int'' without needing to do any memory management.
 
  3. The ''internalRep'' union in the ''Tcl_Obj'' structure
     shall be augmented with a ''ptrAndIntRep'' field.  This field shall
@@ -158,11 +161,19 @@ arbitrary precision.  Specifically:
     allow packing and unpacking the object with a few Boolean
     operations and shifts rather than needing to use a pointer
     internal representation and dynamically allocated memory to store
-    the ''mp_int''.  The drawback is that it is limited to integers of
-    2**15 digits (or 917,504 bits, since libtommath does its
-    arithmetic in base 2**28).  Since cryptographic algorithms,
+    the ''mp_int''.  This packed representation is adequate to 
+    represent integers of (2**15 - 1) ''mp_digit''s (or 917,476 bits,
+    since libtommath does its arithmetic in base 2**28).  Since
+    cryptographic algorithms,
     floating point conversions, and most number theoretic work will
-    not exceed this length, it is thought to be adequate in practice.
+    not exceed this length, the packed representation should cover
+    nearly all values used in practice.
+
+ > When an ''mp_int'' value too large for that tight packing is to
+   be stored as the internal rep of a ''Tcl_Obj'', a copy of the
+   ''mp_int'' value will be allocated from the heap, and a pointer
+   to the copy stored in the pointer field.  A value of '''-1'''
+   in the integer field will indicate this unpacked storage option.
 
  4. A new ''tclBignumType'' shall be added to the set of registered
     object types; it will have the ''ptrAndLongRep'' internal
