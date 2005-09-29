@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Will Duquette <will@wjduquette.com>
 Author:		Steve Landers <steve@digitalsmarties.com>
@@ -100,9 +100,6 @@ will be derived from something more fundamental.
  > mixins: These allow functionality to be brought into an object from
    other objects if necessary, enabling better separation of concerns.
 
- > invariants: These ensure that assumptions about the behaviour of a
-   class can be checked.
-
 ~~ Key Alterations
 
  * Object and class names in the core extension to be all lower-case,
@@ -118,6 +115,16 @@ will be derived from something more fundamental.
 
  * More "conventional" naming of operations is to be used.
 
+ * Many of the more advanced features of XOTcl are removed, especially
+   when it is possible to implement them on top of other features.
+   This particularly applies to:
+
+ > * Filter- and mixin-guards
+
+ > * Invariants
+
+ > * Pre- and post-conditions
+
 Note that this TIP does ''not'' propose to actually include any XOTcl
 (or Itcl or Snit or ...) compatability packages in the core; it it
 about forming a foundation on which they can be built (which happens
@@ -126,6 +133,71 @@ compatability packages can either remain separate code, or be the
 subject of future TIPs.
 
 ~ Detailed Proposal
+
+~~ Features of XOTcl that are Retained
+
+Many key semantic features of XOTcl are adopted with little or no
+change.
+
+~~~ Multiple Inheritance
+
+Like XOTcl, we shall support multiple inheritance (MI).
+
+The main problem with MI in languages like C++ was always confusion
+caused by the fact that methods were resolved using integer offsets
+into method tables. By contrast, single inheritance is far too
+restrictive. XOTcl uses MI, and adds in mixins and filters, so we
+should have those capabilities too. As these are less well-known
+terms than normal inheritance, we define them here:
+
+ mixin: An auxiliary ''class'' whose behaviour is "mixed into" the
+   current object or class, adding the mixin's methods to the target
+   object's/class's methods. Often used to support cross-cutting
+   functionality.
+
+ filter: A nominated ''method'' that is permitted to control whether
+   all calls to any other method of a class or object occur. This
+   control is achieved by the nominated filter method being chained on
+   the front of the sequence of methods in the "implementation list"
+   for the actual target method. Often used to support transparent
+   orthogonal functionality, such as access control or result
+   cacheing.
+
+~~~ Inheritance and Method-Chaining
+
+The method name resolution and chaining scheme of XOTcl shall be
+used. The following gives the method-interception search order; any
+particular method implementation belongs in the ''last'' position in
+this order that it can possibly be in.
+
+ 1. filters defined on the object, in the order that they are
+    described in the object's filter list
+
+ 2. methods declared by mixins added to the object, with mixins being
+    processed in the order that they are described in the object's
+    mixin list (the set of methods declared by the mixin are
+    determined by recursively applying this algorithm)
+
+ 3. methods declared by the object itself
+
+ 4. filters defined on the object's class, in the order that they are
+    described in the class's filter list
+
+ 5. methods declared by mixins added to the object's class, with
+    mixins being processed in the order that they are described in the
+    class's mixin list
+
+ 6. methods declared by the object's class itself
+
+ 7. methods declared by the object's class's superclasses, with
+    superclasses being processed in the order that they are described
+    in the class's superclass list
+
+Given the above ordering, for each method on an object there is an
+ordered list of implementations. We dispatch the method by executing
+the first implementation on the list, which can then hand off to
+subsequent methods in the list in order using the '''next''' command
+(described below).
 
 ~~ Essential Changes Relative to XOTcl
 
@@ -346,18 +418,16 @@ new subcommand, '''constructor''', which will be used as follows:
 |}
 
 The constructor so defined will act almost exactly like an instproc;
-it may have pre- and post-conditions attached to it, it may call
-superclass constructors using the "super" command, etc. However, it
-may never be called explicitly, but only via the class's "create" and
-"new" methods.
+it may call superclass constructors using the "super" command, etc.
+However, it may never be called explicitly, but only via the class's
+"create" and "new" methods.
 
 ~~~ Destructor Syntax
 
 In XOTcl, a class's destructor is defined by overriding the the
 "destroy" instproc. This is problematic for two reasons: first, a
-destructor doesn't need an argument list, and has no need of
-preconditions and postconditions. An instproc is too powerful for the
-task. Second, successful destruction should not depend on the
+destructor doesn't need an argument list. An instproc is too powerful
+for the task. Second, successful destruction should not depend on the
 destructor's chaining to its superclass destructors properly.
 
 '''Therefore''', the class destructor will be defined by a new
@@ -367,8 +437,7 @@ subcommand of '''oo::define''', '''destructor''', as follows:
 |    # Body
 |}
 
-The destructor has no argument list, nor does it have any
-preconditions or postconditions.
+The destructor has no argument list.
 
 The destructor cannot be called explicitly. Instead, the destructors
 are invoked in the proper order by the standard '''destroy''' method
@@ -557,11 +626,9 @@ abbreviated when not in the script form) shall be:
    instance variables are guaranteed to be set. If no constructor is
    specified, the constructor will accept exactly the same arguments
    as the constructor in the parent class, and will delegate all the
-   arguments to that parent-class constructor. See the '''method'''
-   method for a description of the behaviour of pre- and postconditions.
+   arguments to that parent-class constructor.
 
  > '''oo::define''' ''class'' '''constructor''' ''argList'' ''body''
-   ?''precondition''? ?''postcondition''?
 
  * '''copy''' - this creates an exact copy of an object with the given
    name. If ''name'' is the empty string, a new name will be
@@ -608,14 +675,6 @@ abbreviated when not in the script form) shall be:
 
  > '''oo::define''' ''objectOrClass'' '''filter''' ''filterList''
 
- * '''filterguard''' - this subcommand defines a list of guard
-   expressions for a filter; the filter is skipped (i.e. the
-   underlying method call is invoked directly) if any of the guards
-   returns a false value. Syntax:
-
- > '''oo::define''' ''objectOrClass'' '''filterguard''' ''filterName''
-   ''guardList''
-
  * '''forward''' - this subcommand (operating on the class if the
    object is a class, and on the object itself otherwise - see the
    '''self.forward''' subcommand for how to force it the other way)
@@ -626,30 +685,13 @@ abbreviated when not in the script form) shall be:
  > '''oo::define''' ''objectOrClass'' '''forward''' ''name''
    ''targetCmd'' ?''arg'' ...?
 
- * '''invariant''' - this subcommand (only valid for classes) defines
-   a set of class invariants, scripts that must return a true value
-   both before and after every method call. This set is inherited by
-   subclasses.  Syntax:
-
- > '''oo::define''' ''class'' '''invariant''' ''invariantList''
-
  * '''method''' - this subcommand (only valid for classes) defines a
    class method (i.e. a method supported by every instance of the
    class). By default, methods are exported if they start with a
    lower-case letter (i.e. any character in \u0061 to \u007a
-   inclusive) and are not exported otherwise. The optional pre- and
-   postconditions expressions are evaluated in the context of the body
-   of the method; the precondition must return a true value for the
-   method body to actually start executing, and the postcondition must
-   return a true value after the method body has executed (unless an
-   error was generated) for a normal method exit to happen - the
-   default error message (on a false condition result) is
-   "precondition failed" or "postcondition failed", but if the
-   conditions return an error message that is used instead. If only
-   one condition is given, it is the precondition.
+   inclusive) and are not exported otherwise.
 
  > '''oo::define''' ''class'' '''method''' ''name'' ''args'' ''body''
-   ?''precondition''? ?''postcondition''?
 
  * '''mixin''' - This subcommand defines a mixin for a class or object
    (operating on the class if the object is a class, and on the object
@@ -662,14 +704,6 @@ abbreviated when not in the script form) shall be:
    '''next''' command.
 
  > '''oo::define''' ''objectOrClass'' '''mixin''' ''mixinList''
-
- * '''mixinguard''' - this subcommand defines a list of guard
-   expressions for a mixin; the mixin is skipped (i.e. the underlying
-   method call is invoked directly) if any of the guards returns a
-   false value. Syntax:
-
- > '''oo::define''' ''objectOrClass'' '''mixinguard''' ''filterName''
-   ''guardList''
 
  * '''parameter''' - this subcommand defines a parameter (or
    parameters), an instance variable with an identically named and
@@ -725,14 +759,8 @@ distinction is required).
  * '''self.filter''' - This is a per-object version of the
    '''filter''' subcommand.
 
- * '''self.filterguard''' - This is a per-object version of the
-   '''filterguard''' subcommand.
-
  * '''self.forward''' - This is a per-object version of the
    '''forward''' subcommand.
-
- * '''self.invariant''' - This is a per-object version of the
-   '''invariant''' subcommand.
 
  * '''self.method''' - This is a per-object version of the
    '''method''' subcommand.
@@ -742,32 +770,6 @@ distinction is required).
 
  * '''self.unexport''' - This decreases the set of commands exported
    by the object.
-
-~~ Other Commands in the ::oo Namespace
-
-~~~ oo::check
-
-This controls the types of assertion checked for a particular
-object. The following types of assertion may be controlled:
-
- pre: When specifed, states that preconditions should be checked
-   during the processing of an object's methods.
-
- post: When specifed, states that postconditions should be checked
-   during the processing of an object's methods.
-
- invariants: When specifed, states that object-defined invariants
-   should be checked during the processing of an object's methods.
-
- classinvariants: When specified, states that class-defined invariants
-   should be checked during the processing of an object's methods.
-
-The set of types of assertion to check is specified as the second
-argument to the '''oo::check''' command, the first argument being the
-object to set the assertion checking behaviour of. The special type
-'''all''' can be specified to select all assertion types.
-
- > '''oo::check''' ''object'' ''assertTypeList''
 
 ~ Core Objects
 
@@ -808,6 +810,13 @@ the following methods:
    evaluation is the result of the ''object'' '''eval''' method.
 
  > ''object'' '''eval''' ?''arg'' ''arg'' ...?
+
+ destroy: This exported method deletes the object; it takes no
+   additional arguments and returns the empty string as its result.
+   The basic implementation in the '''oo::object''' class shall just
+   use the core Tcl '''rename''' command to perform the deletion.
+
+ > ''object'' '''destroy'''
 
  variable: This non-exported method takes an arbitrary number of
    ''unqualified'' variable names and binds the variable with that
@@ -930,9 +939,8 @@ the identically-named subcommand of the '''oo::define''' command
 described below, operating on the class instance that is an instance
 of '''oo::definer'''.
 
- > abstract, constructor, destructor, export, filter, filterguard,
-   forward, invariant, method, mixin, mixinguard, parameter,
-   superclass, unexport
+ > abstract, constructor, destructor, export, filter, forward, method,
+   mixin, parameter, superclass, unexport
 
 Thus, the following commands are equivalent:
 
@@ -1077,15 +1085,6 @@ information shall be available:
 
  > '''info object''' ''object'' '''filters'''
 
- filterguards: Returns the list of filter-guards for a particular
-   filter.
-
- > '''info object''' ''object'' '''filterguards''' ''name''
-
- invariants: Returns the list of invariants defined for an object.
-
- > '''info object''' ''object'' '''invariants'''
-
  isa: Returns boolean information about how an object relates to the
    class hierarchy. Supports a range of subcommands to allow the
    specification of what sort of test is to be performed:
@@ -1122,16 +1121,6 @@ information shall be available:
  mixins: Returns the list of mixins for an object.
 
  > '''info object''' ''object'' '''mixins'''
-
- post: Returns the postcondition for the named method, or an empty
-   string if no postcondition has been defined.
-
- > '''info object''' ''object'' '''post'''
-
- pre: Returns the precondition for the named method, or an empty
-   string if no precondition has been defined.
-
- > '''info object''' ''object'' '''pre'''
 
  vars: Returns the list of all variables defined within the object, or
    optionally just those that match ''pattern'' according to the rules
@@ -1172,19 +1161,10 @@ information shall be available:
 
  > '''info class''' ''object'' '''filters'''
 
- filterguards: Returns the list of filter-guards for a particular
-   filter.
-
- > '''info class''' ''object'' '''filterguards''' ''name''
-
  instances: Returns a list of all direct instances of the class (but
    not instances of any subclasses of the class).
 
  > '''info class''' ''class'' '''instances'''
-
- invariants: Returns the list of invariants defined for an object.
-
- > '''info class''' ''object'' '''invariants'''
 
  methods: Returns the list of methods defined for an object.
 
@@ -1197,16 +1177,6 @@ information shall be available:
  parameters: Returns a list of all parameters defined by the class.
 
  > '''info class''' ''class'' '''parameters'''
-
- post: Returns the postcondition for the named method, or an empty
-   string if no postcondition has been defined.
-
- > '''info class''' ''object'' '''post'''
-
- pre: Returns the precondition for the named method, or an empty
-   string if no precondition has been defined.
-
- > '''info class''' ''object'' '''pre'''
 
  subclasses: Returns a list of all subclasses of the class, or
    optionally just those that match ''pattern''.
@@ -1223,6 +1193,10 @@ information shall be available:
 
  Object::autoname: This is trivially implemented in a small procedure,
    and core objects can pick names for themselves and are renameable.
+
+ Object::check: Preconditions and postconditions are not supported
+   (they add a lot of complexity) and neither are invariants. Hence,
+   there is no need to control whether they are executed.
 
  Object::cleanup: This is not an especially well-defined method (what
    if the object happens to hold handles to complex resources such as
@@ -1243,13 +1217,15 @@ information shall be available:
  Object::info: The introspection features are moved into the core
    '''info''' command.
 
+ Object::invar: Invariants may be implemented using filters.
+
  Object::move: This feature is equivalent to the use of the standard
    '''rename''' operation.
 
  Object::noinit: This feature has been deliberately omitted from the
    core object system because its use is dependent on the use of other
-   deliberately-omitted features (i.e. '''configure'''). This would be
-   value added by any XOTcl extension.
+   deliberately-omitted features (i.e., '''configure'''). This would
+   be value added by any XOTcl extension.
 
  Object::parametercmd: The core object system always handles
    parameters in the same simple way; customisation of this process
@@ -1279,7 +1255,8 @@ information shall be available:
  Class::parameterclass: Core object system parameters are not
    implemented by classes.
 
- Class::volatile: This feature is omitted.
+ Class::volatile: This feature is omitted as it is believed that it is
+   possible to implement automated lifecycle management as a mixin.
 
 ~ Copyright
 
