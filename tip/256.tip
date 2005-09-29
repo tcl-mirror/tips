@@ -1,11 +1,11 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        12-Aug-2005
 Post-History:   
 Tcl-Version:    8.5
