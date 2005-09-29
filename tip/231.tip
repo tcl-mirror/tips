@@ -1,12 +1,12 @@
 TIP:		231
 Title:		Support for [wm attributes] on X11
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Joe English <jenglish@flightlab.com>
 State:		Draft
 Type:		Project
 Created:	06-Nov-2004
 Tcl-Version:	8.5
-Vote:		Pending
+Vote:		In progress
 Post-History:	
 
 ~ Abstract

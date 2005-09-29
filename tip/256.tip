@@ -1,6 +1,6 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Draft
@@ -31,26 +31,40 @@ current x-position.
 This TIP proposes to add wordprocessor-style tabbing to Tk's
 '''text''' widget.
 
-Tk 8.4 only supports tabular tabbing (except for the special ''-tabs {}'' case, which uses wordprocessor style 8-tabs!), although none of this is clearly
-documented at all. Tk 8.5 at present actually only supports
-wordprocessor style tabbing (and fixed a bunch of other bugs present
-in Tk 8.4's tab handling). This behaviour change was an inadvertent
-result of fixing bugs in the code without the correct behaviour being
-very clearly specified. Hence this TIP will restore the old behaviour
-(minus bugs) as the default, and add the option of the new
-wordprocessor style behaviour.
+Tk 8.4 only supports tabular tabbing (except for the special ''-tabs
+{}'' case, which uses wordprocessor style 8-tabs!), although none of
+this is clearly documented at all. Tk 8.5 at present actually only
+supports wordprocessor style tabbing (and fixed a bunch of other bugs
+present in Tk 8.4's tab handling). This behaviour change was an
+inadvertent result of fixing bugs in the code without the correct
+behaviour being very clearly specified. Hence this TIP will restore
+the old behaviour (minus bugs) as the default, and add the option of
+the new wordprocessor style behaviour.
 
 ~ Proposal
 
-A new '''-tabstyle''' configuration option will be added to the '''text''' widget, taking the values '''wordprocessor''' or 
-'''tabular''' to specify the style of tabbing.  The same option will also be added to '''tags''' in the text widget (which, as usual, will also allow an empty value for the configuration option). The default style
-of tabbing will be
-'''tabular''' for compatibility with Tk 8.4. Neither style name may be
-abbreviated.
+A new '''-tabstyle''' configuration option will be added to the
+'''text''' widget, taking the values '''wordprocessor''' or
+'''tabular''' to specify the style of tabbing.  The same option will
+also be added to '''tags''' in the text widget (which, as usual, will
+also allow an empty value for the configuration option). The default
+style of tabbing will be '''tabular''' for compatibility with Tk 8.4.
+Neither style name may be abbreviated.
 
-As a result of this change, abbreviations such as '''-ta''' or '''-tab''' will become ambiguous and trigger an error.  This is considered a bug in the calling script (and a trivial thing to fix in such scripts).  Similar ambiguities have been introduced by TIPs in the past (e.g. with ''grid'').  It may actually be a useful ambiguity, in that it will alert script writers to the fact that new tabbing functionality is available, and in particular that a decision on desired tab style needs to be made.
+As a result of this change, abbreviations such as '''-ta''' or
+'''-tab''' will become ambiguous and trigger an error.  This is
+considered a bug in the calling script (and a trivial thing to fix in
+such scripts).  Similar ambiguities have been introduced by TIPs in
+the past (e.g. with ''grid'').  It may actually be a useful ambiguity,
+in that it will alert script writers to the fact that new tabbing
+functionality is available, and in particular that a decision on
+desired tab style needs to be made.
 
-In addition the strange difference in Tk 8.4 between an empty '''-tabs''' value and any other value will be changed for Tk 8.5 - it will use the '''-tabstyle''' option to determine how to interpret tabs under all circumstances, and use the '''-tabs''' list simply to determine the location of the tab stops.
+In addition the strange difference in Tk 8.4 between an empty
+'''-tabs''' value and any other value will be changed for Tk 8.5 - it
+will use the '''-tabstyle''' option to determine how to interpret tabs
+under all circumstances, and use the '''-tabs''' list simply to
+determine the location of the tab stops.
 
 Here's an example usage:
 
@@ -68,7 +82,8 @@ Here's an example usage:
 |.t tag configure tabular -tabstyle tabular
 |.t tag add tabular 5.0 7.0
 
-and here's an example showing how Tk 8.4 does ''not'' move you to the next tab stop to the right each time:
+and here's an example showing how Tk 8.4 does ''not'' move you to the
+next tab stop to the right each time:
 
 |pack [text .t]
 |.t configure -tabs {0.25i}
@@ -80,7 +95,7 @@ The above behaves completely differently in Tk 8.4 and 8.5 at present.
 
 A full implementation, with documentation and tests is available
 at SourceForge
-[https://sf.net/tracker/?func=detail&aid=1247835&group_id=12997&atid=112997].
+[http://sf.net/tracker/?func=detail&aid=1247835&group_id=12997&atid=112997].
 The bug report also contains some further discussion on this issue.
 
 ~ Copyright
