@@ -1,6 +1,6 @@
 TIP:            249
 Title:          Unify Tcl's Parsing of Numbers
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
@@ -160,7 +160,7 @@ beginning with the '''0b''' or '''0o''' prefixes as
 originally proposed in [114].  Getting these prefixes
 recognized in Tcl 8.5 is an important migration step
 to support migration to whatever version of Tcl drops
-the "leading '0' implies octal format" rule.
+the "leading '''0''' implies octal format" rule.
 
 Also in addition, the parsing routine will accept a
 flag value containing the flag bits below that
