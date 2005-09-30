@@ -1,6 +1,6 @@
 TIP:            249
 Title:          Unify Tcl's Parsing of Numbers
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
@@ -163,7 +163,7 @@ to support migration to whatever version of Tcl drops
 the "leading '''0''' implies octal format" rule.
 
 Also in addition, the parsing routine will accept a
-flag value containing the flag bits below that
+''flags'' value containing the flag bits below that
 exert finer control on the parsing.  These extra
 controls were found to be required to permit the
 [[scan]] command to use the same parser.
@@ -178,17 +178,19 @@ controls were found to be required to permit the
      vocabulary.  Use only in combination with
      '''TCL_PARSE_INTEGER_ONLY'''.
 
-   * TCL_PARSE_OCTAL_ONLY - parse only in the octal format,
+   * '''TCL_PARSE_OCTAL_ONLY''' - parse only in the octal format,
      whether or not a prefix is present that would lead to octal
      parsing.  Use only in combination with
      '''TCL_PARSE_INTEGER_ONLY'''.
 
-   * TCL_PARSE_HEXADECIMAL_ONLY - parse only in the hexadecimal format,
+   * '''TCL_PARSE_HEXADECIMAL_ONLY''' - parse only in the
+     hexadecimal format,
      whether or not a prefix is present that would lead to hexadecimal
      parsing.  Use only in combination with
      '''TCL_PARSE_INTEGER_ONLY'''.
 
-   * TCL_PARSE_DECIMAL_ONLY - parse only in the decimal format, no
+   * '''TCL_PARSE_DECIMAL_ONLY''' - parse only in the decimal format,
+     no
      matter whether a '''0''' prefix would normally force a different
      base.
 
