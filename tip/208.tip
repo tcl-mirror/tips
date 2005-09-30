@@ -1,8 +1,8 @@
 TIP:            208
 Title:          Add a 'chan' Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        02-Jul-2004
