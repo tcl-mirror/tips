@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Will Duquette <will@wjduquette.com>
 Author:		Steve Landers <steve@digitalsmarties.com>
@@ -265,7 +265,7 @@ methods:
 
 In the new oo core, the matching code would be this:
 
-|oo::class myclass
+|oo::class create myclass
 |oo::define myclass instproc dothis {args} { # body }
 |oo::define myclass instproc dothat {args} { # body }
 
@@ -273,7 +273,7 @@ In the new oo core, the matching code would be this:
 aliased to the subcommands of '''oo::define'''. Thus, the above code
 could also be written as follows:
 
-|oo::class myclass
+|oo::class create myclass
 |oo::define myclass {
 |    instproc dothis {args} { # body }
 |    instproc dothat {args} { # body }
@@ -282,7 +282,7 @@ could also be written as follows:
 Finally, the class "''create''" method could be extended so that it
 could be called with such a script:
 
-|oo::class myclass {
+|oo::class create myclass {
 |    instproc dothis {args} { # body }
 |    instproc dothat {args} { # body }
 |}
@@ -773,26 +773,39 @@ objects in the core system.
 
 ~~ oo::object
 
-The root of the class hierarchy is '''oo::object'''.
+The root of the class hierarchy is '''oo::object'''. There are two
+ways to create a new instance of an object.
 
- > '''oo::object''' ''name''
+ > '''oo::object''' '''create''' ''name''
 
-Constructs a new object called ''name'' of class ''oo::object''; the
-object is represented as a command in the current scope.
-'''oo::object''' returns the fully qualified command name. If ''name''
-is the empty string, '''oo::object''' generates a name automatically
-that is guaranteed to not clash with any existing command name.
+ > '''set''' ''var'' '''[[''' '''oo::object''' '''new''' ''']]'''
+
+The first constructs a new object called ''name'' of class
+''oo::object''; the object is represented as a command in the current
+scope. The second constructs a new object of class '''oo::object'''
+with a name guaranteed to be different from every existing command and
+returns the fully qualified of the command created (which it is
+naturally a good idea to save in a variable, perhaps called ''var'').
 
 The name of an object is also the name of a command in the form of an
 ensemble where the subcommands of the ensemble are the ''exported''
-method names of the object.
+method names of the object. It is undefined whether the ensemble is
+manipulable with '''namespace ensemble'''.
 
-The new object has two predefined non-exported methods: '''eval''' and
-'''variable'''.  Other subcommands and other behaviour can be added
-using '''oo::define'''.
+The new object has one predefined exported method ('''destroy''') and
+two predefined non-exported methods ('''eval''' and '''variable''').
+Other subcommands and other behaviour can be added using
+'''oo::define'''.
 
-'''oo::object''' serves as the base class for all other core OO system
-classes.
+The '''oo::object''' class (an instance of '''oo::class''') serves as
+the base class for all other core OO system classes.
+
+~~~ Constructor and Destructor
+
+The constructor for the '''oo::object''' class takes no arguments and
+does nothing.
+
+The destructor does nothing.
 
 ~~~ Methods
 
@@ -839,20 +852,20 @@ that manufacture objects according to a standard pattern). Note that
 '''oo::object''' is an instance of '''oo::class''', as is
 '''oo::class''' itself.
 
- > '''oo::class''' ''name'' ?''definition''?
+ > '''oo::class''' '''create''' ''name'' ?''definition''?
 
 This creates a new class called ''name''; the class is an object in
 its own right (of class '''oo::class'''), and hence is represented as
 a command in the current scope. '''oo::class''' returns the fully
-qualified command name. If ''name'' is the empty string,
-'''oo::class''' generates a name automatically.
+qualified command name.
 
-The new class command is used to define objects which belong to the
-class, just as '''oo::object''' is. By default, instances of the new
-class have no more behaviour than instances of '''oo::object''' do;
-new class behavior can be added to the class in two ways. First, a
-''definition'' can be specified when creating the class; second,
-additional behaviour can be added to the class using '''oo::define'''.
+The newly-created class command is used to define objects which belong
+to the class, just as '''oo::object''' is. By default, instances of
+the new class have no more behaviour than instances of
+'''oo::object''' do; new class behavior can be added to the class in
+two ways. First, a ''definition'' can be specified when creating the
+class; second, additional behaviour can be added to the class using
+'''oo::define'''.
 
 The definition, if given, consists of a series of statements that map
 to the subcommands of '''oo::define'''. The following three code
@@ -860,7 +873,7 @@ snippets are equivalent; each defines a class called '''::dog''' whose
 instances will have two subcommands: '''bark''' and '''chase'''.
 
 |# Method 1
-|oo::class dog
+|oo::class create dog
 |
 |oo::define dog method bark {} {
 |    puts "Woof, woof!"
@@ -871,7 +884,7 @@ instances will have two subcommands: '''bark''' and '''chase'''.
 |}
 
 |# Method 2
-|oo::class dog
+|oo::class create dog
 |
 |oo::define dog {
 |    method bark {} {
@@ -884,7 +897,7 @@ instances will have two subcommands: '''bark''' and '''chase'''.
 |}
 
 |# Method 3
-|oo::class dog {
+|oo::class create dog {
 |    method bark {} {
 |        puts "Woof, woof!"
 |    }
@@ -894,11 +907,14 @@ instances will have two subcommands: '''bark''' and '''chase'''.
 |    }
 |}
 
-~~~ Constructor
+~~~ Constructor and Destructor
 
 The constructor for '''oo::class''' concatenates its arguments and
 passes the resulting script to '''oo::define''' (along with the
 fully-qualified name of the created class, of course).
+
+The destructor for '''oo::class''' cuts the class out of the
+inheritance and mixin hierarchy of all instances of the class.
 
 ~~~ Methods
 
@@ -918,38 +934,45 @@ The instances of '''oo::class''' have the following methods:
 
  > ''class'' '''new''' ?''arg'' ''arg'' ...?
 
- unknown: Classes define an unknown-method handler. This is used to
-   hand off attempts to create a class using the syntax:
-
-|oo::class foo bar
-
- > to the '''create''' or '''new''' method, depending on whether the
-   class name is an empty string or not.
+ > Note that the ''oo::class'' object itself does not export the
+   '''new''' method; it is good practice for all classes to have
+   names.
 
 ~~ oo::definer
 
-This metaclass (subclass of '''oo::class''') arranges for its
-instances to have the following methods, each of which is delegated to
-the identically-named subcommand of the '''oo::define''' command
-described below, operating on the class instance that is an instance
-of '''oo::definer'''.
+This metaclass (subclass of '''oo::class''') is designed for easy
+support of an XOTcl-light style of OO.  It arranges for its instances
+to have the following methods, each of which is delegated to the
+identically-named subcommand of the '''oo::define''' command described
+below, operating on the class instance that is an instance of
+'''oo::definer'''.
 
  > constructor, destructor, export, filter, forward, method, mixin,
    parameter, superclass, unexport
 
+In addition, the classes that are instances of '''oo::definer''' are
+augmented with an unknown method such that unknown methods are treated
+as a call to the '''create''' method (if the unknown method name is a
+non-empty string) or '''new''' method (if the unknown method name is
+the empty stirng) of the class.
+
 Thus, the following commands are equivalent:
 
 |# Method 1
-|oo::definer dog
+|oo::definer create dog
 |oo::define dog method bark {} {
 |    puts "Woof, woof!"
 |}
+|dog create fido
+|fido bark
 
 |# Method 2
 |oo::definer dog
 |dog method bark {} {
 |    puts "Woof, woof!"
 |}
+|dog fido
+|fido bark
 
 ~~~ Constructor
 
