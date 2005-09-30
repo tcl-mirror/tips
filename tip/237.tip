@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -392,6 +392,9 @@ arbitrary precision. Specifically:
     Tcl_Obj value just as it can receive any other Tcl_ObjType. The
     legacy ''Tcl_Value'' structure, will '''not''' be updated to add a
     bignum-valued field.
+
+ 10. The number parser detailed in [249] will be adopted into the
+    Tcl internals.  See [249] for details on the implications.
 
 ~ Integration Details
 
