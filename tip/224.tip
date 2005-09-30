@@ -1,6 +1,6 @@
 TIP:            224
 Title:          Add New [array] Subcommands 'incr' and 'value'
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter MacDonald <peter@pdqi.com>
 Author:         Robert Seeger <rseeger00@aol.com>
 State:          Draft
@@ -35,7 +35,7 @@ Both commands take an array name and an elem parameter, but, no string match is 
 
 ~~ array incr
 
- > '''array incr''' ''var elem'' ?''value'' ?''init''??
+ > '''array incr''' ''var elem'' ?''value''? ?''init''?
 
 The '''array incr''' subcommand would increment ''var''(''elem''), if
 it exists, by ''value'', otherwise, initializes it to ''init''.  The
@@ -45,7 +45,7 @@ double values (based on the rules for addition in '''expr''').
 
 ~~ array value
 
- > '''array value''' ''var elem'' ?''value'' ?''init''??
+ > '''array value''' ''var elem'' ?''value''? ?''init''?
 
 The '''array value''' would just return the current contents of
 ''var''(''elem'') if it exists, or ''value'' otherwise.   If the
@@ -87,30 +87,38 @@ subcommands:
 
 ~Discussion
 
-*Wangnic notes:
+ * Wangnic notes:
 
-''array value var elem "" false''  can be written as
-''array get var elem''
+ > '''array value''' ''var elem'' '''"" false''' can be written as
+   '''array get''' ''var elem''
 
-Array get returns name/value pairs.  Array value returns just the value.
-Also if elem has a * in it, there may be multiple matches.
+ > Array get returns name/value pairs.  Array value returns just the
+   value.  Also if elem has a * in it, there may be multiple matches.
 
-*Hobbs notes:
+ * Hobbs notes:
 
-Tip 200 already rejected ''array values''
+ > [200] already rejected ''array values''
 
-A single item is returned from ''array value'', not a list,
-as there is no string match on elem.
+ > A single item is returned from ''array value'', not a list, as
+   there is no string match on elem.
 
-The problem domain is not list processing 
-(which is expected to be relatively expensive),  but rather frequency 
-counting and set matching.
+ > The problem domain is not list processing (which is expected to be
+   relatively expensive), but rather frequency counting and set
+   matching.
 
-*RHSeeger notes:
+ * RHSeeger notes:
 
-It would seem more consistant to push for the ''incr'' command to include a way to initialize a variable if it doesn't exist (as per TIP 215 or the discussed options contained therein), rather than add an incr subcommand to array.
+ > It would seem more consistant to push for the ''incr'' command to
+   include a way to initialize a variable if it doesn't exist (as per
+   [215] or the discussed options contained therein), rather than add
+   an incr subcommand to array.
 
-Being a fan or reintroducing the ''array values'' TIP (since the core mailing list indicates it was never fully rejected), I think ''array value'' might be a bit confusing, being only off by the lack of plurality. (I was one of the people pushing for TIP#200 though, so take that aspect with a grain of salt)
+ > Being a fan or reintroducing the ''array values'' TIP (since the
+   core mailing list indicates it was never fully rejected), I think
+   ''array value'' might be a bit confusing, being only off by the
+   lack of plurality. (I was one of the people pushing for [200]
+   though, so take that aspect with a grain of salt)
 
 ~ Copyright
+
 This document has been placed in the public domain.
