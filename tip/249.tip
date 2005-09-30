@@ -1,6 +1,6 @@
 TIP:            249
 Title:          Unify Tcl's Parsing of Numbers
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
@@ -151,6 +151,47 @@ merits further discussion.
      only quiet NaN will be supported.  NaN is represented as
      '''tclDoubleType.'''
 
+~ Additions
+
+In addition to the base state machine detailed above,
+the state machine of the reference implementation
+contains additional states to parse integer values
+beginning with the '''0b''' or '''0o''' prefixes as
+originally proposed in [114].  Getting these prefixes
+recognized in Tcl 8.5 is an important migration step
+to support migration to whatever version of Tcl drops
+the "leading '0' implies octal format" rule.
+
+Also in addition, the parsing routine will accept a
+flag value containing the flag bits below that
+exert finer control on the parsing.  These extra
+controls were found to be required to permit the
+[[scan]] command to use the same parser.
+
+   * '''TCL_PARSE_INTEGER_ONLY''' -- accept only integer values;
+     reject strings that denote floating point values (or
+     accept only the leading portion of them that are integer
+     values).
+
+   * '''TCL_PARSE_SCAN_PREFIXES''' -- ignore the prefixes '''0b'''
+     and '''0o''' that are not part of the [[scan]] command's
+     vocabulary.  Use only in combination with
+     '''TCL_PARSE_INTEGER_ONLY'''.
+
+   * TCL_PARSE_OCTAL_ONLY - parse only in the octal format,
+     whether or not a prefix is present that would lead to octal
+     parsing.  Use only in combination with
+     '''TCL_PARSE_INTEGER_ONLY'''.
+
+   * TCL_PARSE_HEXADECIMAL_ONLY - parse only in the hexadecimal format,
+     whether or not a prefix is present that would lead to hexadecimal
+     parsing.  Use only in combination with
+     '''TCL_PARSE_INTEGER_ONLY'''.
+
+   * TCL_PARSE_DECIMAL_ONLY - parse only in the decimal format, no
+     matter whether a '''0''' prefix would normally force a different
+     base.
+
 ~ Incompatibilities
 
 The change described is sufficient to run the Tcl and Tk test suites with
@@ -190,30 +231,14 @@ in what it considers acceptable.  Any string that is accepted as
 either an integer or a double by '''expr''' will be accepted in
 ''Tcl_GetDoubleFromObj'', and only those strings will be accepted.
 
-~ Additional Possibilities
-
-It would be easy to add the octal and binary notations from
-[114] to the parser described here; doing so would be a good idea,
-since it seems wise to introduce the new syntax before removing
-the old.
-
-It is nevertheless widely believed that removing octal syntax
-(except, perhaps, from constant strings of file permissions)
-would fix more code than it would break.  My personal belief is
-that the elimination of ambiguous octal would on the whole improve
-8.5, and that we should perhaps make an exception to our rule
-of preserving "bugward" compatibility for this particular case.
-If the screams when this TIP appears are not too deafening, I
-may edit it to that effect and consolidate it with [114].
+Fourth, the recognition of '''0b''' and '''0o''' as valid
+prefixes for integer values is a type of incompatibility.
 
 ~ Reference Implementation
 
-No reference implementation is present as yet; the plan is to
-develop it on the CVS branch called 'tcl-numerics-branch'.
-Vote will not be called until the implementation is far enough
-along to convince the Tcl Core Team that it is practicable
-in the 8.5 release schedule. (In fact, I hope to commit a 
-reference implementation to that branch within the next week or two.)
+The reference implementation is the '''TclParseNumber'''
+routine in file '''tclStrToD.c''' 
+on the CVS branch called 'kennykb-numerics-branch'.
 
 ~ Copyright
 
