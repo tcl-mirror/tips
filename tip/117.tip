@@ -1,6 +1,6 @@
 TIP:            117
 Title:          Object Type Introspection
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Withdrawn
 Type:           Project
@@ -8,6 +8,7 @@ Vote:           Pending
 Created:        01-Nov-2002
 Post-History:   
 Tcl-Version:    8.5
+Obsoleted-By:	214
 
 ~ Abstract
 
