@@ -1,6 +1,6 @@
 TIP:		240
 Title:		An Ensemble Command to Manage Processes
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Steve Bold <stevebold@hotmail.com>
 State:		Draft
 Type:		Project
@@ -9,6 +9,7 @@ Vote:		Pending
 Created:	22-Feb-2005
 Keywords:	Tcl
 Post-History:	
+Obsoletes:	88
 
 ~ Abstract
 

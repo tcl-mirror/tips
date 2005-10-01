@@ -1,6 +1,6 @@
 TIP:            88
 Title:          Extend Tcl Process Id Control via 'pid'
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 State:          Rejected
@@ -9,6 +9,7 @@ Vote:           Done
 Created:        11-Mar-2002
 Post-History:   
 Tcl-Version:    8.4
+Obsoleted-By:	240
 
 ~ Abstract
 
