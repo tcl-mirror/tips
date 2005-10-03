@@ -1,15 +1,14 @@
 TIP:            249
-Title:          Unify Tcl's Parsing of Numbers
-Version:        $Revision: 1.6 $
+Title:          Unification of Tcl's Parsing of Numbers
+Version:        $Revision: 1.7 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
-Type:           Project
+Type:           Informational
 Vote:           Pending
 Created:        13-Jun-2005
 Post-History:   
-Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -238,9 +237,7 @@ prefixes for integer values is a type of incompatibility.
 
 ~ Reference Implementation
 
-The reference implementation is the '''TclParseNumber'''
-routine in file '''tclStrToD.c''' 
-on the CVS branch called 'kennykb-numerics-branch'.
+See [237] for more implementation details.
 
 ~ Copyright
 
