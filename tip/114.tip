@@ -5,7 +5,7 @@ Created:        14-Oct-2002
 Type:           Project
 State:          Draft
 Vote:           Pending
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Tcl-Version:    9.0
 Post-History:   
 Keywords:       octal, binary, hexadecimal, escape
@@ -165,6 +165,10 @@ force interpretation of the string as octal.  Existing "binary"
 constants will currently be converted into numbers by code anyway
 instead of being interpreted directly, so they should not be a major
 issue when it comes to converting.
+
+~See Also
+
+[237], [249]
 
 ~Copyright
 
