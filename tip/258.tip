@@ -1,0 +1,147 @@
+TIP:            258
+Title:          Enhanced Interface for Encodings
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Oct-2005
+Post-History:	
+Keywords:       encoding
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes public C routines and a new '''encoding dirs'''
+subcommand to improve the interfaces to Tcl's encodings.
+
+~ Background
+
+Several internal improvements have been made to the internals of how
+Tcl encodings are initialized, found, stored, and refcounted during
+Tcl 8.5 development. This TIP is primarily about making these
+improvements available via public interfaces.
+
+The lifetime of '''Tcl_Encoding''' values has been identified as a
+problem (Bug 1077262), where premature freeing means repeated
+re-loading of encoding data. Since each encoding data load involves
+interaction with the filesystem, this can be an expensive mistake.
+
+The Tcl documentation has long claimed that by setting the value of a
+global variable '''::tcl_libPath''' a script could influence the
+search path of directories where encoding data files are sought. That
+documentation has never been correct (Bug 463190).
+
+Tclkit suffers from an initialization dilemma. It stores encoding data
+files in a virtual filesystem. In particular the system encoding is
+often based on a data file in the virtual filesystem. The Tclkit
+virtual filesystem is (largely) script-implemented and cannot exist
+until a '''Tcl_Interp''' has been created. However, Tcl wants to
+determine the correct value for the system encoding very early in its
+initialization, before any '''Tcl_Interp''' gets created. The
+consequence is that Tclkit fails to successfully set the system
+encoding in Tcl's early initialization, and Tclkit has had to jump
+through hoops to get Tcl to repeat those early initialization steps
+after the virtual filesystem is in place.
+
+~ Proposed changes
+
+Add the following routines to Tcl's public interface:
+
+ > int '''Tcl_GetEncodingFromObj'''(Tcl_Interp *''interp'',
+   Tcl_Obj *''objPtr'', Tcl_Encoding *''encodingPtr'')
+
+Writes to *''encodingPtr'' the '''Tcl_Encoding''' value that
+corresponds to the value of ''objPtr'', and returns '''TCL_OK'''. The
+'''Tcl_Encoding''' value is also cached as the internal rep of
+''objPtr'' so that the lifetime of the '''Tcl_Encoding''' data in the
+process will be at least the lifetime of that internal rep of
+''objPtr''. The caller is expected to call '''Tcl_FreeEncoding''' on
+*''encodingPtr'' when it no longer needs it. If no corresponding
+'''Tcl_Encoding''' value for the value of ''objPtr'' can be
+determined, '''TCL_ERROR''' is returned, and an error message is
+stored in the result of ''interp''.
+
+ > Tcl_Obj *'''Tcl_GetEncodingSearchPath'''()
+
+Returns a list of directory pathnames that Tcl's encoding subsystem
+will search for encoding data files when an encoding is requested
+that's not already loaded in the process. This will be the value
+stored by the last successful call to '''Tcl_SetEncodingSearchPath'''.
+If no calls to '''Tcl_SetEncodingSearchPath''' have occurred, Tcl will
+compute an initial value based on the environment. There is one
+encoding search path for the entire process, shared by all threads in
+the process.
+
+ > int '''Tcl_SetEncodingSearchPath'''(Tcl_Obj *''searchPath'')
+
+Stores ''searchPath'' as the list of directory pathnames for Tcl's
+encoding subsystem to search for encoding data files, and returns
+'''TCL_OK'''. Returns '''TCL_ERROR''' only if ''searchPath'' is not a
+valid Tcl list. There is no checking for validity of the directory
+pathnames, so for example, one can place a directory on the encoding
+search path before mounting the '''Tcl_Filesystem''' that contains
+that directory. When searching for encoding data files, Tcl's encoding
+subsystem ignores any non-existent directories in the search path as
+well.
+
+ > CONST char *'''Tcl_GetEncodingNameFromEnvironment'''(Tcl_DString *''bufPtr'')
+
+This routine exposes Tcl's determination about what the system
+encoding should be, based on system calls and examination of the
+environment suitable for the platform. It accepts ''bufPtr'', a
+pointer to an uninitialized or freed '''Tcl_DString''' and writes to
+it the string value of the appropriate system encoding dictated by the
+environment. The '''Tcl_DStringValue''' is returned.
+
+In a properly initialized Tcl, the string value returned by
+'''Tcl_GetEncodingNameFromEnvironment''' ought to be the same as that
+returned by '''Tcl_GetEncodingName'''('''NULL'''); that is, the system
+encoding dictated by the environment ought to be the encoding Tcl will
+return as the result of '''encoding system'''.
+
+If these two results do not match, it indicates that at the time Tcl
+was initialized, the proper sytem encoding was not available. Perhaps
+the necessary data file was not on the encoding search path at that
+time. With this new routine, the check for this match can be
+performed, and if the match does not exist, a call to
+'''Tcl_SetSystemEncoding''' can try again to get Tcl's system encoding
+to agree with what the environment dictates.
+
+Add a new subcommand, '''encoding dirs''' with syntax:
+
+ > '''encoding dirs''' ?''searchPath''?
+
+This subcommand is the script-level interface to the
+'''Tcl_GetEncodingSearchPath''' and '''Tcl_SetEncodingSearchPath'''
+routines. When called without an argument, the current list of
+directory pathnames to be searched for encoding files is returned.
+When called with ''searchPath'' argument, the value ''searchPath'' is
+set as the new list of directory pathnames to be searched.
+
+The documentation for existing routines
+'''Tcl_GetDefaultEncodingDir''' and '''Tcl_SetDefaultEncodingDir'''
+will be updated to discourage their use and to encourage the use of
+'''Tcl_GetEncodingSearchPath''' and '''Tcl_SetEncodingSearchPath'''
+instead.
+
+~ Compatibility
+
+This proposal includes only new features. It is believed that existing
+scripts and C code that operate without errors will continue to do so.
+
+The '''encoding dirs''' command has been available with the name
+'''::tcl::unsupported::EncodingDirs''' since the Tcl 8.5a3 release. It
+is proposed to remove this unsupported command completely, as it has
+only existed in alpha releases. Anyone using it should be able to
+migrate to '''encoding dirs''' without difficulty.
+
+~ Reference Implementation
+
+The actual code is already complete as internals corresponding to the
+proposed public. Implementation is just an exercise in renaming,
+placing in stub tables, documentation, etc.
+
+~ Copyright
+
+This document has been placed in the public domain.
