@@ -1,15 +1,15 @@
-TIP:		240
-Title:		An Ensemble Command to Manage Processes
-Version:	$Revision: 1.4 $
-Author:		Steve Bold <stevebold@hotmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	22-Feb-2005
-Keywords:	Tcl
-Post-History:	
-Obsoletes:	88
+TIP:            240
+Title:          An Ensemble Command to Manage Processes
+Version:        $Revision: 1.5 $
+Author:         Steve Bold <stevebold@hotmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        22-Feb-2005
+Post-History:   
+Keywords:       Tcl
+Obsoletes:      88
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -42,7 +42,7 @@ existing '''exec''' and '''open''' commands:
  > * scripts wishing to invoke a command on a remote computer using an
      ''rsh'' or similar command will sometimes wish to have characters
      such as ''<>|&'' interpreted on the remote machine
-   
+
  > * scripts may pass a user entered string as an argument to exec.
      Such scripts may break unexpectedly if the comment string
      contains one of the special characters. Such problems could be
@@ -82,7 +82,7 @@ four subcommands.
  1. The sub-command '''invoke''' takes 4 arguments and invokes a
     sub-process, returning the process id of the child process. The
     arguments are (in order):
- 
+
  > * a list containing the program name invoke and its arguments
 
  > * a channel to be connected to the stdin stream of the child
@@ -108,7 +108,7 @@ four subcommands.
 
  > A process will report an arbitrary exit status of zero while it is
    running.
- 
+
  4. The sub-command '''wait''' is similar to '''status''' but blocks
     until the child process has completed.
 
@@ -251,30 +251,23 @@ error handling needed for a robust implementation.
 
  > * such commands can be implemented in pure Tcl using the commands
      described here
- 
+
  > * the exact nature of the high level commands may produce lengthy
      discussions
- 
+
  > * it could even be argued that such commands are more appropriate
      in tcllib rather than the Tcl core
-    
- 2. The behaviour of '''process status''' and '''process wait''' when
-    given an invalid process id may be considered unhelpful. Both will
-    return immediately claiming the process is still running.  This
-    reflects the existing behaviour of ''Tcl_WaitPid()''.  It looks
-    like this may be a Windows specific issue, the author plans to
-    investigate this further.
 
- 3. As with the current implementation of '''exec''', each channel
+ 2. As with the current implementation of '''exec''', each channel
     passed to '''process invoke''' must have a valid underlying OS
     file handle. Consequently when running on Windows:
 
  > * use of a wish standard channel will be immediately rejected
 
  > * use of a socket will be accepted but will trigger an error in the
-     child process when the handle is used.
+     child process.
 
- 4. Efficiency - The author has not yet attempted a detailed
+ 3. Efficiency - The author has not yet attempted a detailed
     performance study, but this proposal does have some theoretical
     inefficiencies when compared to a pure C implementation, such as
     '''bgexec''':
@@ -326,11 +319,17 @@ error handling needed for a robust implementation.
 
  9. The existing '''exit''' command could be duplicated in the
     '''process''' ensemble.
- 
+
  10. The basic form of the existing '''pid''' command, which obtains
      the process id of the current process, could be added to the
      '''process''' ensemble.
- 
+
+11. In some cases, it is more appropriate to run a child process with
+    its streams connected to a null file rather than disconnected.
+    Since the name of the null file is platform specific, it would
+    be helpful to have a platform independent way of accessing the
+    name.
+
 ~ Reference Implementation
 
 Mostly done, though not yet submitted as a patch.
