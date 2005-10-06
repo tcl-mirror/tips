@@ -1,6 +1,6 @@
 TIP:            240
 Title:          An Ensemble Command to Manage Processes
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Steve Bold <stevebold@hotmail.com>
 State:          Draft
 Type:           Project
@@ -324,15 +324,15 @@ error handling needed for a robust implementation.
      the process id of the current process, could be added to the
      '''process''' ensemble.
 
-11. In some cases, it is more appropriate to run a child process with
-    its streams connected to a null file rather than disconnected.
-    Since the name of the null file is platform specific, it would
-    be helpful to have a platform independent way of accessing the
-    name.
+ 11. In some cases, it is more appropriate to run a child process with
+     its streams connected to a null file rather than disconnected.
+     Since the name of the null file is platform specific, it would
+     be helpful to have a platform independent way of accessing the
+     name.
 
 ~ Reference Implementation
 
-Mostly done, though not yet submitted as a patch.
+Submitted as patch 1315115
 
 ~ Copyright
 
