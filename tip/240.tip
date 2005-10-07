@@ -1,6 +1,6 @@
 TIP:            240
 Title:          An Ensemble Command to Manage Processes
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Steve Bold <stevebold@hotmail.com>
 State:          Draft
 Type:           Project
@@ -332,7 +332,7 @@ error handling needed for a robust implementation.
 
 ~ Reference Implementation
 
-Submitted as patch 1315115
+Submitted as patch 1315115 [http://sourceforge.net/tracker/index.php?func=detail&aid=1315115&group_id=10894&atid=310894]
 
 ~ Copyright
 
