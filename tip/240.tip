@@ -1,6 +1,6 @@
 TIP:            240
 Title:          An Ensemble Command to Manage Processes
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Steve Bold <stevebold@hotmail.com>
 State:          Draft
 Type:           Project
@@ -329,6 +329,11 @@ error handling needed for a robust implementation.
      Since the name of the null file is platform specific, it would
      be helpful to have a platform independent way of accessing the
      name.
+
+ 12. An option to obtain full status information. On Windows, process
+     exit codes are 32 bit. On UNIX, higher bits of a waitpid()
+     status value distinguish termination via exit() from termination
+     via an uncaught signal.
 
 ~ Reference Implementation
 
