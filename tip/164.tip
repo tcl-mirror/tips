@@ -1,8 +1,9 @@
 TIP:            164
 Title:          Add Rotate Subcommand to the Canvas Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Dimitrios Zachariadis <dzach@hol.gr>
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -26,8 +27,6 @@ coordinates of all items involved, transform them and set the new
 coordinates), but if you have several hundreds or even thousands of
 items this gets very slow.
 
-~ Proposal
-
 Rotation is easy for polygons and lines: simply transform the
 coordinates.  For circles and circular arcs new bounding boxes must be
 calculated and in addition for arcs the starting angle must be
@@ -50,25 +49,27 @@ For rectangles and general ovals and arcs there are two choices:
  * Therefore we will simply calculate a new bounding box and ''ignore
    changes in orientation''.
 
-The new command would become:
+~ Proposal
 
-| $canvas rotate $itemOrTag $x $y $angle
+Canvases will have a new subcommand, '''rotate''', which will rotate the coordinates of chosen items by a specified angle about a specified point.
 
-where the arguments are very similar to those of the scale subcommand
-and angle is in degrees (a positive angle means rotate
-counter-clockwise).
+ > ''canvas'' '''rotate''' ''itemOrTag'' ''x'' ''y'' ''angle''
+
+Note that most of the arguments are very similar to the canvas's '''scale''' subcommand.  ''Angle'' is measured in degrees, with positive values indicating anti-clockwise rotation.
+
+~~ Canvas Item C API Alterations
+
+[[These are required for this TIP, but are not yet done.]]
 
 ~ Reference Implementation
 
 A reference implementation does ''not'' yet exist.
 
-~ Questions
+~ Future Work
 
-Should this TIP also consider the possibility of reflections in a line?
+Should we also consider the possibility of reflections in a line?
 
-Should this TIP also consider more general linear transformations (to
-be specified via a 2x2 matrix)?  What about full affine
-transformations (i.e. with the translation components)?
+Should we also consider more general linear transformations (to be specified via a 2x2 matrix)?  What about full affine transformations (i.e. with the translation components)?
 
 If we implement these from the start, we need to do only a little more
 work.
