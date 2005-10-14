@@ -1,9 +1,9 @@
 TIP:            256
 Title:          Implement Tabular and Wordprocessor Style Tabbing
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Vince Darley <vince@santafe.edu>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        12-Aug-2005
