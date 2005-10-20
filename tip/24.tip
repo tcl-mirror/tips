@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.43 $
+Version:        $Revision: 1.44 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -154,6 +154,8 @@ assigned:
    1. ''Traces'' - Don Porter <dgp@users.sourceforge.net>
 
    1. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+
+   1. ''Number Handling'' - Don Porter <dgp@users.sourceforge.net>, Kevin Kenny <kennykb@acm.org>
 
    1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
 		      Jeff Hobbs <JeffH@ActiveState.com>,
