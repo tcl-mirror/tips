@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.34 $
+Version:        $Revision: 1.35 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -593,9 +593,16 @@ assigned one or more maintainers:
      tests/stringComp.test,
      tests/while.test
 
+ 47. '''Number Handling''' (see [237]) -
+     generic/tclStrToD.c,
+     generic/tclTomMath.h,
+     generic/tclTomMathInterface.c,
+     generic/tommath.h,
+     libtommath/*
+
 ~~ Threads
 
- 47. doc/Thread.3,
+ 48. doc/Thread.3,
      generic/tclThread.c,
      generic/tclThreadJoin.c,
      tests/thread.test,
@@ -606,7 +613,7 @@ assigned one or more maintainers:
 
 ~~ Embedding Support
 
- 48. doc/AppInit.3,
+ 49. doc/AppInit.3,
      doc/Tcl_Main.3,
      doc/Panic.3,
      doc/tclsh.1,
@@ -618,7 +625,7 @@ assigned one or more maintainers:
 
 ~~ Release Engineering
 
- 49. '''Release Notes''' - README,
+ 50. '''Release Notes''' - README,
      changes,
      license.terms,
      */license.terms,
@@ -631,7 +638,7 @@ assigned one or more maintainers:
      unix/README,
      win/README
 
- 50. '''Portability Support''' - compat/dirent.h,
+ 51. '''Portability Support''' - compat/dirent.h,
      compat/dirent2.h,
      compat/limits.h,
      compat/fixstrtod.c,
@@ -654,7 +661,7 @@ assigned one or more maintainers:
      win/tclWinMtherr.c,
      win/tclWinPort.h
 
- 51. '''Configuration and Build Tools''' - djgpp/Makefile,
+ 52. '''Configuration and Build Tools''' - djgpp/Makefile,
      macosx/Makefile,
      macosx/Tcl.pbproj/project.pbxproj,
      tests/all.tcl,
@@ -701,14 +708,14 @@ assigned one or more maintainers:
      win/tclsh.ico,
      win/tclsh.rc
 
- 52. '''Configuration Reporting''' (see [59]) -
+ 53. '''Configuration Reporting''' (see [59]) -
      doc/RegConfig.3,
      generic/tclConfig.c,
      generic/tclPkgConfig.c,
      tests/config.test,
      win/tclWinPkgConfig.c
 
- 53. '''Other Tools''' - tools/checkLibraryDoc.tcl,
+ 54. '''Other Tools''' - tools/checkLibraryDoc.tcl,
      tools/genWinImage.tcl,
      tools/man2html.tcl,
      tools/man2html1.tcl,
