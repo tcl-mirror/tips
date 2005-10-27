@@ -1,6 +1,6 @@
 TIP:            251
 Title:          Enhance the 'list' Command
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Brian Schmidt <contact@schmidtsrus.net>
 Author:         Brian Schmidt <contact@SchmidtsRUs.net>
 State:          Draft
@@ -41,6 +41,7 @@ A new command '''list''' will be added with the following syntax:
 |list sort       ;equivalent to lsort
 |list concat     ;equivalent to concat
 |list join       ;equivalent to join
+|list repeat     ;equivalent to lrepeat (see [136])
 
 Each represents the existing command that is commented. The arguments
 to each would remain what the current command takes.
