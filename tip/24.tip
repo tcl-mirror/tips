@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.44 $
+Version:        $Revision: 1.45 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -184,17 +184,19 @@ assigned:
 
    1. ''Other Tools'' - Jeff Hobbs <JeffH@ActiveState.com>
 
+   1. ''LibTomMath'' - Kevin Kenny <kennykb@acm.org>
+
 ~ Orphaned Categories
 
 The following Categories in Tcl's SourceForge Bug Tracker should be
 mapped to new Categories corresponding to a maintained area of Tcl,
 when seeking the appropriate maintainer:
 
-   54. ''[[resource]] (obsolete)'' - Used for closed old reports about
+   67. ''[[resource]] (obsolete)'' - Used for closed old reports about
 		the '''resource''' command that was implemented only on
 		the now unsupported Mac Classic platform.
 
-   55. ''Mac Classic (obsolete)'' - Used for closed old reports about
+   68. ''Mac Classic (obsolete)'' - Used for closed old reports about
 		other issues on the now unsupported Mac Classic platform.
 
    69. ''Other'' - Used for reports that span several categories.  Also

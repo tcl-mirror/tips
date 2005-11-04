@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.35 $
+Version:        $Revision: 1.36 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -104,8 +104,12 @@ assigned one or more maintainers:
      doc/clock.n,
      generic/tclClock.c,
      generic/tclGetDate.y,
+     library/tzdata/*,
      tests/clock.test,
      tests/winTime.test,
+     tools/loadICU.tcl,
+     tools/makeTestCases.tcl,
+     tools/tclZIC.tcl,
      unix/tclUnixTime.c,
      win/tclWinTime.c
 
@@ -716,11 +720,14 @@ assigned one or more maintainers:
      win/tclWinPkgConfig.c
 
  54. '''Other Tools''' - tools/checkLibraryDoc.tcl,
+     tools/findBadExternals.tcl,
      tools/genWinImage.tcl,
      tools/man2html.tcl,
      tools/man2html1.tcl,
      tools/man2html2.tcl,
      tools/regexpTestLib.tcl
+
+  55. '''LibTomMath''' - libtommath/*
 
 ~ Shared Files
 
@@ -730,8 +737,7 @@ their portion of Tcl.  Some of the following files define Tcl's
 API and should be changed only in accordance with TCT approval.
 
    * ChangeLog,
-     ChangeLog.2000,
-     ChangeLog.1999,
+     ChangeLog.*,
      doc/man.macros,
      generic/tcl.decls,
      generic/tcl.h,
@@ -755,6 +761,7 @@ The following files are generated, so they don't need maintainers.
      generic/tclIntPlatDecls.h,
      generic/tclPlatDecls.h,
      generic/tclStubInit.c,
+     generic/tommath.h,
      library/tclIndex,
      unix/configure,
      win/configure
