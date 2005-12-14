@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.26 $
+Version:        $Revision: 1.27 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -218,6 +218,8 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkTextMark.c,
      generic/tkTextTag.c,
      generic/tkTextWind.c,
+     generic/tkUndo.c,
+     generic/tkUndo.h,
      library/text.tcl,
      tests/text.test,
      tests/textBTree.test,
