@@ -1,6 +1,6 @@
 TIP:            236
 Title:          Absolute Positioning of Canvas Items
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
@@ -24,29 +24,23 @@ move the items to the desired position, and using the canvas
 '''move''' command to translate the items to where we want them. This
 is tedious and inefficient.
 
-~The 'place' Canvas Command
+~The 'moveto' Canvas Command
 
-This TIP proposes adding a subcommand called '''place''' to the canvas
+This TIP proposes adding a subcommand called '''moveto''' to the canvas
 widget command. It is analogous to the canvas '''move''' command,
 except that it accepts an absolute position instead of a relative
-displacement. It also allows the specification of an anchor point for
-the moved set of items. For instance, the command
+displacement. For instance, the command
 
 |	.c place stuff 100 200
 
-will displace all items tagged with ''stuff'' so that the center of
-their bounding box lies at the point (100,200). Likewise,
-
-|	.c place stuff 100 200 -anchor sw
-
-will do the same, except that it will place the lower left corner of
-the bounding box at (100,200).
+will displace all items tagged with ''stuff'' so that the first coordinate of the first (bottom-most) tagged item
+lies at the point (100,200).
 
 The result of the command will be the empty string.
 
 ~~Formal Syntax
 
- > ''canvas'' '''place''' ''tagOrId'' ''x'' ''y'' ?'''-anchor''' ''anchor''?
+ > ''canvas'' '''moveto''' ''tagOrId'' ''x'' ''y''
 
 Argument description:
 
@@ -58,14 +52,10 @@ Argument description:
  x, y: The absolute coordinates of the target location. If either coordinate
  is given as an empty string, then that coordinate will remain unchanged.
 
- anchor: Which corner of the bounding box of the item(s) is to be
- placed at the target location, in the usual format for anchors.
- Defaults to '''center'''.
-
 ~Patches
 
-A patch (against tcl8.5a2) that implements the '''place''' canvas subcommand
-is available [http://www.eecs.umich.edu/~mckay/canvplace.patch.gz].
+A patch (against tcl8.5a3) that implements the '''moveto''' canvas subcommand
+is available [http://www.eecs.umich.edu/~mckay/canvmoveto.patch.gz].
 
 ~Copyright
 
