@@ -1,6 +1,6 @@
 TIP:            236
 Title:          Absolute Positioning of Canvas Items
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
@@ -18,8 +18,8 @@ position of canvas items.
 ~Rationale
 
 There are many situations where it is desirable to move a group of
-canvas items to a given position. Currently, this can be done by
-getting the items' bounding box, calculating the offset required to
+canvas items to a given position. Currently, this is done by
+getting the items' first coordinate, calculating the offset required to
 move the items to the desired position, and using the canvas
 '''move''' command to translate the items to where we want them. This
 is tedious and inefficient.
@@ -31,7 +31,7 @@ widget command. It is analogous to the canvas '''move''' command,
 except that it accepts an absolute position instead of a relative
 displacement. For instance, the command
 
-|	.c place stuff 100 200
+|	.c moveto stuff 100 200
 
 will displace all items tagged with ''stuff'' so that the first coordinate of the first (bottom-most) tagged item
 lies at the point (100,200).
