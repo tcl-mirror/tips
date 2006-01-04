@@ -1,8 +1,9 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         David S. Cargo <escargo@skypoint.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -12,10 +13,10 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP describes a proposal for math operators in Tcl as seperate
+This TIP describes a proposal for math operators in Tcl as separate
 commands, acting much like the equivalent in the Lisp language.  This
 would make simple usage of mathematics much clearer and could possibly
-facilitate a clean path for future [[expr]] extendibility.
+facilitate a clean path for future [[expr]] extension.
 
 ~ Rationale
 
@@ -30,20 +31,19 @@ increasingly difficult to read as more and more simple mathematical
 expressions build up.
 
 In addition all functions related to mathematics are contained within
-the [[expr]] command with its own separate syntax and thus we
-effectively have two different kinds funtions with no obvious relation
-to one another: Tcl commands and mathematical functions.  This has
-been shown to be quite confusing to a new user and decreases the
-elegance of Tcl as a whole.
+the [[expr]] command with its own separate syntax, and thus we
+effectively have two different kinds of functions with no obvious relation to one another: Tcl commands and mathematical functions.
+This has been shown to be quite confusing to a new user and decreases
+the elegance of Tcl as a whole.
 
 ~ Proposed Change
 
  1. I propose a group of Tcl commands which would handle mathematical
-    operations without the need to use [[expr]].  Each command would
-    take a varying amount of arguments and would work such that the
+    operations without the need to use [[expr]].  Most commands would
+    take a variable amount of arguments and would work such that the
     operator is applied to the combination of the first and second
-    argument.  The result of this combination is then used with the
-    operator for the third argument etc.  If only one argument is
+    arguments.  The result of this combination is then used with the
+    operator for the third argument, etc.  If only one argument is
     given, it is returned as is.  A sample implementation of the ''+''
     command in Tcl follows:
 
