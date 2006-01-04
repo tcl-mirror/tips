@@ -1,0 +1,41 @@
+TIP:		260
+Title:		Add Underline Option to Canvas Text Items
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	04-Jan-2006
+
+~ Abstract
+
+This TIP proposes adding an '''-underline''' option to the Tk
+'''canvas''' widget's text items.
+
+~ Rationale
+
+If you're simulating a '''label''' (or '''button''' or ...) widget
+using a '''canvas''', it is useful to be able to underline a single
+character of a piece of text. Although this can be done in various
+ways using '''font measure''' to work out where to start drawing, it
+would be far easier if we could use Tk's own built-in underlining
+engine (which also gets other font-related issues correct too, and
+correcting for them is more difficult than it ought to be given that
+Tk already knows what to do anyway).
+
+~ Proposed Change
+
+The '''canvas''' widget's text items shall gain an additional option,
+'''-underline''' which shall take an integer value (-1 being the
+default "no underline" value) describing which character position in
+the text to underline, just as with the '''-underline''' option
+provided by the '''label''' widget (and elsewhere). As with all canvas
+items, no specific support for modification through the option
+database shall be provided, but otherwise the option shall be exactly
+as described in the '''options''' manual page.
+
+~ Copyright
+
+This document has been placed in the public domain.
