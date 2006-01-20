@@ -1,6 +1,6 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -53,6 +53,20 @@ would add flesh to that existing husk. Care should be taken that any
 write traces only trigger once (like for '''lappend'''), not twice (as
 in: for initializing and then for incrementing).
 
+~ Proposal
+
+The current '''incr''' command behaves like the following
+proc:
+
+| proc incr {varName {increment 1}} {
+| }  
+
+It is proposed to make '''incr''' behave like the following
+modified proc:
+
+| proc incr {varName {increment 1}} {
+| }  
+
 ~ Discussion
 
 There have been comments that '''incr''' modified as proposed
@@ -86,7 +100,7 @@ grossly unorthogonal at first sight, but addresses the fact, that
 the primary reason for TIP 215 was counting occurrences of strings,
 which are then made keys in an array. The danger of mistyped 
 array-keys is surely much lower than that of mistyped variable
-names.
+names.  See [224]
 
 ~ Copyright
 
