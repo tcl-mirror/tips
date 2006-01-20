@@ -1,6 +1,6 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -73,6 +73,11 @@ modified proc:
 |     }
 |     return [set v [expr {$v + $increment}]]
 | }  
+
+Please note these example procs are meant to illustrate
+the proposed change only.  They do not fully reflect
+the exact function of '''incr''' (limiting to only
+integer values, for example).
 
 ~ Discussion
 
