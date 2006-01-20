@@ -1,6 +1,6 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -59,12 +59,19 @@ The current '''incr''' command behaves like the following
 proc:
 
 | proc incr {varName {increment 1}} {
+|     upvar 1 $varName v
+|     return [set v [expr {$v + $increment}]]
 | }  
 
 It is proposed to make '''incr''' behave like the following
 modified proc:
 
 | proc incr {varName {increment 1}} {
+|     upvar 1 $varName v
+|     if {![info exists v]} {
+|         return [set v $increment]
+|     }
+|     return [set v [expr {$v + $increment}]]
 | }  
 
 ~ Discussion
