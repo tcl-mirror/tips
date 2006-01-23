@@ -1,6 +1,6 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
@@ -79,6 +79,9 @@ Please note these example procs are meant to illustrate
 the proposed change only.  They do not fully reflect
 the exact function of '''incr''' (limiting to only
 integer values, for example).
+
+For a more concrete illustration of the proposal,
+see the reference implementation, SF patch #1413115 [http://sourceforge.net/tracker/index.php?func=detail&aid=1413115&group_id=10894&atid=310894].
 
 ~ Discussion
 
