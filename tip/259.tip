@@ -1,13 +1,13 @@
-TIP:		259
-Title:		Making 'exec' Optionally Binary Safe
-Version:	$Revision: 1.1 $
-Author:		Andreas Leitgeb <avl@logic.at>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	12-Dec-2005
-Post-History: 
+TIP:            259
+Title:          Making 'exec' Optionally Binary Safe
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Dec-2005
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -74,6 +74,21 @@ If some usage of '''exec''' does not use '''<<''' string-redirection, then the
 
 For now, no binary flag is defined for stderr. This might be subject of a
 future TIP or left out due to lack of need.
+
+~ Alternatives
+
+Benjamin Riefenstahl suggested to not make a binary (in the sense of yes/no) decision for each of input and output, but to directly specify the encodings to use (of which "binary" would also be a valid one).
+
+This has some subtle disadvantage for usage.
+
+As proposed, there is *one* option with one argument of effectively 4 different values. From each of these values it is evident, on which channels conversion takes place.
+
+To specify arbitrary encodings independently for two channels, there would need to be a list of encodings. For consistency with other commands, the "stdin"-encoding would have to be first, though it is
+used rarelier than output-encoding. So most times one would have to pass -encoding {{} binary} (yuck!) to specify encoding for output only.
+
+Unlike with general channels (as used for open |... or sockets) the data going through exec is always "limited": before actually calling exec it exists completely in memory as argument to exec, and afterwards output is returned as one single returnvalue. Each of these chunks can be handled as binary for exec, and explicitly converted through "encoding convertto" (for input) or encoding convertfrom (for output).
+
+Encoding per system-default is achieved by not adding any -binary option to exec at all, which covers probably >95% of all usages, anyway. (the remaining 5% being the ones for whom this TIP has been written)
 
 ~ Implementation
 
