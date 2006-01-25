@@ -1,11 +1,11 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        25-Aug-2004
 Post-History:   
 Keywords:       Tcl
