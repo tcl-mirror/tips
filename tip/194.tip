@@ -1,9 +1,9 @@
 TIP:            194
 Title:          Procedures as Values via '''apply'''
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Joe Mistachkin <joe@mistachkin.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        30-Apr-2004
