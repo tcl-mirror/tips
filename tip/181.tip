@@ -1,10 +1,10 @@
 TIP:            181
 Title:          Add a [namespace unknown] Command
-Version:        $Revision: 1.31 $
+Version:        $Revision: 1.32 $
 Author:         Neil Madden <nem@cs.nott.ac.uk>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        23-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
