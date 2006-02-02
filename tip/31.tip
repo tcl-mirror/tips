@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.29 $
+Version:        $Revision: 1.30 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -180,6 +180,10 @@ branch, or they may be rejected.
      conversions.
 
    * ''msofer-wcodes-branch'' (Tcl) - Experimental features for the bytecode engine.
+
+   * ''tip-257-implementation-branch'' (Tcl) - For development of the
+     implementation of [257]. Branch root version at the tag
+     ''tip-257-implementation-branch-root''.
 
 ~ Dead Branches
 
