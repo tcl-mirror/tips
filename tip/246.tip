@@ -1,14 +1,15 @@
-TIP:		246
-Title:		Unify Pattern Matching
-Version:	$Revision: 1.1 $
-Author:		Reinhard Max <max@tclers.tk>
-Type:		Project
-State:		Draft
-Vote:		Pending
-Created:	27-Apr-2005
-Tcl-Version:	8.5
-Keywords:	pattern, match, glob, exact, regexp, case sensitive, Tcl
-Post-History:	
+TIP:            246
+Title:          Unify Pattern Matching
+Version:        $Revision: 1.2 $
+Author:         Reinhard Max <max@tclers.tk>
+Author:         san <sonofadame@yahoo.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Apr-2005
+Post-History:   
+Keywords:       pattern,match,glob,exact,regexp,case sensitive,Tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
