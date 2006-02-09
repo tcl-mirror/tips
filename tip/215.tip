@@ -1,9 +1,9 @@
 TIP:            215
 Title:          Make [incr] Auto-Initialize Undefined Variables
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        25-Aug-2004
