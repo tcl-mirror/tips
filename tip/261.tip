@@ -1,0 +1,92 @@
+TIP:		260
+Title:		Return Imported Commands from [namespace import]
+Author:		Martin Lemburg <martin.lemburg@gmx.net>
+Created:	20-Dec-2005
+Post-History:	
+State:		Draft
+Tcl-Version:	8.5
+Type:		Project
+Version:	$Revision: 1.1 $
+Vote:		Pending
+
+~ Abstract
+
+This TIP describes a mechanism for easily finding out the list of
+commands in the current namespace that have been imported from other
+namespaces.
+
+~ Rationale
+
+While writing a profiling and introspection module for our C++/Tcl
+application, I searched for ways to query all the exported and
+imported commands of a namespace.
+
+Although I found the introspection functionality for discovering all
+exported commands of a namespace using '''namespace export''' in the
+exporting namespace, I found no way to query all imported commands
+inside the importing namespace.
+
+The documentation of '''namespace import''' said nothing about the
+behaviour, if no arguments were given, and testing '''namespace
+import''' without arguments resulted in nothing, in a no-op.
+
+Prompted by this, I started a thread in news:comp.lang.tcl which goes
+into more detail
+[http://groups.google.com/group/comp.lang.tcl/browse_frm/thread/9fb246cf65aba54f?tvc=1].
+
+What seems to be more logical to me would be to change the no-op
+behaviour of '''namespace import''' to be comparable to '''namespace
+export''', and return all imported commands inside the namespace
+'''namespace import''' is executed in.
+
+As an example...
+
+ * to get all exported commands of a namespace ::exportingNspc:
+
+| namespace inscope ::exportingNspc {namespace export}
+
+ * to get all imported commands of the namespace ::importingNspc:
+
+| namespace inscope ::importingNspc {namespace import}
+
+~ Consequences
+
+The only consequence I know is, that old scripts using the no-op
+'''namespace import''' suddenly will return a list, probably filled
+with names of imported commands. That's all.
+
+Because of the fact, that '''namespace import''' never returned
+values, no script should really break, thus no script should require
+values from this command.
+
+~ Proposed Change
+
+The result of '''namespace import''' without arguments shall be a list
+of all commands that have been imported into the current namespace.
+
+As a convenience, if the new optional argument '''-origins''' is given
+in addition, the result shall instead be the list of where each of
+those commands was imported from, with a one-to-one correspondence in
+the order of results from the '''namespace import''' and '''namespace
+import -origins''' variants. It will be an error to use the
+'''-origins''' option with additional arguments. Note that this is a
+convenience, and could be done with the '''namespace origin'''
+command, like this:
+
+|  proc namespace_import-origins {} {
+|     set result {}
+|     foreach cmd [uplevel 1 namespace import] {
+|        lappend result [uplevel 1 [list namespace origin $cmd]]
+|     }
+|     return $result
+|  }
+
+~ Implementation
+
+A patch and further discussion of the implementation decisions are
+available on SourceForge
+[http://sf.net/tracker/?func=detail&aid=1437008&group_id=10894&atid=310894].
+
+~ Copyright
+
+This document has been placed in the public domain.
