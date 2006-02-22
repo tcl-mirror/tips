@@ -1,4 +1,4 @@
-TIP:		260
+TIP:		261
 Title:		Return Imported Commands from [namespace import]
 Author:		Martin Lemburg <martin.lemburg@gmx.net>
 Created:	20-Dec-2005
@@ -6,7 +6,7 @@ Post-History:
 State:		Draft
 Tcl-Version:	8.5
 Type:		Project
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Vote:		Pending
 
 ~ Abstract
