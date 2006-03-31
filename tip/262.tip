@@ -1,0 +1,60 @@
+TIP:		262
+Title:		Background Images for Frames
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Eric Taylor <et2@rocketship1.com>
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	18-Mar-2006
+Keywords:	Tk, option
+
+~ Abstract
+
+This TIP proposes an option for frames that allows users to set the
+background of the window to be an image.
+
+~ Rationale
+
+Just a there is an '''-image''' option for '''button''' widgets, this
+TIP suggests that a '''-backgroundimage''' option for frames be
+implemented. The image should be either an entire single image, or a
+smaller image that would be tiled, with a '''-tile''' option. Tiling
+would repeat, as needed, a smaller image to fit the visible area of
+the frame.
+
+If the image was tiled, then it should be re-tiled as needed during a
+resize. The image would reside behind any other decoration or other
+widgets that resided in the frame. The image should be re-configurable
+to replace the image and/or remove it, as with a button image.
+
+This TIP should allow some rather classy looking tcl/tk programs to be
+created with much ease.
+
+~ Proposed Change
+
+Two new options are proposed for '''frame''' widgets, to be
+manipulated using the normal '''configure''' and '''cget''' methods:
+
+ * '''-backgroundimage''' ''imageName'' - This gives the name of an
+   image (as created by '''image create''') that is to be painted onto
+   the widget immediately after the painting of the solid background
+   colour. If ''imageName'' is the empty string (the default) no image
+   will be painted. The painting of the image will be controlled by
+   the '''-tile''' option.
+
+ * '''-tile''' ''boolean'' - If this option gives ''boolean'' as true,
+   the image will be painted such that the top-left corner corresponds
+   to the top-left corner of the frame, and then subsequently
+   repeatedly painted (with no gaps between the areas painted) to the
+   right and below that initial painting until such time as the entire
+   widget is covered by copies of the image. If this option gives
+   ''boolean'' as false, the image will only be painted once, such
+   that the center of the image painted is coincident with the center
+   of the frame widget.
+
+~ Copyright
+
+This document has been placed in the public domain.
