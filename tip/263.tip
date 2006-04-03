@@ -1,6 +1,6 @@
 TIP:		263
 Title:		Quantum Tcl
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
 State:		Draft
 Type:		Project
@@ -43,8 +43,8 @@ duality, in case anyone came to think of that, is the kind of "mapping onto
 physical reality" issue that will not be treated here.) This makes the design
 of quantum algorithms somewhat different from the design of classical
 algorithms, in a manner similar to that in which the design of analog
-electronic curcuits is different from the design of digital electronic
-curcuits, as one must often work out the numbers rather than rely on a
+electronic circuits is different from the design of digital electronic
+circuits, as one must often work out the numbers rather than rely on a
 discrete case-by-case analysis. Another curious feature is that all fully
 quantum operations must be reversible, which in particular has the effect that
 quantum information can neither be duplicated nor (in the absence of
@@ -65,7 +65,7 @@ For more information on quantum computing in general, see e.g.:
 
 The quantum computing model supported by the '''qubit''' command is that of
 ''quantum bits'' (more commonly called ''qubits'') and ''quantum boolean
-curcuits''. While other more fancy models such as "Quantum Turing Machines"
+circuits''. While other more fancy models such as "Quantum Turing Machines"
 exist, this is generally considered to be the most realistic model, and it is
 also the one most closely related to the number-of-gates complexity measure
 for classical computing. Should it in the future prove desirable to support
