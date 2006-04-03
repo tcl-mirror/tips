@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.158 $
+Version:        $Revision: 1.159 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -30,6 +30,10 @@ Post-History:
 This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
 can take place.
+
+~ Testing
+
+...edits through the web.
 
 ~ Copyright
 
