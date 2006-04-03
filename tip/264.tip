@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	
+Version:	$Revision: 1.2 $
 Author:		George Petasis <petasis@iit.demokritos.gr>
 Created:	01-Apr-2006
 Keywords:	Tk, C API
