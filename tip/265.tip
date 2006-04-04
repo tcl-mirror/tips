@@ -1,6 +1,6 @@
 TIP:		265
 Title:		A Convenient C-side Command Option Parser for Tcl
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Sam Bromley <sam@sambromley.com>
 State:		Draft
 Type:		Project
@@ -12,7 +12,7 @@ Keywords:	Command line parsing, C implementation
 
 ~Abstract
 
-The Tk C library provides developers with a Tk_ParseArgv() function that
+The Tk C library provides developers with a ''Tk_ParseArgv''() function that
 allows command line parsing of options of the "-option" form. Archived
 discussions on news:comp.lang.tcl and on the Wiki indicate that a desire for
 similar functionality without Tk has arisen several times in the past. This
@@ -41,8 +41,8 @@ removal of all parsing specifics from the command implimentation other than
 that necessary to describe each optional argument.
 
 Additionally, a function '''Tcl_ParseArgv''' is provided to provide the
-functionality of Tk_ParseArgs() to those who desire it. A discussion in 2002
-on news:comp.lang.tcl
+functionality of ''Tk_ParseArgs''() to those who desire it. A discussion in
+2002 on news:comp.lang.tcl
 [http://groups.google.com/group/comp.lang.tcl/browse_thread/thread/c4fea8f0346cf8ae/036961bf476a3b99?q=tcl_parseargv&rnum=2#036961bf476a3b99]
 indicated that this is a desired feature. Arguments against a
 '''Tcl_ParseArgv''' implementation include that it is better to do all command
