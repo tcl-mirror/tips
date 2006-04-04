@@ -1,0 +1,145 @@
+TIP:		265
+Title:		A Convenient C-side Command Option Parser for Tcl
+Version:	$Revision: 1.1 $
+Author:		Sam Bromley <sam@sambromley.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	03-Apr-2006
+Post-History:
+Tcl-Version:	8.5
+Keywords:	Command line parsing, C implementation
+
+~Abstract
+
+The Tk C library provides developers with a Tk_ParseArgv() function that
+allows command line parsing of options of the "-option" form. Archived
+discussions on news:comp.lang.tcl and on the Wiki indicate that a desire for
+similar functionality without Tk has arisen several times in the past. This
+TIP presents a Tk-free implementation of ''Tk_ParseArgv()'' named
+'''Tcl_ParseArgv''', as well as a new function, '''Tcl_ParseArgvObj''', that
+developers can use to parse "-option" style command options in C
+implementations of Tcl commands using the Tcl_Obj interface.
+
+~Rationale
+
+While the parsing of command options can be readily accomplished on the Tcl
+side, a uniform method for parsing "-option" formed options does not exist on
+the C side. Many developers are familiar with the ease of use of libpopt-style
+command line parsing, but a similarly clean method does not currently exist in
+Tcl. The common approach is to use ''Tcl_GetIndexFromObj''(), yet this method
+alone does not allow the flexibilty and ease of use of libpopt-style parsing.
+
+One drawback of the classical ''Tcl_GetIndexFromObj''()-only approach is the
+need to handle the specifies of your command option parsing for each unique
+command. This leads to significant code duplication. A libpopt-style approach
+is to bundle all of your parsing specifics into a single array of structures
+capturing the details, and then let a specific parsing routine handle the
+parsing of every option for you. The '''Tcl_ParseArgvObj'''() routine
+introduced in this TIP provides this functionality, thereby allowing the
+removal of all parsing specifics from the command implimentation other than
+that necessary to describe each optional argument.
+
+Additionally, a function '''Tcl_ParseArgv''' is provided to provide the
+functionality of Tk_ParseArgs() to those who desire it. A discussion in 2002
+on news:comp.lang.tcl
+[http://groups.google.com/group/comp.lang.tcl/browse_thread/thread/c4fea8f0346cf8ae/036961bf476a3b99?q=tcl_parseargv&rnum=2#036961bf476a3b99]
+indicated that this is a desired feature. Arguments against a
+'''Tcl_ParseArgv''' implementation include that it is better to do all command
+line parsing on the Tcl side. However, this implies writing two wrapper
+functions: (i) A C implementation of a Tcl command; and (ii) A Tcl wrapper
+that pre-parses the options before calling the C command. This can lead to
+significant duplication of effort when porting a large project to a Tcl
+enabled version. This point is particularly relevent in the context of
+'''Tcl_ParseArgvObj'''(), as then one is not assuming that one can simply
+replace the main() routine with Tcl, but rather that one is truly embedding
+the C side in a larger system.
+
+'''Tcl_ParseArgvObj'''() offers a clean method to enable flexible command line
+parsing to C implementations of Tcl commands.
+
+~Specification
+
+This document proposes the following changes to Tcl core:
+
+ 1. Add ''generic/tclArgv.c'' and ''generic/tclArgv.h'' which provide
+    the new library functions ''Tcl_ParseArgv()'' and
+    ''Tcl_ParseArgvObj()''.
+
+ 2. Modify ''tcl.h'' to declare object types and functions needed by
+    ''tclArgv.c''.
+
+The function signatures of '''Tcl_ParseArgv''' and '''Tcl_ParseArgsObjv'''
+shall be:
+
+ > int '''Tcl_ParseArgv'''(Tcl_Interp *''interp'', int *''argcPtr'',
+   char **''argv'', const Tcl_ArgvInfo *''argTable'', int ''flags'')
+
+ > int '''Tcl_ParseArgsObjv'''(Tcl_Interp *''interp'', int *''objcPtr'',
+   Tcl_Obj **''objv'', const Tcl_ArgvInfo *''argTable'', int ''flags'')
+
+'''Note''' that the count of arguments (referred to by ''argcPtr'' or
+''objcPtr'') will be modified, as will the arrays indicated by ''argv'' and
+''objv''. In particular, the arrays of arguments ''must not'' be those passed
+into the calling command.
+
+~Reference Implementation
+
+A working implementation has been submitted to the Feature Request
+Tracker at SourceForge
+[http://sf.net/tracker/?func=detail&aid=1446696&group_id=10894&atid=360894].
+
+~Example of Use
+
+|#include <tcl.h>
+|#include <tclArgv.h> /* not needed if subsumed into core */
+|
+|int g_test_cmd(ClientData clientData, Tcl_Interp *interp,
+|    int objc, Tcl_Obj *CONST objv[])
+|{
+|  char *gname,*filename;
+|  int i;
+|  int numRepeat;
+|  double scalar;
+|  int doErase = 0;
+|  size_t size;
+|
+|  /* this table specifies the possible options, all in one place.*/
+|  Tcl_ArgvInfo argTable[] = {
+|    {"-erase", TCL_ARGV_CONSTANT, (void *) 1, &doErase,
+|      "erase image before plotting"},
+|    {"-numRepeat", TCL_ARGV_INT, NULL, &numRepeat,
+|      "number of times to repeat test"},
+|    {"-scalar", TCL_ARGV_FLOAT, NULL, &scalar,
+|      "scalar multiple to use for test"},
+|    {"-outfile", TCL_ARGV_STRING, NULL, &filename,
+|      "name of file to which to dump result"},
+|    {NULL, TCL_ARGV_END, NULL, NULL, NULL}
+|  };
+|
+|  /* need a local copy of Tcl_Obj array for manipulation */
+|  size = (unsigned) (objc+1) * sizeof(Tcl_Obj*);
+|  Tcl_Obj **private_objv = (Tcl_Obj**) ckalloc(size);
+|  memcpy(private_objv, objv, size);
+|
+|  /* Call Tcl_ParseArgObjv to do all the parsing! */
+|  if (Tcl_ParseArgsObjv(interp,&objc,private_objv,argTable,0) != TCL_OK) {
+|     /* something went wrong. Error stored in interp's result */
+|     ckfree(private_objv);
+|     return TCL_ERROR;
+|  }
+|
+|  /* at this point, any unhandled options are repacked in private_objv */
+|  gname = Tcl_GetString(private_obj[1]);
+|
+|  /* all done */
+|  ckfree(private_objv);
+|
+|  /* rest of code continues here...*/
+|
+|  return TCL_OK;
+|}
+
+~Copyright
+
+This document has been placed in the public domain.
