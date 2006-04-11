@@ -1,15 +1,16 @@
-TIP:		171
-Title:		Change Default <MouseWheel> Bindings Behavior
-Author:		Jeff Hobbs <jeffh@activestate.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	05-Mar-2004
-Version:	$Revision: 1.1 $
-Tcl-Version:	8.5
-Post-History:	
+TIP:            171
+Title:          Change Default <MouseWheel> Bindings Behavior
+Version:        $Revision: 1.2 $
+Author:         Jeff Hobbs <jeffh@activestate.com>
+Author:         Keith Vetter <kvetter@alltel.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Mar-2004
+Post-History:   
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP proposes changing the default <MouseWheel> bindings in Tk to
 have "better" behaved defaults for a larger set of applications.
@@ -52,7 +53,7 @@ The bindings changes are very simply these:
 |    bind all <4> [list ::tk::MouseWheel %W 120 %X %Y]
 |    bind all <5> [list ::tk::MouseWheel %W -120 %X %Y]
 |}
-    
+
 Instead of requiring a widget to have [[focus]] to receive MouseWheel
 events, the new proposal operates with MouseWheel as a global binding.
 When fired, it first does a safety check to prevent double-firing if
@@ -87,6 +88,14 @@ be removed, using the following code:
 
 See above.
 
+~ Discussion
+
+Two quick comments. First I've found it very nice if 
+shift-MouseWheel scrolls horizontally. Second, tile's
+combobox widget should have its class binding removed.
+It has, however, yet another different scrolling calling
+convention which will need to be handled specifically.
+
 ~ Copyright 
 
-This document has been placed in the public domain. 
+This document has been placed in the public domain.
