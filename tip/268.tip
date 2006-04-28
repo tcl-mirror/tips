@@ -1,0 +1,120 @@
+TIP:		268
+Title:		Enhance 'package' Version Handling
+Version:	$Revision: 1.1 $
+Author:		Jeff Hobbs <jeffh@activestate.com>
+Author:		Hemang Lavana <hlavana@cisco.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	28-Apr-2006
+Post-History:	
+
+~ Abstract
+
+This TIP proposes enhancing the Tcl '''package''' command to understand
+version numbers containing "a", "b" and "rc".
+
+~ Rationale
+
+The current Tcl '''package''' command is limited to understanding package
+versioning based strictly on an infinite number of dot-separated positive
+integers. Regardless, Tcl extensions and the core itself use version numbers
+that have "a" for alpha, "b" for beta and "rc" for release candidate in the
+version scheme. This proposal seeks to make those identifiers properly
+understood by Tcl's '''package version''' semantics.
+
+~ Specification
+
+'''Current version specification:'''
+
+(Summary of http://www.tcl.tk/man/tcl8.4/TclCmd/package.htm#M15)
+
+Version numbers consist of one or more decimal numbers separated by dots, such
+as 2 or 1.162 or 3.1.13.1. The first number is called the ''major'' version
+number. Larger numbers correspond to later versions of a package, with
+leftmost numbers having greater significance. For example, version 2.1 is
+later than 1.3 and version 3.4.6 is later than 3.3.5. Missing fields are
+equivalent to zeroes: version 1.3 is the same as version 1.3.0 and 1.3.0.0, so
+it is earlier than 1.3.1 or 1.3.0.2.
+
+'''Recommended version specification adds:'''
+
+In addition, the letters 'a' (alpha) or 'b' (beta) and/or 'rc' (release
+candidate) may appear exactly once to replace a dot for separation. These
+letters semantically add a negative specifier into the version, where 'a' is
+-3, 'b' is -2 and 'rc' is -1. Each may be specified only once, and 'a' or 'b'
+are mutually exclusive in a specifier. Thus 1.3a1 becomes 1.3.-3.1, 1.3b1 is
+1.3.-2.1, 1.3a1rc1 is 1.3.-3.1.-1.1. Negative numbers are not directly allowed
+in version specifiers.
+
+A version specifier with a negative indicator will not be considered
+compatible in version comparisons by default, unless a request for a version
+with a negative indicator is made. This means that 1.4b1 does not satisfy a
+request for 1.3, but it does satisfy a request for 1.4a1. This allows only
+final releases to be considered in standard version comparisons.
+
+A new subcommand will be added to control the threshold level at which version
+comparisons operate.
+
+ > '''package threshold''' ?''threshold''?
+
+This subcommand will get or set the current threshold. The ''threshhold''
+argument (which must be present to set the threshold) must be one of
+'''stable''', '''rc''', '''beta''', or '''alpha''' (or a unique prefix), and
+if unspecified the current threshold is returned. The default threshold will
+be '''stable''', which will result in behavior equivalent to the old style of
+version number processing (other than the parsing of the extended
+specification for version numbers, of course). If the threshold is '''rc''',
+then release candidates will also be considered (i.e. version numbers
+containing no element smaller than -1), if the threshold is '''beta''' then
+the minimal element value will be -2, and if the threshold is '''alpha''' the
+minimal element value will be -3, allowing the selection of prerelease
+software of various degrees of stability in version comparisons (and hence
+commands like '''package require'''). For example:
+
+|   % package threshold
+|  => stable
+|   % package vsatisfies 1.5b1 1.4
+|  => 0
+|   % package threshold beta
+|  => beta
+|   % package vsatisfies 1.5b1 1.4
+|  => 1
+|   % package vsatisfies 1.5a1 1.4
+|  => 0
+
+If you need to do '''expr''' comparisons, use the '''in''' operator, like so:
+
+|   % expr {[package threshold] in {stable beta}}
+|  => 1
+
+An environment variable (TCL_PKG_THRESHOLD), taking the same value, is also
+proposed to seed the '''package threshold''' value.
+
+~~ Examples
+
+Valid version numbers:
+
+| 1.3a1
+| 1.3a1rc1
+
+Invalid version numbers:
+
+| 1.3a
+| 1.3a1b2
+| 1.3.a1
+
+~ Discussion
+
+Tcl RFE 219296 proposes similar support with the addition of a '''threshold'''
+method to '''package'''. This proposal operates by modelling the '''a''',
+'''b''' and '''rc''' specifiers as negative version specifiers.
+
+~ Reference Implementation
+
+[[To be uploaded to SourceForge and URL added to this TIP.]]
+
+~ Copyright
+
+This document has been placed in the public domain.
