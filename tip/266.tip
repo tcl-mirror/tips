@@ -1,14 +1,15 @@
-TIP:		266
-Title:		Numbers are Commands
-Author:		Kristoffer Lawson <setok@fishpool.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Created:	11-Apr-2006
-Keywords:	Tcl, unknown, expression
+TIP:            266
+Title:          Numbers are Commands
+Version:        $Revision: 1.2 $
+Author:         Kristoffer Lawson <setok@fishpool.com>
+Author:         Sektor <ethouris@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Apr-2006
+Post-History:   
+Keywords:       Tcl,unknown,expression
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -120,6 +121,8 @@ number in question cannot be used as a command.
 
 At a later date, further integration with the bytecode engine can be made.
 The details of such optimizations are outside the scope of this TIP.
+
+Some may argue that it is not good to disable defining commands with numbers by users. For example, someone would like to "overload" 0 and 1 to use [!file exists $f] && { puts "File not found"; exit }. This also does not look like a good solution for 'expr' command; this will be still not the same as expressions in other languages (required spaces between operators etc.)
 
 ~ Alternative Approaches
 
