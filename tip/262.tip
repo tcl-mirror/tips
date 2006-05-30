@@ -1,15 +1,16 @@
-TIP:		262
-Title:		Background Images for Frames
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Eric Taylor <et2@rocketship1.com>
-Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-Created:	18-Mar-2006
-Keywords:	Tk, option
+TIP:            262
+Title:          Background Images for Frames
+Version:        $Revision: 1.2 $
+Author:         Eric Taylor <et2@rocketship1.com>
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Frank <frank.ranner@defence.gov.au>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        18-Mar-2006
+Post-History:   
+Keywords:       Tk,option
+Tcl-Version:    8.5
 
 ~ Abstract
 
