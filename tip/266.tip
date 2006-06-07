@@ -1,8 +1,9 @@
 TIP:            266
 Title:          Numbers are Commands
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kristoffer Lawson <setok@fishpool.com>
 Author:         Sektor <ethouris@gmail.com>
+Author:         Wolf-Dieter Busch <wolf-dieter.busch@gmx.de>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,8 +14,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP describes a change to Tcl's command dispatch which would allow every
-number to act as a command.
+This TIP describes a change to Tcl's command dispatch which would allow every number to act as a command.
 
 ~ Rationale
 
@@ -126,11 +126,11 @@ Some may argue that it is not good to disable defining commands with numbers by 
 
 ~ Alternative Approaches
 
-Instead of allowing multiple number arguments to use the same operator, a
-requirement could be made that every other argument must be an operator and
-every other one an operand. This might make the specification somewhat
-clearer, but would mean a mathematical operation on a list would not be as
-easy.
+Instead of allowing multiple number arguments to use the same operator, a requirement could be made that every other argument must be an operator and every other one an operand. This might make the specification somewhat clearer, but would mean a mathematical operation on a list would not be as easy.
+
+~ Comments
+
+This is a change to the "eleven rules", so please do not do it. It takes the possibility that I can do it myself by changing the procedure unknown.
 
 ~ Copyright
 
