@@ -1,8 +1,9 @@
 TIP:            211
 Title:          Add Full Stack Trace Capability
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Robert Seeger <robert_seeger@users.sourceforge.net>
 Author:         Robert Seeger <rseeger00@aol.com>
+Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,26 +14,27 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes adding a new subcommand to the '''info''' command,
-or a flag to the '''level''' subcommand, to get a list of all the
-current stack levels, rather than the limited list currently returned
+This TIP proposes adding a new subcommand to the '''info''' command
+to get a list of all the frames on the current
+stack, rather than the limited list returned
 by '''info level'''.
 
 ~ Rationale
 
-Currently, there is no way to get a list of all the stack levels of
-the current scope. The '''info level''' command does not contain
-levels that have been '''uplevel'''ed out of, reporting only the
-levels code would normally be able to access via another '''uplevel'''
+Currently, there is no way to get a list of all the frames in
+the current stack managed by '''Tcl_PushCallFrame()''' and
+'''Tcl_PopCallFrame()'''. The '''info level''' command does not
+contain frames that are callers of  '''uplevel''', reporting only the
+frames that are accessible via another '''uplevel'''
 command. There are times when the lack of information can have a
 negative impact on code design. The difference in information can be
 seen with the following code snippets:
 
 |% proc bob {args} { 
-|    joe $args
+|    joe {expand}$args
 |  }
 |% proc joe {args} {
-|    uplevel 1 [list dave $args]
+|    uplevel 1 dave {expand}$args
 |  }
 |% proc dave {args} {
 |    puts "Level: [info level]"
@@ -40,25 +42,25 @@ seen with the following code snippets:
 |      puts "${i}: [info level $i]"
 |    }
 |  }
-|% bob
+|% bob x y z
 |Level: 2
-|2: dave {{}}
-|1: bob
+|2: dave x y z
+|1: bob x y z
 |% proc dave {args} {
-|    puts "Level: [info stacklevel]" 
-|    for {set i [info stacklevel]} { $i > 0 } {incr i -1 } {
-|      puts "${i}: [info stacklevel $i]"
+|    puts "Level: [info frame]" 
+|    for {set i [info frame]} { $i > 0 } {incr i -1 } {
+|      puts "${i}: [info frame $i]"
 |    }
 |  }
 |% bob
 |Level: 3
-|3: dave {{}}
-|2: joe {}
-|1: bob
+|3: dave x y z
+|2: joe x y z
+|1: bob x y z
 
 There are 3 reasons I see for bringing forth this TIP: 
 
-   1. Its an introspection ability that is currently lacking, with no
+   1. It's an introspection ability that is currently lacking, with no
       good reason for that lack.
 
    2. The more information that is available to the programmer, the
