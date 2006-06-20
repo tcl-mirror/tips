@@ -1,12 +1,12 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sf.net>
-State:		Draft
+State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        19-Jun-2006
-Post-History:	
+Post-History:   
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -62,7 +62,12 @@ is of type '''long'''.
 This routine is similar to '''Tcl_ObjPrintf'''. The key difference is that its
 variable number of arguments are all expected to be of type '''Tcl_Obj *'''.
 Choosing between '''Tcl_ObjPrintf''' and '''Tcl_FormatObj''' depends on what
-form the data to be formatted is already in.
+form the data to be formatted is already in.  Take note
+of this contrasting usage example:
+
+|  Tcl_Obj *x = Tcl_NewLongObj(5);
+|  Tcl_Obj *objPtr = Tcl_NewObj();
+|  Tcl_FormatObj(NULL, objPtr, "Value is %d", x);
 
 ~~ Tcl_AppendLimitedToObj
 
