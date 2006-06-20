@@ -1,6 +1,6 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -20,6 +20,9 @@ During development of Tcl 8.5, several internal routines have been created
 that provide useful string formatting functions. These routines are most
 commonly used in the construction of error messages, but have a generally
 useful nature. The Tcl source code itself makes significant use of them.
+
+Making some of these routines public also addresses
+Feature Request 1184069.
 
 ~ Proposed Changes
 
