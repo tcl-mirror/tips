@@ -1,0 +1,105 @@
+TIP:            270
+Title:          Utility C Routines for String Formatting
+Version:        $Revision: 1.1 $
+Author:         Don Porter <dgp@users.sf.net>
+State:		Draft
+Type:           Project
+Vote:           Pending
+Created:        19-Jun-2006
+Post-History:	
+Tcl-Version:    8.5
+
+~ Abstract
+
+This TIP proposes new public C utility routines for the convenience of C-coded
+extensions and embedded uses of Tcl.
+
+~ Background
+
+During development of Tcl 8.5, several internal routines have been created
+that provide useful string formatting functions. These routines are most
+commonly used in the construction of error messages, but have a generally
+useful nature. The Tcl source code itself makes significant use of them.
+
+~ Proposed Changes
+
+Add the following routines to Tcl's public interface:
+
+~~ Tcl_ObjPrintf
+
+ > int '''Tcl_ObjPrintf'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'',
+   CONST char *''format'', ...)
+
+This routine serves as a replacement for the common sequence:
+
+| char buf[SOME_SUITABLE_LENGTH];
+| sprintf(buf, format, ...);
+| Tcl_AppendStringsToObj(objPtr, buf, NULL);
+
+Use of the proposed routine is shorter and doesn't require the programmer to
+determine '''SOME_SUITABLE_LENGTH'''. The return value is either '''TCL_OK'''
+or '''TCL_ERROR'''. When '''TCL_ERROR''' is returned and ''interp'' is
+non-NULL, an error message is written as the result of ''interp''. The
+formatting is done with the same engine (internal routine
+'''TclAppendFormattedObjs''') that drives Tcl's '''format''' command. This
+means the set of supported conversion specifiers is that of '''format''' and
+not that of ''sprintf()'' where the two sets differ. When a conversion
+specifier includes a precision, the value is taken as a number of bytes, as
+''sprintf()'' does, and not as a number of characters, as '''format''' does.
+The variable number of arguments passed in should be of the types that would
+be suitable for passing to ''sprintf()''.  Note in this example usage, ''x''
+is of type '''long'''.
+
+|  long x = 5;
+|  Tcl_Obj *objPtr = Tcl_NewObj();
+|  Tcl_ObjPrintf(NULL, objPtr, "Value is %d", x);
+
+~~ Tcl_FormatObj
+
+ > int '''Tcl_FormatObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'',
+   CONST char *''format'', ...)
+
+This routine is similar to '''Tcl_ObjPrintf'''. The key difference is that its
+variable number of arguments are all expected to be of type '''Tcl_Obj *'''.
+Choosing between '''Tcl_ObjPrintf''' and '''Tcl_FormatObj''' depends on what
+form the data to be formatted is already in.
+
+~~ Tcl_AppendLimitedToObj
+
+ > int '''Tcl_AppendLimitedToObj'''(Tcl_Obj *''objPtr'', CONST char *''bytes'',
+   int ''length'', int ''limit'', CONST char *''ellipsis'')
+
+This routine is used to append a string, but to impose a limit on how many
+bytes are appended. This can be handy when the string to be appended might be
+very large, but the value being constructed should not be allowed to grow
+without bound. A common usage is when constructing an error message, where the
+end result should be kept short enough to be read. Bytes from ''bytes'' are
+appended to ''objPtr'', but no more than ''limit'' bytes total are to be
+appended. If the limit prevents all ''length'' bytes that are available from
+being appended, then the appending is done so that the last bytes appended are
+from the string ''ellipsis''. This allows for an indication of the truncation
+to be left in the string.
+
+When ''length'' is -1, all bytes up to the first zero byte are appended,
+subject to the limit. When ''ellipsis'' is NULL, the default string '''...'''
+is used. The number of bytes appended can be less than the lesser of
+''length'' and ''limit'' when appending fewer bytes is necessary to append
+only whole multi-byte characters.
+
+For all three of these proposed routines, the '''Tcl_Obj''' being appended to
+must be unshared.
+
+~ Compatibility
+
+This proposal includes only new features. It is believed that existing scripts
+and C code that operate without errors will continue to do so.
+
+~ Reference Implementation
+
+The actual code is already complete as internal routines corresponding to the
+proposed public routines. Implementation is just an exercise in renaming,
+placing in stub tables, documentation, etc.
+
+~ Copyright
+
+This document has been placed in the public domain.
