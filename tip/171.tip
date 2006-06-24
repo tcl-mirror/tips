@@ -1,6 +1,6 @@
 TIP:            171
 Title:          Change Default <MouseWheel> Bindings Behavior
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Keith Vetter <kvetter@alltel.net>
 State:          Draft
@@ -99,7 +99,8 @@ convention which will need to be handled specifically.
 Another tile work-around is that you have to modify
 the class test to also recognize TScrollbar with 
 something like 
-|  if {[string match "*Scrollbar" [winfo class $w]]} ...
+
+  if {[string match "*Scrollbar" [winfo class $w]]} ...
 
 ~ Copyright 
 
