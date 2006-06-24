@@ -1,6 +1,6 @@
 TIP:            171
 Title:          Change Default <MouseWheel> Bindings Behavior
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Keith Vetter <kvetter@alltel.net>
 State:          Draft
@@ -95,6 +95,11 @@ shift-MouseWheel scrolls horizontally. Second, tile's
 combobox widget should have its class binding removed.
 It has, however, yet another different scrolling calling
 convention which will need to be handled specifically.
+
+Another tile work-around is that you have to modify
+the class test to also recognize TScrollbar with 
+something like 
+|  if {[string match "*Scrollbar" [winfo class $w]]} ...
 
 ~ Copyright 
 
