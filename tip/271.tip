@@ -1,0 +1,210 @@
+TIP:            271
+Title:          Windows-Style Open and Save File Dialog on Unix
+Version:        $Revision: 1.1 $
+Author:         Matthew Middleton <matthew.middleton@ansys.com>
+State:          Draft
+Type:           Project
+Tcl-Version:    8.5
+Vote:           Pending
+Created:        11-Jul-2006
+Post-History:	
+
+~ Abstract
+
+This TIP describes updates to the Unix file dialogs to make them more like the
+dialogs found on the Windows platform. This increases the usability of the
+dialog for general "power" users.
+
+~ Rationale
+
+It is nice to have a windows-type file dialog for Unix applications that wish
+to have a Windows appearance. This makes the experience much smoother for
+end-users that are experienced with the Windows file dialogs, which is an
+extremely common case these days.
+
+It has convienent attributes of being able to redorder file lists by name,
+type, size, and date. It also has the typical cut, copy, paste, rename,
+delete, new directory and properties selections.
+
+Box selecting is also possible with the multiple option. As much functionality
+as possible was included to match the windows dialog. Some things were left
+out, such as the panel at the left of a typical windows dialog that contains
+buttons that allow quick change to such things as "My Documents, and "My
+Computer".
+
+~ Reference Implementation
+
+The source code has been included as script files. All of this was done at the
+Tcl script level, and can be found in Patch 1520742 (currently written against
+Tcl/Tk 8.4.12).
+[http://sf.net/tracker/?func=detail&aid=1520742&group_id=12997&atid=312997]
+Listing of modified/new files:
+
+|tkfbox.tcl
+|choosedir.tcl
+|tkfprops.tcl
+|Tkfprops.html
+|ResizeButs.tcl
+|ResizeButs.html
+
+Two new megawidgets have been developed for these changes. They are
+'''ResizeButs''' which is a button-alike specialized for acting as the heading
+of a column or row of data, and '''tk_fileProperties'' which is a popup window
+for viewing and editing file metadata.
+
+~ Specification
+
+The '''tk_getOpenFile''' and '''tk_getSaveFile''' have been greatly improved
+to function much like a Windows file dialog (circa Windows 2000), when the
+default dialogs are overridden. This is most useful on Unix systems where the
+application is wanted to have a Windows-like appearance, but it will also
+function on Windows. I have not been able to test on Macintosh.
+
+This also affects '''tk_chooseDirectory''' when the default dialogs are
+overridden, as that is also implemented in ''tkfbox.tcl''.
+
+The dialogs will work without the BWidget package, but it will have more
+functionality and look more like a windows dialog if BWidgets are available.
+The only thing it really needs from BWidgets is the '''ComboBox''' widget. If
+this were included in regular Tk, then BWidgets would not be needed. It also
+uses the balloon messages of the "Button" widget from BWidgets.
+
+This new file dialog widget requires two of the new widgets included -
+'''ResizeButs''' and '''tk_fileProperties''', which are autoloaded from
+''ResizeButs.tcl'' and ''tkfprops.tcl'' respectively. The two tcl files that
+define these widgets are included, along with documentation on each one.
+
+The file ''choosedir.tcl'' is also included. It is needed to work with the
+modified ''tkfbox.tcl''.
+
+~~ Functionality Outline
+
+Added functionality of the file dialog:
+
+ 1. Back directory button
+
+ 2. Create directory button
+
+ 3. Details button
+
+ 4. Delete button
+
+ 5. You can type the directory path at the top (requires BWidgets). Selecting
+    "desktop" expands what's available on the desktop if used on Windows.
+
+ > Right mouse clicking on a file gives these options:
+
+ > 1. Cut
+
+ > 2. Copy
+
+ > 3. Delete
+
+ > 4. Rename
+
+ > 5. Properties (uses tk_fileProperties widget)
+
+ > Right mouse clicking in open white space gives these options:
+
+ > 1. View
+
+ > 1. List
+
+ > 2. Details
+
+ > 2. Arrange Icons
+
+ > > 1. By Name
+
+ > > 2. By Size
+
+ > > 3. By Type
+
+ > > 4. By Date
+
+ > 3. Refresh
+
+ > 4. Paste (ungreys if Cut or Copy were previously selected on files)
+
+ > 5. New Folder
+
+ > 6. Properties (uses tk_fileProperties widget)
+
+ 6. Recent selected files can be shown by pressing the down arrow in the entry
+    field of the selected file name (requires BWidgets). Recent file names are
+    saved to a file named .tk_recent_selections in the users home directory.
+
+ 7. Box selecting of files can be done with the "multiple 1" option. Left
+    mouse click and hold and drag a box over files.
+
+ 8. The busy was improved to actually block mouse clicks instead of just
+    showing an hourglass widget.
+
+ 9. Popup button descriptions. (requires BWidgets)
+
+ 10. Icons shade as well as text when selected.
+
+~~ Details View
+
+The Details button grids 4 columns (name, file type, size, and modified
+date). (This uses ResizeButs widget.)
+
+Moving the mouse over the border between two buttons of the top column
+headings and left mouse clicking while dragging will allow the user to change
+the size of the columns.
+
+Pressing one of the heading buttons changes the order of the data between
+increasing and decreasing and displays a triangle in the button to indicate
+the order.
+
+~~ Additional Arguments to the tk_getOpenFile and tk_getSaveFile Commands
+
+The ''dir_leaf'' arguments allow a folder to be selected as a file to select
+it as a project. Providing a '''-dir_leaf_check''' procedure defines the file
+dialog as a special type that only lists folders, but the folder that passes
+the '''-dir_leaf_check''' procedure can be selected as a file.
+
+ 1. '''-dir_leaf_check''' ''commandName'' - This is the name of a procedure
+    which checks if the directory qualifies as the kind that can be selected
+    as a project file. It returns a non-zero number if it qualifies, otherwise
+    it returns zero. The directory name to check will be appended as an
+    argument to the procedure.
+
+ 2. '''-dir_leaf_image''' ''imageName'' - an image to use for the folder types
+    that will be treated as files. It should be an image created with '''image
+    create photo'''.
+
+ 3. '''-dir_leaf_label''' ''string'' - text that appears at the left of the
+    entry for the selected file when the dialog is defined as a project folder
+    selection type (when the '''-dir_leaf_check''' procedure is defined). Not
+    localized by Tk.
+
+ 4. '''-extra_widgets_bottom''' ''commandName'' - This is the name of a
+    procedure which packs or grids additional widgets at the bottom of the
+    dialog. The window name of a frame widget at the bottom of the dialog is
+    appended as an argument, and any further widgets that this procedure
+    creates to be gridded should be a child window of this frame. If this
+    procedure returns anything, it will be treated as a number to configrue
+    the width of the Ok and Cancel buttons, since the additional widgets could
+    possibly stretch these buttons to any length.
+
+ 5. '''-extra_widgets_side''' ''commandName'' - This is the name of a
+    procedure which does the packing or gridding for additional widgets at the
+    right side of the dialog. The frame window name at the right side of the
+    dialog will be appended as an argument.
+
+ 6. '''-pick_func''' ''commandName'' - A procedure which will be done every
+    time a file is selected (activated).  The full path of the file name will
+    be appended as an argument to this procedure.
+
+ 7. '''-allow_nonexistent''' - If the command used is '''tk_getOpenFile''',
+    this will allow the user to enter a nonexistent file name. This name will
+    be returned from '''tk_getOpenFile''', but it will still not exist. It is
+    the programmer's responsibility to create this file afterwards.
+
+ 8. '''-open_button_name''' ''string'' - Alternate text to use for the "Open"
+    or "Save" button. Not localized by Tk.
+
+~ Copyright
+
+This document has been placed in the public domain.
