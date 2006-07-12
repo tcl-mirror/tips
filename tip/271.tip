@@ -1,6 +1,6 @@
 TIP:            271
 Title:          Windows-Style Open and Save File Dialog on Unix
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Matthew Middleton <matthew.middleton@ansys.com>
 State:          Draft
 Type:           Project
@@ -22,7 +22,7 @@ to have a Windows appearance. This makes the experience much smoother for
 end-users that are experienced with the Windows file dialogs, which is an
 extremely common case these days.
 
-It has convienent attributes of being able to redorder file lists by name,
+It has convienent attributes of being able to reorder file lists by name,
 type, size, and date. It also has the typical cut, copy, paste, rename,
 delete, new directory and properties selections.
 
