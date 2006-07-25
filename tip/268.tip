@@ -1,6 +1,6 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -63,7 +63,9 @@ The syntax of [[package vsatisfies]] is extended to
 where each "requirement" is is allowed to have any of the forms:
 
    1. min
+
    1. min-
+
    1. min-max
 
 where "min" and "max" are valid version numbers. The current syntax is
@@ -72,7 +74,9 @@ a special case of the extended syntax, keeping backward compatibility.
 These three forms are called, in the order as listed above:
 
    1. "min-bounded"
+
    1. "min-unbound"
+
    1. "bounded"
 
 Given the above the [[package vsatisfies]] functions like this:
