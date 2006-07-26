@@ -1,6 +1,6 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -282,8 +282,8 @@ A reference implementation written in Tcl now follows.
 | 	    # Require decimal formatted numbers with no suffix
 | 	    return -code error "invalid version number: \"$version\""      
 | 	}
-| 	if {![string is integer -strict $i]  || $i < -2 } {
-| 	    # Retain limitation to 32-bit integers
+| 	if {[catch {incr i 0}] || $i < -2 } {
+|           # Verify each component is integer >= -2
 | 	    return -code error "invalid version number: \"$version\""      
 | 	}
 | 	lappend list $i
