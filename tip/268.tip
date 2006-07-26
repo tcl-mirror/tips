@@ -1,9 +1,10 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -42,7 +43,7 @@ example, version 2.1 is later than 1.3 and version 3.4.6 is later than
 same as version 1.3.0 and 1.3.0.0, so it is earlier than 1.3.1 or
 1.3.0.2.
 
-'''Recommended version specification adds:'''
+'''Proposed version specification adds:'''
 
 In addition, the letters 'a' (alpha) and/or 'b' (beta) may appear
 exactly once to replace a dot for separation. These letters
@@ -69,7 +70,8 @@ where each "requirement" is is allowed to have any of the forms:
    1. min-max
 
 where "min" and "max" are valid version numbers. The current syntax is
-a special case of the extended syntax, keeping backward compatibility.
+case 1, and the addition of cases 2 and 3 does not interfere
+with keeping backward compatibility.
 
 These three forms are called, in the order as listed above:
 
@@ -91,7 +93,7 @@ Given the above the [[package vsatisfies]] functions like this:
 
  > * Otherwise if, and only if the version is greater than or equal to
      the min, and less than the max, where both min and max have been
-     padded internally with 'a0'. NOTE: min is ''inclusive'', max is
+     extended internally with 'a0'. NOTE: min is ''inclusive'', max is
      ''exclusive''.
 
  * A "min-bounded" requirement is a "bounded" requirement in disguise,
@@ -140,12 +142,11 @@ The requirements arguments are of the same form as accepted by
 
 The logic is:
 
- * In a "stable" environment the command will accept the highest
-   stable version satisfying all the requirements, and the highest
-   unstable version satisfying all the requirements if and only if
-   there is no stable version satisfying the requirements. Even if the
-   requirement was for an unstable version. This implements the
-   behaviour that
+ * In the "stable" selection mode the command will select the highest
+   stable version satisfying the requirements, if any.  If no
+   stable version satisfies the requirements, the highest
+   unstable version satisfying the requirements will be selected.
+   This implements the behaviour that
 
 | package require foo 1.5.3
 
@@ -167,13 +168,13 @@ The logic is:
    as a threshold that rejects nonpreferred, yet satisfactory
    solutions.
 
- * In a "latest" environment the command will accept the highest
+ * In the "latest" selection mode the command will accept the highest
    version satisfying all the requirements, regardless of its
    stableness.
 
 All other [[package]] subcommands that accept a version number
-argument are revised to accept anything that [intList] accepts without
-error.
+argument are also revised to accept the expanded set of legal version
+numbers.
 
 The calls to Tcl_PkgProvide() in both Tcl and Tk are revised to pass
 in TCL_PATCH_LEVEL and TK_PATCH_LEVEL where they currently pass in
@@ -240,7 +241,7 @@ Tcl 8.5a5 release.  This support comes from the rules for interpreting
 a requirement's implicit demands beyond the fields it explicitly
 names.  A requirement of 8.5 gets interpreted as equivalent to 8.5a0
 and not equivalent to 8.5.0. Note the language about ''internally
-padded with 'a0' '' in the rules of [[package vsatisfies]].
+extended with 'a0' '' in the rules of [[package vsatisfies]].
 
 ~ Footnotes
 
