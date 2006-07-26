@@ -1,9 +1,8 @@
 TIP:            224
 Title:          Add New [array] Subcommands 'incr' and 'value'
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter MacDonald <peter@pdqi.com>
 Author:         Robert Seeger <rseeger00@aol.com>
-Author:         derek <bon56uj@begero.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,6 +12,113 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-I am here to say hello and you have a great site!  <a href="http://www.webfreefind.com">nokia6630</a>
+The TIP proposes the addition to two new subcommands to the
+'''array''' command: '''incr''' and '''value'''.  The '''incr''
+subcommand would increment an element in an array.  The '''value'''
+subcommand would query, reference, and/or initialize an array element.
 
+~ Rationale
 
+[215] proposed modifying the '''incr''' command to auto-initialize
+variables which do not exist, rather than throwing an error.  After
+some debate, it was identified that frequency counting in arrays was
+the primary area of interest.  In particular, the excessive use of
+''if/info exists'' constructs in such code is inefficient, verbose and
+rather difficult to read.  The addition of these two subcommands could
+substantially reduce the complexity of much Tcl code.
+
+~ Specification
+
+Two new subcommands will be added to '''array''', being '''incr''' and
+'''value'''.
+Both commands take an array name and an elem parameter, but, no string match is performed on elem.
+
+~~ array incr
+
+ > '''array incr''' ''var elem'' ?''value''? ?''init''?
+
+The '''array incr''' subcommand would increment ''var''(''elem''), if
+it exists, by ''value'', otherwise, initializes it to ''init''.  The
+default for ''value'' is 1, and the default for ''init'' is 0.  The
+subcommand will return the new value and will support both integer and
+double values (based on the rules for addition in '''expr''').
+
+~~ array value
+
+ > '''array value''' ''var elem'' ?''value''? ?''init''?
+
+The '''array value''' would just return the current contents of
+''var''(''elem'') if it exists, or ''value'' otherwise.   If the
+''init'' parameter resolves to true (as determined by
+''Tcl_GetBooleanFromObj()'' of course), the variable is initialized to
+''value'' if it doesn't already exist.  The default for ''value'' is
+the empty string, and the default for ''init'' is false.
+
+~ Reference Implementation
+
+Following is a Tcl only implementation of the '''incr'''/'''value'''
+subcommands:
+
+|proc Array {cmd var elem {amt {}} {init 0}} {
+|   # Implement the Array subcmds incr and value on var(elem):
+|   #  - incr   increment a variable by amt or initialize
+|   #           to init if undefined.
+|   #  - value  return the value if defined, else return amt
+|   #           initializing if init.
+|   upvar $var uvar
+|   if {[string match $cmd* incr]} {
+|      if {$amt == {}} { set amt 1 }
+|      if {[info exists uvar($elem)]} {
+|         return [set uvar($elem) [expr {$uvar($elem)+$amt}]]
+|      }
+|      return [set uvar($elem) $init]
+|   } elseif {[string match $cmd* value]} {
+|      if {[info exists uvar($elem)]} {
+|         return $uvar($elem)
+|      }
+|      if {$init} {
+|         return [set uvar($elem) $amt]
+|      }
+|      return $amt
+|   } else {
+|      error "usage: Array incr|value var elem ?amt? ?init?"
+|   }
+|}
+
+~Discussion
+
+ * Wangnic notes:
+
+ > '''array value''' ''var elem'' '''"" false''' can be written as
+   '''array get''' ''var elem''
+
+ > Array get returns name/value pairs.  Array value returns just the
+   value.  Also if elem has a * in it, there may be multiple matches.
+
+ * Hobbs notes:
+
+ > [200] already rejected ''array values''
+
+ > A single item is returned from ''array value'', not a list, as
+   there is no string match on elem.
+
+ > The problem domain is not list processing (which is expected to be
+   relatively expensive), but rather frequency counting and set
+   matching.
+
+ * RHSeeger notes:
+
+ > It would seem more consistant to push for the ''incr'' command to
+   include a way to initialize a variable if it doesn't exist (as per
+   [215] or the discussed options contained therein), rather than add
+   an incr subcommand to array.
+
+ > Being a fan or reintroducing the ''array values'' TIP (since the
+   core mailing list indicates it was never fully rejected), I think
+   ''array value'' might be a bit confusing, being only off by the
+   lack of plurality. (I was one of the people pushing for [200]
+   though, so take that aspect with a grain of salt)
+
+~ Copyright
+
+This document has been placed in the public domain.
