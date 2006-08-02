@@ -1,9 +1,8 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 Author:         Larry W. Virden <lvirden@yahoo.com>
-Author:         ycSyuVpUmz <efBy1@ADVVtcT.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -12,6 +11,547 @@ Post-History:
 
 ~ Abstract
 
-<a href="http://eoss.org/activity/buy-phentermine.html">buy phentermine</a>
+This document specifies the contents of a binary distribution of a Tcl
+package, especially directory structure and required files, suitable
+for automated installation into an existing Tcl installation.
 
-<a href="http://eoss.org/activity/buy-phentermine.html">buy phentermine</a>
+~ Rationale
+
+There is currently no standard way of distributing or installing a Tcl
+extension package.  The TEA document defines a standard interface to
+''building'' packages and includes an ''install'' target but
+presumes that the packages is being installed on the same machine as
+it was built. This TIP defines a directory structure and assorted
+files for the binary distribution of a package which can be placed
+into an archive (for example zip or tar file) and transferred for
+installation on another machine.  A basic mechanism for installation of
+packages is also described.
+
+~ Definitions
+
+The following definitions are excerpted from [78]:
+
+ package: A collection of files providing additional functionality to
+   a user of a Tcl interpreter when loaded into said interpreter.
+
+ > Some files in a package implement the provided functionality
+   whereas other files contain metadata required by the package
+   management of Tcl to be able to use the package.
+
+ distribution: An encapsulation of one or more ''packages'' for
+   transport between places, machines, organizations, and people.
+
+ shared library: A piece of binary code that provides a set of
+   operations and data structures like a normal library, but which does
+   not need to be physically incorporated into the executables that
+   use it until they are actually executed. This is the normal way to
+   distribute binary code for a Tcl package such that it can be
+   incorporated into a Tcl interpreter with the ''load'' command. On
+   Windows, shared libraries are known as DLLs, on the Macintosh ...
+
+~ References
+
+Much of the required structure for an installable distribution is
+defined by the requirements of Tcl's existing package loading methods.
+The structure of an installable distribution should largely mirror
+the structure of an installed package where possible.
+
+The R system (a statistical package [http://www.r-project.org/]) has a
+well defined package format which enables automatic installation of new
+packages and integration of documentation and demonstration programs
+for these with that of the main R system.
+
+A number of packaging and installation systems (for example, Debian
+[http://www.debian.org] and RPM [http://www.redhat.com]) have been
+developed by the Linux community which provide an interesting range of
+facilities.  These systems commonly provide facilities for pre and post
+installation scripts and pre and post removal scripts to help set up
+and shut down packages.  Also included are detailed dependency
+relations between packages which can be used by an installer to ensure
+that a package will work once it is installed or warn of potential
+conflicts after installation.
+
+A significant part of this proposal is the proposed format of the
+package metadata which derives from other metadata standardisation
+efforts, mainly the Dublin Core [http://purl.org/dc/] and the Resource
+Description Framework [http://www.w3.org/RDF].
+
+~ Requirements
+
+The simplest case of a Tcl package is one that contains only Tcl code;
+these will be considered first, and the additional issues raised by
+packages containing compiled code will be dealt with later.
+
+The minimum contents of a Tcl only package are defined by the
+requirements of [[package require xyzzy]].  The package needs to be
+placed in a directory on the ''auto_path'' and must contain one or more
+''.tcl'' files which implement the functionality provided by the
+package.
+
+In addition to these files, it is useful to include documentation for
+the commands implemented by the package and some additional metadata
+about the author etc.  Distributions might also optionally include
+demonstration scripts and applications illustrating their use, these
+could either be incorporated into the documentation or included as
+stand-alone Tcl files.
+
+Distributions which include shared libraries add an additional layer of
+complexity since these will only run on the platforms for which they
+have been compiled.  There are two clear options here: either
+distributions are platform specific, intended for installation on one
+platform alone, or the structure of the distribution is extended to
+allow the option of including multiple shared libraries.  The latter
+option would allow a single installation to serve multiple platforms
+and so should be preferred although this TIP will not ''require'' a
+distribution to support multiple platforms.
+
+~ Proposed Directory Structure
+
+The following directory structure is proposed for an installable
+distribution:
+
+|  packagename$version
+|      + DESCRIPTION.txt  -- Metadata, description of the package
+|      + doc/             -- documentation
+|      + examples/        -- example scripts and applications
+|      + $architecture/   -- shared library directories
+|      + pkgIndex.tcl     -- package index file (optional)
+
+In addition, a distribution may include any additional files or
+directories required for its operation.
+
+''DESCRIPTION'' is a file containing metadata about the
+package(s) contained in the distribution. Its format will be described
+in a later section of this document.
+
+The file ''pkgIndex.tcl'' currently required by the package-loading
+mechanism of the Tcl core is ''optionally'' distributed. In most cases,
+it will be generated by the installer; all the information which is
+necessary to do this is part of the distribution.  Distribution authors
+should only include ''pkgIndex.tcl'' if special features of their
+distribution mean that the generated file would not work.
+
+If the ''pkgIndex.tcl'' file is included in the distribution it should
+load files from their locations within the distribution directory
+structure. For example, Tcl files should be loaded from the ''tcl''
+directory.
+
+''doc/'' directory contains documentation in an accepted format.
+Currently Tcl documentation is delivered either in source form (nroff
+or TMML) or as HTML files.  Given the lack of a standard cross platform
+solution, this TIP does not require a specific format; however, the
+inclusion of either a text or HTML formatted help file is strongly
+encouraged.  If HTML formatted help is included the main file should be
+named ''index.html'' or ''index.htm'' so that it can be linked to a
+central web page.  If only plain text documentation is included there
+should be a file called ''readme.txt'' (in either upper or lower case)
+which will serve as the top level documentation file.
+
+''examples/'' directory contains one or more Tcl files giving examples
+of the use of this package. These should be complete scripts
+suitable for either sourcing in tclsh/wish or running from the command
+line. The examples should be self contained and any external data
+should be included in files in this directory or a sub-directory.  This
+directory should contain a file ''readme.txt'' which explains how to
+run the examples and provides a commentary on what they do.
+
+''$architecture'' directories contain shared libraries for various
+platforms. The special architecture ''tcl'' is used for Tcl script
+files. They either implement the package or contain companion procedure
+definitions to the shared libraries of the package.
+
+The distribution need not provide all possible combinations of
+architectures and may only provide one shared library.  This structure
+is proposed to allow shared libraries to co-exist in a multi-platform
+environment and to allow binary packages to be distributed in
+multi-platform distributions.  The architectures included in the
+distribution should be named in the DESCRIPTION.txt file.
+
+The possible values of $architecture and methods for generating them
+are discussed in a later section.
+
+~ Metadata
+
+This section defines the metadata describing the package contained in
+the distribution in a format-neutral way. The model for this data is
+that provided by the Resource Description Framework (RDF
+[http://www.w3.org/rdf]) which defines a triple based data model.  The
+RDF model defines objects, their properties and relationships between
+them.  In addition, where possible, element names are taken from the
+Dublin Core Metadata Element Set
+[http://dublincore.org/documents/1999/07/02/dces/] which defines a
+standard set of element names for metadata. Dublin Core names are
+marked with DC in parentheses in the following list.
+
+In a package description, the object being described is the package
+itself, hence the element names are all intended to describe
+packages. Other objects might be described including people and
+organisations. The package description should not include these
+objects but a package repository might store them separately keyed on
+the values stored in this description (e.g. email addresses of creators).
+
+ * ''Identifier'' (DC)
+
+ > This element is a string containing the name of the distributed
+   package. The name may consist only of alphanumeric characters,
+   colons, dashes and underscores.  This name should correspond to the
+   name of
+   the package defined by this distribution (that is, the code should
+   contain ''package provide xyzzy'' where ''xyzzy'' is the value of
+   this element.
+
+ > Care must be taken to make this name unique among the package names
+   in the archive. To overcome this, namespace style names separated by
+   double colons should be used.
+
+ > Examples: xyzzy, tcllib, xml::soap, cassidy::wonderful-package_2
+
+ * ''Version''
+
+ > This element is a string containing the version of the
+   package. It consists of 4 components separated by full stops. The
+   components are ''major version'', ''minor version'', ''maturity''
+   and ''level''; and are written in this order.
+
+ > The major and minor version components are integer numbers greater
+   than or equal to zero.
+
+ > The component ''maturity'' is restricted to the values a, b.
+   The represent the maturity states ''alpha'', ''beta''
+   respectively. For a production release, this component can be omitted.
+
+ > The ''level'' component allows a more fine-grained differentiation
+   of maturity levels.  When a package has maturity ''production'' the
+   ''level'' component is often called the ''patchlevel'' of the package.
+   If the ''level'' component is zero, it may be omitted.
+
+ > The period each side of the ''maturity'' component may be omitted.
+
+ > Valid version numbers can be decoded via the following regular
+   expression:
+
+|regexp {([0-9]+)\.([0-9]+)\.?([ab])?\.?([0-9]*)} $ver => major minor maturity level
+
+ > Examples: 8.4.0  8.4a1 2.5.b.5
+
+ * ''Title'' (DC)
+
+ > This element is a free form string containing a one sentence
+   description of the package contained in the distribution.
+
+ > Example: Installer Tools for Tcl Packages
+
+ * ''Creator'' (DC)
+
+ > This element is a string containing the name of the person,
+   organisation or service responsible for the creation of the
+   package optionally followed by the email address of the author in
+   angle brackets [http://www.faqs.org/rfcs/rfc2822.html]. More detail
+   about an author can be provided in a separate object in the RDF
+   description and if this is provided the email address should be used
+   as the value of the Name field in that object.
+
+ > If there is more than one author this field may appear multiple
+   times.
+
+ > Email addresses may be obfuscated to avoid spam harvesters.
+
+ > Example: Steve Cassidy <Steve.Cassidy at mq dot edu dot au>
+
+ * ''Contributor'' (DC)
+
+ > This element is a string analogous to the Creator element which
+   contains the name of a contributor to the package.
+
+ * ''Rights'' (DC)
+
+ > Typically, a Rights element will contain a rights management
+   statement for the resource, or reference a service providing such
+   information.  This will usually be a reference to the license under
+   which the package is distributed. This can be a free form string
+   naming the license or a URL referring to a document containing the
+   text of the license.
+
+ > If the Rights element is absent, no assumptions can be made
+   about the status of these and other rights with respect to
+   the resource.
+
+ > Examples: BSD, http://www.opensource.org/licenses/artistic-license.html
+
+ * ''URL''
+
+ > This element is a string containing an url referring to a
+   document or site at which the information about the package can be
+   found. This url is ''not'' the location of the distribution, as this
+   might be part of a larger repository separate from the package site.
+
+ > Example: http://www.shlrc.mq.edu.au/~steve/tcl/
+
+ * ''Available'' (DC)
+
+ > This element is the release data of the package in the form YYYY-MM-DD.
+
+ > YYYY is a four-digit integer number greater than zero denoting the
+   year the distribution was released.
+
+ > MM is a two-digit integer number greater than zero and less than
+   13. It is padded with zero at the front if it less than 10. It
+   denotes the month the distribution was released. The number 1
+   represents January, 2 represents February; and 12 represents December.
+
+ > DD is a two-digit integer number greater than zero and less than 32.
+   It is and padded with zero at the front if less than 10. It denotes
+   the day in the month the distribution was released.
+
+ > A valid data string can be obtained with the Tcl command
+   [[clock format [clock seconds] -format "%Y-%m-%d"]]
+
+ > Example: 2002-01-23
+
+ > (The DC element is Date but it can be refined to Created,
+   Available, Applies)
+
+ * ''Description'' (DC)
+
+ > This element is a free form string briefly describing the package.
+
+ * ''Architecture''
+
+ > This element is a string describing one of the architectures
+  included in the distribution. As a distribution is allowed to
+  contain the files for several architectures, this element may
+  appear multiple times and should correspond to a directory in the
+  distribution.
+
+ * ''Require''
+
+ > Names a package that must be installed for this package to operate
+   properly. This should have the same format as the ''package
+   require'' command, eg. ''?-exact? package ?version?''.
+
+ > Example: http 2.0
+
+ * ''Recommend''
+
+ > Declares a strong, but not absolute dependency on another package.
+   In most cases this package should be installed unless the user has
+   specific reasons not to install them.
+
+ * ''Suggest''
+
+ > Declares a package which would enhance the functionality of this
+   package but which is not a requirement for the basic functionality
+   of the package.
+
+ * ''Conflict''
+
+ > Names a package with which can't be installed alongside this
+   package. The syntax is the same as for Require.  If a conflicting
+   package is present on the system, an installer might offer an option
+   of removing it or not installing this package.
+
+ * ''Subject'' (DC)
+
+ > The topic or content of the package expressed as a set of Keywords.
+   At some future time, a set of canonical keywords may be established
+   by a repository manager.
+
+The following Dublin Core elements were not included in the standard
+set above but may be used in a package description if appropriate.
+
+ * ''Publisher''
+
+ > An entity responsible for making the package available.
+
+ * ''Type''
+
+ > The nature or genre of the content of the resource. For a Tcl
+   package the value of this element would be Software if the DCMI
+   Type Vocabulary
+   [http://au.dublincore.org/documents/2000/07/11/dcmi-type-vocabulary/]
+   was used.  A more useful set of types might be developed in the
+   future for Tcl packages.
+
+ * ''Format''
+
+ > The physical or digital manifestation of the resource.  This might
+   be used by archive maintainers to specify the format of a package
+   archive, eg. zip, tar etc.
+
+ * ''Source''
+
+ > A Reference to a resource from which the present resource is derived.
+
+ * ''Language''
+
+ > A language of the intellectual content of the resource.  Could be
+   used if multi-language packages are available. Should use the two
+   letter language code defined by RFC 1766, eg. 'fr' for French, 'en'
+   for English.
+
+~ Encoding of the Metadata
+
+The primary means of storing RDF data is using XML but it can be stored
+in many other formats.  This TIP prescribes a simple text based
+encoding according to the RFC 2822 format which is described in this
+section. Data stored in this format can be converted to XML format for
+use by other tools, similarly XML formatted descriptions can be
+converted into this text format without loss of information.
+
+The text format description is stored in the file ''DESCRIPTION.txt''.
+The XML formatted version of the data may be stored in the file
+''DESCRIPTION.rdf'' within the archive and may be automatically
+generated if not present.
+
+The general format of this file is that of a RFC 2822 mail message,
+without body and using custom headers. The available headers are the
+case-independent logical names from the preceding section but may be
+augmented by other fields defined by repository maintainers or other
+applications. The headers are allowed appear in any order.
+
+Example:
+
+|  Identifier: stemmer
+|  Version: 1.0.0
+|  Title: A stemmer for English.
+|  Creator: Steve Cassidy <Steve.Cassidy@mq.edu.au>
+|  Description:   Provides a procedure to remove any prefixes or suffixes on
+|         a word to give the word stem. Uses Porter's algorithm to do this
+|         in an intelligent manner with an accuracy of around 80%.
+|  Rights: BSD
+|  URL: http://www.shlrc.mq.edu.au/emu/tcl/
+|  Available: 2001-08-16
+|  Architecture: tcl
+|  Subject: linguistics
+|  Subject: text
+
+~ Combination Distributions
+
+It is often useful to combine a number of related packages so that they
+can be installed together to provide a certain kind of functionality,
+for example, web page production tools or database access.  Perl uses
+the term ''Bundle'' to refer to such a group of related packages.
+There are two alternative mechanisms for distribution of such a package
+within the mechanisms suggested here.
+Firstly, since a distribution may contain more than one package, the
+set of files making up the various packages could be combined together
+and described by a single DESCRIPTION.txt file.  This is similar to the
+way that tcllib is currently distributed.  The disadvantage would be
+that all of the Tcl files implementing these packages would have to
+reside in the same directory which could cause name clashes.
+
+The second alternative is to create a distribution consisting of only a
+DESCRIPTION.txt file to describe which Requires the component packages
+causing them to be installed from the repository. For example, tcllib
+might be described as follows:
+
+|  Identifier: tcllib
+|  Version: 1.0.0
+|  Title: The Standard Tcl Library
+|  Description:  This package is intended to be a collection of Tcl
+|             packages that provide utility functions useful to a large
+|             collection of Tcl programmers.
+|  Rights: BSD
+|  URL: http://sourceforge.net/projects/tcllib
+|  Contributor: Andreas Kupries  <andreas_kupries at users dot sourceforge dot net>
+|  Contributor: Don Porter <dgp at users dot sourceforge dot net>
+|  Require: base64
+|  Require: cmdline
+|  Require: csv
+|  ...
+
+Installing tcllib would cause the installer to fetch base64, cmdline,
+csv etc from the repository and install them in order to satisfy the
+tcllib requirement.  A new pkgIndex.tcl file could be constructed to
+load all of these packages if ''[[package require tcllib]]'' was called.
+
+~ Architecture
+
+Possible values for $architecture in the directory structure include:
+
+ * the value of
+   ''tcl_platform(platform)'': windows, unix, macintosh
+
+ * a composite of tcl_platform
+   values: ''$tcl_platform(machine)-$tcl_platform(os)-$tcl_platform(osVersion)''
+
+ * a canonical system name as returned by
+   ''config.guess'': ''i686-pc-linux-gnu''
+
+~ Installing Packages
+
+A package structured according to this TIP can be installed using the following
+steps:
+
+  1. Download the package archive (eg. zip file)
+
+  2. Locate a writable directory included on $auto_path (or ask for a
+     installation directory)
+
+  3. Unpack the archive in the desired location.
+
+  4. Run pkg_mkIndex with appropriate arguments to generate a
+     pkgIndex.tcl file if none is present. Arguments will include the
+     appropriate Architecture directories for the platform.
+
+  5. ''(optional)'' link help files and demos to the central index.
+
+~ Alternatives
+
+Alternatives might be considered for the package DESCRIPTION.txt file, for
+the documentation directory and for the location of shared libraries.
+
+An alternative for package description file is to include an
+alternative package description, for example the XML based ``ppd''
+format used to describe Perl packages on the ActiveState Perl package
+repository. The main motivation for the simple format proposed is that
+it is trivial for authors to write and trivial for programs to read and
+can be transformed into standards based RDF XML.  The use of the DC
+element names means that search engines etc. will be able to usefully
+index the packages in a repository.
+
+Note that the ppd format could still be used to describe packages
+stored in a repository for installation and that some of the
+information required to build the ppd format could be derived from the
+description file.
+
+In the R package format referenced earlier, documentation is included
+in a standard source form and is converted to HTML or text based help
+pages; these might be included in the package or derived from the
+source forms on installation. The closest option for Tcl would be to
+require nroff format help files which can be converted to HTML or text
+files on installation.  Unfortunately there is no guaranteed tool to
+do nroff->X conversion on Windows or Macintosh platforms.  Until there
+is an accepted way of authoring Tcl documentation this TIP defers any
+standard layout of these files in an installable package.
+
+The alternative to having shared libraries in specific directories is
+to have separate packages for each new platform. This has the
+advantage of making the packages smaller and more closely correspond
+to the existing directory structure of an installed package.  The
+main motivation for the suggested directory structure is to allow
+multi-platform packages or to facilitate multi-platform installations.
+
+~ Supporting Tools
+
+The standards outlined in this TIP should be supported by Tcl scripts
+to:
+
+ * Generate empty package templates for new projects.
+
+ * Validate package directories or archive files.
+
+ * Read and write the DESCRIPTION.txt file and provide a standard
+   interface to the information it contains. Convert between RFC 2822
+   and XML formats.
+
+ * Install a package from an appropriately structured archive.
+
+In addition, the TEA standard should be extended with a ''package''
+makefile target which will act like the current ''install'' target but
+which will copy files to a local directory and optionally build an
+archive of the package for distribution.
+
+~ Copyright
+
+This document has been placed in the public domain.
