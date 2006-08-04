@@ -1,6 +1,6 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -182,17 +182,18 @@ TCL_VERSION and TK_VERSION.  [[info tclversion]], [[info patchlevel]],
 $::tcl_version, $::tcl_patchLevel, $::tk_version, and $::tk_patchLevel
 are left unchanged.
 
-The public C function ''Tcl_PkgRequire'' in stub slot 274 is renamed
-to ''Tcl_PkgRequireExEx'' and a new function ''Tcl_PkgRequire'' is
-provided, which has the signature:
+A new public function ''Tcl_PkgRequireProc'' is provided, which has the signature:
 
-| CONST84_RETURN char* Tcl_PkgRequire(Tcl_Interp *interp, CONST char *name, 
-|                                     int objc, Tcl_Obj *CONST objv[])
+| int Tcl_PkgRequireProc(Tcl_Interp *interp, CONST char *name, 
+|                        int objc, Tcl_Obj *CONST objv[],
+|                        ClientData* clientDataPtr)
 
-This change is equivalent to the change of [[package require]], at the
-C level.
+This function implements [[package require]] at the C level. The existing functions Tcl_PkgRequire(Ex) are re-implemented in terms
+of this function. It returns a standard Tcl error code, leaving
+either an error message (TCL_ERROR), or the version of the found
+package (TCL_OK) in the result area of the 'interp' argument.
 
-The API between ''Tcl_PkgRequire'' and the package unknown handler is
+The API between ''Tcl_PkgRequire*'' and the package unknown handler is
 changed as well. The unknown handler now has the signature:
 
 | unknown name ?requirement...?
