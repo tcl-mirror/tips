@@ -1,11 +1,11 @@
 TIP:            55
 Title:          Package Format for Tcl Extensions
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Steve Cassidy <Steve.Cassidy@mq.edu.au>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Informative
-Vote:           Pending
+Vote:           No voting
 Created:        16-Aug-2001
 Post-History:   
 
