@@ -1,6 +1,6 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -15,7 +15,8 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes enhancing the Tcl '''package''' command to understand
-version numbers containing "a", and "b".
+version numbers containing "a", and "b" and extend the semantics of [[package require]] to allow multiple requirements and
+various types of ranges of versions.
 
 ~ Rationale
 
@@ -24,9 +25,7 @@ package versioning based strictly on an infinite number of
 dot-separated positive integers. Regardless, Tcl extensions and the
 core itself use version numbers that have "a" for alpha and "b" for
 beta. This proposal seeks to make those identifiers properly
-understood by Tcl's '''package version''' semantics. It also extends
-the semantics of requirements to allow multiple requirements and
-various types of ranges of versions.
+understood by Tcl's '''package version''' semantics.  It also extends the logic to allow ranges.  This allows users to exclude package versions with known bugs/incompatibilities as well as accepting a range of major versions, which was previously only possibly through multiple [[package require]] calls and [[catch]].  The addition of [[package prefer]] is created to handle nuances in how the new package requirements mechanism interprets alpha/beta versions, because sometimes you want the bleeding edge version of a package, and other times you want something you can depend on.
 
 ~ Specification
 
@@ -257,6 +256,8 @@ to do things like
 | i eval [list package prefer [package prefer]]
 
 is a factor here as well.
+
+Lots of discussion and rationale ensued on the tcl-core mailing list.  Lars Hellstroem provided a good interpretive synopsis at http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3214264.
 
 ~ Reference Implementation
 
