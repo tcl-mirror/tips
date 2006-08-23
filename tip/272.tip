@@ -1,0 +1,60 @@
+TIP:		272
+Title:		String and List Reversal Operations
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	23-Aug-2006
+Keywords:	Tcl, lreverse
+
+~ Abstract
+
+This TIP proposes adding commands to reverse the order of characters
+in strings and elements in lists.
+
+~ Rationale
+
+According to a recent thread on news:comp.lang.tcl
+[http://groups.google.com/group/comp.lang.tcl/browse_frm/thread/a0b8c98c00a31ffc],
+there are a number of use cases for reversing strings and lists. While
+it has always been possible to write Tcl code to do this, it has
+typically been a fairly inefficient operation, and for some algorithms
+(admittedly including ones that are benchmarked when comparing Tcl to
+other languages) this can be the source of a painful slowdown. By
+putting an efficient implementation in the Tcl core, we will speed up
+quite a bit of code, more than I originally anticipated it seems; this
+will make us look better to programmers without much experience with
+the language too.
+
+~ Proposed Change
+
+I propose to add two commands, '''lreverse''' to reverse the order of
+items in a list, and '''string reverse''' (a subcommand of
+'''string''') to reverse the order of characters in a string. I do not
+propose to provide any C-level API for performing these operations.
+
+~~ The lreverse Command
+
+This shall have the following syntax:
+
+ > '''lreverse''' ''list''
+
+It shall return a list that is the same as the input list but with the
+elements in reverse order.
+
+~~ The reverse Subcommand of the string Command
+
+This shall have the following syntax:
+
+ > '''string reverse''' ''string''
+
+It shall return a string that is the same as the input string but with
+the characters in reverse order. (Note that it shall also return a
+byte array when the input is a byte array.)
+
+~ Copyright
+
+This document has been placed in the public domain.
