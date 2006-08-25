@@ -1,6 +1,6 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Paul Nash <webscool@ihug.co.nz>
@@ -102,6 +102,16 @@ This evaluates to [list 10 100]
 
 Note: In practice, defining an alias, '''lambda''', for '''list
 lambda''' leads to more natural-looking code.
+
+<PN> 
+|    (bin) 20 % list lambda x {string length $x}
+|    lambda x {string length $x}
+|    (bin) 21 % lambda x {string length $x}
+|    lambda x {string length $x}
+|    (bin) 22 % 
+
+No alias is required 
+</PN>
 
 The author of this TIP thinks that many Tcl programmers will enjoy the
 ability to use this programming style. The Tcl folklore actually
