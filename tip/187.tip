@@ -1,8 +1,9 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         Paul Nash <webscool@ihug.co.nz>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -91,6 +92,7 @@ This evaluates to [list 3 3 5 4 4]
 |                lappend res $e
 |            }
 |        }
+|        return $res
 |    }
 |
 |    set a [list 1 10 100 4 5]
