@@ -1,9 +1,10 @@
 TIP:            266
 Title:          Numbers are Commands
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kristoffer Lawson <setok@fishpool.com>
 Author:         Sektor <ethouris@gmail.com>
 Author:         Wolf-Dieter Busch <wolf-dieter.busch@gmx.de>
+Author:         Paul Nash <webscool@ihug.co.nz>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -132,6 +133,7 @@ Instead of allowing multiple number arguments to use the same operator, a requir
 
 This is a change to the "eleven rules", so please do not do it. It takes the possibility that I can do it myself by changing the procedure unknown.
 
+<pn>I think this should be done within the context of a class, say integer, hugeint, fraction, polynomial, real etc in which case these words would be in arg0, so no messing with rules. Indeed I have written my own simple parser in tcl for expressions that can be used in these classes. I mainly use it for hugeint arithmetic. This would save replication in the maths libraries</pn>
 ~ Copyright
 
 This document has been placed in the public domain.
