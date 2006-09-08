@@ -1,0 +1,85 @@
+TIP:		273
+Title:		Add Tcl_Expr Support to Tcl_Get Functions
+Version:	$Revision: 1.1 $
+Author:		Carsten Gosvig <tcl@javalite.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	30-Aug-2006
+Post-History:	
+Tcl-Version:	8.5
+Obsoletes:	176
+
+~Abstract
+
+This TIP proposes adding '''Tcl_Expr''' calls to '''Tcl_Get''' functions,
+supporting direct use of expressions for arguments to commands that is defined
+as int, long, wide-int, double or boolean.
+
+~Rationale
+
+Many of Tcl's commands takes an int, long, wide-int, double or boolean as an
+argument. For list and string commands even in the format of '''end-'''''N''.
+However, this is limited to a direct string conversion of the argument to one
+of the mentioned types, so for even simple expression the '''expr''' command
+has to be called explicitly, which is quite cumbersome as can be seen in the
+following examples:
+
+|set x [lsearch $list $elem]
+|set new [lrange $list [expr $x-1] [expr $x+1]]
+|
+|set x [string first $string "foo"]
+|set new [string range $string $x [expr [$x+5]]
+|
+|set x [lsearch $list $elem]
+|set hex [format "%X" [expr {$x & 0xFF}]]
+|
+|set file [open $name]
+|set buf [read $file [expr {$len * 2 - 10}]]
+|
+|incr var [expr $step*5+1]
+|after [expr $sec*1000]
+
+~Specification
+
+By adding a call to a '''Tcl_Expr''' function at the point where the current
+conversion fails in the '''Tcl_Get''' functions (at the label named ''bad'' in
+the current implementation) we will add support for using expressions directly
+as arguments without needing to go through the '''expr''' command:
+
+|set x [lsearch $list $elem]
+|set new [lrange $list $x-1 $x+1]
+|
+|set x [string first $string "foo"]
+|set new [string range $string $x $x+5]
+|
+|set x [lsearch $list $elem]
+|set hex [format "%X" {$x & 0xFF}]
+|
+|set file [open $name]
+|set buf [read $file {$len * 2 - 10}]
+|
+|incr var $step*5+1
+|after $sec*1000
+
+This TIP does not propose any alterations to any function or procedure
+signatures.
+
+~~Implementation Notes
+
+The '''Tcl_Get'''''<Type>'' functions needs to be updated with a call to the
+'''Tcl_Expr'''''<Type>'' functions, and the
+'''Tcl_Get'''''<Type>'''''FromObj''' functions need to be updated with a call
+to the '''Tcl_Expr'''''<Type>'''''Obj''' functions.
+
+~~Compatibility
+
+There should be no compability issues, as this TIP only adds functionality to
+a current error situation.
+
+This proposal renders [176] obsolete, as that describes a solution that is
+effectively a subset of this TIP.
+
+~Copyright
+
+This document has been placed in the public domain.
