@@ -1,6 +1,6 @@
 TIP:		273
-Title:		Add Tcl_Expr Support to Tcl_Get Functions
-Version:	$Revision: 1.1 $
+Title:		Add Tcl_Expr... Support to Tcl_Get... Functions
+Version:	$Revision: 1.2 $
 Author:		Carsten Gosvig <tcl@javalite.com>
 State:		Draft
 Type:		Project
@@ -12,7 +12,7 @@ Obsoletes:	176
 
 ~Abstract
 
-This TIP proposes adding '''Tcl_Expr''' calls to '''Tcl_Get''' functions,
+This TIP proposes adding '''Tcl_Expr'''... calls to '''Tcl_Get'''... functions,
 supporting direct use of expressions for arguments to commands that is defined
 as int, long, wide-int, double or boolean.
 
@@ -67,10 +67,10 @@ signatures.
 
 ~~Implementation Notes
 
-The '''Tcl_Get'''''<Type>'' functions needs to be updated with a call to the
-'''Tcl_Expr'''''<Type>'' functions, and the
-'''Tcl_Get'''''<Type>'''''FromObj''' functions need to be updated with a call
-to the '''Tcl_Expr'''''<Type>'''''Obj''' functions.
+The '''Tcl_Get'''<''Type''> functions needs to be updated with a call to the
+'''Tcl_Expr'''<''Type''> functions, and the
+'''Tcl_Get'''<''Type''>'''FromObj''' functions need to be updated with a call
+to the '''Tcl_Expr'''<''Type''>'''Obj''' functions.
 
 ~~Compatibility
 
