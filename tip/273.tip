@@ -1,6 +1,6 @@
 TIP:		273
 Title:		Add Tcl_Expr... Support to Tcl_Get... Functions
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Carsten Gosvig <tcl@javalite.com>
 State:		Draft
 Type:		Project
@@ -42,10 +42,11 @@ following examples:
 
 ~Specification
 
-By adding a call to a '''Tcl_Expr''' function at the point where the current
-conversion fails in the '''Tcl_Get''' functions (at the label named ''bad'' in
-the current implementation) we will add support for using expressions directly
-as arguments without needing to go through the '''expr''' command:
+By adding a call to a '''Tcl_Expr'''... function at the point where the
+current conversion fails in the '''Tcl_Get'''... functions (at the label named
+''bad'' in the current implementation) we will add support for using
+expressions directly as arguments without needing to go through the '''expr'''
+command:
 
 |set x [lsearch $list $elem]
 |set new [lrange $list $x-1 $x+1]
