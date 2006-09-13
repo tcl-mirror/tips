@@ -1,13 +1,13 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        28-Apr-2006
 Post-History:   
 Tcl-Version:    8.5
