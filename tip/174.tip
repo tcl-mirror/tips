@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -59,11 +59,11 @@ expressions build up.
     Overloading or adding any command in ::tcl::mathop does not affect
     operators in expr or any other command that calls ''Tcl_ExprObj''.
 
-~ Operator details
+~ Operator commands details
 
 Unary operators ~ ! always take one argument.
 
-Operators that naturally allows 0 or more arguments do so:
+Operators that naturally allow 0 or more arguments do so:
 
 |Op/argc  0   1   2     3-
 |+        0   a   a+b   a+b+c...
