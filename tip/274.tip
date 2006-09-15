@@ -1,10 +1,10 @@
 TIP:            274
 Title:          Right-Associativity for the Exponentiation Operator
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         David Smith <David.Smith@synopsis.com>
-Author:         suchenwi <richard.suchenwirth-bauersachs@siemens.com>
-Author:          <dgp@users.sf.net>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
+Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
