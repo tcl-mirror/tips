@@ -1,11 +1,11 @@
 TIP:            268
 Title:          Enhance 'package' Version Handling
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Hemang Lavana <hlavana@cisco.com>
 Author:         Andreas Kupries <andreask@activestate.com>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        28-Apr-2006
@@ -15,17 +15,24 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes enhancing the Tcl '''package''' command to understand
-version numbers containing "a", and "b" and extend the semantics of [[package require]] to allow multiple requirements and
-various types of ranges of versions.
+version numbers containing "a", and "b" and extend the semantics of '''package
+require''' to allow multiple requirements and various types of ranges of
+versions.
 
 ~ Rationale
 
-The current Tcl '''package''' command is limited to understanding
-package versioning based strictly on an infinite number of
-dot-separated positive integers. Regardless, Tcl extensions and the
-core itself use version numbers that have "a" for alpha and "b" for
-beta. This proposal seeks to make those identifiers properly
-understood by Tcl's '''package version''' semantics.  It also extends the logic to allow ranges.  This allows users to exclude package versions with known bugs/incompatibilities as well as accepting a range of major versions, which was previously only possibly through multiple [[package require]] calls and [[catch]].  The addition of [[package prefer]] is created to handle nuances in how the new package requirements mechanism interprets alpha/beta versions, because sometimes you want the bleeding edge version of a package, and other times you want something you can depend on.
+The current Tcl '''package''' command is limited to understanding package
+versioning based strictly on an infinite number of dot-separated positive
+integers. Regardless, Tcl extensions and the core itself use version numbers
+that have "a" for alpha and "b" for beta. This proposal seeks to make those
+identifiers properly understood by Tcl's '''package version''' semantics.  It
+also extends the logic to allow ranges.  This allows users to exclude package
+versions with known bugs/incompatibilities as well as accepting a range of
+major versions, which was previously only possibly through multiple '''package
+require''' calls and '''catch'''.  The addition of '''package prefer''' is
+created to handle nuances in how the new package requirements mechanism
+interprets alpha/beta versions, because sometimes you want the bleeding edge
+version of a package, and other times you want something you can depend on.
 
 ~ Specification
 
@@ -33,34 +40,32 @@ understood by Tcl's '''package version''' semantics.  It also extends the logic 
 
 (Summary of http://www.tcl.tk/man/tcl8.4/TclCmd/package.htm#M15)
 
-Version numbers consist of one or more decimal numbers separated by
-dots, such as 2 or 1.162 or 3.1.13.1. The first number is called the
-''major'' version number. Larger numbers correspond to later versions
-of a package, with leftmost numbers having greater significance. For
-example, version 2.1 is later than 1.3 and version 3.4.6 is later than
-3.3.5. Missing fields are equivalent to zeroes: version 1.3 is the
-same as version 1.3.0 and 1.3.0.0, so it is earlier than 1.3.1 or
-1.3.0.2.
+Version numbers consist of one or more decimal numbers separated by dots, such
+as 2 or 1.162 or 3.1.13.1. The first number is called the ''major'' version
+number. Larger numbers correspond to later versions of a package, with
+leftmost numbers having greater significance. For example, version 2.1 is
+later than 1.3 and version 3.4.6 is later than 3.3.5. Missing fields are
+equivalent to zeroes: version 1.3 is the same as version 1.3.0 and 1.3.0.0, so
+it is earlier than 1.3.1 or 1.3.0.2.
 
 '''Proposed version specification adds:'''
 
-In addition, the letters 'a' (alpha) and/or 'b' (beta) may appear
-exactly once to replace a dot for separation. These letters
-semantically add a negative specifier into the version, where 'a' is
--2, and 'b' is -1. Each may be specified only once, and 'a' or 'b' are
-mutually exclusive in a specifier. Thus 1.3a1 becomes (semantically)
-1.3.-2.1, 1.3b1 is 1.3.-1.1. Negative numbers are not directly allowed
-in version specifiers.
+In addition, the letters 'a' (alpha) and/or 'b' (beta) may appear exactly once
+to replace a dot for separation. These letters semantically add a negative
+specifier into the version, where 'a' is -2, and 'b' is -1. Each may be
+specified only once, and 'a' or 'b' are mutually exclusive in a specifier.
+Thus 1.3a1 becomes (semantically) 1.3.-2.1, 1.3b1 is 1.3.-1.1. Negative
+numbers are not directly allowed in version specifiers.
 
-A version number not containing the letters 'a' or 'b' as specified
-above is called a ''stable'' version, whereas presence of the letters
-causes the version to be called is ''unstable''.
+A version number not containing the letters 'a' or 'b' as specified above is
+called a ''stable'' version, whereas presence of the letters causes the
+version to be called is ''unstable''.
 
 The syntax of [[package vsatisfies]] is extended to
 
-| package vsatisfies $version $requirement ?$requirement ...?
+ > '''package vsatisfies''' ''version requirement'' ?''requirement'' ...?
 
-where each "requirement" is is allowed to have any of the forms:
+where each ''requirement'' is is allowed to have any of the forms:
 
    1. min
 
@@ -68,9 +73,9 @@ where each "requirement" is is allowed to have any of the forms:
 
    1. min-max
 
-where "min" and "max" are valid version numbers. The current syntax is
-case 1, and the addition of cases 2 and 3 does not interfere
-with keeping backward compatibility.
+where "min" and "max" are valid version numbers. The current syntax is case 1,
+and the addition of cases 2 and 3 does not interfere with keeping backward
+compatibility.
 
 These three forms are called, in the order as listed above:
 
@@ -80,45 +85,41 @@ These three forms are called, in the order as listed above:
 
    1. "bounded"
 
-Given the above the [[package vsatisfies]] functions like this:
+Given the above the '''package vsatisfies''' functions like this:
 
- * The version has to pass at least one of the listed requirements to
-   be satisfactory.
+ * The version has to pass at least one of the listed requirements to be
+   satisfactory.
 
  * A version satisfies a "bounded" requirement when
 
- > * For min equal to the max if, and only if the version is equal to
-     the min.
+ > * For min equal to the max if, and only if the version is equal to the min.
 
- > * Otherwise if, and only if the version is greater than or equal to
-     the min, and less than the max, where both min and max have been
-     extended internally with 'a0'. NOTE: min is ''inclusive'', max is
-     ''exclusive''.
+ > * Otherwise if, and only if the version is greater than or equal to the
+     min, and less than the max, where both min and max have been extended
+     internally with 'a0'. NOTE: min is ''inclusive'', max is ''exclusive''.
 
- * A "min-bounded" requirement is a "bounded" requirement in disguise,
-   with the max part implicitly specified as the next higher major
-   version number of the min part. A version satisfies it per the rules
-   above.
+ * A "min-bounded" requirement is a "bounded" requirement in disguise, with
+   the max part implicitly specified as the next higher major version number
+   of the min part. A version satisfies it per the rules above.
 
- * A version satisfies a "min-unbound" requirement if, and only if it
-   is greater than or equal to the min, where the min has been padded
-   internally with 'a0'. There is no constraint to a max.
+ * A version satisfies a "min-unbound" requirement if, and only if it is
+   greater than or equal to the min, where the min has been padded internally
+   with 'a0'. There is no constraint to a max.
 
 A new subcommand [[package prefer]] is added with syntax:
 
-| package prefer ?latest|stable?
+ > '''package prefer''' ?'''latest'''|'''stable'''?
 
-With no arguments, [[package prefer]] returns either "latest" or
-"stable", whichever describes the current mode of selection logic used
-by [[package require]].
+With no arguments, '''package prefer''' returns either "latest" or "stable",
+whichever describes the current mode of selection logic used by '''package
+require'''.
 
 When passed the argument "latest", it sets the selection logic mode to
 "latest".
 
-When passed the argument "stable", if the mode is already "stable",
-that value is kept.  If the mode is already "latest", then the attempt
-to set it back to "stable" is ineffective and the mode value remains
-"latest" [*].
+When passed the argument "stable", if the mode is already "stable", that value
+is kept.  If the mode is already "latest", then the attempt to set it back to
+"stable" is ineffective and the mode value remains "latest" [*].
 
 When passed any other value as an argument, raise an invalid argument
 error.
@@ -128,24 +129,23 @@ to "stable" unless the environment variable ''TCL_PKG_PREFER_LATEST''
 is set.  If that environment variable is defined (with any value) then
 the initial (and permanent) selection mode value is set to "latest".
 
-The syntax of [[package require]] is changed to
+The syntax of '''package require''' is changed to:
 
-| package require ?-exact? $package ?$requirement ...?
+ > '''package require''' ?'''-exact'''? ''package'' ?''requirement'' ...?
 
-and its package selection logic is modified to both agree with
-[[package vsatisfies]] and to additionally support a multi-mode
-selection logic based on the result of [[package prefer]].
+and its package selection logic is modified to both agree with '''package
+vsatisfies''' and to additionally support a multi-mode selection logic based
+on the result of '''package prefer'''.
 
-The requirements arguments are of the same form as accepted by
-[[package vsatisfies]].
+The requirements arguments are of the same form as accepted by '''package
+vsatisfies'''.
 
 The logic is:
 
- * In the "stable" selection mode the command will select the highest
-   stable version satisfying the requirements, if any.  If no
-   stable version satisfies the requirements, the highest
-   unstable version satisfying the requirements will be selected.
-   This implements the behaviour that
+ * In the "'''stable'''" selection mode the command will select the highest
+   stable version satisfying the requirements, if any. If no stable version
+   satisfies the requirements, the highest unstable version satisfying the
+   requirements will be selected. This implements the behaviour that
 
 | package require foo 1.5.3
 
@@ -155,47 +155,45 @@ The logic is:
 
 | package require foo 1.5b3
 
- > will also load version 1.5.4 in preference to version 1.6b2, while
-   still accepting 1.5b3 if it is the best available. It will also
-   accept and load version 1.6b2 if no stable version that satisfies
-   the requirement is available.
+ > will also load version 1.5.4 in preference to version 1.6b2, while still
+   accepting 1.5b3 if it is the best available. It will also accept and load
+   version 1.6b2 if no stable version that satisfies the requirement is
+   available.
 
- > This fallback strategy employed for "stable", i.e. the ability to
-   accept things outside of the declared preference makes programs
-   combining several packages less fragile. This comes directly from
-   implementing things as a preference to apply when possible, and not
-   as a threshold that rejects nonpreferred, yet satisfactory
-   solutions.
+ > This fallback strategy employed for "'''stable'''", i.e. the ability to
+   accept things outside of the declared preference makes programs combining
+   several packages less fragile. This comes directly from implementing things
+   as a preference to apply when possible, and not as a threshold that rejects
+   nonpreferred, yet satisfactory solutions.
 
- * In the "latest" selection mode the command will accept the highest
-   version satisfying all the requirements, regardless of its
-   stableness.
+ * In the "latest" selection mode the command will accept the highest version
+   satisfying all the requirements, regardless of its stableness.
 
-All other [[package]] subcommands that accept a version number
-argument are also revised to accept the expanded set of legal version
-numbers.
+All other '''package''' subcommands that accept a version number argument are
+also revised to accept the expanded set of legal version numbers.
 
-The calls to Tcl_PkgProvide() in both Tcl and Tk are revised to pass
-in TCL_PATCH_LEVEL and TK_PATCH_LEVEL where they currently pass in
-TCL_VERSION and TK_VERSION.  [[info tclversion]], [[info patchlevel]],
-$::tcl_version, $::tcl_patchLevel, $::tk_version, and $::tk_patchLevel
-are left unchanged.
+The calls to ''Tcl_PkgProvide()'' in both Tcl and Tk are revised to pass in
+TCL_PATCH_LEVEL and TK_PATCH_LEVEL where they currently pass in TCL_VERSION
+and TK_VERSION. '''info tclversion''', '''info patchlevel''',
+'''$::tcl_version''', '''$::tcl_patchLevel''', '''$::tk_version''', and
+'''$::tk_patchLevel''' are left unchanged.
 
-A new public function ''Tcl_PkgRequireProc'' is provided, which has the signature:
+A new public function ''Tcl_PkgRequireProc'' is provided, which has the
+signature:
 
-| int Tcl_PkgRequireProc(Tcl_Interp *interp, CONST char *name, 
-|                        int objc, Tcl_Obj *CONST objv[],
-|                        ClientData* clientDataPtr)
+ > int '''Tcl_PkgRequireProc'''(Tcl_Interp *''interp'', CONST char *''name'',
+   int ''objc'', Tcl_Obj *CONST ''objv''[], ClientData *''clientDataPtr'')
 
-This function implements [[package require]] at the C level. The existing functions Tcl_PkgRequire(Ex) are re-implemented in terms
-of this function. It returns a standard Tcl error code, leaving
-either an error message (TCL_ERROR), or the version of the found
-package (TCL_OK) in the result area of the 'interp' argument.
+This function implements '''package require''' at the C level. The existing
+functions ''Tcl_PkgRequire(Ex)'' are re-implemented in terms of this function.
+It returns a standard Tcl error code, leaving either an error message
+(TCL_ERROR), or the version of the found package (TCL_OK) in the result area
+of the ''interp'' argument.
 
-The API between ''Tcl_PkgRequire*'' and the package unknown handler is
-changed as well. The unknown handler now has the signature:
+The API between ''Tcl_PkgRequire*'' and the package unknown handler is changed
+as well. The unknown handler now has the signature:
 
-| unknown name ?requirement...?
+ > ''unknown name'' ?''requirement...''?
 
 All existing unknown handlers (init.tcl, tm.tcl) are changed to this API.
 
@@ -214,83 +212,84 @@ Invalid version numbers:
 ~ Discussion
 
 Tcl RFE 219296 proposes similar support with the addition of a '''threshold'''
-method to '''package'''. This proposal operates by modelling the '''a''',
-and '''b''' specifiers as negative version specifiers.
+method to '''package'''. This proposal operates by modelling the '''a''', and
+'''b''' specifiers as negative version specifiers.
 
-A disadvantage of this proposal compared to the previous one is for
-folks trying to do integration testing of unstable packages. They will
-be required to take the additional step of either defining the
-environment variable TCL_PKG_PREFER_LATEST or call
+A disadvantage of this proposal compared to the previous one is for folks
+trying to do integration testing of unstable packages. They will be required
+to take the additional step of either defining the environment variable
+TCL_PKG_PREFER_LATEST or call
 
 | package prefer latest
 
-in an initialization script in order to overcome the default
-preference that would otherwise fail to load the code that needs
-testing.  It doesn't seem too great a burden, but anything that makes
-testing of untable packages more difficult means that on the margin
-there will be less testing of them.  The impact of that is worth
-pondering a bit.
+in an initialization script in order to overcome the default preference that
+would otherwise fail to load the code that needs testing. It doesn't seem too
+great a burden, but anything that makes testing of untable packages more
+difficult means that on the margin there will be less testing of them.  The
+impact of that is worth pondering a bit.
 
 An important thing made possible is the sequence:
 
 | package provide Tcl 8.5a5
 | package require Tcl 8.5
 
-so existing scripts with [package require Tcl 8.5] aren't broken by a
-Tcl 8.5a5 release.  This support comes from the rules for interpreting
-a requirement's implicit demands beyond the fields it explicitly
-names.  A requirement of 8.5 gets interpreted as equivalent to 8.5a0
-and not equivalent to 8.5.0. Note the language about ''internally
-extended with 'a0' '' in the rules of [[package vsatisfies]].
+so existing scripts with [package require Tcl 8.5] aren't broken by a Tcl
+8.5a5 release.  This support comes from the rules for interpreting a
+requirement's implicit demands beyond the fields it explicitly names.  A
+requirement of 8.5 gets interpreted as equivalent to 8.5a0 and not equivalent
+to 8.5.0. Note the language about ''internally extended with 'a0' '' in the
+rules of '''package vsatisfies'''.
 
 ~ Footnotes
 
-[*] Yes, this means [package prefer stable] is a verbose no-op.
-Sometimes a verbose no-op can help code readability.  I also think
-documenting a setter/getter that is a no-op for some set values is
-easier than explaining why the set of valid returns from the getter
-differs from the set of acceptable arguments to the setter.  Ability
-to do things like
+[*] Yes, this means '''package prefer stable''' is a verbose no-op. Sometimes
+a verbose no-op can help code readability. I also think documenting a
+setter/getter that is a no-op for some set values is easier than explaining
+why the set of valid returns from the getter differs from the set of
+acceptable arguments to the setter. Ability to do things like:
 
 | interp create i
 | i eval [list package prefer [package prefer]]
 
 is a factor here as well.
 
-Lots of discussion and rationale ensued on the tcl-core mailing list.  Lars Hellstroem provided a good interpretive synopsis at http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3214264.
+Lots of discussion and rationale ensued on the tcl-core mailing list. Lars
+Hellström provided a good interpretive synopsis
+[http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3214264].
 
 ~ Reference Implementation
 
-C implementation. See SF Patch http://sourceforge.net/support/tracker.php?aid=1520767
+C implementation, see SF Patch
+1520767[http://sourceforge.net/support/tracker.php?aid=1520767].
 
 A reference implementation written in Tcl now follows.
 
 | proc intList {version} {
-|     # Convert a version number to an equivalent list of integers
-|     # Raise error for invalid version number
-|     
-|     if {$version eq {} || [string match *-* $version]} {
+|    # Convert a version number to an equivalent list of integers
+|    # Raise error for invalid version number
+|
+|    if {$version eq {} || [string match *-* $version]} {
 | 	# Reject literal negative numbers
 | 	return -code error "invalid version number: \"$version\""
-|     }
-|     # Note only lowercase "a" and "b" accepted and only one
-|     if {[llength [split $version ab]] > 2} {
+|    }
+|    # Note only lowercase "a" and "b" accepted and only one
+|    if {[llength [split $version ab]] > 2} {
 | 	return -code error "invalid version number: \"$version\""
-|     }
-|     set converted [string map {a .-2. b .-1.} $version]
-|     set list {}
-|     foreach element [split $converted .] {
+|    }
+|    set converted [string map {a .-2. b .-1.} $version]
+|    set list {}
+|    foreach element [split $converted .] {
 | 	if {[scan $element %d%s i trash] != 1} {
 | 	    # Require decimal formatted numbers with no suffix
-| 	    return -code error "invalid version number: \"$version\""      
+| 	    return -code error "invalid version number: \"$version\""
 | 	}
 | 	if {[catch {incr i 0}] || $i < -2 } {
 |           # Verify each component is integer >= -2
-| 	    return -code error "invalid version number: \"$version\""      
+| 	    return -code error "invalid version number: \"$version\""
 | 	}
 | 	lappend list $i
-|     }
-|     return $list
+|    }
+|    return $list
 | }
 
 | proc compare {l1 l2} {
@@ -301,7 +300,7 @@ A reference implementation written in Tcl now follows.
 |         if {$i1 < $i2} {return -1}
 |         if {$i1 > $i2} {return 1}
 |     }
-|     return 0 
+|     return 0
 | }
 
 | proc {package vcompare} {v1 v2} {
@@ -309,8 +308,8 @@ A reference implementation written in Tcl now follows.
 | }
 
 | proc {package vsatisfies} {v args} {
-|     set vList [intList $v]	;# verify valid version number
-|     foreach requirement $args {  ;# check all valid requirements
+|    set vList [intList $v]	;# verify valid version number
+|    foreach requirement $args {  ;# check all valid requirements
 | 	if {[llength [lassign [split $requirement -] min max]]} {
 | 	    # More than one "-"
 | 	    return -code error "invalid requirement: \"$requirement\""
@@ -320,9 +319,9 @@ A reference implementation written in Tcl now follows.
 | 	}
 | 	if {$max ne "" && [catch {intList $max}]} {
 | 	    return -code error "invalid requirement: \"$requirement\""
-| 	}         
-|     }
-|     foreach requirement $args {
+| 	}
+|    }
+|    foreach requirement $args {
 | 	lassign [split $requirement -] min max
 | 	set minList [intList $min]
 | 	lappend minList -2
@@ -350,44 +349,44 @@ A reference implementation written in Tcl now follows.
 | 	if {[compare $vList $maxList] < 0} {
 | 	    # Within the range => satisfied!
 | 	    return 1
-| 	}     
-|     }
-|     return 0   
+| 	}
+|    }
+|    return 0
 | }
 
 | proc lassign {list args} {
-|     foreach v $args {upvar 1 $v x ; set x {}}
-|     foreach v $args x $list {upvar 1 $v var ; set var $x}
-|     if {[llength $args] < [llength $list]} {
+|    foreach v $args {upvar 1 $v x ; set x {}}
+|    foreach v $args x $list {upvar 1 $v var ; set var $x}
+|    if {[llength $args] < [llength $list]} {
 | 	set notassigned [lrange $list [llength $args] end]
-|     } else {
+|    } else {
 | 	set notassigned {}
-|     }
-|     return $notassigned
+|    }
+|    return $notassigned
 | }
 
 | proc {package require} {pkg args} {
-|     if {$pkg eq "-exact"} {
+|    if {$pkg eq "-exact"} {
 | 	# Convert legacy syntax (details omitted)
-|     }
-|     set present [package provide $pkg]
-|     if {$present ne ""} {
+|    }
+|    set present [package provide $pkg]
+|    if {$present ne ""} {
 | 	# $pkg already provided; check satisfaction
 | 	if {[package vsatisfies $present {expand}$args]} {
 | 	    return $present
 | 	}
 | 	return -code error "have $present, need $args"
-|     }
-|     set pass 2
-|     while {$pass} {
+|    }
+|    set pass 2
+|    while {$pass} {
 | 	set acceptable {}
 | 	foreach v [lsort -command {package vcompare} \
 | 		       -decreasing [package versions $pkg]] {
 | 	    if {![package vatisfies $v {expand}$args]} {
 | 		continue
 | 	    }
-| 	    if {[package prefer] eq "latest" 
-| 		|| ![string match {*[ab]*} $v]} {
+| 	    if {[package prefer] eq "latest"
+| 		    || ![string match {*[ab]*} $v]} {
 | 		# Error handling omitted here
 | 		uplevel #0 [package ifneeded $pkg $v]
 | 		return $v
@@ -397,15 +396,15 @@ A reference implementation written in Tcl now follows.
 | 	if {[incr pass -1]} {
 | 	    # use [package unknown] to find more versions
 | 	}
-|     }
-|     if {[llength $acceptable]} {
+|    }
+|    if {[llength $acceptable]} {
 | 	# Accept best satisfactory alpha/beta even
 | 	# though our preference mode is "stable"
 | 	set v [lindex $acceptable 0]
 | 	uplevel #0 [package ifneeded $pkg $v]
-| 	return $v      
-|     }
-|     return -code error "can't find $pkg $args"
+| 	return $v
+|    }
+|    return -code error "can't find $pkg $args"
 | }
 
 ~ Copyright
