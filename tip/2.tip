@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -58,21 +58,22 @@ project or process TIP official.
 
 ~ TIP Workflow
 
-The TIP editor, Donal K. Fellows <fellowsd@cs.man.ac.uk> ''pro tem'',
-assigns numbers for each TIP and changes its status.
+The TIP editor, Donal K. Fellows <donal.k.fellows@manchester.ac.uk> ''pro
+tem'', is responsible for assigning numbers to each TIP and managing its
+status on behalf of authors.
 
-Everyone in the community can submit a TIP to the TIP editor.  It
-should contain at least a proposed title and a rough, but fleshed out,
-draft of the TIP.
+Everyone in the community can submit a TIP to the TIP editor. It should
+contain at least a proposed title and a rough, but fleshed out, draft of the
+TIP. It ''must'' include a copyright statement that permits the normal
+business of the TIP process as described here.
 
-If the TIP editor approves, he will assign the TIP a number, label it
-as either project, process or informational, give it status ''Draft'',
-and create and check-in the initial draft of the TIP.  The TIP editor
-will not unreasonably deny a TIP.  Reasons for denying TIP status
-include gross malformatting, inappropriate copyright, duplication of
-effort, being technically unsound, or not in keeping with the Tcl
-philosophy; the TCT and after that John Ousterhout
-<ouster@pacbell.net> is the final arbitrator of the
+If the TIP editor approves, he will assign the TIP a number, label it as
+either project, process or informational, give it status ''Draft'', and create
+and check-in the initial draft of the TIP. The TIP editor will not
+unreasonably deny a TIP.  Reasons for denying TIP status include gross
+malformatting, inappropriate copyright, duplication of effort, being
+technically unsound, or not in keeping with the Tcl philosophy; the TCT and
+after that John Ousterhout <ouster@pacbell.net> is the final arbitrator of the
 latter, as defined in the charter ([0]).
 
 Discussion concerning a TIP should initially be kept out of the
@@ -90,14 +91,16 @@ The authors of the TIP are responsible for writing the TIP and
 marshaling community support for it.  The structure of a TIP is
 described in detail in [3].
 
-A project TIP consists of two parts, a design document and a reference
-implementation.  The TIP should be reviewed and accepted before a
-reference implementation is begun, unless a reference implementation
-will aid people in studying the TIP.  The implementation can be given
-in the form of code, patch, or URL to same - before it can be
-considered ''Final''; small reference implementations may be placed
-inside the TIP itself, and large reference implementations should be
-held externally and linked to by reference (typically URL.)
+A project TIP consists in principle of two parts, a design document and a
+reference implementation. The TIP will not normally be reviewed and accepted
+before a reference implementation is begun so that the amount of time between
+acceptance and a final implementation can be minimized. The implementation can
+be given in the form of code, patch, or URL to same, and ''must'' be applied
+to the Tcl/Tk core before it can be considered ''Final''; while small
+reference implementations may be placed inside the TIP itself, large reference
+implementations should be held externally and linked to by reference
+(typically a URL). Authors are encouraged to use the SourceForge Patch
+trackers for this purpose.
 
 Process and Informational TIPs do not need an implementation.
 
@@ -117,10 +120,11 @@ rejection of a TIP will cause its state to be changed accordingly to
 ''Accepted'' or ''Rejected''.
 
 Once a TIP requiring a reference implementation has been accepted, the
-reference implementation must be completed.  When the reference
-implementation is complete and accepted by the TCT (who can reject it
-if they feel the implementation would damage the rest of the core) the
-status will be changed to ''Final''.
+reference implementation must be completed. When the reference implementation
+is complete and accepted by the TCT (who can reject it if they feel the
+implementation would damage the rest of the core) the status will be changed
+to ''Final''. This is usually done by the TIP Editor, as advised by the
+responsible Tcl/Tk maintainer.
 
 A TIP can also be assigned status ''Deferred''.  The TIP author or the
 editor can assign the TIP this status when no progress is being made
@@ -203,7 +207,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.23 $
+|Version:       $Revision: 1.24 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
