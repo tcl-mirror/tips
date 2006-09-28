@@ -1,6 +1,6 @@
 TIP:            171
 Title:          Change Default <MouseWheel> Bindings Behavior
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Keith Vetter <kvetter@alltel.net>
 State:          Draft
@@ -29,19 +29,21 @@ over, not what has [[focus]]).  In addition, <Shift-MouseWheel> horizontal scrol
 The bindings changes are very simply these:
 
 |proc ::tk::MouseWheel {wFired X Y D {shifted 0}} {
+|    # Set event to check based on call
+|    set evt "<[expr {$shifted?{Shift-}:{}}]MouseWheel>"
 |    # do not double-fire in case the class already has a binding
-|    if {[bind [winfo class $wFired] <MouseWheel>] ne ""} { return }
+|    if {[bind [winfo class $wFired] $evt] ne ""} { return }
 |    # obtain the window the mouse is over
 |    set w [winfo containing $X $Y]
 |    # if we are outside the app, try and scroll the focus widget
 |    if {![winfo exists $w]} { catch {set w [focus]} }
 |    if {[winfo exists $w]} {
-|	if {[bind $w <MouseWheel>] ne ""} {
+|	if {[bind $w $evt] ne ""} {
 |	    # Awkward ... this widget has a MouseWheel binding, but to
 |	    # trigger successfully in it, we must give it focus.
 |	    catch {focus} old
 |	    if {$w ne $old} { focus $w }
-|	    event generate $w <MouseWheel> -rootx $X -rooty $Y -delta $D
+|	    event generate $w $evt -rootx $X -rooty $Y -delta $D
 |	    if {$w ne $old} { focus $old }
 |	    return
 |	}
