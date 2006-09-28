@@ -1,0 +1,57 @@
+TIP:		275
+Title:		Support Unsigned Values in binary Command
+Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
+Type:		Project
+State:		Draft
+Tcl-Version:	8.5
+Version:	$Revision: 1.1 $
+Keywords:	Tcl, binary, unsigned
+Created:	27-Sep-2006
+Post-History:   
+Vote:		Pending
+
+~ Abstract
+
+This TIP proposes to add support for unsigned values to the '''binary'''
+command.
+
+~ Rationale
+
+It is quite common when handling binary data to need to read unsigned values.
+All values read in by '''binary scan''' are converted to integers and sign
+extended, which requires code to trim the excess bits using the '''expr'''
+command if the values need to be treated as unsigned values. This makes Tcl
+slow when handling large quantities of binary data, for instance in
+crytographic or checksum functions. Simply by avoiding this '''expr'''
+operation we significantly improve the speed of processing such data.
+
+~ Specification
+
+The '''binary scan''' should be updated so as to add a flag identifier into
+the binary field format. This makes the field specification:
+
+ > <''type code''><''flag''>?<''length''>?
+
+The flag character for unsigned fields (the only one defined) is "u", so the
+following are all acceptable:
+
+ cu*: read all bytes as unsigned
+
+ c2cu2: two signed bytes then two unsigned bytes
+
+ su2: two unsigned little-endian shorts
+
+ Su: a single big-endian unsigned short.
+
+ iu: a single unsigned little-endian integer
+
+ mu3: three unsigned machine-endian 64-bit integers.
+
+~ Reference Implementation
+
+A reference implementation is available in SourceForge Patch 156751
+[http://sf.net/tracker/?func=detail&aid=1565751&group_id=10894&atid=310894].
+
+~ Copyright
+
+This document is placed in the public domain.
