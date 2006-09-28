@@ -1,6 +1,6 @@
 TIP:            171
 Title:          Change Default <MouseWheel> Bindings Behavior
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Keith Vetter <kvetter@alltel.net>
 State:          Draft
@@ -22,13 +22,13 @@ widgets, and only when they have focus.  This essentially means that
 only the text widget ever has useful <MouseWheel> behavior.  This is
 not how the majority of applications wish to use the MouseWheel.  They
 operate primarily on a mouse-focus model (scroll what the mouse is
-over, not what has [[focus]]).
+over, not what has [[focus]]).  In addition, <Shift-MouseWheel> horizontal scrolling support is added.
 
 ~ Specification 
 
 The bindings changes are very simply these:
 
-|proc ::tk::MouseWheel {wFired D X Y} {
+|proc ::tk::MouseWheel {wFired X Y D {shifted 0}} {
 |    # do not double-fire in case the class already has a binding
 |    if {[bind [winfo class $wFired] <MouseWheel>] ne ""} { return }
 |    # obtain the window the mouse is over
@@ -36,22 +36,43 @@ The bindings changes are very simply these:
 |    # if we are outside the app, try and scroll the focus widget
 |    if {![winfo exists $w]} { catch {set w [focus]} }
 |    if {[winfo exists $w]} {
-|	 # scrollbars have different call conventions
-|	 if {[winfo class $w] eq "Scrollbar"} {
-|	     catch {tk::ScrollByUnits $w \
-|			[string index [$w cget -orient] 0] \
-|			[expr {-($D/30)}]}
-|	 } else {
-|	     catch {$w yview scroll [expr {- ($D / 120) * 4}] units}
-|	 }
+|	if {[bind $w <MouseWheel>] ne ""} {
+|	    # Awkward ... this widget has a MouseWheel binding, but to
+|	    # trigger successfully in it, we must give it focus.
+|	    catch {focus} old
+|	    if {$w ne $old} { focus $w }
+|	    event generate $w <MouseWheel> -rootx $X -rooty $Y -delta $D
+|	    if {$w ne $old} { focus $old }
+|	    return
+|	}
+|	# aqua and x11/win32 have different delta handling
+|	if {[tk windowingsystem] ne "aqua"} {
+|	    set delta [expr {- ($D / 30)}]
+|	} else {
+|	    set delta [expr {- ($D)}]
+|	}
+|	# scrollbars have different call conventions
+|	if {[string match "*Scrollbar" [winfo class $w]]} {
+|	    catch {tk::ScrollByUnits $w \
+|		       [string index [$w cget -orient] 0] $delta}
+|	} else {
+|	    set cmd [list $w [expr {$shifted ? "xview" : "yview"}] \
+|			 scroll $delta units]
+|	    # Walking up to find the proper widget handles cases like
+|	    # embedded widgets in a canvas
+|	    while {[catch $cmd] && [winfo toplevel $w] ne $w} {
+|		set w [winfo parent $w]
+|	    }
+|	}
 |    }
 |}
-|bind all <MouseWheel> [list ::tk::MouseWheel %W %D %X %Y]
+|bind all <MouseWheel> [list ::tk::MouseWheel %W %X %Y %D 0]
+|bind all <Shift-MouseWheel> [list ::tk::MouseWheel %W %X %Y %D 1]
 |if {[tk windowingsystem] eq "x11"} {
 |    # Support for mousewheels on Linux/Unix commonly comes through
 |    # mapping the wheel to the extended buttons.
-|    bind all <4> [list ::tk::MouseWheel %W 120 %X %Y]
-|    bind all <5> [list ::tk::MouseWheel %W -120 %X %Y]
+|    bind all <4> [list ::tk::MouseWheel %W %X %Y 120]
+|    bind all <5> [list ::tk::MouseWheel %W %X %Y -120]
 |}
 
 Instead of requiring a widget to have [[focus]] to receive MouseWheel
@@ -90,17 +111,13 @@ See above.
 
 ~ Discussion
 
-Two quick comments. First I've found it very nice if 
-shift-MouseWheel scrolls horizontally. Second, tile's
-combobox widget should have its class binding removed.
-It has, however, yet another different scrolling calling
-convention which will need to be handled specifically.
+Shift-MouseWheel was added after initial discussion.
 
-Another tile work-around is that you have to modify
-the class test to also recognize TScrollbar with 
-something like 
+Use of "*Scrollbar" is to catch TScrollbar as well.
 
-  if {[string match "*Scrollbar" [winfo class $w]]} ...
+This is adapted from tklib/style/as.tcl mousewheel adjustments and has proved useful and workable across a variety of applications.
+
+There is a bit of awkwardness in handling widgets that have their own MouseWheel bindings in that core Tk requires these have focus to receive the event.  It may be better to fix this forced limitation in Tk rather than the special-case code above (although that code does work).
 
 ~ Copyright 
 
