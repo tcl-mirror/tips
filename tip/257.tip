@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Will Duquette <will@wjduquette.com>
 Author:		Steve Landers <steve@digitalsmarties.com>
@@ -565,7 +565,9 @@ subcommands take additional arguments.
    the second element is either '''method''' (for a method defined in
    a class for its instances) or '''self.method''' (for a method
    defined by a single object), and the third element is the name of
-   the method.
+   the method. Syntax:
+
+ > '''self filter'''
 
  method: Returns the name of the currently executing method.
    Syntax:
@@ -699,27 +701,6 @@ abbreviated when not in the script form) shall be:
    '''next''' command.
 
  > '''oo::define''' ''objectOrClass'' '''mixin''' ''mixinList''
-
- * '''parameter''' - this subcommand defines a parameter (or
-   parameters), an instance variable with an identically named and
-   automatically defined access method. If any ''name'' is a
-   two-element list, the first element is the name of the variable and
-   the second element is the default value to assign to the variable.
-
- > '''oo::define''' ''class'' '''parameter''' ''name'' ?''name'' ...?
-
- > The access methods are always defined something like this, for a
-   parameter named ''bar'' in a class named ''foo'':
-
-|oo::define foo method bar {args} {
-|    my variable {bar vbl}
-|    if {[llength $args] == 0} {
-|        return $vbl
-|    } else if {[llength $args] == 1} {
-|        return [set vbl [lindex $args 0]]
-|    }
-|    return -code error "wrong # args: ..."
-|}
 
  * '''superclass''' - This specifies the superclass (or classes) of a
    class. Inheritance will follow the XOTcl pattern (except with a
@@ -948,7 +929,7 @@ below, operating on the class instance that is an instance of
 '''oo::definer'''.
 
  > constructor, destructor, export, filter, forward, method, mixin,
-   parameter, superclass, unexport
+   superclass, unexport
 
 In addition, the classes that are instances of '''oo::definer''' are
 augmented with an unknown method such that unknown methods are treated
@@ -1080,12 +1061,6 @@ information shall be available:
 
  > '''info object''' ''object'' '''body''' ''method''
 
- check: Returns the current list of enabled assertion types for an
-   object (see the documentation for '''oo::check''' for the list of
-   acceptable assertion types).
-
- > '''info object''' ''object'' '''check'''
-
  class: Returns the class of an object, or if ''className'' is
    specified, whether the object is (directly or indirectly through
    inheritance or mixin) an instance of the named class.
@@ -1155,12 +1130,11 @@ indicating the type of information to retrieve and all subsequent
 arguments shall be arguments, as appropriate. The following types of
 information shall be available:
 
- args: Returns the list of arguments to a method supported by an
-   object.
+ args: Returns the list of arguments to a method supported by a class.
 
  > '''info class''' ''object'' '''args''' ''method''
 
- body: Returns the body of a method supported by an object.
+ body: Returns the body of a method supported by a class.
 
  > '''info class''' ''object'' '''body''' ''method''
 
@@ -1171,7 +1145,7 @@ information shall be available:
  > '''info class''' ''object'' '''default''' ''method'' ''argName''
      ''defaultValueVar''
 
- filters: Returns the list of filters defined for an object.
+ filters: Returns the list of filters defined for a class.
 
  > '''info class''' ''object'' '''filters'''
 
@@ -1180,17 +1154,14 @@ information shall be available:
 
  > '''info class''' ''class'' '''instances'''
 
- methods: Returns the list of methods defined for an object.
+ methods: Returns the list of methods defined by a class. This
+   includes all forwards for the class.
 
  > '''info class''' ''object'' '''methods'''
 
- mixins: Returns the list of mixins for an object.
+ mixins: Returns the list of mixins for a class.
 
  > '''info class''' ''object'' '''mixins'''
-
- parameters: Returns a list of all parameters defined by the class.
-
- > '''info class''' ''class'' '''parameters'''
 
  subclasses: Returns a list of all subclasses of the class, or
    optionally just those that match ''pattern''.
@@ -1202,6 +1173,10 @@ information shall be available:
    inheritance-precedence order.
 
  > '''info class''' ''class'' '''superclasses'''
+
+~ C API
+
+''TODO''
 
 ~ XOTcl Features Omitted from the Core OO System
 
@@ -1241,10 +1216,9 @@ information shall be available:
    deliberately-omitted features (i.e., '''configure'''). This would
    be value added by any XOTcl extension.
 
- Object::parametercmd: The core object system always handles
-   parameters in the same simple way; customisation of this process
-   should be done by subclasses of '''oo::class''' that override the
-   '''parameter''' method.
+ Object::parameter and Object::parametercmd: The core object system
+   provides tools for doing parameters, but does not provide an
+   implementation on the grounds that it is pretty easy to add.
 
  Object::requireNamespace: It should be possible to do away with this
    feature through better integration with the core.
@@ -1253,7 +1227,7 @@ information shall be available:
    above.
 
  Class::__unknown: Auto-loading of unknown classes is handled by the
- standard core '''unknown''' command.
+ standard core '''unknown''' mechanism.
 
  Class::abstract: Abstractness is relatively easy to implement on top
    of the proposed infrastructure and is not critical to getting an
@@ -1275,6 +1249,24 @@ information shall be available:
 
  Class::volatile: This feature is omitted as it is believed that it is
    possible to implement automated lifecycle management as a mixin.
+
+~ Open Issues
+
+These ''must'' be resolved prior to any vote!
+
+ * Do mixins make sense for classes? Surely they would be better
+   defined using the inheritance mechanism?
+
+ * Is there any way to implement filters efficiently for classes? If
+   not, perhaps best to leave "class filters" as a concept that is
+   handled by constructors.
+
+ * Is the current set of introspection facilities sufficient?
+
+ > * Is it better to put introspection into the '''oo::define'''
+     infrastructure instead?
+
+ * How many pieces of the '''self''' command can be omitted?
 
 ~ Copyright
 
