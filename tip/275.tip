@@ -1,10 +1,10 @@
 TIP:            275
 Title:          Support Unsigned Values in binary Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        27-Sep-2006
 Post-History:   
 Keywords:       Tcl,binary,unsigned
@@ -47,7 +47,9 @@ following are all acceptable:
 
  mu3: three unsigned machine-endian 64-bit integers.
 
-The "u" flag will be supported combined with all field types but will have no effect on non-integer types. Also the flag is valid but ignored for the '''binary format''' command.
+The "u" flag will be supported combined with all field types but will have no
+effect on non-integer types. Also the flag is valid but ignored for the
+'''binary format''' command.
 
 ~ Reference Implementation
 
