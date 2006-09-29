@@ -1,8 +1,9 @@
 TIP:            251
 Title:          Enhance the 'list' Command
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Brian Schmidt <contact@schmidtsrus.net>
 Author:         Brian Schmidt <contact@SchmidtsRUs.net>
+Author:         Sérgio Loureiro <srgloureiro@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -32,7 +33,6 @@ A new command '''list''' will be added with the following syntax:
 |list append     ;equivalent to lappend
 |list index      ;equivalent to lindex
 |list insert     ;equivalent to linsert
-|list create     ;equivalent to list
 |list length     ;equivalent to llength
 |list range      ;equivalent to lrange
 |list replace    ;equivalent to lreplace
@@ -76,14 +76,13 @@ For example,
 
 would be equivalent to:
 
-|list create {my list}
+|list set {my list} {}
 
 Thus I think the only existing scripts that would break would be those that actually utilize the '''list''' command (and have at least 2 arguments?) and that have as their first argument one of the new list command's options.  Only code with lists defined exactly as follows would break:
 
 |list append ?arg...
 |list index ?arg...
 |list insert ?arg...
-|list create ?arg...
 |list length ?arg...
 |list range ?arg...
 |list replace ?arg...
