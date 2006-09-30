@@ -1,19 +1,20 @@
-TIP:		257
-Title:		Object Orientation for Tcl
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.7 $
-Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-Author:		Will Duquette <will@wjduquette.com>
-Author:		Steve Landers <steve@digitalsmarties.com>
-Author:		Jeff Hobbs <jeffh@activestate.com>
-Author:		Kevin Kenny <kennykb@users.sourceforge.net>
-Author:		Miguel Sofer <mig@utdt.edu>
-Created:	26-Sep-2005
-Obsoletes:	50
+TIP:            257
+Title:          Object Orientation for Tcl
+Version:        $Revision: 1.8 $
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Will Duquette <will@wjduquette.com>
+Author:         Steve Landers <steve@digitalsmarties.com>
+Author:         Jeff Hobbs <jeffh@activestate.com>
+Author:         Kevin Kenny <kennykb@users.sourceforge.net>
+Author:         Miguel Sofer <mig@utdt.edu>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Sep-2005
+Post-History:   
+Obsoletes:      50
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -63,7 +64,7 @@ extensions.
 Another requirement is that programmers should not have to alter all
 of their existing code in order to get started with the new system;
 rather, they should be able to adopt it progressively, over time,
-because it supports betters ways of working (e.g., faster and more
+because it supports better ways of working (e.g., faster and more
 flexible libraries).
 
 ~ The Foundational OO System
