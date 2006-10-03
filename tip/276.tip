@@ -1,14 +1,14 @@
-TIP:		276
-Title:		Specify and Unify Variable Linking Commands
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	01-Oct-2006
-Keywords:	Tcl, global, variable, upvar, namespace upvar
-Post-History:	
+TIP:            276
+Title:          Specify and Unify Variable Linking Commands
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Oct-2006
+Post-History:   
+Keywords:       Tcl,global,variable,upvar,namespace upvar
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -43,7 +43,7 @@ is a non-qualified name):
    ''var'']]" that is linked to "''var''" as resolved from the global
    namespace.
 
- * "'''variable''' ''varname''" creates a local variable "[['''namespace
+ * "'''variable''' ''var''" creates a local variable "[['''namespace
    tail''' ''var'']]" that is linked to "''var''" as resolved from
    [['''namespace current''']].
 
