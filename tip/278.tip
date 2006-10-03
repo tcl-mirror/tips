@@ -1,13 +1,14 @@
-TIP:		278
-Title:		Fix Variable Name Resolution Quirks
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	03-Oct-2006
-Post-History:	
+TIP:            278
+Title:          Fix Variable Name Resolution Quirks
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+Author:         Miguel Sofer <msofer@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Oct-2006
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -23,7 +24,7 @@ resolution.
    * a variable name is "absolute" if it starts with the character sequence
      "::".
 
-   * a variable name is "relative" if it is neither simple nor absolute: it
+   * a variable name is "relative" if it is neither simple nor absolute, it
      contains the character sequence "::", but not at its beginning.
 
 ~ Specification
