@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -34,7 +34,7 @@ Variable name resolution shall proceed as follows:
    * a simple name refers to a local variable if within a proc body, to a
      variable in the current namespace otherwise.
 
-   * an absolute is always resolved starting at the global namespace.
+   * an absolute name is always resolved starting at the global namespace.
 
    * a relative name is always resolved starting at the current namespace.
 
@@ -51,8 +51,7 @@ unnecessary. In short:
    name and knowing the context, without any interference from the rest of the
    program.'''
 
-These are the same rules as presently used for the resolution of namespace
-names.
+These are the same rules as presently used for the resolution of namespace names.
 
 ~ Rationale: avoid confusion
 
@@ -67,9 +66,50 @@ modelled on the resolution path for commands: if a variable is not found in
 the current namespace, it will be looked up in the global namespace.
 
 This behaviour hides a few surprises, especially but not only with respect to
-creative writing. In order to restore some sanity, '''variable''' has been
-invented to selectively force the behaviour that this TIP is proposing (in its
-usage outside of procedure bodies).
+creative writing. Consider the following examples:
+
+   % namespace eval b {upvar #0 x y}
+   % info vars x
+   % namespace eval a set x 1
+   1
+   % set x
+   1
+
+   % namespace eval a set x
+   can't read "x": no such variable
+   % set x 1
+   1
+   % namespace eval a set x
+   1
+   % upvar 0 ::a::x y
+   % namespace eval a set x
+   can't read "x": no such variable
+
+   % namespace eval a set x
+   can't read "x": no such variable
+   % set x 1
+   1
+   % namespace eval a set x
+   1
+   % trace add variable a::x read {;#}
+   % namespace eval a set x
+   can't read "x": no such variable
+
+   % set x 1
+   1
+   % namespace eval a {set x 2; set y 3}
+   3
+   % set x
+   2
+   % info vars a::*
+   ::a::y
+   % set a::x
+   can't read "a::x": no such variable
+   % set a::y
+   3
+
+In order to restore some sanity, '''variable''' has been
+invented to selectively force the behaviour that this TIP is proposing (in its usage outside of procedure bodies).
 
 The present behaviour forces a subtle and confusing concept of "variable
 existence", forcing some implementation details to be visible to
@@ -155,7 +195,7 @@ commit to helping out with the adaptation of AlphaTk.
 Note also that, should both this TIP and [277] be accepted, the code will
 continue to work as is through a different quirk. In that case, the namespace
 "::foo::foo" would be created, and the variable "::foo::foo::name" would be
-getting all the action.
+getting all the action. The code is however fragile, this aspect is not to be understood as minimising the impact of this TIP.
 
 ~ Reference Implementation and Documentation
 
