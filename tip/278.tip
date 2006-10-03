@@ -1,0 +1,165 @@
+TIP:		278
+Title:		Fix Variable Name Resolution Quirks
+Version:	$Revision: 1.1 $
+Author:		Miguel Sofer <msofer@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	03-Oct-2006
+Post-History:	
+
+~ Abstract
+
+This TIP proposes to fix the behaviour for variable name resolution, modelling
+it on the resolution for namespace names instead of the current command name
+resolution.
+
+~ Definitions
+
+   * a variable name is "simple" if it does not contain the character sequence
+     "::".
+
+   * a variable name is "absolute" if it starts with the character sequence
+     "::".
+
+   * a variable name is "relative" if it is neither simple nor absolute: it
+     contains the character sequence "::", but not at its beginning.
+
+~ Specification
+
+Variable name resolution shall proceed as follows:
+
+   * a simple name refers to a local variable if within a proc body, to a
+     variable in the current namespace otherwise.
+
+   * an absolute is always resolved starting at the global namespace.
+
+   * a relative name is always resolved starting at the current namespace.
+
+The changes with respect to the current behaviour is for relative names in all
+contexts, and simple names outside of proc bodies: the alternative lookup
+starting from the global namespace is lost.
+
+The resolution is independent of the previous existence of namespaces or
+variables. The 'declaration' of namespace variables with the '''variable'''
+command, currently needed to avoid some confusing behaviour, becomes
+unnecessary. In short:
+
+ > '''It is possible to know what variable is meant by just looking at its
+   name and knowing the context, without any interference from the rest of the
+   program.'''
+
+These are the same rules as presently used for the resolution of namespace
+names.
+
+~ Rationale: avoid confusion
+
+Repeating myself: the rationale is to make it a reality that
+
+ > '''It is possible to know what variable is meant by just looking at its
+   name and knowing the context, without any interference from the rest of the
+   program.'''
+
+Ever since the birth of namespaces, the resolution path for variables has been
+modelled on the resolution path for commands: if a variable is not found in
+the current namespace, it will be looked up in the global namespace.
+
+This behaviour hides a few surprises, especially but not only with respect to
+creative writing. In order to restore some sanity, '''variable''' has been
+invented to selectively force the behaviour that this TIP is proposing (in its
+usage outside of procedure bodies).
+
+The present behaviour forces a subtle and confusing concept of "variable
+existence", forcing some implementation details to be visible to
+scripts. Internally, a variable may
+
+ * not exist at all
+
+ * exist in the namespace's hash table, but be undefined
+
+ * exist and have a value
+
+In principle scripts should not be able to distinguish the first two states -
+except as to the existence of traces on undefined variables. In particular,
+the existence of a link to an undefined variable (which forces the target to
+exist in state 2) should have no influence whatsoever on the concept of
+variable existence. But it does (see examples in #959052).
+
+This behaviour also causes [namespace which -variable] and [info vars] to give
+different answers as to the existence of variables: the first looks in the
+hashtable, the second verifies that the variable has a value or that it has
+been declared via [variable].
+
+Some of the problems inherent in the current way of things are illustrated by
+Bugs 959052, 1251123, 1274916, 1274918, 1280497
+
+~ Side Benefit: Code Simplification, Performance
+
+Variable name resolution has a relatively complicated implementation, and
+interplays strangely with many core commands - in particular '''variable'''
+and '''upvar'''. This TIP would enable a non-negligible simplification of a
+lot of code.
+
+An optimisation in variable name caching that permits massive speed
+improvements in namespace variable accesses could also be enabled - it is
+currently #ifdef'ed out, it was active briefly in Tcl8.5a2. Note that
+currently it is wrong to cache the pointer to an undefined variable: as the
+variable has to be kept in the corresponding hashtable, the variable jumps
+from the first to the second state of inexistence. This may cause breakage in
+scripts depending on full non-existence. See also Bug 959052.
+
+Quite a few flag values that are currently needed to specify special code
+behaviour under different circumstances (VAR_NAMESPACE_VAR, LOOKUP_FOR_UPVAR,
+possibly others) become obsolete: the behaviour is the same under all
+circumstances.
+
+~Down-Sides
+
+This is known to expose some "bugs" in code in the wild, and break at least
+one program (AlphaTk, see below).
+
+~~ AlphaTk breakage
+
+AlphaTk breaks with this change
+[http://aspn.activestate.com/ASPN/Mail/Message/Tcl-core/2083396]
+[http://sf.net/tracker/?func=detail&aid=959786&group_id=10894&atid=110894].
+
+This is the result of code of the form
+
+|   namespace eval foo {}
+|   proc foo::bar {} {
+|       global foo::name
+|       set foo::name 1
+|   }
+
+which works since Tcl7.x until now, and would cease to work properly if this
+change is implemented. It is interesting to understand how this code works:
+
+ * Tcl7.x: I assume that there is conditional compat code that makes
+   '''namespace''' a noop. The code creates a global variable foo::name, the
+   proc accesses it as required by '''global'''.
+
+ * Tcl8.x: the code links the local variable "name" to the global
+   "::foo::name"; after this, "name" goes unused. The access to the variable
+   is by the name "foo::name": first "::foo::foo::name" is attempted, and, as
+   it does not exist, "::foo::name". As this variable exists, in the sense
+   that it is in the global hashtable by virtue of the created link, it is
+   used.
+
+Note that the code works in Tcl8.x through a quirk, and that it foregoes the
+usage of fast local variable access to "name". Should this TIP be accepted, I
+commit to helping out with the adaptation of AlphaTk.
+
+Note also that, should both this TIP and [277] be accepted, the code will
+continue to work as is through a different quirk. In that case, the namespace
+"::foo::foo" would be created, and the variable "::foo::foo::name" would be
+getting all the action.
+
+~ Reference Implementation and Documentation
+
+Forthcoming at SF.
+
+~ Copyright
+
+This document has been placed in the public domain.
