@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -68,45 +68,45 @@ the current namespace, it will be looked up in the global namespace.
 This behaviour hides a few surprises, especially but not only with respect to
 creative writing. Consider the following examples:
 
-   % namespace eval b {upvar #0 x y}
-   % info vars x
-   % namespace eval a set x 1
-   1
-   % set x
-   1
-
-   % namespace eval a set x
-   can't read "x": no such variable
-   % set x 1
-   1
-   % namespace eval a set x
-   1
-   % upvar 0 ::a::x y
-   % namespace eval a set x
-   can't read "x": no such variable
-
-   % namespace eval a set x
-   can't read "x": no such variable
-   % set x 1
-   1
-   % namespace eval a set x
-   1
-   % trace add variable a::x read {;#}
-   % namespace eval a set x
-   can't read "x": no such variable
-
-   % set x 1
-   1
-   % namespace eval a {set x 2; set y 3}
-   3
-   % set x
-   2
-   % info vars a::*
-   ::a::y
-   % set a::x
-   can't read "a::x": no such variable
-   % set a::y
-   3
+|   % namespace eval b {upvar #0 x y}
+|   % info vars x
+|   % namespace eval a set x 1
+|   1
+|   % set x
+|   1
+|
+|   % namespace eval a set x
+|   can't read "x": no such variable
+|   % set x 1
+|   1
+|   % namespace eval a set x
+|   1
+|   % upvar 0 ::a::x y
+|   % namespace eval a set x
+|   can't read "x": no such variable
+|
+|   % namespace eval a set x
+|   can't read "x": no such variable
+|   % set x 1
+|   1
+|   % namespace eval a set x
+|   1
+|   % trace add variable a::x read {;#}
+|   % namespace eval a set x
+|   can't read "x": no such variable
+|
+|   % set x 1
+|   1
+|   % namespace eval a {set x 2; set y 3}
+|   3
+|   % set x
+|   2
+|   % info vars a::*
+|   ::a::y
+|   % set a::x
+|   can't read "a::x": no such variable
+|   % set a::y
+|   3
 
 In order to restore some sanity, '''variable''' has been
 invented to selectively force the behaviour that this TIP is proposing (in its usage outside of procedure bodies).
