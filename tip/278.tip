@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -68,6 +68,13 @@ the current namespace, it will be looked up in the global namespace.
 This behaviour hides a few surprises, especially but not only with respect to
 creative writing. Consider the following examples:
 
+|   % set x 1
+|   1
+|   % namespace eval a set x
+|   1
+|   % set a::x
+|   can't read "a::x": no such variable
+|
 |   % namespace eval b {upvar #0 x y}
 |   % info vars x
 |   % namespace eval a set x 1
