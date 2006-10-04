@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -31,16 +31,15 @@ resolution.
 
 Variable name resolution shall proceed as follows:
 
-   * a simple name refers to a local variable if within a proc body, to a
-     variable in the current namespace otherwise.
+   * a simple name refers to a local variable if within a proc body, to a variable resolved [[*]] in the current namespace otherwise 
 
    * an absolute name does not need resolving, ::foo::bar::baz always refers to a variable named "baz" in a namespace
 named "bar" that is a child of a namespace named "foo" that is a child
 of the global namespace of the interpreter [[*]].
 
-   * a relative name is always resolved starting at the current namespace, foo::bar::baz refers to a variable named "baz" in a namespace
+   * a relative name is always resolved [[*]] starting at the current namespace. In the absence of special resolvers, foo::bar::baz refers to a variable named "baz" in a namespace
 named "bar" that is a child of a namespace named "foo" that is a child
-of the current namespace of the interpreter [[*]].
+of the current namespace of the interpreter.
 
 The changes with respect to the current behaviour is for relative names in all
 contexts, and simple names outside of proc bodies: the alternative lookup
