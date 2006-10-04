@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -56,7 +56,7 @@ unnecessary. In short:
 
 These are the same rules as presently used for the resolution of namespace names.
 
-[[*]] Currently there are hooks in the core for special resolvers that can be attached to a namespace or interpreter, mainly (only?) used by itcl. The present TIP does not address them, except for the condition that an absolute name will always bypass them. The rule that a simple name in a proc-body always refers to a local variable is not new in that sense, as any resolver hooks in that case create local variables linked to some other vars, in the manner of upvar. 
+[[*]] Currently there are hooks in the core for special resolvers that can be attached to a namespace or interpreter, mainly (only?) used by itcl. The present TIP does not address resolvers, except for the specification that an absolute name ignores them. The rule that a simple name in a proc-body always refers to a local variable is not new in that sense, as any resolver hooks in that case create local variables linked to some other vars, in the manner of upvar. 
 
 ~ Rationale: avoid confusion
 
