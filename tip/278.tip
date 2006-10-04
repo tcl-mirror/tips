@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -34,9 +34,13 @@ Variable name resolution shall proceed as follows:
    * a simple name refers to a local variable if within a proc body, to a
      variable in the current namespace otherwise.
 
-   * an absolute name is always resolved starting at the global namespace.
+   * an absolute name does not need resolving, ::foo::bar::baz always refers to a variable named "baz" in a namespace
+named "bar" that is a child of a namespace named "foo" that is a child
+of the global namespace of the interpreter [[*]].
 
-   * a relative name is always resolved starting at the current namespace.
+   * a relative name is always resolved starting at the current namespace, foo::bar::baz refers to a variable named "baz" in a namespace
+named "bar" that is a child of a namespace named "foo" that is a child
+of the current namespace of the interpreter [[*]].
 
 The changes with respect to the current behaviour is for relative names in all
 contexts, and simple names outside of proc bodies: the alternative lookup
@@ -52,6 +56,8 @@ unnecessary. In short:
    program.'''
 
 These are the same rules as presently used for the resolution of namespace names.
+
+[[*]] Currently there are hooks in the core for special resolvers that can be attached to a namespace or interpreter, mainly (only?) used by itcl. The present TIP does not address them, except for the condition that an absolute name will always bypass them. The rule that a simple name in a proc-body always refers to a local variable is not new in that sense, as any resolver hooks in that case create local variables linked to some other vars, in the manner of upvar. 
 
 ~ Rationale: avoid confusion
 
