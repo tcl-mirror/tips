@@ -1,6 +1,6 @@
 TIP:            211
 Title:          Add Full Stack Trace Capability
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Robert Seeger <robert_seeger@users.sourceforge.net>
 Author:         Robert Seeger <rseeger00@aol.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -11,6 +11,7 @@ Created:        10-Aug-2004
 Post-History:   
 Keywords:       Tcl
 Tcl-Version:    8.5
+Obsoleted-By:	280
 
 ~ Abstract
 
