@@ -1,0 +1,253 @@
+TIP:		279
+Title:		Adding an Extensible Object System to the Core
+Version:	$Revision: 1.1 $
+Author:		Gustaf Neumann <neumann@wu-wien.ac.at>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	05-Oct-2006
+Post-History:	
+
+~ Abstract
+
+This TIP proposes adding OO support to the Tcl core, consisting mostly of an
+dispatcher plus some helper commands. The TIP allows the coexsitance of
+multiple object systems by providing a common framework. It will contain as
+well a small basic oriented language to make it useable in the core without
+any extensions. The commands it defines will be in the '''::oo''' namespace,
+which is not used by any current mainstream OO system, and it will be designed
+specifically to allow classic XOTcl to be built on top.
+
+~ Rationale and Basic Requirements
+
+Rather than proposing any kind of OO language, the TIP suggests to add a
+framework to the core, that many existing and future extensions (including
+XOTcl) can use. This framework alone is not useful as an OO language, but is
+an environment that can host multiple OO languages in parallel, such as Snit
+or XOTcl (maybe the language from current [257] as well), without pushing a
+single model. Languages like Snit or XOTcl can continue to develop, the core
+developers can optimize and integrate better with the tcl-core, etc.
+
+This approach provides a flexibility much higher than in other popular
+scripting languages and lets object systems designer continue to improve their
+work based on Tcl.
+
+The framework consists of an flexible enough object interpreter (dispatcher)
+able to run the most powerful current object extensions. This dispatcher is
+accompanied by a "minimal object system" and an "extension mechanism". For the
+bootstrapping of different object systems, only a single method for allocating
+objects or classes is proposed, plus a few commands (for example, setting up
+the object/class relations and registering methods). The remainder of the
+object system (like XOTcl) can be loaded as an extension (being not part of
+the core), but providing the method set.
+
+~ The Minimal Object System
+
+The minimal object system consists of a base class ('''::oo::object''') and a
+meta-class ('''::oo::class''', subclass of '''::oo::object''').
+
+|                            superclass     instance-of
+|::oo::object   class        ::oo::object   ::oo::class
+|::oo::class    meta-class   ::oo::object   ::oo::class
+
+The meta-class '''::oo::class''' has a single method named "'''alloc'''" (name
+is arbitrary, as shown later) to create objects or classes. '''::oo::object'''
+has no methods at all.
+
+The minimal object system is intended to be specialized by one or more
+different object systems. An object system is created by sub-classing the base
+classes configuring these according to the object systems needs. This
+configuration consists of defining its relations to the general base and
+meta-class, and equipping these extension specific classes with additional
+functionality (providing methods). The whole configuration of the object
+system can be done completely from the scripting level.
+
+~~ Example for XOTcl
+
+ > Create base and meta class:
+
+|   oo::class alloc ::xotcl::Object
+|   oo::class alloc ::xotcl::Class
+
+ > Define relation to the minimal object system:
+
+|   ::oo::setrelation ::xotcl::Class superclass {::oo::class ::xotcl::Object}
+|   ::oo::setrelation ::xotcl::Object class ::xotcl::Class
+|   ::oo::setrelation ::xotcl::Class class ::xotcl::Class
+
+The superclasses of ''::xotcl::Class'' are defined to be '''::oo::class''' and
+''::xotcl::Object''. ''::xotcl::Object'' and ''::xotcl::Class'' are defined as
+instances of ''::xotcl::Class''. The command '''::oo::setrelation''' supports
+the following relations: '''mixin''', '''instmixin''', '''filter''',
+'''instfilter''', '''class''', and '''superclass''' (alternatively, a reduced
+set '''mixin''', '''filter''', '''class''', and '''superclass''', when a
+"per-object" flag can be specified). The meaning of this relations is defined
+by the dispatcher, which is responsible for the linearizion of the commands.
+
+~ Methods from Extensions
+
+This proposal does not define methods (maybe except '''alloc'''), but instead
+defines an extension mechanism for defining methods. An implementor of an
+OO-language would provide methods; these methods can be loaded dynamically via
+'''package require'''. The object system developer can provided the methods as
+Tcl commands in the extension's namespace.  These commands can be attached to
+the objects and classes of the object system to be defined. This is achieved
+by the command alias:
+
+ > '''::oo::alias''' ''classOrObject'' ''methodName'' ''cmdName''
+
+To illustrate, the following three commands would register the method
+"''instvar''" and "''proc''" for ''::xotcl::Object'' (available for all
+objects in XOTcl) and "''instproc''" for ''::xotcl::Class'':
+
+| ::oo::alias ::xotcl::Object instvar ::xotcl::cmd::instvar
+| ::oo::alias ::xotcl::Object proc ::xotcl::cmd::proc
+| ::oo::alias ::xotcl::Class instproc ::xotcl::cmd::instproc
+
+The name of the method (3rd argument) can differ from the name of the command
+(4th argument). Therefore, also the "'''alloc'''" method mentioned above can
+be registered the same way under arbitrary names. The same command can be
+registered under several names for different objects or classes.
+
+The command alias should not allow to register methods on '''::oo::object'''
+and '''::oo::class'''. All end-user object systems should only be allowed to
+subclass (from any class, e.g., '''oo::object''' or ''::xotcl::Object'') and
+to register the methods on their objects and classes.
+
+The registered methods are defined with the standard signature for Tcl
+commands but receive in their ClientData the object or class structure (like
+in today's XOTcl implementation). The handling for different client data (as
+for example for XOTcl's forwarders) is provided in an XOTcl style. C-extension
+writers can define non-leaf methods calling "'''next'''" from the C level.
+
+~~ Example
+
+| static int MyMethod1( ClientData cdata, Tcl_Interp *interp,
+|                        int objc, Tcl_Obj *CONST objv[] ) {
+|   int rc;
+|   /* ... */
+|   rc = XOTclNextObjCmd(cdata, interp, objc,objv);
+|   /* ... */
+|   return rc;
+| }
+
+The primitive commands (like '''my''', '''next''', '''self''',
+'''configure''', ...) can be provided by the OO namespace (if there is
+sufficient agreement), or can be provided by the extension writers (provided
+they have access to obtain the needed information).
+
+~ Advantages
+
+ * All OO extensions can use the powerful dispatcher
+
+ * If a certain extensions don't require filters, mixins, etc., they simply
+   don't have to activate these.
+
+ * The XOTcl dispatcher can be seen as a prototype implementation, but it can
+   be replaced by a more efficient implementation with tighter core
+   integration, provided the regression tests of the languages (e.g., XOTcl)
+   continue to work.
+
+ * The prototype implementation:
+
+ > * is proven to work and sufficiently bug-free,
+
+ > * is free of memory leaks,
+
+ > * thread safe,
+
+ > * provides execution of the destroy callbacks when a thread or
+     program exits,
+
+ > * provides uplevel transparency for interceptors,
+
+ > * is well suited for IDEs (an arbitrary class from a class tree can be
+     reloaded and redefined without altering the relations between classes
+     and/or instances)
+
+ * All OO systems are equal
+
+ > * since we do not want to allow to register methods on '''::oo::object'''
+     or '''::oo::class''', there is no "preferred" object system,
+
+ > * every object system defines its own classes with its own names and own
+     methods (although, it can reuse methods from all extensions with
+     arbitrary names, as shown above)
+
+ > * there is no need to namespace export from "oo::*" (these are no end-user
+     commands).
+
+ > * nobody is forced on any predefined semantics
+
+ * no extensions are locked out
+
+ > * existing "high level" extensions like XOTcl continue to work
+
+ > * the XOTcl language definition is not part of the core, its development
+     can continue
+
+ > * the XOTcl requirements are a superset of the requirements of other
+     languages.
+
+ > * XOTcl can be executed with essentially the same speed as current
+     versions.
+
+ * This proposal is in the Tcl tradition of Tcl as a 2-level meta-language,
+   since it provides a highly adjustable framework for object oriented
+   languages.
+
+ * Providing such a framework will attract people and put Tcl in front of the
+   other OO scripting languages, at least in terms of flexibility.
+
+~ Sample Implementation
+
+The actual snapshot of XOTcl is based on this framework using
+'''::oo::object''' and '''::oo::class''' as base object system. It contains a
+preprocessor variable OO, that turns on the sub-classing of the base object
+system (per default). The XOTcl C-Code does defines only '''oo::object''' and
+'''oo::class''', the XOTcl base objects are created already by the scripting
+code.
+
+Note, that this is a preview version of XOTcl and not suited for running
+critical applications on it. It is passing the the first sets of the
+regression tests but fails on the introspection regression tests (it is not
+expecting to see e.g. '''::oo::object''' as base class). It would be possible
+to hide the base object system from the introspection, but I am not sure this
+is a good idea. I am waiting for some feedback from the community before
+either finishing the regression test or removing the sub-classing of
+'''::oo::object''' again.
+
+The snapshot code is available online at the XOTcl website
+[http://media.wu-wien.ac.at/download/xotcl-1.5.3-alpha.tar.gz].
+
+Below is the basic script level initialization for XOTcl, where the classes
+''::xotcl::Object'' and ''::xotcl::Class'' and their methods are defined.
+
+|if {[info command oo::object] ne ""} {
+|   ::oo::alias ::oo::class alloc ::xotcl::cmd::Class::alloc
+|   oo::class alloc ::xotcl::Object
+|   oo::class alloc ::xotcl::Class
+|   ::oo::setrelation ::xotcl::Class superclass {::oo::class ::xotcl::Object}
+|   ::oo::setrelation ::xotcl::Object class ::xotcl::Class
+|   ::oo::setrelation ::xotcl::Class class ::xotcl::Class
+|}
+|
+|# provide the standard command set for ::xotcl::Object
+|foreach cmd [info command ::xotcl::cmd::Object::*] {
+|   ::oo::alias ::xotcl::Object [namespace tail $cmd] $cmd
+|}
+|# provide some Tcl-commands as methods for ::xotcl::Object
+|foreach cmd {array append eval incr lappend trace subst unset} {
+|   ::oo::alias ::xotcl::Object $cmd -objscope ::$cmd
+|}
+|# provide the standard command set for ::xotcl::Class
+|foreach cmd [info command ::xotcl::cmd::Class::*] {
+|   ::oo::alias ::xotcl::Class [namespace tail $cmd] $cmd
+|}
+|# "init" must exist on Object. per default it is empty.
+|::xotcl::Object instproc init args {}
+
+~ Copyright
+
+This document has been placed in the public domain.
