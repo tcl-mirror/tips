@@ -1,6 +1,6 @@
 TIP:            189
 Title:          Tcl Modules
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Jean-Claude Wippler <jcw@equi4.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
@@ -82,13 +82,13 @@ It does not come without penalties however.
 Modules are regular Tcl Packages, in a different guise.  To ease
 explanations, first a summary of the existing mechanism:
 
- * Packages are identified through "pkgIndex.tcl" files and the "index
+ * Packages are identified through "''pkgIndex.tcl''" files and the "index
    script" they contain.  These files are read and define the "provide
    script", which tells Tcl how to actually load the package.  In
-   other words, the provide script tells whether to use the "source" or "load" command, which
+   other words, the provide script tells whether to use the "'''source'''" or "'''load'''" command, which
    file to specify as an argument to that command, etc.  However as
-   "pkgIndex.tcl" contains a regular tcl script, it can do more than
-   that and actually influence the environment, i.e. the package
+   "''pkgIndex.tcl''" contains a regular tcl script, it can do more than
+   that and actually influence the environment, i.e., the package
    search itself, in several ways:
 
  > * It may choose to not register the package if conditions for the
@@ -139,7 +139,7 @@ of the various choices which are possible.
 
 The name of a module file has to match the regular expression
 
-| ([[:alpha:]][:[:alnum:]]*)-([[:digit:]].*)\.tm
+| ([[:alpha:]_][:[:alnum:]_]*)-([[:digit:]].*)\.tm
 
 The first capturing parentheses provides the name of the package, the
 second clause its version.  In addition to matching the pattern, the
@@ -148,7 +148,7 @@ command
 
 | package vcompare $version 0
 
-This additional check has several benefits.  The reg-exp pattern is a
+This additional check has several benefits.  The regular expression pattern is a
 bit simpler, and the full version check is based on the official
 definition of version numbers used by the Tcl core itself.
 
@@ -165,7 +165,7 @@ implies that a new search path over just these separate storage areas
 would be better than Yet Another Use of ''$::auto_path''.
 
 Therefore: Modules are searched for in all directories listed in the
-result of the command "::tcl::tm::path list" (See also section 'API to
+result of the command "'''::tcl::tm::path list'''" (See also section 'API to
 "Tcl Modules"').  This is called the "Module path".  Neither
 "''auto_path''" nor "''tcl_pkgPath''" are used.
 
