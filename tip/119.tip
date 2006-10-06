@@ -1,10 +1,10 @@
 TIP:            119
 Title:          Angled Text on a Canvas
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Simon Geard <simon.geard@ntlworld.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        18-Nov-2002
 Post-History:   
 Tcl-Version:    8.5
