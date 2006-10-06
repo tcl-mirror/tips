@@ -1,10 +1,10 @@
 TIP:            275
 Title:          Support Unsigned Values in binary Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        27-Sep-2006
 Post-History:   
 Keywords:       Tcl,binary,unsigned
