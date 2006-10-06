@@ -1,8 +1,8 @@
 TIP:            275
 Title:          Support Unsigned Values in binary Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        27-Sep-2006
