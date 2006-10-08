@@ -1,11 +1,11 @@
 TIP:		264
 Title:		Add Function to Retrieve the Interpreter of a Window
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.7 $
+Version:	$Revision: 1.8 $
 Author:		George Petasis <petasis@iit.demokritos.gr>
 Created:	01-Apr-2006
 Keywords:	Tk, C API
