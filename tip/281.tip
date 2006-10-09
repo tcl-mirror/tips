@@ -1,16 +1,16 @@
-TIP:		281
-Title:		Improvements in System Error Handling
-Version:	$Revision: 1.1 $
-Author:		David Gravereaux <davygrvy@pobox.com>
-Tcl-Version:	8.5
-Keywords:	POSIX, channel driver, errorCode
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	08-Oct-2006
-Post-History:	
+TIP:            281
+Title:          Improvements in System Error Handling
+Version:        $Revision: 1.2 $
+Author:         David Gravereaux <davygrvy@pobox.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Oct-2006
+Post-History:   
+Keywords:       POSIX,channel driver,errorCode
+Tcl-Version:    8.5
 
-~Abstract
+~ Abstract
 
 This TIP describes the need for better error codes and message handling of
 system errors to be returned to scripts.
@@ -18,18 +18,13 @@ system errors to be returned to scripts.
 ~Rationale
 
 The current method for handling of system errors is done via the
-''Tcl_PosixError()'' API call.  Its job is to grab the value of ''errno'' and
-format it for display to a script within the $errorCode special variable.
+''Tcl_PosixError()'' API call.  Its job is to grab the value of ''errno'' and format it for display to a script within the $errorCode special variable.
+
 Unfortunately, not all such system errors are left in ''errno'' and on
-Windows, not all information can be translated effectively to a POSIX error
-code without loss of valuable information to the user.
+Windows, not all information can be translated effectively to a POSIX error code without loss of valuable information to the user.
 
 On UNIX, ''gethostbyname()'' for example, leaves its errors in ''h_errno''
-[http://www.opengroup.org/onlinepubs/009695399/basedefs/netdb.h.html]. If we
-look at our use of ''gethostbyname()'' in unix/tclUnixChan.c for the
-''CreateSocketAddress()'' function, you'll see we are setting ''errno'' to a
-wrong code rather than retrieving the proper error information defined in
-''netdb.h''.
+[http://www.opengroup.org/onlinepubs/009695399/basedefs/netdb.h.html]. If we look at our use of ''gethostbyname()'' in unix/tclUnixChan.c for the ''CreateSocketAddress()'' function, you'll see we are setting ''errno'' to a wrong code rather than retrieving the proper error information defined in ''netdb.h''.
 
 An example of the current mistranslation would be:
 
@@ -45,27 +40,22 @@ And on Windows:
 |% set errorCode
 |POSIX EINVAL {invalid argument}
 
-Notice that the two are different as well as wrong. What I would like to see
-is the following (on all platforms):
+Notice that the two are different as well as wrong. EHOSTUNREACH is a routing error at the IP level and is returned by connect(), send().. etc., not by gethostbyname().  For windows, the error translation function TclWinConvertWSAError() sets ''errno'' to EINVAL for a WSAHOST_NOT_FOUND even though the code in CreateSocketAddress() appears to set errno to EHOSTUNREACH. What I would like to see is the following (on all platforms):
 
 |% socket foo.example.com 1234
 |couldn't open socket: No such host is known
 |% set errorCode
 |NETDB HOST_NOT_FOUND {No such host is known}
 
-If we could specify a place from where the error could be retrieved along with
-the formatting function for that type, Tcl's error information to the user
-would be improved. A signature and name of the top-level function could be:
+If we could specify a place from where the error could be retrieved along with the formatting function for that type, Tcl's error information to the user would be improved. A signature and name of the top-level function could be:
 
 |CONST char *Tcl_SysError(Tcl_Interp *interp);
 
-Similar to Tcl_PosixError(), but instead of just assuming the location is
-contained in ''errno'', follow a thread specific variable and call the
-formatter for that type.
+Similar to Tcl_PosixError(), but instead of just assuming the location is contained in ''errno'', follow a thread specific variable and call the formatter for that type.
 
 ~Reference Implementation
 
-A reference implementation is not done at this time.
+A reference implementation is not done at this time.  An experimental WINDOWS $errorCode formatter can be seen @ [http://iocpsock.cvs.sourceforge.net/iocpsock/iocpsock/tclWinError.c?revision=HEAD&view=markup]
 
 ~Copyright
 
