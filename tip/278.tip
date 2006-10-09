@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -71,7 +71,16 @@ modelled on the resolution path for commands: if a variable is not found in
 the current namespace, it will be looked up in the global namespace.
 
 This behaviour hides a few surprises, especially but not only with respect to
-creative writing. Consider the following examples:
+creative writing. Consider for instance the test
+
+| test namespace-17.7 {Tcl_FindNamespaceVar, relative name found} {
+|     namespace eval test_ns_1 {
+|         unset x
+|         set x  ;# must be global x now
+|     }
+| } {314159}
+
+as well as following examples:
 
 |   % set x 1
 |   1
