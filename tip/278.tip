@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -189,16 +189,9 @@ This is the result of code of the form
 which works since Tcl7.x until now, and would cease to work properly if this
 change is implemented. It is interesting to understand how this code works:
 
- * Tcl7.x: I assume that there is conditional compat code that makes
-   '''namespace''' a noop. The code creates a global variable foo::name, the
-   proc accesses it as required by '''global'''.
+ * '''Tcl7.x''' I assume that there is conditional compat code that makes '''namespace''' a noop. The code creates a global variable foo::name,   the proc accesses it as required by '''global'''.
 
- * Tcl8.x: the code links the local variable "name" to the global
-   "::foo::name"; after this, "name" goes unused. The access to the variable
-   is by the name "foo::name": first "::foo::foo::name" is attempted, and, as
-   it does not exist, "::foo::name". As this variable exists, in the sense
-   that it is in the global hashtable by virtue of the created link, it is
-   used.
+ * '''Tcl8.x''' the code links the local variable "name" to the global "::foo::name"; after this, "name" goes unused. The access to the variable is by the name "foo::name": first "::foo::foo::name" is attempted, and, as it does not exist, "::foo::name". As this variable exists, in the sense that it is in the global hashtable by virtue of the created link, it is used.
 
 Note that the code works in Tcl8.x through a quirk, and that it foregoes the
 usage of fast local variable access to "name". Should this TIP be accepted, I
@@ -212,6 +205,12 @@ getting all the action. The code is however fragile, this aspect is not to be un
 ~ Reference Implementation and Documentation
 
 Forthcoming at SF.
+
+~ Notes
+
+ * '''namespace which -variable var''' becomes relatively useless, as it will always return either {} or [[namespace current]]::var
+
+ * the only effect of '''variable''' outside of proc bodies is now on '''namespace which -variable var'''. This might change again if TIP276 is approved
 
 ~ Copyright
 
