@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -217,7 +217,7 @@ A cvs branch tip-278-branch has been opened to test the implementation of this t
 
 ~ Notes
 
- * '''namespace which -variable var''' becomes relatively useless, as it will always return either {} or [[namespace current]]::var
+ * '''namespace which -variable var''' becomes relatively useless, as it will always return either {} or [[namespace current]]::var whenever var is not fully qualified.
 
  * the only effect of '''variable''' outside of proc bodies is now on '''namespace which -variable var'''. This might change again if TIP276 is approved
 
