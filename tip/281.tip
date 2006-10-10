@@ -1,6 +1,6 @@
 TIP:            281
 Title:          Improvements in System Error Handling
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -47,11 +47,9 @@ Notice that the two are different as well as wrong. EHOSTUNREACH is a routing er
 |% set errorCode
 |NETDB HOST_NOT_FOUND {No such host is known}
 
-If we could specify a place from where the error could be retrieved along with the formatting function for that type, Tcl's error information to the user would be improved. A signature and name of the top-level function could be:
+If we could specify a place from where the error could be retrieved along with the formatting functions for that type, Tcl's error information to the user would be improved.
 
-|CONST char *Tcl_SysError(Tcl_Interp *interp);
-
-Similar to Tcl_PosixError(), but instead of just assuming the location is contained in ''errno'', follow a thread specific variable and call the formatter for that type.
+A facility to extend/add formatters would also help extension authors.  For example with the windows port of Expect, there are numerous specific errors that Expect could return regarding how the Console API debugger was unable to function, but the error path is only limited to POSIX pipe errors.
 
 ~Reference Implementation
 
