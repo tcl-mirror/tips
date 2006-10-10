@@ -1,6 +1,6 @@
 TIP:            281
 Title:          Improvements in System Error Handling
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -49,7 +49,13 @@ Notice that the two are different as well as wrong. EHOSTUNREACH is a routing er
 
 If we could specify a place from where the error could be retrieved along with the formatting functions for that type, Tcl's error information to the user would be improved.
 
-A facility to extend/add formatters would also help extension authors.  For example with the windows port of Expect, there are numerous specific errors that Expect could return regarding how the Console API debugger was unable to function, but the error path is only limited to POSIX pipe errors.
+A facility to extend/add formatters would also help extension authors.
+
+For example with the windows port of Expect, there are numerous specific errors that Expect could return regarding how the Console API debugger was unable to function, but the error path is only limited to POSIX pipe errors rather than anything specific.
+
+I tried to make a facility to manage these specific errors in a controlled way using a message catalog [http://www.pobox.com/~davygrvy/expect-src/win/expWinErr.mc] to compile into the expect dll a "windows"-ish style of error management along with a specific "EXPECT" formatter, see ExpWinError() [[last function in file]] [http://www.pobox.com/~davygrvy/expect-src/win/expWinUtils.cpp].  I used the "customer" bit in the errorcode as a key to forward to the "WINDOWS" formatter and thought it was quite smart of me..
+
+But alas..  The POSIX restriction was not to be bypassed in a manageable manner.
 
 ~Reference Implementation
 
