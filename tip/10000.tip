@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.159 $
+Version:        $Revision: 1.160 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -34,6 +34,86 @@ can take place.
 ~ Testing
 
 ...edits through the web.
+
+~ Copyright
+
+This document has been placed in the public domain.
+
+~ Abstract
+
+This TIP introduces the ability to quickly and safely cancel a script within a specified interpreter from any thread in the process.
+
+~ Rationale
+
+Currently, once the evaluation of a script has been initiated it will do one of the following:
+
+ > run to completion,
+ > run until it encounters an uncaught error,
+ > run until it exceeds a pre-determined time limit as specified in [143],
+ > or run indefinitely.
+
+In the final case above, neither the host application nor an interactive user have any recourse to terminate the script.
+
+There are many situations for which it is absolutely necessary to be able to cancel a running script without its cooperation and without setting an arbitrary limit on the amount of time it can run ([143]).  This is especially true in a multi-threaded application embedding environment, or where a user interface is present.
+
+ 1. In the case where the completion time for a script is unknown, non-existant, or non-deterministic a user may want or need to terminate the script prematurely.
+
+ 1. When evaluating an untrusted - or marginally trusted - script in either a safe or standard interpreter, there is a risk that the script might never terminate. In such a situation it is not reasonable to forcibly terminate the thread or the entire process. 
+
+    a. Forcibly terminating a thread prevents Tcl and Tk from cleaning up their thread-specific memory and resources.
+    a. The host application may suffer similar memory and resource leaks as well as other serious side-effects that may corrupt data, prevent other threads from properly synchronizing, or leave the process in an unknown and unrecoverable state.
+    a. For an interactive host application valuable work may be lost without providing an opportunity to save pending modifications. Even in the absence of modifications the host application might have been holding locks that left unreleased would prevent other processes and users from using important resources.
+
+The basic building blocks needed for any scripting language to seamlessly integrate with an enterprise-ready host application are:
+
+ > Engine Initialization 
+ > Evaluation
+ > Cancellation
+ > Engine Finalization
+
+Tcl now provides full support for all of the above except script cancellation. [143] allows for scripts to be prematurely terminated after reaching resource limits that were pre-arranged by the host application. However, this only handles terminating scripts based on a narrow set of deterministic criteria. Full support would require the ability to immediately and unconditionally terminate the evaluation of a script without adversely affecting the execution environment of the host application. In addition the following issues must be addressed:
+
+ > Scripts being evaluated in nested slave interpreters.
+ > Interaction with third-party extensions.
+ > Safely useable by abitrary threads.
+
+Several other mainstream scripting engines currently provide this capability to cancel the evaluation of a script. This TIP proposes an implementation that would bring this necessary aspect of application integration to Tcl. This must be implemented in the core, because access to and modification of internal Tcl functions and data structures is required.
+
+*********************************************************************************************************************
+
+~ Specification
+
+A new [cancel] script command will be added.
+
+ > '''cancel''' ?'''-unwind'''? ?'''--'''? ?''path''? ?''message''?
+
+For now, the options -unwind and -- are the only valid ones.
+
+~ C API
+
+The following things shall be declared in tcl.h:
+
+~~ Constants
+
+TCL_CANCEL_UNWIND:	Magical Tcl_CancelEval mode that causes the
+				            stack for the script in progress to be
+                    completely unwound.
+
+~~ Functions
+
+The following functional operations are defined:
+
+ > int '''Tcl_CancelEval'''(Tcl_Interp *''interp'', Tcl_Obj *''resultPtr'',
+   ClientData ''clientData'', int ''flags'')
+
+Tcl_CancelEval may be called on an interp from any thread in a process.
+
+ > int '''Tcl_Canceled'''(Tcl_Interp *''interp'', int ''flags'')
+
+~ Reference Implementation
+
+A reference implementation of this TIP is available
+[http://sf.net/tracker/?func=detail&aid=1499394&group_id=10894&atid=310894].
 
 ~ Copyright
 
