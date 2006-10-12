@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.161 $
+Version:        $Revision: 1.162 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -51,7 +51,7 @@ Currently, once the evaluation of a script has been initiated it will do one of 
 
  > run until it encounters an uncaught error,
 
- > run until it exceeds a pre-determined time limit as specified in [143],
+ > run until it exceeds a pre-determined limit as specified in [143],
 
  > or run indefinitely.
 
@@ -63,11 +63,11 @@ There are many situations for which it is absolutely necessary to be able to can
 
  1. When evaluating an untrusted - or marginally trusted - script in either a safe or standard interpreter, there is a risk that the script might never terminate. In such a situation it is not reasonable to forcibly terminate the thread or the entire process. 
 
-    a. Forcibly terminating a thread prevents Tcl and Tk from cleaning up their thread-specific memory and resources.
+ > 1. Forcibly terminating a thread prevents Tcl and Tk from cleaning up their thread-specific memory and resources.
 
-    a. The host application may suffer similar memory and resource leaks as well as other serious side-effects that may corrupt data, prevent other threads from properly synchronizing, or leave the process in an unknown and unrecoverable state.
+ > 1. The host application may suffer similar memory and resource leaks as well as other serious side-effects that may corrupt data, prevent other threads from properly synchronizing, or leave the process in an unknown and unrecoverable state.
 
-    a. For an interactive host application valuable work may be lost without providing an opportunity to save pending modifications. Even in the absence of modifications the host application might have been holding locks that left unreleased would prevent other processes and users from using important resources.
+ > 1. For an interactive host application valuable work may be lost without providing an opportunity to save pending modifications. Even in the absence of modifications the host application might have been holding locks that left unreleased would prevent other processes and users from using important resources.
 
 The basic building blocks needed for any scripting language to seamlessly integrate with an enterprise-ready host application are:
 
