@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -1148,11 +1148,20 @@ The following functional operations are defined:
 
  Tcl_NewObjectInstance: This function creates a new instance of a class,
    calling any defined constructors. It has the following signature, returning
-   NULL if the object creation failed:
+   NULL (and setting a message in the interpreter) if the object creation
+   failed:
 
  > Tcl_Object '''Tcl_NewObjectInstance'''(Tcl_Interp *''interp'', Tcl_Class
    ''cls'', const char *''name'', int ''objc'', Tcl_Obj *const *''objv'', int
    ''skip'')
+
+ Tcl_CopyObjectInstance: This function creates a copy of an object (including
+   classes) without copying the backing namespace or executing any
+   constructors. It has the following signature, returning NULL (and setting a
+   message in the interpreter) if the object copying failed:
+
+ > Tcl_Object '''Tcl_CopyObjectInstance'''(Tcl_Interp *''interp'', Tcl_Object
+   ''sourceObject'', const char *''targetName'')
 
  Tcl_GetObjectFromObj: This function converts from a Tcl_Obj holding the name
    of an object to a Tcl_Object handle. It returns NULL (leaving an error
