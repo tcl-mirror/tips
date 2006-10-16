@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -20,7 +20,7 @@ would make simple usage of mathematics much clearer.
 
 ~ Rationale
 
-While the [[expr]] command works fairly well for longer mathematical
+While the '''expr''' command works fairly well for longer mathematical
 expressions, it is extremely tedious for the most common uses, such as
 handling indices.  Take the following examples:
 
@@ -34,13 +34,13 @@ expressions build up.
 ~ Proposed Change
 
  1. A group of Tcl commands are added which would handle mathematical
-    operations without the need to use [[expr]].  Most commands would
+    operations without the need to use '''expr'''.  Most commands would
     take a variable amount of arguments and would work such that the
     operator is applied to the combination of the first and second
     arguments.  The result of this combination is then used with the
     operator for the third argument, etc.  If only one argument is
     given, it is returned as is.  See below for details for each operator.
-    A sample implementation of the ''+'' command in Tcl follows:
+    A sample implementation of the '''+''' command in Tcl follows:
 
 | proc ::tcl::mathop::+ {args} {
 |     set r 0
@@ -50,18 +50,18 @@ expressions build up.
 |     return $r
 | }
 
- 2. All operator commands will be kept in the ::tcl::mathop
-    (in line with ::tcl::mathfunc from [232])
+ 2. All operator commands will be kept in the '''::tcl::mathop'''
+    (in line with ''::tcl::mathfunc'' from [232])
     namespace, from which they would most commonly be imported to the
     global namespace.
 
  3. The commands are not connected to their corresponding expr operator.
-    Overloading or adding any command in ::tcl::mathop does not affect
-    operators in expr or any other command that calls ''Tcl_ExprObj''.
+    Overloading or adding any command in '''::tcl::mathop''' does ''not'' affect
+    operators in '''expr''' or any other command that calls ''Tcl_ExprObj''.
 
-~ Operator commands details
+~~ Operator Commands Details
 
-Unary operators ~ ! always take one argument.
+Unary operators '''~''' and '''!''' always take one argument.
 
 Operators that naturally allow 0 or more arguments do so:
 
@@ -73,7 +73,7 @@ Operators that naturally allow 0 or more arguments do so:
 ||        0   a   a|b   a|b|c...
 
 Other left or right associative operators.
-Operator ** is right associative, which needs to be noted clearly.
+Operator '''**''' is right associative, which needs to be noted clearly.
 
 |Op/argc  0   1   2     3-
 |**       1   a   a**b  a**(b**(c...))
@@ -87,17 +87,15 @@ Unary minus is negation. Unary divide is inversion.
 |-        err -a    a-b  ((a-b)-c)...
 |/        err 1.0/a a/b  ((a/b)/c)...
 
-Comparison operators < > <= >= == != "eq" "ne" always take two args.
+Comparison operators '''< > <= >= == !=''' "'''eq'''" "'''ne'''" always take two args.
 
-List operators "in" "ni" always take two args.
+List operators "'''in'''" "'''ni'''" always take two args.
 
-Logical operators && || are not included to avoid confusion since
-they will not be lazy and thus do not exactly correspond to their
-expr counterparts.
+The operators that do conditional evaluation of their arguments (&&, || and
+?:) are not included. This is because their characteristic evaluation laziness
+is best modelled using the existing '''if''' command.
 
-Operator x?y:z is not included.
-
-~ Example
+~~ Example
 
 As an example use, let us change the lines from above:
 
@@ -111,16 +109,18 @@ Sum of a list becomes
 
 | set sum [+ {expand}$list]
 
-~ Possible additions
+~ Possible Additions
 
 Extend comparison operators to allow variadic args. Zero or one arg
 returns true and with three args it becomes e.g. "(a op b) && (b op c)".
 That offers the opportunity to test "is this list sorted?"
-with [<= {expand}$list].
+with [[<= {expand}$list]].
 
 Include && and || as logical operators. Add ^^ operator for logical xor.
 
 ~ Implementation
+
+~~ Efficiency
 
 These commands can naturally be compiled and thus as efficient
 as their corresponding expr operators. The following lines
@@ -129,9 +129,10 @@ should probably result in the same byte codes.
 |set x [expr {$a * $b + $c}]
 |set x [+ [* $a $b] $c]
 
-~ Reference Implementation
+~~ Reference Implementation
 
-http://sourceforge.net/tracker/index.php?func=detail&aid=1578137&group_id=10894&atid=310894
+Available online at SourceForge
+[http://sf.net/tracker/?func=detail&aid=1578137&group_id=10894&atid=310894].
 
 ~ Copyright
 
