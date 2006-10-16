@@ -1,8 +1,9 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -155,6 +156,27 @@ been declared via [variable].
 
 Some of the problems inherent in the current way of things are illustrated by
 Bugs 959052, 1251123, 1274916, 1274918, 1280497
+
+Bug 1185933 is perhaps particularly illustrative. In it, 
+Kevin Kenny <kennykb@acm.org>, a long-time
+Tcl maintainer (and reputed expert) had placed in 'clock.tcl' the
+group of lines:
+
+|    set i 0
+|    foreach j $DaysInRomanMonthInLeapYear {
+|        lappend DaysInPriorMonthsInLeapYear [incr i $j]
+|    }
+|    unset i j
+
+within a [namespace eval] context.  This code performed without
+ill effect for some months, until it was observed that it would
+cause a failure if a script were to create a variable named 'i'
+or 'j' in the global context prior to the first invocation of
+the [clock] command.  This case was also inordinately difficult
+to simulate in the test suite, because tcltest reads the clock
+as part of its initialization.  The fix was to move the offending
+code from the [namespace eval] into an 'init' procedure (which
+was called once and then deleted via [rename]).  
 
 ~ Side Benefit: Code Simplification, Performance
 
