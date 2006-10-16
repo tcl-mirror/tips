@@ -1,18 +1,19 @@
-TIP:		283
-Title:		Modify Ensemble -unknown Behaviour
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	01-Oct-2006
-Post-History:	
+TIP:            283
+Title:          Modify Ensemble -unknown Behaviour
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+Author:         Neil Madden <nem@cs.nott.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Oct-2006
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes that an ensemble's unknown handler resolve the rewritten
-command in the ensemble's namespace.
+This TIP proposes that an ensemble's unknown handler and ''-map'' handler
+resolve the rewritten command in the ensemble's namespace.
 
 ~ Rationale
 
@@ -21,10 +22,12 @@ impossible to combine it with the [['''namespace path''']] and [['''namespace
 unknown''']] features of the ensemble's namespace.
 
 This is because the command returned from the unknown handler is invoked in
-the ensemble's caller namespace: the only way to insure that it is called in
+the ensemble's caller namespace: the only way to ensure that it is called in
 the ensemble's namespace is by returning a FQ command name. But FQ command
 names bypass the [['''namespace path''']] and [['''namespace unknown''']]
-mechanisms.
+mechanisms. Likewise, the command map specified with the ''-map'' option
+of an ensemble also invokes commands in the caller's namespace rather
+than the ensemble's namespace.
 
 ~ Proposed Change
 
@@ -39,6 +42,14 @@ to:
 
  > The implementing subcommand is looked up in the ensemble's namespace using
    normal command location rules.
+
+The description of the ''-map'' option should change from:
+
+ > When non-empty, this option supplies a dictionary that provides a mapping from subcommand names to a list of prefix words to substitute in place of the ensemble command and subcommand words (in a manner similar to an alias created with interp alias; the words are not reparsed after substitution).
+
+to:
+
+ > When non-empty, this option supplies a dictionary that provides a mapping from subcommand names to a list of prefix words to substitute in place of the ensemble command and subcommand words (in a manner similar to an alias created with interp alias; the words are not reparsed after substitution). The resulting command is invoked with the original arguments in the namespace of the ensemble.
 
 ~ Reference Implementation and Documentation
 
