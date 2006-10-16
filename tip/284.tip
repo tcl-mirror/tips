@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -23,7 +23,7 @@ following syntax:
 
 This invokes the command called '''cmd''' in the caller's scope, as resolved
 from namespace ''namespace'', with the supplied arguments. If ''namespace''
-does not exist, the command returns an arror.
+does not exist, the command returns an error.
 
 This TIP also proposes a new command:
 
