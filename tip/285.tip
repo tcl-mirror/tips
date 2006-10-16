@@ -1,15 +1,15 @@
 TIP:            285
 Title:          Script Cancellation with [cancel] and Tcl_CancelEval
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        04-Jun-2006
-Keywords:       eval, cancel, unwind, terminate, runaway, async, thread, safe
+Post-History:   
+Keywords:       eval,cancel,unwind,terminate,runaway,async,thread,safe
 Tcl-Version:    8.5
-Post-History:	
 
 ~ Abstract
 
@@ -211,7 +211,7 @@ be called from any thread in the process, regardless of which thread created
 
  > int '''Tcl_Canceled'''(Tcl_Interp *''interp'', int ''flags'')
 
-The '''Tcl_Cancelled''' function checks whether the script being evaluated in
+The '''Tcl_Canceled''' function checks whether the script being evaluated in
 ''interp'' has been canceled.  Returns a standard Tcl result (i.e.,
 ''TCL_ERROR'' if the script being evaluated has been canceled). This function
 should only be called from the thread which created ''interp''; otherwise, its
