@@ -1,6 +1,6 @@
 TIP:            283
-Title:          Modify Ensemble -unknown Behaviour
-Version:        $Revision: 1.2 $
+Title:          Modify Ensemble Command Resolution Behaviour
+Version:        $Revision: 1.3 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -18,16 +18,16 @@ resolve the rewritten command in the ensemble's namespace.
 ~ Rationale
 
 Ensembles as proposed in [112] have an unknown handler behaviour that makes it
-impossible to combine it with the [['''namespace path''']] and [['''namespace
-unknown''']] features of the ensemble's namespace.
+impossible to combine it with the '''namespace path''' and '''namespace
+unknown''' features of the ensemble's namespace.
 
 This is because the command returned from the unknown handler is invoked in
 the ensemble's caller namespace: the only way to ensure that it is called in
 the ensemble's namespace is by returning a FQ command name. But FQ command
-names bypass the [['''namespace path''']] and [['''namespace unknown''']]
-mechanisms. Likewise, the command map specified with the ''-map'' option
-of an ensemble also invokes commands in the caller's namespace rather
-than the ensemble's namespace.
+names bypass the '''namespace path''' and '''namespace unknown''' mechanisms.
+Likewise, the command map specified with the ''-map'' option of an ensemble
+also invokes commands in the caller's namespace rather than the ensemble's
+namespace.
 
 ~ Proposed Change
 
@@ -45,11 +45,28 @@ to:
 
 The description of the ''-map'' option should change from:
 
- > When non-empty, this option supplies a dictionary that provides a mapping from subcommand names to a list of prefix words to substitute in place of the ensemble command and subcommand words (in a manner similar to an alias created with interp alias; the words are not reparsed after substitution).
+ > When non-empty, this option supplies a dictionary that provides a mapping
+   from subcommand names to a list of prefix words to substitute in place of
+   the ensemble command and subcommand words (in a manner similar to an alias
+   created with '''interp alias'''; the words are not reparsed after
+   substitution).
 
 to:
 
- > When non-empty, this option supplies a dictionary that provides a mapping from subcommand names to a list of prefix words to substitute in place of the ensemble command and subcommand words (in a manner similar to an alias created with interp alias; the words are not reparsed after substitution). The resulting command is invoked with the original arguments in the namespace of the ensemble.
+ > When non-empty, this option supplies a dictionary that provides a mapping
+   from subcommand names to a list of prefix words to substitute in place of
+   the ensemble command and subcommand words (in a manner similar to an alias
+   created with '''interp alias'''; the words are not reparsed after
+   substitution). The resulting command is invoked with the original arguments
+   in the namespace of the ensemble.
+
+~~ Compatability
+
+All scripts that followed previous best-practice and placed fully qualified
+command names in the command map or returned them from the unknown handler
+will be unaffected by this change. Only ensembles whose behaviour was
+undefined previously will be influenced, and then strictly in a positive
+direction.
 
 ~ Reference Implementation and Documentation
 
