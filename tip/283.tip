@@ -1,0 +1,50 @@
+TIP:		283
+Title:		Modify Ensemble -unknown Behaviour
+Version:	$Revision: 1.1 $
+Author:		Miguel Sofer <msofer@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	01-Oct-2006
+Post-History:	
+
+~ Abstract
+
+This TIP proposes that an ensemble's unknown handler resolve the rewritten
+command in the ensemble's namespace.
+
+~ Rationale
+
+Ensembles as proposed in [112] have an unknown handler behaviour that makes it
+impossible to combine it with the [['''namespace path''']] and [['''namespace
+unknown''']] features of the ensemble's namespace.
+
+This is because the command returned from the unknown handler is invoked in
+the ensemble's caller namespace: the only way to insure that it is called in
+the ensemble's namespace is by returning a FQ command name. But FQ command
+names bypass the [['''namespace path''']] and [['''namespace unknown''']]
+mechanisms.
+
+~ Proposed Change
+
+This TIP proposes to fix this by changing the man page description of the
+ensemble unknown handler from:
+
+ > It is up to the unknown handler to supply all namespace qualifiers if the
+   implementing subcommand is not in the namespace of the caller of the
+   ensemble command.
+
+to:
+
+ > The implementing subcommand is looked up in the ensemble's namespace using
+   normal command location rules.
+
+~ Reference Implementation and Documentation
+
+[[RFE 1577282]] (which depends on [[Patch 1577278]]) provides an
+implementation, with tests and docs.
+
+~ Copyright
+
+This document has been placed in the public domain.
