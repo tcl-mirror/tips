@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -113,7 +113,7 @@ Sum of a list becomes
 
 ~ Possible additions
 
-Extend comparison operators to allow variadic args. Zero ore one arg
+Extend comparison operators to allow variadic args. Zero or one arg
 returns true and with three args it becomes e.g. "(a op b) && (b op c)".
 That offers the opportunity to test "is this list sorted?"
 with [<= {expand}$list].
@@ -128,6 +128,10 @@ should probably result in the same byte codes.
 
 |set x [expr {$a * $b + $c}]
 |set x [+ [* $a $b] $c]
+
+~ Reference Implementation
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=1578137&group_id=10894&atid=310894
 
 ~ Copyright
 
