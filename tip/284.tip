@@ -1,48 +1,18 @@
-TIP:		284
-Title:		New 'invoke' and 'namespace invoke' Commands
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	01-Oct-2006
-Post-History:	
+TIP:            284
+Title:          New 'invoke' and 'namespace invoke' Commands
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Oct-2006
+Post-History:   
+Tcl-Version:    8.5
 
 ~ Abstract
 
 This TIP exposes a Tcl script-level interface to the direct command invokation
 engine already present in the Tcl library for years.
-
-~ Rationale
-
-There is currently no script-level equivalent to ''Tcl_EvalObjv()'', though
-the functionality is provided by one of:
-
-|   eval [list cmd ?arg ...?]
-|   {expand}[list cmd ?arg ...?]
-
-Note that the core tries to optimise the first case, but has to be careful to
-only avoid reparsing when it is guaranteed safe to do so. The notation is
-rather clumsy too.
-
-The proposed new command tries to improve this situation, with the added
-functionality of determining the namespace in which the command name is to be
-resolved (functionality which was very difficult to use previously using the
-script-level API). In this manner it is possible for the invocation to make
-good use of '''namespace path''' and '''namespace unknown''' features.
-
-The new command '''invoke''' could be implemented in terms of '''namespace
-invoke''' as:
-
-|   set lam [list {level cmd args} {
-|       set ns [uplevel $level [list namespace current]]
-|       uplevel $level [list namespace invoke $ns {expand}$args]
-|   }]
-|   interp alias {} invoke {} ::apply $lam
-
-which helps to illustrate the use of '''invoke''': to simplify these
-'''uplevel'''+'''list''' tricks.
 
 ~ Proposed New Commands
 
@@ -62,6 +32,39 @@ This TIP also proposes a new command:
 This invokes the command ''cmd'' in level ''level'' with the supplied
 ''arg''uments. The syntax of ''level'' is the same as that required by
 '''uplevel'''.
+
+~ Rationale
+
+There is currently no script-level equivalent to ''Tcl_EvalObjv()'', though
+the functionality is provided by one of:
+
+|   eval [list cmd ?arg ...?]
+|   {expand}[list cmd ?arg ...?]
+
+Note that the core tries to optimise the first case, but has to be careful to
+only avoid reparsing when it is guaranteed safe to do so. The notation is
+rather clumsy too.
+
+The proposed new commands try to improve this situation, with the added
+functionality of determining the namespace in which the command name is to be
+resolved (functionality which was very difficult to use previously using the
+script-level API). In this manner it is possible for the invocation to make
+good use of '''namespace path''' and '''namespace unknown''' features.
+
+The new command '''invoke''' could be implemented in terms of '''namespace
+invoke''' as:
+
+|   set lam [list {level cmd args} {
+|       if {[string is integer $level] && ($level >= 0)} {
+|           incr level
+|       }
+|       set ns [uplevel $level [list namespace current]]
+|       uplevel $level [list namespace invoke $ns {expand}$args]
+|   }]
+|   interp alias {} invoke {} ::apply $lam
+
+which helps to illustrate the use of '''invoke''': to simplify these
+'''uplevel'''+'''list''' tricks.
 
 ~ Reference Implementation and Documentation
 
