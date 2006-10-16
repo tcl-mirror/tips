@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.167 $
+Version:        $Revision: 1.168 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -38,94 +38,3 @@ can take place.
 ~ Copyright
 
 This document has been placed in the public domain.
-
-The basic building blocks needed for any scripting language to seamlessly integrate with an enterprise-ready host application are:
-
- * Engine Initialization 
-
- * Evaluation
-
- * Extensibility
-
- * Cancellation
-
- * Engine Finalization
-
-Tcl now provides full support for all of the above except script cancellation. [143] allows for scripts to be prematurely terminated after reaching resource limits that were pre-arranged by the host application. However, this only handles terminating scripts based on a narrow set of deterministic criteria. Full support would require the ability to immediately and unconditionally terminate the evaluation of a script without adversely affecting the execution environment of the host application. In addition the following issues must be addressed:
-
- * Scripts being evaluated in nested slave interpreters.
-
- * Interaction with third-party extensions.
-
- * Safely useable by abitrary threads.
-
-Several other mainstream scripting engines (e.g. JavaScript, Microsoft Active Scripting, etc.) currently provide this capability to cancel the evaluation of a script. This TIP proposes an implementation that would bring this necessary aspect of application integration to Tcl. This must be implemented in the core, because access to and modification of internal Tcl functions and data structures is required.
-
-~ Specification
-
-A new [cancel] script command will be added, as follows:
-
- > '''cancel''' ?'''-unwind'''? ?'''--'''? ?''path''? ?''result''?
-
-This command cancels the script being evaluated in an interpreter.
-
-~~ Arguments
-
- * ''-unwind''
-
- > * Without ''-unwind'', the evaluation stack for the interpreter is unwound until an closing '''catch''' command is found or there are no further invocations of the interpreter left on the call-stack.
-
- > * With ''-unwind'', the evaluation stack for the interpreter is unwound without regard to any intervening '''catch''' command until there are no further invocations of the interpreter left on the call-stack.
-
- * ''path''
-
- > * Optional. If not supplied, the current interpreter is assumed; otherwise, the interpreter specified by ''path'' is used.
-
- * ''result''
-
- > * Optional. If not supplied, a default error message is left in the interpreter's result; otherwise, the result specified by ''result'' is used.
-
-~~ Behavior
-
-When the script is canceled, it bails out of the interpreter in the following way:
-
- * The CANCELED flag, and possibly the TCL_CANCEL_UNWIND flag, are set in the interpreter to mark the interpreter as having the evaluation in progress canceled.
-
- * The currently executing command/script in the interpreter is made to return with code TCL_ERROR.  (This is superior to using a novel return code, as third-party extensions are usually far better at handling error cases!)
-
- * The '''catch''' command will only catch errors if the interpreter containing it does not have the TCL_CANCEL_UNWIND flag set.
-
- * Additional trips through the internal loops of the '''after''', '''vwait''', '''update''' and '''tkwait''' commands will not proceed with the CANCELED or TCL_CANCEL_UNWIND flags set.  (Extensions can find this information out by using ''Tcl_Canceled''; see below.)
-
- * Once the execution unwinds out of the interpreter so that no further invocations of the interpreter are left on the call-stack, both of the script cancellation related flags are reset.
-
- * If there are no invocations of the interpreter on the call-stack when ''Tcl_CancelEval'' or '''cancel''' are called, then the next script to be evaluated will be preemptively canceled.
-
-~~ Notes
-
- * Going forward, all "long running commands" in the core should make every effort to comply with the script cancellation functionality by calling ''Tcl_Canceled'' at times when it is appropriate to abort processing.
-
- * Extensions can optionally check if they should abort processing by calling ''Tcl_Canceled''.
-
-~ C API
-
-The following things shall be made public:
-
-~~ Constants
-
-''TCL_CANCEL_UNWIND'' - This flag, when passed to Tcl_CancelEval, causes the stack for the script in progress to be completely unwound.
-
-~~ Functions
-
-The following functional operations are defined:
-
- * int '''Tcl_CancelEval'''(Tcl_Interp *''interp'', Tcl_Obj *''resultObjPtr'',
-   ClientData ''clientData'', int ''flags'')
-
- > Cancels the script being evaluated in the specified interpreter.  May be called on an interp from any thread in the process.
-
- * int '''Tcl_Canceled'''(Tcl_Interp *''interp'', int ''flags'')
-
- > Checks if the script being evaluated in the specified interpreter has been canceled.
-
-~ Reference Implementation
