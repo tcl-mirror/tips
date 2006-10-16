@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.170 $
+Version:        $Revision: 1.171 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -55,7 +55,7 @@ Currently, once the evaluation of a script has been initiated it will do one of 
 
  * run indefinitely.
 
-In the final case above, neither the host application nor an interactive user have any recourse to terminate the script.
+In each of the cases above, neither the host application nor an interactive user have any recourse to terminate the script prior to it running its course.
 
 There are many situations for which it is absolutely necessary to be able to cancel a running script without its cooperation and without setting an arbitrary limit on the amount of time it can run ([143]).  This is especially true in a multi-threaded application embedding environment, or where a user interface is present.
 
@@ -109,7 +109,7 @@ This command cancels the script being evaluated in an interpreter.
 
  * ''--''
 
- > * Marks the end of options.  The argument following this one will be treated as ''path'' even if it starts with a "-".
+ > * Optional. Marks the end of options.  The argument following this one will be treated as ''path'' even if it starts with a "-".
 
  * ''path''
 
@@ -123,7 +123,7 @@ This command cancels the script being evaluated in an interpreter.
 
 When a script is canceled, the following occur:
 
- * The CANCELED flag, and possibly the TCL_CANCEL_UNWIND flag, are set in the interpreter to mark the evaluation in progress as having been canceled.
+ * The ''CANCELED'' flag, and possibly the ''TCL_CANCEL_UNWIND'' flag, are set in the interpreter to mark the evaluation in progress as having been canceled.
 
  * The currently executing command/script in the interpreter is made to return with code ''TCL_ERROR''.  (This is superior to using a novel return code, as third-party extensions are usually far better at handling error cases!)
 
