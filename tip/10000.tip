@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.169 $
+Version:        $Revision: 1.170 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -51,9 +51,9 @@ Currently, once the evaluation of a script has been initiated it will do one of 
 
  * run until it encounters an uncaught error,
 
- * run until it exceeds a pre-determined limit as specified in [143],
+ * run until it exceeds a pre-determined limit as specified in [143], or
 
- * or run indefinitely.
+ * run indefinitely.
 
 In the final case above, neither the host application nor an interactive user have any recourse to terminate the script.
 
@@ -93,7 +93,7 @@ Several other mainstream scripting engines (e.g. JavaScript, Microsoft Active Sc
 
 ~ Specification
 
-A new [cancel] script command will be added, as follows:
+A new '''cancel''' script command will be added, as follows:
 
  > '''cancel''' ?'''-unwind'''? ?'''--'''? ?''path''? ?''result''?
 
@@ -103,9 +103,13 @@ This command cancels the script being evaluated in an interpreter.
 
  * ''-unwind''
 
- > * Without ''-unwind'', the evaluation stack for the interpreter is unwound until an closing '''catch''' command is found or there are no further invocations of the interpreter left on the call-stack.
+ > * Optional. Without ''-unwind'', the evaluation stack for the interpreter is unwound until an enclosing '''catch''' command is found or there are no further invocations of the interpreter left on the call-stack.
 
  > * With ''-unwind'', the evaluation stack for the interpreter is unwound without regard to any intervening '''catch''' command until there are no further invocations of the interpreter left on the call-stack.
+
+ * ''--''
+
+ > * Marks the end of options.  The argument following this one will be treated as ''path'' even if it starts with a "-".
 
  * ''path''
 
@@ -113,27 +117,27 @@ This command cancels the script being evaluated in an interpreter.
 
  * ''result''
 
- > * Optional. If not supplied, a default error message is left in the interpreter's result; otherwise, the result specified by ''result'' is used.
+ > * Optional. If not supplied, a default error message is left in the result of the interpreter; otherwise, the result specified by ''result'' is used.
 
 ~~ Behavior
 
-When the script is canceled, it bails out of the interpreter in the following way:
+When a script is canceled, the following occur:
 
- * The CANCELED flag, and possibly the TCL_CANCEL_UNWIND flag, are set in the interpreter to mark the interpreter as having the evaluation in progress canceled.
+ * The CANCELED flag, and possibly the TCL_CANCEL_UNWIND flag, are set in the interpreter to mark the evaluation in progress as having been canceled.
 
- * The currently executing command/script in the interpreter is made to return with code TCL_ERROR.  (This is superior to using a novel return code, as third-party extensions are usually far better at handling error cases!)
+ * The currently executing command/script in the interpreter is made to return with code ''TCL_ERROR''.  (This is superior to using a novel return code, as third-party extensions are usually far better at handling error cases!)
 
- * The '''catch''' command will only catch errors if the interpreter containing it does not have the TCL_CANCEL_UNWIND flag set.
+ * The '''catch''' command will only catch errors if the interpreter containing it does not have the ''TCL_CANCEL_UNWIND'' flag set.
 
- * Additional trips through the internal loops of the '''after''', '''vwait''', '''update''' and '''tkwait''' commands will not proceed with the CANCELED or TCL_CANCEL_UNWIND flags set.  (Extensions can find this information out by using ''Tcl_Canceled''; see below.)
+ * Additional trips through the internal loops of the '''after''', '''vwait''', '''update''' and '''tkwait''' commands will not proceed with the ''CANCELED'' or ''TCL_CANCEL_UNWIND'' flags set.  (Extensions can find this information out by using ''Tcl_Canceled''; see below.)
 
- * Once the execution unwinds out of the interpreter so that no further invocations of the interpreter are left on the call-stack, both of the script cancellation related flags are reset.
+ * Once the execution unwinds out of the interpreter, so that no further invocations of the interpreter are left on the call-stack, both of the script cancellation related flags are reset.
 
  * If there are no invocations of the interpreter on the call-stack when ''Tcl_CancelEval'' or '''cancel''' are called, then the next script to be evaluated will be preemptively canceled.
 
 ~~ Notes
 
- * Going forward, all "long running commands" in the core should make every effort to comply with the script cancellation functionality by calling ''Tcl_Canceled'' at times when it is appropriate to abort processing.
+ * Going forward, all "long running commands" in the Tcl/Tk core should make every effort to comply with the script cancellation functionality by calling ''Tcl_Canceled'' at times when it is appropriate to abort processing.
 
  * Extensions can optionally check if they should abort processing by calling ''Tcl_Canceled''.
 
@@ -141,25 +145,25 @@ When the script is canceled, it bails out of the interpreter in the following wa
 
 ~~ Constants
 
- * ''TCL_CANCEL_UNWIND'' - New evalFlags bit that applies to ''Tcl_CancelEval'' and ''Tcl_Canceled''.
+ * ''TCL_CANCEL_UNWIND'' - New evalFlag bit that applies to ''Tcl_CancelEval'' and ''Tcl_Canceled''.
 
- > * When used in ''flags'' for Tcl_CancelEval, the evaluation stack for the interpreter is unwound without regard to any intervening '''catch''' command until there are no further invocations of the interpreter left on the call-stack. When not set, the evaluation stack for the interpreter is unwound until an closing '''catch''' command is found or there are no further invocations of the interpreter left on the call-stack.
+ > * When used in ''flags'' for ''Tcl_CancelEval'', the evaluation stack for ''interp'' is unwound without regard to any intervening '''catch''' command until there are no further invocations of ''interp'' left on the call-stack. When not set, the evaluation stack for the interpreter is unwound until an enclosing '''catch''' command is found or there are no further invocations of ''interp'' left on the call-stack.
 
- > * When used in ''flags'' for Tcl_Canceled, checks if the script being evaluated has been canceled using the ''TCL_CANCEL_UNWIND'' flag (i.e. the evaluation stack is being completely unwound).
+ > * When used in ''flags'' for ''Tcl_Canceled'', checks if the script being evaluated has been canceled using the ''TCL_CANCEL_UNWIND'' flag (i.e. the evaluation stack for ''interp'' is being completely unwound).
 
  * ''TCL_LEAVE_ERR_MSG'' - Existing variable-related flag bit that applies to ''Tcl_Canceled'' only.
 
- > * When used in ''flags'' for Tcl_Canceled, an error message will be left in the result of ''interpreter'' if the script being evaluated has been canceled.
+ > * When used in ''flags'' for ''Tcl_Canceled'', an error message will be left in the result of ''interp'' if the script being evaluated has been canceled.
 
 ~~ Functions
 
  * int '''Tcl_CancelEval'''(Tcl_Interp *''interp'', Tcl_Obj *''resultObjPtr'', ClientData ''clientData'', int ''flags'')
 
- > Initiates cancellation of the script being evaluated in ''interp''.  Returns a standard Tcl result. If 'resultObjPtr' is NULL, a default error message will be left in the result of ''interp'' indicating that the script was canceled or unwound. If 'resultObjPtr' is not NULL, it will be used verbatim to supply the result of ''interp''. The ''clientData'' is reserved for future use and must be zero. This function may be called from any thread in the process, regardless of which thread created ''interp''.
+ > Initiates cancellation of the script being evaluated in ''interp''.  Returns a standard Tcl result. If ''resultObjPtr'' is NULL, a default error message will be left in the result of ''interp'' indicating that the script was canceled or unwound. If ''resultObjPtr'' is not NULL, it will be used verbatim to supply the result of ''interp''. The ''clientData'' is reserved for future use and must be zero. This function may be called from any thread in the process, regardless of which thread created ''interp''.
 
  * int '''Tcl_Canceled'''(Tcl_Interp *''interp'', int ''flags'')
 
- > Checks if the script being evaluated in ''interp'' has been canceled.  Returns a standard Tcl result. This function should only be called from the thread which created ''interp''; otherwise, its behavior is undefined.
+ > Checks if the script being evaluated in ''interp'' has been canceled.  Returns a standard Tcl result (i.e. ''TCL_ERROR'' if the script being evaluated has been canceled). This function should only be called from the thread which created ''interp''; otherwise, its behavior is undefined.
 
 ~ Reference Implementation
 
