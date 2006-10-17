@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -83,7 +83,7 @@ In tcllib's ::math::calculus::romberg we see
 |    # Replace f with a context-independent version
 |
 |    set f [lreplace $f 0 0 [uplevel 1 [list namespace which [lindex $f 0]]]]
-| ...
+|    ...
 |    set cmd $f
 |    lappend cmd [expr { 0.5 * ( $a + $b ) }]
 |    set v [eval $cmd]
@@ -96,7 +96,7 @@ With '''namespace invoke''' and '''invoke''' this would be coded as
 
 |    set ns [invoke 1 namespace current]
 |    set f [list namespace invoke $ns {expand}$f]
-| ...
+|    ...
 |    set v [{expand}$f [expr { 0.5 * ( $a + $b ) }]]
 
 If both new commands took the ''cmd'' argument as a prefix to be
@@ -104,7 +104,7 @@ expanded (as suggested by some early commenters), it would be even nicer for thi
 
 |    set ns [invoke 1 [list namespace current]]
 |    set f [list namespace invoke $ns $f]
-| ...
+|    ...
 |    set v [invoke 0 $f [expr { 0.5 * ( $a + $b ) }]]
 
 ~ Copyright
