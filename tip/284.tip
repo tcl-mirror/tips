@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -53,7 +53,10 @@ good use of '''namespace path''' and '''namespace unknown''' features.
 
 The new command '''invoke''' could be implemented in 8.5 as:
 
-|   set lam [list {level cmd args} {
+|   set lam [list {level args} {
+|       if {[llength $args] == 0} {
+|           return -code error SomeMessage
+|       }
 |       if {[string is integer $level] && ($level >= 0)} {
 |           incr level
 |       }
