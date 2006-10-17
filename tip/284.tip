@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -78,17 +78,18 @@ implementation of '''namespace invoke'''.
 
 ~ Sample usage
 
-In tcllib's ::math::calculus::romberg we see
+In tcllib's ::math::calculus::romberg we see (edited)
 
 |    # Replace f with a context-independent version
 |
-|    set f [lreplace $f 0 0 [uplevel 1 [list namespace which [lindex $f 0]]]]
+|    set fqname [uplevel 1 [list namespace which [lindex $f 0]]]
+|    set f [lreplace $f 0 0 $fqname]
 |    ...
 |    set cmd $f
 |    lappend cmd [expr { 0.5 * ( $a + $b ) }]
 |    set v [eval $cmd]
 
-where the command name in the prefix ''f'' is replaced with it fully
+where the command name in the prefix ''f'' is replaced with its fully
 qualified name. A further variable is lappended, and the result is
 sent to '''eval'''.
 
