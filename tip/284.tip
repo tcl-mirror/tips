@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -75,6 +75,37 @@ implementation of '''namespace invoke'''.
    1. '''namespace inscope''' does a magic expansion of the first argument, '''namespace invoke''' takes the first argument as a command name. In other words, '''namespace inscope''' can be used with a command prefix. ''Feedback on the semantics suggest that this is a worthy feature, very useful for packing up command prefixes. This tip may yet be revised or withdrawn to take that into consideration.''
 
    1. both '''namespace eval''' and '''namespace inscope''' add a call frame,'''namespace invoke''' does not - it invokes in the caller's frame
+
+~ Sample usage
+
+In tcllib's ::math::calculus::romberg we see
+
+|    # Replace f with a context-independent version
+|
+|    set f [lreplace $f 0 0 [uplevel 1 [list namespace which [lindex $f 0]]]]
+| ...
+|    set cmd $f
+|    lappend cmd [expr { 0.5 * ( $a + $b ) }]
+|    set v [eval $cmd]
+
+where the command name in the prefix ''f'' is replaced with it fully
+qualified name. A further variable is lappended, and the result is
+sent to '''eval'''.
+
+With '''namespace invoke''' and '''invoke''' this would be coded as
+
+|    set ns [invoke 1 namespace current]
+|    set f [list namespace invoke $ns {expand}$f]
+| ...
+|    set v [{expand}$f [expr { 0.5 * ( $a + $b ) }]]
+
+If both new commands took the ''cmd'' argument as a prefix to be
+expanded (as suggested by some early commenters), it would be even nicer for this usage:
+
+|    set ns [invoke 1 [list namespace current]]
+|    set f [list namespace invoke $ns $f]
+| ...
+|    set v [invoke 0 $f [expr { 0.5 * ( $a + $b ) }]]
 
 ~ Copyright
 
