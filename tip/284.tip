@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -69,9 +69,7 @@ which helps to illustrate the use of '''invoke''': to simplify these
 [[RFE 1577324]] (which depends on [[Patch 1577278]]) provides an
 implementation of '''namespace invoke'''.
 
-~ Comments
-
-   * Differences to other commands
+~ Differences to other commands
 
    1. Both these commands perform command invocation, as opposed to the script evaluation done by '''eval''', '''uplevel''' and '''namespace eval'''
 
