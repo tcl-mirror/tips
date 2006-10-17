@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -51,8 +51,8 @@ approriate for them.
 
 ~ Proposed Change
 
-To support this, I propose adding a '''prefix''' ensemble with the
-following subcommands
+To support this, I propose adding a '''::tcl::prefix''' ensemble with
+the following subcommands
 
  * '''prefix''' '''match''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
 
@@ -85,6 +85,7 @@ an empty string is returned.
 
 Basic use:
 
+|% namespace import ::tcl::prefix
 |% prefix match {apa bepa cepa} apa
 |apa
 |% prefix match {apa bepa cepa} a
@@ -116,7 +117,7 @@ Switch similar to [105]:
 ~ Alternative names
 
 Alternative names for the command that have been suggested are
-'''tcl::prefix''', '''string prefix''', '''string disambiguate''',
+'''prefix''', '''string prefix''', '''string disambiguate''',
 '''string prefixmatch''', '''string matchprefix''' and
 '''lsearch -prefix'''.
 
