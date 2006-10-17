@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -51,9 +51,9 @@ resolved (functionality which was very difficult to use previously using the
 script-level API). In this manner it is possible for the invocation to make
 good use of '''namespace path''' and '''namespace unknown''' features.
 
-The new command '''invoke''' could be implemented in 8.5 as:
+The new command '''invoke''' could be implemented as:
 
-|   set lam [list {level args} {
+|   proc invoke {level args} {
 |       if {[llength $args] == 0} {
 |           return -code error SomeMessage
 |       }
@@ -62,7 +62,6 @@ The new command '''invoke''' could be implemented in 8.5 as:
 |       }
 |       uplevel $level $args
 |   }]
-|   interp alias {} invoke {} ::apply $lam
 
 ~ Reference Implementation and Documentation
 
