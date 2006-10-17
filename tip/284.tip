@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -70,9 +70,9 @@ implementation of '''namespace invoke'''.
 
 ~ Differences to other commands
 
-   1. Both these commands perform command invocation, as opposed to the script evaluation done by '''eval''', '''uplevel''' and '''namespace eval'''
+   1. Both these commands perform command invocation, as opposed to the script evaluation done by '''eval''', '''uplevel''', '''namespace eval''' and '''namespace inscope'''
 
-   1. '''namespace inscope''' does a magic expansion of the first command argument, '''namespace invoke''' takes the first command argument as a command name. In other words, it is not a really a command but rather a command prefix. ''Feedback on the semantics suggest that this is a worthy feature, very useful for packing up command prefixes. This tip may yet be revised or withdrawn to take that into consideration.''
+   1. '''namespace inscope''' does a magic expansion of the first argument, '''namespace invoke''' takes the first argument as a command name. In other words, '''namespace inscope''' can be used with a command prefix. ''Feedback on the semantics suggest that this is a worthy feature, very useful for packing up command prefixes. This tip may yet be revised or withdrawn to take that into consideration.''
 
    1. both '''namespace eval''' and '''namespace inscope''' add a call frame,'''namespace invoke''' does not - it invokes in the caller's frame
 
