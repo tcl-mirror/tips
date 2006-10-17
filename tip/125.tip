@@ -1,6 +1,6 @@
 TIP:            125
 Title:          Converting between Frame and Toplevel Windows
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Sacha Schär <sacha.schaer@unibas.ch>
@@ -9,7 +9,7 @@ Type:           Project
 Vote:           Pending
 Created:        20-Jan-2003
 Post-History:   
-Keywords:       reparent, Tk
+Keywords:       reparent,Tk
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -130,6 +130,13 @@ I see, that with this more general behaviour, the path name becomes a
 problem. Therefore I propose the alternative approach, of making the
 '''-container''' and '''-use''' options dynamically configurable as
 already discussed in the past
+
+From Brian:
+The problem is that we can't reparent widgets without changing their tk widget pathname.  Doing this introduces all kinds of sticky problems.
+
+In practice, the decoration is in the form of Menus, Toolbars, and Footers.  All of these things can (must) be created and managed as part of the dock/undock process.  The way to do this is to create these things the first time a window is undocked, then just "hide" them when redocking the window; they still exist, but are just not mapped anywhere, until the next time the window is undocked.
+
+The bottom line is that the wm manage command does not do *everything* you need when performing an undock operation; it is only a small piece of the pie, but a very critical one.
 
 ~ Copyright
 
