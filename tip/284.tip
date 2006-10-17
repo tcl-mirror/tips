@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -60,9 +60,6 @@ The new command '''invoke''' could be implemented in 8.5 as:
 |       uplevel $level $args
 |   }]
 |   interp alias {} invoke {} ::apply $lam
-
-which helps to illustrate the use of '''invoke''': to simplify these
-'''uplevel'''+'''list''' tricks.
 
 ~ Reference Implementation and Documentation
 
