@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -103,6 +103,7 @@ Today this returns
 |   I am called as: ::ens::foo
 
 With this TIP, only the last line would be changed to
+
 |   I am called as: foo
 
 ~ Remarks
