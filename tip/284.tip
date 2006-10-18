@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -107,6 +107,19 @@ expanded (as suggested by some early commenters), it would be even nicer for thi
 |    set f [list namespace invoke $ns $f]
 |    ...
 |    set v [invoke 0 $f [expr { 0.5 * ( $a + $b ) }]]
+
+The same thing (with slightly different semantics and a performance cost due to script evaluation instead of command invocation) could be obtained today by doing
+
+|    set f [uplevel 1 [list namespace code [list uplevel 1 $f]]]
+|    ...
+|    set v [eval [lappend f [expr { 0.5 * ( $a + $b ) }]]]
+
+In order to fully reproduce the semantics and performance it would have to be
+
+|    set f [uplevel 1 [list namespace code [list uplevel 1 $f]]]
+|    ...
+|    lset f end end [linsert [lindex $f end end] end [expr { 0.5 * ( $a + $b ) }]]  
+|    set v [eval $f]
 
 ~ Copyright
 
