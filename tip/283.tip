@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -157,8 +157,10 @@ Today this returns
 |   I am ::ens::foo
 |   I am called as: ::ens::foo
 
-With this TIP, only the last line would be changed to
+With this TIP, only the last line would be changed:
 
+|   Caller namespace is: ::caller
+|   I am ::ens::foo
 |   I am called as: foo
 
 ~ Remarks
