@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -75,7 +75,62 @@ implementation, with tests and docs.
 
 ~ Illustration
 
-One commenter asked what the difference would be in the following code:
+   * Consider the following script (without FQ names) stored in /tmp/test:
+
+|   namespace eval a {
+|       proc check args {return YES}
+|   }
+|   namespace eval b {
+|       namespace path ::a
+|       namespace ensemble create \
+|           -command ::b \
+|           -map {go check}
+|   }
+|   namespace eval c {
+|       namespace path ::a
+|       namespace ensemble create \
+|           -command ::c \
+|           -map {go check} \
+|           -unknown u
+|       proc u args {return check}
+|   }
+|   namespace eval d {
+|       namespace unknown u
+|       namespace ensemble create \
+|           -command ::d \
+|           -map {go check}
+|       proc u args {::a::check}
+|   }
+|   array set res {}
+|   foreach cmd {b c d} {
+|       foreach scmd {foo go} {
+|           catch {$cmd $scmd} msg
+|           set res($cmd|$scmd) $msg
+|       }
+|   }
+|   parray res
+
+Currently the output is
+
+|   mig@ice:~$ tclsh /tmp/test
+|   res(b|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(b|go)  = invalid command name "::b::check"
+|   res(c|foo) = invalid command name "u"
+|   res(c|go)  = invalid command name "::c::check"
+|   res(d|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(d|go)  = invalid command name "::d::check"
+
+After this TIP, it should be
+
+|   mig@ice:~$ tclsh /tmp/test
+|   res(b|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(b|go)  = YES
+|   res(c|foo) = YES
+|   res(c|go)  = YES
+|   res(d|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(d|go)  = YES
+
+   * One commenter asked what the difference would be in the following code:
 
 |   namespace eval ens {
 |       proc foo {} {
