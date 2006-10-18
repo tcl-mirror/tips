@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -72,6 +72,36 @@ direction.
 
 [[RFE 1577282]] (which depends on [[Patch 1577278]]) provides an
 implementation, with tests and docs.
+
+~ Illustration
+
+One commenter asked what the difference would be in the following code:
+
+|   namespace eval ens {
+|       proc foo {} {
+|           puts "Caller namespace is: [uplevel 1 namespace current]"
+|           puts "I am [namespace origin foo]"
+|           puts "I am called as: [lindex [info level 0] 0]"
+|       }
+|       namespace export ens
+|       namespace ensemble create -command ens -map {sub foo}
+|   }
+|   namespace eval caller {
+|       proc foo {} {
+|           puts "Caller namespace is: [uplevel 1 namespace current]"
+|           puts "I am [namespace origin foo]"
+|           puts "I am called as: [lindex [info level 0] 0]"
+|       }
+|       namespace import ::ens::ens
+|       ens sub
+|   }
+
+Today this returns 
+|   Caller namespace is: ::caller
+|   I am ::ens::foo
+|   I am called as: ::ens::foo
+With this TIP, only the last line would be changed to
+|   I am called as: foo
 
 ~ Remarks
 
