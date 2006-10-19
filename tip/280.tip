@@ -1,6 +1,6 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -128,6 +128,10 @@ meanings for their values.
  > This entry is always present and describes the nature of the location for
    the command. The recognized values are '''source''', '''proc''',
    '''eval''', and '''precompiled'''.
+
+ > In some circumstances it makes sense to have this information
+   extensible, i.e. to allow user-defined type names. for more about
+   this topic see the discussion at the end of the document.
 
  > * '''source''' means that the command is found in a script loaded by the
      '''source''' command.
@@ -353,6 +357,51 @@ Given the security considerations of safe interps, and consistancy with
 regards to what information is returned across multiple circumstances, the
 stack trace returned will only return information up to the top level of the
 current interp, the same limit '''info level''' is bound by.
+
+~ Discussion
+
+A point noted by Lars Hellstrom is that this TIP makes the builtin
+source command special. It is not possible anymore to re-create source
+purely in Tcl, doing so will loose the name of the file. We are still
+tracking line numbers, but they are then relative to the start of the
+eval'd script, withut a connection to the file.
+
+In a similar way user-defined control structures loose the ability of
+the builtin ''if'', etc. to track line numbers in a literal code block
+relative to the enclosing file. The user-defined commands are again
+reduced to providing line numbers relative to the start of the code
+block.
+
+To bring user-defined commands back to the same level
+as the builtins we need:
+
+ 1. An extension of [info frame] which delivers the line information
+    for all words of the command we are inside of.  As each word can
+    start on a different line (because of continuation lines and
+    preceding multi-line literals).
+
+ > This information is actually already available internally. The
+   current implementation needs it for the tracking into literals.
+
+ 1. Extensions to the ''uplevel'' and ''eval'' commands which allows a
+    script to provide them with location information for the script
+    they are evaluating.
+
+Example
+| proc newsource {foo script} {
+|   ... preprocess whatever ...
+|   set loc [info frame data for word 2]
+|   uplevel -location $loc 1 $script
+| }
+
+Internally we also need quite a bit more flexible data structures. The
+type names for example are defined through a C enum, and can be
+checked quickly and efficiently. The file information, i.e. path, is
+stored and used dependent on that, only for type 'source'.
+
+To keep this TIP and its implementation reasonably small the actual
+detailed specification and implementation of such extensibility is
+defered to a future TIP.
 
 ~ Reference Implementation
 
