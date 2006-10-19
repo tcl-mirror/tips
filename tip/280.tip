@@ -1,6 +1,6 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -152,8 +152,8 @@ meanings for their values.
 
  * '''file'''
 
- > This entry is present only for type '''source'''. It provides the path of
-   the file the command is in.
+ > This entry is present only for type '''source'''. It provides the
+   normalized path of the file the command is in.
 
  * '''cmd'''
 
