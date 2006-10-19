@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -1073,7 +1073,7 @@ The following public datatypes shall be declared in tcl.h:
    It shall have the following fields:
 
  > version: The version number of the structure, which should always be
-   referred to as TCL_OO_VERSION_NUMBER_CURRENT in source code (currently
+   referred to as TCL_OO_METHOD_VERSION_CURRENT in source code (currently
    ignored, but allows transparent versioning in the future).
 
  > name: The name of the method type, for debugging.
@@ -1086,8 +1086,26 @@ The following public datatypes shall be declared in tcl.h:
    If NULL, no deletion of the ''clientData'' is required.
 
  > cloneProc: A pointer to a function that defines how to copy the
-   ''clientData'' associated with a particular method implementation instance.
-   If NULL, the method will be cloned by just copying the ''clientData''.
+   ''clientData'' associated with a particular method implementation instance
+   during the copying of an object or class with '''oo::copy'''. If NULL, the
+   method will be cloned by just copying the ''clientData''.
+
+ Tcl_ObjectMetadataType: A structure describing the type of some arbitrary
+   non-NULL metadata attached to an object or class. It shall have the
+   following fields:
+
+ > version: The version number of the structure, which should always be
+   referred to as TCL_OO_METADATA_VERSION_CURRENT in source code (currently
+   ignored, but allows for transparent versioning in the future).
+
+ > name: The name of the metadata type, for debugging.
+
+ > deleteProc: A pointer to a function that defines how to delete some
+   metadata associated with this type. Must not be NULL.
+
+ > cloneProc: A pointer to a function that defines how to copy some metadata
+   associated with this type during the copying of an object or class with
+   '''oo::copy'''. If NULL, the metadata will not be copied.
 
  Tcl_MethodCallProc: The type of the ''callProc'' field of the Tcl_MethodType
    structure. It is a pointer to a function that is used to implement how a
@@ -1123,6 +1141,19 @@ The following public datatypes shall be declared in tcl.h:
    the cloned ''clientData'') and returns either TCL_OK or TCL_ERROR, with the
    method only being cloned if the result is TCL_OK (the method is silently
    not cloned otherwise).
+
+ Tcl_ObjectMetadataDeleteProc: The type of the ''deleteProc'' field of the
+   Tcl_ObjectMetadataType structure. It is a pointer to a function that is
+   used to delete ''metadata'' values attached to an object or a class. It
+   takes a single argument (the ''metadata'' to delete) and has no return
+   value.
+
+ Tcl_ObjectMetadataCloneProc: The type of the ''cloneProc'' field of the
+   Tcl_ObjectMetadataType structure. It is a pointer to a function that is
+   used to create a copy of ''metadata'' values attached to an object or a
+   class. It takes a single argument (the ''metadata'' to copy) and returns
+   the copied metadata (or NULL if the metadata is not to be copied to the
+   cloned object or class).
 
 ~~ Functions
 
@@ -1169,6 +1200,36 @@ The following functional operations are defined:
 
  > Tcl_Object '''Tcl_GetObjectFromObj'''(Tcl_Interp *''interp'', Tcl_Obj
    *''objPtr'')
+
+ Tcl_ClassGetMetadata: This function retrieves the metadata attached to the
+   class ''clazz'' that is associated with the type ''typePtr''. It returns
+   NULL if no data of that type is attached.
+
+ > ClientData '''Tcl_ClassGetMetadata'''(Tcl_Class ''clazz'', const
+   Tcl_ObjectMetadataType *''typePtr'')
+
+ Tcl_ClassSetMetadata: This function attaches metadata, ''metadata'', of a
+   specific type, ''typePtr'', to the class, ''clazz'', or removes the
+   metadata of that type if ''metadata'' is NULL. It is a no-op to remove
+   metadata of a type that is not attached in the first place.
+
+ > void '''Tcl_ClassSetMetadata'''(Tcl_Class ''clazz'', const
+   Tcl_ObjectMetadataType *''typePtr'', ClientData ''metadata'')
+
+ Tcl_ObjectGetMetadata: This function retrieves the metadata attached to the
+   object ''object'' that is associated with the type ''typePtr''. It returns
+   NULL if no data of that type is attached.
+
+ > ClientData '''Tcl_ObjectGetMetadata'''(Tcl_Object ''object'', const
+   Tcl_ObjectMetadataType *''typePtr'')
+
+ Tcl_ObjectSetMetadata: This function attaches metadata, ''metadata'', of a
+   specific type, ''typePtr'', to the object, ''object'', or removes the
+   metadata of that type if ''metadata'' is NULL. It is a no-op to remove
+   metadata of a type that is not attached in the first place.
+
+ > void '''Tcl_ObjectSetMetadata'''(Tcl_Object ''object'', const
+   Tcl_ObjectMetadataType *''typePtr'', ClientData ''metadata'')
 
 The following pure inspective (i.e., non-state changing) operations are
 defined:
