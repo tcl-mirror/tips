@@ -1,6 +1,6 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -50,15 +50,16 @@ line the command is on, its context, etc.
 
 Other use cases, also found in [211]:
 
- 1. '''TclTest'''
+ 1. '''tcltest''', and other testing frameworks.
 
- > The first case is with Tcltest, where the complete lack of ability to gain
-   access to that information means it is impossible to gain information about
-   a test without modifying the Tcltest code itself. Being able to find out
-   the name of the current test would be very handy, especially in naming test
-   procs and logging information. Currently, there is no way to find out the
-   name of the currently executing test, due to the fact that the code for the
-   test is '''uplevel'''ed and, hence, not visible via '''info level'''.
+ > The first case is with the core's Tcltest package, where the
+   complete lack of ability to gain access to that information means
+   it is impossible to gain information about a test without modifying
+   the Tcltest code itself. Being able to find out the caller info
+   would be very useful, especially for logging information. Currently,
+   there is no way to get the caller's info, due to the fact that the
+   code for the test is ''uplevel''ed and, hence, not visible via
+   '''info level'''.
 
  2. '''TestStubs Package'''
 
