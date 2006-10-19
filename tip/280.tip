@@ -1,15 +1,16 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        10-Aug-2004
 Post-History:   
 Keywords:       Tcl
+Obsoletes:      211
 Tcl-Version:    8.5
-Obsoletes:	211
 
 ~ Abstract
 
@@ -203,8 +204,8 @@ out of the result dictionaries to keep them small.
 | eval $script                 ; # 11  - output: {cmd {...} line 2 type eval}
 |                              ; # 12
 | eval {                       ; # 13  1
-|     puts [info frame 0]      ; # 14  2*
-| }                            ; # 15  3  - output: {cmd {...} line 2 type eval}
+|     puts [info frame 0]      ; # 14* 2*
+| }                            ; # 15  3  - output: {cmd {...} line 14 type source}
 |                              ; # 16
 | proc fox {} {                ; # 17  /fox remembers 17
 |     eval $::script           ; # 18
@@ -213,25 +214,25 @@ out of the result dictionaries to keep them small.
 |                              ; # 21
 | proc squirrel {} {           ; # 22  /squirrel remembers 22
 |     eval {                   ; # 23  1
-|         puts [info frame 0]  ; # 24  2*
+|         puts [info frame 0]  ; # 24* 2*
 |     }                        ; # 25  3
 | }                            ; # 26
-| squirrel                     ; # 27  - output: {cmd {...} line 2 type eval}
+| squirrel                     ; # 27  - output: {cmd {...} line 24 type source}
 |                              ; # 28
 | proc fuchs {} {              ; # 29    /fuchs remembers 29
-|     proc dog {} {            ; # 30  1 /dog   remembers 1
-|         puts [info frame 0]  ; # 31  2*
+|     proc dog {} {            ; # 30  1 /dog   remembers 30
+|         puts [info frame 0]  ; # 31* 2*
 |     }                        ; # 32  3
 | }                            ; # 33
 | fuchs                        ; # 34
-| dog                          ; # 35  - output: {cmd {...} line 2 type proc}
+| dog                          ; # 35  - output: {cmd {...} line 31 type source}
 |                              ; # 36
 | eval {                       ; # 37  1
-|     proc wolf {              ; # 38  2 /wolf remembers 2
-|         puts [info frame 0]  ; # 39  3*
+|     proc wolf {              ; # 38  2 /wolf remembers 38
+|         puts [info frame 0]  ; # 39* 3*
 |     }                        ; # 40  4
 | }                            ; # 41  5
-| wolf                         ; # 42  - output: {cmd {...} line 3 type eval}
+| wolf                         ; # 42  - output: {cmd {...} line 39 type source}
 |                              ; # 43
 | set scripted {               ; # 44  1
 |     proc deer {} {           ; # 45  2 /deer remembers 2
@@ -261,7 +262,6 @@ out of the result dictionaries to keep them small.
 | }                            ; # 69
 | trout                        ; # 70  - output: {cmd {info $method 0} line 68 type source file EX}
 | __________________________________________________
-
 
 Another example showing how to query the whole stack of frames. It assumed
 that the file is named EX. The output shown after the example was manually
