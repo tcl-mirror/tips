@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -626,12 +626,6 @@ when not in the script form) shall be:
 
  > '''oo::define''' ''class'' '''constructor''' ''argList'' ''body''
 
- * '''copy''' - this creates an exact copy of an object with the given name.
-   If ''name'' is the empty string or unspecified, a new name will be
-   generated automatically. The syntax is as follows:
-
- > '''oo::define''' ''object'' '''copy''' ?''name''?
-
  * '''destructor''' - this is valid only for classes. It defines the class
    destructor; a destructor is like a method but takes no arguments. It is
    called by the object's '''destroy''' method, which is defined automatically
@@ -741,6 +735,19 @@ that class (which is why the distinction is required).
 
  * '''self.unexport''' - This is a per-object version of the '''unexport'''
    subcommand, to which it is syntactically identical.
+
+~~ The oo::copy Command
+
+The '''oo::copy''' command creates an exact copy of an object with the given
+name. If ''newName'' is the empty string or unspecified, a new name will be
+generated automatically. The syntax is as follows:
+
+ > '''oo::copy''' ''object'' ?''newName''?
+
+Note that this command does ''not'' copy the backing namespace, and nor does
+it execute any constructors. It is therefore up to the caller to copy such
+internal state of the object an the manner suitable for the object and its
+class tree.
 
 ~ Core Objects
 
@@ -942,21 +949,21 @@ appropriate. The following types of information shall be available:
    whether the object is (directly or indirectly through inheritance or mixin)
    an instance of the named class.
 
- > '''info object''' ''object'' '''class''' ?''className''?
+ > '''info object class''' ''object'' ?''className''?
 
  definition: Returns the formal argument list and body used to define a
    method.
 
- > '''info object''' ''object'' '''definition''' ''method''
+ > '''info object definition''' ''object method''
 
  filters: Returns the list of filters defined for an object.
 
- > '''info object''' ''object'' '''filters'''
+ > '''info object filters''' ''object''
 
  forward: Returns the list of words that form the command prefix that a
    method is forwarded to.
 
- > '''info class''' ''class'' '''forward''' ''method''
+ > '''info object forward''' ''object method''
 
  isa: Returns boolean information about how an object relates to the class
    hierarchy. Supports a range of subcommands to allow the specification of
@@ -964,40 +971,40 @@ appropriate. The following types of information shall be available:
 
  > class: Returns whether the named object is a class.
 
- > > '''info object''' ''object'' '''isa class'''
+ > > '''info object isa class''' ''object''
 
  > metaclass: Returns whether the named object is a class that is not of
      immediate type '''oo::class''' but rather one of its subtypes instead.
 
- > > '''info object''' ''object'' '''isa metaclass'''
+ > > '''info object isa metaclass''' ''object''
 
  > mixin: Returns whether the named object has ''mixinClassName'' as one of
      its mixins.
 
- > > '''info object''' ''object'' '''isa mixin''' ''mixinClassName''
+ > > '''info object isa mixin''' ''object mixinClassName''
 
  > object: Returns whether ''object'' really names an object.
 
- > > '''info object''' ''object'' '''isa object'''
+ > > '''info object isa object''' ''object''
 
  > typeof: Returns whether the objec is of type ''class'' (i.e. an instance of
      that class or an instance of a subclass of that class).
 
- > > '''info object''' ''object'' '''isa typeof''' ''class''
+ > > '''info object isa typeof''' ''object class''
 
  methods: Returns the list of methods defined for an object.
 
- > '''info object''' ''object'' '''methods'''
+ > '''info object methods''' ''object''
 
  mixins: Returns the list of mixins for an object.
 
- > '''info object''' ''object'' '''mixins'''
+ > '''info object mixins''' ''object''
 
  vars: Returns the list of all variables defined within the object, or
    optionally just those that match ''pattern'' according to the rules of
    '''string match'''.
 
- > '''info object''' ''object'' '''vars''' ?''pattern''?
+ > '''info object vars''' ''object'' ?''pattern''?
 
 ~~ An [info class] Subcommand
 
@@ -1010,47 +1017,53 @@ appropriate. The following types of information shall be available:
  constructor: Returns the formal argument list and body used to define the
    constructor, or an empty list if no constructor is present.
 
- > '''info class''' ''class'' '''constructor'''
+ > '''info class constructor''' ''class''
 
  definition: Returns the formal argument list and body used to define a
    method.
 
- > '''info class''' ''class'' '''definition''' ''method''
+ > '''info class definition''' ''class method''
 
  destructor: Returns the body of the destructor, or an empty string if no
    destructor is present.
 
- > '''info class''' ''class'' '''destructor'''
+ > '''info class destructor''' ''class''
 
  filters: Returns the list of filters defined for a class.
 
- > '''info class''' ''class'' '''filters'''
+ > '''info class filters''' ''class''
 
  forward: Returns the list of words that form the command prefix that a
    method is forwarded to.
 
- > '''info class''' ''class'' '''forward''' ''method''
+ > '''info class forward''' ''class method''
 
  instances: Returns a list of all direct instances of the class (but not
    instances of any subclasses of the class), or optionally just those that
    match ''pattern'' according to the rules of '''string match'''.
 
- > '''info class''' ''class'' '''instances''' ?''pattern''?
+ > '''info class instances''' ''class'' ?''pattern''?
 
  methods: Returns the list of methods defined by a class. This includes all
    forwards for the class.
 
- > '''info class''' ''class'' '''methods'''
+ > '''info class methods''' ''class''
 
  subclasses: Returns a list of all subclasses of the class, or optionally just
    those that match ''pattern'' according to the rules of '''string match'''.
 
- > '''info class''' ''class'' '''subclasses''' ?''pattern''?
+ > '''info class subclasses''' ''class'' ?''pattern''?
 
  superclasses: Returns a list of all superclasses of the named class in the
    class hierarchy. The list will be ordered in inheritance-precedence order.
 
- > '''info class''' ''class'' '''superclasses'''
+ > '''info class superclasses''' ''class''
+
+~~ Extending the Introspection Capabilities
+
+Other forms of introspection subcommands may be added to '''info object''' and
+'''info class''' by creating commands in the namespaces '''oo::InfoObject'''
+and '''oo::InfoClass''' respectively.
 
 ~ C API
 
