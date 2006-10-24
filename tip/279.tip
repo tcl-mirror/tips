@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 State:          Draft
 Type:           Project
@@ -64,8 +64,8 @@ meta-class ('''::oo::class''', subclass of '''::oo::object''').
 |   ::oo::object   class          ::oo::object   ::oo::class
 |   ::oo::class    meta-class     ::oo::object   ::oo::class
 
-The meta-class '''::oo::class''' has a single method named "'''alloc'''" (name
-is arbitrary, as shown later) to create objects or classes. '''::oo::object'''
+The meta-class '''::oo::class''' has two methods named "'''alloc'''" and "'''dealloc'''"  
+(names are arbitrary, as shown later) to create objects or classes. '''::oo::object'''
 has no methods at all.
 
 The minimal object system is intended to be specialized by one or more
@@ -80,20 +80,24 @@ The minimal object system defines the following commands and methods
 in the ::oo namespace:
 
  * Two classes
+
 |   ::oo::class
 |   ::oo::object
 
  * Two unexported Tcl commands for OO-language designer
+
 |   ::oo::alias
 |   ::oo::setrelation
 
  * Three exported Tcl commands to be used by in the languages
+
 |   ::oo::my
 |   ::oo::self
 |   ::oo::next 
 
  * An unregistered (unattached) set of methods that can be used for classes
-|   alloc, instproc, instforward, info
+
+|   alloc, dealloc, instproc, instforward, info
 
  * An unregistered (unattached) set of methods that can be used to objects
 |   instvar forward info
@@ -135,7 +139,7 @@ This is not what we want to have. ''tcl-cool::object''
 should be the most general superclass of TclCOOL, and
 ''tcl-cool::class'' should be the most general superclass of
 TclCOOL. Without this redefinition ::tcl-cool::class and 
-::tcl-cool::object would not have methods (except alloc),
+::tcl-cool::object would not have methods (except alloc and dealloc),
 even if we provide methods for these base classes.
 
 ~~~ Define the basic class relations:
@@ -303,10 +307,16 @@ and its stack.
 
  * XOTcl 1.5.3alpha is the reference dispatcher (it should be rewritten
    for inclusion in the core, and serves here only as proof-of-concept)
-   [http://media.wu-wien.ac.at/download/xotcl-1.5.3-alpha.tar.gz].
+   [http://media.wu-wien.ac.at/download/xotcl-1.5.3-alpha2.tar.gz].
 
  * Example of the TclCOOL language (to be the _part_ of the framework)
    [http://media.wu-wien.ac.at/download/tcl-cool.tcl]
+
+ * Example of a subset of ITcl based on this TIP (implemented with 
+   the framework, runs already part of the itcl regression tests:
+   protection.test and basic.test, in the latter, only three error 
+   messages differ) 
+   [http://media.wu-wien.ac.at/download/itcl.tcl]
 
  * Example of the XOTcl language (as implemented _with_ the framework):
    See generic/predefined.xotcl in the XOTcl 1.5.3alpha reference 
