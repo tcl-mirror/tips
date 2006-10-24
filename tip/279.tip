@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 State:          Draft
 Type:           Project
@@ -318,7 +318,8 @@ and its stack.
    messages differ) 
    [http://media.wu-wien.ac.at/download/itcl.tcl]
 
- * Example of the XOTcl language (as implemented _with_ the framework):
+ * Example of the XOTcl language (as implemented ''with'' the
+   framework):
    See generic/predefined.xotcl in the XOTcl 1.5.3alpha reference 
    implementation
 
