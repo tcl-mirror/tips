@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 State:          Draft
 Type:           Project
@@ -309,7 +309,7 @@ and its stack.
    for inclusion in the core, and serves here only as proof-of-concept)
    [http://media.wu-wien.ac.at/download/xotcl-1.5.3-alpha2.tar.gz].
 
- * Example of the TclCOOL language (to be the _part_ of the framework)
+ * Example of the TclCOOL language (to be the ''part'' of the framework)
    [http://media.wu-wien.ac.at/download/tcl-cool.tcl]
 
  * Example of a subset of ITcl based on this TIP (implemented with 
