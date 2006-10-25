@@ -1,10 +1,11 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Peter Spjuth <peter.spjuth@space.se>
+Author:         Kevin B. Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -77,9 +78,15 @@ Operator '''**''' is right associative, which needs to be noted clearly.
 
 |Op/argc  0   1   2     3-
 |**       1   a   a**b  a**(b**(c...))
-|<<       err a   a<<b  ((a<<b)<<c)...
-|>>       err a   a>>b  ((a>>b)>>c)...
-|%        err a   a%b   ((a%b)%c)...
+
+Nonassociative operators must always be binary.
+
+|Op/argc  0   1   2      3-
+|<<       err err a<<b   err
+|>>       err err a>>b   err
+|%        err err a%b    err
+|!=       err err a!=b   err
+|ne       err err a ne b err
 
 Unary minus is negation. Unary divide is inversion.
 
@@ -87,9 +94,22 @@ Unary minus is negation. Unary divide is inversion.
 |-        err -a    a-b  ((a-b)-c)...
 |/        err 1.0/a a/b  ((a/b)/c)...
 
-Comparison operators '''< > <= >= == !=''' "'''eq'''" "'''ne'''" always take two args.
+Comparison operators other than '''!=''' and '''ne''' test for
+ordering:
+
+Op/argc   0   1     2      3+
+<         1   1     a<b    ((a<b)&&(b<c)&&...)
+<=        1   1     a<=b   ((a<=b)&&(b<=c)&&...)
+>         1   1     a>b    ((a>b)&&(b>c)&&...)
+>=        1   1     a>=b   ((a>=b)&&(b>=c)&&...)
+==        1   1     a==b   ((a==b)&&(b==c)&&...)
+eq        1   1     a eq b ((a eq b)&&(b eq c)&&...)
 
 List operators "'''in'''" "'''ni'''" always take two args.
+
+Op/argc   0   1     2       3+
+in        err err   a in b  err
+ni        err err   a ni b  err
 
 The operators that do conditional evaluation of their arguments (&&, || and
 ?:) are not included. This is because their characteristic evaluation laziness
@@ -108,15 +128,6 @@ to consider the effects of bracing expressions.
 Sum of a list becomes
 
 | set sum [+ {expand}$list]
-
-~ Possible Additions
-
-Extend comparison operators to allow variadic args. Zero or one arg
-returns true and with three args it becomes e.g. "(a op b) && (b op c)".
-That offers the opportunity to test "is this list sorted?"
-with [[<= {expand}$list]].
-
-Include && and || as logical operators. Add ^^ operator for logical xor.
 
 ~ Implementation
 
