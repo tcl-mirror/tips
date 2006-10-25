@@ -1,12 +1,12 @@
 TIP:            125
 Title:          Converting between Frame and Toplevel Windows
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Sacha Schär <sacha.schaer@unibas.ch>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        20-Jan-2003
 Post-History:   
 Keywords:       reparent,Tk
