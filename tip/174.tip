@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -97,19 +97,19 @@ Unary minus is negation. Unary divide is inversion.
 Comparison operators other than '''!=''' and '''ne''' test for
 ordering:
 
-Op/argc   0   1     2      3+
-<         1   1     a<b    ((a<b)&&(b<c)&&...)
-<=        1   1     a<=b   ((a<=b)&&(b<=c)&&...)
->         1   1     a>b    ((a>b)&&(b>c)&&...)
->=        1   1     a>=b   ((a>=b)&&(b>=c)&&...)
-==        1   1     a==b   ((a==b)&&(b==c)&&...)
-eq        1   1     a eq b ((a eq b)&&(b eq c)&&...)
+|Op/argc   0   1     2      3+
+|<         1   1     a<b    ((a<b)&&(b<c)&&...)
+|<=        1   1     a<=b   ((a<=b)&&(b<=c)&&...)
+|>         1   1     a>b    ((a>b)&&(b>c)&&...)
+|>=        1   1     a>=b   ((a>=b)&&(b>=c)&&...)
+|==        1   1     a==b   ((a==b)&&(b==c)&&...)
+|eq        1   1     a eq b ((a eq b)&&(b eq c)&&...)
 
 List operators "'''in'''" "'''ni'''" always take two args.
 
-Op/argc   0   1     2       3+
-in        err err   a in b  err
-ni        err err   a ni b  err
+|Op/argc   0   1     2       3+
+|in        err err   a in b  err
+|ni        err err   a ni b  err
 
 The operators that do conditional evaluation of their arguments (&&, || and
 ?:) are not included. This is because their characteristic evaluation laziness
