@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -128,6 +128,27 @@ to consider the effects of bracing expressions.
 Sum of a list becomes
 
 | set sum [+ {expand}$list]
+
+~ Security considerations
+
+It is worth noting that variadic operators have no way of "short
+circuit" evaluation, much as putative '''&&''' and '''||''' commands
+would not.  This consideration means that they must be used with
+caution in cases where expressions have side effects; all their
+arguments will be evaluated.  Commands like
+
+|   < 1 0 [don't do this!]
+|   / 0 0 [don't do this!]
+
+will indeed evaluate the string in square brackets.
+
+If expressions
+like these are constructed from user input, care must be taken to
+place them in a safe execution environment or otherwise defend
+against code injection attacks.  (This last consideration is
+somewhat far-fetched, since it is implausible that an injection
+attack would be able to generate [[< 1 0 [[don't do this!]]]]
+but not [[< [[don't do this!]] 0]].)
 
 ~ Implementation
 
