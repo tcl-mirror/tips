@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 State:          Draft
 Type:           Project
@@ -99,20 +99,50 @@ in the ::oo namespace:
 
 |   alloc, dealloc, instproc, instforward, info
 
- * An unregistered (unattached) set of methods that can be used to objects
+ * An unregistered (unattached) set of methods that can be used for objects
 |   instvar forward info
 
 The Tcl command ::oo::setrelation
 
 |   ::oo::setrelation class|obj <relation> <target>
 
-allows to set relations between objects, classes and mixins.  This is
-a primitive command designed for the language developer, not for the
-user of the implemented object oriented language. The following
-relations are supported: '''mixin''', '''instmixin''', '''filter''',
-'''instfilter''', '''class''', and '''superclass'''. The meaning of
+allows to define/redefine relations between objects, classes and
+mixins.  This is a primitive command designed for the language
+developer, not for the user of the implemented object oriented
+language. The following relations are supported: '''mixin'''
+(abbreviation for per-object mixin), '''instmixin''' (for per-class
+mixin), '''filter''' (for per-object filter), '''instfilter''' (for
+per-class filter), '''class''', and '''superclass'''. The meaning of
 this relations is defined by the dispatcher, which is responsible for
-the linearizion of the commands.
+the linearization of the commands.
+
+The dispatcher determines the invocation order depending on the
+precedence order and the resolution order. The precedence order
+defines the priorization of classes and determines therefore the
+shadowing of methods. The precedence order is per-object mixins,
+followed by per-class mixins, followed by the class hierarchy.  All of
+these refer not to single classes but to class hierarchies, where the
+contained classes are linearized; when a class is mixed into a
+precedence order, where it is already present, it has no effect.
+The precedence of object specific methods is between mixins 
+and the intrinsic class hierarchy.
+
+The method resolution order overlays the precedence order. While the
+precedence order determines, what method should be called, the method
+resolution order determines what other methods should be called before
+this method. The resolution order supports per class filters (methods
+to be called before every method dispatch for every instance of this
+class) and per-object filters (to be called before every method
+dispatch of this object). Filters are defined in a filter chain, where
+object specific filters take precedence over class specific
+filters. Filters can change the results of methods. Finally,
+assertions (pre and post-conditions) and invariants are supported.
+
+The invocation order defines the layering of methods, the method
+chaining (calling shadowed/filtered methods) is performed through the
+command next. Per-object filters, per-class filters, per-object mixins
+and per-class mixins can be applied conditionally based on
+tcl-expressions (guards) executed int the object context.
 
 The Tcl command ::oo::alias
 
@@ -216,29 +246,15 @@ The command alias should not allow extensions to register methods on
 should only be allowed to register their methods on the language specific
 superclasses.
 
-The commands of the method-set are defined with the standard signature for Tcl
-commands but receive in their ClientData the object or class structure (like
-in today's XOTcl implementation). The handling for different client data (as
-for example for XOTcl's forwarders) is provided in an XOTcl style. C-extension
-writers can define non-leaf methods calling "'''next'''" from the C level.
-
-~~ Example
-
-| static int MyMethod1( ClientData cdata, Tcl_Interp *interp,
-|                        int objc, Tcl_Obj *CONST objv[] ) {
-|   int rc;
-|   /* ... */
-|   rc = Tcl_OONextObjCmd(cdata, interp, objc,objv);
-|   /* ... */
-|   return rc;
-| }
+The exact API for methods accessing the dispatcher internals will be specified
+in another TIP.
 
 The primitive commands (like '''my''', '''next''', '''self''',
 '''configure''', ...) are provided by the OO namespace, and these can be 
 provided by the extension writers by accessing the dispatcher structure
 and its stack.
 
-~ Advantages
+~ Strengths of the Approach
 
  * All OO extensions can use the powerful dispatcher
 
