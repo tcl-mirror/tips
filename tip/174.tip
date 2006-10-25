@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -149,6 +149,7 @@ particular, it does not implement the ordering comparators and
 gets associativity wrong in a couple of other cases.  Nevertheless,
 the authors of this TIP believe it to be an adequate proof that the
 ideas of the TIP are implementable with good performance.
+
 ~ Copyright
 
 This document has been placed in the public domain.
