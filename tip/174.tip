@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -53,8 +53,9 @@ expressions build up.
 
  2. All operator commands will be kept in the '''::tcl::mathop'''
     (in line with ''::tcl::mathfunc'' from [232])
-    namespace, from which they would most commonly be imported to the
-    calling namespace.
+    namespace, from which they would most commonly be imported into the
+    calling namespace (or resolved in it by means of the [[namespace
+    path]] command).
 
  3. The commands are not connected to their corresponding expr operator.
     Overloading or adding any command in '''::tcl::mathop''' does ''not'' affect
