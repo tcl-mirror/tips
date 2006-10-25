@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -104,12 +104,15 @@ Comparison operators other than '''!=''' and '''ne''' test for
 ordering:
 
 |Op/argc   0   1     2      3+
-|<         1   1     a<b    ((a<b)&&(b<c)&&...)
-|<=        1   1     a<=b   ((a<=b)&&(b<=c)&&...)
-|>         1   1     a>b    ((a>b)&&(b>c)&&...)
-|>=        1   1     a>=b   ((a>=b)&&(b>=c)&&...)
-|==        1   1     a==b   ((a==b)&&(b==c)&&...)
-|eq        1   1     a eq b ((a eq b)&&(b eq c)&&...)
+|<         1   1     a<b    ((a<b)&(b<c)&...)
+|<=        1   1     a<=b   ((a<=b)&(b<=c)&...)
+|>         1   1     a>b    ((a>b)&(b>c)&...)
+|>=        1   1     a>=b   ((a>=b)&(b>=c)&...)
+|==        1   1     a==b   ((a==b)&(b==c)&...)
+|eq        1   1     a eq b ((a eq b)&(b eq c)&...)
+
+(Note the single '''&'''; a Tcl command is not capable of
+"short circuit" evaluation of its arguments.)
 
 List operators "'''in'''" "'''ni'''" always take two args.
 
