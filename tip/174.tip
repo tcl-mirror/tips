@@ -1,6 +1,6 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
@@ -79,6 +79,11 @@ Operator '''**''' is right associative, which needs to be noted clearly.
 
 |Op/argc  0   1   2     3-
 |**       1   a   a**b  a**(b**(c...))
+
+(This behaviour depends on the eventual modification of the '''**'''
+operator in [[expr]] to have right-associativity, which is the
+subject of TIP #274 [274]. If TIP #274 fails, '''**''' should be
+left- or non-associative.)
 
 Nonassociative operators must always be binary.
 
