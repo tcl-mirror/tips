@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -25,6 +25,8 @@ names bypass the '''namespace path''' and '''namespace unknown''' mechanisms.
 Likewise, the command map specified with the ''-map'' option of an ensemble
 also invokes commands in the caller's namespace rather than the ensemble's
 namespace.
+
+As an example (and risking "uh-oo" reactions in the present context) I would like to remark that this feature enables poorman oo systems based on ensembles to provide inheritance of methods via '''namespace path''' and '''namespace unknown'''.
 
 ~ Proposed Change
 
