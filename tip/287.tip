@@ -1,0 +1,103 @@
+TIP:		287
+Title:		Add a 'chan available' Command
+Author:		Michael A. Cleverly <michael@cleverly.com>
+Keywords:	Tcl, channel
+Version:	$Revision: 1.1 $
+Type:		Project
+Tcl-Version:	8.5
+State:		Draft
+Vote:		Pending
+Created:	26-Oct-2006
+Post-History:	
+
+~ Abstract
+
+Many network servers programmed in Tcl (including the venerable tclhttpd) are
+vulnerable to DoS (denial of service) attacks because they lack any way to
+introspect the amount of buffered data on a non-blocking socket that is in
+line buffering mode. This TIP proposes a new subcommand to '''chan''' to allow
+the amount of buffered input to be inspected from Tcl.
+
+~ Rationale
+
+Many network protocols are inherently line-oriented (HTTP, SMTP, etc.) and the
+natural approach to implementing servers for these protocols in Tcl is to
+configure the incoming client sockets to use non-blocking I/O and to have
+''line'' buffering and then define a readable fileevent callback.
+
+|    proc accept {sock addr port} {
+|        fconfigure $sock -buffering line -blocking 0
+|        fileevent $sock readable [list callback $sock ...]
+|    }
+|    socket -server accept $listenPort
+
+
+Recall that a readable fileevent will be called even when there is an
+incomplete line buffered. As the '''fileevent''' manual page states:
+
+ > A channel is considered to be readable if there is unread data available on
+   the underlying device. A channel is also considered to be readable if there
+   is unread data in an input buffer, except in the special case where the
+   most recent attempt to read from the channel was a gets call that could not
+   find a complete line in the input buffer.
+
+The '''fblocked''' (and in 8.5 '''chan blocked''') command provides the Tcl
+programmer a means to test whether:
+
+ > the most recent input operation ...  returned less information than
+   requested because all available input was exhausted.
+
+There is currently no way at the Tcl level to see how much data is buffered
+and could be read safely (via '''read''' instead of '''gets''').
+
+There is also no way to specify any kind of upper limit on the length of a
+line; when in line-buffering mode all input is buffered until an end-of-line
+sequence is encountered or the EOF on the channel is reached.
+
+The practical result is that all network daemons written in Tcl using
+line-oriented I/O ('''gets''') can be fed repeated input lacking an
+end-of-line sequence until all physical memory is exhausted.
+
+This vulnerability has been recognized since at least 2001. See, for example,
+the discussion between George Peter Staplin and Donald Porter on the ''gets''
+page on the Tcl'ers Wiki [http://wiki.tcl.tk/gets].
+
+~ Proposed Change
+
+At the C level Tcl already has a function, ''Tcl_InputBuffered'' which returns
+the number of unread bytes buffered for a channel.
+
+This TIP proposes to implement a new ''chan available'' command which would
+effectively expose the existing ''Tcl_InputBuffered()'' so that a programmer
+could introspect the amount of buffered unread data that was available.
+
+This allows a programmer developing network daemons at the Tcl level to
+implement their own policy decisions based on the size of the unread line.
+Potential DoS situations could be avoided (in an application specific manner)
+long before all memory was exhausted.
+
+| if {[chan blocked $sock] && [chan available $sock] > $limit} {
+|     # Take application specific steps (i.e., [close $sock] or
+|     # [read $sock] to process a partial line and drain the buffer, etc.)
+| }
+
+~ Rejected Alternatives
+
+ * Adding a flag to '''fblocked''' to return the number of unread bytes
+   instead of just 0 or 1 (since '''fblocked''' is deprecated).
+
+ * Polluting the global namespace with a new '''favailable''' command.
+
+ * A '''chan unread''' because of potential confusion as to whether it
+   performed ''ungetch()'' type functionality (''un-reed'' vs ''un-red'').
+
+ * Any sort of '''-maxchars''' or '''-maxbytes''' flag to '''gets'''.
+
+~ Reference Implementation
+
+A patch for Tcl 8.5a5 to implement '''chan available''' will be forthcoming
+shortly.
+
+~ Copyright
+
+This document is in the public domain.
