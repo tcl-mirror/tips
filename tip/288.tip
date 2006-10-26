@@ -1,0 +1,57 @@
+TIP:		288
+Title:		Allow "args" Anywhere in Procedure Formal Arguments
+Version:	$Revision: 1.1 $
+Author:		Peter Spjuth <peter.spjuth@space.se>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	03-Oct-2006
+Tcl-Version:	8.5
+Post-History:	
+Keywords:	Tcl, proc
+
+~ Abstract
+
+This TIP proposes to make ''args'' have its special meaning as a formal
+'''proc'''edure argument anywhere in the argument list.
+
+~ Rationale
+
+Many commands, specially many of Tcl's built in commands, have their variadic
+arguments in the beginning of the argument list and their required arguments
+at the end. An example is [['''lsearch''' ?''options''? ''list string'']].
+
+Writing commands in that style is currently a bit cumbersome since you need to
+do you own argument counting and assignment to variables from "args".
+
+If "args" had its special meaning at any location in the argument list, it
+would help with such a task, and it would make things more consistent.
+
+To preserve full backward compatibility (when "args" is not used before the
+last) and to get simple semantics, optional arguments are not allowed after
+"args".
+
+~ Specification
+
+At most one proc argument may be named "args" and can be anywhere in the
+argument list. Arguments after "args" may not be optional. Arguments are
+assigned in the following order:
+
+ 1. Assign arguments right of "args" from the right.
+
+ 2. Assign arguments left of "args" from the left.
+
+ 3. Remaining arguments are assigned to "args".
+
+~ Compatiblity
+
+Currently "args" is allowed anywhere in the argument list, and becomes a
+normal variable if not last. Most scripts probably don't use this since it
+would be rather confusing, but it might exist.
+
+Detecting such scripts in an automated way would be simple and fixing them is
+trivial.
+
+~ Copyright
+
+This document has been placed in the public domain.
