@@ -1,6 +1,6 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -179,10 +179,44 @@ meanings for their values.
    to the current level (0 and negative numbers).
 
 A thing of note is that for procedures statically defined in files the
-locations of commands in their bodies will be reported with type '''source'''
-and absolute line numbers, and not as type '''proc'''. The same is true for
-procedures nested in statically defined procedures, and literal eval scripts
-in files or statically defined procedures.
+locations of commands in their bodies will be reported with type
+'''source''' and absolute line numbers, and not as type
+'''proc'''. The same is true for procedures nested in statically
+defined procedures, and literal eval scripts in files or statically
+defined procedures.
+
+In contrast, for a procedure definition or eval within a dynamically
+eval'uated environment count linenumbers relative to the start of
+their script, even if they would be able to count relative to the
+start of the outer dynamic script. That type of number usually makes
+more sense.
+
+A different way of describing this behaviour is that we track file
+based locations as deeply as we can, and where we cannot the lines are
+counted based on the smallest possible eval or procbody scope, as that
+scope is usually easier to find than any dynamic outer scope.
+
+The syntactic form ''{expand}'' is handled like ''eval''. I.e. if it
+is given a literal list argument the system tracks the linenumber
+within the list words as well, and otherwise all linenumbers are
+counted relative to the start of each word (smallest scope)
+
+The following other builtin commands are changed as well to support
+the tracking of line numbers:
+
+ 1. catch
+ 1. dict for
+ 1. dict with
+ 1. eval
+ 1. for
+ 1. foreach
+ 1. if
+ 1. interp eval
+ 1. namespace eval
+ 1. proc
+ 1. source
+ 1. switch
+ 1. while
 
 ~~ Public C API
 
