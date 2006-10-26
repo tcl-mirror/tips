@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -12,16 +12,13 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes that an ensemble's unknown handler and ''-map'' handler
-resolve the rewritten command in the ensemble's namespace.
+This TIP proposes that ensembles resolve all commands in their namespace.
 
 ~ Rationale
 
-Ensembles as proposed in [112] have an unknown handler behaviour that makes it
-impossible to combine it with the '''namespace path''' and '''namespace
-unknown''' features of the ensemble's namespace.
+Ensembles as proposed in [112] cannot interoperate with the '''namespace path''' and '''namespace unknown''' functionality: as they resolve all commands in the caller's scope, it is necessary to define them using fully qualified names to insure that they are found in the ensemble's namespace. But fully qualified names bypass the namespace's '''path''' and '''unknown''' redirectors.
 
-This is because the command returned from the unknown handler is invoked in
+For example, the command returned from the unknown handler is invoked in
 the ensemble's caller namespace: the only way to ensure that it is called in
 the ensemble's namespace is by returning a FQ command name. But FQ command
 names bypass the '''namespace path''' and '''namespace unknown''' mechanisms.
