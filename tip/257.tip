@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -811,17 +811,22 @@ following methods:
 
  variable: This non-exported method takes an arbitrary number of
    ''unqualified'' variable names and binds the variable with that name in the
-   object's namespace to the same name in the current scope. If an argument
-   consists of a two-element list, the first element is the name of the
-   variable to bind in the object's namespace, and the second element is the
-   name of the variable to bind in the current scope. The syntax is as
+   object's namespace to the same name in the current scope. The syntax is as
    follows:
 
- > ''object'' '''variable''' ?''varName'' ''varName'' ...?
+ > ''object'' '''variable''' ?''varNameBind'' ''varNameBind'' ...?
 
  > However, it will be more commonly used as:
 
- > '''my''' '''variable''' ?''varName'' ''varName'' ...?
+ > '''my''' '''variable''' ?''varNameBind'' ''varNameBind'' ...?
+
+ > Each ''varNameBind'' argument is a list consisting of one or two elements.
+   If the argument consists of a two-element list, the first element is the
+   name of the variable to bind in the object's namespace or a sub-namespace
+   of it, and the second element is the name of the variable to bind in the
+   current scope. If the argument is a single element list, both the namespace
+   variable name and the local variable name are the same (and hence the
+   variable cannot be bound from a namespace other than the current one).
 
  varname: This non-exported method takes one argument, the name of a variable
    to be resolved in the context of the object's namespace, and returns the
