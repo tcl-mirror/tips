@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -70,7 +70,7 @@ direction.
 
 ~ Reference Implementation and Documentation
 
-[[RFE 1577282]] (which depends on [[Patch 1577278]]) provides an
+[[RFE 1577282]] [http://sourceforge.net/tracker/index.php?func=detail&aid=1577282&group_id=10894&atid=360894] (which depends on committed [[Patch 1577278]]) provides an
 implementation, with tests and docs.
 
 ~ Illustration
