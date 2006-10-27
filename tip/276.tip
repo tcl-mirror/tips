@@ -1,6 +1,6 @@
 TIP:            276
 Title:          Specify and Unify Variable Linking Commands
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -100,6 +100,12 @@ variable name.
  * "'''namespace upvar''' ''ns var local''" always creates a variable
    "''local''" in the current context, linked to "''var''" as resolved from
    namespace ''ns'' (itself resolved in the current context).
+
+~ Compatibility
+
+This TIP may cause breakage in some scripts relying on undocumented behaviour.
+
+The specification changes for '''global''' and '''variable''' outside of proc bodies is almost certainly implementing what the programmer meant them to do, hence likely to fix more bugs than it causes. 
 
 ~ Reference Implementation and Documentation
 
