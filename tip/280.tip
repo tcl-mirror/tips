@@ -1,6 +1,6 @@
 TIP:            280
 Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -169,8 +169,14 @@ meanings for their values.
 
  * '''proc'''
 
- > This entry is present only if the command is found in the body of a Tcl
-   procedure. It then provides the name of that procedure.
+ > This entry is present only if the command is found in the body of a
+   regular Tcl procedure. It then provides the name of that procedure.
+
+ * '''lambda'''
+
+ > This entry is present only if the command is found in the body of an
+   anonymous Tcl procedure, i.e. a lambda. It then provides the entire
+   definition of the lambda in question.
 
  * '''level'''
 
