@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -17,14 +17,6 @@ This TIP proposes that ensembles resolve all commands in their namespace.
 ~ Rationale
 
 Ensembles as proposed in [112] cannot interoperate with the '''namespace path''' and '''namespace unknown''' functionality: as they resolve all commands in the caller's scope, it is necessary to define them using fully qualified names to insure that they are found in the ensemble's namespace. But fully qualified names bypass the namespace's '''path''' and '''unknown''' redirectors.
-
-For example, the command returned from the unknown handler is invoked in
-the ensemble's caller namespace: the only way to ensure that it is called in
-the ensemble's namespace is by returning a FQ command name. But FQ command
-names bypass the '''namespace path''' and '''namespace unknown''' mechanisms.
-Likewise, the command map specified with the ''-map'' option of an ensemble
-also invokes commands in the caller's namespace rather than the ensemble's
-namespace.
 
 As an example (and risking "uh-oo" reactions in the present context) I would like to remark that this feature enables poorman oo systems based on ensembles to provide inheritance of methods via '''namespace path''' and '''namespace unknown'''.
 
