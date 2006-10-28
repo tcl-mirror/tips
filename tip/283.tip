@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -150,6 +150,7 @@ Today (*) and after the patch this returns
 
 (*) Today==2006-24-10, after making '''info level''' aware of ensemble rewrites; prior to that date, only the last line would have changed from
 ''::ens::foo'' to ''foo''.
+
 ~ Remarks
 
    * see also [[Bug 1436096]]
