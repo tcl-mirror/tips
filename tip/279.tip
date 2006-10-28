@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 State:          Draft
 Type:           Project
@@ -135,14 +135,21 @@ to be called before every method dispatch for every instance of this
 class) and per-object filters (to be called before every method
 dispatch of this object). Filters are defined in a filter chain, where
 object specific filters take precedence over class specific
-filters. Filters can change the results of methods. Finally,
-assertions (pre and post-conditions) and invariants are supported.
+filters. Filters can change the results of methods. Immediately before
+and after certain methods pre- and post-conditions can be evaluated
+(similar to method-combinators in CLOS), between statements,
+invariants can be checked.
 
 The invocation order defines the layering of methods, the method
 chaining (calling shadowed/filtered methods) is performed through the
 command next. Per-object filters, per-class filters, per-object mixins
 and per-class mixins can be applied conditionally based on
 tcl-expressions (guards) executed int the object context.
+
+When an undefined method is invoked on an object, the
+call (method name and the arguments of the invocation) are passed to
+the method '''unknown'''. If no such method exists, an error message
+is generated.
 
 The Tcl command ::oo::alias
 
