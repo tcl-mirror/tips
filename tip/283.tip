@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -142,18 +142,14 @@ After this TIP, it should be
 |       ens sub
 |   }
 
-Today this returns 
+Today (*) and after the patch this returns 
 
 |   Caller namespace is: ::caller
 |   I am ::ens::foo
-|   I am called as: ::ens::foo
+|   I am called as: ens
 
-With this TIP, only the last line would be changed:
-
-|   Caller namespace is: ::caller
-|   I am ::ens::foo
-|   I am called as: foo
-
+(*) Today==2006-24-10, after making '''info level''' aware of ensemble rewrites; prior to that date, only the last line would have changed from
+''::ens::foo'' to ''foo''.
 ~ Remarks
 
    * see also [[Bug 1436096]]
