@@ -1,14 +1,14 @@
-TIP:		287
-Title:		Add a 'chan available' Command
-Author:		Michael A. Cleverly <michael@cleverly.com>
-Keywords:	Tcl, channel
-Version:	$Revision: 1.1 $
-Type:		Project
-Tcl-Version:	8.5
-State:		Draft
-Vote:		Pending
-Created:	26-Oct-2006
-Post-History:	
+TIP:            287
+Title:          Add a 'chan available' Command
+Version:        $Revision: 1.2 $
+Author:         Michael A. Cleverly <michael@cleverly.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Oct-2006
+Post-History:   
+Keywords:       Tcl,channel
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -30,7 +30,6 @@ configure the incoming client sockets to use non-blocking I/O and to have
 |        fileevent $sock readable [list callback $sock ...]
 |    }
 |    socket -server accept $listenPort
-
 
 Recall that a readable fileevent will be called even when there is an
 incomplete line buffered. As the '''fileevent''' manual page states:
@@ -95,8 +94,7 @@ long before all memory was exhausted.
 
 ~ Reference Implementation
 
-A patch for Tcl 8.5a5 to implement '''chan available''' will be forthcoming
-shortly.
+[RFE 1586860] at SourceForge now contains a patch implementing '''chan available''' (including updated '''chan''' man page and corresponding test cases).
 
 ~ Copyright
 
