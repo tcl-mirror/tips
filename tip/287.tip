@@ -1,6 +1,6 @@
 TIP:            287
 Title:          Add a 'chan available' Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
@@ -94,7 +94,7 @@ long before all memory was exhausted.
 
 ~ Reference Implementation
 
-[RFE 1586860] at SourceForge now contains a patch implementing '''chan available''' (including updated '''chan''' man page and corresponding test cases).
+[RFE 1586860] at SourceForge now contains a patch implementing '''chan available''' (including updated '''chan''' man page and corresponding test cases) [http://sourceforge.net/tracker/index.php?func=detail&aid=1586860&group_id=10894&atid=360894].
 
 ~ Copyright
 
