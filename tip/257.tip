@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -732,6 +732,9 @@ that class (which is why the distinction is required).
    subcommand, to which it is syntactically identical.
 
  * '''self.method''' - This is a per-object version of the '''method'''
+   subcommand, to which it is syntactically identical.
+
+ * '''self.mixin''' - This is a per-object version of the '''mixin'''
    subcommand, to which it is syntactically identical.
 
  * '''self.unexport''' - This is a per-object version of the '''unexport'''
