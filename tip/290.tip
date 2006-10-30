@@ -1,14 +1,14 @@
-TIP:		290
-Title:		Registration of Custom Error Handler Scripts
-Version:	$Revision: 1.1 $
-Author:		Eckhard Lehmann <ecky-l@web.de>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	29-Oct-2006
-Post-History:	
-Keywords:	Tcl, error, trap
+TIP:            290
+Title:          Registration of Custom Error Handler Scripts
+Version:        $Revision: 1.2 $
+Author:         Eckhard Lehmann <ecky-l@web.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        29-Oct-2006
+Post-History:   
+Keywords:       Tcl,error,trap
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -119,14 +119,13 @@ suite).
 
 ~ Reference Implementation
 
-The reference implementation will shortly be available as a patch against
-Tcl 8.5a5.
+The reference implementation is available from sourceforge as patch against Tcl 8.5a5 [http://sourceforge.net/support/tracker.php?aid=1587317].
 
 ~ Usage Example
 
 Here is a sample procedure that can be used to stop execution on error and
-introspect the program on stdin/stdout. It was implemented by ... as and is
-available on ...:
+introspect the program on stdin/stdout. It was implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
+http://lambda-the-ultimate.org/node/1544#comment-18446:
 
 |package provide debug 1.0
 |
