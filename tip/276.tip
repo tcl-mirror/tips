@@ -1,6 +1,6 @@
 TIP:            276
 Title:          Specify and Unify Variable Linking Commands
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -49,11 +49,11 @@ is a non-qualified name):
 
  * "'''upvar''' ''level var local''" creates a local variable "''local''" that
    is linked to "''var''" as resolved in the context of the frame identified
-   by ''level''. It is an error to try to link to a proc-local variable from a namespace context.
+   by ''level''. It is an error to try to link to a proc-local variable from a namespace context. It is an error to link a variable to itself.
 
  * "'''namespace upvar''' ''ns var local''" creates a local variable
    "''local''" that is linked to "''var''" as resolved from namespace ''ns''
-   (itself resolved in the current context).
+   (itself resolved in the current context). It is an error to link a variable to itself.
 
 One undocumented issue is what should happen when ''local'' is a qualified
 name.
@@ -66,15 +66,15 @@ procedure bodies:
  * "'''variable''' ''var''" is documented to create a namespace variable in
    the current namespace, without any mention of the behaviour when "''var''"
    is qualified. Currently that is a a no-op in terms of creating a variable,
-   but it can change the value of the target, see [[Bug #604226]].
+   but it can change the value of the target, see [[Bug #604226]]. If '''var''' is a simple name and the corresponding variable already existed, '''variable''' may set its value (and an internal flag), but does no linking.
 
  * "'''upvar''' ''level var local''" creates a variable "''local''" (as
    resolved from [['''namespace current''']]) that is linked to "''var''" as
-   resolved in the context of the frame identified by ''level''. It is an error to try to link to a proc-local variable from a namespace context.
+   resolved in the context of the frame identified by ''level''. It is an error to try to link to a proc-local variable from a namespace context. It is an error to link a variable to itself.
 
  * "'''namespace upvar''' ''ns var local'' creates a variable "''local''" (as
    resolved from [['''namespace current''']]) that is linked to "''var''" as
-   resolved from namespace ''ns'' (itself resolved in the current context).
+   resolved from namespace ''ns'' (itself resolved in the current context). It is an error to link a variable to itself.
 
 ~ Proposal
 
@@ -100,6 +100,8 @@ variable name.
  * "'''namespace upvar''' ''ns var local''" always creates a variable
    "''local''" in the current context, linked to "''var''" as resolved from
    namespace ''ns'' (itself resolved in the current context).
+
+In all cases, attempting to link a variable to itself will be a no-op.
 
 ~ Compatibility
 
