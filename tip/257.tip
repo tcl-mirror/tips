@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -416,11 +416,11 @@ methods.
 
 ~~~ Destructor Syntax
 
-In XOTcl, a class's destructor is defined by overriding the 
-"destroy" instproc. This is problematic for two reasons: first, a
-destructor doesn't need an argument list. An instproc is too powerful
-for the task. Second, successful destruction should not depend on the
-destructor's chaining to its superclass destructors properly.
+In XOTcl, a class's destructor is defined by overriding the "destroy"
+instproc. This is problematic for two reasons: first, a destructor doesn't
+need an argument list. An instproc is too powerful for the task. Second,
+successful destruction should not depend on the destructor's chaining to its
+superclass destructors properly.
 
 '''Therefore''', the class destructor will be defined by a new subcommand of
 '''oo::define''', '''destructor''', as follows:
@@ -456,7 +456,8 @@ This is exactly backward. Most behavior will be defined for classes;
 additional per-object behavior is the special case, and consequently should
 have the less convenient name.
 
-'''Therefore''', all XOTcl subcommands that begin with "inst" will be defined, in oo, without their
+'''Therefore''', all XOTcl subcommands that begin with "inst" will be defined,
+in the OO system, without their
 "inst" prefix; the matching per-object subcommands will gain a "self." prefix,
 to indicate that it is operating on the object itself and not the members of
 the class. Thus, a filter is defined on a class for its instances using the
@@ -468,7 +469,8 @@ the class. Thus, a filter is defined on a class for its instances using the
 The word "proc" conveys a standalone function; an object's subcommands are
 more typically described as its "methods".
 
-'''Therefore''', in the ''oo::'' namespace, the XOTcl "instproc" and "proc" subcommands should be renamed
+'''Therefore''', in the ''oo::'' namespace, the XOTcl "instproc" and "proc"
+subcommands should be renamed
 as "instmethod" and "method" - or, if the new naming convention described in
 the previous section is adopted, '''method''' and '''self.method'''.
 
@@ -483,8 +485,8 @@ case letter, e.g., the standard core object system equivalents of
 ''xotcl::Class'' and ''xotcl::Object'' will be '''oo::class''' and
 '''oo::object'''.
 
-This does not constrain any code making use of the OO system from naming objects however
-it wants.
+This does not constrain any code making use of the OO system from naming
+objects however it wants.
 
 ~ API Specification
 
@@ -1073,6 +1075,28 @@ appropriate. The following types of information shall be available:
 Other forms of introspection subcommands may be added to '''info object''' and
 '''info class''' by creating commands in the namespaces '''oo::InfoObject'''
 and '''oo::InfoClass''' respectively.
+
+~~ Issues with Objects and Namespaces
+
+Every object has a distinct namespace associated with it, the name of which is
+outside the scope of this specification. It is the name of this namespace that
+is returned by '''self namespace'''.
+
+The namespace does have a path set, as if by calling '''namespace path''';
+this is how the '''next''' and '''self''' commands are provided, though since
+they are never usable outside the scope of the body of a method, the namespace
+which they originate from is out of the scope of this specification.
+
+The '''my''' command is the only command in the object's namespace by default
+(i.e., this command is truly per-object). It is not exported from the object's
+namespace, nor are any other commands exported from or imported into the
+namespace.
+
+Methods are not commands, and so completely ignore the '''namespace export'''
+command, nor does '''namespace unknown''' get involved at any point during the
+location of a method. (They may run during the processing of a method body; it
+is a context very similar to a normal procedure body.) Similarly, a method may
+not be '''namespace import'''ed from another namespace.
 
 ~ C API
 
