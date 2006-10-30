@@ -1,6 +1,6 @@
 TIP:            274
 Title:          Right-Associativity for the Exponentiation Operator
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         David Smith <David.Smith@synopsis.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
@@ -8,7 +8,7 @@ Author:         Don Porter <dgp@users.sf.net>
 Author:         Sérgio Loureiro <srgloureiro@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress 
 Created:        15-Sep-2006
 Post-History:   
 Keywords:       Tcl,expr
