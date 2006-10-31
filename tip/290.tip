@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 State:          Draft
 Type:           Project
@@ -142,7 +142,6 @@ http://lambda-the-ultimate.org/node/1544#comment-18446:
 |proc breakpoint {args} {
 |    set cmd ""
 |    set level [expr {[info level]-1}]
-|    catch {console show}
 |    set prompt "Debug ($level) % "
 |    while {1} {
 |        puts -nonewline $prompt
