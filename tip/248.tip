@@ -1,9 +1,9 @@
 TIP:            248
 Title:          Integrate Tile into Tk as Ttk
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Donal K. Fellows <dkf@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        08-Jun-2005
