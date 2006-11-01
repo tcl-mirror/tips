@@ -1,11 +1,11 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        01-Oct-2006
 Post-History:   
 Tcl-Version:    8.5
@@ -16,9 +16,17 @@ This TIP proposes that ensembles resolve all commands in their namespace.
 
 ~ Rationale
 
-Ensembles as proposed in [112] cannot interoperate with the '''namespace path''' and '''namespace unknown''' functionality: as they resolve all commands in the caller's scope, it is necessary to define them using fully qualified names to insure that they are found in the ensemble's namespace. But fully qualified names bypass the namespace's '''path''' and '''unknown''' redirectors.
+Ensembles as proposed in [112] cannot interoperate with the '''namespace
+path''' and '''namespace unknown''' functionality: as they resolve all
+commands in the caller's scope, it is necessary to define them using fully
+qualified names to insure that they are found in the ensemble's namespace. But
+fully qualified names bypass the namespace's '''path''' and '''unknown'''
+redirectors.
 
-As an example (and risking "uh-oo" reactions in the present context) I would like to remark that this feature enables poorman oo systems based on ensembles to provide inheritance of methods via '''namespace path''' and '''namespace unknown'''.
+As an example (and risking "uh-oo" reactions in the present context) I would
+like to remark that this feature enables poorman oo systems based on ensembles
+to provide inheritance of methods via '''namespace path''' and '''namespace
+unknown'''.
 
 ~ Proposed Change
 
@@ -49,7 +57,8 @@ to:
    the ensemble command and subcommand words (in a manner similar to an alias
    created with '''interp alias'''; the words are not reparsed after
    substitution). The resulting command is invoked with the original arguments
-   in the namespace of the ensemble.
+   in the namespace of the ensemble, though no additional stack frames are
+   pushed in the process.
 
 ~~ Compatability
 
@@ -61,8 +70,10 @@ direction.
 
 ~ Reference Implementation and Documentation
 
-[[RFE 1577282]] [http://sourceforge.net/tracker/index.php?func=detail&aid=1577282&group_id=10894&atid=360894] (which depends on committed [[Patch 1577278]]) provides an
-implementation, with tests and docs.
+[[RFE 1577282]]
+[http://sourceforge.net/tracker/index.php?func=detail&aid=1577282&group_id=10894&atid=360894]
+(which depends on committed [[Patch 1577278]]) provides an implementation,
+with tests and docs.
 
 ~ Illustration
 
@@ -142,18 +153,19 @@ After this TIP, it should be
 |       ens sub
 |   }
 
-Today (*) and after the patch this returns 
+Today (*) and after the patch this returns:
 
 |   Caller namespace is: ::caller
 |   I am ::ens::foo
 |   I am called as: ens
 
-(*) Today==2006-24-10, after making '''info level''' aware of ensemble rewrites; prior to that date, only the last line would have changed from
+(*) Today==2006-24-10, after making '''info level''' aware of ensemble
+rewrites; prior to that date, only the last line would have changed from
 ''::ens::foo'' to ''foo''.
 
 ~ Remarks
 
-   * see also [[Bug 1436096]]
+   * See also [[Bug 1436096]]
 
 ~ Copyright
 
