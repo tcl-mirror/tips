@@ -1,6 +1,6 @@
 TIP:            291
 Title:          Add the 'platform' Package to Tcl
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Steve Landers <steve@DigitalSmarties.com>
 Author:         Andreas Kupries <andreask@ActiveState.com>
 State:          Draft
@@ -75,20 +75,20 @@ which are wrappers around commands provided by '''platform'''.
 
  1. '''::platform::shell::generic'''  ''shell''
 
-  > This command returns the generic identification of the specified ''shell'.
+  > This command returns the generic identification of the specified ''shell''.
     The shell has to be executable on the host machine, but does not have to
     have the package '''platform''' itself. This is supplied by the caller.
 
  1. '''::platform::shell::identify''' ''shell''
 
-  > This command returns the exact identification of the specified ''shell'.
+  > This command returns the exact identification of the specified ''shell''.
     The shell has to be executable on the host machine, but does not have to
     have the package '''platform''' itself. This is supplied by the caller.
 
  1. '''::platform::shell::platform''' ''shell''
 
   > This command returns the contents of ''tcl_platform(platform)'' for the
-    specified '''shell''. The shell has to be executable on the host machine.
+    specified ''shell''. The shell has to be executable on the host machine.
 
 ~~ Public C API
 
