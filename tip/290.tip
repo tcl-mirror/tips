@@ -1,7 +1,8 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -19,7 +20,7 @@ the usual Tcl event handler style as error handlers.
 
 Errors are thrown in the Tcl interpreter through the '''error''' command or
 from a C extension that returns TCL_ERROR. When an error is thrown, the global
-''errorInfo'' variable is filled with a rudimentary stacktrace information and
+''errorInfo'' variable is filled with rudimentary stacktrace information and
 the error message itself. The global ''errorCode'' variable can contain an
 error code if this is provided by the command that has thrown the error.
 
@@ -29,11 +30,10 @@ but the error is not presented to the interpreter. If the error is not caught,
 it is presented to the interpreter and the execution of the current code is
 aborted immediately
 
-The information in ''errorInfo'' is in some simple cases useful for
+The information in ''errorInfo'' is, in some simple cases, useful for
 reproducing and tracking down the error source and fixing the problem. In more
-complicated cases however, ''errorInfo'' includes not enough information to
-sucessfully reproduce the error - information about the applications state is
-missing.
+complicated cases however, ''errorInfo'' does not include enough information to
+successfully reproduce the error - information about the application's state is missing.
 
 In other languages such as LISP and SMALLTALK, this problem is addressed by
 stopping the execution at the position where the error was thrown (preserving
@@ -42,11 +42,11 @@ enables him to introspect the running program. Although Tcl has very good
 introspection capabilities, it is not possible to use them in an error case,
 because the execution just aborts and the stacktrace is unwound at once. For
 errors generated with the '''error''' command, it is possible to overwrite
-this command and provide a more advanced functionality, but this is not
+this command and provide more advanced functionality, but this is not
 possible if errors are generated in C code by ''return TCL_ERROR''.
 
 The proposed implementation addresses this problem by a custom error handler
-that is executed whenever an error occures in the execution of Tcl code. This
+that is executed whenever an error occurs in the execution of Tcl code. This
 opens a range of implementation possibilities for error handling, for
 instance:
 
@@ -64,12 +64,11 @@ instance:
 ~ Specification
 
 The implementation consists of two parts: an registration command, linked in
-as '''::tcl::seterrorhandler''' and various places where the error handler is
+as '''::tcl::seterrorhandler''', and various places where the error handler is
 called if appropriate. For this to work, there are some minor changes
 necessary to the Tcl execution engine and to the Interp structure.
 
-    1. ''tclInt.h'' - Interp introduce three new members to the Interp
-       structure: (Tcl_Obj *''errorHandler'') holds the handler code to
+    1. ''tclInt.h'' - Interp structure gets three new members added: (Tcl_Obj *''errorHandler'') holds the handler code to
        execute, (int ''errorHandlerFlags'') holds flags for execution
        conditions and (int ''catchLevel'') determines the current level of
        catch blocks surrounding the executed code.
@@ -84,7 +83,7 @@ necessary to the Tcl execution engine and to the Interp structure.
        running (so that it is not triggered from errors inside the handler
        itself).
 
-    3. ''tclEvent.c''/''tclInt.h'' - declare and define a new object command
+    3. ''tclEvent.c'' and ''tclInt.h'' - declare and define a new object command
        '''TclSetErrorHandlerObjCmd'''(''data'', ''interp'', ''objc'',
        ''objv''), through which an error handler can be registered.
 
@@ -92,20 +91,20 @@ necessary to the Tcl execution engine and to the Interp structure.
        of the Interp structure and register the '''::tcl::seterrorhandler'''
        command.
 
-    5. ''tclBasic.c'' - TclEvalObjvInternal() This function is called from
+    5. ''tclBasic.c'' - TclEvalObjvInternal() is called from
        others to evaluate Tcl expressions and returns a code that can be
        TCL_ERROR. Invoke the error handler here, if necessary.
 
     6. ''tclCmdAH.c'' - Tcl_CatchObjCmd() increment the ''catchLevel'' member
        in the interp structure before executing the enclosed code and
        decrement it afterwards. The ''catchLevel'' member indicates whether
-       errors are catched.
+       errors are within a catch.
 
     7. ''tclExecute.c'' - enhance the two macros DECACHE_STACK_INFO() and
        CACHE_STACK_INFO() to increment/decrement the ''catchLevel'' member if
-       the following code is catched (I think this is the case when (catchTop
+       the following code is within a catch (I think this is the case when (catchTop
        != initCatchTop) in the TclExecuteByteCode() function?). This makes
-       sure that the catch information is available when code is executed by
+       certain the catch information is available when code is executed by
        TclEvalObjvInternal().
 
     8. ''tclExecute.c'' - TclExecuteByteCode (line 1796 ff) after a call to
@@ -113,18 +112,18 @@ necessary to the Tcl execution engine and to the Interp structure.
        execution is at the top of the execution stack. This way, the mechanism
        works for following errors.
 
-The reference implementation fullfills this specification. It works while
+The reference implementation fulfills this specification. It works while
 other Tcl functionality is not affected (proven by repeated run of the test
 suite).
 
 ~ Reference Implementation
 
-The reference implementation is available from sourceforge as patch against Tcl 8.5a5 [http://sourceforge.net/support/tracker.php?aid=1587317].
+The reference implementation is available from sourceforge as a patch against Tcl 8.5a5 [http://sourceforge.net/support/tracker.php?aid=1587317].
 
 ~ Usage Example
 
 Here is a sample procedure that can be used to stop execution on error and
-introspect the program on stdin/stdout. It was implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
+introspect the program using stdin/stdout. It was implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
 http://lambda-the-ultimate.org/node/1544#comment-18446:
 
 |package provide debug 1.0
@@ -168,7 +167,7 @@ http://lambda-the-ultimate.org/node/1544#comment-18446:
 |    }
 |}
 
-To use it for uncaught errors, the ''breakpoint'' procedure can be registerred
+To use it for uncaught errors, the ''breakpoint'' procedure can be registered
 as error handler:
 
 |package re debug
