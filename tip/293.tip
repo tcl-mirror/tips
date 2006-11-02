@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 Created:	02-Nov-2006
 Obsoletes:	157
@@ -44,10 +44,9 @@ following amendment to [157]:
 
 ~ Compatibility
 
-Note that removing '''{expand}''' and/or '''{}''' will break code that users
-might already have in production, and so cannot be done in an 8.* release.
-They will be removed in Tcl 9.0 though, so user code should not make use of
-them in order to ensure that future portability issues are minimized.
+Note that this TIP removes '''{expand}''' and '''{}''' as prefix-syntax, which
+will break code that users might already have in production based off earlier
+alpha release of 8.5.
 
 ~ Copyright
 
