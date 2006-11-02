@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -82,6 +82,12 @@ The registration command is responsible for:
 
     * unregister the command and thus get back to the current behaviour in error cases
 
+Proposed: '''tcl::seterrorhandler ?-caught? ?-uncaught? ?script?'''
+
+Without arguments, it returns a list with the elements {-caught y/n -uncaught y/n script}, where caught and uncaught flags are specified and script is the currently registered handler. With the arguments ''-caught'' and/or ''-uncaught'', it modifies the run conditions for the currently registered handler (run on caught/uncaught errors). With the ''script'' argument, this is set as the new handler. If ''script'' is the empty string, any previously set error handler is unregistered, and thus the ''-caught'' and ''-uncaught'' have no effect.
+
+The ''script'' that is registered will quell the error if it returns normal (return code 0). If the script returns abnormal, it's return code is returned to the interpreter. Errors inside the handler are not trapped by the script again, rather they are presented to the interpreter as usual - otherwise this would result in an endless loop.
+
 The changes in the execution engine should be done so that:
 
     * existing functionality is not disturbed
@@ -89,6 +95,10 @@ The changes in the execution engine should be done so that:
     * the call frame is preserved after the error occured - thus the custom command is run in the same level as where the error was thrown
 
     * the ''::errorInfo'' and ''::errorCode'' variables are updated to contain the error information '''that is available in the current callframe'''. This information must be updated before the custom command is run, so that it is accessible from there.
+
+The innermost function that is called on Tcl code execution is ''TclEvalObjvInternal()''. It is called from others to execute a command and returns the code that the executed command returned. It's the best place to trigger the error handler execution, but whether errors are catched (catchLevel) must be present at this time. Therefore, this level is stored in the current Interp* from within the callers of ''TclEvalObjvInternal()''. The catch level can be determined either from ''TclExecuteByteCode()'' or from ''Tcl_CatchObjCmd()'' directly.
+
+The errorInfo and errorCode variables are set directly before the handler is run. This ensures that they are updated properly. Eventually registerred traces on this variable are handled as usual, before the custom error command is executed.
 
 ~ Reference Implementation
 
