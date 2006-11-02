@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -13,8 +13,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes the possibility to register custom scripts or commands in
-the usual Tcl event handler style as error handlers.
+This TIP proposes the possibility to register custom commands as error handlers.
 
 ~ Rationale
 
@@ -35,9 +34,8 @@ reproducing and tracking down the error source and fixing the problem. In more
 complicated cases however, ''errorInfo'' does not include enough information to
 successfully reproduce the error - information about the application's state is missing.
 
-In other languages such as LISP and SMALLTALK, this problem is addressed by
-stopping the execution at the position where the error was thrown (preserving
-the current callframe) and presenting the developer with a console that
+In other languages such as LISP, this problem is addressed by
+stopping the execution at the position where the error was thrown (preserving the current callframe) and presenting the developer with a console that
 enables him to introspect the running program. Although Tcl has very good
 introspection capabilities, it is not possible to use them in an error case,
 because the execution just aborts and the stacktrace is unwound at once. For
@@ -45,7 +43,7 @@ errors generated with the '''error''' command, it is possible to overwrite
 this command and provide more advanced functionality, but this is not
 possible if errors are generated in C code by ''return TCL_ERROR''.
 
-The proposed implementation addresses this problem by a custom error handler
+The proposed implementation addresses this problem by a custom error command
 that is executed whenever an error occurs in the execution of Tcl code. This
 opens a range of implementation possibilities for error handling, for
 instance:
@@ -58,63 +56,32 @@ instance:
 
     * registering a command that captures the state of each call-frame up to
       the one where the error was thrown and writes that state to a file. This
-      file can later be debugged (with an appropriate tool) - similar to
-      memory dump files for C debuggers.
+      file can later be debugged (with an appropriate tool).
+
+~ Alternatives
+
+~~ Overwriting of the '''error''' command
+As stated abovem, this works only for errors generated from Tcl code, whereas it does not work for errors from C extensions.
+
+~~ Leavestep execution traces
+In Tcl >=8.4 it is possible to register execution traces on ''leavestep'' to commands. To implement part of the proposed functionality it would be possible to add a leavestep trace procedure, which - after each command - checks for the return code and acts accordingly. The problem with this approach is, that the procedure is called after ''each'' command, independent from whether it returned an error or not. This can slow down the program execution more or less significantly. Furthermore, it is not easy if at all possible to capture occurences of '''catch''' by this way, so it is complicated or impossible to react on caught errors.
+
+It might be possible to get part or most of the proposed functionality by ''trace add execution leavestep'' or overwriting of '''error'''. But it is the responsibility of the core language (even more when it is a dynamic language) to provide customizable and advanced error handling. The TIP proposes in this direction.
 
 ~ Specification
 
-The implementation consists of two parts: an registration command, linked in
-as '''::tcl::seterrorhandler''', and various places where the error handler is
-called if appropriate. For this to work, there are some minor changes
-necessary to the Tcl execution engine and to the Interp structure.
+The implementation consists of two parts: a registration command for the custom command and a place where the handler is called. For this to work, there are some minor changes necessary to the Tcl execution engine and to the Interp structure. For running the handler on caught and or uncaught errors (depending on how the user wants to have it) it is necessary to capture the current level of "catch"es that occure during execution.
 
-    1. ''tclInt.h'' - Interp structure gets three new members added: (Tcl_Obj *''errorHandler'') holds the handler code to
-       execute, (int ''errorHandlerFlags'') holds flags for execution
-       conditions and (int ''catchLevel'') determines the current level of
-       catch blocks surrounding the executed code.
+The registration command is responsible for:
+ * register the command for caught and/or uncaught errors
+ * retrieve the currently registered command
+ * change the execution details (caught and/or uncaught errors) and the command.
+ * unregister the command and thus get back to the current behaviour in error cases.
 
-    2. ''tclInt.h'' - introduce four new macro definitions for the
-       ''errorHandlerFlags'' member specified above: ERRHANDLER_ONCAUGHT is
-       set when the handler should be executed on caught errors,
-       ERRHANDLER_ONUNCAUGHT is set when the handler should be executed on
-       uncaught errors, ERRHANDLER_FINISHED indicates whether the handler has
-       been run already for the currently encountered error,
-       ERRHANDLER_RUNNING indicates whether the error handler is currently
-       running (so that it is not triggered from errors inside the handler
-       itself).
-
-    3. ''tclEvent.c'' and ''tclInt.h'' - declare and define a new object command
-       '''TclSetErrorHandlerObjCmd'''(''data'', ''interp'', ''objc'',
-       ''objv''), through which an error handler can be registered.
-
-    4. ''tclBasic.c'' - Tcl_CreateInterp() should initialize the new members
-       of the Interp structure and register the '''::tcl::seterrorhandler'''
-       command.
-
-    5. ''tclBasic.c'' - TclEvalObjvInternal() is called from
-       others to evaluate Tcl expressions and returns a code that can be
-       TCL_ERROR. Invoke the error handler here, if necessary.
-
-    6. ''tclCmdAH.c'' - Tcl_CatchObjCmd() increment the ''catchLevel'' member
-       in the interp structure before executing the enclosed code and
-       decrement it afterwards. The ''catchLevel'' member indicates whether
-       errors are within a catch.
-
-    7. ''tclExecute.c'' - enhance the two macros DECACHE_STACK_INFO() and
-       CACHE_STACK_INFO() to increment/decrement the ''catchLevel'' member if
-       the following code is within a catch (I think this is the case when (catchTop
-       != initCatchTop) in the TclExecuteByteCode() function?). This makes
-       certain the catch information is available when code is executed by
-       TclEvalObjvInternal().
-
-    8. ''tclExecute.c'' - TclExecuteByteCode (line 1796 ff) after a call to
-       TclEvalObjvInternal, unset the ERRHANDLER_FINISHED flag, if the
-       execution is at the top of the execution stack. This way, the mechanism
-       works for following errors.
-
-The reference implementation fulfills this specification. It works while
-other Tcl functionality is not affected (proven by repeated run of the test
-suite).
+The changes in the execution engine should be done so that:
+ * existing functionality is not disturbed.
+ * the call frame is preserved after the error occured - thus the custom command is run in the same level as where the error was thrown
+ * the ''::errorInfo'' and ''::errorCode'' variables are updated to contain the error information '''that is available in the current callframe'''. This information must be updated before the custom command is run, so that it is accessible from there.
 
 ~ Reference Implementation
 
@@ -124,7 +91,7 @@ The reference implementation is available from sourceforge as a patch against Tc
 
 Here is a sample procedure that can be used to stop execution on error and
 introspect the program using stdin/stdout. It was implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
-http://lambda-the-ultimate.org/node/1544#comment-18446:
+[http://lambda-the-ultimate.org/node/1544#comment-18446]:
 
 |package provide debug 1.0
 |
@@ -168,7 +135,7 @@ http://lambda-the-ultimate.org/node/1544#comment-18446:
 |}
 
 To use it for uncaught errors, the ''breakpoint'' procedure can be registered
-as error handler:
+as error command:
 
 |package re debug
 |::tcl::seterrorhandler -uncaught breakpoint
