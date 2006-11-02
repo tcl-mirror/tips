@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -60,10 +60,10 @@ instance:
 
 ~ Alternatives
 
-~~ Overwriting of the '''error''' command
+ 1. Overwriting of the '''error''' command
 As stated abovem, this works only for errors generated from Tcl code, whereas it does not work for errors from C extensions.
 
-~~ Leavestep execution traces
+ 2. Leavestep execution traces
 In Tcl >=8.4 it is possible to register execution traces on ''leavestep'' to commands. To implement part of the proposed functionality it would be possible to add a leavestep trace procedure, which - after each command - checks for the return code and acts accordingly. The problem with this approach is, that the procedure is called after ''each'' command, independent from whether it returned an error or not. This can slow down the program execution more or less significantly. Furthermore, it is not easy if at all possible to capture occurences of '''catch''' by this way, so it is complicated or impossible to react on caught errors.
 
 It might be possible to get part or most of the proposed functionality by ''trace add execution leavestep'' or overwriting of '''error'''. But it is the responsibility of the core language (even more when it is a dynamic language) to provide customizable and advanced error handling. The TIP proposes in this direction.
