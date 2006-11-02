@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -73,15 +73,15 @@ It might be possible to get part or most of the proposed functionality by ''trac
 The implementation consists of two parts: a registration command for the custom command and a place where the handler is called. For this to work, there are some minor changes necessary to the Tcl execution engine and to the Interp structure. For running the handler on caught and or uncaught errors (depending on how the user wants to have it) it is necessary to capture the current level of "catch"es that occure during execution.
 
 The registration command is responsible for:
- * register the command for caught and/or uncaught errors
- * retrieve the currently registered command
- * change the execution details (caught and/or uncaught errors) and the command.
- * unregister the command and thus get back to the current behaviour in error cases.
+    * register the command for caught and/or uncaught errors
+    * retrieve the currently registered command
+    * change the execution details (caught and/or uncaught errors) and the command.
+    * unregister the command and thus get back to the current behaviour in error cases.
 
 The changes in the execution engine should be done so that:
- * existing functionality is not disturbed.
- * the call frame is preserved after the error occured - thus the custom command is run in the same level as where the error was thrown
- * the ''::errorInfo'' and ''::errorCode'' variables are updated to contain the error information '''that is available in the current callframe'''. This information must be updated before the custom command is run, so that it is accessible from there.
+    * existing functionality is not disturbed.
+    * the call frame is preserved after the error occured - thus the custom command is run in the same level as where the error was thrown
+    * the ''::errorInfo'' and ''::errorCode'' variables are updated to contain the error information '''that is available in the current callframe'''. This information must be updated before the custom command is run, so that it is accessible from there.
 
 ~ Reference Implementation
 
