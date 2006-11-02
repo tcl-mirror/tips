@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -24,7 +24,7 @@ fully qualified names bypass the namespace's '''path''' and '''unknown'''
 redirectors.
 
 As an example (and risking "uh-oo" reactions in the present context) I would
-like to remark that this feature enables poorman oo systems based on ensembles
+like to remark that this feature enables lightweight OO systems based on ensembles
 to provide inheritance of methods via '''namespace path''' and '''namespace
 unknown'''.
 
