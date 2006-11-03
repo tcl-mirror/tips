@@ -1,14 +1,15 @@
-TIP:		294
+TIP:            294
 Title:          The "entier" Function: It's Spelt "entire"
-Version:	$Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
 Type:           Project
-Vote:		Pending
+Vote:           Pending
+Created:        03-Nov-2006
+Post-History:   
+Keywords:       Tcl,number,cast,rename
 Tcl-Version:    8.5
-Created:	03-Nov-2006
-Post-History:	
-Keywords:	Tcl, number, cast, rename
 
 ~ Abstract
 
@@ -26,6 +27,8 @@ pages in English the count drops to 943000, and even then most of these are in
 fact written in French. Within the first 60 matches, only 3 show "entier"
 occurring in English text, and in all these cases it is part of a
 trademark/product name.
+
+Googling for "entier function" shows however that it is a concept discussed in English texts. entier() was one of the standard functions in Algol 60.
 
 ~ Alternatives
 
