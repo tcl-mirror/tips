@@ -1,7 +1,8 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
+Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -12,20 +13,20 @@ Tcl-Version:    8.5
 ~ Abstract
 
 This TIP proposes adding OO support to the Tcl core, consisting mostly
-of an dispatcher plus a small number of helper commands. The TIP
-allows the coexsitance of multiple object systems by providing a
+of a dispatcher plus a small number of helper commands. The TIP
+allows the coexistence of multiple object systems by providing a
 common framework, the Tcl Minimal Object System (TMOS).  The framework
-will contain as well a small basic oriented language (Tcl Core Object
-Oriented Language, TclCOOL) to make it useable in the core without any
+will contain, as well, a small, basic oriented language (Tcl Core Object
+Oriented Language, TclCOOL) to make it usable in the core without any
 extensions. All defined commands of the minimal object system are
 defined in the '''::oo''' namespace, which is not used by any current
-mainstream OO system. It will designed specifically to allow a relative 
+mainstream OO system. It has been designed specifically to allow a relatively 
 simple re-implementation of the known object systems.
 
 ~ Rationale and Basic Requirements
 
 Rather than proposing any kind of OO language, the TIP suggests to add a
-framework to the core, that many existing and future extensions (including
+framework to the core that many existing and future extensions (including
 XOTcl) can use. This framework alone is not useful as an OO language, but is
 an environment that can host multiple OO languages in parallel, such as Snit
 or XOTcl (maybe the language from current [257] as well), without pushing a
@@ -42,7 +43,7 @@ allocating objects or classes is proposed, plus a few commands for
 setting up the object/class relations and registering methods.
 
 The Tcl Minimal Object System is used for the definition of TclCOOL
-(Tcl Core Object Oriented Language).  TclCOOL is simple but powerful
+(Tcl Core Object Oriented Language). TclCOOL is simple but powerful
 object language realized with TMOS. 
 
 Additional object systems (like XOTcl, SNIT or STOOP) can be loaded as
@@ -51,7 +52,7 @@ method-sets (or re-use the predefined method set, or reuse the
 methods-set of some extension).
 
 This approach provides a flexibility much higher than in other popular
-scripting languages and lets object systems designer continue to
+scripting languages and lets object system designers continue to
 improve their work based on Tcl.
 
 ~ The Tcl Minimal Object System
@@ -64,15 +65,15 @@ meta-class ('''::oo::class''', subclass of '''::oo::object''').
 |   ::oo::object   class          ::oo::object   ::oo::class
 |   ::oo::class    meta-class     ::oo::object   ::oo::class
 
-The meta-class '''::oo::class''' has two methods named "'''alloc'''" and "'''dealloc'''"  
+The meta-class '''::oo::class''' has two methods named "'''alloc'''" and "'''dealloc'''" 
 (names are arbitrary, as shown later) to create objects or classes. '''::oo::object'''
 has no methods at all.
 
 The minimal object system is intended to be specialized by one or more
 different object systems. An object system is created by sub-classing the base
-classes configuring these according to the object systems needs. This
+classes, configuring these according to the object systems needs. This
 configuration consists of defining its relations to the general base and
-meta-class, and equipping these extension specific classes with additional
+meta-class, and equipping these extension-specific classes with additional
 functionality (providing methods). The whole configuration of the object
 system can be done completely from the scripting level.
 
@@ -106,21 +107,21 @@ The Tcl command ::oo::setrelation
 
 |   ::oo::setrelation class|obj <relation> <target>
 
-allows to define/redefine relations between objects, classes and
-mixins.  This is a primitive command designed for the language
+allows one to define/redefine relations between objects, classes and
+mixins. This is a primitive command designed for the language
 developer, not for the user of the implemented object oriented
 language. The following relations are supported: '''mixin'''
 (abbreviation for per-object mixin), '''instmixin''' (for per-class
 mixin), '''filter''' (for per-object filter), '''instfilter''' (for
 per-class filter), '''class''', and '''superclass'''. The meaning of
-this relations is defined by the dispatcher, which is responsible for
+these relations is defined by the dispatcher, which is responsible for
 the linearization of the commands.
 
 The dispatcher determines the invocation order depending on the
 precedence order and the resolution order. The precedence order
 defines the priorization of classes and determines therefore the
 shadowing of methods. The precedence order is per-object mixins,
-followed by per-class mixins, followed by the class hierarchy.  All of
+followed by per-class mixins, followed by the class hierarchy. All of
 these refer not to single classes but to class hierarchies, where the
 contained classes are linearized; when a class is mixed into a
 precedence order, where it is already present, it has no effect.
@@ -187,7 +188,7 @@ basic relationships of the freshly defined classes.
 
 First, we define that the superclasses of the newly defined class
 named ''::tcl-cool::class'') should be the general meta-class
-::oo::class and as well ''::tcl-cool::object''.  Therefore,
+::oo::class and as well ''::tcl-cool::object''. Therefore,
 ::tcl-cool::class will be a meta-class (its instances are classes) and
 it will inherit all properties of the most general TclCOOL class.
 
@@ -207,12 +208,12 @@ In a next step of the bootstrapping we attach methods to these classes.
 
 We define 3 methods for ''::tcl-cool::class'' based on the method-set for classes:
 
- *  ''method''  is a means to define the methods, which are provided 
+ * ''method'' is a means to define the methods, which are provided 
                to the instances of the class (''instproc'' in XOTcl)
 
- * ''forward'' us a forwarder for instances of the object (''instforward'' in XOTcl)
+ * ''forward'' is a forwarder for instances of the object (''instforward'' in XOTcl)
 
- * ''info''   is an introspection method for classes
+ * ''info'' is an introspection method for classes
 
 |   ::oo::alias ::tcl-cool::class method  ::oo::methodset::class::instproc
 |   ::oo::alias ::tcl-cool::class forward ::oo::methodset::class::instforward
@@ -228,7 +229,7 @@ based on the method-set for objects:
 
  * ''forward'' is a method for delegating calls to different objects
 
- * ''info''   is an introspection method for objects
+ * ''info'' is an introspection method for objects
 
 |   ::oo::alias ::tcl-cool::object variable ::oo::methodset::object::instvar
 |   ::oo::alias ::tcl-cool::object forward  ::oo::methodset::object::forward
