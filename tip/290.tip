@@ -1,6 +1,6 @@
 TIP:            290
 Title:          Registration of Custom Error Handler Scripts
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Eckhard Lehmann <ecky-l@web.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -13,7 +13,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes the possibility to register custom commands as error handlers.
+This TIP proposes the possibility to register a custom command as error and exception handler.
 
 ~ Rationale
 
@@ -74,7 +74,7 @@ The implementation consists of two parts: a registration command for the custom 
 
 The registration command is responsible for:
 
-    * register the command for caught and/or uncaught errors
+    * register the command for caught and/or uncaught exceptions
 
     * retrieve the currently registered command
 
@@ -82,11 +82,21 @@ The registration command is responsible for:
 
     * unregister the command and thus get back to the current behaviour in error cases
 
-Proposed: '''tcl::seterrorhandler ?-caught? ?-uncaught? ?script?'''
+Since the functionality is very similar to the family of '''trace''' commands, the proposed registration command is an extension to trace:
 
-Without arguments, it returns a list with the elements {-caught y/n -uncaught y/n script}, where caught and uncaught flags are specified and script is the currently registered handler. With the arguments ''-caught'' and/or ''-uncaught'', it modifies the run conditions for the currently registered handler (run on caught/uncaught errors). With the ''script'' argument, this is set as the new handler. If ''script'' is the empty string, any previously set error handler is unregistered, and thus the ''-caught'' and ''-uncaught'' have no effect.
+'''trace set exception ?-caught? ?-uncaught? ?command?''': Registration and modification
 
-The ''script'' that is registered will quell the error if it returns normal (return code 0). If the script returns abnormal, it's return code is returned to the interpreter. Errors inside the handler are not trapped by the script again, rather they are presented to the interpreter as usual - otherwise this would result in an endless loop.
+The arguments ''-caught'' and/or ''-uncaught'' to ''trace set exception'' modify the run conditions for the currently registered handler (run on caught/uncaught errors). With the ''command'' argument, this is set as the new handler. The return code and result of the command that was executing is appended to the registered ''command''. So, the real call is: ''command code result''.
+
+'''trace info exception''': Information about the current handler
+
+This command returns a list with the elements {-caught y/n -uncaught y/n script}, where caught and uncaught flags are specified and script is the currently registered handler.
+
+'''trace unset exception''': Remove registerred handler
+
+Any previously set error handler is unregistered.
+
+The ''command'' that is registered will quell the error if it returns normal (return code 0). If the script returns abnormal, it's return code is returned to the interpreter. Errors inside the handler are not trapped by the script again, rather they are presented to the interpreter as usual - otherwise this would result in an endless loop.
 
 The changes in the execution engine should be done so that:
 
@@ -102,12 +112,12 @@ The errorInfo and errorCode variables are set directly before the handler is run
 
 ~ Reference Implementation
 
-The reference implementation is available from sourceforge as a patch against Tcl 8.5a5 [http://sourceforge.net/support/tracker.php?aid=1587317].
+A reference implementation is available from sourceforge as a patch against Tcl 8.5a5 [http://sourceforge.net/support/tracker.php?aid=1587317].
 
 ~ Usage Example
 
-Here is a sample procedure that can be used to stop execution on error and
-introspect the program using stdin/stdout. It was implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
+Here is a sample procedure that can be used to stop execution on error (return code 1) and
+introspect the program using stdin/stdout. Other return codes are returned together with the previous result. The procedure was mainly implemented by Neil Madden as '''debug-repl''' and is available (with a short discussion on the topic) on 
 [http://lambda-the-ultimate.org/node/1544#comment-18446]:
 
 |package provide debug 1.0
@@ -122,7 +132,10 @@ introspect the program using stdin/stdout. It was implemented by Neil Madden as 
 |    return -code continue
 |}
 |
-|proc breakpoint {args} {
+|proc breakpoint {code result} {
+|    if {$code > 1} {
+|        return -code $code $result
+|    }
 |    set cmd ""
 |    set level [expr {[info level]-1}]
 |    set prompt "Debug ($level) % "
@@ -155,7 +168,7 @@ To use it for uncaught errors, the ''breakpoint'' procedure can be registered
 as error command:
 
 |package re debug
-|::tcl::seterrorhandler -uncaught breakpoint
+|trace set exception -uncaught breakpoint
 
 When an error raises, ''breakpoint'' is called in the current callframe and
 Tcl introspection commands like '''info vars''' etc. can be used to get
