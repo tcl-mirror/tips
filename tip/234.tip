@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -171,9 +171,9 @@ data for decompression.
  > ''stream'' '''flush'''
 
 The next invoke of the stream's '''get''' subcommand will try to get the most
-data from the stream. While compressing, calling ''stream'' '''flush''' often
-will degrade the compression ratio as it forces all remaining input to be
-output immediately.
+data from the stream. While compressing, calling [[''stream'' '''flush''']]
+often will degrade the compression ratio as it forces all remaining input to
+be output immediately.
 
  > ''stream'' '''fullflush'''
 
