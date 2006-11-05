@@ -1,6 +1,6 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -128,7 +128,9 @@ is of type '''long'''.
 |  Tcl_Obj *objPtr = Tcl_ObjPrintf("Value is %d", x);
 
 If the value of ''format'' contains internal inconsistencies or invalid
-specifier formats, the routine '''Tcl_ObjPrintf''' may panic.
+specifier formats, the formatted string result produced by 
+'''Tcl_ObjPrintf''' will be an error message instead of any
+attempt to Do What Is Meant.
 
 ~~ Tcl_AppendPrintfToObj
 
