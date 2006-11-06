@@ -1,13 +1,13 @@
 TIP:            287
-Title:          Add a 'chan available' Command
-Version:        $Revision: 1.6 $
+Title:          Add a Commands for Determining Size of Buffered Data
+Version:        $Revision: 1.7 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        26-Oct-2006
 Post-History:   
-Keywords:       Tcl,channel
+Keywords:       Tcl,channel,chan,pendinginput,pendingoutput
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -15,8 +15,9 @@ Tcl-Version:    8.5
 Many network servers programmed in Tcl (including the venerable tclhttpd) are
 vulnerable to DoS (denial of service) attacks because they lack any way to
 introspect the amount of buffered data on a non-blocking socket that is in
-line buffering mode. This TIP proposes two new subcommands to '''chan''' to allow
-the amount of buffered input and buffered output (for symmetry) to be inspected from Tcl.
+line buffering mode. This TIP proposes two new subcommands to '''chan''' to
+allow the amount of buffered input and buffered output (for symmetry) to be
+inspected from Tcl.
 
 ~ Rationale
 
@@ -66,11 +67,14 @@ page on the Tcl'ers Wiki [http://wiki.tcl.tk/gets].
 At the C level Tcl already has a function, ''Tcl_InputBuffered'' which returns
 the number of unread bytes buffered for a channel.
 
-This TIP proposes to implement a new ''chan pendinginput'' command which would
-effectively expose the existing ''Tcl_InputBuffered()'' so that a programmer
-could introspect the amount of buffered unread data that was available.
+This TIP proposes to implement a new '''chan pendinginput''' command which
+would effectively expose the existing ''Tcl_InputBuffered()'' so that a
+programmer could introspect the amount of buffered unread data that was
+available.
 
-For symmetry a new ''chan pendingoutput'' command is also added which exposes the existing ''Tcl_OutputBuffered()'' so that a programmer could also introspect the amount of buffered output waiting to be flushed.
+For symmetry a new '''chan pendingoutput''' command is also added which
+exposes the existing ''Tcl_OutputBuffered()'' so that a programmer could also
+introspect the amount of buffered output waiting to be flushed.
 
 This allows a programmer developing network daemons at the Tcl level to
 implement their own policy decisions based on the size of the unread line.
@@ -82,25 +86,40 @@ long before all memory was exhausted.
 |     # [read $sock] to process a partial line and drain the buffer, etc.)
 | }
 
-In the case of both ''chan pendinginput'' and ''chan pendingoutput'' if the channel was not opened for reading or writing (respectively) then the return value shall be -1.
+In the case of both '''chan pendinginput''' and '''chan pendingoutput''' if
+the channel was not opened for reading or writing (respectively) then the
+return value shall be -1. Both commands take a single argument, the name of
+the channel to inspect.
 
 ~ Rejected Alternatives
 
  * Adding a flag to '''fblocked''' to return the number of unread bytes
-   instead of just 0 or 1 (since '''fblocked''' is now considered deprecated as per [208]).
+   instead of just 0 or 1 (since '''fblocked''' is now considered deprecated
+   as per [208]).
 
- * Polluting the global namespace with a new '''favailable''', '''fpending''' or '''fqueued''' command.
+ * Polluting the global namespace with a new '''favailable''', '''fpending'''
+   or '''fqueued''' command.
 
  * A '''chan unread''' because of potential confusion as to whether it
    performed ''ungetch()'' type functionality (''un-reed'' vs ''un-red'').
 
- * Any sort of '''-maxchars''' or '''-maxbytes''' flag to '''gets''' in order to not complicate the semantics of '''gets'''.  Additionally without even further complicating '''gets''' semantics one could not distinguish input of exactly $limit characters from the case where only $limit characters were returned (with some input remaining unread).
+ * Any sort of '''-maxchars''' or '''-maxbytes''' flag to '''gets''' in order
+   to not complicate the semantics of '''gets'''.  Additionally without even
+   further complicating '''gets''' semantics one could not distinguish input
+   of exactly $limit characters from the case where only $limit characters
+   were returned (with some input remaining unread).
 
- * The initial version of this TIP called for a ''chan available'' command.  This was changed to ''pendinginput'' (and ''pendingoutput'' added for symmetrys sake) following suggestions on comp.lang.tcl from  Donald Arseneau and Donal Fellows.
+ * The initial version of this TIP called for a ''chan available'' command.
+   This was changed to ''pendinginput'' (and ''pendingoutput'' added for
+   symmetry's sake) following suggestions on news:comp.lang.tcl from Donald
+   Arseneau and Donal Fellows.
 
 ~ Reference Implementation
 
-[RFE 1586860] at SourceForge now contains a patch implementing '''chan pendinginput''' and '''chan pendingoutput''' (including updated '''chan''' man page and corresponding test cases) [http://sourceforge.net/tracker/index.php?func=detail&aid=1586860&group_id=10894&atid=360894].
+[[RFE 1586860]] at SourceForge now contains a patch implementing '''chan
+pendinginput''' and '''chan pendingoutput''' (including updated '''chan''' man
+page and corresponding test cases)
+[http://sourceforge.net/tracker/index.php?func=detail&aid=1586860&group_id=10894&atid=360894].
 
 ~ Copyright
 
