@@ -1,6 +1,6 @@
 TIP:            287
 Title:          Add a 'chan available' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
@@ -15,7 +15,7 @@ Tcl-Version:    8.5
 Many network servers programmed in Tcl (including the venerable tclhttpd) are
 vulnerable to DoS (denial of service) attacks because they lack any way to
 introspect the amount of buffered data on a non-blocking socket that is in
-line buffering mode. This TIP proposes a new subcommand to '''chan''' to allow
+line buffering mode. This TIP proposes two new subcommands to '''chan''' to allow
 the amount of buffered input and buffered output (for symmetry) to be inspected from Tcl.
 
 ~ Rationale
