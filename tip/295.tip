@@ -1,6 +1,6 @@
 TIP:            295
 Title:          Enhance Arguments to lrange
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -64,6 +64,15 @@ constant small sized, then
 | lrange $list size size size-1 size-1 ... 1 1 0 0
 
 would have that effect.
+
+Second Edit: I only now realize that the formulation may be 
+a bit misleading: 
+
+| The index-pairs should ''not'' be required to be in ascending order
+
+means, that using multiple ranges is not limited to cut holes into the original list, but that each range is completely independent of all previous and following ranges. e.g.:
+
+| [lrange $list 0 end 0 end] == [lrepeat 2 {*}$list]
 
 ~ Copyright
 
