@@ -1,14 +1,14 @@
-TIP:		296
-Title:		Enhanced Syntax for Pair-Wise Indices
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Author:		Andreas Leitgeb <avl@logic.at>
-Created:	06-Nov-2006
-Keywords:	Tcl, lrange, lreplace
-Version:	$Revision: 1.1 $
-Vote:		Pending
-Post-History:	
+TIP:            296
+Title:          Enhanced Syntax for Pair-Wise Indices
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        06-Nov-2006
+Post-History:   
+Keywords:       Tcl,lrange,lreplace
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -71,6 +71,8 @@ Eventually, an empty string could be made equivalent to '''s'''.
 
 For '''lreplace''', '''s-1''' as an end-index would actually make it an
 '''linsert''' operation.
+
+This TIP covers all tcl commands that accept a pair of indices to specify a range, including (but not limited to)  lrange, lreplace, string range,  plus any third-party command that uses Tcl's index parsing functions.
 
 ~ Copyright
 
