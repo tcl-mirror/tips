@@ -1,0 +1,77 @@
+TIP:		296
+Title:		Enhanced Syntax for Pair-Wise Indices
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Author:		Andreas Leitgeb <avl@logic.at>
+Created:	06-Nov-2006
+Keywords:	Tcl, lrange, lreplace
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+This TIP proposes adding another anchor '''s''' (for usage exclusively in
+end-indices) that refers to the respective start-index.
+
+~ Rationale
+
+Currently, most commands that accept an index also accept the local keyword
+'''end''' as well as simple arithmetics involving this keyword.
+
+Commands that accept a pair of indices for a range, require an explicit start
+and (inclusive)end index for the requested subrange.
+
+In other languages (C++/stl, java, ...) it appears to be more common to
+specify ranges by start and length. Since the length has a higher tendency of
+being constant, this seems actually the better idea, anyway. For compatibility
+reasons, we just cannot simply change all the commands to take offset/length
+pairs rather than start/end.
+
+However we could add a new anchor '''s''' to be used in the end-index, and
+allow simple arithmetic on it just like on the other index forms.
+
+Specifying a subrange of length 1 (which makes more sense ''e.g.'' with
+'''lreplace''' than with '''lrange'''), one would then simply specify '''s'''
+as end-index.  For a pair, "s+1" as end index does it.
+
+If the start position of a subrange is obtained as result of a command,
+currently one typically does in tcl:
+
+| set offs [...]
+| ... [lrange $list $offs [expr {$offs+1}]] ...
+
+A previous TIP has added support to do the following instead:
+
+| set offs [...]
+| ... [lrange $list $offs $offs+1] ...
+
+This TIP aims at making this the new idiom:
+
+| ... [lrange $list [...] s+1]
+
+~ Proposed Change
+
+Currently there is a function TclGetIntForIndex, which deals with the current
+'''end''' anchor. It could be accompanied with a second function (e.g.,
+TclGetIntForIndex2) that would accept another argument for the previously
+calculated index of the range-start argument, and use that in case the new
+anchow '''s''' occurs in the range-end index.
+
+No change at all is proposed for each ranges start index.
+
+~ Draft Implementation
+
+None, at the moment.
+
+~ Further Thoughts
+
+Eventually, an empty string could be made equivalent to '''s'''.
+
+For '''lreplace''', '''s-1''' as an end-index would actually make it an
+'''linsert''' operation.
+
+~ Copyright
+
+This document has been placed in the public domain.
