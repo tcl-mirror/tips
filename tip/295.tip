@@ -1,6 +1,6 @@
 TIP:            295
 Title:          Enhance Arguments to lrange
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -12,7 +12,7 @@ Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes an enhancement to '''lrange''' that lets it take more than one start-end index pair.
+This TIP proposes an enhancement to '''lrange''' and '''string range''' that lets them take more than one start-end index pair.
 
 ~ Rationale
 
@@ -28,13 +28,13 @@ return "b c d f". This would also make following pattern of usage feasible:
 
 | lassign [lrange $someList 0 2  10 12]  var0 var1 var2 var10 var11 var12
 
-The index-pairs should ''not'' be required to be in ascending order (this
-might be difficult to determine when one index is end-relative), or even
-disjoint. Even:
+The indices should ''not'' be required to be in ascending order.
+This is meant such that the ranges may be overlapping at will. E.g.:
 
-| lrange {a b c d}  3 3  0 3  0 0
+| [lrange $list 0 end 0 end] == [lrepeat 2 {*}$list]
 
-should be made legal and return "d a b c d a".
+This TIP does NOT change the way each range is interpreted.
+Reversing lists is not in the scope of this TIP.
 
 ~ Proposed Change
 
@@ -55,24 +55,6 @@ equivalent to:
 Just the above mentioned procedure, at the moment.
 
 ~ Further Thoughts
-
-Uwe Klein asks: "Should this support reverse ranges?"
-
-This TIP is just about implicit concat'ing multiple lranges of the same list. Reversing lists doesn't fit here. (except if they are only
-constant small sized, then 
-
-| lrange $list size size size-1 size-1 ... 1 1 0 0
-
-would have that effect.
-
-Second Edit: I only now realize that the formulation may be 
-a bit misleading: 
-
-| The index-pairs should ''not'' be required to be in ascending order
-
-means, that using multiple ranges is not limited to cut holes into the original list, but that each range is completely independent of all previous and following ranges. e.g.:
-
-| [lrange $list 0 end 0 end] == [lrepeat 2 {*}$list]
 
 ~ Copyright
 
