@@ -1,6 +1,6 @@
 TIP:            295
 Title:          Enhance Arguments to lrange
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -58,11 +58,12 @@ Just the above mentioned procedure, at the moment.
 
 Uwe Klein asks: "Should this support reverse ranges?"
 
-I, the TIP author: "I don't want to touch this with '''this''' TIP"
+This TIP is just about implicit concat'ing multiple lranges of the same list. Reversing lists doesn't fit here. (except if they are only
+constant small sized, then 
 
-To avoid compatibility issues, it would at least require some extra flags. I'd welcome a new TIP with a suggestion on how it can be
-done compatibly.  As of this TIP, anything below '''s-1''' would
-be equivalent to '''s-1''' and denote an empty range.
+| lrange $list size size size-1 size-1 ... 1 1 0 0
+
+would have that effect.
 
 ~ Copyright
 
