@@ -1,19 +1,18 @@
-TIP:		295
-Title:		Enhance Arguments to lrange
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Author:		Andreas Leitgeb <avl@logic.at>
-Created:	06-Nov-2006
-Keywords:	Tcl, lrange
-Version:	$Revision: 1.1 $
-Vote:		Pending
-Post-History:	
+TIP:            295
+Title:          Enhance Arguments to lrange
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        06-Nov-2006
+Post-History:   
+Keywords:       Tcl,lrange
+Tcl-Version:    8.5
 
 ~ Abstract
 
-This TIP proposes an enhancement to '''lrange''' that lets it take more than
-one start-end index pair.
+This TIP proposes an enhancement to '''lrange''' that lets it take more than one start-end index pair.
 
 ~ Rationale
 
@@ -54,6 +53,16 @@ equivalent to:
 ~ Draft Implementation
 
 Just the above mentioned procedure, at the moment.
+
+~ Further Thoughts
+
+Uwe Klein asks: "Should this support reverse ranges?"
+
+I, the TIP author: "I don't want to touch this with '''this''' TIP"
+
+To avoid compatibility issues, it would at least require some extra flags. I'd welcome a new TIP with a suggestion on how it can be
+done compatibly.  As of this TIP, anything below '''s-1''' would
+be equivalent to '''s-1''' and denote an empty range.
 
 ~ Copyright
 
