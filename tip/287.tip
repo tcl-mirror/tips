@@ -1,6 +1,6 @@
 TIP:            287
 Title:          Add a 'chan available' Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
@@ -96,7 +96,7 @@ In the case of both ''chan pendinginput'' and ''chan pendingoutput'' if the chan
 
  * Any sort of '''-maxchars''' or '''-maxbytes''' flag to '''gets''' in order to not complicate the semantics of '''gets'''.  Additionally without even further complicating '''gets''' semantics one could not distinguish input of exactly $limit characters from the case where only $limit characters were returned (with some input remaining unread).
 
- * The initial version of this TIP called for a ''chan available'' command.  This was changed to ''pendinginput'' (and ''pendingoutput'' added for symmetrys sake) following suggestions on comp.lang.tcl from Donald Arseneua and Donal Fellows.
+ * The initial version of this TIP called for a ''chan available'' command.  This was changed to ''pendinginput'' (and ''pendingoutput'' added for symmetrys sake) following suggestions on comp.lang.tcl from  Donald Arseneau and Donal Fellows.
 
 ~ Reference Implementation
 
