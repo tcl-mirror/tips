@@ -1,14 +1,14 @@
 TIP:            174
 Title:          Math Operators as Commands
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Kristoffer Lawson <setok@altparty.org>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Kevin B. Kenny <kennykb@acm.org>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        15-Mar-2004
 Post-History:   
 Tcl-Version:    8.5
