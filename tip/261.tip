@@ -1,8 +1,8 @@
 TIP:            261
 Title:          Return Imported Commands from [namespace import]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Martin Lemburg <martin.lemburg@gmx.net>
-Author:          <dgp@users.sf.net>
+Author:         <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -65,7 +65,12 @@ values from this command.
 The result of '''namespace import''' without arguments shall be a list
 of all commands that have been imported into the current namespace.
 Each command in the list will be the simple name by which the command
-is known in the current namespace.
+is known in the current namespace.  This format for the
+returned value is most useful because it composes well
+with '''namespace forget'''.  To remove all imported
+commands from a namespace, use the command
+
+| namespace forget {*}[namespace import]
 
 ~ Implementation
 
