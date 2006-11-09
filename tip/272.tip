@@ -1,11 +1,11 @@
 TIP:		272
 Title:		String and List Reversal Operations
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Created:	23-Aug-2006
 Keywords:	Tcl, lreverse
