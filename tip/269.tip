@@ -1,6 +1,6 @@
 TIP:		269
 Title:		Add 'string is list' to the 'string is' Subcommand
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
@@ -48,7 +48,9 @@ is list''' subcommand, as follows:
  > '''string''' '''is''' '''list''' ?'''-strict'''? ?'''-failindex''' ''var''? ''str''
 
 The result will be '''1''' if the string has proper list structure; otherwise,
-it will be '''0'''.
+it will be '''0'''. The option '''-strict''' is accepted for syntactic
+compatability with other forms of '''string is''' but has no effect since
+empty strings are proper lists.
 
 ~ Reference Implementation
 
