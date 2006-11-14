@@ -1,9 +1,9 @@
 TIP:            261
 Title:          Return Imported Commands from [namespace import]
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Martin Lemburg <martin.lemburg@gmx.net>
 Author:         <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        20-Dec-2005
