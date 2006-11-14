@@ -1,10 +1,10 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Don Porter <dgp@users.sf.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        19-Jun-2006
 Post-History:   
 Tcl-Version:    8.5
