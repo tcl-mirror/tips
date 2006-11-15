@@ -1,8 +1,8 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Don Porter <dgp@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        19-Jun-2006
