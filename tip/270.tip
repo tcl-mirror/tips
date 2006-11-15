@@ -1,6 +1,6 @@
 TIP:            270
 Title:          Utility C Routines for String Formatting
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Accepted
 Type:           Project
@@ -39,7 +39,7 @@ a '''(const char *)'''.
 
 ~~ Tcl_AppendLimitedToObj
 
- > int '''Tcl_AppendLimitedToObj'''(Tcl_Obj *''objPtr'', const char *''bytes'',
+ > void '''Tcl_AppendLimitedToObj'''(Tcl_Obj *''objPtr'', const char *''bytes'',
    int ''length'', int ''limit'', const char *''ellipsis'')
 
 This routine is used to append a string, but to impose a limit on how many
