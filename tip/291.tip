@@ -1,6 +1,6 @@
 TIP:            291
 Title:          Add the 'platform' Package to Tcl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Steve Landers <steve@DigitalSmarties.com>
 Author:         Andreas Kupries <andreask@ActiveState.com>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -101,7 +101,7 @@ number of bytes needed by the machine to store a ''void *'' pointer.
 
 ~ Discussion
 
-No discussion has taken place yet.
+When choosing the format for platform identifiers we had two contenders, i.e. ''OS''-''CPU'' vs. ''CPU''-''OS'', the second of which is used by GCC. However for developers using a scripting language like Tcl the OS is of more importance than the CPU architecture. Because of this the first form was chosen.
 
 ~ Reference Implementation
 
