@@ -1,14 +1,15 @@
 TIP:            291
 Title:          Add the 'platform' Package to Tcl
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Steve Landers <steve@DigitalSmarties.com>
 Author:         Andreas Kupries <andreask@ActiveState.com>
+Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        26-Oct-2006
 Post-History:   
-Keywords:       Tcl, Critcl, TEApot
+Keywords:       Tcl,Critcl,TEApot
 Tcl-Version:    8.5
 
 ~ Abstract
@@ -104,7 +105,7 @@ No discussion has taken place yet.
 
 ~ Reference Implementation
 
-An implementation patch will be made available on SourceForge.
+This is available on SourceForge [http://sourceforge.net/support/tracker.php?aid=1600701].
 
 ~ Copyright
 
