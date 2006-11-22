@@ -1,16 +1,16 @@
-TIP:            280
-Title:          Add Full Stack Trace Capability With Location Introspection
-Version:        $Revision: 1.8 $
-Author:         Andreas Kupries <andreas_kupries@users.sourceforge.net>
-Author:         Andreas Kupries <andreask@activestate.com>
-State:          Draft
-Type:           Project
-Vote:           In progress
-Created:        10-Aug-2004
-Post-History:   
-Keywords:       Tcl
-Obsoletes:      211
-Tcl-Version:    8.5
+TIP:		280
+Title:		Add Full Stack Trace Capability With Location Introspection
+Version:	$Revision: 1.9 $
+Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
+Author:		Andreas Kupries <andreask@activestate.com>
+State:		Draft
+Type:		Project
+Vote:		In progress
+Created:	10-Aug-2004
+Post-History:	
+Keywords:	Tcl
+Obsoletes:	211
+Tcl-Version:	8.5
 
 ~ Abstract
 
@@ -82,7 +82,7 @@ Other use cases, also found in [211]:
    calling it (which means things like the above either cannot work, or need
    to be rewritten in a considerably less clear manner).
 
-~ Specification of the proposed Change
+~ Specification of the Proposed Change
 
 ~~ Tcl Level API
 
@@ -100,19 +100,19 @@ The new functionality will provide access to all frames on the stack rather
 than the current limited subset. This TIP does ''not'' propose to alter
 '''uplevel''' or '''upvar''' so that they can see these hidden levels.
 
-If '''level''' is not specified, this command returns a number giving the
-frame level of the command. This is 1 if the command is invoked at top-level.
+If ''level'' is not specified, this command returns a number giving the frame
+level of the command. This is 1 if the command is invoked at top-level.
 
-If '''level''' is specified, then the result is a dictionary containing the
-location information for the command at the '''level''' on the stack.
+If ''level'' is specified, then the result is a dictionary containing the
+location information for the command at the ''level'' on the stack.
 
-If '''level''' is positive (> 0) then it selects a particular stack level (1
+If ''level'' is positive (> 0) then it selects a particular stack level (1
 refers to the top-most active command, i.e., ''info frame'' itself, 2 to the
 command it was called from, and so on); otherwise it gives a level relative to
-the current command (0 refers to the current command, i.e., ''info frame''
+the current command (0 refers to the current command, i.e., '''info frame'''
 itself, -1 to its caller, and so on).
 
-This is similar to how '''info levels''' works, except that this subcommand
+This is similar to how '''info level''' works, except that this subcommand
 reports all frames, like '''source''''d scripts, '''eval'''s, '''uplevel'''s,
 etc.
 
@@ -129,9 +129,9 @@ meanings for their values.
    the command. The recognized values are '''source''', '''proc''',
    '''eval''', and '''precompiled'''.
 
- > In some circumstances it makes sense to have this information
-   extensible, i.e. to allow user-defined type names. for more about
-   this topic see the discussion at the end of the document.
+ > In some circumstances it makes sense to have this information extensible,
+   i.e. to allow user-defined type names. For more about this topic see the
+   discussion at the end of the document.
 
  > * '''source''' means that the command is found in a script loaded by the
      '''source''' command.
@@ -169,8 +169,8 @@ meanings for their values.
 
  * '''proc'''
 
- > This entry is present only if the command is found in the body of a
-   regular Tcl procedure. It then provides the name of that procedure.
+ > This entry is present only if the command is found in the body of a regular
+   Tcl procedure. It then provides the name of that procedure.
 
  * '''lambda'''
 
@@ -185,43 +185,53 @@ meanings for their values.
    to the current level (0 and negative numbers).
 
 A thing of note is that for procedures statically defined in files the
-locations of commands in their bodies will be reported with type
-'''source''' and absolute line numbers, and not as type
-'''proc'''. The same is true for procedures nested in statically
-defined procedures, and literal eval scripts in files or statically
-defined procedures.
+locations of commands in their bodies will be reported with type '''source'''
+and absolute line numbers, and not as type '''proc'''. The same is true for
+procedures nested in statically defined procedures, and literal eval scripts
+in files or statically defined procedures.
 
 In contrast, for a procedure definition or eval within a dynamically
-eval'uated environment count linenumbers relative to the start of
-their script, even if they would be able to count relative to the
-start of the outer dynamic script. That type of number usually makes
-more sense.
+eval'uated environment count linenumbers relative to the start of their
+script, even if they would be able to count relative to the start of the outer
+dynamic script. That type of number usually makes more sense.
 
-A different way of describing this behaviour is that we track file
-based locations as deeply as we can, and where we cannot the lines are
-counted based on the smallest possible eval or procbody scope, as that
-scope is usually easier to find than any dynamic outer scope.
+A different way of describing this behaviour is that we track file based
+locations as deeply as we can, and where we cannot the lines are counted based
+on the smallest possible eval or procbody scope, as that scope is usually
+easier to find than any dynamic outer scope.
 
-The syntactic form ''{expand}'' is handled like ''eval''. I.e. if it
-is given a literal list argument the system tracks the linenumber
-within the list words as well, and otherwise all linenumbers are
-counted relative to the start of each word (smallest scope)
+The syntactic form '''{expand}''' is handled like '''eval'''. This means that
+if it is given a literal list argument the system tracks the line-number
+within the list words as well, and otherwise all line-numbers are counted
+relative to the start of each word (smallest scope)
 
-The following other builtin commands are changed as well to support
-the tracking of line numbers:
+The following other builtin commands are changed as well to support the
+tracking of line numbers:
 
  1. catch
+
  1. dict for
+
  1. dict with
+
  1. eval
+
  1. for
+
  1. foreach
+
  1. if
+
  1. interp eval
+
  1. namespace eval
+
  1. proc
+
  1. source
+
  1. switch
+
  1. while
 
 ~~ Public C API
@@ -332,7 +342,7 @@ the beginning of the lines.
 | runTest TC0001                      ; # 14
 | __________________________________________________
 
-Output
+'''Output:'''
 
 | __________________________________________________
 |
@@ -347,7 +357,7 @@ the '''info frame''' command on line 3 of ''setRes'' with "'''return''' -code
 error X". This will generate an error trace and with a bit of reformatting the
 relationship can be seen easily:
 
-Stack trace:
+'''Stack trace:'''
 
 | __________________________________________________
 |	X
@@ -401,52 +411,51 @@ current interp, the same limit '''info level''' is bound by.
 ~ Discussion
 
 A point noted by Lars Hellstrom is that this TIP makes the builtin
-source command special. It is not possible anymore to re-create source
-purely in Tcl, doing so will loose the name of the file. We are still
-tracking line numbers, but they are then relative to the start of the
+'''source''' command special. It is not possible anymore to re-create
+'''source''' purely in Tcl, doing so will loose the name of the file. We are
+still tracking line numbers, but they are then relative to the start of the
 eval'd script, withut a connection to the file.
 
-In a similar way user-defined control structures loose the ability of
-the builtin ''if'', etc. to track line numbers in a literal code block
-relative to the enclosing file. The user-defined commands are again
-reduced to providing line numbers relative to the start of the code
-block.
+In a similar way, user-defined control structures lose the ability of the
+builtin ''if'', etc. to track line numbers in a literal code block relative to
+the enclosing file. The user-defined commands are again reduced to providing
+line numbers relative to the start of the code block.
 
-To bring user-defined commands back to the same level
-as the builtins we need:
+To bring user-defined commands back to the same level as the builtins we need:
 
- 1. An extension of [info frame] which delivers the line information
-    for all words of the command we are inside of.  As each word can
-    start on a different line (because of continuation lines and
-    preceding multi-line literals).
+ 1. An extension of '''info frame''' which delivers the line information for
+    all words of the command we are inside of. As each word can start on a
+    different line (because of continuation lines and preceding multi-line
+    literals).
 
- > This information is actually already available internally. The
-   current implementation needs it for the tracking into literals.
+  > This information is actually already available internally. The current
+    implementation needs it for the tracking into literals.
 
- 1. Extensions to the ''uplevel'' and ''eval'' commands which allows a
-    script to provide them with location information for the script
-    they are evaluating.
+ 1. Extensions to the ''uplevel'' and ''eval'' commands which allow a script
+    to provide them with location information for the script they are
+    evaluating.
 
 Example
+
 | proc newsource {foo script} {
 |   ... preprocess whatever ...
 |   set loc [info frame data for word 2]
 |   uplevel -location $loc 1 $script
 | }
 
-Internally we also need quite a bit more flexible data structures. The
-type names for example are defined through a C enum, and can be
-checked quickly and efficiently. The file information, i.e. path, is
-stored and used dependent on that, only for type 'source'.
+Internally we also need quite a bit more flexible data structures. The type
+names for example are defined through a C enum, and can be checked quickly and
+efficiently. The file information, i.e. path, is stored and used dependent on
+that, only for type '''source'''.
 
-To keep this TIP and its implementation reasonably small the actual
-detailed specification and implementation of such extensibility is
-defered to a future TIP.
+To keep this TIP and its implementation reasonably small the actual detailed
+specification and implementation of such extensibility is defered to a future
+TIP.
 
 ~ Reference Implementation
 
-An implementation patch is available on SourceForge
-[http://sourceforge.net/support/tracker.php?aid=1571568].
+An implementation patch is available on
+SourceForge[http://sourceforge.net/support/tracker.php?aid=1571568].
 
 ~ Copyright
 
