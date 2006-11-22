@@ -1,14 +1,14 @@
-TIP:		298
-Title:		Revise Shared Value Rules for Tcl_GetBignumAndClearObj
-Version:	$Revision: 1.1 $
-Author:		Don Porter <dgp@users.sf.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	22-Nov-2006
-Post-History:
-Tcl-Version:	8.5
-Keywords:	Tcl, Tcl_Obj
+TIP:            298
+Title:          Revise Shared Value Rules for Tcl_GetBignumAndClearObj
+Version:        $Revision: 1.2 $
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        22-Nov-2006
+Post-History:   
+Keywords:       Tcl,Tcl_Obj
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -36,9 +36,9 @@ value into the routine itself.
 
 ~ Proposed Change
 
-When passed a shared ''objPtr'', '''Tcl_GetBignumFromObj''' will no longer
+When passed a shared ''objPtr'', '''Tcl_GetBignumAndClearObj''' will no longer
 panic, but will fall back to the copying behavior of
-'''Tcl_GetBignumFromObj'''. The use of the '''Tcl_GetBignumFromObj'''
+'''Tcl_GetBignumFromObj'''. The use of the '''Tcl_GetBignumAndClearObj'''
 interface by a caller no longer means an assertion that ''objPtr'' is
 unshared, and no longer guarantees that ''objPtr'' will in fact be cleared,
 but merely indicates the caller will not be using the value anymore, and does
@@ -54,7 +54,8 @@ This is a incompatible change only with 8.5 alpha releases.
 
 ~ Reference Implementation
 
-Coming soon.
+Available from
+[http://sourceforge.net/tracker/index.php?func=detail&aid=1601243&group_id=10894&atid=360894].
 
 ~ Copyright
 
