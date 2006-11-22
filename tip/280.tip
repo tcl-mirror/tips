@@ -1,6 +1,6 @@
 TIP:		280
 Title:		Add Full Stack Trace Capability With Location Introspection
-Version:	$Revision: 1.9 $
+Version:	$Revision: 1.10 $
 Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:		Andreas Kupries <andreask@activestate.com>
 State:		Draft
@@ -107,7 +107,7 @@ If ''level'' is specified, then the result is a dictionary containing the
 location information for the command at the ''level'' on the stack.
 
 If ''level'' is positive (> 0) then it selects a particular stack level (1
-refers to the top-most active command, i.e., ''info frame'' itself, 2 to the
+refers to the top-most active command, i.e., '''info frame''' itself, 2 to the
 command it was called from, and so on); otherwise it gives a level relative to
 the current command (0 refers to the current command, i.e., '''info frame'''
 itself, -1 to its caller, and so on).
