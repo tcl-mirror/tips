@@ -1,6 +1,6 @@
 TIP:		280
 Title:		Add Full Stack Trace Capability With Location Introspection
-Version:	$Revision: 1.10 $
+Version:	$Revision: 1.11 $
 Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:		Andreas Kupries <andreask@activestate.com>
 State:		Draft
@@ -245,78 +245,76 @@ Let us assume that the file is named EX. The "cmd" is always the "info frame
 ..." command, and "level" is 0 too, always, in this situation. This is left
 out of the result dictionaries to keep them small.
 
-| __________________________________________________ EX
-| puts [info frame 0]          ; #  1* - output: {cmd {info frame 0} line 1 file EX type source}
-|                              ; #  2
-| proc foo {} {                ; #  3  /foo remembers 3
-|     puts [info frame 0]      ; #  4*
-| }                            ; #  5
-| foo                          ; #  6  - output: {cmd {...} line 4 file EX type source}
-|                              ; #  7
-| set script {                 ; #  8  1
-|     puts [info frame 0]      ; #  9  2*
-| }                            ; # 10  3
-| eval $script                 ; # 11  - output: {cmd {...} line 2 type eval}
-|                              ; # 12
-| eval {                       ; # 13  1
-|     puts [info frame 0]      ; # 14* 2*
-| }                            ; # 15  3  - output: {cmd {...} line 14 type source}
-|                              ; # 16
-| proc fox {} {                ; # 17  /fox remembers 17
-|     eval $::script           ; # 18
-| }                            ; # 19
-| fox                          ; # 20  - output: {cmd {...} line 2 type eval}
-|                              ; # 21
-| proc squirrel {} {           ; # 22  /squirrel remembers 22
-|     eval {                   ; # 23  1
-|         puts [info frame 0]  ; # 24* 2*
-|     }                        ; # 25  3
-| }                            ; # 26
-| squirrel                     ; # 27  - output: {cmd {...} line 24 type source}
-|                              ; # 28
-| proc fuchs {} {              ; # 29    /fuchs remembers 29
-|     proc dog {} {            ; # 30  1 /dog   remembers 30
-|         puts [info frame 0]  ; # 31* 2*
-|     }                        ; # 32  3
-| }                            ; # 33
-| fuchs                        ; # 34
-| dog                          ; # 35  - output: {cmd {...} line 31 type source}
-|                              ; # 36
-| eval {                       ; # 37  1
-|     proc wolf {              ; # 38  2 /wolf remembers 38
-|         puts [info frame 0]  ; # 39* 3*
-|     }                        ; # 40  4
-| }                            ; # 41  5
-| wolf                         ; # 42  - output: {cmd {...} line 39 type source}
-|                              ; # 43
-| set scripted {               ; # 44  1
-|     proc deer {} {           ; # 45  2 /deer remembers 2
-|         puts [info frame 0]  ; # 46  3*
-|     }                        ; # 47  4
-| }                            ; # 48  5
-| eval $scripted               ; # 49
-| deer                         ; # 50  - output: {cmd {...} line 3 type eval}
-|                              ; # 51
-| puts [set a b                ; # 52
-|       info frame 0]          ; # 53* - output: {cmd {...} line 53 type source file EX}
-|                              ; # 54
+| puts [info frame 0]           ;# 01* - output: {cmd {info frame 0} line 1 file EX type source}
+|                               ;# 02
+| proc foo {} {                 ;# 03  /foo remembers 3
+|     puts [info frame 0]       ;# 04*
+| }                             ;# 05
+| foo                           ;# 06  - output: {cmd {...} line 4 file EX type source}
+|                               ;# 07
+| set script {                  ;# 08  1
+|     puts [info frame 0]       ;# 09  2*
+| }                             ;# 10  3
+| eval $script                  ;# 11  - output: {cmd {...} line 2 type eval}
+|                               ;# 12
+| eval {                        ;# 13  1
+|     puts [info frame 0]       ;# 14* 2*
+| }                             ;# 15  3  - output: {cmd {...} line 14 type source}
+|                               ;# 16
+| proc fox {} {                 ;# 17  /fox remembers 17
+|     eval $::script            ;# 18
+| }                             ;# 19
+| fox                           ;# 20  - output: {cmd {...} line 2 type eval}
+|                               ;# 21
+| proc squirrel {} {            ;# 22  /squirrel remembers 22
+|     eval {                    ;# 23  1
+|         puts [info frame 0]   ;# 24* 2*
+|     }                         ;# 25  3
+| }                             ;# 26
+| squirrel                      ;# 27  - output: {cmd {...} line 24 type source}
+|                               ;# 28
+| proc fuchs {} {               ;# 29    /fuchs remembers 29
+|     proc dog {} {             ;# 30  1 /dog   remembers 30
+|         puts [info frame 0]   ;# 31* 2*
+|     }                         ;# 32  3
+| }                             ;# 33
+| fuchs                         ;# 34
+| dog                           ;# 35  - output: {cmd {...} line 31 type source}
+|                               ;# 36
+| eval {                        ;# 37  1
+|     proc wolf {               ;# 38  2 /wolf remembers 38
+|         puts [info frame 0]   ;# 39* 3*
+|     }                         ;# 40  4
+| }                             ;# 41  5
+| wolf                          ;# 42  - output: {cmd {...} line 39 type source}
+|                               ;# 43
+| set scripted {                ;# 44  1
+|     proc deer {} {            ;# 45  2 /deer remembers 2
+|         puts [info frame 0]   ;# 46  3*
+|     }                         ;# 47  4
+| }                             ;# 48  5
+| eval $scripted                ;# 49
+| deer                          ;# 50  - output: {cmd {...} line 3 type eval}
+|                               ;# 51
+| puts [set a b                 ;# 52
+|       info frame 0]           ;# 53* - output: {cmd {...} line 53 type source file EX}
+|                               ;# 54
 | puts [info \
-|       frame 0]               ; # 56  - output: {cmd {...} line 55 type source file EX}
-|                              ; # 57
+|       frame 0]                ;# 56  - output: {cmd {...} line 55 type source file EX}
+|                               ;# 57
 | proc salmon {} \
-| {                            ; # 59
-|     puts [info frame 0]      ; # 60*
-| }                            ; # 61
-| salmon                       ; # 62  - output: {cmd {...} line 60 type source file EX}
-|                              ; # 63
-| set method frame             ; # 64
-| puts [info $method 0]        ; # 65* - output: {cmd {info $method 0} line 65 type source file EX}
-|                              ; # 66
-| proc trout {} {              ; # 67
-|     puts [info $method 0]    ; # 68*
-| }                            ; # 69
-| trout                        ; # 70  - output: {cmd {info $method 0} line 68 type source file EX}
-| __________________________________________________
+| {                             ;# 59
+|     puts [info frame 0]       ;# 60*
+| }                             ;# 61
+| salmon                        ;# 62  - output: {cmd {...} line 60 type source file EX}
+|                               ;# 63
+| set method frame              ;# 64
+| puts [info $method 0]         ;# 65* - output: {cmd {info $method 0} line 65 type source file EX}
+|                               ;# 66
+| proc trout {} {               ;# 67
+|     puts [info $method 0]     ;# 68*
+| }                             ;# 69
+| trout                         ;# 70  - output: {cmd {info $method 0} line 68 type source file EX}
 
 Another example showing how to query the whole stack of frames. It assumed
 that the file is named EX. The output shown after the example was manually
@@ -325,32 +323,27 @@ for readability and better comparability of the lines. The returned level
 information was removed, and level numbers for '''info frame''' were added at
 the beginning of the lines.
 
-| __________________________________________________
-| proc setRes {result} {              ; # 01
-|   if {$result == "fail"} {          ; # 02
-|      set level [info frame]         ; # 03
-|      while {$level} {               ; # 04
-|           puts [info frame $level]  ; # 05
-|           incr level -1             ; # 06
-|       } ;# end of while             ; # 07
-|   } ;# end of if                    ; # 08
-| } ;# end of proc setRes             ; # 09
-| proc runTest {tc} {                 ; # 10
-|      # run the testcase             ; # 11
-|      uplevel 1  setRes fail         ; # 12
-| } ;# end of proc runTest            ; # 13
-| runTest TC0001                      ; # 14
-| __________________________________________________
+| proc setRes {result} {               ;# 01
+|   if {$result == "fail"} {           ;# 02
+|      set level [info frame]          ;# 03
+|      while {$level} {                ;# 04
+|           puts [info frame $level]   ;# 05
+|           incr level -1              ;# 06
+|       } ;# end of while              ;# 07
+|   } ;# end of if                     ;# 08
+| } ;# end of proc setRes              ;# 09
+| proc runTest {tc} {                  ;# 10
+|      # run the testcase              ;# 11
+|      uplevel 1  setRes fail          ;# 12
+| } ;# end of proc runTest             ;# 13
+| runTest TC0001                       ;# 14
 
 '''Output:'''
 
-| __________________________________________________
-|
 | 4 {cmd {runTest TC0001}        line 14 type source file EX}
 | 3 {cmd {uplevel 1 setRes fail} line 12 type source file EX proc runTest}
 | 2 {cmd {setRes fail}           line  1 type eval}
 | 1 {cmd {info frame $level}     line  5 type source file EX proc setRes}
-| __________________________________________________
 
 To see the connection between the new feature and error stack traces replace
 the '''info frame''' command on line 3 of ''setRes'' with "'''return''' -code
@@ -359,7 +352,6 @@ relationship can be seen easily:
 
 '''Stack trace:'''
 
-| __________________________________________________
 |	X
 |	    while executing
 |	"setRes fail"
@@ -370,17 +362,14 @@ relationship can be seen easily:
 |	    invoked from within
 |	"runTest TC0001"
 |	    (file "EX.tcl" line 14)
-| __________________________________________________
 
 Reformat the trace, with all output from a single command on one line, and
 some noise removed.
 
-| __________________________________________________
 |	X
 |	"setRes fail" ("uplevel" body line 1)
 |	"uplevel 1  setRes fail" (procedure "runTest" line 3)
 |	"runTest TC0001" (file "EX.tcl" line 14)
-| __________________________________________________
 
 Now revert the order of the lines, and add vertical alignment. Now have in
 essence the ouput of the unmodified example, with same difference in the line
@@ -388,12 +377,10 @@ numbers. But that is only because the error stack trace always counts lines
 relative to the script, and doesn't attempt to determine an absolute location
 in a file.
 
-| __________________________________________________
 |	"runTest TC0001"         (file "EX.tcl" line 14)
 |	"uplevel 1  setRes fail" (procedure "runTest" line 3)
 |	"setRes fail"            ("uplevel" body line 1)
 |	X
-| __________________________________________________
 
 ~~ Child Interpreters
 
@@ -435,7 +422,7 @@ To bring user-defined commands back to the same level as the builtins we need:
     to provide them with location information for the script they are
     evaluating.
 
-Example
+For example:
 
 | proc newsource {foo script} {
 |   ... preprocess whatever ...
