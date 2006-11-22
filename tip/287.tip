@@ -1,6 +1,6 @@
 TIP:            287
 Title:          Add a Commands for Determining Size of Buffered Data
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
@@ -65,14 +65,14 @@ page on the Tcl'ers Wiki [http://wiki.tcl.tk/gets].
 ~ Proposed Change
 
 At the C level Tcl already has a function, ''Tcl_InputBuffered'' which returns
-the number of unread bytes buffered for a channel.
+the number of unread bytes buffered for a channel and a corresponding ''Tcl_OutputBuffered'' which returns the number of bytes buffered for output that have not yet been flushed out.
 
-This TIP proposes to implement a new '''chan pending''' command which
-will take two arguments: a '''mode''' and a '''channelId'''.  The mode argument can be either '''input''' or '''output'''.
+This TIP proposes to implement a new ''chan pending'' command which
+will take two arguments: a ''mode'' and a ''channelId''.  The mode argument can be either ''input'' or ''output''.
 
-When the mode is '''input''' the command returns the value of '''Tcl_InputBuffered()''' (if the channel was open for input or -1 otherwise).
+When the mode is ''input'' the command returns the value of ''Tcl_InputBuffered()'' (if the channel was open for input or -1 otherwise).
 
-When the mode is '''output''' the command returns the value of '''Tcl_OutputBuffered()''' (if the channel was output for output or -1 otherwise).
+When the mode is ''output'' the command returns the value of ''Tcl_OutputBuffered()'' (if the channel was output for output or -1 otherwise).
 
 This allows a programmer developing network daemons at the Tcl level to
 implement their own policy decisions based on the size of the unread line.
