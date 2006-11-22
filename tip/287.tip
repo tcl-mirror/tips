@@ -1,6 +1,6 @@
 TIP:            287
 Title:          Add a Commands for Determining Size of Buffered Data
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
 State:          Draft
 Type:           Project
@@ -15,7 +15,7 @@ Tcl-Version:    8.5
 Many network servers programmed in Tcl (including the venerable tclhttpd) are
 vulnerable to DoS (denial of service) attacks because they lack any way to
 introspect the amount of buffered data on a non-blocking socket that is in
-line buffering mode. This TIP proposes two new subcommands to '''chan''' to
+line buffering mode. This TIP proposes a new subcommand to '''chan''' to
 allow the amount of buffered input and buffered output (for symmetry) to be
 inspected from Tcl.
 
@@ -67,29 +67,22 @@ page on the Tcl'ers Wiki [http://wiki.tcl.tk/gets].
 At the C level Tcl already has a function, ''Tcl_InputBuffered'' which returns
 the number of unread bytes buffered for a channel.
 
-This TIP proposes to implement a new '''chan pendinginput''' command which
-would effectively expose the existing ''Tcl_InputBuffered()'' so that a
-programmer could introspect the amount of buffered unread data that was
-available.
+This TIP proposes to implement a new '''chan pending''' command which
+will take two arguments: a '''mode''' and a '''channelId'''.  The mode argument can be either '''input''' or '''output'''.
 
-For symmetry a new '''chan pendingoutput''' command is also added which
-exposes the existing ''Tcl_OutputBuffered()'' so that a programmer could also
-introspect the amount of buffered output waiting to be flushed.
+When the mode is '''input''' the command returns the value of '''Tcl_InputBuffered()''' (if the channel was open for input or -1 otherwise).
+
+When the mode is '''output''' the command returns the value of '''Tcl_OutputBuffered()''' (if the channel was output for output or -1 otherwise).
 
 This allows a programmer developing network daemons at the Tcl level to
 implement their own policy decisions based on the size of the unread line.
 Potential DoS situations could be avoided (in an application specific manner)
 long before all memory was exhausted.
 
-| if {[chan blocked $sock] && [chan pendinginput $sock] > $limit} {
+| if {[chan blocked $sock] && [chan pending input $sock] > $limit} {
 |     # Take application specific steps (i.e., [close $sock] or
 |     # [read $sock] to process a partial line and drain the buffer, etc.)
 | }
-
-In the case of both '''chan pendinginput''' and '''chan pendingoutput''' if
-the channel was not opened for reading or writing (respectively) then the
-return value shall be -1. Both commands take a single argument, the name of
-the channel to inspect.
 
 ~ Rejected Alternatives
 
@@ -112,7 +105,7 @@ the channel to inspect.
  * The initial version of this TIP called for a ''chan available'' command.
    This was changed to ''pendinginput'' (and ''pendingoutput'' added for
    symmetry's sake) following suggestions on news:comp.lang.tcl from Donald
-   Arseneau and Donal Fellows.
+   Arseneau and Donal Fellows, and later to ''chan pending'' that takes a ''mode'' argument (''input'' or ''output'') based on suggestions from Donald Porter and Joe English.
 
 ~ Reference Implementation
 
