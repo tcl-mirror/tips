@@ -1,8 +1,8 @@
 TIP:		269
 Title:		Add 'string is list' to the 'string is' Subcommand
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	19-May-2006
