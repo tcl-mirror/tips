@@ -1,0 +1,61 @@
+TIP:		298
+Title:		Revise Shared Value Rules for Tcl_GetBignumAndClearObj
+Version:	$Revision: 1.1 $
+Author:		Don Porter <dgp@users.sf.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	22-Nov-2006
+Post-History:
+Tcl-Version:	8.5
+Keywords:	Tcl, Tcl_Obj
+
+~ Abstract
+
+This TIP proposes a revision to '''Tcl_GetBignumAndClearObj''' to make it
+easier to use.
+
+~ Background
+
+'''Tcl_GetBignumAndClearObj''' was added by [237]. Because ''mp_int'' values
+can be big, the interface is offered to avoid making a copy when the value
+already in the internal representation of an unshared ''Tcl_Obj'' will no
+longer be needed and can be moved instead of copied.
+
+The basic intent was fine, but in practice, callers must go through these
+gymnastics to use it:
+
+| if (Tcl_IsShared(objPtr)) {
+|     Tcl_GetBignumFromObj(interp, objPtr, &bigValue);
+| } else {
+|     Tcl_GetBignumAndClearObj(interp, objPtr, &bigValue);
+| }
+
+It would make for a much more pleasant interface to move the test for a shared
+value into the routine itself.
+
+~ Proposed Change
+
+When passed a shared ''objPtr'', '''Tcl_GetBignumFromObj''' will no longer
+panic, but will fall back to the copying behavior of
+'''Tcl_GetBignumFromObj'''. The use of the '''Tcl_GetBignumFromObj'''
+interface by a caller no longer means an assertion that ''objPtr'' is
+unshared, and no longer guarantees that ''objPtr'' will in fact be cleared,
+but merely indicates the caller will not be using the value anymore, and does
+not mind if it is cleared. That's all the caller should care about anyway.
+
+With this change, the code above may be simplified to:
+
+| Tcl_GetBignumAndClearObj(interp, objPtr, &bigValue);
+
+~ Compatibility
+
+This is a incompatible change only with 8.5 alpha releases.
+
+~ Reference Implementation
+
+Coming soon.
+
+~ Copyright
+
+This document has been placed in the public domain.
