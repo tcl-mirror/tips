@@ -1,7 +1,8 @@
 TIP:            289
 Title:          Revision of [lrepeat] Argument Order
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
+Author:          <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -44,17 +45,22 @@ Change lrepeat's argument order to:
 ~ Discussion:
 
 DGP: The main feature that appears to get lost in this change is the
-ability to redirect aliases or subcommands of ensembles to [lrepeat]
+ability to redirect aliases or subcommands of ensembles to '''lrepeat'''
 calls with the number of repetitions already filled in.
 
 PS: On the other hand, you get the ability to redirect aliases or
-subcommands of ensembles to [lrepeat] calls with the elements already
+subcommands of ensembles to '''lrepeat''' calls with the elements already
 filled in.
 
 DGP: I skimmed the old TIP 136 messages in the TCLCORE archives. One
-thing to note is that the existing [lrepeat] syntax in 8.5a5 was
-chosen in part to be consistent with the existing [struct::list
-repeat] syntax in the struct::list package.
+thing to note is that the existing '''lrepeat''' syntax in 8.5a5 was
+chosen in part to be consistent with the existing '''struct::list
+repeat''' syntax in the struct::list package.
+
+DGP: I think it's fair to say that given a complete "do-over"
+more of us would opt to change '''string repeat''' to agree
+with '''lrepeat''' and '''struct::list repeat''' than the other
+way around.
 
 ~ Copyright
 
