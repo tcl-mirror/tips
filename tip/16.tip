@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.37 $
+Version:        $Revision: 1.38 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -582,7 +582,8 @@ assigned one or more maintainers:
      generic/tclCompile.c,
      generic/tclCompile.h,
      generic/tclExecute.c,
-     generic/tclLiteral.c
+     generic/tclLiteral.c,
+     generic/tclMathOp.c,
      tests/appendComp.test,
      tests/compExpr-old.test,
      tests/compExpr.test,
