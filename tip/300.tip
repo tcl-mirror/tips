@@ -1,0 +1,53 @@
+TIP:            300
+Title:          Examine Glyph Substitution in the 'font actual' Command
+Version:        $Revision: 1.1 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Nov-2006
+Post-History:   
+Tcl-Version:    8.5
+Keywords:	Tk
+
+~ Abstract
+
+This TIP proposes enhancing the '''font actual''' command to allow determining
+the actual font to be used when rendering a specific character.
+
+~ Background
+
+Tk, when rendering strings in a widget, often needs to augment the characters
+in the requested font with characters borrowed from other fonts. As of the
+date of this TIP, there is no way for a program to introspect this mechanism.
+This ability has been requested by several user interface designers, because
+the interfaces are often more attractive if the substitute fonts are used
+directly, or simply to determine what font was chosen.
+
+~ Proposed Change
+
+This TIP proposes modifying the '''font actual''' command to have the syntax:
+
+ > '''font actual''' ''font'' ?'''-displayof''' ''window''? ?''option''?
+   ?'''--'''? ?''char''
+
+The ''font'', '''-displayof''' and ''option'' arguments are unchanged from the
+current [font actual] command.
+
+The '''--''' option marks the end of options. It is needed if ''option'' is
+not supplied and ''char'' may be a hyphen, to distinguish ''char' from a
+misspelt option.
+
+The ''char'' option must be a single character.
+
+The result of the command, if the ''char'' option is supplied, is the actual
+font used to render the given character, rather than the base font.
+
+~ Reference Implementation
+
+A reference implementation for the proposed feature, including documentation
+and test suite updates, is at SourceForge as Tk Patch #1602955.
+
+~ Copyright
+
+This document has been placed in the public domain.

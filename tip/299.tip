@@ -1,0 +1,41 @@
+TIP:            299
+Title:          Add isqrt() Math Function
+Version:        $Revision: 1.1 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        24-Nov-2006
+Post-History:   
+Tcl-Version:    8.5
+Keywords:	Tcl, expression, integer, square root
+
+~ Abstract
+
+This TIP proposes a new '''expr''' math function '''isqrt()'''.
+
+~ Background
+
+With the advent of large integers, Tcl supports taking the square roots of
+arguments that lie outside the native floating-point range of the machine.
+The square roots are returned as floating point numbers if possible. This
+behaviour is correct when floating-point calculations are intended. There are
+times, however, when an arbitrary-precision square root is wanted. This root
+cannot be obtained by evaluating ''entier(sqrt($n))'', because ''sqrt($n)''
+has already lost precision.
+
+~ Proposed Change
+
+This TIP proposes adding a new math function, ''isqrt($n)'', that will return
+the integer part of the square root of ''$n'' to arbitrary precision. The
+argument ''$n'' must be numeric and non-negative; it may be either integer or
+floating-point.
+
+~ Reference Implementation
+
+Tcl Feature Request #1602534 contains a complete reference implementation for
+the ''isqrt'' function.
+
+~ Copyright
+
+This document has been placed in the public domain.
