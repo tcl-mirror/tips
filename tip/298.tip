@@ -1,6 +1,6 @@
 TIP:            298
 Title:          Revise Shared Value Rules for Tcl_GetBignumAndClearObj
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
@@ -44,9 +44,12 @@ unshared, and no longer guarantees that ''objPtr'' will in fact be cleared,
 but merely indicates the caller will not be using the value anymore, and does
 not mind if it is cleared. That's all the caller should care about anyway.
 
-With this change, the code above may be simplified to:
+Because of these changes in the implications and guarantees,
+the function is also renamed to '''Tcl_TakeBignumFromObj'''.
 
-| Tcl_GetBignumAndClearObj(interp, objPtr, &bigValue);
+With these changes, the code above may be simplified to:
+
+| Tcl_TakeBignumFromObj(interp, objPtr, &bigValue);
 
 ~ Compatibility
 
