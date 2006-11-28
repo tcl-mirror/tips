@@ -1,10 +1,10 @@
 TIP:            300
 Title:          Examine Glyph Substitution in the 'font actual' Command
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        25-Nov-2006
 Post-History:   
 Tcl-Version:    8.5
