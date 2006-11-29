@@ -1,9 +1,9 @@
 TIP:		280
 Title:		Add Full Stack Trace Capability With Location Introspection
-Version:	$Revision: 1.12 $
+Version:	$Revision: 1.13 $
 Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:		Andreas Kupries <andreask@activestate.com>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	10-Aug-2004
