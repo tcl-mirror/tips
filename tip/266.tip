@@ -1,13 +1,13 @@
 TIP:            266
 Title:          Numbers are Commands
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kristoffer Lawson <setok@fishpool.com>
 Author:         Sektor <ethouris@gmail.com>
 Author:         Wolf-Dieter Busch <wolf-dieter.busch@gmx.de>
 Author:         Paul Nash <webscool@ihug.co.nz>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        11-Apr-2006
 Post-History:   
 Keywords:       Tcl,unknown,expression
