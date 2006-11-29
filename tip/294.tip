@@ -1,11 +1,11 @@
 TIP:            294
 Title:          The "entier" Function: It's Spelt "entire"
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        03-Nov-2006
 Post-History:   
 Keywords:       Tcl,number,cast,rename
