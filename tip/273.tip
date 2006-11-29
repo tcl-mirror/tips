@@ -1,10 +1,10 @@
 TIP:		273
 Title:		Add Tcl_Expr... Support to Tcl_Get... Functions
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Carsten Gosvig <tcl@javalite.com>
-State:		Draft
+State:		Rejected
 Type:		Project
-Vote:		In progress
+Vote:		Done
 Created:	30-Aug-2006
 Post-History:	
 Tcl-Version:	8.5
