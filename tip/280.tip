@@ -1,11 +1,11 @@
 TIP:		280
 Title:		Add Full Stack Trace Capability With Location Introspection
-Version:	$Revision: 1.11 $
+Version:	$Revision: 1.12 $
 Author:		Andreas Kupries <andreas_kupries@users.sourceforge.net>
 Author:		Andreas Kupries <andreask@activestate.com>
-State:		Draft
+State:		Accepted
 Type:		Project
-Vote:		In progress
+Vote:		Done
 Created:	10-Aug-2004
 Post-History:	
 Keywords:	Tcl
