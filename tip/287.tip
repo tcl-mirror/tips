@@ -1,8 +1,8 @@
 TIP:            287
 Title:          Add a Commands for Determining Size of Buffered Data
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Michael A. Cleverly <michael@cleverly.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:		Done
 Created:        26-Oct-2006
