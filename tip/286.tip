@@ -1,8 +1,8 @@
 TIP:		286
 Title:		Add 'xposition' Command to Menu Widgets
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Schelte Bron <sbron@wanadoo.nl>
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5
 Vote:		Done
