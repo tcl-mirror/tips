@@ -1,12 +1,12 @@
 TIP:		252
 Title:		Add New 'string' Command Options
 Author:		Brian Schmidt <contact@schmidtsrus.net>
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Type:		Project
 State:		Draft
 Vote:		Pending
 Created:	28-Jun-2005
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Post-History:	
 
 ~Abstract

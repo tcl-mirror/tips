@@ -1,6 +1,6 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        01-Oct-2006
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

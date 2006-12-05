@@ -1,15 +1,14 @@
 TIP:            251
 Title:          Enhance the 'list' Command
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Brian Schmidt <contact@schmidtsrus.net>
-Author:         Brian Schmidt <contact@SchmidtsRUs.net>
 Author:         Sérgio Loureiro <srgloureiro@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        28-Jun-2005
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

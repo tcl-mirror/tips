@@ -1,6 +1,6 @@
 TIP:            262
 Title:          Background Images for Frames
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Eric Taylor <et2@rocketship1.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Frank <frank.ranner@defence.gov.au>
@@ -10,7 +10,7 @@ Vote:           Pending
 Created:        18-Mar-2006
 Post-History:   
 Keywords:       Tk,option
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

@@ -1,6 +1,6 @@
 TIP:            224
 Title:          Add New [array] Subcommands 'incr' and 'value'
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter MacDonald <peter@pdqi.com>
 Author:         Robert Seeger <rseeger00@aol.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        28-Sep-2004
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

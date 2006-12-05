@@ -1,6 +1,6 @@
 TIP:            210
 Title:          Add 'tempname' Subcommand to 'file'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        19-Jul-2004
 Post-History:   
 Keywords:       Tcl,filename
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

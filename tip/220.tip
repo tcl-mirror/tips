@@ -1,6 +1,6 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
@@ -9,7 +9,7 @@ Type:           Project
 Vote:           Pending
 Created:        12-Sep-2004
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

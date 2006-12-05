@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 State:          Draft
 Type:           Project
@@ -9,7 +9,7 @@ Created:        02-May-2004
 Post-History:   
 Keywords:       Tcl
 Obsoletes:      105
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

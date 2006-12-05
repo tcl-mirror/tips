@@ -1,13 +1,13 @@
 TIP:            178
 Title:          [info pid] and [info tid] Subcommands
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        21-Mar-2004
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

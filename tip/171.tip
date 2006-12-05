@@ -1,6 +1,6 @@
 TIP:            171
 Title:          Change Default <MouseWheel> Bindings Behavior
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 Author:         Keith Vetter <kvetter@alltel.net>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        05-Mar-2004
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

@@ -1,6 +1,6 @@
 TIP:            122
 Title:          Use tcl_{non,}wordchars Throughout Tcl/Tk
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Martin Weber <ephaeton@gmx.net>
 Author:         Martin Weber <Ephaeton@gmx.net>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
@@ -9,7 +9,7 @@ Type:           Project
 Vote:           Pending
 Created:        12-Dec-2002
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

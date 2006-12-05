@@ -1,6 +1,6 @@
 TIP:            296
 Title:          Enhanced Syntax for Pair-Wise Indices
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        06-Nov-2006
 Post-History:   
 Keywords:       Tcl,lrange,lreplace
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

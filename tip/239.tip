@@ -1,13 +1,13 @@
 TIP:            239
 Title:          Enhance the 'load' Command
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Jeff Hobbs <jeffh@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        26-Jan-2005
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

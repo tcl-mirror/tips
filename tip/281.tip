@@ -1,6 +1,6 @@
 TIP:            281
 Title:          Improvements in System Error Handling
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        08-Oct-2006
 Post-History:   
 Keywords:       POSIX,channel driver,errorCode
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

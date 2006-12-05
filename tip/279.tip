@@ -1,6 +1,6 @@
 TIP:            279
 Title:          Adding an Extensible Object System to the Core
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Gustaf Neumann <neumann@wu-wien.ac.at>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        05-Oct-2006
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

@@ -2,10 +2,10 @@ TIP:		282
 Title:		Enhanced Expression Syntax
 State:		Draft
 Type:		Project
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Will Duquette <William.H.Duquette@jpl.nasa.gov>
 Created:	13-Oct-2006
 Keywords:	expr, operator, assignment

@@ -1,11 +1,11 @@
 TIP:		238
 Title:		Fire Event when Widget Created
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Gerald W. Lester <Gerald.Lester@cox.net>
 State:		Draft
 Type:		Project
 Vote:		Pending
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Created:	25-Jan-2005
 Post-History:   
 Keywords:	Tk

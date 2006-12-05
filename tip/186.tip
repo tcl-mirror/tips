@@ -1,6 +1,6 @@
 TIP:            186
 Title:          Expose the Type and Modified-State of Widget Options
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter MacDonald <pmacdona@pdqi.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        16-Apr-2004
 Post-History:   
 Keywords:       Tk
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

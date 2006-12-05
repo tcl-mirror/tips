@@ -1,12 +1,12 @@
 TIP:		288
 Title:		Allow "args" Anywhere in Procedure Formal Arguments
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Peter Spjuth <peter.spjuth@space.se>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	03-Oct-2006
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Post-History:	
 Keywords:	Tcl, proc
 

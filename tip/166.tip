@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        19-Nov-2003
 Post-History:   
 Keywords:       Tk,image get,image put
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

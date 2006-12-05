@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        02-Nov-2004
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

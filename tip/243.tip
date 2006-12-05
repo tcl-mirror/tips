@@ -1,12 +1,12 @@
 TIP:		243
 Title:		Supply Find Dialog for the Text Widget
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Rüdiger Härtel <r_haertel@gmx.de>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	16-Mar-2005
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Post-History:	
 Keywords:	Tk
 

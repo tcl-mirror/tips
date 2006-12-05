@@ -1,10 +1,10 @@
 TIP:		277
 Title:		Create Namespaces as Needed
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Vote:		Pending
 Created:	01-Oct-2006
 Post-History:	

@@ -1,6 +1,6 @@
 TIP:            246
 Title:          Unify Pattern Matching
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Reinhard Max <max@tclers.tk>
 Author:         san <sonofadame@yahoo.com>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        27-Apr-2005
 Post-History:   
 Keywords:       pattern,match,glob,exact,regexp,case sensitive,Tcl
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

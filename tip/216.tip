@@ -1,13 +1,13 @@
 TIP:		216
 Title:		Handling Command-Line Options in Tclsh and Wish
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Arjen Markus <arjen.markus@wldelft.nl>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	23-Aug-2004
 Post-History:	
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Keywords:	Tcl, debugging, argument, shell
 
 ~ Abstract

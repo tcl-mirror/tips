@@ -1,6 +1,6 @@
 TIP:            276
 Title:          Specify and Unify Variable Linking Commands
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        01-Oct-2006
 Post-History:   
 Keywords:       Tcl,global,variable,upvar,namespace upvar
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 

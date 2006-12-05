@@ -2,10 +2,10 @@ TIP:		292
 Title:		Allow Unquoted Strings in Expressions
 State:		Draft
 Type:		Project
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Brian Griffin <bgriffin@model.com>
 Created:	01-Nov-2006
 Keywords:	Tcl, expr
