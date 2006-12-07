@@ -1,10 +1,10 @@
 TIP:            291
 Title:          Add the 'platform' Package to Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Steve Landers <steve@DigitalSmarties.com>
 Author:         Andreas Kupries <andreask@ActiveState.com>
 Author:         Andreas Kupries <andreask@activestate.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        26-Oct-2006
