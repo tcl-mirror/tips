@@ -1,6 +1,6 @@
 TIP:            119
 Title:          Angled Text on a Canvas
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Simon Geard <simon.geard@ntlworld.com>
 State:          Accepted
 Type:           Project
@@ -52,8 +52,8 @@ I have done an initial assessment of the amount of work required and
 have and have created a patch to implement it in Tk 8.4.5 .  This
 initial work was fairly straightforward but the internal housekeeping
 work maintaining and interacting with an angled box will be more
-substantial.  The patch
-[http://homepage.ntlworld.com/whiteowl/angledText/patchinfo.html] is
+substantial.  The patch (uploaded to SourceForge
+[http://sf.net/tracker/?func=detail&aid=1611359&group_id=12997&atid=312997]) is
 for X only.  It doesn't use any X extensions and should work for X11R3
 and above.  I don't know how it would be done on non-X systems but
 hopefully they'll (Win & MacOS at least) provide native tools to make
