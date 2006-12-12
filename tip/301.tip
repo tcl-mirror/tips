@@ -1,0 +1,105 @@
+TIP:            301
+Title:          Split Bidirectional Channels For Half-Close
+Version:        $Revision: 1.1 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Dec-2006
+Post-History:   
+Tcl-Version:    8.6
+
+~ Abstract
+
+This TIP proposes to introduce a '''chan split''' command allowing to access
+both sides of a bidirectional channel (r+ pipe, or socket) as separate Tcl
+channels, in order to be able to close them separately. This would give Tcl
+the same level of control that the OS enjoys on the lifetime of such
+bidirectional connections.
+
+~ Background
+
+Bidirectional channels allow Tcl to make an efficient use of a "filter
+process", by exchanging data back and forth over an abstract "single" channel.
+
+However, this single channel abstraction comes with a too coarse-grained
+'''close''' primitive. Indeed, it closes both directions simultaneously, while
+it is often desirable to close "gracefully" the half-connection ''to'' the
+filter process, leaving the return path open. The effect of such a half-close
+is that the filter receives a bona fide EOF alone, without a nearly
+simultaneous SIGPIPE on its write end if it happens to be writing at that
+time. Moreover, if the filter is itself comprised of a pipeline of processes,
+some of which doing buffered I/O, then this graceful EOF may be the only way
+of flushing the chain and receiving back precious data.
+
+This technique is supported by all modern OSes: for pipes there are actually
+two separate file descriptors/handles, and it suffices to close() the write
+side; for sockets, a single fd is used, but a specific syscall, shutdown(),
+brings back the ability to half-close. Hence it is fairly natural for a
+universal "OS glove" like Tcl to expose this universal feature.
+
+~ Proposed Change
+
+This TIP proposes to add a '''chan split''' subcommand to '''chan''', with the
+syntax:
+
+ > '''chan split''' ''channel''
+
+The ''channel'' argument indicates the bidirectional channel to be split. The
+command returns a two element list, with the first element being the name of
+the channel that is open for reading only, and the second element being the
+name of the channel that is open for writing only.
+
+After calling [['''chan split''' ''channel'']], ''channel'' is still opened,
+but now shares its internal descriptor(s)/handle(s) with the returned readable
+and writable channel. Then, simple "reference counting" at the descriptor
+level decides when a '''close''' translates into an actual close()/shutdown()
+at the OS level: a descriptor is shut down only when all its Tcl-level
+representatives have been closed.
+
+As a consequence, the normal idiom for the graceful shutdown described above,
+is to close the bidirectional channel immediately after splitting it. Later,
+the sequence is initiated by closing the write side, then waiting for all data
+and EOF on the read side:
+
+|foreach {rch wch} [chan split $ch] break
+|close $ch
+|...
+|# initiate graceful shutdown
+|close $wch
+|# get back final data
+|set last [read $rch]
+|close $rch
+
+In the case of a pipe, the [[close $rch]] has the same semantics as [close
+$ch] would have had, that is, waiting for the child's exit status, and raising
+a Tcl exception if nonzero.
+
+~ Rationale
+
+I had initially only asked for an extension of '''close''', and Eric Hassold
+brought up the superbly elegant idea of '''chan split'''. Later on, Neil
+Madden came with the equally beautiful '''chan restrict''', which initially
+won my preference. Only dirty concern for the amount of work needed vs.
+actual uses, did make me regard the less ambitious '''chan split''' as a more
+reasonable target (sorry for the change, Neil).
+
+Also, it was suggested that the separation between the read and write side
+could be exploited not only by '''close''', but also by '''fconfigure''',
+e.g., to allow for a blocking-read/nonblocking-write, or different baudrates
+for both directions of a serial port, etc. I feel those are possible later
+extensions of '''chan split''', however their implementation may be much
+harder than the '''close''' case, because (1) ioctls/fcntl() are not always
+suited for separation, and (2) multiplexing them is not possible with Threads.
+
+~ Reference Implementation
+
+I have not yet written a reference implementation; I assume somebody with a
+more fluent practice of the channel system implementation will do so more
+efficiently. However, community feedback on news:comp.lang.tcl seems to
+witness some interest in the concept. As a last resort, I can give it a try,
+of course.
+
+~ Copyright
+
+This document has been placed in the public domain.
