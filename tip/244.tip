@@ -1,6 +1,6 @@
 TIP:            244
 Title:          PNG Photo Image Support for Tk
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Michael Kirkham <mikek@muonics.com>
 State:          Draft
 Type:           Project
@@ -82,7 +82,7 @@ invocation from ''tkImgPNGInit.c'' to be added to
 core.
 
 The only new dependency for this implementation is on zlib.  It
-currently meets requirements 1 - 6; it does not implement 8.
+currently meets requirements 1 - 6; it does not implement 7.
 
 ~ Notes
 
