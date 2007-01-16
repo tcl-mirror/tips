@@ -1,11 +1,11 @@
 TIP:            249
 Title:          Unification of Tcl's Parsing of Numbers
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
-Type:           Informational
+Type:           Informative
 Vote:           Pending
 Created:        13-Jun-2005
 Post-History:   
@@ -104,7 +104,7 @@ merits further discussion.
     which today interprets it as decimal.
 
  3. A leading zero, followed by the letter 'X' (case insensitive) and a
-    string of hexadecimal digits is interpreted as a hexadecimal
+    string of hexadecimal digits shall be interpreted as a hexadecimal
     integer.  Again, the smallest representation needed is chosen.
 
  4. A string of decimal digits beginning with a nonzero digit is
@@ -118,7 +118,7 @@ merits further discussion.
     is double''' would accept "double" strings that will fail in
     '''expr'''.
 
- 6. A string consisting of a non-empty sequence of decimal digits and
+ 6. A string consisting of a nonempty sequence of decimal digits and
     a single period (which may appear anywhere within the string) is a
     valid floating point constant in 'F' format, even if it begins
     with '0'.  It is interpreted in decimal and stored in a
