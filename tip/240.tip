@@ -1,8 +1,7 @@
 TIP:            240
 Title:          An Ensemble Command to Manage Processes
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Steve Bold <stevebold@hotmail.com>
-Author:         Kylan <talon@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -14,8 +13,8 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-8955442576a525883e910169d54bbb72
-<a href="http:
+This TIP proposes some new commands through which Tcl scripts can
+create and monitor child processes.
 
 ~ Rationale
 
