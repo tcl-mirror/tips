@@ -1,7 +1,8 @@
 TIP:            154
 Title:          Add Named Colors to Tk
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Damon Courtney <damon@unreality.com>
+Author:         avtncixrcy <bjixz@gnvohng.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -11,101 +12,6 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-This TIP proposes the addition of a '''color''' command at the Tk level to
-allow developers to create named colors as they can already do with both fonts
-and images.
+<a href=http://ctrdriwffhe.com>nkzrepaqw</a>
 
-~ Rationale
-
-Named fonts and images go a long way toward making Tk able to modify a lot of
-options on a global scale simply by adjusting a single item. Tk already
-simulates some version of named colors on Windows with the use of values like
-''SystemButtonFace'' and ''SystemWindowFrame''. These color names map to
-values pre-defined in Windows. On UNIX, we have to kind of fake these things
-around.
-
-With the addition of named colors, we can simply define default colors in UNIX
-that correspond to existing named colors on Windows. So, we could create
-''SystemButtonFace'' as a named color on UNIX, and any Windows program using
-those color names would port to UNIX without a change.
-
-~ Implementation
-
-I propose the introduction of a new command, '''color''':
-
- > '''color''' ''option'' ?''arg ...''?
-
-This will have six subcommands.
-
-The '''create''' subcommand creates a new named color.
-
- > '''color create''' ''colorName'' ?''option ...''?
-
-Supported options (see below for full description) are:
-
- -color: The main color associated with this named color.
-
- -dark1: The low-light color associated with this named color.
-
- -light1: The high-light color associated with this named color.
-
-The '''cget''' subcommand retrieves an option associated with a named color
-
- > '''color cget''' ''colorName option''
-
-The '''configure''' subcommand sets an option (or options) associted with a
-named color, or retrieves information about all the options associated with
-that named color (following the standard Tk pattern for cget/configure.)
-
- > '''color configure''' ''colorName'' ?''option ...''?
-
-The '''exists''' subcommand determines if a named color exists.
-
- > '''color exists''' ''colorName''
-
-The '''names''' subcommand returns a list of all named colors, including those
-created by Tk. The optional glob-style ''pattern'' allows only some colors to
-be returned.
-
- > '''color names''' ?''pattern''?
-
-The '''delete''' subcommand deletes a named color.
-
- > '''color delete''' ''colorName''
-
-~~Options
-
-The '''-color''' option specifies any acceptable color in Tk as the color to
-use. The '''-light1''' and '''-dark1''' options specify the border shadings to
-use for this color when it is used as a border. They are named with a 1
-because I think in the future we will end up with more levels of shading.
-Windows already has two levels, we just ignore the second one.
-
-Beyond the color command, we need to implement a default set of standard
-colors that will exist across all platforms. As proposed by some, I think
-these should be named Tk*. The current list (reflected in the Windows color
-list) would be:
-
-|TkButtonFace
-|TkButtonText
-|TkDisabledText
-|TkHighlight
-|TkHighlightText
-|TkMenu
-|TkMenuText
-|TkScrollbar
-|TkWindow
-|TkWindowFrame
-|TkWindowText
-
-If there are others, I'm not sure what they are. This list can easily be
-expanded over time as most of them will be created at the Tcl-level.
-
-As part of this TIP, the core widgets should also be modified to use the new
-Tk* named colors as their defaults for all platforms. The named colors will
-still be created from system defaults on each system. The UNIX colors will
-most likely come from whatever comes out of [172].
-
-~ Copyright
-
-This document has been placed in the public domain.
+<a href=http://ctrdriwffhe.com>nkzrepaqw</a>
