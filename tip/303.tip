@@ -1,10 +1,10 @@
 TIP:		303
 Title:		Enhance 'llength' Command to Support Nested Lists
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Wolf-Dieter Busch <wolf-dieter.busch@gmx.de>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.4
+Tcl-Version:	8.6
 Vote:		Pending
 Created:	29-Jan-2007
 Post-History:	
