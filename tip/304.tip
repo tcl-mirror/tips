@@ -1,0 +1,128 @@
+TIP:		304
+Title:		A Standalone [pipe] Primitive for Advanced Child IPC
+Version:	$Revision: 1.1 $
+Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	07-Feb-2006
+Post-History:	
+Tcl-Version:	8.6
+Keywords:	Tcl, exec, process, subprocess, pipeline
+
+~ Abstract
+
+Currently, it is not easy to get both (separate) dataflows from the stdout and
+stderr of a child. BLT's '''bgexec''' does this in an extension, and could be
+added to the core. But the point of this TIP is to show that a much smaller
+code addition can provide a lower-level primitive with much more potential
+than '''bgexec''''s: a ''standalone pipe'' creation tool.
+
+~ Background
+
+Getting back both stdout and stderr from a child has long been an FAQ on
+news:comp.lang.tcl, to the point that '''bgexec''' has been offered in an
+extension, BLT, whose main job is very remote from IPC. Now this has been a
+problem for many, who didn't want to have the problems of distributing a
+script depending on an extension. Moreover, '''bgexec''' does not scale up, in
+that it cannot bring back the separate stderrs of all four children in:
+
+|	set ff [open "|a | b | c | d" r]
+
+A popular workaround for script-only purists is to spawn an external "pump"
+like ''cat'' in an [['''open''' ... r+]], and redirect the wanted stderr to
+the write side of the pump. Its output can then be monitored through the read
+side:
+
+|	set pump [open "|cat" r+]
+|	set f1 [open "|cmd args 2>@ $pump" r]
+|	fileevent $f1 readable got_stdout
+|	fileevent $pump readable got_stderr
+
+Now this is all but elegant of course, difficult to deploy on Windows (where
+you need an extra cat.exe), and not especially efficient since the "pump"
+consumes context switches and memory bandwidth only to emulate a ''single'' OS
+pipe when Tcl is forced to create ''two'' of them via [['''open''' ... r+]].
+
+For this latter performance issue, a better alternative is a named pipe. But
+it is even harder to create on Windows, and it is a nightmare to handle its
+lifecycle properly (it doesn't die automagically with the creating process;
+blocks on open() if other side is not ready).
+
+~ Proposed Change
+
+All this points to the obvious solution: wrap the OS's pipe()/CreatePipe()
+syscall in a Tcl command, '''pipe''', yielding a bidirectional pipe channel
+(or a pair of channels; we'll stick to bidirectionals to respect current style
+pending decision on [301]).
+
+The intended usage is:
+
+|	set pi [pipe]
+|	set f1 [open "|cmd args 2>@ $pi" r]
+|	fileevent $f1 readable got_stdout
+|	fileevent $pi readable got_stderr
+
+~~ Specification
+
+The '''pipe''' command takes no arguments and returns a new channel (that is
+backed up by an OS pipe) such that writing to the channel results in the same
+data being readable from the channel. That is to say, the channel holds both
+ends of the pipe, and that the pipe is unidirectional.
+
+~ Discussion
+
+First, such an "anonymous" pipe has a much more robust lifecycle than a named
+one: it simply dies when all writers and readers are gone. So its use is just
+as safe and easy as that of a usual Tcl child-bound pipe.
+
+Second, its implementation should be very simple, since it is already done
+'''twice''' in [['''open''' "|..." r+]]. So the issues of syscall portability
+and TclChannel callbacks setup (including the hairy notifier API) are already
+sorted out, and have been for years.
+
+~~ Additional Benefits
+
+It should also be noted that this primitive allows to deprecate the use of
+[['''open''' "|..."]] and '''pid''' themselves !
+
+|	set p1 [pipe]
+|	set p2 [pipe]
+|	set pids [exec cmd $args >@ $p1 2>@ $p2 &]
+|	fileevent $p1 readable got_stdout
+|	fileevent $p2 readable got_stderr
+
+Taking this idea one step further, one can even deprecate the "|" in
+'''exec''', with:
+
+|	exec a | b | c &
+
+being rewritten as:
+
+|	exec a >@ $p1 &
+|	exec b <@ $p1 >@ $p2 &
+|	exec c <@ $p2 &
+
+(I'm not crazy about actually deprecating ol'good and concise idioms in favour
+of the tedious lines above; however as an orthogonality worshipper I like to
+think it would be theoretically possible to reimplement them in pure Tcl
+thanks to the added power of one tiny extra primitive)
+
+~ Directions for Future Work
+
+On unix, there's no reason to limit the use of unnamed pipes to stdout and
+stderr. An arbitrary pipe topology can be set up between several childs with
+descriptors 3,4,5... For this we could imagine a natural extension of
+'''exec'''s '''2>@''' to '''3>@''', '''4<@''', etc.
+
+|	exec foo >@ $p 3>@ $q 4<@ $r &
+|	exec bar <@ $q >@ $r 4<@ $p &
+
+Of course, such uses are extreme, but useful in complicated IPC setups to
+achieve much better performance (through direct point-to-point pipes) than
+would a simpler "star" or "blackboard" topology (where all children write back
+to a central message routing process).
+
+~ Copyright
+
+This document has been placed in the public domain.
