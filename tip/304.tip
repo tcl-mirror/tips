@@ -1,6 +1,6 @@
 TIP:		304
 Title:		A Standalone [pipe] Primitive for Advanced Child IPC
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:		Draft
 Type:		Project
@@ -113,7 +113,7 @@ thanks to the added power of one tiny extra primitive)
 On unix, there's no reason to limit the use of unnamed pipes to stdout and
 stderr. An arbitrary pipe topology can be set up between several childs with
 descriptors 3,4,5... For this we could imagine a natural extension of
-'''exec'''s '''2>@''' to '''3>@''', '''4<@''', etc.
+'''exec''''s '''2>@''' to '''3>@''', '''4<@''', etc.
 
 |	exec foo >@ $p 3>@ $q 4<@ $r &
 |	exec bar <@ $q >@ $r 4<@ $p &
