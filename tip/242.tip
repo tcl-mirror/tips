@@ -1,6 +1,6 @@
 TIP:            242
 Title:          Preselect Filter on tk_get*File Dialogs
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brian Griffin <bgriffin@model.com>
 State:          Accepted
 Type:           Project
@@ -57,7 +57,7 @@ If the filter is changed to {TCL Scripts}, for example, the variable
 
 ~ Reference Implementation
 
-A reference implementation will be posted to Tk patches. I have
+A reference implementation will be posted to Tk patches[http://sf.net/tracker/?func=detail&aid=1156388&group_id=12997&atid=312997]. I have
 modified ''tkfbox.tcl'' and ''tkWinDialog.c''. I have not looked at
 MacOSX yet.
 
