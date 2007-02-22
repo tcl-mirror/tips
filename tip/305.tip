@@ -1,14 +1,14 @@
-TIP:		305
-Title:		ANSI Escape Sequence Support for Windows's Console Channel Driver
-Version:	$Revision: 1.1 $
-Author:		David Gravereaux <davygrvy@pobox.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	21-Feb-2007
-Tcl-Version:	8.5
-Discussions-To:	news:comp.lang.tcl
-Post-History:	
+TIP:            305
+Title:          ANSI Escape Sequence Support for Windows's Console Channel Driver
+Version:        $Revision: 1.2 $
+Author:         David Gravereaux <davygrvy@pobox.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Feb-2007
+Post-History:   
+Discussions-To: news:comp.lang.tcl
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -56,12 +56,12 @@ above) and not directives to write characters.
 ~ Reference Implementation
 
 A patch is currently being worked on. There is an ANSI test extension for wish
-available[http://www.pobox.com/~davygrvy/tclstuff/winAnsiCon12_pack.zip] that
+available [http://www.pobox.com/~davygrvy/tclstuff/winAnsiCon12_pack.zip] that
 contains numerous test screens (some with ansimations) and appears to work
 perfectly.
 
 The ''blink'' and ''underline'' SGR modes can not be supported due to OS
-limitations, and nor can the color palette be modified to affirm color
+limitations, nor can the color palette be modified to affirm color
 consistency.
 
 ~ Copyright
