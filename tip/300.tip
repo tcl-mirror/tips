@@ -1,6 +1,6 @@
 TIP:            300
 Title:          Examine Glyph Substitution in the 'font actual' Command
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 State:          Final
 Type:           Project
@@ -29,7 +29,7 @@ directly, or simply to determine what font was chosen.
 This TIP proposes modifying the '''font actual''' command to have the syntax:
 
  > '''font actual''' ''font'' ?'''-displayof''' ''window''? ?''option''?
-   ?'''--'''? ?''char''
+   ?'''--'''? ?''char''?
 
 The ''font'', '''-displayof''' and ''option'' arguments are unchanged from the
 current [font actual] command.
