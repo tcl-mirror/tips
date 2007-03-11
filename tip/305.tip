@@ -1,8 +1,8 @@
 TIP:            305
 Title:          ANSI Escape Sequence Support for Windows's Console Channel Driver
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         David Gravereaux <davygrvy@pobox.com>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        21-Feb-2007
