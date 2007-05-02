@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -125,10 +125,10 @@ A maintainer uses CVS via SSH to access, track, and modify the various
 branches of development in the repository of official Tcl or Tk source
 code.
 
-|cvs -d :ext:username@cvs.sourceforge.net:/cvsroot/tcl \
+|cvs -d :ext:username@tcl.cvs.sourceforge.net:/cvsroot/tcl \
 |   checkout -r $BRANCH_TAG -d $LOCAL_DIR tcl
 |
-|cvs -d :ext:username@cvs.sourceforge.net:/cvsroot/tktoolkit \
+|cvs -d :ext:username@tktoolkit.cvs.sourceforge.net:/cvsroot/tktoolkit \
 |   checkout -r $BRANCH_TAG -d $LOCAL_DIR tk
 
 A maintainer examines the state of Tcl Improvement Proposals (TIPs) and
