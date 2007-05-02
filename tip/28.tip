@@ -1,6 +1,6 @@
 TIP:            28
 Title:          How to be a good maintainer for Tcl/Tk
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Informative
@@ -404,7 +404,7 @@ before approving a patch that doesn't conform to these conventions.
 Check the effect of the patch on the performance of Tcl/Tk.  Use the
 tclbench set of benchmarks.
 
-|cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/tcllib \
+|cvs -d :pserver:anonymous@tcllib.cvs.sourceforge.net:/cvsroot/tcllib \
 |      checkout tclbench
 
 Think carefully before approving a patch that significantly degrades
