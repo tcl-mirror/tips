@@ -1,6 +1,6 @@
 TIP:            2
 Title:          TIP Guidelines
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -207,7 +207,7 @@ allocating TIP numbers, so you can leave that unfilled.
 
 |TIP:           ???
 |Title:         The TIP Title as Plain Text
-|Version:       $Revision: 1.30 $
+|Version:       $Revision: 1.31 $
 |Author:        Author Name <author@somewhere.com>
 |State:         Draft
 |Type:          Project
@@ -318,6 +318,11 @@ This page could be used by those looking at the
 archive to quickly determine the state of the discussion,
 as well as the reasons for the final disposition of the
 TIP.
+
+''Donal Fellows responds:'' Feel free to establish such things. But I've
+definitely not got time to maintain them, and especially haven't got time to
+go back through the archives to make the resource complete for those TIPs that
+have already been voted upon.
 
 ----
 
