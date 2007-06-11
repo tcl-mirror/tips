@@ -1,0 +1,155 @@
+TIP:            306
+Title:          Auto-Naming Widgets
+Version:        $Revision: 1.1 $
+Author:         Koen Danckaert <koen@retarget.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Jun-2007
+Tcl-Version:    8.6
+Keywords:	automatic, Tk, widget, naming
+Post-History:
+
+~ Abstract
+
+A Tk programmer must give every widget a unique name. This is often quite
+annoying, especially for widgets whose name is stored in a variable (which also
+must be given a name). This TIP proposes a small extension to generate
+automatic names for widgets.
+
+~ Rationale
+
+Every Tk widget must be given a unique name. This is needed internally for Tk
+and also for the programmer to be able to refer to it. Quite often, and as
+recommended in many Tk coding guidelines (e.g.
+http://www.beedub.com/book/2nd/TKINTRO.doc.html), the widget names are stored
+in variables and only referred to indirectly. These variables must also be
+given a name, which may lead to confusion, and requires more inventivity of
+the programmer than needed.
+
+An example from the BWidget source code:
+
+| set status   [frame $path.status -background $bg]
+| set label    [label $status.label]
+| set indframe [frame $status.indf -background $bg]
+| set prgframe [frame $status.prgf -background $bg]
+
+Other cases where widget names are unimportant from a programmer's viewpoint,
+are widgets which are never referred to after creation, and those which are
+only referred to by other means (e.g. by a textvariable). Example:
+
+| pack [label .name_label -text "Enter name:"] -side left
+| pack [entry .name_entry -textvariable name] -side left
+
+In all those cases, it would be helpful if Tk could generate the widget names
+itself.
+
+Currently the widget creation commands already return the widget name, which
+is always the exact name the programmer has supplied. This makes it easy to
+make an (almost) backwards compatible extension, as presented below.
+
+~ Specification
+
+When creating a new widget with a name that ends on "%", the "%" will be
+replaced by a counter. The actual widget name is then returned. Note that each
+parent widget has its own counter.
+
+| % button .%
+| .1
+| % set f [frame .%]
+| .2
+| % label $f.%
+| .2.1
+| % set p [frame .prefix%]
+| .prefix3
+| % label $p.%a%b%c%%
+| .prefix3.%a%b%c%1
+
+The examples above can now be written as:
+
+| set status   [frame $path.% -background $bg]
+| set label    [label $status.%]
+| set indframe [frame $status.% -background $bg]
+| set prgframe [frame $status.% -background $bg]
+
+| pack [label .% -text "Enter name:"] -side left
+| pack [entry .% -textvariable name] -side left
+
+Note that there is no protection against already existing window names.
+Example:
+
+| % frame .2
+| .2
+| % frame .%
+| .1
+| % frame .%
+| window name "2" already exists in parent
+
+~ Reference Implementation
+
+[[To come soon]]
+
+Basically, the TkWindow structure gets a new member "autocount", which is
+initalized to 0 when the widget is created, and which is incremented when the
+auto-name feature is used for creating child widgets (this is done in the
+NameWindow() function).
+
+~ Compatibility
+
+~~ Backward Compatibility
+
+The presented extension is backward compatible, except for existing code which
+uses widget names ending on "%". Hope this is acceptible...
+
+~~ Forward Compatibility
+
+This is another issue. Megawidgets which want to support the new naming scheme,
+will probably have to be adapted. In particular, when they are written as:
+
+| proc mymegawidget {win args} {
+|     # do some stuff with $win
+|     # ...
+|
+|     # Create the hull frame
+|     frame $win -class MyMegaWidget
+|
+|     # Create internals
+|     label $win.title -text "Title"
+|     # ...
+| }
+
+they will have to be rewritten in the following way:
+
+| proc mymegawidget {w args} {
+|     # Create the hull frame (returns the actual widget name)
+|     set win [frame $w -class MyMegaWidget]
+|
+|     # do some stuff with $win
+|     # ...
+|
+|     # Create internals
+|     label $win.title -text "Title"
+|     # ...
+| }
+
+In Tk itself, there is one such example which has to be rewritten:
+tk_optionMenu.
+
+~ Alternatives
+
+ 1. Implementing this TIP in Tcl. This would require all widget commands to be
+    wrapped. That's a lot of work compared to the simple patch to the C code
+    used here.
+
+ 2. Make a separate autoname command, and use this when creating widgets.
+    For example:
+
+| set frame [frame [autoname .%]]
+| label [autoname $frame.%]
+
+ > This makes the code a longer and more difficult to read, which is the
+   opposite of what this TIP tries to achieve.
+
+~ Copyright
+
+This document has been placed in the public domain.
