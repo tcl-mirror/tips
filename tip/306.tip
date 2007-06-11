@@ -1,14 +1,15 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Koen Danckaert <koen@retarget.com>
+Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        11-Jun-2007
+Post-History:   
+Keywords:       automatic,Tk,widget,naming
 Tcl-Version:    8.6
-Keywords:	automatic, Tk, widget, naming
-Post-History:
 
 ~ Abstract
 
@@ -149,6 +150,13 @@ tk_optionMenu.
 
  > This makes the code a longer and more difficult to read, which is the
    opposite of what this TIP tries to achieve.
+
+A very simple autonaming can be done by just setting aside one global variable:
+| set ::# 0 ;# from 8.5 not even needed
+and define an alias that increments that variable:
+| interp alias {} % {} incr ::#
+| set frame [frame .[%]]
+| label $frame.[%]
 
 ~ Copyright
 
