@@ -1,6 +1,6 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Koen Danckaert <koen@retarget.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -151,9 +151,9 @@ tk_optionMenu.
  > This makes the code a longer and more difficult to read, which is the
    opposite of what this TIP tries to achieve.
 
-A very simple autonaming can be done by just setting aside one global variable:
+A very simple autonaming can be done by just setting aside one global variable and define an alias that increments that variable:
+
 | set ::# 0 ;# from 8.5 not even needed
-and define an alias that increments that variable:
 | interp alias {} % {} incr ::#
 | set frame [frame .[%]]
 | label $frame.[%]
