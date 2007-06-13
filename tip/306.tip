@@ -1,6 +1,6 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Koen Danckaert <koen@retarget.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -76,15 +76,14 @@ The examples above can now be written as:
 | pack [label .% -text "Enter name:"] -side left
 | pack [entry .% -textvariable name] -side left
 
-Note that there is no protection against already existing window names.
-Example:
+Care is taken that the automatic name does not refer to an already existing (manually specified) widget. Example:
 
 | % frame .2
 | .2
 | % frame .%
 | .1
 | % frame .%
-| window name "2" already exists in parent
+| .3
 
 ~ Reference Implementation
 
