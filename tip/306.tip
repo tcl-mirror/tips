@@ -1,6 +1,6 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Koen Danckaert <koen@retarget.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -87,7 +87,7 @@ Care is taken that the automatic name does not refer to an already existing (man
 
 ~ Reference Implementation
 
-See SourceForge patch #1735008.
+See SourceForge patch #1735008[http://sf.net/support/tracker.php?aid=1735008].
 
 Basically, the TkWindow structure gets a new member "autocount", which is
 initalized to 0 when the widget is created, and which is incremented when the
