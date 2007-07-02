@@ -1,6 +1,6 @@
 TIP:            296
 Title:          Enhanced Syntax for Pair-Wise Indices
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -57,7 +57,7 @@ Currently there is a function TclGetIntForIndex, which deals with the current
 '''end''' anchor. It could be accompanied with a second function (e.g.,
 TclGetIntForIndex2) that would accept another argument for the previously
 calculated index of the range-start argument, and use that in case the new
-anchow '''s''' occurs in the range-end index.
+anchor '''s''' occurs in the range-end index.
 
 No change at all is proposed for each ranges start index.
 
