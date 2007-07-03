@@ -1,7 +1,8 @@
 TIP:            276
 Title:          Specify and Unify Variable Linking Commands
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
+Author:         xcsgpvyegf <lhkup@euqcxtc.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -12,107 +13,8 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-The purpose of this TIP is to simplify and clarify the semantics of the
-commands in Tcl that couple variables in different scopes together.
+Thanks for this site!
+ <a href=http://www.ceval.de/redaxo/index.html>ceval.de</a>
 
-~ Rationale
-
-This TIP proposes to specify and document the behaviour of the different
-variable linking commands in Tcl: '''global''', '''variable''', '''upvar'''
-and '''namespace upvar'''.
-
-In particular, as many of these commands were initially designed to be mainly
-useful from within procedure bodies, the documentation does not specify their
-behaviour with respect to qualified variable names.
-
-This TIP proposes to specify and document this behaviour, insuring that it is
-essentially the same in all these commands.
-
-~~ Current Situation
-
-There have been a few bug reports concerning the behaviour of variable linking
-commands with respect to qualified variable names: 604226, 1274916, 1274918.
-Some are real bugs, some are just surprising but correct behaviour, some are
-surprising unspecified behaviour.
-
-Within proc bodies all of these commands create local variables that are
-linked to original variables elsewhere (the following assumes that ''local''
-is a non-qualified name):
-
- * "'''global''' ''var''" creates a local variable "[['''namespace tail'''
-   ''var'']]" that is linked to "''var''" as resolved from the global
-   namespace.
-
- * "'''variable''' ''var''" creates a local variable "[['''namespace
-   tail''' ''var'']]" that is linked to "''var''" as resolved from
-   [['''namespace current''']].
-
- * "'''upvar''' ''level var local''" creates a local variable "''local''" that
-   is linked to "''var''" as resolved in the context of the frame identified
-   by ''level''. It is an error to try to link to a proc-local variable from a namespace context. It is an error to link a variable to itself.
-
- * "'''namespace upvar''' ''ns var local''" creates a local variable
-   "''local''" that is linked to "''var''" as resolved from namespace ''ns''
-   (itself resolved in the current context). It is an error to link a variable to itself.
-
-One undocumented issue is what should happen when ''local'' is a qualified
-name.
-
-Another issue is the behaviour of these commands when invoked outside of
-procedure bodies:
-
- * "'''global''' ''var''" is documented to be a no-op.
-
- * "'''variable''' ''var''" is documented to create a namespace variable in
-   the current namespace, without any mention of the behaviour when "''var''"
-   is qualified. Currently that is a a no-op in terms of creating a variable,
-   but it can change the value of the target, see [[Bug #604226]]. If '''var''' is a simple name and the corresponding variable already existed, '''variable''' may set its value (and an internal flag), but does no linking.
-
- * "'''upvar''' ''level var local''" creates a variable "''local''" (as
-   resolved from [['''namespace current''']]) that is linked to "''var''" as
-   resolved in the context of the frame identified by ''level''. It is an error to try to link to a proc-local variable from a namespace context. It is an error to link a variable to itself.
-
- * "'''namespace upvar''' ''ns var local'' creates a variable "''local''" (as
-   resolved from [['''namespace current''']]) that is linked to "''var''" as
-   resolved from namespace ''ns'' (itself resolved in the current context). It is an error to link a variable to itself.
-
-~ Proposal
-
-This TIP proposes to unify the criteria, making all of these commands
-essentially implementable in Tcl from the most general, '''upvar'''. The
-behaviour should ''not'' depend on the commands being invoked within or
-outside of a procedure body.
-
-In all of the following, it is an error for ''local'' to be a qualified
-variable name.
-
- * "'''global''' ''var''" always creates a variable "[['''namespace tail'''
-   ''var'']]" in the current context, linked to a global variable "''var''".
-
- * "'''variable''' ''var''" always creates a variable "[['''namespace tail'''
-   ''var'']]" in the current context, linked to a variable "''var''" as
-   resolved from [['''namespace current''']].
-
- * "'''upvar''' ''level var local''" always creates a variable "''local''" in
-   the current context, linked to "''var''" as resolved in the context of the
-   frame identified by ''level''. It is an error to try to link to a proc-local variable from a namespace context.
-
- * "'''namespace upvar''' ''ns var local''" always creates a variable
-   "''local''" in the current context, linked to "''var''" as resolved from
-   namespace ''ns'' (itself resolved in the current context).
-
-In all cases, attempting to link a variable to itself will be a no-op.
-
-~ Compatibility
-
-This TIP may cause breakage in some scripts relying on undocumented behaviour.
-
-The specification changes for '''global''' and '''variable''' outside of proc bodies is almost certainly implementing what the programmer meant them to do, hence likely to fix more bugs than it causes. 
-
-~ Reference Implementation and Documentation
-
-Forthcoming at SF.
-
-~ Copyright
-
-This document has been placed in the public domain.
+Thanks for this site!
+ <a href=http://www.ceval.de/redaxo/index.html>ceval.de</a>
