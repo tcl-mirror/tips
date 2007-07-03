@@ -1,8 +1,7 @@
 TIP:            66
 Title:          Stand-alone and Embedded Tcl/Tk Applications
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
-Author:         yossawee <yossawee1974@yahoo.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
