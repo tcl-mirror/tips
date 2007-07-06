@@ -1,22 +1,13 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.174 $
+Version:        $Revision: 1.175 $
 Author:         Don Porter <dgp@users.sourceforge.net>
-Author:         <nobody@nowhere.com>
-Author:         Andreas Kupries <akupries@westend.com>
-Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Andreas Kupries <a.kupries@westend.com>
-Author:         <dgp@user.sourceforge.net>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
 Author:         Kevin B KENNY <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
-Author:         Test User <test@example.com>
-Author:         New User <newbie@example.com>
-Author:         Working User <thisworks@example.com>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
-Author:         Don Porter <dgp@users.sf.net>
-Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:          Draft
