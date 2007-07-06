@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.173 $
+Version:        $Revision: 1.174 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         <nobody@nowhere.com>
 Author:         Andreas Kupries <akupries@westend.com>
@@ -33,7 +33,7 @@ can take place.
 
 ~ Testing
 
-...edits through the web...
+...edits through the web.
 
 ~ Copyright
 
