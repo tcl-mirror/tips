@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.39 $
+Version:        $Revision: 1.40 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -16,6 +16,7 @@ Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Benjamin Riefenstahl <B.Riefenstahl@turtle-trading.net>
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 Author:         Vince Darley <vince@santafe.edu>
+Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -63,7 +64,7 @@ assigned:
 		    Jeff Hobbs <JeffH@ActiveState.com>
 
    8. ''[frame] and [toplevel]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-				   Peter Spjuth <peter.spjuth@space.se>
+			Peter Spjuth <peter.spjuth@gmail.com>
 
    9. ''[listbox]'' - Allen Flick <allenflick@home.com>,
 		      Jeff Hobbs <JeffH@ActiveState.com>
@@ -186,13 +187,13 @@ assigned:
 				 Chengye Mao <chengye.geo@yahoo.com>
 
    49. ''[grid]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-		    Peter Spjuth <peter.spjuth@space.se>
+		    Peter Spjuth <peter.spjuth@gmail.com>
 
    50. ''[pack]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-		    Peter Spjuth <peter.spjuth@space.se>
+		    Peter Spjuth <peter.spjuth@gmail.com>
 
    51. ''[place]'' - Jeff Hobbs <JeffH@ActiveState.com>,
-		     Peter Spjuth <peter.spjuth@space.se>
+		     Peter Spjuth <peter.spjuth@gmail.com>
 
    52. ''[clipboard]'' - Jeff Hobbs <JeffH@ActiveState.com>
 		         Joe English <jenglish@flightlab.com> (Unix),
@@ -260,7 +261,6 @@ assigned:
 		Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
 		Jim Ingham <jingham@apple.com> (Mac OS X),
 		Don Porter <dgp@users.sf.net>
-			
 
    75. ''wish'' - 
                   Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
