@@ -1,6 +1,6 @@
 TIP:		307
 Title:		Make TclTransferResult() Public
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Erik Leunissen <e.leunissen@hccnet.nl>
 State:		Draft
 Type:		Project
@@ -54,18 +54,21 @@ appropriate manual page to add it to.
 
 Considerations for placement of the documentation:
 
- * man page for Tcl_CreateInterp: this is the only manual page that is solely
-   intended for multiple interpreters which are truly arbitrary interpreters,
-   i.e. without any imposed relationship between them. However, it doesn't
-   concern interp results.
+ * man page for
+   Tcl_CreateInterp: this is the only manual page that is solely intended for
+   multiple interpreters which are truly arbitrary interpreters, i.e. without
+   any imposed relationship between them. However, it doesn't concern interp
+   results.
 
- * man page for Tcl_CreateSlave: this manual page says for itself that it
-   concerns multiple interpreters, which is only half the truth: it concerns
-   mostly interpreters that have an explicit master-slave relationship, the
-   only exception being Tcl_CreateAlias(Obj).
+ * man page for
+   Tcl_CreateSlave: this manual page says for itself that it concerns multiple
+   interpreters, which is only half the truth: it concerns mostly interpreters
+   that have an explicit master-slave relationship, the only exception being
+   Tcl_CreateAlias(Obj).
 
- * man page for Tcl_SaveResult: handles interp results, but is not at all
-   intended for multiple interpreter situations.
+ * man page for
+   Tcl_SaveResult: handles interp results, but is not at all intended for
+   multiple interpreter situations.
 
 ~ Copyright
 
