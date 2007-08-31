@@ -1,6 +1,6 @@
 TIP:		307
 Title:		Make TclTransferResult() Public
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Erik Leunissen <e.leunissen@hccnet.nl>
 State:		Draft
 Type:		Project
@@ -38,8 +38,9 @@ function.
 There is not much to implement: TclTransferResult() already exists in
 ''tclResult.c''. What remains to be done:
 
- * renaming to Tcl_TranferResult(): i.e. insert a single underscore character
-   in its name. The function is not declared static already.
+ * renaming to
+   Tcl_TranferResult(): i.e. insert a single underscore character in
+   its name. The function is not declared static already.
 
  * slot it into the Tcl stubs table.
 
