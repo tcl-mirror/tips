@@ -5,7 +5,7 @@ Created:        16-Oct-2007
 Type:           Project
 State:          Draft
 Vote:           Pending
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Tcl-Version:    8.5
 Post-History:   
 Keywords:       octal
@@ -191,7 +191,7 @@ as easy to insert '''scan %o''' in the proper places as it would
 be to insert the '''tcl::unsupported::octal''' stopgap.
 
 In short, any coder finding themselves in a position to consider
-using a ''tcl::unsupported::octal'' tool, would quickly decide
+using a '''tcl::unsupported::octal''' tool, would quickly decide
 not to use it in favor of just fixing their code.  Thus users
 of this feature are mythical, and it will not be implemented.
 
