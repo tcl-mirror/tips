@@ -1,14 +1,15 @@
-TIP:		288
-Title:		Allow "args" Anywhere in Procedure Formal Arguments
-Version:	$Revision: 1.2 $
-Author:		Peter Spjuth <peter.spjuth@space.se>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	03-Oct-2006
-Tcl-Version:	8.6
-Post-History:	
-Keywords:	Tcl, proc
+TIP:            288
+Title:          Allow "args" Anywhere in Procedure Formal Arguments
+Version:        $Revision: 1.3 $
+Author:         Peter Spjuth <peter.spjuth@space.se>
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Oct-2006
+Post-History:   
+Keywords:       Tcl,proc
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -28,7 +29,7 @@ If "args" had its special meaning at any location in the argument list, it
 would help with such a task, and it would make things more consistent.
 
 To preserve full backward compatibility (when "args" is not used before the
-last) and to get simple semantics, optional arguments are not allowed after
+last) (see comments) and to get simple semantics, optional arguments are not allowed after
 "args".
 
 ~ Specification
@@ -51,6 +52,10 @@ would be rather confusing, but it might exist.
 
 Detecting such scripts in an automated way would be simple and fixing them is
 trivial.
+
+~ Comments
+
+Andreas Leitgeb: I just want to clarify, that if someone (against all reason) had a procedure with "args" as a non-last argument-name, then forbidding optional arguments does *not* retain compatibility! That one argument would then still be one list-level deeper than now. 
 
 ~ Copyright
 
