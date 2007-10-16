@@ -5,7 +5,7 @@ Created:        16-Oct-2007
 Type:           Project
 State:          Draft
 Vote:           Pending
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Tcl-Version:    8.5
 Post-History:   
 Keywords:       octal
@@ -66,7 +66,7 @@ Revise all integer parsing in Tcl by making modifications to
 the '''TclParseNumber()''' routine.  With reference to the
 state machine graph in [249], we change the exit edges of
 state ''integer[[1]]''.  Characters '''0''' - '''7''' and
-characters '''8''' - '''9''' should now lead to state ''integer[4]'',
+characters '''8''' - '''9''' should now lead to state ''integer[[4]]'',
 so that they continue decimal parsing, and not octal parsing.
 The states ''integer[[2]]'' and ''error[[5]]'' will now be
 accessible only if the character '''o''' or '''O''' is seen
@@ -120,7 +120,7 @@ result of test '''io-40.3''' has been computed:
 
 | format %04o [expr {0666 & ~$umaskValue}]
 
-After the proposed change, $umaskValue is treated as a decimal
+After the proposed change, ''$umaskValue'' is treated as a decimal
 number, and the wrong expected result is computed.  (This test
 has already been updated on the HEAD to avoid such problems.)
 
