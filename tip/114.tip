@@ -1,174 +1,199 @@
 TIP:            114
-Title:          A System for Non-Decimal Numeric Values
-Author:         Donal K. Fellows <donal.fellows@man.ac.uk>
-Created:        14-Oct-2002
+Title:          Eliminate Octal Parsing of Leading Zero Integer Strings
+Author:         Don Porter <dgp@users.sf.net>
+Created:        16-Oct-2007
 Type:           Project
 State:          Draft
 Vote:           Pending
-Version:        $Revision: 1.2 $
-Tcl-Version:    9.0
+Version:        $Revision: 1.3 $
+Tcl-Version:    8.5
 Post-History:   
-Keywords:       octal, binary, hexadecimal, escape
+Keywords:       octal
 
 ~Abstract
 
-This TIP proposes a new way of defining non-decimal integer values for
-use in Tcl that allows number-strings with a leading zero to be
-treated as decimals.
+This TIP proposes elimination of Tcl's practice of using octal
+notation to interpret a string with a leading zero when an
+integer value is expected.
 
 ~History and Rationale
 
-Tcl has used the C functions ''strtol()'' and ''strtoul()'' for
-parsing integers (e.g. for use in the ''expr'' command) for many
-years, and while the audience of developers using it was composed of
-mainly people who already knew C's quirks with respect to number
-parsing, this was fine.  It has been very useful over the years to
-express values as "0x1234abcd" (a hexadecimal value, signified by the
-leading "0x") and "01775" (an octal value, signified by the leading
-"0".)  However, as Tcl has become more widely used and has increased
-in functionality, this generally useful behaviour has been found to
-have some limitations.
+There are several places in the syntax of several Tcl commands
+where an integer value may be accepted.  Routines such as
+'''Tcl_GetInt()''' perform the task of parsing an integer value
+from the string value in these places.  Ultimately, these routines
+have been built on C standard library functions such as
+'''strtol()'''.  Due to this implementation choice, Tcl integer
+parsing has inherited features from '''strtol()''' including
+the feature that a leading zero in a string has been taken
+as a signal that the string is an integer value in octal format.
 
- 1. When doing date and time manipulation with the ''clock'' command,
-    numeric values are often produced which are in many senses
-    dual-purpose, being both digit strings for presentation to people,
-    and numeric values to be further manipulated.  The problem with
-    this is that some of the values produced have leading zeroes
-    (indicating an octal value) but contain the digits "8" or "9".
+Several programmers and programs have hit this feature by
+surprise, resulting in nasty bugs such as:
 
- 2. When reading numeric values written by users, there may well also
-    be leading zeroes on numbers containing "8" or "9", as the
-    majority of people see no reason why this might be harmful (as
-    they are not C programmers!)
+| % proc m date {
+|      lassign [split $date -] y m d
+|      return [string index _JFMAMJJASOND $m]
+|   }
+| % m 2007-02-14
+| F
+| % m 2007-12-25
+| D
+| % m 2007-09-26
+| bad index "09": must be integer?[+-]integer? or end?[+-]integer? (looks like invalid octal number)
 
-In both cases, it is possible to use the ''scan'' command to work
-around this (forcing a decimal interpretation of the string) but this
-extra work that people seem to prefer to skip.
+There are very few places in Tcl scripts where this feature
+is actually useful.  Octal format for integers simply isn't
+encountered all that often in most programming tasks tackled by
+Tcl scripts.  The main counterexample is the use of octal format
+integers to describe filesystem permissions on unix systems.
+The Tcl commands that operate on filesystem permission values
+are '''open''' and '''file attributes''', and it is a simple matter
+to directly code them to recognize octal format, rather that have
+then rely on octal parsing as a general integer value recognition
+feature.  On the HEAD, these commands have already been so revised.
+With those few cases accounted for, it's been observed that
+removing this feature of Tcl integer parsing "will likely fix
+more scripts than it breaks."
 
-Now, it seems that hexadecimal values are far more popular these days
-(and never confused in practise) so it seems sensible to me to alter
-the syntax for octal values to be more similar to that for hex values.
-This would then free up all strings of digits to be interpreted as
-decimal numbers, which is more intuitive to the wider community.
+The opportunity to make this change in Tcl 8.5 arises because
+we've already replaced our old parsing routines based on
+'''strtol()'''  with our own number parser [249].
 
-While this is being done, this TIP will also propose some additional
-functionality and fixes in related areas.
+~ Proposal
 
-Note that extension to arbitrary bases is not done.  It is the view of
-the author that the additional use enabled would not be justified by
-the additional effort required to implement and document it.
+Revise all integer parsing in Tcl by making modifications to
+the '''TclParseNumber()''' routine.  With reference to the
+state machine graph in [249], we change the exit edges of
+state ''integer[[1]]''.  Characters '''0''' - '''7''' and
+characters '''8''' - '''9''' should now lead to state ''integer[4]'',
+so that they continue decimal parsing, and not octal parsing.
+The states ''integer[[2]]'' and ''error[[5]]'' will now be
+accessible only if the character '''o''' or '''O''' is seen
+while in state ''integer[[1]]'' and there will no longer be
+any exit from those states when the characters '''.''' or '''e'''
+or '''E''' are observed.
 
-~Proposal - Values
+This change to '''TclParseNumber()''' is achieved with a
+'''#define KILL_OCTAL''' in the file ''tclStrToD.c''.
 
-This TIP proposes that all strings consisting of nothing but the
-digits from the set [[0123456789]] (using [[string match]] notation)
-will be interpreted as decimal integer values.
+~ Compatibility
 
-If a string consists of a "0" followed by an "o" (for Octal) in either
-case, followed by digits from the set [[01234567]], then those digits
-will be interpreted as an octal integer value.
+This change is an incompatibility.  It's long
+been believed that such a change should not happen until Tcl 9
+because of this, but over time the consensus belief has developed
+that far fewer programs and programmers will be harmed by the
+incompatibility than will be helped by removing the misfeature.
 
-If a string consists of a "0" followed by a "b" (for Binary) in either
-case, followed by digits from the set [[01]], then those digits will
-be interpreted as a binary integer value.
+That said, the incompatibility is serious.  The same string in
+the same place in a script can now have a completely different
+meaning.  Before the change:
 
-If a string consists of a "0" followed by an "x" (for heXadecimal) in
-either case, followed by digits from the set
-[[0123456789abcdefABCDEF]], then those digits will be interpreted as a
-hexadecimal integer value (this is the current behaviour for hex
-constants.)
+| % lindex {a b c d e f g h i j k} 010
+| i
 
-(Implementation of this will involve reviewing each use of the
-functions ''strtol()'', ''strtoul()'', ''strtoll()'' and
-''strtoull()'' throughout the core.)
+After the change:
 
-~Proposal - Character Escapes
+| % lindex {a b c d e f g h i j k} 010
+| k
 
-As an adjunct to the above, this TIP states that octal character
-escapes (a backslash followed by up to three octal digits) will remain
-exactly as they are presently.  They do not seem to be ever
-misinterpreted in practise.  Similar for UNICODE character escapes
-(backslash, "u", and four hex digits.)  However, this TIP does propose
-''altering the meaning of hex escapes'' (backslash, "x", and hex
-digits) to ''limit the number of digits in the hex escape to two''.
-This is just to make the behaviour more predictable than it is at
-present (where Tcl can currently read more than two hex digits, but in
-effect ignores all but the last two digits, which is not generally
-useful to anyone.)
+This is not the usual situation where new feature causes scripts
+that were an error to become non-errors -- a compatible change.
 
-~Consequences for Tcl Commands
+This is also not a situation where a change causes legal scripts
+to become errors.  Such a change would break scripts, but would
+at least leave behind scripts that raise noisy errors alerting
+about the breakage.
 
-The only common use of octal values in both the core and a number of
-important extensions seems to be in the manipulation of UNIX
-permission strings.  Now, permissions are conventionally displayed as
-octal (when they aren't encoded as bits) but they also may need to be
-manipulated arithmetically to enable applications and libraries to
-change the permissions of files.  Enabling arithmetic manipulation
-forces the use of standard integer rules.
+This is the most serious kind of incompatibility, where we replace
+a working script with another working script that does something
+completely different.  An illustration of the problem from Tcl's
+own test suite highlights the danger.  Some of Tcl's tests in
+'''io.test''' depend on the umask value, so that value is captured:
 
-There are three specific commands in Tcl that deal with permissions:
-[[open]], [[file stat]] and [[file attributes]].
+| set umaskValue [exec /bin/sh -c umask]
 
-The permissions argument to [[open]] is only very rarely used; the
-default is typically good enough for most people.  Also, [[file stat]]
-is not a problem because it cannot modify any permissions and returns
-a decimal value for the mode field anyway.  The key problem is [[file
-attributes]], and in particular the ''-permissions'' attribute (only
-available on Unix, of course.)  This is a potential problem because it
-returns its value as an octal string, and might well be needed as a
-value in a computation, or displayed to a user.
+Note that the shell command '''umask''' returns a mask value as
+an integer in octal format.  The test suite has relied on Tcl's
+built-in ability to recognize this format, and the expected
+result of test '''io-40.3''' has been computed:
 
-Still, since it just takes an integer when setting, the resolution is
-simply to make the command return a new-format octal value instead.
-Anyone who needs old-format octals can achieve this with suitable
-application of the ''%o'' substitution in [[format]].
+| format %04o [expr {0666 & ~$umaskValue}]
 
-It has been requested that it should take strings like "666" to
-indicate that read and write bits should be set for all three
-permission groups, but this has always been at odds with performing
-computations on permission strings.  The problem is that "120" does
-not have a canonical meaning, and even trying to guess from the type
-of the underlying ''Tcl_Obj'' is not a way forward because of the
-degree of sharing of literals that the bytecode compiler may perform.
-Hence, this TIP does ''not'' seek to implement the feature.  In any
-case, it is easy enough to use the [[scan]] command to do the
-conversion, especially now that the scanned value does not need to be
-assigned to an intermediate variable.
+After the proposed change, $umaskValue is treated as a decimal
+number, and the wrong expected result is computed.  (This test
+has already been updated on the HEAD to avoid such problems.)
 
-Extensions (notably TclX as it has a [[chmod]] command) may need to
-review this matter separately, but this lies outside the scope of this
-TIP.
+It is not difficult to imagine more serious problems in scripts
+that make use of the result returned by the shell command '''umask'''
+where a file might be created or modified with completely unintended
+permissions as a result of the proposed change.  Such scripts
+might easily raise security concerns.
 
-~Impact on Tcl Users
+Even in the light of the judgment that such (hopefully rare) compatibility
+issues are acceptable in exchange for the benefits of purging the
+misfeature, we really ought to consider seriously how we can alert
+those migrating to Tcl 8.5 to this possibility and to the need to
+examine their scripts for this issue.
 
-Most code should not be affected, but anything using octal values
-directly (instead of via [[format]] and [[scan]]) will be vulnerable
-and potentially require separate code review (informally, this seems
-to be rare but that may depend on coding style.)  Fortunately,
-searching for character sequences that indicate possible problems
-should be pretty easy; a pattern that matches all problems will
-consist of a leading zero, possibly followed by an "o" of either case,
-and then followed by another digit.  For example:
+Besides the impact on Tcl commands, this change may also cause
+incompatibilities in extensions, to the extent their commands
+rely on Tcl's integer parsing to support octal notation.
 
-|egrep -wi '0[bo]?[0-9].*' *.tcl
+~ Rejected Alternatives
 
-Note that mechanical replacement of all the potential problems is not
-possible, each case will need to be hand reviewed.  The reason for
-this can be illustrated by what happens when this search is run on the
-Tcl library and test suite: the command finds a great many embedded
-dates and octal escape sequences in addition to a few genuine
-problems.
+Motivated largely by the serious incompatibilities lurking here,
+a few people have suggested that some means be provided to toggle
+Tcl's integer parsing behavior between two modes, one which
+recognizes octal and one which does not.  This idea appears inspired
+in part by the '''::tcl_precision''' variable, which has long
+exercised control over Tcl's floating point number formatting.
 
-Two possible workarounds are possible for octal constants: either
-insert a "o" after the leading zero, or use [[scan ''value'' %o]] to
-force interpretation of the string as octal.  Existing "binary"
-constants will currently be converted into numbers by code anyway
-instead of being interpreted directly, so they should not be a major
-issue when it comes to converting.
+While the motivation may be well-intended, this proposal is basically
+unworkable, and can't really help anybody.  The point of the proposed
+change is to make simple code work as simple coders expect it to.
+Our original example proc can already be corrected like so:
 
-~See Also
+| proc m date {
+|    scan $date %d-%d-%d y m d
+|    return [string index _JFMAMJJASOND $m]
+| }
 
-[237], [249]
+The point of this proposal is to make the original code just work.
+It doesn't help to offer this complexity as a solution:
+
+| % proc m date {
+|      set mode [tcl::unsupported::octal]
+|      tcl::unsupported::octal off
+|      lassign [split $date -] y m d
+|      set result [string index _JFMAMJJASOND $m]
+|      tcl::unsupported::octal $mode
+|      return $result
+|   }
+
+No one would choose that over just fixing the code
+to use '''scan''', in which case this proposal won't be needed.
+Also, this kind of management of a shared mode setting cannot
+(easily and cheaply) be avoided, because at the point we need
+to control the Tcl number parser, the most specific context
+we have is the thread, so the mode has to be set thread-wide.
+
+Likewise, the (hopefully rare) set of scripts that would actually
+want to turn octal parsing back on are not going to announce themselves.
+In order to know that 
+
+| tcl::unsupported::octal on
+
+needs to be added to a script to make it function correctly,
+some kind of audit has to reach that conclusion, and once that
+conclusion is reached and the issues are understood, it's just
+as easy to insert '''scan %o''' in the proper places as it would
+be to insert the '''tcl::unsupported::octal''' stopgap.
+
+In short, any coder finding themselves in a position to consider
+using a ''tcl::unsupported::octal'' tool, would quickly decide
+not to use it in favor of just fixing their code.  Thus users
+of this feature are mythical, and it will not be implemented.
 
 ~Copyright
 
