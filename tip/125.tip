@@ -1,10 +1,10 @@
 TIP:            125
 Title:          Converting between Frame and Toplevel Windows
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Brian Griffin <bgriffin@model.com>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Sacha Schär <sacha.schaer@unibas.ch>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        20-Jan-2003
