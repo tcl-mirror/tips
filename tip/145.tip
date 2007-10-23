@@ -1,8 +1,8 @@
 TIP:            145
 Title:          Enhanced Tk Font Handling
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        31-Jul-2003
