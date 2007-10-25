@@ -3,9 +3,9 @@ Title:          Eliminate Octal Parsing of Leading Zero Integer Strings
 Author:         Don Porter <dgp@users.sf.net>
 Created:        16-Oct-2007
 Type:           Project
-State:          Draft
-Vote:           In progress
-Version:        $Revision: 2.1 $
+State:          Rejected
+Vote:           Done
+Version:        $Revision: 2.2 $
 Tcl-Version:    8.5
 Post-History:   
 Keywords:       octal
