@@ -3,10 +3,10 @@ Title:          Eliminate Octal Parsing of Leading Zero Integer Strings
 Author:         Don Porter <dgp@users.sf.net>
 Created:        16-Oct-2007
 Type:           Project
-State:          Rejected
+State:          Draft
 Vote:           Done
-Version:        $Revision: 2.2 $
-Tcl-Version:    8.5
+Version:        $Revision: 2.3 $
+Tcl-Version:    9.0
 Post-History:   
 Keywords:       octal
 
@@ -194,6 +194,12 @@ In short, any coder finding themselves in a position to consider
 using a '''tcl::unsupported::octal''' tool, would quickly decide
 not to use it in favor of just fixing their code.  Thus users
 of this feature are mythical, and it will not be implemented.
+
+~ Note
+
+This TIP has been ''explicitly'' rejected as a feature for Tcl 8.5.
+Consensus was that the type of breakage it inherently induces is not
+acceptable in a minor version change.
 
 ~Copyright
 
