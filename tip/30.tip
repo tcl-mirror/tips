@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.40 $
+Version:        $Revision: 1.41 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -181,7 +181,8 @@ assigned:
 
    46. ''Unix Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   47. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>
+   47. ''Win Fonts'' - Jeff Hobbs <JeffH@ActiveState.com>,
+		       Pat Thoyts <patthoyts@users.sourceforge.net>
 
    48. ''Geometry Management'' - Jeff Hobbs <JeffH@ActiveState.com>,
 				 Chengye Mao <chengye.geo@yahoo.com>
@@ -292,7 +293,8 @@ assigned:
 			Lloyd Lim <lloydlim@users.sourceforge.net>
 
    85. ''Win Build'' - Jeff Hobbs <JeffH@ActiveState.com>,
-		       Mo DeJong <mdejong@cygnus.com>
+		       Mo DeJong <mdejong@cygnus.com>,
+		       Pat Thoyts <patthoyts@users.sourceforge.net>
 
    86. ''Test Tools'' - Allen Flick <allenflick@home.com>,
 			Jeff Hobbs <JeffH@ActiveState.com>,
