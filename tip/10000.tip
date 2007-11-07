@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.175 $
+Version:        $Revision: 1.176 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -22,10 +22,265 @@ This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
 can take place.
 
-~ Testing
+Tcl Database Connectivity (TDBC)
+27 October 2007
+Kevin B. Kenny
 
-...edits through the web.
+'''Introduction'''
 
-~ Copyright
+There has been a fair amount of discussion, that flares and dies back,
+regarding the need for a "Tcl database connectivity layer" in the Tcl
+core.  This document specifies what this discussion means.  At its
+present stage of development, it is to be considered very much a
+draft; discussion is actively solicited.
 
-This document has been placed in the public domain.
+'''What is Tcl's database connectivity layer?'''
+
+If we look at other database connectivity layers such as ODBC/DAO,
+JDBC, Perl's DBD/DBI, we find that there really isn't very much, if
+anything, inside them.  Rather than being a body of code, they
+consist primarily of specifications of the interfaces to which the
+author of a database connectivity module must conform.  The real work
+of connecting to the databases happens inside the connectivity
+modules, which are generally speaking under the control of the
+database teams.  In terms of practical politics, there isn't really
+any other way to do it; the Tcl maintainers are highly unlikely to
+want to take on the job of connecting to arbitrary database API's.
+
+In other languages, such as C++ and Java, it is often necessary to
+have interface definitions that are understood by a compiler in order
+to get the "pluggability" of arbitrary database connectivity.  In Tcl,
+however, an "interface" is best understood as an ensemble implementing
+a predetermined set of commands. There is no counterpart to a Java or
+C++ interface definition, nor does there need to be. For this reason,
+the work product of a "Tcl database connectivity" development effort
+is likely (at least at the first stage) to consist primarily of a
+specification document, perhaps with reference implementations for one
+or a few popular databases.  To be considered "in the core", the
+specification should be included with the Tcl documentation, and be
+under control of the TIP process.  The database implementations should
+be considered "extensions," and have their own configuration
+management.  This statement doesn't say that we can't choose from
+among them a set that we will package with releases of the Tcl
+core. In fact, I hope that this effort will be one driver for the TCT
+to sort out the management of "bundled extensions."
+
+'''Mechanics of this document'''
+
+I write this document in "standards committee prose."  (While turgid,
+it at least is often well-understood; I offer no further defence.)
+In particular, 
+
+   * the word "may" is construed as allowing a given behaviour but imposing no requirement other than that clients be prepared for it; 
+   * the word "must" is construed as requiring a given behaviour; implementations that fail one or more requirements given by "must" are non-compliant;
+   * the word "should" indicates that a given behaviour is expected of an implementation unless there is a compelling reason not to include it; while not formally non-compliant, implementations that fail one or more requirements given by "should" can be understood to have issues with respect to "quality of implementation."
+   * the future of determination ("shall" or "will" according to the usual customs of formal written English) is construed as a promise to which the Tcl Core or the Tcl Core Team, as appropriate, shall adhere.  It describes requirements of the Tcl Core, rather than of database connection modules. 
+   * the term, "integer value" refers to any string acceptable to '''Tcl_GetBignumFromObj'''; the term "native integer value" refers to a value acceptable to '''Tcl_GetIntFromObj''', and hence to a value that can be represented by a C '''int''' on the target machine.
+   * the term, "boolean value" refers to any string acceptable to '''Tcl_GetBooleanFromObj''' and hence includes at least '1', '0', 'on', 'off', 'yes', 'no', 'true', and 'false'.
+
+'''Connecting to a database'''
+
+Obviously the first thing that any connectivity layer has to offer is
+the ability to select a database.  The way databases are named is
+quite specific to the database manager, as is the way access is
+negotiated (credentials such as user name and password may be
+required, session keys may be negotiated for privacy and
+authentication, and so on).  All of this machinery is formally out of
+scope for this specification.  Similarly, the machinery of database
+administration (at least at the level of creating/deleting entire
+databases, managing the physical layer, and authorizing clients) is
+presumed to be already taken care of.  We need merely specify that a
+connectivity layer must provide at least one command that accepts
+arguments describing the desired connection and returns a 'database
+handle' -- defined to be an ensemble through which interactions with
+the given database instance will take place.  Here, 'database
+instance' means the database, or databases, that the given handle can
+access; rather a circular definition.  In many SQL systems, it is
+possible for a single connection to access several "databases" managed
+by SQL CREATE DATABASE statments, or several "tablespaces" or similar
+constructs.  We presume that database module implementors will know
+what is appropriate for their systems, and intentionally leave this
+particular matter somewhat vague.
+
+'''Basic mechanics of database interfaces'''
+
+Database handles are Tcl ensembles, meaning that they are commands
+that support subcommands.  Other ensembles, such as statement handles,
+may be supported. Any of the ensembles may support abbreviation of
+its subcommands according to the rules defined by '''Tcl_GetIndexFromObj''';
+nevertherless, code that uses the database interface should spell out
+subcommands in full.
+
+Many of the subcommands are expected to take options in Tcl's usual
+syntax of
+
+    ?-option ?value?? ?-option value?...
+
+In all of the places where this syntax is expected, a database module
+may support abbreviation of options according to the rules of
+'''Tcl_GetIndexFromObj()'''; once again, code that uses the interface
+should spell out options in full.
+
+Finally, there are several places where this document defines 
+
+'''Configuring a database handle'''
+
+Once a handle is returned, there are a number of session-level
+attributes that may be controllable.  Every database handle must
+provide a '''configure''' subcommand that takes the form:
+
+   * ''$handle'' '''configure''' ''?-option ?value?? ?-option value?...''
+
+This configuration process is analogous to configuring a Tk widget.
+If there are no arguments presented to '''configure''', the return
+value must be a list of triples; each element of the list must
+comprise the name of an available configuration parameter, its default
+value, and its current value.  If a single argument is presented, it
+must be the name of a configuration parameter, and the return value
+must be the triple of name, default value, and current value for that
+parameter.  Finally, if more than one argument is presented, they must
+be a list of alternating parameter names and values.  This last form
+is an order to set the given parameters to the given values.
+
+The connectivity layer should implement the following parameters, and
+may implement others:
+
+   * '''-autocommit''' ''boolean''
+   > Requests a change in the 'auto-commit' behaviour of the
+     connection.  The value must be a Boolean value. If the value is true,
+     the connection should henceforward treat every SQL statement as belonging
+     to a transaction by itself, and commit changes to the database
+     when any statement is successfully concluded.   If the value is
+     false, the connection should give the caller control over
+     transaction isolation by means of the '''commit''' and
+     '''rollback''' subcommands (q.v.).  Single-process database
+     interfaces that do not support transaction isolation may return
+     an error if the caller requests '''-autocommit true'''; they
+     should accept '''-autocommit false''' silently.
+
+   * '''-encoding''' ''name''
+   > Requests that the encoding to be used in database communication
+     protocol be changed to the one given by ''name'', which may be
+     any name acceptable to the [[encoding]] command.  A well-designed
+     database interface should not require this command; however, some
+     backends make it virtually inevitable that mid-stream changes of
+     encodings will be required.
+
+   * '''-timeout''' ''ms''
+   > Requests that operations requested on the database time out after
+   the given number of milliseconds, if such an option is supported by
+   the underlying connectivity layer.
+
+   * '''-readonly''' ''boolean''
+   > Notifies that the application will, or will not, limit its
+     activity to operations that do not modify the content of the
+     database.  This option may have the effect of adjusting the
+     transaction isolation level.
+
+The command that returns a database handle should also accept these
+options.
+
+'''Transaction isolation'''
+
+A database handle must implement two commands:
+
+    * ''$handle'' '''commit'''
+    > Requests that the current transaction against the database be
+      committed.
+
+    * ''$handle'' '''rollback'''
+    > Requests that the current transaction against the database be
+      rolled back.
+
+Both commands must take no action if the '''-autocommit''' option is
+true.
+
+'''Closing a handle'''
+
+A database handle must implement the command:
+
+   * ''$handle'' '''close'''
+
+This command dismisses the connection to the database and is expected
+to clean up the system resources associated with it.  If there is an
+uncommitted transaction, it should be rolled back.  Any handles to
+other objects associated with the database become invalid.
+
+A database interface also should perform the same actions if a handle
+is deleted by means of the '''rename''' command. (Interfaces that are
+implemented in Tcl may be notified of this action by creating a
+deletion trace with '''trace add command'''.)  It is recognized that
+command deletion traces present difficulties in situations like
+namespace and interpreter deletion; the '''close''' subcommand shall
+therefore be considered the preferred way to terminate connections.
+
+A database interface should attempt to arrange, if possible, to
+rollback unfinished transactions and clean up on process exit.
+In particular, if the underlying database engine supports transactions,
+it shall be considered an error to commit any work that remains
+uncommitted on process exit.
+
+'''Preparing statements'''
+
+A database interface must support the 'prepare' command, which has
+the syntax:
+
+   * ''$handle'' '''prepare''' ''statement''
+
+The ''statement'' argument is a SQL statement that is to be executed
+against the given database connection.  This command does not execute the
+statement directly; rather, it prepares to execute the statement,
+possibly performing tasks such as code compilation and query optimisation.
+
+The database interface must support substitutions in ''statement''.
+Each substitution request has the form '':variableName''.  That is,
+each substitution request begins with a literal colon (:), followed
+by a letter or underscore, followed by zero or more letters, digits,
+or underscores.  The database interface is responsible for translating
+from this syntax to whatever the underlying engine requires.  Typical
+strings required in database interfaces are '':name'', '':number'',
+''@name'', ''@number'', and ''?''.
+
+The return value from the '''prepare''' command is a ''statement handle'',
+discussed under "Statement handles" below.
+
+''Rationale.'' The choice of the colon deserves some discussion.
+It would surely be more natural for Tcl to use a literal dollar sign to
+introduce a variable name.  This choice, however, seems unwise, since
+several databases (most notably Oracle) allow the use of table and
+view names that contain dollar signs.  While it might be possible to
+continue to use these while allowing for variable substitution
+(for instance, by mandating that table or view names with dollar
+signs be enclosed in double quotes), it seems unnatural.  The colon
+is syntax that is recognized by JDBC, ODBC, and Oracle's native
+API, and as such will be familiar to most SQL programmers and unlikely
+to collide with native syntax.
+
+The requirement to support prepared statements is intended to guard
+against SQL insertion attacks.  An interface to a database whose
+native API does not support prepared statements must simulate them.
+In particular, when the '''run''' or '''execute''' commands are
+executed on a statement, substitution must be performed in a safe
+fashion with whatever magic quoting is required.  In any case,
+magic quoting should be regarded as an infelicitous expedient
+and avoided if at all possible.
+
+'''Querying metadata'''
+
+A database interface should provide a way of enumerating the tables
+in the database.  The syntax for querying tables must be:
+
+    ''$handle'' '''tables''' ''?matchPattern?''
+
+The optional argument ''matchPattern'', if supplied, is a pattern
+against which the table names are to be matched.  The database
+interface must recognize the SQL wildcards '''%''' and '''_'''
+in the pattern.
+
+The return value from the '''tables''', '''columns''', and
+'''indices''' commands must be a statement handle, and must function
+as all other statement handles do; see "Statement Handles" below for
+
+'''Note on data types within statements'''
+
+main.
