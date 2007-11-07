@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.176 $
+Version:        $Revision: 1.177 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -72,10 +72,15 @@ it at least is often well-understood; I offer no further defence.)
 In particular, 
 
    * the word "may" is construed as allowing a given behaviour but imposing no requirement other than that clients be prepared for it; 
+
    * the word "must" is construed as requiring a given behaviour; implementations that fail one or more requirements given by "must" are non-compliant;
+
    * the word "should" indicates that a given behaviour is expected of an implementation unless there is a compelling reason not to include it; while not formally non-compliant, implementations that fail one or more requirements given by "should" can be understood to have issues with respect to "quality of implementation."
+
    * the future of determination ("shall" or "will" according to the usual customs of formal written English) is construed as a promise to which the Tcl Core or the Tcl Core Team, as appropriate, shall adhere.  It describes requirements of the Tcl Core, rather than of database connection modules. 
+
    * the term, "integer value" refers to any string acceptable to '''Tcl_GetBignumFromObj'''; the term "native integer value" refers to a value acceptable to '''Tcl_GetIntFromObj''', and hence to a value that can be represented by a C '''int''' on the target machine.
+
    * the term, "boolean value" refers to any string acceptable to '''Tcl_GetBooleanFromObj''' and hence includes at least '1', '0', 'on', 'off', 'yes', 'no', 'true', and 'false'.
 
 '''Connecting to a database'''
@@ -146,6 +151,7 @@ The connectivity layer should implement the following parameters, and
 may implement others:
 
    * '''-autocommit''' ''boolean''
+
    > Requests a change in the 'auto-commit' behaviour of the
      connection.  The value must be a Boolean value. If the value is true,
      the connection should henceforward treat every SQL statement as belonging
@@ -159,6 +165,7 @@ may implement others:
      should accept '''-autocommit false''' silently.
 
    * '''-encoding''' ''name''
+
    > Requests that the encoding to be used in database communication
      protocol be changed to the one given by ''name'', which may be
      any name acceptable to the [[encoding]] command.  A well-designed
@@ -167,11 +174,13 @@ may implement others:
      encodings will be required.
 
    * '''-timeout''' ''ms''
+
    > Requests that operations requested on the database time out after
    the given number of milliseconds, if such an option is supported by
    the underlying connectivity layer.
 
    * '''-readonly''' ''boolean''
+
    > Notifies that the application will, or will not, limit its
      activity to operations that do not modify the content of the
      database.  This option may have the effect of adjusting the
@@ -185,15 +194,17 @@ options.
 A database handle must implement two commands:
 
     * ''$handle'' '''commit'''
+
     > Requests that the current transaction against the database be
       committed.
 
     * ''$handle'' '''rollback'''
+
     > Requests that the current transaction against the database be
       rolled back.
 
 Both commands must take no action if the '''-autocommit''' option is
-true.
+true. If an underlying database implementation does not support transaction isolation, then the '''commit''' command should take no action and the '''rollback''' commands should return an error.
 
 '''Closing a handle'''
 
@@ -270,7 +281,7 @@ and avoided if at all possible.
 A database interface should provide a way of enumerating the tables
 in the database.  The syntax for querying tables must be:
 
-    ''$handle'' '''tables''' ''?matchPattern?''
+    * ''$handle'' '''tables''' ''?matchPattern?''
 
 The optional argument ''matchPattern'', if supplied, is a pattern
 against which the table names are to be matched.  The database
@@ -282,5 +293,3 @@ The return value from the '''tables''', '''columns''', and
 as all other statement handles do; see "Statement Handles" below for
 
 '''Note on data types within statements'''
-
-main.
