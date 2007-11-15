@@ -1,6 +1,6 @@
 TIP:		308
 Title:		Tcl Database Connectivity (TDBC)
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 State:		Draft
 Type:		Informational
 Vote:		Pending
@@ -552,7 +552,7 @@ The task of mapping variable substituions in the form, ''':varName''' into
 whatever form that a native database API can handle is a somewhat tricky
 one. For instance, substitutions that appear inside quoted strings MUST NOT be
 mapped. In order to aid in this task, the Tcl system SHALL provide a command,
-'''::tcl::db::tokenize''. This command SHALL accept a SQL statement as its
+'''::tcl::db::tokenize'''. This command SHALL accept a SQL statement as its
 sole parameter, and return a list of alternating strings and variable names.
 Assuming that a native database's lexical structure conforms with standard
 SQL, the variable names (which SHALL always be at the odd indices in the list)
