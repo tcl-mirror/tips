@@ -1,6 +1,6 @@
 TIP:		308
 Title:		Tcl Database Connectivity (TDBC)
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 State:		Draft
 Type:		Informational
 Vote:		Pending
@@ -19,6 +19,13 @@ regarding the need for a "Tcl database connectivity layer" in the Tcl core.
 This document specifies what this discussion means. At its present stage of
 development, it is to be considered very much a draft; discussion is actively
 solicited.
+
+Parties who are interested in a detailed background of this TIP may
+a more extensive discussion of motivations and objectives in the
+author's posting to ''comp.lang.tcl'' and the ''tcl-core'' newsgroup,
+obtainable from
+[http://groups.google.com/group/comp.lang.tcl/msg/9351d1b2a59ee2ca] or
+[http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3581757].
 
 ~~ What is Tcl's Database Connectivity Layer?
 
@@ -180,20 +187,31 @@ The command that returns a database handle SHOULD also accept these options.
 
 ~~ Transaction Isolation
 
-A database handle MUST implement two commands:
+A database handle MUST implement the command:
 
- * ''dbHandle'' '''commit'''
+ * ''dbHandle'' '''transaction''' ''script''
 
- > Requests that the current transaction against the database be committed.
+In this command, the ''script'' argument is a Tcl script to be
+executed in the calling scope.  The script is treated as a single
+atomic database transaction. If it completes successfully
+(''TCL_OK''), the transaction MUST be committed to the database.  If
+it fails, (''TCL_ERROR''), the transaction MUST be rolled back and not
+visible to other users of the database.  ''TCL_BREAK'',
+''TCL_CONTINUE'' and ''TCL_RETURN'' with a return code other than
+''error'' result in a commit and subsequently rethrow the same
+exception status outside the transaction.
 
- * ''dbHandle'' '''rollback'''
+Notwithstanding the above, the drivers of databases without
+transaction semantics MAY choose to ignore [[''dbHandle''
+'''transaction''']] semantics, and simply treat the '''transaction'''
+command as being akin to the built-in '''eval'''.
 
- > Requests that the current transaction against the database be rolled back.
-
-Both commands MUST take no action if the '''-autocommit''' option is true. If
-an underlying database implementation does not support transaction isolation,
-then the '''commit''' command SHOULD take no action and the '''rollback'''
-commands SHOULD return an error.
+If a [[''dbHandle'' '''transaction''']] command is executed while
+another is already in progress, it is requesting nested transaction
+semantics.  A database handle to an engine that supports nested
+transactions MUST treat this case correctly; a database handle to an
+engine that does not support nested transactions (including one that
+does not support transactions at all) MUST throw an error.
 
 ~~ Closing a Database Connection
 
@@ -337,17 +355,24 @@ The following subcommands MUST be accepted:
    in the same way as those of the '''columns''' subcommand to a database
    interface (shown above).
 
- * ''statementHandle'' '''execute'''
+ * ''statementHandle'' '''execute''' ?''dictionary''?
 
  > Executes a statement against a database. Any variable substitution present
    in the SQL that was provided when the statement was created MUST be
-   performed at this time, with the variable values being obtained from the
-   scope in which the '''execute''' command was evaluated. Any variable that
-   is undefined in that scope must be replaced with a ''NULL'' value. An array
-   variable provided to a substituent MUST result in an error. Read traces
-   against the substituted variables SHOULD fire, in left-to-right order as
-   they appeared in the SQL statement. The result of the '''execute''' command
-   SHOULD be a result set, as defined under "The result set interface" below.
+   performed at this time.  The variable values MUST be obtained from
+   the given ''dictionary'', if one is supplied.  If the dictionary
+   does not contain a key equal to a variable name in the statement,
+   a NULL value MUST be provided.
+
+ > If the ''dictionary'' argument is omitted, the variable values MUST
+   be obtained from the scope in which the '''execute''' command was
+   evaluated. Any variable that is undefined in that scope must be
+   replaced with a ''NULL'' value. An array variable provided to a
+   substituent MUST result in an error. Read traces against the
+   substituted variables SHOULD fire, in left-to-right order as they
+   appeared in the SQL statement. The result of the '''execute'''
+   command SHOULD be a result set, as defined under "The result set
+   interface" below.
 
  * ''statementHandle'' '''close'''
 
@@ -501,38 +526,53 @@ statement, and iterating over a result set is overkill for many applications,
 the Tcl system SHALL provide convenience procedures. The following procedures
 are envisioned: they can be obtained from [[package require tcl::db]].
 
- * '''::tcl::db::foreach''' ''variableName'' ''statementHandle'' ''script''
+ * '''::tcl::db::foreach''' ''variableName'' ''statementHandle''
+   ?''dictionary''? ''script''
 
- > Runs the given statement, obtaining a result set. Applies the given
-   ''script'' to each row of the result set, substituting the given variable
-   with the dictionary returned from ''$resultSet nextrow'' prior to each
-   iteration. When no rows remain, closes the result set.
+ > Runs the given statement (with the given dictionary specifying its
+   substituents, if one is provided), obtaining a result set. Applies
+   the given ''script'' to each row of the result set, substituting
+   the given variable with the dictionary returned from ''$resultSet
+   nextrow'' prior to each iteration. When no rows remain, closes the
+   result set.
 
- * '''::tcl::db::allrows''' ''statementHandle''
+ * '''::tcl::db::allrows''' ''statementHandle'' ?''dictionary''?
 
- > Runs the given statement, obtaining a result set. Applies the '''nextrow'''
-   command to the result set repeatedly, and constructs a Tcl list whose
-   elements are the rows returned. When no rows remain, closes the result set
-   and returns the list of rows.
+ > Runs the given statement (with the given dictionary, if one is
+   provided, specifying its substituents) obtaining a result
+   set. Applies the '''nextrow''' command to the result set
+   repeatedly, and constructs a Tcl list whose elements are the rows
+   returned. When no rows remain, closes the result set and returns
+   the list of rows.
 
  * '''::tcl::db::execute''' ''dbHandle'' ''SQL-code'' ?''variable''?
    ?''script''?
 
- > Prepares a statement with the given SQL code and executes it. If a
-   ''script'' argument is supplied, retrieves rows from the result set one at
-   a time and executes the given script once per row with the row dictionary
-   stored in the given variable. If the ''script'' argument is omitted,
-   instead stores in ''variable'' a list of all the rows returned. If neither
-   ''variable'' nor ''script'' is present, the result set is simply discarded.
-   In any case, the result set and the statement are both closed, and the
-   return value from '''execute''' is the number of rows affected by the
-   operation (for '''INSERT''', '''UPDATE''' and '''DELETE''' operations) and
-   may be an empty string for '''SELECT''' operations.
+ * '''::tcl::db::executewithdictionary''' ''dbHandle'' ''SQL-code''
+   ''dictionary'' ?''variable''? ?''script''?
+
+ > Prepares a statement with the given SQL code and executes it. In
+   the first form, the substituents of the statement are obtained from
+   variables in the current scope; in the second, they are obtained
+   from the given ''dictionary''. If a ''script'' argument is
+   supplied, retrieves rows from the result set one at a time and
+   executes the given script once per row with the row dictionary
+   stored in the given variable. If the ''script'' argument is
+   omitted, instead stores in ''variable'' a list of all the rows
+   returned. If neither ''variable'' nor ''script'' is present, the
+   result set is simply discarded.  In any case, the result set and
+   the statement are both closed, and the return value from
+   '''execute''' is the number of rows affected by the operation (for
+   '''INSERT''', '''UPDATE''' and '''DELETE''' operations) and may be
+   an empty string for '''SELECT''' operations.
 
 It is envisioned that database interfaces will add these conveniences to the
 API as
 
  * ''dbHandle'' '''execute''' ''SQL-code'' ''?variableName ?script??''
+
+ * ''dbHandle'' '''executewithdictionary''' ''SQL-code''
+   ''dictionary'' ''?variableName ?script??''
 
  * ''statementHandle'' '''foreach''' ''variableName'' ''script''
 
@@ -561,10 +601,11 @@ database needs, to yield the native SQL that must be prepared.
 
 ~ References
 
-This specification is largely built from studying existing cross-platform
-database APIs and deriving a comon set of requirements from them. These
-include both popular C-level offerings (ODBC and JDBC) and Tcl-level ones
-(notably the SQLite API and tclodbc).
+This specification is largely built from studying existing
+cross-platform database APIs and deriving a comon set of requirements
+from them. These include both popular offerings in lower-level
+languages (ODBC and JDBC) and Tcl-level ones (notably the
+'nstcl-database' package, the SQLite API and tclodbc).
 
 "ODBC Programmer's Reference." Redmond, Wash.: Microsoft Corporation,
 2007. [http://msdn2.microsoft.com/library/ms714177.aspx].
@@ -572,6 +613,9 @@ include both popular C-level offerings (ODBC and JDBC) and Tcl-level ones
 "Java Platform Standard Edition 6 API Specification." Santa Clara, Calif.: Sun
 Microsystems, 2007 [http://java.sun.com/javase/6/docs/api/]; in particular the
 package named, '''java.sql'''.
+
+Cleverly, Michael. "nstcl-database Package."
+[http://nstcl.sourceforge.net/docs/nstcl-database/].
 
 Hipp, D. Richard. "The Tcl interface to the Sqlite library."
 [http://www.sqlite.org/tclsqlite.html].
@@ -584,3 +628,22 @@ distribution at [http://sourceforge.net/projects/tclodbc/], in the file,
 
 This file is explicitly released to the public domain and the author
 explicitly disclaims all rights under copyright law.
+
+----
+
+~ Change summary
+
+   2007-11-16: Changed the transaction management API from explicit
+   commit and rollback to a model where a script is executed as an
+   atomic operation.
+
+ > Changed the "execute" API and the convenience procedures that
+   use it to accept an optional dictionary containing substituents,
+   so the substituents need not pollute the local namespace.  The
+   version accepting variables is still provided, because it is
+   useful in the case of static queries where the substitutions follow
+   a predetermined pattern.
+
+ > Added reference to the author's cover letter on tcl-core.
+
+ > Added missing citation of the nstcl-database API.
