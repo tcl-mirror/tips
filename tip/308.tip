@@ -1,12 +1,13 @@
-TIP:		308
-Title:		Tcl Database Connectivity (TDBC)
-Version:	$Revision: 1.3 $
-State:		Draft
-Type:		Informational
-Vote:		Pending
-Created:	15-Nov-2007
-Author:		Kevin B. Kenny <kennykb@acm.org>
-Post-History:	
+TIP:            308
+Title:          Tcl Database Connectivity (TDBC)
+Version:        $Revision: 1.4 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+Author:         Artur Trzewik <mail@xdobry.de>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        15-Nov-2007
+Post-History:   
 
 ~ Abstract
 
@@ -647,3 +648,10 @@ explicitly disclaims all rights under copyright law.
  > Added reference to the author's cover letter on tcl-core.
 
  > Added missing citation of the nstcl-database API.
+
+----
+~ Comments
+
+ > I mis defined error handling. Current DB-Api handles them in different way. How to obtain SQL-error message from server. If "execute" fails should it return TCL_ERROR or it should be special api for error code.
+
+ > I mis C-framework or template to implement such API. Writing everything from scratch for all DB will be quite painfully. There are many things which can be reused: New Tcl objects, handles managing, thread-safe managing, encoding. Also prepared statements are not so easy. For example mysql requires that one allocate fixed size memory for all variables. It does not fit well with Tcl.
