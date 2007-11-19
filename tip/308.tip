@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 State:          Draft
@@ -650,6 +650,7 @@ explicitly disclaims all rights under copyright law.
  > Added missing citation of the nstcl-database API.
 
 ----
+
 ~ Comments
 
  > I mis defined error handling. Current DB-Api handles them in different way. How to obtain SQL-error message from server. If "execute" fails should it return TCL_ERROR or it should be special api for error code.
