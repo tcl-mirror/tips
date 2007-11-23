@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 State:          Draft
@@ -885,17 +885,19 @@ explicitly disclaims all rights under copyright law.
    '''transaction''' command and explicit transaction boundaries.
    Added transaction isolation levels.
 
-   Added lists as an alternative to dicts as a representation of rows
+ > Added lists as an alternative to dicts as a representation of rows
    in result sets.  Added a side interface for retrieving the set of
    column names in the convenience procedures.
 
-   Added batch processing.
+ > Simplified introspection to return lists instead of result sets
 
-   Added asynchronous query processing.
+ > Added batch processing.
 
-   Added an interface for stored procedures.
+ > Added asynchronous query processing.
 
-   Added a discussion of returning refcursors.
+ > Added an interface for stored procedures.
+
+ > Added a discussion of returning refcursors.
 
    2007-11-16: Changed the transaction management API from explicit
    commit and rollback to a model where a script is executed as an
