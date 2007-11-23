@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 State:          Draft
@@ -89,6 +89,10 @@ least is often well-understood; I offer no further defence.) In particular:
    '''Tcl_GetBooleanFromObj''' and hence includes at least '1', '0', 'on',
    'off', 'yes', 'no', 'true', and 'false'.
 
+ * the term "ensemble" refers to a Tcl command that accepts subcommands.
+   It does not imply that any given command is implemented using the
+   [[namespace ensemble]] mechanism.
+
 ~ Specification
 
 ~~ Connecting to a database
@@ -114,11 +118,12 @@ their systems, and intentionally leave this particular matter somewhat vague.
 
 ~~ Basic Mechanics of Database Interfaces
 
-Database handles are Tcl ensembles, meaning that they are commands that
-support subcommands. Other ensembles, such as statement handles, may be
-supported. Any of the ensembles may support abbreviation of its subcommands
-according to the rules defined by '''Tcl_GetIndexFromObj'''; nevertherless,
-code that uses the database interface should spell out subcommands in full.
+Database handles are Tcl ensembles, meaning that they are commands
+that support subcommands. Other ensembles, such as statement handles,
+are also defined in this specification. Any of the ensembles may
+support abbreviation of its subcommands according to the rules defined
+by '''Tcl_GetIndexFromObj'''; nevertherless, code that uses the
+database interface should spell out subcommands in full.
 
 Many of the subcommands are expected to take options in Tcl's usual syntax of:
 
@@ -151,18 +156,9 @@ order to set the given parameters to the given values.
 The connectivity layer SHOULD implement the following parameters, and MAY
 implement others:
 
- * '''-autocommit''' ''boolean''
-
- > Requests a change in the 'auto-commit' behaviour of the connection. The
-   value MUST be a boolean value. If the value is true, the connection SHOULD
-   henceforward treat every SQL statement as belonging to a transaction by
-   itself, and commit changes to the database when any statement is
-   successfully concluded. If the value is false, the connection SHOULD give
-   the caller control over transaction isolation by means of the '''commit'''
-   and '''rollback''' subcommands (q.v.). Single-process database interfaces
-   that do not support transaction isolation MAY return an error if the caller
-   requests '''-autocommit true'''; they SHOULD accept '''-autocommit false'''
-   silently.
+(''Note:'' an earlier draft of this TIP specified a '''-autocommit'''
+option; this option has been removed because it is redundant with the
+transaction management primitives below.)
 
  * '''-encoding''' ''name''
 
@@ -171,6 +167,56 @@ implement others:
    the [[encoding]] command. A well-designed database interface SHOULD NOT
    require this command; however, some backends make it virtually inevitable
    that mid-stream changes of encodings will be required.
+
+ * '''-isolation''' ''level''
+
+ > Requests that transactions performed on the database be executed at
+   the given isolation ''level''.  The acceptable values for ''level''
+   are:
+
+   * '''readuncommitted'''
+
+   > Allows the transaction to read "dirty", that is, uncommitted
+     data.  This isolation level may compromise data integrity, does
+     not guarantee that foreign keys or uniqueness constraints are
+     satisfied, and in generall does not guarantee data consistency.
+
+   * '''readcommitted'''
+
+   > Forbids the transaction from reading "dirty" data, but does not
+     guarantee repeatable reads; if a transaction reads a row of a
+     database at a given time, there is no guarantee that the same row
+     will be available at a later time in the same transaction.
+
+   * '''repeatableread'''
+
+   > Guarantees that any row of the database, once read, will have the
+     same values for the life of a transaction.  Still permits
+     "phantom reads" (that is, newly-added rows appearing if a
+     table is queried a second time).
+
+   * '''serializable'''
+
+   > The most restrictive (and most expensive) level of transaction
+     isolation.  Any query to the database, if repeated, will return
+     precisely the same results for the life of the transaction,
+     exactly as if the transaction is the only user of the database.
+
+   * '''readonly'''
+
+   > Behaves like '''serializable''' in that the only results visible
+     to the transaction are those that were committed prior to the
+     start of the transaction, but forbids the transaction from
+     modifying the database.  
+
+   A database that does not implement one of these isolation levels
+   SHOULD instead use the next more restrictive isolation level. If
+   the given level of isolation cannot be obtained, the database
+   interface MUST throw an error reporting the fact.  The default
+   isolation level SHOULD be at least '''readcommitted'''.
+
+   A database interface MAY forbid changing the isolation level when a
+   transaction is in progress.
 
  * '''-timeout''' ''ms''
 
@@ -188,31 +234,41 @@ The command that returns a database handle SHOULD also accept these options.
 
 ~~ Transaction Isolation
 
-A database handle MUST implement the command:
+A database handle MUST implement the three commands:
 
- * ''dbHandle'' '''transaction''' ''script''
+ * ''dbHandle'' '''starttransaction'''
 
-In this command, the ''script'' argument is a Tcl script to be
-executed in the calling scope.  The script is treated as a single
-atomic database transaction. If it completes successfully
-(''TCL_OK''), the transaction MUST be committed to the database.  If
-it fails, (''TCL_ERROR''), the transaction MUST be rolled back and not
-visible to other users of the database.  ''TCL_BREAK'',
-''TCL_CONTINUE'' and ''TCL_RETURN'' with a return code other than
-''error'' result in a commit and subsequently rethrow the same
-exception status outside the transaction.
+ > Begins an atomic transaction on the database.
 
-Notwithstanding the above, the drivers of databases without
-transaction semantics MAY choose to ignore [[''dbHandle''
-'''transaction''']] semantics, and simply treat the '''transaction'''
-command as being akin to the built-in '''eval'''.
+ * ''dbHandle'' '''commit'''
 
-If a [[''dbHandle'' '''transaction''']] command is executed while
-another is already in progress, it is requesting nested transaction
-semantics.  A database handle to an engine that supports nested
-transactions MUST treat this case correctly; a database handle to an
-engine that does not support nested transactions (including one that
-does not support transactions at all) MUST throw an error.
+ > Commits a transaction to the database, making the changes durable.
+
+ * ''dbHandle'' '''rollback'''
+
+ > Rolls back a transaction against the database, cancelling any changes
+   made during the transaction.
+
+If the underlying database does not implement atomic transactions or
+rollback, the '''starttransaction''' command MUST throw an error
+reporting the fact.
+
+If the underlying database does not implement nested transactions, a
+'''starttransaction''' command that is executed when there is a
+transaction already in progress (started, but neither committed nor
+rolled back) MUST result in an error.
+
+Statements executed against the database when no transaction is in
+progress (before the first '''starttransaction''' or after all started
+transactions have been either committed or rolled back) SHOULD be
+''auto-committed''; that is, each such statement SHOULD be executed as
+if a '''starttransaction''' command preceded the statement and a
+'''commit''' command followed it.
+
+These commands are provided primarily to support the construction of
+higher-level operations.  In particular, most simple transactions
+against a database can be handled using the '''transaction''' command
+described under "Convenience Procedures" below.
 
 ~~ Closing a Database Connection
 
@@ -280,6 +336,23 @@ must be performed in a safe fashion with whatever magic quoting is required.
 In any case, magic quoting should be regarded as an infelicitous expedient and
 avoided if at all possible.
 
+~~ Stored procedure calls
+
+A second way to prepare statements is to prepare a stored procedure
+call.  If a database interface supports stored procedures, it MUST
+support the '''preparecall''' command:
+
+ * ''dbHandle'' '''preparecall''' ''call''
+
+''call'' is a string that describes a call to a stored procedure.
+   It takes the form:
+
+ * ?'':varName'' '''='''? ''procName'' '''(''' ?'':varName''?
+   ?''',''' ''varName''?...  ''')'''
+
+The result of the '''preparecall''' command is a statement handle.
+The statement handle may be used just as any other statement handle.
+
 ~~ Introspecting the Sets of Handles
 
 A database handle MUST support the '''statements''' command:
@@ -314,47 +387,53 @@ database table. The syntax for querying columns MUST be:
 
  * ''dbHandle'' '''columns''' ''tableName'' ''?matchPattern?''
 
+The
+
 The return value from the '''tables''' and '''columns''' commands MUST be a
-result set handle, and MUST function as all other result set handles do; see
-"The result set interface" below for the API.
+dictionary.  The keys of the dictionary MUST be the names of the
+tables in the database, or respectively the columns in the given table.
 
-The result set of the '''tables''' command must include at least a column
-called '''name''' in its result set; this column must contain the name of a
-table.
+The values stored in the dictionary returned from the '''tables'''
+command MUST be dictionaries.  The keys and values of these
+dictionaries, nevertheless, are implementation-defined; only the keys
+are mandated in this specification.
 
-Similarly, the result set of the '''columns''' command MUST include at least
-the columns '''name''', '''type''', '''scale''', '''precision''', and
-'''nullable'''. The '''name''' column MUST contain the column name. The
-'''type''' column MUST be the data type of the column, and SHOULD be chosen
-from among the standard types ''BIGINT'', ''BINARY'', ''BIT'', ''CHAR'',
-''DATE'', ''DECIMAL'', ''DOUBLE'', ''FLOAT'', ''INTEGER'', ''LONGVARBINARY'',
-''LONGVARCHAR'', ''NUMERIC'', ''REAL'', ''TIME'', ''TIMESTAMP'', ''SMALLINT'',
-''TINYINT'', ''VARBINARY'', and ''VARCHAR'. The '''scale''' and
-'''precision''' SHOULD give the scale and precision of the column, and
-'''nullable''' SHOULD give a boolean value that represents whether the given
-column can contain NULL values.
+The values stored in the dictionary returned from the '''columns'''
+command MUST themselves be dictionaries.  These subdictionaries MUST
+include the keys, '''type''', '''scale''', '''precision''', and
+'''nullable'''. The '''type''' value MUST be the data type of the
+column, and SHOULD be chosen from among the standard types ''bigint'',
+''binary'', ''bit'', ''char'', ''date'', ''decimal'', ''double'',
+''float'', ''integer'', ''longvarbinary'', ''longvarchar'',
+''numeric'', ''real'', ''time'', ''timestamp'', ''smallint'',
+''tinyint'', ''varbinary'', and ''varchar'. The '''scale''' and
+'''precision''' values SHOULD give the scale and precision of the
+column, and the '''nullable''' value SHOULD give a boolean value that
+represents whether the given column can contain NULL values.
 
-Other columns MAY be included in the result sets of '''tables''' and
-'''columns''', and SHALL be added to this document (as optional columns) on
-request from the implementors of database interfaces.
+Other keys MAY be included in the subdictionaries returned from
+'''tables''' and '''columns''', and SHALL be added to this document
+(as optional columns) on request from the implementors of database
+interfaces.
 
 ~~ The Statement Interface
 
-The statement handle returned from the '''prepare''' command on a database
-interface must itself be an ensemble, which means that it must be a Tcl
-command that accepts a subcommand as its first parameter.
-
-The following subcommands MUST be accepted:
+The statement handle returned from the '''prepare''' command on a
+database interface must itself be an ensemble. The following
+subcommands MUST be accepted:
 
  * ''statementHandle'' '''params'''
 
  > Requests a description of the names and expected data types of the
    parameters to the given statement. The return value from the '''params'''
-   command MUST be a result set (See "The result set interface" below for
-   details of its API). The columns of the result set MUST include ''name'',
+   command MUST be a dictionary whose keys are the names of the
+   parameters and whose values are themselves dictionaries.
+   The keys of the subdictionaries MUST include ''name'',
    ''type'', ''scale'', ''precision'', and ''nullable''. They are interpreted
    in the same way as those of the '''columns''' subcommand to a database
-   interface (shown above).
+   interface (shown above).  The subdictionaries also MUST include the
+   key, ''direction'', whose value identifies the direction of parameter
+   transmission, and MUST be chosen from among ''in'', ''out'' and ''inout''.
 
  * ''statementHandle'' '''execute''' ?''dictionary''?
 
@@ -412,15 +491,15 @@ For this reason, a database interface MUST support allowing the user to
 specify types of the parameters of a prepared statement. The syntax for doing
 so MUST be:
 
- * ''statementHandle'' '''paramtype''' ''paramName'' ''type'' ''scale''
-   ''precision''
+ * ''statementHandle'' '''paramtype''' ''paramName'' ?''direction''?
+   ''type'' ''scale'' ''precision''
 
  > Defines that the parameter identified by ''paramName'' in the given
    statement is to be of type ''type''. The ''type'' MUST be chosen from among
-   the names ''BIGINT'', ''BINARY'', ''BIT'', ''CHAR'', ''DATE'', ''DECIMAL'',
-   ''DOUBLE'', ''FLOAT'', ''INTEGER'', ''LONGVARBINARY'', ''LONGVARCHAR'',
-   ''NUMERIC'', ''REAL'', ''TIME'', ''TIMESTAMP'', ''SMALLINT'', ''TINYINT'',
-   ''VARBINARY'', and ''VARCHAR''.
+   the names ''bigint'', ''binary'', ''bit'', ''char'', ''date'', ''decimal'',
+   ''double'', ''float'', ''integer'', ''longvarbinary'', ''longvarchar'',
+   ''numeric'', ''real'', ''time'', ''timestamp'', ''smallint'', ''tinyint'',
+   ''varbinary'', and ''varchar''.
 
  > (''Rationale:'' These types appear to suffice for ODBC, and we can always
    come back and extend them later if needed.)
@@ -429,10 +508,18 @@ so MUST be:
    that it requires, and its ''precision'' defines the number of digits after
    the decimal point, if neeeded.
 
+ > A ''direction'' must be one of the words, '''in''', '''out''' or
+   '''inout'''.  It specifies that the given parameter is an input to
+   the statement, an output from the statement, or both.  It is
+   usually meaningful only in stored procedure calls. Default is
+   '''in''', unless the parameter appears on the left-hand side of an
+   equal side in a stored procedure call, in which case the default is
+   '''out'''.
+
 ''Examples:''
 
 | $statement paramtype name varchar 40
-| $statement paramtype balance decimal 10 2
+| $statement paramtype balance in decimal 10 2
 | $statement paramtype transactionDate timestamp
 
 Implementors of database APIs SHOULD make every effort to do appropriate type
@@ -441,72 +528,87 @@ information in their SQL statements.
 
 ~~ The Result Set Interface
 
-Result sets represent the results of operations performed on the database. A
-preferred implementation for large result sets is that they be implemented as
-database cursors, so that it is possible to iterate over result sets that will
-not fit in memory. A result set MUST be an ensemble, that is to say, a Tcl
-command whose first parameter is a subcommand. The following subcommands MUST
-be accepted:
+Result sets represent the results of operations performed on the
+database. A preferred implementation for large result sets is that
+they be implemented as database cursors, so that it is possible to
+iterate over result sets that will not fit in memory. A result set
+MUST be an ensemble. The following subcommands MUST be accepted:
 
  * ''resultSetHandle'' '''rows'''
 
  > Determines the number of rows affected by a SQL statement such as
-   '''INSERT''', '''DELETE''' or '''UPDATE'''. This count MUST be returned as
-   an integer. It SHOULD NOT be confused with the number of rows in the result
-   set. A database interface need not provide any interface to determine that
-   number (often, the only way to determine it is to read all the rows). For
-   this reason, the '''rows''' command MAY return an empty string for
-   '''SELECT''' operations.
+   '''INSERT''', '''DELETE''' or '''UPDATE'''. This count MUST be
+   returned as an integer. It SHOULD NOT be confused with the number
+   of rows in the result set. A database interface need not provide
+   any interface to determine the latter number (often, the only way
+   to determine it is to read all the rows). For this reason, the
+   '''rows''' command MAY return an empty string for '''SELECT'''
+   operations (and any other operations that do not modify rows of the
+   database).
 
  * ''resultSetHandle'' '''columns'''
 
  > Determines the set of columns contained in the result set. The set of
-   columns is itself returned as a result set. The columns in this second
-   result set MUST include ''name'' (the name of the column in the first
-   result set) and SHOULD include ''type'', ''scale'', and ''precision''. A
-   database interface MAY include other columns if additional information
-   about the columns of the result set is available.
+   columns is returned simply as a list of column names, in the order
+   in which they appear in the results.
 
- * ''resultSetHandle'' '''nextrow''' ''variableName''
+ * ''resultSetHandle'' '''nextrow''' ?'''-as''' '''lists|dicts'''? ?'''--'''?
+   ''variableName''
 
  > Fetches a row of data from the result set and stores it in the given
-   variable in the caller's context. The row MUST be represented as a
-   dictionary suitable for use with the '''dict''' command. The keys in the
-   dictionary SHALL be the column names, and the values SHALL be the values of
-   the cells. If no rows remain, the '''nextrow'' command MUST store an empty
-   dictionary. The return value of ''nextrow'' MUST be 1 if a row has been
-   returned, and 0 if no rows remain in the result set.
+   variable in the caller's context. 
 
- > In the result set, values of type ''BIGINT'', ''BIT'', ''DECIMAL'',
-   ''DOUBLE'', ''FLOAT'', ''INTEGER'', ''NUMERIC'', ''REAL'', ''SMALLINT'',
-   and ''TINYINT'' MUST receive their natural representation as decimal
+ > If '''-as dicts''' is specified (the default), the row MUST be
+   represented as a dictionary suitable for use with the '''dict'''
+   command. The keys in the dictionary SHALL be the column names, and
+   the values SHALL be the values of the cells. If no rows remain, the
+   '''nextrow'' command MUST store an empty dictionary. 
+   If a cell in the row is NULL, the key MUST be omitted from the dictionary.
+   A database interface MUST NOT use a special value of any kind to represent
+   a NULL in a dictionary.
+
+ > If '''-as lists''' is specified, the row MUST be represented as
+   a list of values, in the order in which they appear in the query.
+   (If the statement is a stored procedure call, the values comprise
+   all the '''out''' or '''inout''' parameters.)  If no rows remain,
+   the '''nextrow''' command MUST store an empty list.  If a cell in
+   the row is NULL, an empty string MUST be stored as its value.
+
+  > The return
+   value of ''nextrow'' MUST be 1 if a row has been returned, and 0 if
+   no rows remain in the result set.
+
+ > In the result set, values of type ''bigint'', ''bit'', ''decimal'',
+   ''double'', ''float'', ''integer'', ''numeric'', ''real'', ''smallint'',
+   and ''tinyint'' MUST receive their natural representation as decimal
    numbers. Ideally, they should be returned as "pure" numbers with their
-   string representations generated only on demand. Values of type ''CHAR'',
-   ''LONGVARCHAR'' and ''VARCHAR'' MUST be returned as Tcl strings. ''A
+   string representations generated only on demand. Values of type ''char'',
+   ''longvarchar'' and ''varchar'' MUST be returned as Tcl strings. ''A
    database interface implemented in C ''MUST'' take care that all strings are
-   well-formed UTF-8.'' Values of type ''DATE'' and ''TIMESTAMP'' MUST be
+   well-formed UTF-8.'' Values of type ''date'' and ''timestamp'' MUST be
    returned as a numeric count of seconds from the Tcl epoch; if necessary,
    this count may have a decimal point and an appropriate number of additional
-   decimal places appended to it. Values of type ''TIME'' MUST be returned as
+   decimal places appended to it. Values of type ''time'' MUST be returned as
    a integer count of seconds since midnight, to which MAY be appended a
-   decimal point and a fraction of a second. Values of type ''BINARY'',
-   ''LONGVARBINARY'' and ''VARBINARY'' MUST be returned as Tcl byte arrays.
+   decimal point and a fraction of a second. Values of type ''binary'',
+   ''longvarbinary'' and ''varbinary'' MUST be returned as Tcl byte arrays.
 
- > If a cell in the row is NULL, the key MUST be omitted from the dictionary.
-   A database interface MUST NOT use a special value of any kind to represent
-   a NULL.
-
- > ''Rationale:'' As far as the author of this TIP is aware, no existing
-   database API makes use of dictinaries for result sets; they tend to prefer
-   lists to represent them. Nevertheless, this TIP proposes dictionaries
-   because they allow for a ready distinction between NULL values in a
-   database and any other string. With any scheme where values that can
-   include NULLs can appear in Tcl objects, the problem arises that NULL must
-   be distinguished from any other string, particularly including the empty
-   string and the word "NULL". The lack of such a distinction has led to
-   several ill-advised proposals, such as [185], for representing NULLs in
-   Tcl. These alternatives founder on the principle of "everything is a
-   string". The NULL value is not any string.
+ > ''Rationale:'' Dictionaries and lists are both useful in
+   representing the result set rows.  Dictionaries allow for a ready
+   distinction between NULL values in a database and any other
+   string. With any scheme where values that can include NULLs can
+   appear in Tcl objects, the problem arises that NULL must be
+   distinguished from any other string, particularly including the
+   empty string and the word "NULL". The lack of such a distinction
+   has led to several ill-advised proposals, such as [185], for
+   representing NULLs in Tcl. These alternatives founder on the
+   principle of "everything is a string". The NULL value is not any
+   string.  Dictionaries also have the advantage that results can be
+   addressed by name rather than by position.
+   On the other hand, lists are convenient when formatting tabular
+   results from ''ad hoc'' queries.  The brevity of code that can be
+   achieved with them is also attractive.  For this reason, this TIP
+   requires both formats to be made available.
 
  * ''resultSetHandle'' '''close'''
 
@@ -520,24 +622,111 @@ be accepted:
    interfaces, so '''close''' SHALL be considered the standard means of
    discarding result sets.
 
+~~ Batch processing
+
+Some databases provide an interface to pass bulk data into a
+statement, in order to provide an efficient means for doing tasks such
+as inserting a large number of rows into a table at once. A statement
+handle MUST provide the subcommands:
+
+ * ''$statement'' '''startbatch'''
+
+ > Prepares to perform batch processing on the specified statement.  
+
+ * ''$statement'' '''addtobatch''' ''dictionary''
+
+ > Adds the values given by ''dictionary'' into the specified
+   statement.  The ''dictionary'' argument is exactly the same as
+   the ''dictionary'' argument to [[''$statement'' '''execute''']].
+
+ > If no batch operation is in progress, the database interface MUST
+   throw an error.
+
+ * ''$statement'' '''executebatch'''
+
+ > Executes the batch of operations accumulated by
+   [[''$statement'' '''addToBatch''']].  
+
+ > The result of '''executebatch''' MUST be a result set. The rows of
+   the result set are the result of concatenating the rows returned
+   from the individual operations.
+
+ > If no batch operation is in progress, the database interface MUST
+   return an error.
+
+If an underlying database does not support batch operations,
+the database interface SHOULD simulate them by accumulating the data
+in memory and executing the statement repeatedly when the
+'''executeBatch''' operation is requested.
+
+The database interface MUST return an error if an attempt is made to
+execute a statement in the ordinary manner or to request a commit
+while there is an unfinished batch in progress. A rollback, or
+closing the statement, or closing the database connection, while a
+batch is in progress MUST result in abandoning the batch without 
+applying any changes to the database.
+
+~~ Asynchronous queries
+
+Some database operations take a long time to complete.  In order to
+avoid freezing the event loop, a database interface MAY provide an
+asynchronous query mechanism.  If it does so, it MUST take the form:
+
+ * ''$resultSet'' '''whenready''' ''script''
+
+In this interface, ''$resultSet'' is the handle of a result set. The
+'''whenready''' command requests that ''script'' be evaluated at the
+global level once for each row of the result set, plus once after all
+rows have been returned.  The script SHOULD execute '''nextrow''' to
+retrieve the next row or get the indication that no rows remain.
+
+~~ References to cursors
+
+Some databases allow stored procedures to return references to
+cursors. If a column of a result set contains a reference to a cursor,
+it MUST be represented in Tcl as another result set handle. A Tcl
+script can then iterate over this included result set to use the
+reference to a cursor.  
+
+The given result set MUST be destroyed upon the next call to
+''nextrow''.  For this reason, Tcl code MUST not use the '''allrows'''
+command with a statement that can return references to cursors.
+
 ~~ Convenience Procedures for the Programmer
+
+~~~ Result set packaging
 
 Since the cognitive overhead of preparing a statement, executing the prepared
 statement, and iterating over a result set is overkill for many applications,
 the Tcl system SHALL provide convenience procedures. The following procedures
 are envisioned: they can be obtained from [[package require tcl::db]].
 
- * '''::tcl::db::foreach''' ''variableName'' ''statementHandle''
+ * '''::tcl::db::foreach''' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''variableName'' ''statementHandle''
    ?''dictionary''? ''script''
 
  > Runs the given statement (with the given dictionary specifying its
    substituents, if one is provided), obtaining a result set. Applies
    the given ''script'' to each row of the result set, substituting
-   the given variable with the dictionary returned from ''$resultSet
+   the given variable with the dictionary or list returned from ''$resultSet
    nextrow'' prior to each iteration. When no rows remain, closes the
    result set.
 
- * '''::tcl::db::allrows''' ''statementHandle'' ?''dictionary''?
+ > The '''-as''' option means the same that it does for
+   [[''$resultSet'' '''nextrow''']] above.
+
+ > If a '''-columnsvariable''' option is provided, a list of the
+   column names in the result set is stored in the variable designated
+   by ''varName''.
+
+ * '''::tcl::db::allrows''' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''statementHandle'' ?''dictionary''?
 
  > Runs the given statement (with the given dictionary, if one is
    provided, specifying its substituents) obtaining a result
@@ -546,10 +735,18 @@ are envisioned: they can be obtained from [[package require tcl::db]].
    returned. When no rows remain, closes the result set and returns
    the list of rows.
 
- * '''::tcl::db::execute''' ''dbHandle'' ''SQL-code'' ?''variable''?
+ * '''::tcl::db::execute''' ''dbHandle'' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''SQL-code'' ?''variable''?
    ?''script''?
 
- * '''::tcl::db::executewithdictionary''' ''dbHandle'' ''SQL-code''
+ * '''::tcl::db::executewithdictionary''' ''dbHandle'' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''SQL-code''
    ''dictionary'' ?''variable''? ?''script''?
 
  > Prepares a statement with the given SQL code and executes it. In
@@ -567,20 +764,70 @@ are envisioned: they can be obtained from [[package require tcl::db]].
    '''INSERT''', '''UPDATE''' and '''DELETE''' operations) and may be
    an empty string for '''SELECT''' operations.
 
-It is envisioned that database interfaces will add these conveniences to the
-API as
+A database interface MUST also add these interfaces to its API by
+exporting the commands:
 
- * ''dbHandle'' '''execute''' ''SQL-code'' ''?variableName ?script??''
+ * ''dbHandle'' '''execute''' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''SQL-code'' ''?variableName ?script??''
 
- * ''dbHandle'' '''executewithdictionary''' ''SQL-code''
+ * ''dbHandle'' '''executewithdictionary''' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''SQL-code''
    ''dictionary'' ''?variableName ?script??''
 
- * ''statementHandle'' '''foreach''' ''variableName'' ''script''
+ * ''statementHandle'' '''foreach''' 
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
+   ?'''--'''?
+   ''variableName'' ''script''
 
  * ''statementHandle'' '''allrows'''
+   ?'''-as lists|dicts'''?
+   ?'''-columnsvariable''' ''varName''?
 
 either by wrapping the ''::tcl::db'' procedures or by implementing equivalent
 functionality themselves.
+
+~~~ Transaction management
+
+A procedure, '''transaction''' SHALL be available after executing
+[[package require tcl::db]].  It SHALL have the syntax:
+
+ * '''::tcl::db::transaction''' ''dbHandle'' ''script''
+
+In this command, the ''dbHandle'' argument is a handle to a database
+connection, and the ''script'' argument is a Tcl script to be
+evaluated in the calling scope.  The script is treated as a single
+atomic database transaction. The '''starttransaction''' command is
+executed against the given database connection, and then the
+''script'' is evaluated. If it completes successfully
+(''TCL_OK''), the transaction SHALL be committed to the database.  If
+it fails, (''TCL_ERROR''), the transaction SHALL be rolled back and not
+visible to other users of the database.  ''TCL_BREAK'',
+''TCL_CONTINUE'' and ''TCL_RETURN'' with a return code other than
+''error'' SHALL result in a commit and subsequently rethrow the same
+exception status outside the transaction. Exception status codes other
+than these five SHALL rollback the transaction and be rethrown.
+
+Just as with '''starttransaction''', if a [[''dbHandle''
+'''transaction''']] command is executed while another transaction is
+already in progress, it is requesting nested transaction semantics.  A
+database handle to an engine that supports nested transactions MUST
+treat this case correctly; a database handle to an engine that does
+not support nested transactions (including one that does not support
+transactions at all) MUST throw an error.
+
+A database interface MUST implement the '''transaction''' command:
+
+ * ''dbHandle'' '''transaction''' ''script''
+
+having the same semantics, either by wrapping the convenience
+procedure or by implementing the same semantics itself.
 
 ~~ Support Procedures for Implementors of Database Interfaces
 
@@ -634,6 +881,22 @@ explicitly disclaims all rights under copyright law.
 
 ~ Change summary
 
+   2007-11-23: Expanded transaction management to have both the
+   '''transaction''' command and explicit transaction boundaries.
+   Added transaction isolation levels.
+
+   Added lists as an alternative to dicts as a representation of rows
+   in result sets.  Added a side interface for retrieving the set of
+   column names in the convenience procedures.
+
+   Added batch processing.
+
+   Added asynchronous query processing.
+
+   Added an interface for stored procedures.
+
+   Added a discussion of returning refcursors.
+
    2007-11-16: Changed the transaction management API from explicit
    commit and rollback to a model where a script is executed as an
    atomic operation.
@@ -653,6 +916,22 @@ explicitly disclaims all rights under copyright law.
 
 ~ Comments
 
- > I mis defined error handling. Current DB-Api handles them in different way. How to obtain SQL-error message from server. If "execute" fails should it return TCL_ERROR or it should be special api for error code.
+Artur Trzewik (2007-11-19):
 
- > I mis C-framework or template to implement such API. Writing everything from scratch for all DB will be quite painfully. There are many things which can be reused: New Tcl objects, handles managing, thread-safe managing, encoding. Also prepared statements are not so easy. For example mysql requires that one allocate fixed size memory for all variables. It does not fit well with Tcl.
+ > I miss defined error handling. Current DB-Api handles them in
+   different way. How to obtain SQL-error message from server. If
+   "execute" fails should it return TCL_ERROR or it should be special
+   api for error code.
+
+ > I miss C-framework or template to implement such API. Writing
+   everything from scratch for all DB will be quite painfully. There
+   are many things which can be reused: New Tcl objects, handles
+   managing, thread-safe managing, encoding. Also prepared statements
+   are not so easy. For example mysql requires that one allocate fixed
+   size memory for all variables. It does not fit well with Tcl.
+
+Kevin Kenny (2007-11-23):
+
+Rest assured that at least one reference implementation will be
+published before this TIP is considered FINAL; database implementors
+are not going to be abandoned.
