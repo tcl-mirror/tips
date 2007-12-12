@@ -1,6 +1,6 @@
 TIP:            285
 Title:          Script Cancellation with [cancel] and Tcl_CancelEval
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Draft
@@ -39,7 +39,7 @@ true in a multi-threaded application embedding environment, or where a user
 interface is present.
 
  1. In the case where the completion time for a script is unknown,
-    non-existant, or non-deterministic a user may want or need to terminate
+    non-existent, or non-deterministic a user may want or need to terminate
     the script prematurely.
 
  2. When evaluating an untrusted - or marginally trusted - script in either a
@@ -87,7 +87,7 @@ addressed:
 
  * Interaction with third-party extensions.
 
- * Safely useable by arbitrary threads.
+ * Safely usable by arbitrary threads.
 
 Several other mainstream scripting engines (e.g., JavaScript, Microsoft Active
 Scripting, etc.) currently provide this capability to cancel the evaluation of
@@ -98,9 +98,9 @@ structures is required.
 
 ~ Specification
 
-A new '''cancel''' script command will be added, as follows:
+A new '''interp cancel''' script command will be added, as follows:
 
- > '''cancel''' ?'''-unwind'''? ?'''--'''? ?''path''? ?''result''?
+ > '''interp cancel''' ?'''-unwind'''? ?'''--'''? ?''path''? ?''result''?
 
 This command cancels the script being evaluated in the interpreter.
 
