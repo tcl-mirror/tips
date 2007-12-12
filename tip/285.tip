@@ -1,6 +1,6 @@
 TIP:            285
-Title:          Script Cancellation with [cancel] and Tcl_CancelEval
-Version:        $Revision: 1.4 $
+Title:          Script Cancellation with [interp cancel] and Tcl_CancelEval
+Version:        $Revision: 1.5 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Draft
