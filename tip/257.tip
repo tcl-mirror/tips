@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -9,6 +9,7 @@ Author:         Kevin Kenny <kennykb@users.sourceforge.net>
 Author:         Miguel Sofer <mig@utdt.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 Author:         Larry W. Virden <lvirden@yahoo.com>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -1158,7 +1159,12 @@ The following public datatypes shall be declared in tcl.h:
 
  > cloneProc: A pointer to a function that defines how to copy some metadata
    associated with this type during the copying of an object or class with
-   '''oo::copy'''. If NULL, the metadata will not be copied.
+   '''oo::copy'''. If NULL, the metadata will not be copied. (''Open issue:''
+   There is a use case for making objects unclonable; consider the
+   case where the metadata consists of one or more OS resource handles.
+   Simply shallow-copying resource handles is a bad idea, but
+   deep-copying them may well be infeasible. Not all objects can
+   handle copy-on-write semantics gracefully.)
 
  Tcl_MethodCallProc: The type of the ''callProc'' field of the Tcl_MethodType
    structure. It is a pointer to a function that is used to implement how a
