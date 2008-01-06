@@ -1,14 +1,14 @@
-TIP:		304
-Title:		A Standalone [pipe] Primitive for Advanced Child IPC
-Version:	$Revision: 1.2 $
-Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	07-Feb-2006
-Post-History:	
-Tcl-Version:	8.6
-Keywords:	Tcl, exec, process, subprocess, pipeline
+TIP:            304
+Title:          A Standalone [pipe] Primitive for Advanced Child IPC
+Version:        $Revision: 1.3 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        07-Feb-2006
+Post-History:   
+Keywords:       Tcl,exec,process,subprocess,pipeline
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -16,7 +16,7 @@ Currently, it is not easy to get both (separate) dataflows from the stdout and
 stderr of a child. BLT's '''bgexec''' does this in an extension, and could be
 added to the core. But the point of this TIP is to show that a much smaller
 code addition can provide a lower-level primitive with much more potential
-than '''bgexec''''s: a ''standalone pipe'' creation tool.
+than '''bgexec''''s: a ''standalone pipe'' creation tool like TclX's '''pipe''' command.
 
 ~ Background
 
@@ -51,46 +51,40 @@ blocks on open() if other side is not ready).
 
 ~ Proposed Change
 
-All this points to the obvious solution: wrap the OS's pipe()/CreatePipe()
-syscall in a Tcl command, '''pipe''', yielding a bidirectional pipe channel
-(or a pair of channels; we'll stick to bidirectionals to respect current style
-pending decision on [301]).
+All this points to the obvious solution: steal TclX's '''pipe''' command, which wraps the OS's pipe()/CreatePipe()
+syscall, yielding two Tcl channels wrapping the read and write side of the underlying pipe.
 
-The intended usage is:
+TclX's pipe command allows two syntaxes:
 
-|	set pi [pipe]
-|	set f1 [open "|cmd args 2>@ $pi" r]
+|	pipe pr pw
+|	foreach {pr pw} [pipe] break
+
+Its application to following stderr is straightfoward:
+
+|	pipe pr pw
+|	set f1 [open "|cmd args 2>@ $pw" r]
 |	fileevent $f1 readable got_stdout
-|	fileevent $pi readable got_stderr
+|	fileevent $pr readable got_stderr
 
 ~~ Specification
 
-The '''pipe''' command takes no arguments and returns a new channel (that is
-backed up by an OS pipe) such that writing to the channel results in the same
-data being readable from the channel. That is to say, the channel holds both
-ends of the pipe, and that the pipe is unidirectional.
+Nothing more than TclX's which is perfect.
 
 ~ Discussion
 
-First, such an "anonymous" pipe has a much more robust lifecycle than a named
-one: it simply dies when all writers and readers are gone. So its use is just
-as safe and easy as that of a usual Tcl child-bound pipe.
-
-Second, its implementation should be very simple, since it is already done
-'''twice''' in [['''open''' "|..." r+]]. So the issues of syscall portability
-and TclChannel callbacks setup (including the hairy notifier API) are already
-sorted out, and have been for years.
+It has been in TclX for years, so it is fireproof.
+The code can be directly copied from there, and is dead simple, just calling  Tcl_MakeFileChannel and Tcl_RegisterChannel on both fds/handles. Just the low-level syscall changes between unix and windows.
 
 ~~ Additional Benefits
 
 It should also be noted that this primitive allows to deprecate the use of
 [['''open''' "|..."]] and '''pid''' themselves !
 
-|	set p1 [pipe]
-|	set p2 [pipe]
-|	set pids [exec cmd $args >@ $p1 2>@ $p2 &]
-|	fileevent $p1 readable got_stdout
-|	fileevent $p2 readable got_stderr
+|	pipe p1r p1w
+|	pipe p2r p2w
+|	set pids [exec cmd $args >@ $p1w 2>@ $p2w &]
+|	fileevent $p1r readable got_stdout
+|	fileevent $p2r readable got_stderr
 
 Taking this idea one step further, one can even deprecate the "|" in
 '''exec''', with:
@@ -99,14 +93,32 @@ Taking this idea one step further, one can even deprecate the "|" in
 
 being rewritten as:
 
-|	exec a >@ $p1 &
-|	exec b <@ $p1 >@ $p2 &
-|	exec c <@ $p2 &
+|	exec a >@ $p1w &
+|	exec b <@ $p1r >@ $p2w &
+|	exec c <@ $p2r &
 
 (I'm not crazy about actually deprecating ol'good and concise idioms in favour
 of the tedious lines above; however as an orthogonality worshipper I like to
 think it would be theoretically possible to reimplement them in pure Tcl
 thanks to the added power of one tiny extra primitive)
+
+A more serious advantage, is that it allows the "half-close" of a command pipeline (detailed in TIP 301; yes, the current TIP makes 301 partly obsolete...). Indeed
+
+|	pipe pr pw
+|	pipe qr qw
+|	exec a <@$pr >@$qw &
+
+allows to close just the read side with
+
+|	close $pw
+
+and still read all the output of the command up to its EOF:
+
+|	while {[gets $qr line]>=0} {...}
+
+which is notoriously impossible with
+
+|	set pq [open |a r+]
 
 ~ Directions for Future Work
 
