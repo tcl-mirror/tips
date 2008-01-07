@@ -1,0 +1,77 @@
+TIP:		310
+Title:		Add a New Pseudo-Random Number Generator
+Version:	$Revision: 1.1 $
+Author:		Arjen Markus <arjen.markus@wldelft.nl>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	07-Jan-2008
+Post-History:
+Tcl-Version:	8.6
+Keywords:	expr
+
+~ Abstract
+
+This TIP proposes to add a new '''expr''' function: a random number generator
+with a longer sequence than the one currently in the core.
+
+~ Rationale
+
+The '''expr''' command has used a straightforward implementation of a
+pseudo-random number generator via the rand() function for many years. This
+has a number of desirable properties, but better ones (e.g. with a longer
+sequence) have been known for a long time. This TIP proposes a new function as
+an alternative PRNG.
+
+PRNGs with different properties can be important for Monte Carlo simulations
+and other algorithms that require large amounts of random numbers without
+having to worry about the sequence length.
+
+~ Proposal
+
+Introduce a new function, ''randM()'', as an alternative PRNG to the
+'''expr''' command. This function is based on work by George Marsaglia and
+implementations in many different languages are available on the Internet.
+There will be a corresponding seed function ''srandM(x)''.
+
+The new function is not a replacement of the original rand() function.
+
+~ Implementation
+
+With the new tcl::mathfunc mechanism ([232]) it should be simple to add this
+function to the core.
+
+An example implementation in Tcl is given below:
+
+| # marsaglia.tcl --
+| #     Implementation of a PRNG according to George Marsaglia
+| #
+| namespace eval ::PRNG {
+|     variable mod [expr {wide(256)*wide(256)*wide(256)*wide(256)-5}]
+|     variable fac [expr {wide(256)*wide(32)}]
+|     variable x1 [expr {wide($mod*rand())}]
+|     variable x2 [expr {wide($mod*rand())}]
+|     variable x3 [expr {wide($mod*rand())}]
+|
+|     puts $mod
+| }
+|
+| proc ::PRNG::marsaglia {} {
+|     variable mod
+|     variable fac
+|     variable x1
+|     variable x2
+|     variable x3
+|
+|     set xn [expr {($fac*($x3+$x2+$x1))%$mod}]
+|
+|     set x1 $x2
+|     set x2 $x3
+|     set x3 $xn
+|
+|     return [expr {$xn/double($mod)}]
+| }
+
+~ Copyright
+
+This document is placed in the public domain
