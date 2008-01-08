@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -51,6 +51,8 @@ added to the CVS repository.
 
 The following tags in the Tcl and Tk CVS repositories correspond to
 the following releases of Tcl/Tk:
+
+   * ''core-8-5-a3'' - Tcl/Tk 8.5a3
 
    * ''core-8-5-a2'' - Tcl/Tk 8.5a2
 
