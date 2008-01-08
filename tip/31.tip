@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.32 $
+Version:        $Revision: 1.33 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -216,6 +216,13 @@ branch, or they may be rejected.
    * ''tip-257-implementation-branch'' (Tcl) - For development of the
      implementation of [257]. Branch root version at the tag
      ''tip-257-implementation-branch-root''.
+
+   * ''tip-279-branch'' (Tcl) - Work on [278].
+
+   * ''core-stabilizer-branch'' (Tcl/Tk) - Branch where the version
+     number is bumped to the next level of stability above the HEAD
+     for advance testing of issues that might arise when the HEAD is
+     declared more stable.
 
 ~ Dead Branches
 
