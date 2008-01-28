@@ -1,0 +1,120 @@
+TIP:		312
+Title:		Create ''link'' Command and Add More Link Types
+Version:	$Revision: 1.1 $
+Author:		Rene Zaumseil <r.zaumseil@freenet.de>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Created:	26-Jan-2008
+Post-History:
+Keywords:	variable, trace
+
+~ Abstract
+
+This TIP proposes adding a command, '''link''', to allow Tcl scripts to
+control the linking of Tcl variables and C variables. It also adds more types
+of linked variable.
+
+~ Rationale
+
+Until now it is possible to link C and Tcl variables together. But the API
+exists only on the C level. This proposal add a new toplevel '''link'''
+command and additional link types. It is now very easy to get data from and
+put values in specific memory locations e.g. shared memories, memory-mapped
+devices.
+
+The current C-API allows only to link single variables. The new
+''Tcl_LinkArray'' function allows also to link C-arrays to Tcl list variables.
+
+The new link types allow to link to strings and binary arrays on fixed memory
+locations.
+
+The automatic creation of needed space when no ''address'' value is provided
+could be used for testing scenarios.
+
+The use of arrays with a given ''size > 1'' allows a safe and simple C-Tcl
+connection. Overwrites create errors.
+
+It is possible to crash an application e.g. with "'''link create int''' ''1 x
+1''". So the new command should be treated with care and not exposed to unsafe
+interpreters.
+
+~ Specification
+
+This document proposes the following changes to the Tcl core:
+
+~~ New C API
+
+Add a new ''Tcl_LinkArray'' functions to provide links of single variable and
+array variables. The new function has the same parameters as the
+''Tcl_LinkVar'' function plus an additional ''int size''. If the given size 1
+then we have the same functionality as before. With ''size'' > 1, the linked
+Tcl variable is a list variable. If the given address is NULL then the
+function allocate the necessary space on the C side itself.
+
+ > int '''Tcl_LinkVar'''(Tcl_Interp *''interp'', const char *''varName'', char
+   *''addr'', int ''type'', int ''size'')
+
+The following link types will be supported:
+
+ > TCL_LINK_INT, TCL_LINK_DOUBLE, TCL_LINK_BOOLEAN, TCL_LINK_STRING,
+   TCL_LINK_WIDE_INT, TCL_LINK_CHAR, TCL_LINK_UCHAR, TCL_LINK_SHORT,
+   TCL_LINK_USHORT, TCL_LINK_UINT, TCL_LINK_LONG, TCL_LINK_ULONG,
+   TCL_LINK_FLOAT, TCL_LINK_WIDE_UINT, TCL_LINK_CHARS, TCL_LINK_BINARY
+
+Of these, TCL_LINK_CHARS and TCL_LINK_BINARY are new, and are as defined
+below:
+
+ TCL_LINK_CHARS: The address of the C variable is used as a ''char *''. The
+       address remain always the same (different to TCL_LINK_STRING) and
+       contain a \0 terminated string. The \0 count to the given ''size''.
+       The Tcl variable is used as a string and can contain up to ''size -1''
+       characters.
+
+ TCL_LINK_BINARY: The address of the C variable is used as a ''unsigned char
+       *''. The address remains always the same. Read and write operations
+       must always contain the full sized binary string.
+
+~~ New Tcl API
+
+Add a new Tcl command, '''link''', with the following subcommands:
+
+ > '''link create''' ?'''-readonly'''? ''type size name'' ?''address''?
+
+Create a new link to the Tcl variable ''name'' and return the address of the C
+variable. If '''-readonly''' is given then the Tcl variable is read only. The
+''type'' argument gives the used link type (from the following list); the used
+names are more verbose then p.e. the signs in the ''binary'' command.
+
+ > binary, boolean, char, chars, double, float, int, long, short, string,
+   uchar, uint, uint, ulong, ushort
+
+The ''size'' argument gives the number of ''type'' elements in the array. The
+optional ''address'' argument specifies where the C variable or array is
+located; if omitted, a suitable block of memory is allocated.
+
+ > '''link remove''' ''varname ...''
+
+Call the ''Tcl_UnlinkVar'' function for each of the given variable names,
+destroying links created with '''link create'''.
+
+ > '''link update''' ''varname ...''
+
+Call the ''Tcl_UpdateLinkedVar'' function for each of the given variable
+names.
+
+~ Reference Implementation
+
+A reference implementation is given with the following patch.
+
+~ Notes
+
+Because of using a given ''address'' it is possible to crash your application.
+That is now easier then writing a complete C-extension.
+
+The ''link'' command should not be exposed to safe interpreters.
+
+~ Copyright
+
+This document has been placed in the public domain.
