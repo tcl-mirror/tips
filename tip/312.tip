@@ -1,6 +1,6 @@
 TIP:		312
 Title:		Create 'link' Command and Add More Link Types
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Rene Zaumseil <r.zaumseil@freenet.de>
 State:		Draft
 Type:		Project
@@ -106,7 +106,7 @@ names.
 
 ~ Reference Implementation
 
-A reference implementation is given with the following patch.
+See [https://sourceforge.net/support/tracker.php?aid=1881048].
 
 ~ Notes
 
