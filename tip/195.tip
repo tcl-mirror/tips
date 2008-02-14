@@ -1,7 +1,8 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
+Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -54,7 +55,7 @@ approriate for them.
 To support this, I propose adding a '''::tcl::prefix''' ensemble with
 the following subcommands
 
- * '''prefix''' '''match''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''level''? ''list'' ''string''
+ * '''prefix''' '''match''' ?'''-exact'''? ?'''-message''' ''string''? ?'''-error''' ''options''? ''list'' ''string''
 
  * '''prefix''' '''longest''' ''list'' ''string''
 
@@ -68,12 +69,12 @@ returns a string instead of an index.  The options '''-exact''' and '''-message'
 ''Tcl_GetIndexFromObj''.  The default value for '''-message''' is
 "option".
 
-The '''-error''' level tells how to behave when no match is found.
-At level 0, no error is generated and an empty string is returned.
-At level 1 (default), a normal error message is returned.
-At level 2, the error message is returned so that it shows up as
-an error from the caller, i.e. it behaves like
-[[return -code error -level 2]].
+The '''-error''' options are used when no match is found.
+If '''-error''' is empty, no error is generated and an empty string is returned.
+Otherwise the options are used as '''return''' options when generating the
+error message.  The default corresponds to setting "-level 0".
+Example: If '''-error''' "-errorcode MyError -level 1" is used, an error would
+be generated as [[return -errorcode MyError -level 1 -code error "ErrMsg"]].
 
 '''prefix''' '''longest''' returns the longest common prefix within
 the group that matches the given string.  If there is no match, 
