@@ -1,6 +1,6 @@
 TIP:            195
 Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
@@ -164,7 +164,7 @@ lead to the prefix ensemble suggestion.
 
 ~ Reference Implementation
 
-An old version is at:
+Partial implementation at:
 http://sourceforge.net/tracker/index.php?func=detail&aid=1040206&group_id=10894&atid=310894
 
 ~ Copyright
