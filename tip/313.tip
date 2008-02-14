@@ -1,6 +1,6 @@
 TIP:            313
 Title:          Inexact Searching in Sorted List
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
@@ -20,7 +20,7 @@ insertion point in a sorted list.
 Sometimes, it is necessary to find the location in a sorted list where a
 particular new element should be inserted. Given that the list is already
 sorted, it is obviously the case that the location should be located through
-an O(ln N) algorithm that takes advantage of this fact (binary searching is
+an O(log N) algorithm that takes advantage of this fact (binary searching is
 the most reliable method given that measuring the "distance" between two
 strings is a complex and expensive operation in itself).
 
