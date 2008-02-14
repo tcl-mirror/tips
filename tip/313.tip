@@ -1,0 +1,102 @@
+TIP:            313
+Title:          Inexact Searching in Sorted List
+Version:        $Revision: 1.1 $
+Author:         Peter Spjuth <peter.spjuth@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Feb-2008
+Post-History:
+Keywords:       Tcl
+Tcl-Version:    8.6
+
+~ Abstract
+
+This TIP adds a new switch to '''lsearch''' to do a binary search to find the
+insertion point in a sorted list.
+
+~ Rationale
+
+Sometimes, it is necessary to find the location in a sorted list where a
+particular new element should be inserted. Given that the list is already
+sorted, it is obviously the case that the location should be located through
+an O(ln N) algorithm that takes advantage of this fact (binary searching is
+the most reliable method given that measuring the "distance" between two
+strings is a complex and expensive operation in itself).
+
+The usefulness of the feature is shown by a quick search. I found usages in
+the core, in tcllib and in tklib. Given that the infrastructure for a binary
+search is already in '''lsearch''', this is a very cheap addition.
+
+One question for the specification is exactly what index should be returned.
+Below an increasing list is assumed, things are equivalent for a decreasing.
+
+ 1. First where element is greater than key.
+
+ 2. Last  where element is less than or equal to key.
+
+ 3. First where element is greater than or equal to key.
+
+ 4. Last  where element is less than key.
+
+Here, 1 is the use case for a stable insertion sort.
+
+In the core we can find '''::tcl::clock::BSearch''' which returns the index of
+the greatest element in $list that is less than or equal to $key, i.e. type 2.
+The same can be found in tklib's ::khim::BSearch.
+
+In tcllib we can find '''::struct::prioqueue::__linsertsorted''', which would
+use type 1.
+
+Personally I have had use for both 2 and 3.
+
+1 can trivialy be calculated from 2 and vice versa. Same for 3 and 4.
+
+One key difference between 1/2 and 3/4 is that 1/2 return last among equals
+while 3/4 returns first among equals. This means that it is easier to lay 3/4
+over 1/2 by first doing an exact search.
+
+Finally, I think it makes sense for '''lsearch''' to return an exact match if
+there is one, leading to type 2 being specified in this TIP.
+
+I saw the word bisect used for this type of operation, but a better name is
+probably possible if someone have a suggestion.
+
+~ Specification
+
+An option '''-bisect''' is added to '''lsearch'''. This is a search mode flag
+and mutually exclusive with other search mode flags such as '''-sorted'''.
+
+The list to be searched must be sorted. How it is sorted is specified just as
+for '''-sorted'''.
+
+For an increasing list, the '''-bisect''' flag makes '''lsearch''' return the
+greatest index where the element is less than or equal to the key.
+
+For a decreasing list, the '''-bisect''' flag makes '''lsearch''' return the
+greatest index where the element is greater than or equal to the key.
+
+If the key is before the first element, -1 is returned.
+
+It is illegal to use '''-bisect''' with either '''-all''' or '''-not'''.
+
+Note that '''-inline''' and '''-start''' are still valid, though perhaps not
+very useful.
+
+~ Examples
+
+A stable insertion sort:
+
+|set dest {}
+|foreach elem $src {
+|    set i [lsearch -bisect -integer $dest]
+|    set dest [linsert $dest [+ $i 1] $elem]
+|}
+
+~ Reference Implementation
+
+Written but not yet supplied.
+
+~ Copyright
+
+This document has been placed in the public domain.
