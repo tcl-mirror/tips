@@ -1,6 +1,6 @@
 TIP:            313
 Title:          Inexact Searching in Sorted List
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -103,6 +103,7 @@ http://sourceforge.net/tracker/index.php?func=detail&aid=1894241&group_id=10894&
 Some messages on news:comp.lang.tcl provide additional motivation for this TIP:
 
 From Kevin Kenny: <47B59A43.9040205@acm.org>:
+
 | [[...]] When I've coded binary
 |search like that, it's generally been as part of an interpolation
 |or approximate search procedure.  For instance,
