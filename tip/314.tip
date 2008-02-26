@@ -1,0 +1,274 @@
+TIP:		314
+Title:		Ensembles with Parameters
+Version:	$Revision: 1.1 $
+Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Tcl-Version:	8.6
+Created:	26-Feb-2008
+Post-History:	
+
+~ Abstract
+
+This TIP proposes that '''namespace ensemble''' commands are generalised so
+that they may have arguments before the subcommand name.
+
+~ Rationale
+
+The introduction of '''{*}''' for argument expansion has made it much more
+convenient to use command prefixes for callbacks. One particular idiom that
+command prefixes provide for is "ClientData" arguments, i.e., the same command
+is used for several different callbacks, as exactly what it does or acts on is
+controlled by the extra argument(s). Of course, both command prefixes and the
+"ClientData" idiom are already the rule for callbacks from the core, but
+'''{*}''' will most likely make them more common also for callbacks from Tcl
+code.
+
+A disadvantage of this idiom is however that it currently cannot be used if
+the base command of a command prefix is to be an ensemble, as the subcommand
+name in an ensemble must follow immediately after the base command name.
+Callbacks from the core which take a subcommand are rare - the only obvious
+example is the reflected channel callback command - but in higher level code
+such callbacks are fairly common. Using namespace ensembles for implementing
+such callbacks makes the code much more modular than using a procedure
+would. Hence it is desirable to remove the restriction that the subcommand
+name of a namespace ensemble must appear as the first argument, and instead
+allow there to be some number of "parameter" arguments between the base
+command name and the subcommand name.
+
+Some may argue that ensemble parameters are not necessary because any client
+data can be embedded into the prefixes of the '''-map''' dictionary of the
+ensemble. This is however only true to the extent that multiword command
+prefixes themselves are unnecessary; it is similarly possible to embed extra
+arguments into an '''interp alias'''. Both of these "solutions" have the
+disadvantage that they create an auxiliary command which one must explicitly
+dispose of or leak memory, whereas all memory used by a command prefix is
+automatically released when the last reference to it goes away.
+
+~ Specification
+
+A new ensemble option '''-parameters''' is introduced, which takes a list of
+parameter names as value and defaults to the empty list. Two C functions for
+setting and getting the value of this option are added to the public stubs
+table:
+
+ > int '''Tcl_SetEnsembleParameterList'''(Tcl_Interp *''interp'', Tcl_Command
+   ''token'', Tcl_Obj *''paramList'')
+
+ > int '''Tcl_GetEnsembleParameterList'''(Tcl_Interp *''interp'', Tcl_Command
+   ''token'', Tcl_Obj **''paramListPtr'')
+
+(This is the same pattern as for the other ensemble options, e.g. for the
+'''-subcommands''' option's implementation.)
+
+The general structure of a namespace ensemble command call will have the
+form:
+
+ > ''baseCmd'' {*}''parameterArgs'' ''subCmd'' {*}''otherArgs''
+
+where the number of arguments between the base command and the subcommand is
+exactly the same as the number of elements in the value of the
+'''-parameters''' option. It is an error to call the ''baseCmd'' with fewer
+arguments than the number of parameters plus one. If ''cmdPrefix'' is the
+command prefix to which the ensemble ''baseCmd'' maps the ''subCmd'', then the
+above call gets translated into
+
+ > {*}''cmdPrefix'' {*}''parameterArgs'' {*}''otherArgs''
+
+~ Examples
+
+An ensemble for arithmetic in integer-modulo-''n'' rings can be implemented as
+follows:
+
+| namespace eval intmod {
+|     proc + {n args} {expr {[::tcl::mathop::+ {*}$args] % $n}}
+|     proc - {n args} {expr {[::tcl::mathop::- {*}$args] % $n}}
+|     proc * {n args} {expr {[::tcl::mathop::* {*}$args] % $n}}
+|     proc / {n a b} {
+|         set c $n
+|         set r 0
+|         set s 1
+|         while {$b} {
+|             set q [expr {$c / $b}]
+|             set b [expr {$c - $q*[set c $b]}]
+|             set s [expr {$r - $q*[set r $s]}]
+|         }
+|         if {$a % $c == 0} then {
+|             return [expr {$r * $a / $c % $n}]
+|         } else {
+|             return -code error "No such quotient"
+|         }
+|     }
+|     proc 0 {n} {return 0}
+|     proc 1 {n} {return 1}
+|     namespace ensemble create -parameters n -subcommands {+ - * / 0 1}
+|     # That [namespace export] takes patterns as arguments starts
+|     # feeling somewhat corny when * is a common command names.
+| }
+
+Some example results:
+
+| % intmod 7 + 4 4
+| 1
+| % intmod 7 - 1
+| 6
+| % intmod 7 * 3 5
+| 1
+| % intmod 7 / 3 2
+| 5
+| % intmod 32003 / 3 2
+| 16003
+| % intmod 32768 / 3 2
+| No such quotient
+| % intmod
+| wrong # args: should be "intmod n subcommand ?argument ...?"
+
+An ensemble for matrix arithmetic over some ring can be implemented as
+follows:
+
+| namespace eval matrix {
+|     proc + {ring A B} {
+|         if {[llength $A] != [llength $B] ||
+|             [llength [lindex $A 0]] != [llength [lindex $B 0]]} then {
+|             return -code error -errorcode {ARITH DOMAIN}
+|               "Matrix shapes do not match"
+|         }
+|         set res {}
+|         foreach a_row $A b_row $B {
+|             set r_row {}
+|             foreach a $a_row b $b_row {
+|                 lappend r_row [{*}$ring + $a $b]
+|             }
+|             lappend res $r_row
+|         }
+|         return $res
+|     }
+|     proc - {ring A B} {
+|         if {[llength $A] != [llength $B] ||
+|             [llength [lindex $A 0]] != [llength [lindex $B 0]]} then {
+|             return -code error -errorcode {ARITH DOMAIN}
+|               "Matrix shapes do not match"
+|         }
+|         set res {}
+|         foreach a_row $A b_row $B {
+|             set r_row {}
+|             foreach a $a_row b $b_row {
+|                 lappend r_row [{*}$ring - $a $b]
+|             }
+|             lappend res $r_row
+|         }
+|         return $res
+|     }
+|     proc * {ring A B} {
+|         if {[llength [lindex $A 0]] != [llength $B]} then {
+|             return -code error -errorcode {ARITH DOMAIN}
+|               "Matrix shapes do not match"
+|         }
+|         set res {}
+|         foreach a_row $A {
+|             set r_row {}
+|             foreach a $a_row b_row $B {
+|                 set r [{*}$ring 0]
+|                 foreach b $b_row {
+|                     set r [{*}$ring + $r [{*}$ring * $a $b]]
+|                 }
+|                 lappend r_row $r
+|             }
+|             lappend res $r_row
+|         }
+|         return $res
+|     }
+|     # ...
+|     namespace export *
+|     namespace ensemble create -parameters ringCmdPrefix
+| }
+
+Some more example results:
+
+| % set A {{1 2} {3 4}}
+| % matrix {intmod 7} + $A $A
+| {2 4} {6 1}
+| % set B {{0 2} {1 3}}
+| % matrix {intmod 100} * $A $B
+| {2 8} {6 16}
+| % matrix {intmod 5} * $A $B
+| {2 3} {1 1}
+| % matrix {intmod 5} - $A $B
+| {1 0} {2 1}
+| % matrix
+| wrong # args: should be "matrix ringCmdPrefix subcommand ?argument ...?"
+
+In the same way, one can define a '''polynomial''' ensemble for arithmetic
+with polynomials over some ring. Then one can immediately start doing
+calculations with e.g. matrices whose coefficients are polynomials over
+integers modulo 2, simply by using the command prefix
+
+| matrix {polynomial {intmod 2}}
+
+Composing constructions this way is a surprisingly quick way of implementing
+rather complex mathematical structures!
+
+~ Rejected Alternatives
+
+Most of the time, only the number of parameters is relevant; their names are
+merely used when throwing a "wrong # args" error. Hence an alternative would
+be to have taken that number as the value of the '''-parameters''' option, but
+requesting a list of names encourages the programmer to provide more
+information available for introspection and should help to produce better
+error messages.
+
+An alternative principle for forming the mapped-to command could be that the
+parameters should remain in the same position in the command. This would mean
+that rather than mapping
+
+ > ''baseCmd'' {*}''parameterArgs'' ''subCmd'' {*}''otherArgs''
+
+to
+
+ > {*}''cmdPrefix'' {*}''parameterArgs'' {*}''otherArgs''
+
+one would map it to
+
+ > ['''lindex''' ''cmdPrefix'' 0] {*}''parameterArgs'' {*}['''lrange'''
+   ''cmdPrefix'' 1 end] {*}''otherArgs''
+
+but this is slightly more complicated to do, and it seems less useful. For
+example, this would prevent using an '''apply''' ''lambda'' form of
+''cmdPrefix'' in an ensemble with parameters.
+
+~ Future Extensions
+
+In analogy with the '''-unknown''' handler for an ensemble, it might be useful
+to have a handler for ensembles being called with ''too few'' arguments; it is
+not uncommon for ensemble-like commands that one in certain cases can omit the
+subcommand name. Possibly this functionality could even be integrated into the
+'''-unknown''' handler.  There is however nothing in that which is directly
+related to the issue of ensembles having parameters, other than that
+parameters make it possible to call an ensemble command with way too few
+arguments instead of just one too few.
+
+~ Reference Implementation
+
+A reference implementation is available as SF Tcl patch #1901783.
+[http://sf.net/tracker/?func=detail&atid=310894&aid=1901783&group_id=10894]
+
+~~ Notes
+
+One detail in this implementation which might require further consideration
+because it results in script-level-visible behaviour is the matter of how the
+list of parameter names is turned into error messages. Currently that is done
+by (effectively) '''join'''ing the list elements, but a possible alternative
+is to use the string representation of the list. Joining seems to give better
+control to the user of what gets put in the message, but the results are
+probably equivalent for all alphanumeric choices of parameter names.
+
+Deep down, this touches upon the matter of how the user may distinguish actual
+argument values from formal argument names in syntax error messages. As far as
+I can tell, there currently isn't a way of doing that, but perhaps there
+should be. In want of clear rules for this, the reference implementation
+doesn't seem to fare any worse than what is already in the core.
+
+~ Copyright
+
+This document has been placed in the public domain.
