@@ -1,13 +1,13 @@
-TIP:		314
-Title:		Ensembles with Parameters
-Version:	$Revision: 1.1 $
-Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Tcl-Version:	8.6
-Created:	26-Feb-2008
-Post-History:	
+TIP:            314
+Title:          Ensembles with Parameters
+Version:        $Revision: 1.2 $
+Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Feb-2008
+Post-History:   
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -36,6 +36,18 @@ would. Hence it is desirable to remove the restriction that the subcommand
 name of a namespace ensemble must appear as the first argument, and instead
 allow there to be some number of "parameter" arguments between the base
 command name and the subcommand name.
+
+One application of parameter arguments is to use namespace ensembles as 
+a white-box OO system, where the parameters hold the state of the object. 
+More explicitly, each object instance in such a system would be a command 
+prefix consisting of (i) one ensemble command that handles the method 
+dispatch and (ii) the necessary number of parameter arguments, whose 
+values make up the state of the object. Being values, such objects are 
+necessarily immutable; it is however possible to define methods which 
+return a mutated form of the object. For light-weight objects, this 
+system has the advantage that instances do not have to be destroyed 
+explicitly, but of course that also means that they cannot own any 
+resources that require explicit destruction.
 
 Some may argue that ensemble parameters are not necessary because any client
 data can be embedded into the prefixes of the '''-map''' dictionary of the
@@ -208,6 +220,33 @@ integers modulo 2, simply by using the command prefix
 
 Composing constructions this way is a surprisingly quick way of implementing
 rather complex mathematical structures!
+
+A trivial mutable object class can be implemented as follows:
+
+| namespace eval mutable_ns {
+|     proc get {value} {return $value}
+|     proc set {value newvalue} {list [namespace current] $newvalue}
+|     namespace export get set
+|     namespace ensemble create -parameters value
+| }
+| proc mutable {initval} {
+|     list [namespace which -command mutable_ns] $initval
+| }
+
+Some example results:
+
+| % set a [mutable 0]
+| ::mutable_ns 0
+| % {*}$a get
+| 0
+| % {*}$a foo
+| unknown or ambiguous subcommand "foo": must be get, or set
+| % set b [{*}$a set 3] ; # Creates a modified copy
+| ::mutable_ns 3
+| % {*}$b get
+| 3
+| % {*}$a get
+| 0
 
 ~ Rejected Alternatives
 
