@@ -1,6 +1,6 @@
 TIP:            313
 Title:          Inexact Searching in Sorted List
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
@@ -18,7 +18,9 @@ insertion point in a sorted list.
 ~ Rationale
 
 Sometimes, it is necessary to find the location in a sorted list where a
-particular new element should be inserted. Given that the list is already
+particular new element could be inserted. Either for actual insertion or
+for lookups to do interpolation or approximate search in data tables.
+Given that the list is already
 sorted, it is obviously the case that the location should be located through
 an O(log N) algorithm that takes advantage of this fact (binary searching is
 the most reliable method given that measuring the "distance" between two
@@ -54,7 +56,9 @@ Personally I have had use for both 2 and 3.
 
 One key difference between 1/2 and 3/4 is that 1/2 return last among equals
 while 3/4 returns first among equals. This means that it is easier to lay 3/4
-over 1/2 by first doing an exact search.
+over 1/2 by first doing an exact search.  I.e. by doing both a -sorted and
+a -bisect search you get all info needed, in log(N) time, to get either
+of 1/2/3/4.
 
 Finally, I think it makes sense for '''lsearch''' to return an exact match if
 there is one, leading to type 2 being specified in this TIP.
