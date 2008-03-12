@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.33 $
+Version:        $Revision: 1.34 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -52,6 +52,8 @@ added to the CVS repository.
 The following tags in the Tcl and Tk CVS repositories correspond to
 the following releases of Tcl/Tk:
 
+   * ''core-8-5-1''  - Tcl/Tk 8.5.1
+
    * ''core-8-5-0''  - Tcl/Tk 8.5.0
 
    * ''core-8-5-b3'' - Tcl/Tk 8.5b3
@@ -71,6 +73,8 @@ the following releases of Tcl/Tk:
    * ''core-8-5-a2'' - Tcl/Tk 8.5a2
 
    * ''core-8-5-a1'' - Tcl/Tk 8.5a1
+
+   * ''core-8-4-18'' - Tcl/Tk 8.4.18
 
    * ''core-8-4-17'' - Tcl/Tk 8.4.17
 
@@ -217,7 +221,7 @@ branch, or they may be rejected.
      implementation of [257]. Branch root version at the tag
      ''tip-257-implementation-branch-root''.
 
-   * ''tip-279-branch'' (Tcl) - Work on [278].
+   * ''tip-278-branch'' (Tcl) - Work on [278].
 
    * ''core-stabilizer-branch'' (Tcl/Tk) - Branch where the version
      number is bumped to the next level of stability above the HEAD
