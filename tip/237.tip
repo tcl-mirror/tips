@@ -1,6 +1,6 @@
 TIP:            237
 Title:          Arbitrary-Precision Integers for Tcl
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Final
@@ -79,7 +79,7 @@ library.
 This TIP proposes augmenting Tcl with code for processing integers of
 arbitrary precision. Specifically:
 
- 1. The ''libtommath'' library [http://math.libtomcrypt.org/] shall be
+ 1. The ''libtommath'' library [http://math.libtomcrypt.com/] shall be
     added in a subdirectory of the Tcl source tree, parallel to
     ''generic/'', ''compat/'', etc. This library implements arithmetic
     on integers of arbitrary precision. For the rationale behind this
@@ -399,7 +399,7 @@ arbitrary precision. Specifically:
 ~ Integration Details
 
 The ''libtommath'' source code shall be extracted from the
-distributions available at [http://math.libtomcrypt.org/] and brought
+distributions available at [http://math.libtomcrypt.com/] and brought
 into the CVS repository as a ''vendor branch'' (see
 [https://www.cvshome.org/docs/manual/cvs-1.11.18/cvs_13.html#SEC103]
 for a discussion of managing vendor branches. It appears that all the
@@ -459,7 +459,7 @@ Tom St. Denis, explicitly and irrevocably authorizes its use for any
 purpose, without fee, and without attribution. So license
 incompatibilities aren't going to be an issue. The documentation is
 wonderful (Tom has written a book of several hundred pages
-[http://book.libtomcrypt.org/draft/tommath.pdf] describing the
+[http://book.libtomcrypt.com/draft/tommath.pdf] describing the
 algorithms used), and the code is lucid.
 
 The chief disadvantage to ''libtommath'' is that it is a one-person
