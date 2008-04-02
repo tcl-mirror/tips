@@ -1,6 +1,6 @@
 TIP:            285
 Title:          Script Cancellation with [interp cancel] and Tcl_CancelEval
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Draft
@@ -157,7 +157,7 @@ When a script is canceled, the following occur:
    script cancellation related flags are reset.
 
  * If there are no invocations of the interpreter on the call-stack when
-   ''Tcl_CancelEval'' or '''cancel''' are called, then the next script to be
+   ''Tcl_CancelEval'' or '''interp cancel''' are called, then the next script to be
    evaluated will be preemptively canceled.
 
 ~~ Notes
