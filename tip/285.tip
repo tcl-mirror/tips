@@ -1,6 +1,6 @@
 TIP:            285
 Title:          Script Cancellation with [interp cancel] and Tcl_CancelEval
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Draft
@@ -16,7 +16,32 @@ Tcl-Version:    8.6
 This TIP introduces the ability to quickly and safely cancel a script within a
 specified interpreter from any thread in the process.
 
-~ Rationale
+~ Key Use-Case Scenario
+
+When using Tcl inside a context such as a web-browser (e.g. as a plugin), it
+is often necessary for the execution of a particular script to be terminated
+cleanly without waiting for the script to get to a point where it is able to
+respond to events. For example, if the user encounters a page that contains a
+script that starts a long-running execution but then decides to navigate away
+from the page, it's important to stop the script as soon as possible.
+
+But we do not want to stop the script by means of just terminating the thread,
+as this can result in various resources being still allocated, as browsers are
+long-running applications. Some of the problems (e.g. memory waste) can be
+worked around by running the script in a separate process, but there are other
+resources that aren't cleaned up that way, such as locked files or shared
+memory blocks, and it is always better to give the Tcl interpreter itself an
+opportunity to clean up after itself. Furthermore, there are other possible
+applications (such as using Tcl to implement COM objects on Windows) where the
+separate-process method will not work so well.
+
+Instead, what is needed is a way to programmatically make a script stop its
+execution even when that script is otherwise determined to continue. This is
+different from a resource limit in that the cancellation is not caused by the
+exceeding of a predetermined value, but rather by some external event that is
+possibly even not processed initially by Tcl at all.
+
+~ Technical Rationale
 
 Currently, once the evaluation of a script has been initiated it will do one
 of the following:
