@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -45,7 +45,7 @@ like [31].
 
 ~ Release Calendar
 
-~~ Tcl/Tk 8.6a1; Release Date: May 16, 2008
+~~ Tcl/Tk 8.6a1; Approximate Release Date: June 1, 2008
 
    * [285], Script Cancellation with '''interp cancel''' and Tcl_CancelEval
 
@@ -53,11 +53,11 @@ like [31].
 
    * ''Insert feature here''
 
-~~ Tcl/Tk 8.6a2; Release Date: July 18, 2008
+~~ Tcl/Tk 8.6a2; Approximate Release Date: August 1, 2008
 
    * ''Insert feature here''
 
-~~ Tcl/Tk 8.6b1; Release Date: September 19, 2008
+~~ Tcl/Tk 8.6b1; Approximate Release Date: October 1, 2008
 
    * ''Insert feature here''
 
