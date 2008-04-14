@@ -1,14 +1,15 @@
 TIP:            302
 Title:          Fix "after"'s Sensitivity To Adjustments Of System Clock
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        13-Dec-2006
 Post-History:   
+Keywords:       Tcl,time changes
 Tcl-Version:    8.6
-Keywords:	Tcl, time changes
 
 ~ Abstract
 
@@ -95,3 +96,8 @@ arm twisting, etc.
 ~ Copyright
 
 This document has been placed in the public domain.
+
+~ Comments
+
+The ''times'' function in Unix is ''not'' an appropriate time base.  It reports the user and system time (CPU time, in other words) of the currently executing process and its children.  As far as I have been able to determine, Unix assumes that the system time reported by
+''gettimeofday'' is the sole time base for absolute timing; if multiple timers are required in a single process, ''gettimeofday'' appears to be the only reference that is available.
