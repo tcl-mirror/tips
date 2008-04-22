@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -373,7 +373,7 @@ specified now.
    mentioned above are not made if the channel is not writable, or not
    readable.
 
- > This is implements the most simple seek behavior as it was found in
+ > This implements the most simple seek behavior as it was found in
    the very earliest incarnation of the transform reflection
    functionality, i.e. passing down any seek request unchanged until
    the base channel is reached. This also means that the internal
