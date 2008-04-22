@@ -1,8 +1,9 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
+Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -89,7 +90,7 @@ below.
 The API this handler has to provide is specified below, in the section
 "Command Handler API Specification".
 
-We have chosen to use ''early-binding'' of the handler command. See
+We have chosen to use ''late-binding'' of the handler command. See
 the section "Early- versus Late-Binding of the Handler Command" for
 more detailed explanations.
 
