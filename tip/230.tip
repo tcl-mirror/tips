@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -439,17 +439,7 @@ executed in the original interpreter and thread. The latter is done by
 posting specialized events to the original thread, essentially
 forwarding driver invocations to the correct thread.
 
-When a thread or interpreter is deleted all channels having a
-transformation attached to them which uses this thread/interpreter as
-their computing base are not deleted, but the transformation is
-removed from them. Depending on the complexity of removing the
-structure describing the transformation from the channel (middle of
-the stack) the implementation may choose to not remove the structure
-at all but to simply revert it to a sideeffect-free identity
-transformation implemented in C and not calling out to Tcl at all
-anymore. If the latter is done it will be removed automatically by the
-next '''chan pop''' operation which uncovers the inactive
-transformation.
+When a thread or interpreter is deleted all transformations it owns are deleted as far as possible, and any remnants are marked as dead. The latter occurs only if the channel using the deleted transformation is outside of the deleted thread or interpreter. Such channels will throw errors when accessed, until the offending transformation is removed from them via '''chan pop''' (Multiple pop's will be necessary if the deleted transformation sits in the middle of a stack).
 
 ~ Interaction with Safe Interpreters
 
