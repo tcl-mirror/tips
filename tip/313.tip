@@ -1,6 +1,6 @@
 TIP:            313
 Title:          Inexact Searching in Sorted List
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
@@ -71,11 +71,11 @@ probably possible if someone have a suggestion.
 
 ~ Specification
 
-An option '''-bisect''' is added to '''lsearch'''. This is a search mode flag
-and mutually exclusive with other search mode flags such as '''-sorted'''.
+An option '''-bisect''' is added to '''lsearch'''. This is a modifier to
+'''-sorted''' and implies '''-sorted''' search mode.
 
-The list to be searched must be sorted. How it is sorted is specified just as
-for '''-sorted'''.
+The list to be searched thus must be sorted and how it is sorted is specified
+just as for unmodified '''-sorted'''.
 
 For an increasing list, the '''-bisect''' flag makes '''lsearch''' return the
 greatest index where the element is less than or equal to the key.
@@ -132,8 +132,9 @@ From Neil Madden: <fp46r6$pb6$1@oyez.ccc.nottingham.ac.uk>:
 
 ~ Alternatives
 
-Instead of making '''-bisect''' a search mode it can be a modifier to
-'''-sorted'''.  This would be just as good, maybe even slightly simpler.
+Instead of making '''-bisect''' a modifier to '''-sorted''' it could be
+a search mode in itself.  This was the original specification in this TIP.
+Making it a modifier makes more sense and makes documentation simpler.
 
 ~ Alternative names
 
