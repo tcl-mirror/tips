@@ -1,6 +1,6 @@
 TIP:            288
 Title:          Allow "args" Anywhere in Procedure Formal Arguments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
@@ -19,19 +19,13 @@ This TIP proposes to make ''args'' have its special meaning as a formal
 
 ~ Rationale
 
-Many commands, specially many of Tcl's built in commands, have their variadic
-arguments in the beginning of the argument list and their required arguments
-at the end. An example is [['''lsearch''' ?''options''? ''list string'']].
+Many commands, specially many of Tcl's built in commands, have their variadic arguments in the beginning of the argument list and their required arguments at the end. An example is [['''lsearch''' ?''options''? ''list string'']].
 
-Writing commands in that style is currently a bit cumbersome since you need to
-do you own argument counting and assignment to variables from "args".
+Writing tcl procedures in that style is currently a bit cumbersome since you need to do you own argument counting and assignment to variables from "args".
 
-If "args" had its special meaning at any location in the argument list, it
-would help with such a task, and it would make things more consistent.
+If "args" had its special meaning at any location in the argument list, it would help with such a task, and it would make things more consistent.
 
-To preserve full backward compatibility (as long as "args" is not used
-before the last) and to get simple semantics, optional arguments are
-not allowed after "args".
+To get simple semantics, optional arguments are not allowed after "args".  Optional arguments that precede "args" will be handled as before.  This TIP does not, as of now, specify defaulted arguments directly preceding non-defaulte ones. This should be addressed in a separate TIP.
 
 ~ Specification
 
@@ -41,22 +35,32 @@ assigned in the following order:
 
  1. Assign arguments right of "args" from the right.
 
- 2. Assign arguments left of "args" from the left.
+ 2. Assign arguments left of "args" from the left. Handling of defaulted parameters preceding "args" remains as it was (but disregarding the non-defaulted ones after "args").
 
  3. Remaining arguments are assigned to "args".
 
 ~ Compatiblity
 
-Currently "args" is allowed anywhere in the argument list, and becomes a
-normal variable if not last. Most scripts probably don't use this since it
-would be rather confusing, but it might exist.
+Currently "args" is allowed anywhere in the argument list, and becomes a normal variable if not last. Most scripts probably don't use this since it would be rather confusing, but it might exist.
 
-Detecting such scripts in an automated way would be simple and fixing them is
-trivial.
+All such occurrances would need to be fixed.
 
-~ Comments
+Detecting such scripts in an automated way would be simple and fixing them is trivial.
 
-Andreas Leitgeb: I just want to clarify, that if someone (against all reason) had a procedure with "args" as a non-last argument-name, then forbidding optional arguments does *not* retain compatibility! That one argument would then still be one list-level deeper than now. 
+~ Examples
+
+ proc x {a args b} { puts "a=$a, args=$args, b=$b" }
+ x 1 2  ;# ->   a=1, args=, b=2
+ x 1 2 3 ;# ->  a=1, args=2, b=3
+ x 1 ;# -> error: wrong # args: should be "x a args b"
+
+ proc y {a {b x} args c} { ... }
+ y 1 2 3 ;#   a=1 b=2 c=3  args is empty
+
+ proc z {a {b x} c args} { ... }
+ z 1 2  ;# -> error: wrong # args: should be "z a ?b? c args"
+
+To change "z" is not covered by this TIP.
 
 ~ Copyright
 
