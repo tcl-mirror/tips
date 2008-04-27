@@ -1,8 +1,9 @@
 TIP:            288
 Title:          Allow "args" Anywhere in Procedure Formal Arguments
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Andreas Leitgeb <avl@logic.at>
+Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -28,9 +29,9 @@ do you own argument counting and assignment to variables from "args".
 If "args" had its special meaning at any location in the argument list, it
 would help with such a task, and it would make things more consistent.
 
-To preserve full backward compatibility (when "args" is not used before the
-last) (see comments) and to get simple semantics, optional arguments are not allowed after
-"args".
+To preserve full backward compatibility (as long as "args" is not used
+before the last) and to get simple semantics, optional arguments are
+not allowed after "args".
 
 ~ Specification
 
