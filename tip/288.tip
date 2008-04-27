@@ -1,6 +1,6 @@
 TIP:            288
 Title:          Allow "args" Anywhere in Procedure Formal Arguments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
@@ -50,14 +50,19 @@ Detecting such scripts in an automated way would be simple and fixing them is tr
 ~ Examples
 
  proc x {a args b} { puts "a=$a, args=$args, b=$b" }
+
  x 1 2  ;# ->   a=1, args=, b=2
+
  x 1 2 3 ;# ->  a=1, args=2, b=3
+
  x 1 ;# -> error: wrong # args: should be "x a args b"
 
  proc y {a {b x} args c} { ... }
+
  y 1 2 3 ;#   a=1 b=2 c=3  args is empty
 
  proc z {a {b x} c args} { ... }
+
  z 1 2  ;# -> error: wrong # args: should be "z a ?b? c args"
 
 To change "z" is not covered by this TIP.
