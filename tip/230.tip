@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -371,7 +371,10 @@ specified now.
    input buffers on the Tcl side via an invocation of the method
    '''clear''' before passing the request down. Note that the calls
    mentioned above are not made if the channel is not writable, or not
-   readable.
+   readable. Further note that the results of the '''flush''' are
+   discarded, not written, as they would otherwise move the current
+   location and throw off our expectations regarding where we are now
+   and will end up after the seek.
 
  > This implements the most simple seek behavior as it was found in
    the very earliest incarnation of the transform reflection
