@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -426,6 +426,10 @@ specified now.
 
  > The events handled by the transformation are removed from the mask
    and the changed mask is passed upward, if not empty.
+
+ > When the transformation has handled one or more events it is queried
+   for its current interest again (like in '''WatchProc'''), so that it
+   can adjust it during its interaction with its parent channel.
 
 ~ Interaction with Threads and Other Interpreters
 
