@@ -1,0 +1,73 @@
+TIP:		316
+Title:		Portable Access Functions for Stat Buffers
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	02-May-2008
+
+~ Abstract
+
+Tcl exposes the definition of the ''struct stat'' type to users of its C API,
+but this can vary between builds. This TIP proposes a set of portable
+functions for reading (portable) fields out of those structures so that code
+does not need to match the API version when reading the fields (the most
+common case by far).
+
+~ Rationale
+
+The ''struct stat'' type used by Tcl can be one of many different types
+depending on compile-time options (as a consequence of 64-bit filesystem
+support). Tcl conceals these details by wrapping the type as a ''Tcl_StatBuf''
+and providing a way to allocate these independently of compiler
+configuration. However, there is no way to access the contents of the field
+without binding to a particular type i.e. particular compile time
+configuration of Tcl (and not necessarily the extension code using the API!)
+This TIP proposes a set of simple access functions to conceal these details
+and enable the portable read-only use of the ''Tcl_StatBuf'' type.
+
+~ Proposed Change
+
+This TIP proposes that the following functions will be defined. Each will take
+a pointer to a ''Tcl_StatBuf'' as its only argument, and will return the
+contents of the field indicated below.
+
+ Tcl_GetFSDeviceFromStat: Returns the ''st_dev'' field as an unsigned integer.
+
+ Tcl_GetFSInodeFromStat: Returns the ''st_ino'' field as an unsigned integer.
+
+ Tcl_GetModeFromStat: Returns the ''st_mode'' field as an unsigned integer.
+
+ Tcl_GetLinkCountFromStat: Returns the ''st_nlink'' field as an integer.
+
+ Tcl_GetUserIdFromStat: Returns the ''st_uid'' field as an integer.
+
+ Tcl_GetGroupIdFromStat: Returns the ''st_gid'' field as an integer.
+
+ Tcl_GetDeviceTypeFromStat: Returns the ''st_rdev'' field as an integer.
+
+ Tcl_GetAccessTimeFromStat: Returns the ''st_atime'' field as a wide integer.
+
+ Tcl_GetModificationTimeFromStat: Returns the ''st_mtime'' field as a wide
+ integer.
+
+ Tcl_GetChangeTimeFromStat: Returns the ''st_ctime'' field as a wide integer.
+
+ Tcl_GetSizeFromStat: Returns the ''st_size'' field as an unsigned wide
+ integer.
+
+ Tcl_GetBlocksFromStat: Returns the ''st_blocks'' field as an unsigned wide
+ integer.
+
+ Tcl_GetBlockSizeFromStat: Returns the ''st_blksize'' field as an unsigned
+ integer.
+
+Some platforms may support other fields; these are not universal and are hence
+not portable.
+
+~ Copyright
+
+This document has been placed in the public domain.
