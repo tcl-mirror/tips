@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -510,6 +510,10 @@ non-exported methods.
 
  > '''my''' ''methodName'' ?''arg'' ''arg'' ...?
 
+Note that each object has its own '''my''' command; they are all distinct from
+each other. This means that it is suitable for use for things like invoking
+callbacks (from general Tcl code) that are non-public methods.
+
 ~~~ next
 
 The '''next''' command allows methods to invoke the implementation of the
@@ -519,7 +523,7 @@ object's class, then the '''next''' command inside the object's method
 implementation will invoke the class's implementation of the method). The
 arguments to the '''next''' command are the arguments to be passed to the
 superclass method; this is in contrast to the XOTcl '''next''' command, but
-other features in Tcl 8.5 make this approach viable and much easier to
+other features in Tcl 8.5 ([157]) make this approach viable and much easier to
 control. The current stack level is temporarily bypassed for the duration of
 the processing of the '''next''' command; again, this is in contrast to the
 XOTcl version of the '''next''' command, but it allows a method to always
@@ -535,11 +539,11 @@ definition of the current method.
 ~~~ self
 
 The '''self''' command allows executing methods to discover information about
-the object which they are currently executing in. Without arguments, the
-'''self''' command returns the current fully-qualified name of the object (to
-promote backward compatability). Otherwise, it is a command in the form of an
-ensemble (though it is not defined whether it is manipulable with '''namespace
-ensemble''').
+the object which they are currently executing in; it's always an error if not
+inside a method. Without arguments, the '''self''' command returns the current
+fully-qualified name of the object (to promote backward compatability).
+Otherwise, it is a command in the form of an ensemble (though it is not
+defined whether it is manipulable with '''namespace ensemble''').
 
 The following subcommands of '''self''' are defined. None of these subcommands
 take additional arguments.
@@ -696,7 +700,9 @@ when not in the script form) shall be:
 
  * '''superclass''' - This specifies the superclass (or classes) of a class.
    Inheritance will follow the XOTcl pattern (except with a somewhat different
-   class hierarchy, of course). The syntax is as follows:
+   class hierarchy, of course). Note that objects are always either classes or
+   not classes, and cannot be changed from one to the other by any
+   mechanism. The syntax is as follows:
 
  > '''oo::define''' ''class'' '''superclass''' ''classList''
 
@@ -724,6 +730,11 @@ that class (which is why the distinction is required).
    syntax is as follows:
 
  > '''oo::define''' ''object'' '''self.class''' ''className''
+
+ > Note that when the class is changed of an object, no methods are called on
+   that object, or on either the source or target classes, to indicate that
+   the change has been carried out. This is up to the caller of the
+   '''self.class''' subcommand.
 
  * '''self.export''' - This is a per-object version of the '''export'''
    subcommand, to which it is syntactically identical.
@@ -754,7 +765,8 @@ generated automatically. The syntax is as follows:
 Note that this command does ''not'' copy the backing namespace, and nor does
 it execute any constructors. It is therefore up to the caller to copy such
 internal state of the object in the manner suitable for the object and its
-class tree.
+class tree; it is suggested that this be done by wrapping the '''oo::copy'''
+command in another command that defines which method is called.
 
 ~ Core Objects
 
@@ -779,8 +791,8 @@ called ''var'').
 
 The name of an object is also the name of a command in the form of an ensemble
 where the subcommands of the ensemble are the ''exported'' method names of the
-object. It is undefined whether the ensemble is manipulable with '''namespace
-ensemble'''.
+object. The command is not manipulable with '''namespace ensemble''', but may
+be renamed.
 
 The new object has one predefined exported method ('''destroy''') and two
 predefined non-exported methods ('''eval''' and '''variable'''). Other
@@ -817,35 +829,35 @@ following methods:
 
  variable: This non-exported method takes an arbitrary number of
    ''unqualified'' variable names and binds the variable with that name in the
-   object's namespace to the same name in the current scope. The syntax is as
-   follows:
+   object's namespace to the same name in the current scope, provided the
+   current scope is the body of a procedure, procedure-like method, or lambda
+   term (as used with '''apply'''); if executed in a context where the current
+   scope does not admit local variables, this method will have no effect. The
+   syntax is as follows:
 
- > ''object'' '''variable''' ?''varNameBind'' ''varNameBind'' ...?
+ > ''object'' '''variable''' ?''varName'' ''varName'' ...?
 
  > However, it will be more commonly used as:
 
- > '''my''' '''variable''' ?''varNameBind'' ''varNameBind'' ...?
+ > '''my variable''' ?''varName'' ''varName'' ...?
 
- > Each ''varNameBind'' argument is a list consisting of one or two elements.
-   If the argument consists of a two-element list, the first element is the
-   name of the variable to bind in the object's namespace or a sub-namespace
-   of it, and the second element is the name of the variable to bind in the
-   current scope. If the argument is a single element list, both the namespace
-   variable name and the local variable name are the same (and hence the
-   variable cannot be bound from a namespace other than the current one).
+ > Each ''varName'' argument is the name of a variable in the namespace
+   associated with the object, and must not contain any namespace separators.
+   Each named variable will be bound to a local variable in the current scope
+   with the same name.
 
  varname: This non-exported method takes one argument, the name of a variable
    to be resolved in the context of the object's namespace, and returns the
-   fully qualified name of the variable such that it can be used with
-   extensions such as Tk (e.g., for the '''label''' widget's
-   '''-textvariable''' option). This method does not assign any value to the
-   variable. The syntax is as follows:
+   fully qualified name of the variable such that it can be used with the
+   '''vwait''' command or extensions such as Tk (e.g., for the '''label'''
+   widget's '''-textvariable''' option). This method does not assign any value
+   to the variable. The syntax is as follows:
 
  > ''object'' '''varname''' ''varName''
 
  > However, it will be more commonly used as:
 
- > '''my''' '''varname''' ''varName''
+ > '''my varname''' ''varName''
 
 ~~~ Unknown Method Handling
 
@@ -945,6 +957,14 @@ The instances of '''oo::class''' have the following methods:
  > Note that the ''oo::class'' object itself does not export the '''new'''
    method; it is good practice for all classes to have names.
 
+ createWithNamespace: Creates a new instance of a class with a given name and
+   a given name of backing namespace. This method (required to provide proper
+   support for putting [[incr Tcl]] on top of the core OO system) is not
+   exported by default. Apart from the ''nsName'' parameter, it is the same as
+   the '''create''' method.
+
+ > ''class'' '''createWithNamespace''' ''objName nsName'' ?''arg arg'' ...?
+
 ~ Introspection Support
 
 The core Tcl '''info''' command shall be extended in the following ways.
@@ -999,8 +1019,8 @@ appropriate. The following types of information shall be available:
 
  > > '''info object isa object''' ''object''
 
- > typeof: Returns whether the objec is of type ''class'' (i.e. an instance of
-     that class or an instance of a subclass of that class).
+ > typeof: Returns whether the object is of type ''class'' (i.e. an instance
+     of that class or an instance of a subclass of that class).
 
  > > '''info object isa typeof''' ''object class''
 
@@ -1201,6 +1221,21 @@ The following public datatypes shall be declared in tcl.h:
    method only being cloned if the result is TCL_OK (the method is silently
    not cloned otherwise).
 
+ Tcl_ObjectMapMethodNameProc: The type of a callback function used to adjust
+   the mapping of objects and method names to implementations, which is
+   required to support building [[incr Tcl]] on top of the core OO system. It
+   takes four arguments, being the interpreter, the object that the method is
+   being invoked upon, a point to a variable to contain the class in the
+   hierarchy to start the search for components of the method chain from, and
+   an unshared object holding the method name as supplied and which can be
+   modified if the method to look for is not the literal name passed in.
+
+ > This is necessary because [[incr Tcl]] allows the invoking of superclass
+   implementations of a method using a syntax like
+   "''superclassName''::''methodName''" where ''superclassName'' may name any
+   superclass of the current class, and ''methodName'' may be any method
+   name.
+
  Tcl_ObjectMetadataDeleteProc: The type of the ''deleteProc'' field of the
    Tcl_ObjectMetadataType structure. It is a pointer to a function that is
    used to delete ''metadata'' values attached to an object or a class. It
@@ -1210,31 +1245,51 @@ The following public datatypes shall be declared in tcl.h:
  Tcl_ObjectMetadataCloneProc: The type of the ''cloneProc'' field of the
    Tcl_ObjectMetadataType structure. It is a pointer to a function that is
    used to create a copy of ''metadata'' values attached to an object or a
-   class. It takes a single argument (the ''metadata'' to copy) and returns
-   the copied metadata (or NULL if the metadata is not to be copied to the
-   cloned object or class).
+   class. It takes three argument, (the interpreter, the ''metadata'' to copy,
+   and a pointer to a variable into which to write the copy, or NULL if the
+   copy is not to be performed) and returns a standard Tcl result code.
 
 ~~ Functions
 
 The following functional operations are defined:
 
- Tcl_NewMethod: This function creates a new method on an object. It has the
-   following signature:
-
- > Tcl_Method '''Tcl_NewMethod'''(Tcl_Interp *''interp'', Tcl_Object
-   ''object'', Tcl_Obj *''nameObj'', int ''isPublic'', const Tcl_MethodType
-   *''typePtr'', ClientData ''clientData'')
-
- > Note that a NULL ''typePtr'' is reserved for internal use.
-
- Tcl_NewClassMethod: This function creates a new method on a class (and hence
+ Tcl_NewMethod: This function creates a new method on a class (and hence
    on all instances of that class). It has the following signature:
 
- > Tcl_Method '''Tcl_NewClassMethod'''(Tcl_Interp *''interp'', Tcl_Class
+ > Tcl_Method '''Tcl_NewMethod'''(Tcl_Interp *''interp'', Tcl_Class
    ''cls'', Tcl_Obj *''nameObj'', int ''isPublic'', const Tcl_MethodType
    *''typePtr'', ClientData ''clientData'')
 
- > Note that a NULL ''typePtr'' is reserved for internal use.
+ > If the method is created with a NULL ''nameObj'', it must be installed
+   manually into the class as a constructor or destructor (in the latter case,
+   it is important that the method be able to execute without additional
+   arguments). Note that a NULL ''typePtr'' is reserved for internal use.
+
+ Tcl_ClassSetConstructor: This function installs a method into a class as a
+   constructor for instances of that class. The method must have been created
+   with '''Tcl_NewMethod''' with a NULL ''nameObj'' argument. It has the
+   following signature:
+
+ > void '''Tcl_ClassSetConstructor'''(Tcl_Class ''cls'', Tcl_Method
+   ''method'')
+
+ Tcl_ClassSetDestructor: This function installs a method into a class as a
+   destructor for instances of that class. The method must have been created
+   with '''Tcl_NewMethod''' with a NULL ''nameObj'' argument. It has the
+   following signature:
+
+ > void '''Tcl_ClassSetConstructor'''(Tcl_Class ''cls'', Tcl_Method
+   ''method'')
+
+ Tcl_NewInstanceMethod: This function creates a new method on an object. It
+   has the following signature:
+
+ > Tcl_Method '''Tcl_NewInstanceMethod'''(Tcl_Interp *''interp'', Tcl_Object
+   ''object'', Tcl_Obj *''nameObj'', int ''isPublic'', const Tcl_MethodType
+   *''typePtr'', ClientData ''clientData'')
+
+ > Note that a NULL ''typePtr'' is reserved for internal use, and ''nameObj''
+   must not be NULL.
 
  Tcl_NewObjectInstance: This function creates a new instance of a class,
    calling any defined constructors. It has the following signature, returning
@@ -1242,8 +1297,12 @@ The following functional operations are defined:
    failed:
 
  > Tcl_Object '''Tcl_NewObjectInstance'''(Tcl_Interp *''interp'', Tcl_Class
-   ''cls'', const char *''name'', int ''objc'', Tcl_Obj *const *''objv'', int
-   ''skip'')
+   ''cls'', const char *''name'', const char *''nsName'', int ''objc'',
+   Tcl_Obj *const *''objv'', int ''skip'')
+
+ > Both ''name'' and ''nsName'' may be NULL, in which case the constructor
+   code picks a default that doesn't clash with any previously existing
+   commands or namespaces.
 
  Tcl_CopyObjectInstance: This function creates a copy of an object (including
    classes) without copying the backing namespace or executing any
@@ -1253,6 +1312,12 @@ The following functional operations are defined:
  > Tcl_Object '''Tcl_CopyObjectInstance'''(Tcl_Interp *''interp'', Tcl_Object
    ''sourceObject'', const char *''targetName'')
 
+ > Note that the copying of an object can fail if the copy code for one of the
+   metadata coping functions fails, so those functions can veto copying. Also
+   note that if ''targetName'' is NULL, a name will be picked for the object.
+   Currently no control over the naming of the target object's namespace is
+   provided.
+
  Tcl_GetObjectFromObj: This function converts from a Tcl_Obj holding the name
    of an object to a Tcl_Object handle. It returns NULL (leaving an error
    message in the interpreter) if the conversion fails.
@@ -1260,11 +1325,19 @@ The following functional operations are defined:
  > Tcl_Object '''Tcl_GetObjectFromObj'''(Tcl_Interp *''interp'', Tcl_Obj
    *''objPtr'')
 
- Tcl_ClassGetMetadata: This function retrieves the metadata attached to the
-   class ''clazz'' that is associated with the type ''typePtr''. It returns
-   NULL if no data of that type is attached.
+ Tcl_ObjectContextInvokeNext: This function invokes the next method
+   implementation in a method call chain, and is the internal implementation
+   of the '''next''' command. It has the following signature:
 
- > ClientData '''Tcl_ClassGetMetadata'''(Tcl_Class ''clazz'', const
+ > int '''Tcl_ObjectContextInvokeNext'''(Tcl_Interp *''interp'',
+   Tcl_ObjectContext ''context'', int ''objc'', Tcl_Obj *const *''objv'', int
+   ''skip'')
+
+ Tcl_ClassGetMetadata: This function retrieves the metadata attached to the
+   class ''cls'' that is associated with the type ''typePtr''. It returns NULL
+   if no data of that type is attached.
+
+ > ClientData '''Tcl_ClassGetMetadata'''(Tcl_Class ''cls'', const
    Tcl_ObjectMetadataType *''typePtr'')
 
  Tcl_ClassSetMetadata: This function attaches metadata, ''metadata'', of a
@@ -1289,6 +1362,20 @@ The following functional operations are defined:
 
  > void '''Tcl_ObjectSetMetadata'''(Tcl_Object ''object'', const
    Tcl_ObjectMetadataType *''typePtr'', ClientData ''metadata'')
+
+ Tcl_ObjectGetMethodNameMapper: This function retrieves the current method
+   name mapping function for an object, or NULL if none was set. It has the
+   following signature:
+
+ > Tcl_ObjectMapMethodNameProc '''Tcl_ObjectGetMethodNameMapper'''(Tcl_Object
+   ''object'')
+
+ Tcl_ObjectSetMethodNameMapper: This functionsets the method name mapping
+   function for an object, or removes it if the function is set to NULL. It
+   has the following signature:
+
+ > void '''Tcl_ObjectSetMethodNameMapper'''(Tcl_Object ''object'',
+   Tcl_ObjectMapMethodNameProc ''methodNameMapper'')
 
 The following pure inspective (i.e., non-state changing) operations are
 defined:
