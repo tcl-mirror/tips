@@ -1,14 +1,14 @@
-TIP:		317
-Version:	$Revision: 1.1 $
-State:		Draft
-Type:		Project
-Vote:		Pending
-Title:		Extend binary Ensemble with Binary Encodings
-Tcl-Version:	8.6
-Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
-Created:	03-May-2008
-Post-History:	
-Keywords:	base64, uuencode, hex, transfer encoding
+TIP:            317
+Title:          Extend binary Ensemble with Binary Encodings
+Version:        $Revision: 1.2 $
+Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-May-2008
+Post-History:   
+Keywords:       base64,uuencode,hex,transfer encoding
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -24,9 +24,9 @@ subcommands, '''encode''' and '''decode'''. Each subcommand will accept two
 arguments. The first is the name of an encoding format and the second is the
 data to be operated upon.
 
- > '''binary encode''' ''format data''
+ > '''binary encode''' ''format ?-option value ...? data''
 
- > '''binary decode''' ''format data''
+ > '''binary decode''' ''format ?-option value ...? data''
 
 In keeping with the nature of the '''binary''' command, the ''data'' argument
 is treated as a byte array. This means that users should ensure their data is
