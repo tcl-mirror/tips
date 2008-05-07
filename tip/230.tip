@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -285,42 +285,6 @@ Any result returned by the method is ignored.
 The method is optional. I.e. a transformation not having any internal
 buffers to clear can leave out its implementation.
 
-~~ The event Subcommand
-
- > ''handler'' '''event''' ''handle eventspec''
-
-This method is called from the C level when events arrive for which
-the transformation did register interest in. The argument
-''eventspec'' is a list containing any of '''read''', '''write''', and
-their unique abbreviations, detailing the incoming events. It will not
-contain any events the transformation has no interest in.
-
-Any result returned by the method is ignored.
-
-This method is optional. If it is not supported then the C-level of
-the reflection will assume that the transformation is not handling any
-events. If this method is supported then the method '''watch''' has to
-be supported as well.
-
-~~ The watch Subcommand
-
- > ''handler'' '''watch''' ''handle''
-
-This method is called from the C level whenever the I/O core is
-establishing an interest mask, to allow the transformation to register
-its own interest in events.
-
-The return value of the method has to be a list containing any of
-'''read''' or '''write''', or any of their unique abbreviations,
-i.e. the names of the events the transformation is interested in. The
-empty list is allowed as well and signals that the transformation does
-not wish to be notified of any events.
-
-This method is optional. If it is not supported then the C-level of
-the reflection will assume that the transformation is not registering
-interest in any events. If this method is supported then the method
-'''event''' has to be supported as well.
-
 ~ Hardwired Behavior of Reflected Transformations
 
 Not all functions of the channel driver implementing the reflected
@@ -406,33 +370,8 @@ specified now.
    uses this to manage the internal timer used to generate fake file
    events when data is buffered.
 
- > Uses the method '''watch''' (if available) to ask the Tcl level for
-   its interest mask before passing the data down to the next
-   transformation or base channel. This allows a transformation to
-   register interest in events the higher levels might not be
-   interested in.
-
- > An example, albeit C based, is the TLS transformation. During the
-   initial negotiation phase it has to perform a complex exchange of
-   data with the other side, an exchange which is not seen by the
-   higher levels. Extended interest and handling of additional
-   notifications (see below) are prerequisites for this.
-
- NotifyProc: Manages the internal timer, and uses the method
-   '''event''' to handle incoming triggered events. If '''event''' is
-   not supported by the transformation the system will pass the
+ NotifyProc: Manages the internal timer. Will pass the
    incoming mask of triggered events upward without change.
-
- > The method '''event''' allows the Tcl level to intercept and handle
-   events on its own, invisible to the higher layers. See
-   '''WatchProc''' above for an example of why this is useful.
-
- > The events handled by the transformation are removed from the mask
-   and the changed mask is passed upward, if not empty.
-
- > When the transformation has handled one or more events it is queried
-   for its current interest again (like in '''WatchProc'''), so that it
-   can adjust it during its interaction with its parent channel.
 
 ~ Interaction with Threads and Other Interpreters
 
@@ -473,6 +412,48 @@ The same holds for the subcommand '''pop'''. If the safe interpreter
 can execute it on a channel it has the channel already in its
 possession, either because it created the channel, or because the
 channel was shared/moved into it.
+
+~ Event processing
+
+It is specified that reflected transformations do not support any type
+of user-visible event handling.
+
+The only event handling done is the invisible passing of current
+interest from higher to lower layers, and the (again invisible)
+behaviour needed to drive the flushing of transformation buffers to
+higher layers. See the descriptions of ''WatchProc'' and
+''NotifyProc'' in the section '''Hardwired Behavior of Reflected
+Transformations'''.
+
+This is different from the previous revisions of this TIP which
+included language and definitions to support event processing by
+transformations up to and including revision 1.11, i.e. allowing
+transformations to register interest in events, and then process them.
+
+The main example use case for this was that it would give a
+transformation the ability to initialize itself with data coming from
+the channel (like a key exchange) before switching to the plain
+transformative behaviour. While working on the design of how to
+support this on the Tcl script level I ran into lots of complicated
+edge cases and convolutions.
+
+Based on this I have now come to the belief that this has been a
+misfeature from the beginning and that the use case this was based on
+(see above) is an example of comingling concerns which should be
+separate, i.e an example of what should not be done.
+
+The transformation's concern is transforming data, nothing else. Any
+parameters needed for this, like keys, seeds, etc. should come from
+the outside, at the time it is pushed on the channel stack.
+Initializations like key exchanges, cipher negotiations, etc. should
+and are not be a concern of the transformation. They should and can be
+done '''before''' the transformation is configured and pushed.
+
+This last means that the removal of user-visible event handling
+support is by no means a restriction on the type of things we can
+do. Even so, should we find other use cases for event handling by
+transformations we can always write another TIP within which we
+specify how to extend reflected transformations with that feature.
 
 ~ Early- versus Late-Binding of the Handler Command
 
