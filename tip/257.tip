@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -605,6 +605,8 @@ actual names of the constructor and destructor (they are unnamed methods);
 they are just notational conventions supported by the '''self''' command.
 
 ~~ The oo::define Command
+
+''TODO: This command has now had its object manipulation split off into a separate command, oo::objdefine. This needs documenting.''
 
  > '''oo::define''' ''objectOrClass'' ''subcommand'' ?''arg'' ...?
 
