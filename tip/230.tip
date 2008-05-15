@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -493,6 +493,8 @@ dynamically at runtime. This however is not really an advantage over
 early-binding as the early-bound command can be written such that it
 delegates to the actual implementation, and that can then be changed
 dynamically as well.
+
+However, despite all this late binding is so far the method of choice for the implementation of callbacks, be they in Tcl, or Tk; and has been chosen for the reflection as well.
 
 ~ Limitations
 
