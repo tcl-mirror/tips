@@ -1,10 +1,10 @@
 TIP:		318
 Title:		Extend Default Whitespace in 'string trim' Beyond ASCII
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Bill Poser <billposer@alum.mit.edu>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 Vote:		Pending
 Created:	13-May-2008
 Post-History:	
