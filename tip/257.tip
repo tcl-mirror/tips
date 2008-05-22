@@ -1,15 +1,14 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
-Author:         Kevin Kenny <kennykb@users.sourceforge.net>
+Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Miguel Sofer <mig@utdt.edu>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 Author:         Larry W. Virden <lvirden@yahoo.com>
-Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -79,12 +78,15 @@ XOTcl base class. XOTcl's approach to object creation options is also highly
 idiosyncratic (though critical to the way XOTcl itself works) and doesn't
 really support the typical Tcl idioms. The changes must be made in such a way
 that something that works like classic XOTcl for virtually all uses can be
-built on the new framework.
+built on the new framework, but the core object framework must also enable
+building [[incr Tcl]]-like or Snit-like object systems on top.
 
 Note that by keeping things in the base classes comparatively simple, it is
 much easier to build multiple extended OO frameworks on top.
 
 ~~ Key Features
+
+~~~ Functional Requirements
 
  * Class-based object system. This is what most programmers expect from OO,
    and it is very useful for many tasks.
@@ -108,6 +110,19 @@ much easier to build multiple extended OO frameworks on top.
    perform; this API will not be exposed directly to the script level (since
    it makes little sense there).
 
+~~~ Non-Functional Requirements
+
+Note that these requirements would need to be imposed on any implementation of
+an object system in the Tcl core code anyway.
+
+ * The speed of the object system is something on which it is easy to predict
+   that Tcl will end up being compared to other languages. Hence, the core OO
+   system ''must'' permit efficient implementation.
+
+ * The core OO system must be clear code that it is easy for the Tcl
+   maintainers to keep in good order. The Engineering Manual [247] will be
+   followed.
+
 ~~ Key Alterations Relative to XOTcl
 
 The core OO system can be considered to be a derivative of XOTcl, much as C
@@ -116,7 +131,7 @@ relationship, there are many changes between the core OO system and XOTcl; the
 ''implementations'' are not common.
 
  * Object and class names in the core extension to be all lower-case, in line
-   with best common practice.
+   with best common practice in general Tcl code.
 
  * Methods have to be capable of being non-exported, by which we mean that
    they are not (simply) callable from contexts outside the object.
@@ -142,25 +157,33 @@ foundation on which they can be built (which happens to also be a
 comparatively lightweight OO system in itself). Such compatibility packages
 can either remain separate code, or be the subject of future TIPs.
 
-~ Detailed Proposal
+~ Detailed Rationale for Not Using XOTcl
 
 ~~ Features of XOTcl that are Retained
 
-Many key semantic features of XOTcl are adopted with little or no change.
+Many key semantic features of XOTcl are adopted with little or no change. In
+particular, the following critical features of the core object system shall be
+semantically the same as in XOTcl as they represent the best-of-breed in
+advanced object systems at the moment.
 
 ~~~ Multiple Inheritance
 
-Like XOTcl, we shall support multiple inheritance (MI).
+We shall support multiple inheritance (MI) because this is very difficult to
+add after the fact.
 
 The main problem with MI in languages like C++ was always confusion caused by
 the fact that methods were resolved using integer offsets into method tables.
-By contrast, single inheritance is far too restrictive. XOTcl uses MI, and
-adds in mixins and filters, so we should have those capabilities too. As these
-are less well-known terms than normal inheritance, we define them here:
+By contrast, single inheritance is far too restrictive. By supporting mixins
+and filters, it becomes possible to build not just conventional OO systems in
+the C++ or Java mould, but also to make Self-like prototype systems (which
+requires mixins and subclassing of the class of classes to work) and
+Aspect-like systems (which require filters for efficient implementation). As
+these are less well-known terms than those of normal inheritance, we define
+them here:
 
  mixin: An auxiliary ''class'' whose behaviour is "mixed into" the current
-   object or class, adding the mixin's methods to the target object's methods.
-   Often used to support cross-cutting functionality or object roles.
+   object or class, adding the mixin's methods to the target's methods. Often
+   used to support cross-cutting functionality or object roles.
 
  filter: A nominated ''method'' that is permitted to control whether all calls
    to any other method of a class or object occur. This control is achieved by
@@ -169,13 +192,16 @@ are less well-known terms than normal inheritance, we define them here:
    used to support transparent orthogonal functionality, such as access
    control or result caching.
 
-~~~ Inheritance and Method-Chaining
+~~~ The Method Dispatch Algorithm
 
-The method name resolution and chaining scheme of XOTcl shall be used (modulo
-the change that methods are not required to be Tcl commands in a namespace).
-The following gives the method-interception search order; any particular
-method implementation belongs in the ''last'' position in this order that it
-can possibly be in.
+The use of a complex class graph model as described above requires a
+sophisticated algorithm to linearize any particular call of a method into a
+sequence of method implementations that should be called. This is the method
+dispatch algorithm. The algorithm works by scanning the graph of the object
+and its associated classes in the order given below, collecting
+implementations as they are found in a list, with an implementation coming in
+the ''last'' position in the list it can be; if it would be in twice because
+of an "inheritance diamond", it comes in the later location.
 
  1. Filters defined on classes mixed into the object or its class (or
     superclasses), with filters from a particular class processed in the order
@@ -228,11 +254,10 @@ method.
 
 ~~ Essential Changes Relative to XOTcl
 
-This section describes the essential changes relative to XOTcl behavior
-required to meet the above goals, and the rationale for them. The paragraphs
-which describe the specific changes begin with the word '''Therefore''', in
-bold type. Note that whereever possible, the ''semantics'' of XOTcl are used
-even where the syntax is not; deviations will be explicitly listed.
+Unfortunately, not all features of XOTcl are suitable for a core object
+system. In particular, many more syntactic features need to be altered. This
+section describes these, together with the rationale for each change; the
+rationales are marked with the word "'''Therefore'''", in bold.
 
 ~~~ Exported vs. Non-exported Methods
 
@@ -273,11 +298,14 @@ by declaring them non-exported, does not give us a full solution; having the
 '''instproc''' subcommand available only from instance code isn't all that
 useful.
 
-'''Therefore''', we add a new command, '''oo::define''', which is used to
-define methods, filters, and so on. It can be called in two ways. The first is
-as follows:
+'''Therefore''', we add two new commands, '''oo::define''' and
+'''oo::objdefine''', which are used to define methods, filters, and so on.
+They can be called in two ways, with each command having essentially the same
+fundamental syntax. The first calling model is as follows:
 
- > '''oo::define''' ''objectOrClass subcommand args...''
+ > '''oo::define''' ''class subcommand args...''
+
+ > '''oo::objdefine''' ''object subcommand args...''
 
 For example, the following XOTcl code defines a class with two methods:
 
@@ -288,42 +316,48 @@ For example, the following XOTcl code defines a class with two methods:
 In the new oo core, the matching code would be this:
 
 |oo::class create myclass
-|oo::define myclass instproc dothis {args} { # body }
-|oo::define myclass instproc dothat {args} { # body }
+|oo::define myclass method dothis {args} { # body }
+|oo::define myclass method dothat {args} { # body }
 
-'''oo::define''' can also be called with a script whose commands are aliased
-to the subcommands of '''oo::define'''. Thus, the above code could also be
-written as follows:
+The two definition commands will also have a second calling model, in which
+they get passed a single definition script whose commands are the subcommands
+supported by the command as described above:
+
+ > '''oo::define''' ''class script''
+
+ > '''oo::objdefine''' ''object script''
+
+Thus, the above code could also be written as follows:
 
 |oo::class create myclass
 |oo::define myclass {
-|    instproc dothis {args} { # body }
-|    instproc dothat {args} { # body }
+|    method dothis {args} { # body }
+|    method dothat {args} { # body }
 |}
 
-Finally, the class "''create''" method could be extended so that it could be
-called with such a script:
+Finally, the constructor for the '''oo::class''' class is extended so that
+such a script can be used during class creation:
 
 |oo::class create myclass {
-|    instproc dothis {args} { # body }
-|    instproc dothat {args} { # body }
+|    method dothis {args} { # body }
+|    method dothat {args} { # body }
 |}
 
 This allows a class to be defined cleanly and concisely, while guaranteeing
 that all class details can still be modified later on using '''oo::define'''.
 
-Note that we do not lose any object-oriented flexibility by this scheme. An
-''oo::xotcl'' package can use the "forward" feature to forward "''instproc''"
-and its partners to '''oo::define''', thus defining them all as methods; and
-once they are methods, all of the usual techniques of method chaining,
-mix-ins, and filters apply. ''[[This TIP includes no commitment to create such
-a package.]]''
+To enable the easy definition of details of the class object at class
+definition time, a special subcommand, "'''self'''", will be provided that is
+equivalent to using '''oo::objdefine''' on the class.
 
-'''oo::define''' will need two subcommands XOTcl doesn't currently provide:
-'''export''' and '''unexport'''. '''export''' takes as arguments a list of
-method names; all named methods are exported and become visible in the object
-or class's interface. '''unexport''' does the opposite. Each can include
-wildcards in its argument list, just as '''namespace export''' does.
+Note that because of the requirement for a distinction between public and
+private interfaces, '''oo::define''' and '''oo::objdefine''' will need two
+subcommands XOTcl doesn't currently provide: '''export''' and '''unexport'''.
+'''export''' takes as arguments a list of method names; all named methods are
+exported and become visible in the object or class's interface. '''unexport'''
+does the opposite. Note that by default, all methods that start with a
+lower-case letter (specifically, names matching the glob pattern "[[a-z]]*")
+will be exported by default and all other methods will be unexported.
 
 ~~~ Standard Metaclasses
 
@@ -344,10 +378,10 @@ optionally available.
 ''xotcl::Class'' that are critical into our classes and leave all other
 functionality up to any subclasses or metaclasses that are defined.
 
-'''oo::object''' will be the root of the class hierarchy. However, instances
-of '''oo::object''' will have a minimal set of standard methods, so that clean
-interfaces can be built on top of it, as can be done with Snit types and
-instances.
+Thus '''oo::object''' will be the root of the class hierarchy. However,
+instances of '''oo::object''' will have a minimal set of standard methods, so
+that clean interfaces can be built on top of it, as can be done with Snit
+types and instances.
 
 Core object system classes will be instances of '''oo::class''' or its
 subclasses. Likewise, '''oo::class''' will define only minimal behaviour.
@@ -359,7 +393,7 @@ without exporting its methods (e.g., for providing a singleton instance).
 
 '''Therefore''', the inheritance mechanism should be extended such that the
 newly defined class can declare whether a parent class's methods should be
-exported or not, on a case-by-case basis.
+exported or not, on a case-by-case basis. 
 
 ~~~ Object Creation
 
@@ -440,6 +474,27 @@ If an error occurs in a destructor, it will ''not'' prevent the object from
 being deleted. There is no guarantee to run destructors when an interpreter or
 Tcl-enabled process exits.
 
+~~~ Behavior and Syntax of next
+
+In XOTcl, the '''next''' command is used to invoke the "next" method in the
+dispatch chain. It optionally takes arguments to process (if they are omitted,
+it passes all arguments that were passed to the current method) and it calls
+the appropriate superclass implementation. But it does so without adjusting
+the Tcl stack, which forces classes to take extreme care when implementing
+code that needs to access variables or evaluate scripts in the scope of the
+code that invoked the method in the first place.
+
+'''Therefore''', the '''next''' command will perform Tcl stack management so
+that using '''uplevel''' and '''upvar''' in a method will be just like doing
+so in a normal procedure, no matter how the class containing that method is
+subclassed.
+
+In addition, the adoption of [157] makes explicit handling of arguments
+practical as code does not need to perform potentially troublesome operations
+with '''eval''', and so '''next''' will always require that all argument be
+passed explicitly. This also makes it easier to decide to pass no arguments to
+a superclass implementation.
+
 ~~ Desirable Changes
 
 The changes described in this section are not absolutely essential to meeting
@@ -457,23 +512,30 @@ This is exactly backward. Most behavior will be defined for classes;
 additional per-object behavior is the special case, and consequently should
 have the less convenient name.
 
-'''Therefore''', all XOTcl subcommands that begin with "inst" will be defined,
-in the OO system, without their
-"inst" prefix; the matching per-object subcommands will gain a "self." prefix,
-to indicate that it is operating on the object itself and not the members of
-the class. Thus, a filter is defined on a class for its instances using the
-"filter" subcommand; a filter is defined on a particular object using the
-"self.filter" subcommand.
+'''Therefore''', all definition subcommands that begin with "inst" will be
+defined, in the core OO system without their "inst" prefix; the per-object
+subcommands will be manipulated via '''oo::objdefine''' or through the "self"
+prefix command (described above), to indicate that it is operating on the
+object itself and not the members of the class. Thus, a filter is defined on a
+class for its instances using the "filter" subcommand; a filter is defined on
+a particular object using the "self filter" subcommand (actually a subcommand
+of a subcommand).
+
+| oo::define someCls {
+|     method foo {} {...}
+|     self {
+|         method bar {args} {...}
+|         filter bar
+|     }
+| }
 
 ~~~ Procs vs. Methods
 
 The word "proc" conveys a standalone function; an object's subcommands are
 more typically described as its "methods".
 
-'''Therefore''', in the ''oo::'' namespace, the XOTcl "instproc" and "proc"
-subcommands should be renamed
-as "instmethod" and "method" - or, if the new naming convention described in
-the previous section is adopted, '''method''' and '''self.method'''.
+'''Therefore''', the core OO system will use "method" in place of "proc" for
+definitions.
 
 ~~~ Public Names
 
@@ -481,10 +543,10 @@ In XOTcl, the main objects are ''xotcl::Class'' and ''xotcl::Object''.
 However, the Tcl Style Guide dictates that public command names begin with a
 lower-case letter.
 
-Therefore, all public names in the ''oo::'' namespace will begin with a lower
-case letter, e.g., the standard core object system equivalents of
-''xotcl::Class'' and ''xotcl::Object'' will be '''oo::class''' and
-'''oo::object'''.
+'''Therefore''', all public names in the ''oo::'' namespace (i.e. the standard
+classes) will begin with a lower case letter, e.g., the standard core object
+system equivalents of ''xotcl::Class'' and ''xotcl::Object'' will be
+'''oo::class''' and '''oo::object'''.
 
 This does not constrain any code making use of the OO system from naming
 objects however it wants.
@@ -497,9 +559,9 @@ essential and desirable changes discussed in the previous sections.
 ~~ Helper Commands
 
 The namespace(s) that define the following three commands are not defined in
-this specification; all that is defined is that they will be on the object's
-'''namespace path''' during the execution of any method and should always be
-used without qualification.
+this specification unless otherwise stated; all that is defined is that they
+will be on the object's '''namespace path''' during the execution of any
+method and should always be used without qualification.
 
 ~~~ my
 
@@ -512,7 +574,11 @@ non-exported methods.
 
 Note that each object has its own '''my''' command; they are all distinct from
 each other. This means that it is suitable for use for things like invoking
-callbacks (from general Tcl code) that are non-public methods.
+callbacks (from general Tcl code) that are non-public methods. In particular,
+the use of '''namespace code''' for encapsulating the use of '''my''' for
+invoking unexported callback methods by non-object code is supported.
+
+Note that the '''my''' command does not represent the name of the object.
 
 ~~~ next
 
@@ -522,14 +588,12 @@ inheritance rules; if a per-object method overrides a method defined by the
 object's class, then the '''next''' command inside the object's method
 implementation will invoke the class's implementation of the method). The
 arguments to the '''next''' command are the arguments to be passed to the
-superclass method; this is in contrast to the XOTcl '''next''' command, but
-other features in Tcl 8.5 ([157]) make this approach viable and much easier to
-control. The current stack level is temporarily bypassed for the duration of
-the processing of the '''next''' command; again, this is in contrast to the
-XOTcl version of the '''next''' command, but it allows a method to always
-execute identically with respect to the main calling context without needing
-to use some form of introspection to determine where that context is on the
-call frame stack.
+superclass method. The current stack level is temporarily bypassed for the
+duration of the processing of the '''next''' command; this allows a method to
+always execute identically with respect to the main calling context without
+needing to use some form of introspection to determine where that context is
+on the call frame stack (with a side effect of isolating method
+implementations from each other).
 
  > '''next''' ?''arg'' ''arg'' ...?
 
@@ -606,50 +670,57 @@ they are just notational conventions supported by the '''self''' command.
 
 ~~ The oo::define Command
 
-''TODO: This command has now had its object manipulation split off into a separate command, oo::objdefine. This needs documenting.''
+ > '''oo::define''' ''class'' ''subcommand'' ?''arg'' ...?
 
- > '''oo::define''' ''objectOrClass'' ''subcommand'' ?''arg'' ...?
+ > '''oo::define''' ''class'' ''script''
 
- > '''oo::define''' ''objectOrClass'' ''script''
+ > '''oo::objdefine''' ''object'' ''subcommand'' ?''arg'' ...?
 
-The '''oo::define''' command is used to add behavior to objects or classes. In
-the second form, ''script'' is a Tcl script whose commands are the subcommands
-of '''oo::define'''; this is a notational convenience, as the two forms are
-semantically equivalent. (Note that the context in which ''script'' executes
-is otherwise not defined.)
+ > '''oo::objdefine''' ''object'' ''script''
+
+The '''oo::define''' command is used to add behavior to classes, and the
+'''oo::objdefine''' command is used to add behavior to objects. The first form
+of each command is conventional for ensemble-like commands, except that the
+''class'' or ''object'' argument precedes the ''subcommand'' argument. In the
+second form of each command, ''script'' is a Tcl script whose commands are the
+subcommands of '''oo::define''' or '''oo::objdefine'''; this is a notational
+convenience, as the two forms are semantically equivalent in what their
+capabilities are. (Note that the context in which ''script'' executes is
+otherwise not defined.)
 
 ~~~ Class-related Subcommands
 
 The subcommands of '''oo::define''' (which may be unambiguously abbreviated
-when not in the script form) shall be:
+in both the subcommand form and the script form) shall be:
 
- * '''constructor''' - this is valid only for classes, takes two arguments (a
-   '''proc'''-style argument list, and a body script), and sets the
-   constructor for the instances of the class to be executed as defined by the
-   body script after binding the actual arguments to the call that creates an
-   instance of the class to the formal arguments listed. The constructor is
-   called after the object is created but before any instance variables are
-   guaranteed to be set. If no constructor is specified, the constructor will
-   accept exactly the same arguments as the constructor in the parent class,
-   and will delegate all the arguments to that parent-class constructor. The
-   syntax is as follows:
+ * '''constructor''' - this takes two arguments (a '''proc'''-style argument
+   list, and a body script), and sets the constructor for the instances of the
+   class to be executed as defined by the body script after binding the actual
+   arguments to the call that creates an instance of the class to the formal
+   arguments listed. The constructor is called after the object is created but
+   before any instance variables are guaranteed to be set. If no constructor
+   is specified, the constructor will accept exactly the same arguments as the
+   constructor in the parent class, and will delegate all the arguments to
+   that parent-class constructor. The syntax is as follows:
 
  > '''oo::define''' ''class'' '''constructor''' ''argList'' ''body''
 
- * '''destructor''' - this is valid only for classes. It defines the class
-   destructor; a destructor is like a method but takes no arguments. It is
-   called by the object's '''destroy''' method, which is defined automatically
-   and which cannot be overridden. The syntax is as follows:
+ > Note that constructors of class mixins are also called, but constructors of
+   object mixins are never called (as the object must exist before it can have
+   an auxiliary class mixed into it).
+
+ * '''destructor''' - this defines the class destructor; a destructor is like
+   a method but takes no arguments. Destructors are called on all classes that
+   define them when the object is deleted, including classes that have been
+   mixed in. The syntax is as follows:
 
  > '''oo::define''' ''class'' '''destructor''' ''body''
 
- > In classic XOTcl, the destructor is simply a method; it must explicitly
-   call the parent destructor using XOTcl's next command. In the core OO
-   system, the chain of destructors is called in the proper sequence
-   automatically and independently of the content of any particular
-   destructor.
+ > Note that destructors ''should always'' use the '''next''' command within
+   their implementation so that destructors of parent classes are also
+   executed.
 
- > Note that destructors are called whenever the object is deleted by
+ > Note also that destructors are called whenever the object is deleted by
    any mechanism (except when the overall interpreter is deleted, when
    execution of Tcl scripts has ceased to be possible anyway).
 
@@ -658,29 +729,24 @@ when not in the script form) shall be:
 
  > '''oo::define''' ''class'' '''export''' ''name'' ?''name'' ...?
 
- > An exported method is accessible to clients of the object; an unexported
-   method is accessible only to the object's own code through the '''my'''
-   command.
+ > An exported method is accessible to clients of the class's instances; an
+   unexported method is accessible only to the instances' own code through the
+   '''my''' command.
 
- * '''filter''' - this subcommand (operating on the class if the object is a
-   class, and on the object itself otherwise - see the '''self.filter'''
-   subcommand for how to force it the other way) controls the list of filter
-   methods for a class or object. Each filter method in the list is called
-   when any method is invoked on the class's instances or the object, and it
-   is up to the filter to decide whether to invoke the filtered method call
-   (using the '''next''' command) or return a suitable replacement value. The
-   syntax is as follows:
+ * '''filter''' - this subcommand controls the list of filter methods for a
+   class. Each filter method in the list is called when any method is invoked
+   on the class's instances, and it is up to the filter to decide whether to
+   invoke the filtered method call (using the '''next''' command) or return a
+   suitable replacement value. The syntax is as follows:
 
- > '''oo::define''' ''objectOrClass'' '''filter''' ''filterList''
+ > '''oo::define''' ''class'' '''filter''' ''filterList''
 
- * '''forward''' - this subcommand (operating on the class if the object is a
-   class, and on the object itself otherwise - see the '''self.forward'''
-   subcommand for how to force it the other way) defines a class method which
-   is automatically forwarded (i.e. delegated) to some other command,
-   according to a simple pattern. Each ''arg'' is used literally. The syntax
-   is as follows:
+ * '''forward''' - this subcommand defines a class method which is
+   automatically forwarded (i.e. delegated) to some other command, according
+   to a simple pattern. Each ''arg'' is used literally. The syntax is as
+   follows:
 
- > '''oo::define''' ''objectOrClass'' '''forward''' ''name'' ''targetCmd''
+ > '''oo::define''' ''class'' '''forward''' ''name'' ''targetCmd''
    ?''arg'' ...?
 
  * '''method''' - this subcommand (only valid for classes) defines a class
@@ -691,20 +757,27 @@ when not in the script form) shall be:
 
  > '''oo::define''' ''class'' '''method''' ''name'' ''args'' ''body''
 
- * '''mixin''' - This subcommand defines a mixin for an object which is a way
-   of bringing in additional method implementations (which may add to or wrap
+ * '''mixin''' - This subcommand defines a mixin for a class which is a way of
+   bringing in additional method implementations (which may add to or wrap
    existing methods) on an ''ad hoc'' basis. The list of mixins is traversed
    when searching for methods before the inheritance hierarchy, and mixed-in
    methods may chain to any methods they override using the '''next'''
    command. The syntax is as follows:
 
- > '''oo::define''' ''objectOrClass'' '''mixin''' ''mixinList''
+ > '''oo::define''' ''class'' '''mixin''' ''mixinList''
+
+ * '''self''' - This subcommand, which has the same syntax patterns as
+   '''oo::objdefine''', allows the manipulation of the class as an object. See
+   '''oo::objdefine''' below for a description of the list of subcommands of
+   '''self'''. The syntaxes are as follows:
+
+ > '''oo::define''' ''class'' '''self''' ''subcommand'' ?''arg'' ...?
+
+ > '''oo::define''' ''class'' '''self''' ''script''
 
  * '''superclass''' - This specifies the superclass (or classes) of a class.
-   Inheritance will follow the XOTcl pattern (except with a somewhat different
-   class hierarchy, of course). Note that objects are always either classes or
-   not classes, and cannot be changed from one to the other by any
-   mechanism. The syntax is as follows:
+   Note that objects are always either classes or not classes, and cannot be
+   changed from one to the other by any mechanism. The syntax is as follows:
 
  > '''oo::define''' ''class'' '''superclass''' ''classList''
 
@@ -717,6 +790,21 @@ when not in the script form) shall be:
    method is accessible only to the object's own code, through the '''my'''
    command.
 
+The following utility subcommands are also supported:
+
+ * '''deletemethod''' - This deletes one or more methods from a class; it
+   doesn't modify any definitions of the method in superclasses, subclassses,
+   instances or mixins. The method names must be specified exactly. Syntax is
+   as follows:
+
+ > '''oo::define''' ''class'' '''deletemethod''' ''name'' ?''name'' ...?
+
+ * '''renamemethod''' - This renames a method in a class from one thing to
+   another; it doesn't modify any definitions of the method in superclasses,
+   subclassses, instances or mixins. Syntax is as follows:
+
+ > '''oo::define''' ''class'' '''renamemethod''' ''fromName'' ''toName''
+
 ~~~ Per-Object Subcommands
 
 The following subcommands are all per-object versions of the class subcommands
@@ -724,37 +812,41 @@ listed above. When they are applied to a class, they operate on the class
 instance itself as an object, and not on the instances (current and future) of
 that class (which is why the distinction is required).
 
- * '''self.class''' - This subcommand gets and sets the class of an object.
+ * '''class''' - This subcommand gets and sets the class of an object.
    Changing the class of an object can result in many methods getting added or
-   removed. Objects may not be changed between being instances of classes and
-   instances of non-classes. Its name is so that it is not invoked
-   accidentally; modifying the class of an object is a drastic operation! The
-   syntax is as follows:
+   removed. Objects may not be changed between being class-objects and and
+   non-class objects. The syntax is as follows:
 
- > '''oo::define''' ''object'' '''self.class''' ''className''
+ > '''oo::objdefine''' ''object'' '''class''' ''className''
 
  > Note that when the class is changed of an object, no methods are called on
    that object, or on either the source or target classes, to indicate that
    the change has been carried out. This is up to the caller of the
-   '''self.class''' subcommand.
+   '''class''' subcommand.
 
- * '''self.export''' - This is a per-object version of the '''export'''
-   subcommand, to which it is syntactically identical.
+ * '''deletemethod''' - This is a per-object version of the '''deletemethod'''
+   subcommand of '''oo::define''', to which it is syntactically identical.
 
- * '''self.filter''' - This is a per-object version of the '''filter'''
-   subcommand, to which it is syntactically identical.
+ * '''export''' - This is a per-object version of the '''export''' subcommand
+   of '''oo::define''', to which it is syntactically identical.
 
- * '''self.forward''' - This is a per-object version of the '''forward'''
-   subcommand, to which it is syntactically identical.
+ * '''filter''' - This is a per-object version of the '''filter''' subcommand
+   of '''oo::define''', to which it is syntactically identical.
 
- * '''self.method''' - This is a per-object version of the '''method'''
-   subcommand, to which it is syntactically identical.
+ * '''forward''' - This is a per-object version of the '''forward'''
+   subcommand of '''oo::define''', to which it is syntactically identical.
 
- * '''self.mixin''' - This is a per-object version of the '''mixin'''
-   subcommand, to which it is syntactically identical.
+ * '''method''' - This is a per-object version of the '''method''' subcommand
+   of '''oo::define''', to which it is syntactically identical.
 
- * '''self.unexport''' - This is a per-object version of the '''unexport'''
-   subcommand, to which it is syntactically identical.
+ * '''mixin''' - This is a per-object version of the '''mixin''' subcommand of
+   '''oo::define''', to which it is syntactically identical.
+
+ * '''renamemethod''' - This is a per-object version of the '''renamemethod'''
+   subcommand of '''oo::define''', to which it is syntactically identical.
+
+ * '''unexport''' - This is a per-object version of the '''unexport'''
+   subcommand of '''oo::define''', to which it is syntactically identical.
 
 ~~ The oo::copy Command
 
@@ -796,9 +888,10 @@ where the subcommands of the ensemble are the ''exported'' method names of the
 object. The command is not manipulable with '''namespace ensemble''', but may
 be renamed.
 
-The new object has one predefined exported method ('''destroy''') and two
-predefined non-exported methods ('''eval''' and '''variable'''). Other
-subcommands and other behaviour can be added using '''oo::define'''.
+The new object has one predefined exported method ('''destroy''') and four
+predefined non-exported methods ('''eval''', '''unknown''', '''variable''' and
+'''varname'''). Other subcommands and other behaviour can be added using
+'''oo::define'''.
 
 The '''oo::object''' class (an instance of '''oo::class''') serves as the base
 class for all other core OO system classes.
@@ -806,9 +899,11 @@ class for all other core OO system classes.
 ~~~ Constructor and Destructor
 
 The constructor for the '''oo::object''' class takes no arguments and does
-nothing.
+nothing. (The actual construction of an object is special and happens before
+any constructors are called.)
 
-The destructor does nothing.
+The destructor does nothing. (The actual destruction of an object is special
+and happens after all destructors have completed.)
 
 ~~~ Methods
 
@@ -823,11 +918,21 @@ following methods:
  > ''object'' '''eval''' ?''arg'' ''arg'' ...?
 
  destroy: This exported method deletes the object; it takes no additional
-   arguments and returns the empty string as its result. The basic
-   implementation in the '''oo::object''' class shall just use the core Tcl
-   '''rename''' command to perform the deletion. The syntax is as follows:
+   arguments and returns the empty string as its result. The syntax is as
+   follows:
 
  > ''object'' '''destroy'''
+
+ unknown: This non-exported method takes a method name and an arbitrary number
+   of extra arguments and handles the absence of a method with the given name.
+   The default implementation just generates a suitable error message that
+   explains what commands are available given how the caller attempted to
+   invoke the method, and ignores all the additional arguments. The syntax is
+   as follows:
+
+ > ''object'' '''unknown''' ''methodName'' ?''arg'' ...?
+
+ > Note that this method is not normally invoked directly.
 
  variable: This non-exported method takes an arbitrary number of
    ''unqualified'' variable names and binds the variable with that name in the
@@ -864,10 +969,10 @@ following methods:
 ~~~ Unknown Method Handling
 
 When an attempt is made to invoke an unknown method on any object, the core
-then attempts to pass ''all'' the arguments (including the command name) to
-the public '''unknown''' method of the object. If no such method exists, an
-error message is generated. Instances of the core '''oo::object''' class do
-not have an '''unknown''' method by default.
+then attempts to pass ''all'' the arguments (including the method name) to
+the '''unknown''' method of the object. The default implementation of the
+'''unknown''' method is specified by the '''oo::object''' class, and just
+generates a suitable "unknown subcommand" error message.
 
 ~~ oo::class
 
@@ -935,24 +1040,26 @@ The constructor for '''oo::class''' concatenates its arguments and passes the
 resulting script to '''oo::define''' (along with the fully-qualified name of
 the created class, of course).
 
-The destructor for '''oo::class''' cuts the class out of the inheritance and
-mixin hierarchy of all instances of the class.
+Classes have no destructor by default. (Actual class destruction is special,
+and happens after all destructors have been executed.)
 
 ~~~ Methods
 
 The instances of '''oo::class''' have the following methods:
 
  create: Creates a new instance of the class with the given name. All
-   subsequent arguments are given to the class's constructor. The result of
-   the '''create''' method is always the fully-qualified name of the
-   newly-created object. The syntax is as follows:
+   subsequent arguments are given to the class's constructor (and so must
+   actually match the syntax pattern specified in the constructor definition).
+   The result of the '''create''' method is always the fully-qualified name of
+   the newly-created object. The syntax is as follows:
 
  > ''class'' '''create''' ''objName'' ?''arg'' ''arg'' ...?
 
  new: Creates a new instance of the class with an automatically chosen name.
-   All subsequent arguments are given to the class's constructor. The result
-   of the '''new''' method is always the fully-qualified name of the
-   newly-created object. The syntax is as follows:
+   All subsequent arguments are given to the class's constructor (and so must
+   actually match the syntax pattern specified in the constructor definition).
+   The result of the '''new''' method is always the fully-qualified name of
+   the newly-created object. The syntax is as follows:
 
  > ''class'' '''new''' ?''arg'' ''arg'' ...?
 
@@ -1096,8 +1203,8 @@ appropriate. The following types of information shall be available:
 ~~ Extending the Introspection Capabilities
 
 Other forms of introspection subcommands may be added to '''info object''' and
-'''info class''' by creating commands in the namespaces '''oo::InfoObject'''
-and '''oo::InfoClass''' respectively.
+'''info class''' by creating exported commands in the namespaces
+'''oo::InfoObject''' and '''oo::InfoClass''' respectively.
 
 ~~ Issues with Objects and Namespaces
 
@@ -1237,6 +1344,11 @@ The following public datatypes shall be declared in tcl.h:
    "''superclassName''::''methodName''" where ''superclassName'' may name any
    superclass of the current class, and ''methodName'' may be any method
    name.
+
+ > Note that the exact definition of this type is subject to change at the
+   moment in order to ensure that it can be connected to the method dispatch
+   engine efficiently. The type will be finalized before the release of Tcl
+   8.6.
 
  Tcl_ObjectMetadataDeleteProc: The type of the ''deleteProc'' field of the
    Tcl_ObjectMetadataType structure. It is a pointer to a function that is
@@ -1455,71 +1567,11 @@ defined:
 
  > int '''Tcl_ObjectContextSkippedArgs'''(Tcl_ObjectContext ''context'')
 
-~ XOTcl Features Omitted from the Core OO System
+~ Not Addressed in this Document
 
- Object::autoname: This is trivially implemented in a small procedure, and
-   core objects can pick names for themselves and are renameable.
-
- Object::check: Preconditions and postconditions are not supported (they add a
-   lot of complexity) and neither are invariants. Hence, there is no need to
-   control whether they are executed.
-
- Object::cleanup: This is not an especially well-defined method (what if the
-   object happens to hold handles to complex resources such as network
-   sockets; it is not generally possible for the state of the remote server to
-   be reset) and can be added in any compatability layer.
-
- Object::configure: This feature has been deliberately omitted from the core
-   object system. This would be value added by any XOTcl extension.
-
- Object::extractConfigureArg: This feature is part of '''configure'''.
-
- Object::getExitHandler: This feature is not necessary for this version. If it
-   existed, it would not need to be a part of the base object.
-
- Object::info: The introspection features are moved into the core '''info'''
-   command.
-
- Object::invar: Invariants may be implemented using filters.
-
- Object::move: This feature is equivalent to the use of the standard
-   '''rename''' operation.
-
- Object::noinit: This feature has been deliberately omitted from the core
-   object system because its use is dependent on the use of other
-   deliberately-omitted features (i.e., '''configure'''). This would be value
-   added by any XOTcl extension.
-
- Object::parameter and Object::parametercmd: The core object system provides
-   tools for doing parameters, but does not provide an implementation on the
-   grounds that it is pretty easy to add.
-
- Object::requireNamespace: It should be possible to do away with this feature
-   through better integration with the core.
-
- Object::setExitHandler: See the comments for '''getExitHandler''' above.
-
- Class::__unknown: Auto-loading of unknown classes is handled by the standard
-   core '''unknown''' mechanism.
-
- Class::abstract: Abstractness is relatively easy to implement on top of the
-   proposed infrastructure and is not critical to getting an implementation.
-
- Class::allinstances: This feature is trivially implemented in a small
-   procedure.
-
- Class::alloc: The core objects have no default behaviour, so the difference
-   with the basic core class behaviour is moot.
-
- Class::create: Core object creation is a much more sealed process, but the
-   lack of '''configure'''-like behaviour means that the complexity of this
-   method is not necessary. Instead, constructors are called automatically.
-
- Class::parameterclass: Core object system parameters are not implemented by
-   classes.
-
- Class::volatile: This feature is omitted as it is believed that it is
-   possible to implement automated lifecycle management as a mixin.
+This TIP does not address the reqirements for management of variables on a
+class level or for "class methods" (in the Java sense). These will need to be
+the subject of future TIPs.
 
 ~ Copyright
 
@@ -1559,3 +1611,77 @@ namespace omitted).
 
 Note that '''class''' instances create '''object'''s (or subclasses thereof),
 but ''Class'' instances create ''Object''s (or subclasses thereof).
+
+~ Appendix: XOTcl Features Omitted from the Core OO System
+
+~~ Object Methods
+
+ Object::autoname: This is trivially implemented in a small procedure, and
+   core objects can pick names for themselves and are renameable.
+
+ Object::check: Preconditions and postconditions are not supported (they add a
+   lot of complexity) and neither are invariants. Hence, there is no need to
+   control whether they are executed.
+
+ Object::cleanup: This is not an especially well-defined method (what if the
+   object happens to hold handles to complex resources such as network
+   sockets; it is not generally possible for the state of the remote server to
+   be reset) and can be added in any compatability layer.
+
+ Object::configure: This feature has been deliberately omitted from the core
+   object system. This would be value added by any XOTcl extension.
+
+ Object::extractConfigureArg: This feature is part of '''configure'''.
+
+ Object::getExitHandler: This feature is not necessary for this version. If it
+   existed, it would not need to be a part of the base object.
+
+ Object::info: The introspection features are moved into the core '''info'''
+   command.
+
+ Object::invar: Invariants may be implemented using filters.
+
+ Object::move: This feature is equivalent to the use of the standard
+   '''rename''' operation.
+
+ Object::noinit: This feature has been deliberately omitted from the core
+   object system because its use is dependent on the use of other
+   deliberately-omitted features (i.e., '''configure'''). This would be value
+   added by any XOTcl extension.
+
+ Object::parameter and Object::parametercmd: The core object system provides
+   tools for doing parameters, but does not provide an implementation on the
+   grounds that it is pretty easy to add.
+
+ Object::requireNamespace: Objects always have a namespace.
+
+ Object::setExitHandler: See the comments for '''getExitHandler''' above.
+
+~~ Class Methods
+
+ Class::__unknown: Auto-loading of unknown classes is handled by the standard
+   core '''unknown''' mechanism.
+
+ Class::abstract: Abstractness is relatively easy to implement on top of the
+   proposed infrastructure and is not critical to getting an implementation.
+
+ Class::allinstances: This feature is trivially implemented in a small
+   procedure.
+
+ Class::alloc: The core objects have no default behaviour, so the difference
+   with the basic core class behaviour is moot.
+
+ Class::create: Core object creation is a much more sealed process, but the
+   lack of '''configure'''-like behaviour means that the complexity of this
+   method is not necessary. Instead, constructors are called automatically.
+
+ Class::parameterclass: Core object system parameters are not implemented by
+   classes.
+
+ Class::volatile: This feature is omitted as it is believed that it is
+   possible to implement automated lifecycle management as a mixin.
+
+~~ Other Commands
+
+ getExitHandler, setExitHandler: Exit handlers are out of scope for the core
+   object system.
