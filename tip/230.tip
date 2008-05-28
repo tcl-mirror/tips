@@ -1,6 +1,6 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
@@ -495,6 +495,8 @@ delegates to the actual implementation, and that can then be changed
 dynamically as well.
 
 However, despite all this late binding is so far the method of choice for the implementation of callbacks, be they in Tcl, or Tk; and has been chosen for the reflection as well.
+
+The context for all handler method invokations is the '''global scope'''.
 
 ~ Limitations
 
