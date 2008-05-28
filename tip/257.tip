@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.27 $
+Version:        $Revision: 1.28 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -1114,8 +1114,8 @@ appropriate. The following types of information shall be available:
 
  > > '''info object isa class''' ''object''
 
- > metaclass: Returns whether the named object is a class that is not of
-     immediate type '''oo::class''' but rather one of its subtypes instead.
+ > metaclass: Returns whether the named object is a class that can create
+   other classes (i.e. is '''oo::class''' or one of its subclasses).
 
  > > '''info object isa metaclass''' ''object''
 
