@@ -1,6 +1,6 @@
 TIP:            257
 Title:          Object Orientation for Tcl
-Version:        $Revision: 1.28 $
+Version:        $Revision: 1.29 $
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Will Duquette <will@wjduquette.com>
 Author:         Steve Landers <steve@digitalsmarties.com>
@@ -1133,9 +1133,12 @@ appropriate. The following types of information shall be available:
 
  > > '''info object isa typeof''' ''object class''
 
- methods: Returns the list of methods defined for an object.
+ methods: Returns the list of methods defined for an object. Supports the
+     options '''-all''' to also look at the class hierarchy for the object,
+     and '''-private''' to get the list of methods supported by '''my''' for
+     the object.
 
- > '''info object methods''' ''object''
+ > '''info object methods''' ''object options''
 
  mixins: Returns the list of mixins for an object.
 
@@ -1185,10 +1188,11 @@ appropriate. The following types of information shall be available:
 
  > '''info class instances''' ''class'' ?''pattern''?
 
- methods: Returns the list of methods defined by a class. This includes all
-   forwards for the class.
+ methods: Returns the list of methods defined by a class. Supports the options
+     '''-all''' to also look at the class hierarchy, and '''-private''' to get
+     the list of methods supported by '''my''' for the object's instances.
 
- > '''info class methods''' ''class''
+ > '''info class methods''' ''class options''
 
  subclasses: Returns a list of all subclasses of the class, or optionally just
    those that match ''pattern'' according to the rules of '''string match'''.
