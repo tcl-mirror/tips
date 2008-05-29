@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -134,6 +134,10 @@ Of course, such uses are extreme, but useful in complicated IPC setups to
 achieve much better performance (through direct point-to-point pipes) than
 would a simpler "star" or "blackboard" topology (where all children write back
 to a central message routing process).
+
+~ Reference Implementation
+
+A patch against the Tcl HEAD (8.6) is located at https://sourceforge.net/tracker/index.php?func=detail&aid=1978495&group_id=10894&atid=310894
 
 ~ Copyright
 
