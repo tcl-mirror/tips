@@ -1,10 +1,10 @@
 TIP:            317
 Title:          Extend binary Ensemble with Binary Encodings
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        03-May-2008
 Post-History:   
 Keywords:       base64,uuencode,hex,transfer encoding
