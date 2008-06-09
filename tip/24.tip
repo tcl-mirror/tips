@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.46 $
+Version:        $Revision: 1.47 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -8,6 +8,7 @@ Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Pavel Goran <pvgoran@newmail.ru>
 Author:         <dgp@users.sf.net>
 Author:         Daniel A. Steffen <das@users.sourceforge.net>
+Author:         miguel sofer <msofer@users.sf.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -40,7 +41,7 @@ of their expertise.
 For each of Tcl's functional units, the following maintainers are
 assigned:
 
-   1. ''Notifier'' - Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX), Daniel Steffen <das@users.sourceforge.net> (Mac OS X)
+   1. ''Notifier'' - Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX), Daniel Steffen <das@users.sourceforge.net> (Mac OS X), Alexandre Ferrieux <ferrieux@users.sf.net>
 
    1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -53,17 +54,17 @@ assigned:
    1. ''Time Measurement'' -  Kevin Kenny <kennykb@acm.org>,
  			      Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Variables'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Variables'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Environment Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Linked C Variables'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Objects'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Objects'' - Miguel Sofer <msofer@users.sf.net>, Alexandre Ferrieux <ferrieux@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''ByteArray Objects'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''ByteArray Objects'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jan Nijtmans <j.nijtmans@chello.nl>, Alexandre Ferrieux <ferrieux@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -81,17 +82,17 @@ assigned:
 
    1. ''[[interp]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''[[namespace]]'' - Miguel Sofer <mig@utdt.edu>,
+   1. ''[[namespace]]'' - Miguel Sofer <msofer@users.sf.net>,
       Jeff Hobbs <JeffH@ActiveState.com>,
       Donal K. Fellows <donal.k.fellows@man.ac.uk> (especially ensembles)
 
-   1. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''[[scan]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Channel Commands'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Channel System'' - Andreas Kupries <a.kupries@westend.com>, Alexandre Ferrieux <ferrieux@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Channel Transforms'' - Andreas Kupries <a.kupries@westend.com>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -149,11 +150,11 @@ assigned:
 
    1. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Parsing and Eval'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Parsing and Eval'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Traces'' - Don Porter <dgp@users.sourceforge.net>
 
-   1. ''Bytecode Compiler'' - Miguel Sofer <mig@utdt.edu>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Bytecode Compiler'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Number Handling'' - Don Porter <dgp@users.sourceforge.net>, Kevin Kenny <kennykb@acm.org>
 
