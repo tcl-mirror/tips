@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.39 $
+Version:        $Revision: 1.40 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -405,9 +405,30 @@ assigned one or more maintainers:
      library/tcltest/pkgIndex.tcl,
      tests/tcltest.test
 
+ 35. '''TclOO Package''' (see [257]) -
+     doc/Class.3,
+     doc/Method.3,
+     doc/class.n,
+     doc/copy.n,
+     doc/define.n,
+     doc/my.n,
+     doc/next.n,
+     doc/object.n,
+     doc/self.n,
+     generic/tclOO.c,
+     generic/tclOO.decls,
+     generic/tclOO.h,
+     generic/tclOOBasic.c,
+     generic/tclOOCall.c,
+     generic/tclOODefineCmds.c,
+     generic/tclOOInfo.c,
+     generic/tclOOInt.h,
+     generic/tclOOMethod.c,
+     tests/oo.test
+
 ~~ File System
 
- 35. '''Pathname Management''' - doc/filename.n,
+ 36. '''Pathname Management''' - doc/filename.n,
      doc/glob.n,
      doc/FileSystem.3,
      doc/SplitPath.3,
@@ -419,7 +440,7 @@ assigned one or more maintainers:
      unix/tclUnixFile.c,
      win/tclWinFile.c
 
- 36. '''File System Access''' - doc/Access.3,
+ 37. '''File System Access''' - doc/Access.3,
      doc/GetCwd.3,
      doc/SetErrno.3,
      doc/Signal.3,
@@ -438,7 +459,7 @@ assigned one or more maintainers:
 
 ~~ Initialization, Script Library, and Autoloader
 
- 37. doc/library.n,
+ 38. doc/library.n,
      doc/tclvars.n,
      doc/unknown.n,
      doc/Init.3,
@@ -461,7 +482,7 @@ assigned one or more maintainers:
 
 ~~ Package Support
 
- 38. '''Package Management''' - doc/InitStubs.3,
+ 39. '''Package Management''' - doc/InitStubs.3,
      doc/package.n,
      doc/packagens.n,
      doc/pkgMkIndex.n,
@@ -474,7 +495,7 @@ assigned one or more maintainers:
      tests/pkgMkIndex.test,
      tests/pkg/*.tcl
 
- 39. '''Dynamic Loading''' - compat/dlfcn.h,
+ 40. '''Dynamic Loading''' - compat/dlfcn.h,
      doc/load.n,
      doc/StaticPkg.3,
      generic/tclLoad.c,
@@ -487,7 +508,7 @@ assigned one or more maintainers:
 
 ~~ Memory Management
 
- 40. '''Allocation''' - doc/memory.n,
+ 41. '''Allocation''' - doc/memory.n,
      doc/Alloc.3,
      doc/TCL_MEM_DEBUG.3,
      doc/DumpActiveMemory.3,
@@ -495,12 +516,12 @@ assigned one or more maintainers:
      generic/tclCkalloc.c,
      generic/tclThreadAlloc.c
 
- 41. '''Preservation''' - doc/Preserve.3,
+ 42. '''Preservation''' - doc/Preserve.3,
      generic/tclPreserve.c
 
 ~~ Regular Expressions
 
- 42. doc/re_syntax.n,
+ 43. doc/re_syntax.n,
      doc/RegExp.3,
      generic/regc_color.c,
      generic/regc_cvec.c,
@@ -525,7 +546,7 @@ assigned one or more maintainers:
 
 ~~ UTF-8 String Management
 
- 43. doc/ToUpper.3,
+ 44. doc/ToUpper.3,
      doc/UniCharIsAlpha.3,
      doc/Utf.3,
      generic/tclUtf.c,
@@ -535,7 +556,7 @@ assigned one or more maintainers:
 
 ~~ Fundamentals
 
- 44. '''Parsing and Evaluation''' - doc/AddErrInfo.3,
+ 45. '''Parsing and Evaluation''' - doc/AddErrInfo.3,
      doc/AllowExc.3,
      doc/AssocData.3,
      doc/CallDel.3,
@@ -569,7 +590,7 @@ assigned one or more maintainers:
      tests/result.test,
      tests/stack.test
 
- 45. '''Traces''' -
+ 46. '''Traces''' -
      doc/TraceVar.3,
      doc/TraceCmd.3,
      doc/trace.n,
@@ -577,7 +598,7 @@ assigned one or more maintainers:
      generic/tclTrace.c,
      tests/trace.test
 
- 46. '''Bytecode Compiler''' - compat/float.h,
+ 47. '''Bytecode Compiler''' - compat/float.h,
      generic/tclCompCmds.c,
      generic/tclCompExpr.c,
      generic/tclCompile.c,
@@ -599,7 +620,7 @@ assigned one or more maintainers:
      tests/stringComp.test,
      tests/while.test
 
- 47. '''Number Handling''' (see [237]) -
+ 48. '''Number Handling''' (see [237]) -
      generic/tclStrToD.c,
      generic/tclTomMath.h,
      generic/tclTomMathInterface.c,
@@ -608,7 +629,7 @@ assigned one or more maintainers:
 
 ~~ Threads
 
- 48. doc/Thread.3,
+ 49. doc/Thread.3,
      generic/tclThread.c,
      generic/tclThreadJoin.c,
      tests/thread.test,
@@ -619,7 +640,7 @@ assigned one or more maintainers:
 
 ~~ Embedding Support
 
- 49. doc/AppInit.3,
+ 50. doc/AppInit.3,
      doc/Tcl_Main.3,
      doc/Panic.3,
      doc/tclsh.1,
@@ -631,7 +652,7 @@ assigned one or more maintainers:
 
 ~~ Release Engineering
 
- 50. '''Release Notes''' - README,
+ 51. '''Release Notes''' - README,
      changes,
      license.terms,
      */license.terms,
@@ -644,7 +665,7 @@ assigned one or more maintainers:
      unix/README,
      win/README
 
- 51. '''Portability Support''' - compat/dirent.h,
+ 52. '''Portability Support''' - compat/dirent.h,
      compat/dirent2.h,
      compat/limits.h,
      compat/fixstrtod.c,
@@ -668,7 +689,7 @@ assigned one or more maintainers:
      win/tclWinMtherr.c,
      win/tclWinPort.h
 
- 52. '''Configuration and Build Tools''' - djgpp/Makefile,
+ 53. '''Configuration and Build Tools''' - djgpp/Makefile,
      macosx/Makefile,
      macosx/Tcl.pbproj/project.pbxproj,
      tests/all.tcl,
@@ -715,14 +736,14 @@ assigned one or more maintainers:
      win/tclsh.ico,
      win/tclsh.rc
 
- 53. '''Configuration Reporting''' (see [59]) -
+ 54. '''Configuration Reporting''' (see [59]) -
      doc/RegConfig.3,
      generic/tclConfig.c,
      generic/tclPkgConfig.c,
      tests/config.test,
      win/tclWinPkgConfig.c
 
- 54. '''Other Tools''' - tools/checkLibraryDoc.tcl,
+ 55. '''Other Tools''' - tools/checkLibraryDoc.tcl,
      tools/findBadExternals.tcl,
      tools/genWinImage.tcl,
      tools/man2html.tcl,
@@ -730,7 +751,7 @@ assigned one or more maintainers:
      tools/man2html2.tcl,
      tools/regexpTestLib.tcl
 
-  55. '''LibTomMath''' - libtommath/*
+  56. '''LibTomMath''' - libtommath/*
 
 ~ Shared Files
 
@@ -762,6 +783,10 @@ The following files are generated, so they don't need maintainers.
      generic/tclDecls.h,
      generic/tclIntDecls.h,
      generic/tclIntPlatDecls.h,
+     generic/tclOODecls.h,
+     generic/tclOOIntDecls.h,
+     generic/tclOOStubInit.c,
+     generic/tclOOStubLib.c,
      generic/tclPlatDecls.h,
      generic/tclStubInit.c,
      generic/tommath.h,
