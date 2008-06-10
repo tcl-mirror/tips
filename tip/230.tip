@@ -1,12 +1,12 @@
 TIP:            230
 Title:          Tcl Channel Transformation Reflection API
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Andreas Kupries <andreas_kupries@users.sf.net>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Andreas Kupries <andreask@activestate.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        02-Nov-2004
 Post-History:   
 Tcl-Version:    8.6
@@ -137,8 +137,7 @@ transformation at the Tcl level. The MODE is a list containing any of
 
  * '''read'''  contained in ''mode'' implies that the channel is readable.
 
-The return value of the method has to be a list containing two
-elements, the version of the reflection API, and a list containing the
+The return value of the method has to be a list containing the
 names of all methods which are supported by this handler. Any error
 thrown by the method will prevent the creation of the
 transformation. The thrown error will appear as error thrown by
