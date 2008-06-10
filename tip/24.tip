@@ -1,12 +1,11 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.47 $
+Version:        $Revision: 1.48 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Jeff Hobbs <hobbs@users.sourceforge.net>
 Author:         Pavel Goran <pvgoran@newmail.ru>
-Author:         <dgp@users.sf.net>
 Author:         Daniel A. Steffen <das@users.sourceforge.net>
 Author:         miguel sofer <msofer@users.sf.net>
 State:          Draft
@@ -41,7 +40,7 @@ of their expertise.
 For each of Tcl's functional units, the following maintainers are
 assigned:
 
-   1. ''Notifier'' - Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX), Daniel Steffen <das@users.sourceforge.net> (Mac OS X), Alexandre Ferrieux <ferrieux@users.sf.net>
+   1. ''Notifier'' - Kevin Kenny <kennykb@acm.org> (Win32, Solaris, HP-UX), Daniel Steffen <das@users.sf.net> (Mac OS X), Alexandre Ferrieux <ferrieux@users.sf.net>
 
    1. ''Event Loops'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -64,19 +63,19 @@ assigned:
 
    1. ''Conversions from String'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''ByteArray Objects'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jan Nijtmans <j.nijtmans@chello.nl>, Alexandre Ferrieux <ferrieux@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''ByteArray Objects'' - Donal K. Fellows <dkf@users.sf.net>, Jan Nijtmans <j.nijtmans@chello.nl>, Alexandre Ferrieux <ferrieux@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Index Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''List Object'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Dict Object'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>
+   1. ''Dict Object'' - Donal K. Fellows <dkf@users.sf.net>
 
-   1. ''Commands A-H'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands A-H'' - Donal K. Fellows <dkf@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands I-L'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands I-L'' - Donal K. Fellows <dkf@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Commands M-Z'' - Donal K. Fellows <donal.k.fellows@man.ac.uk>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Commands M-Z'' - Donal K. Fellows <dkf@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''[[history]]'' - Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -84,7 +83,7 @@ assigned:
 
    1. ''[[namespace]]'' - Miguel Sofer <msofer@users.sf.net>,
       Jeff Hobbs <JeffH@ActiveState.com>,
-      Donal K. Fellows <donal.k.fellows@man.ac.uk> (especially ensembles)
+      Donal K. Fellows <dkf@users.sf.net> (especially ensembles)
 
    1. ''[[proc]] and [[uplevel]]'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
@@ -100,14 +99,14 @@ assigned:
                           Rolf Schroedter <Rolf.Schroedter@dlr.de> (WinSerial),
 			  Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''dde Package'' - Pat Thoyts <patthoyts@users.sourceforge.net>,
+   1. ''dde Package'' - Pat Thoyts <patthoyts@users.sf.net>,
                          Kevin Kenny <kennykb@acm.org>
 
    1. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''msgcat Package'' - Don Porter <dgp@users.sourceforge.net>
+   1. ''msgcat Package'' - Don Porter <dgp@users.sf.net>
 
-   1. ''opt Package'' - Don Porter <dgp@users.sourceforge.net>
+   1. ''opt Package'' - Don Porter <dgp@users.sf.net>
 
    1. ''registry Package'' - Kevin Kenny <kennykb@acm.org>
 
@@ -115,29 +114,31 @@ assigned:
 
    1. ''tcltest Package'' - Jeff Hobbs <JeffH@ActiveState.com>,
 	Melissa Chawla <hershey@panasas.com>,
-        Don Porter <dgp@users.sourceforge.net>
+        Don Porter <dgp@users.sf.net>
+
+   1. ''TclOO Package'' - Donal K. Fellows <dkf@users.sf.net>
 
    1. ''Pathname Management'' -
-	Vincent Darley <vincentdarley@users.sourceforge.net>,
+	Vincent Darley <vincentdarley@users.sf.net>,
 	Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''File System'' - Vincent Darley <vincentdarley@users.sourceforge.net>,
+   1. ''File System'' - Vincent Darley <vincentdarley@users.sf.net>,
 			Jeff Hobbs <JeffH@ActiveState.com>,
-                        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                        Daniel Steffen <das@users.sf.net> (Mac OS X),
                         Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Init - Library - Autoload'' -
-        Don Porter <dgp@users.sourceforge.net>,
+        Don Porter <dgp@users.sf.net>,
         Jeff Hobbs <JeffH@ActiveState.com>,
-        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+        Daniel Steffen <das@users.sf.net> (Mac OS X),
         Jim Ingham <jingham@apple.com> (Mac OS X)
 
-   1. ''Package Manager'' -  Don Porter <dgp@users.sourceforge.net>, Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''Package Manager'' -  Don Porter <dgp@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Dynamic Loading'' -  Kevin Kenny <kennykb@acm.org>,
                              Jan Nijtmans <j.nijtmans@chello.nl>,
 			     Jeff Hobbs <JeffH@ActiveState.com>,
-                             Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                             Daniel Steffen <das@users.sf.net> (Mac OS X),
                              Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Memory Allocation'' - Jeff Hobbs <JeffH@ActiveState.com>,
@@ -146,28 +147,28 @@ assigned:
    1. ''Memory Preservation'' - Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Regexp'' - Pavel Goran <pvgoran@newmail.ru>,
-		Colin McCormack <coldstore@users.sourceforge.net>
+		Colin McCormack <coldstore@users.sf.net>
 
    1. ''UTF-8 Strings'' - Jan Nijtmans <j.nijtmans@chello.nl>, Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''Parsing and Eval'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Traces'' - Don Porter <dgp@users.sourceforge.net>
+   1. ''Traces'' - Don Porter <dgp@users.sf.net>
 
    1. ''Bytecode Compiler'' - Miguel Sofer <msofer@users.sf.net>, Jeff Hobbs <JeffH@ActiveState.com>
 
-   1. ''Number Handling'' - Don Porter <dgp@users.sourceforge.net>, Kevin Kenny <kennykb@acm.org>
+   1. ''Number Handling'' - Don Porter <dgp@users.sf.net>, Kevin Kenny <kennykb@acm.org>
 
    1. ''Threading'' - Andreas Kupries <a.kupries@westend.com>,
 		      Jeff Hobbs <JeffH@ActiveState.com>,
                       Joe Mistachkin <joe@mistachkin.com>
 
-   1. ''Embedding Support'' - Don Porter <dgp@users.sourceforge.net>,
+   1. ''Embedding Support'' - Don Porter <dgp@users.sf.net>,
 			      Jeff Hobbs <JeffH@ActiveState.com>,
                               Joe Mistachkin <joe@mistachkin.com>
 
    1. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>,
-                          Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+                          Daniel Steffen <das@users.sf.net> (Mac OS X),
                           Jim Ingham <jingham@apple.com> (Mac OS X)
 
    1. ''Portability Support'' -
@@ -177,9 +178,9 @@ assigned:
 
    1. ''Configure and Build Tools'' - Mo DeJong <mdejong@cygnus.com>,
         Jeff Hobbs <JeffH@ActiveState.com>,
-	Lloyd Lim <lloydlim@users.sourceforge.net>,
+	Lloyd Lim <lloydlim@users.sf.net>,
 	Acacio Cruz <acacio@users.sf.net> (BSD),
-        Daniel Steffen <das@users.sourceforge.net> (Mac OS X),
+        Daniel Steffen <das@users.sf.net> (Mac OS X),
         Jim Ingham <jingham@apple.com> (Mac OS X),
 
    1. ''Configuration Reporting'' - Andreas Kupries <a.kupries@westend.com>
