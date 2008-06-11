@@ -1,11 +1,11 @@
 TIP:            285
 Title:          Script Cancellation with [interp cancel] and Tcl_CancelEval
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
 State:          Accepted
 Type:           Project
-Vote:           Dona
+Vote:           Done
 Created:        04-Jun-2006
 Post-History:   
 Keywords:       eval,cancel,unwind,terminate,runaway,async,thread,safe
