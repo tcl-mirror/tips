@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -68,7 +68,11 @@ Its application to following stderr is straightfoward:
 
 ~~ Specification
 
-Nothing more than TclX's which is perfect.
+Nothing more than TclX's which is perfect (quoting TclX's doc):
+
+|	pipe ?pr pw?
+
+Create a pipe. If ''pr'' and ''pw'' are specified, then pipe will set the variable named ''pr'' to contain the channel wrapping the side of the pipe that was opened for reading, and ''pw'' the same for writing. If the variables are not specified, then a list containing the read and write channels is returned as the result of the command.
 
 ~ Discussion
 
