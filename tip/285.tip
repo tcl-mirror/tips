@@ -1,9 +1,9 @@
 TIP:            285
 Title:          Script Cancellation with [interp cancel] and Tcl_CancelEval
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Dawson Cowals <dawson@dawsoncowals.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        04-Jun-2006
