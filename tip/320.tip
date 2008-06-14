@@ -1,0 +1,114 @@
+TIP:		320
+Title:		Improved Variable Handling in the Core Object System
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	13-Jun-2008
+Keywords:	TclOO
+
+~ Abstract
+
+This TIP specifies new configuration commands that allow variables to be used
+in methods of the core object system without explicit declaration in each
+method.
+
+~ Rationale
+
+During the discussions leading up to the vote on [257], it became apparent
+that being able to access at least some variables of an object without
+explicit declaration in each method was desirable. Doing this would make
+working with the core object system much easier in many common cases, and
+would also allow for potentially more efficient implementation.
+
+However, there is a balance to be drawn. If every variable of the object was
+made available in the method by default (the simplest case) there would
+frequently be problems with interactions between the formal arguments of a
+superclass's methods and the instance variables of a subclass! That would be
+highly undesirable, as it completely breaks the principle of isolation of
+class implementations.
+
+There are two ways of dealing with this issue.
+
+ 1. Make the variables understood by a particular class be distinct from those
+    understood by subclasses of the class.
+
+ 2. Only bring those variables into scope that are actually declared by a
+    particular class.
+
+Studying the first alternative, there are two ways to actually achieve this:
+not putting the variables in a namespace but actually using a separate
+structure (poor, because then we would use the ability to easily use the
+variable with many of Tcl's general variable facilities), or modifying the
+namespace-visible name of each variable to include some unique string coupled
+to the class declaring it. Though I think that the second option is better
+than the first (actual implementations would be able to use the
+'''oo::object''' class's '''variable''' and '''varname''' methods to hide many
+of the details where they are currently exposed at all) I still do not
+particularly like it since it would mean that the cases where a class and a
+subclass ''want'' to refer to the same variable are very awkward.
+
+Hence I think that there should be a mechanism for declaring what variables a
+class has, that those names should be the namespace-visible names of the
+variables, and that only those variables that are declared by a particular
+class should be ''automatically'' visible in the class's methods (including
+the constructor and destructor, of course). As a matter of basic symmetry,
+object-level declarations of variables and methods should also be possible.
+
+~ Proposed Change
+
+Every object and every class will have associated with it a list of variable
+names. This list will be configurable via a subcommand of '''oo::define''' and
+introspectable. Methods (strictly, only procedure-like methods, constructors
+and destructors) will then make those variables that were declared at the same
+declaration level (i.e. in the same class, or in the object itself for methods
+defined on the object) available in the method body without further
+declaration or qualification. At declaration time, the type of the variable
+(i.e. whether it is an array or a simple variable) will not be defined; that
+may be done in the constructor. As there is no (public) C API for declaring a
+procedure-like method, there will not be a public C API for declaring the
+variables either.
+
+Note that the order in which the declaration of some methods and some
+variables for a class or object will not matter.
+
+~~ Declaration
+
+The '''oo::define''' and '''oo::objdefine''' (and also the '''self'''
+subcommand of '''oo::define''') will gain a new subcommand: '''variable'''.
+This will take zero or more arguments, and those arguments will form the list
+of variables that are made available by default. Each argument will need to be
+a valid variable local name without parentheses.
+
+Syntax (other uses analogous according to normal behaviour of the class and
+object definition commands):
+
+ > '''oo::define''' ''class'' '''variable''' ?''varName ...''?
+
+~~ Introspection
+
+The list of variables declared by a particular class, ''class'', may be
+retrieved by:
+
+ > '''info class variables''' ''class''
+
+The list of variables declared by a particular object, ''object'', may be
+retrieved by:
+
+ > '''info object variables''' ''object''
+
+Note that the full list of ''all'' variables (matching an optional pattern) in
+an object's namespace will be retrievable using '''info object vars'''; this
+mechanism is disjoint (though '''info object variables''' will return
+variables that can be returned by '''info object vars''').
+
+~ Implementation
+
+Not yet done; details still to be written up here.
+
+~ Copyright
+
+This document has been placed in the public domain.
