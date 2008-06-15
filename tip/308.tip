@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 State:          Draft
@@ -21,10 +21,9 @@ This document specifies what this discussion means. At its present stage of
 development, it is to be considered very much a draft; discussion is actively
 solicited.
 
-Parties who are interested in a detailed background of this TIP may
-a more extensive discussion of motivations and objectives in the
-author's posting to ''comp.lang.tcl'' and the ''tcl-core'' newsgroup,
-obtainable from
+Parties who are interested in a detailed background of this TIP may a more
+extensive discussion of motivations and objectives in the author's posting to
+''comp.lang.tcl'' and the ''tcl-core'' newsgroup, obtainable from
 [http://groups.google.com/group/comp.lang.tcl/msg/9351d1b2a59ee2ca] or
 [http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3581757].
 
@@ -89,9 +88,9 @@ least is often well-understood; I offer no further defence.) In particular:
    '''Tcl_GetBooleanFromObj''' and hence includes at least '1', '0', 'on',
    'off', 'yes', 'no', 'true', and 'false'.
 
- * the term "ensemble" refers to a Tcl command that accepts subcommands.
-   It does not imply that any given command is implemented using the
-   [[namespace ensemble]] mechanism.
+ * the term "ensemble" refers to a Tcl command that accepts subcommands. It
+   does not imply that any given command is implemented using the [[namespace
+   ensemble]] mechanism.
 
 ~ Specification
 
@@ -118,12 +117,12 @@ their systems, and intentionally leave this particular matter somewhat vague.
 
 ~~ Basic mechanics of database interfaces
 
-Database handles are Tcl ensembles, meaning that they are commands
-that support subcommands. Other ensembles, such as statement handles,
-are also defined in this specification. Any of the ensembles MAY
-support abbreviation of its subcommands according to the rules defined
-by '''Tcl_GetIndexFromObj'''; nevertherless, code that uses the
-database interface SHOULD spell out subcommands in full.
+Database handles are Tcl ensembles, meaning that they are commands that
+support subcommands. Other ensembles, such as statement handles, are also
+defined in this specification. Any of the ensembles MAY support abbreviation
+of its subcommands according to the rules defined by
+'''Tcl_GetIndexFromObj'''; nevertherless, code that uses the database
+interface SHOULD spell out subcommands in full.
 
 Many of the subcommands are expected to take options in Tcl's usual syntax of:
 
@@ -134,22 +133,20 @@ support abbreviation of options according to the rules of
 '''Tcl_GetIndexFromObj()'''; once again, code that uses the interface SHOULD
 spell out options in full.
 
-All the database objects (connections, statements and result sets) are
-"duck typed" - that is, "If it walks like a duck and quacks like a
-duck, I would call it a duck. (James Whitcomb Riley)." In other words,
-the ensembles may be implemented using any available functionality as
-long as the result is that they use the interfaces described.
-Nevertheless, as a convenience to implementors, a set of base classes,
-called '''tdbc::connection''', '''tdbc::statement''', and
-'''tdbc::resultset''', SHALL be provided using Tcl's native object
-orientation as described in [257].  Certain advantages will accrue to
-database implementors by using these base classes. In particular, the
-'''tdbc::*''' classes SHALL do all the bookkeeping needed to determine
-what statements and result sets are open, SHALL provide the internal
-iterators '''allrows''' and '''foreach''', SHALL implement the
-'''transaction''' method on connections, and SHALL ensure that the
-'''close''' method on the objects functions the same as renaming the
-object to the null string.
+All the database objects (connections, statements and result sets) are "duck
+typed" - that is, "If it walks like a duck and quacks like a duck, I would
+call it a duck. (James Whitcomb Riley)." In other words, the ensembles may be
+implemented using any available functionality as long as the result is that
+they use the interfaces described. Nevertheless, as a convenience to
+implementors, a set of base classes, called '''tdbc::connection''',
+'''tdbc::statement''', and '''tdbc::resultset''', SHALL be provided using
+Tcl's native object orientation as described in [257]. Certain advantages will
+accrue to database implementors by using these base classes. In particular,
+the '''tdbc::*''' classes SHALL do all the bookkeeping needed to determine
+what statements and result sets are open, SHALL provide the internal iterators
+'''allrows''' and '''foreach''', SHALL implement the '''transaction''' method
+on connections, and SHALL ensure that the '''close''' method on the objects
+functions the same as renaming the object to the null string.
 
 ~~ Configuring a database handle
 
@@ -162,20 +159,19 @@ subcommand that takes the form:
 
 This configuration process is analogous to configuring a Tk widget. If there
 are no arguments presented to '''configure''', the return value MUST be a list
-of triples; each element of the list MUST comprise the name of an available
-configuration parameter, its default value, and its current value. If a single
-argument is presented, it MUST be the name of a configuration parameter, and
-the return value MUST be the triple of name, default value, and current value
-for that parameter. Finally, if more than one argument is presented, they MUST
-be a list of alternating parameter names and values. This last form is an
-order to set the given parameters to the given values.
+of alternating options and values describing the configuration parameters
+currently in effect. If a single argument is presented, it MUST be the name of
+a configuration parameter, and the return value MUST be current value for that
+parameter. Finally, if more than one argument is presented, they MUST be a
+list of alternating parameter names and values. This last form is an order to
+set the given parameters to the given values.
 
 The connectivity layer SHOULD implement the following parameters, and MAY
 implement others:
 
-(''Note:'' an earlier draft of this TIP specified a '''-autocommit'''
-option; this option has been removed because it is redundant with the
-transaction management primitives below.)
+(''Note:'' an earlier draft of this TIP specified a '''-autocommit''' option;
+this option has been removed because it is redundant with the transaction
+management primitives below.)
 
  * '''-encoding''' ''name''
 
@@ -187,52 +183,49 @@ transaction management primitives below.)
 
  * '''-isolation''' ''level''
 
- > Requests that transactions performed on the database be executed at
-   the given isolation ''level''.  The acceptable values for ''level''
-   are:
+ > Requests that transactions performed on the database be executed at the
+   given isolation ''level''. The acceptable values for ''level'' are:
 
-   * '''readuncommitted'''
+ > * '''readuncommitted'''
 
-   > Allows the transaction to read "dirty", that is, uncommitted
-     data.  This isolation level may compromise data integrity, does
-     not guarantee that foreign keys or uniqueness constraints are
-     satisfied, and in generall does not guarantee data consistency.
+ > > Allows the transaction to read "dirty", that is, uncommitted data. This
+     isolation level may compromise data integrity, does not guarantee that
+     foreign keys or uniqueness constraints are satisfied, and in generall
+     does not guarantee data consistency.
 
-   * '''readcommitted'''
+ > * '''readcommitted'''
 
-   > Forbids the transaction from reading "dirty" data, but does not
-     guarantee repeatable reads; if a transaction reads a row of a
-     database at a given time, there is no guarantee that the same row
-     will be available at a later time in the same transaction.
+ > > Forbids the transaction from reading "dirty" data, but does not guarantee
+     repeatable reads; if a transaction reads a row of a database at a given
+     time, there is no guarantee that the same row will be available at a
+     later time in the same transaction.
 
-   * '''repeatableread'''
+ > * '''repeatableread'''
 
-   > Guarantees that any row of the database, once read, will have the
-     same values for the life of a transaction.  Still permits
-     "phantom reads" (that is, newly-added rows appearing if a
-     table is queried a second time).
+ > > Guarantees that any row of the database, once read, will have the same
+     values for the life of a transaction. Still permits "phantom reads" (that
+     is, newly-added rows appearing if a table is queried a second time).
 
-   * '''serializable'''
+ > * '''serializable'''
 
-   > The most restrictive (and most expensive) level of transaction
-     isolation.  Any query to the database, if repeated, will return
-     precisely the same results for the life of the transaction,
-     exactly as if the transaction is the only user of the database.
+ > > The most restrictive (and most expensive) level of transaction isolation.
+     Any query to the database, if repeated, will return precisely the same
+     results for the life of the transaction, exactly as if the transaction is
+     the only user of the database.
 
-   * '''readonly'''
+ > * '''readonly'''
 
-   > Behaves like '''serializable''' in that the only results visible
-     to the transaction are those that were committed prior to the
-     start of the transaction, but forbids the transaction from
-     modifying the database.  
+ > > Behaves like '''serializable''' in that the only results visible to the
+     transaction are those that were committed prior to the start of the
+     transaction, but forbids the transaction from modifying the database.
 
-   A database that does not implement one of these isolation levels
-   SHOULD instead use the next more restrictive isolation level. If
-   the given level of isolation cannot be obtained, the database
-   interface MUST throw an error reporting the fact.  The default
-   isolation level SHOULD be at least '''readcommitted'''.
+ > A database that does not implement one of these isolation levels SHOULD
+   instead use the next more restrictive isolation level. If the given level
+   of isolation cannot be obtained, the database interface MUST throw an error
+   reporting the fact.  The default isolation level SHOULD be at least
+   '''readcommitted'''.
 
-   A database interface MAY forbid changing the isolation level when a
+ > A database interface MAY forbid changing the isolation level when a
    transaction is in progress.
 
  * '''-timeout''' ''ms''
@@ -263,57 +256,57 @@ A database handle MUST implement the three commands:
 
  * ''dbHandle'' '''rollback'''
 
- > Rolls back a transaction against the database, cancelling any changes
-   made during the transaction.
+ > Rolls back a transaction against the database, cancelling any changes made
+   during the transaction.
 
-If the underlying database does not implement atomic transactions or
-rollback, the '''starttransaction''' command MUST throw an error
-reporting the fact.
+If the underlying database does not implement atomic transactions or rollback,
+the '''starttransaction''' command MUST throw an error reporting the fact.
 
 If the underlying database does not implement nested transactions, a
-'''starttransaction''' command that is executed when there is a
-transaction already in progress (started, but neither committed nor
-rolled back) MUST result in an error.
+'''starttransaction''' command that is executed when there is a transaction
+already in progress (started, but neither committed nor rolled back) MUST
+result in an error.
 
-Statements executed against the database when no transaction is in
-progress (before the first '''starttransaction''' or after all started
-transactions have been either committed or rolled back) SHOULD be
-''auto-committed''; that is, each such statement SHOULD be executed as
-if a '''starttransaction''' command preceded the statement and a
-'''commit''' command followed it.
+Statements executed against the database when no transaction is in progress
+(before the first '''starttransaction''' or after all started transactions
+have been either committed or rolled back) SHOULD be ''auto-committed''; that
+is, each such statement SHOULD be executed as if a '''starttransaction'''
+command preceded the statement and a '''commit''' command followed it.
 
 These commands are provided primarily to support the construction of
-higher-level operations.  In particular, most simple transactions
-against a database can be handled using the '''transaction''' command:
+higher-level operations. In particular, most simple transactions against a
+database can be handled using the '''transaction''' command:
 
  * ''dbHandle'' '''transaction''' ''script''
 
-Executes the given ''script'' with transaction isolation. In this
-command, the ''dbHandle'' argument is a handle to a database
-connection, and the ''script'' argument is a Tcl script to be
-evaluated in the calling scope.  The script is treated as a single
-atomic database transaction. The '''starttransaction''' command is
-executed against the given database connection, and then the
-''script'' is evaluated. If it completes successfully (''TCL_OK''),
-the transaction SHALL be committed to the database.  If it fails,
-(''TCL_ERROR''), the transaction SHALL be rolled back and not visible
-to other users of the database.  ''TCL_BREAK'', ''TCL_CONTINUE'' and
-''TCL_RETURN'' with a return code other than ''error'' SHALL result in
-a commit and subsequently rethrow the same exception status outside
-the transaction. Exception status codes other than these five SHALL
-rollback the transaction and be rethrown.
+Executes the given ''script'' with transaction isolation. In this command, the
+''dbHandle'' argument is a handle to a database connection, and the ''script''
+argument is a Tcl script to be evaluated in the calling scope. The script is
+treated as a single atomic database transaction. The '''starttransaction'''
+command is executed against the given database connection, and then the
+''script'' is evaluated. If it completes successfully (''TCL_OK''), the
+transaction SHALL be committed to the database.  If it fails, (''TCL_ERROR''),
+the transaction SHALL be rolled back and not visible to other users of the
+database. ''TCL_BREAK'', ''TCL_CONTINUE'' and ''TCL_RETURN'' SHALL result in a
+commit and subsequently rethrow the same exception status outside the
+transaction. Exception status codes other than these five SHALL rollback the
+transaction and be rethrown.
 
-Just as with '''starttransaction''', if a [[''dbHandle''
-'''transaction''']] command is executed while another transaction is
-already in progress, it is requesting nested transaction semantics.  A
-database handle to an engine that supports nested transactions MUST
-treat this case correctly; a database handle to an engine that does
-not support nested transactions (including one that does not support
-transactions at all) MUST throw an error.
+(''Note:'' Scripts inside a '''transaction''' command SHOULD avoid use of the
+'''return -code''' or '''return -level''' operations. If a script returns from
+a transaction, with any combination of return options, the transaction SHALL
+be committed.)
+
+Just as with '''starttransaction''', if a [[''dbHandle'' '''transaction''']]
+command is executed while another transaction is already in progress, it is
+requesting nested transaction semantics. A database handle to an engine that
+supports nested transactions MUST treat this case correctly; a database handle
+to an engine that does not support nested transactions (including one that
+does not support transactions at all) MUST throw an error.
 
 The '''transaction''' subcommand SHALL be provided by the
-'''tdbc::connection''' base class; database interfaces that use the
-TclOO features and the TDBC base classes do not need to implement it.
+'''tdbc::connection''' base class; database interfaces that use the TclOO
+features and the TDBC base classes do not need to implement it.
 
 ~~ Closing a database connection
 
@@ -339,9 +332,14 @@ unfinished transactions and clean up on process exit. In particular, if the
 underlying database engine supports transactions, it SHOULD be considered an
 error to commit any work that remains uncommitted on process exit.
 
-The '''close''' command SHALL be provided by the
-'''tdbc::connection''' base class; database interfaces that use the
-TDBC base classes do not need to implement it.
+The '''close''' command SHALL be provided by the '''tdbc::connection''' base
+class; database interfaces that use the TDBC base classes do not need to
+implement it. The base class implementation destroys the object using '''my
+destroy'''. As a result, any statements obtained from the connection are also
+destroyed, since they are stored in a namespace that is subordinate to the
+connection's namespace. The destructor of the connection object is expected to
+close the underlying database connection and release any system resources
+associated with it.
 
 ~~ Preparing statements
 
@@ -380,100 +378,92 @@ to collide with native syntax.
 The requirement to support prepared statements is intended to guard against
 SQL insertion attacks. An interface to a database whose native API does not
 support prepared statements MUST simulate them. In particular, when the
-'''execute''' command is executed on a statement, substitution
-must be performed in a safe fashion with whatever magic quoting is required.
-In any case, magic quoting should be regarded as an infelicitous expedient and
+'''execute''' command is executed on a statement, substitution must be
+performed in a safe fashion with whatever magic quoting is required. In any
+case, magic quoting should be regarded as an infelicitous expedient and
 avoided if at all possible.
 
-If a database interface uses the '''tdbc::connection''' base class,
-then a '''prepare''' method will be provided for it.  If this method
-is not overridden, then the database interface MUST arrange that the
-constructor of the connection sets the instance variable,
-''statementClass'', to the fully qualified name of the command that
-constructs statements.  The '''prepare''' method SHALL invoke that
-command with a call of the form:
+If a database interface uses the '''tdbc::connection''' base class, then a
+'''prepare''' method will be provided for it. If this method is not
+overridden, then the database interface MUST arrange that the constructor of
+the connection sets the instance variable, ''statementClass'', to the fully
+qualified name of the command that constructs statements. The '''prepare'''
+method SHALL invoke that command with a call of the form:
 
-> ''$statementClass'' '''create''' ''handle'' ''connectionHandle''
-  ''sql''
+ > ''$statementClass'' '''create''' ''handle'' ''connectionHandle'' ''sql''
 
-where ''handle'' is the name of the new statement being created, 
-''connectionHandle'' is the handle to the connection creating it, and
-''sql'' is the SQL statement being prepared.
+where ''handle'' is the name of the new statement being created,
+''connectionHandle'' is the handle to the connection creating it, and ''sql''
+is the SQL statement being prepared.
 
 ~~ Stored procedure calls
 
-A second way to prepare statements is to prepare a stored procedure
-call.  If a database interface supports stored procedures, it MUST
-support the '''preparecall''' command:
+A second way to prepare statements is to prepare a stored procedure call. If a
+database interface supports stored procedures, it MUST support the
+'''preparecall''' command:
 
  * ''dbHandle'' '''preparecall''' ''call''
 
-''call'' is a string that describes a call to a stored procedure.
-   It takes the form:
+''call'' is a string that describes a call to a stored procedure. It takes
+the form:
 
- * ?'':varName'' '''='''? ''procName'' '''(''' ?'':varName''?
-   ?''',''' ''varName''?...  ''')'''
+ > ?'':varName'' '''='''? ''procName'' '''(''' ?'':varName''?  ?''','''
+   ''varName''?...  ''')'''
 
-The result of the '''preparecall''' command is a statement handle.
-The statement handle may be used just as any other statement handle.
+The result of the '''preparecall''' command is a statement handle. The
+statement handle may be used just as any other statement handle.
 
 The '''preparecall''' method SHALL ''not'' be provided in the
-'''tdbc::connection''' base class; individual database interfaces are
-expected to do so.  They MAY do so by rewriting the call to whatever
-syntax the native database requires, and delegating to the
-'''prepare''' method to prepare that, or they MAY instead prepare
-another ensemble. (See "The TDBC base classes" below for details of
-integrating this mechanism with the base classes.)
+'''tdbc::connection''' base class; individual database interfaces are expected
+to do so. They MAY do so by rewriting the call to whatever syntax the native
+database requires, and delegating to the '''prepare''' method to prepare that,
+or they MAY instead prepare another ensemble. (See "The TDBC base classes"
+below for details of integrating this mechanism with the base classes.)
 
 ~~ Quasi-direct execution
 
 A database handle MUST support the following two calls:
 
  * ''dbHandle'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
-   ?'''-columnsvariable''' ''varName''? ?'''--'''? ''sql''
-   ?''dictionary''?
+   ?'''-columnsvariable''' ''varName''? ?'''--'''? ''sql'' ?''dictionary''?
 
-This command prepares the SQL statement given by the ''sql''
-parameter, and immediately executes it.  Variable substitutions inside
-the ''sql'' parameter are satisfied from the given ''dictionary'',
-if one is supplied, and from variables in the caller's scope
-otherwise. The '''-as''' option determines the form of the result,
-and the '''-columnsvariable''' option provides an optional variable
-in which the names of the result columns will be stored.  Upon
-termination of the command, whether successful or unsuccessful, the
-prepared statement is closed. The command returns a list of the rows
-returned by the affected statement. (If the affected statement does
-not yield a set of rows, the return value from the ''allrows'' command
-is an empty list.)
+This command prepares the SQL statement given by the ''sql'' parameter, and
+immediately executes it. Variable substitutions inside the ''sql'' parameter
+are satisfied from the given ''dictionary'', if one is supplied, and from
+variables in the caller's scope otherwise. The '''-as''' option determines the
+form of the result, and the '''-columnsvariable''' option provides an optional
+variable in which the names of the result columns will be stored. Upon
+termination of the command, whether successful or unsuccessful, the prepared
+statement is closed. The command returns a list of the rows returned by the
+affected statement. (If the affected statement does not yield a set of rows,
+the return value from the ''allrows'' command is an empty list.)
 
-This command MUST function the same way as preparing the statement
-explicitly, executing the '''$statement allrows''' call (see
-below) on the resulting statement handle, and then (irrespective of
-whether the operation succeeeded) destroying the statement handle.
+This command MUST function the same way as preparing the statement explicitly,
+executing the '''$statement allrows''' call (see below) on the resulting
+statement handle, and then (irrespective of whether the operation succeeeded)
+destroying the statement handle.
 
  * ''dbHandle'' '''foreach'''?'''-as''' ''lists''|''dicts''?
-   ?'''-columnsvariable''' ''varName''? ?'''--'''? ''sql''
-   ?''dictionary''? ''varName'' ''script''
+   ?'''-columnsvariable''' ''varName''? ?'''--'''? ''sql'' ?''dictionary''?
+   ''varName'' ''script''
 
-This command prepares the SQL statement given by the ''sql''
-parameter, and immediately executes it.  Variable substitutions inside
-the ''sql'' parameter are satisfied from the given ''dictionary'',
-if one is supplied, and from variables in the caller's scope
-otherwise. The '''-as''' option determines the form of the result,
-and the '''-columnsvariable''' option provides an optional variable
-in which the names of the result columns will be stored.  For each row
-returned by the given statement, the given ''varName'' is set to
-a list or dictionary containing the returned row, and
-the given ''script'' is executed in the caller's scope. Upon
-termination of the command, whether successful or unsuccessful, the
-prepared statement is closed.
+This command prepares the SQL statement given by the ''sql'' parameter, and
+immediately executes it. Variable substitutions inside the ''sql'' parameter
+are satisfied from the given ''dictionary'', if one is supplied, and from
+variables in the caller's scope otherwise. The '''-as''' option determines the
+form of the result, and the '''-columnsvariable''' option provides an optional
+variable in which the names of the result columns will be stored. For each row
+returned by the given statement, the given ''varName'' is set to a list or
+dictionary containing the returned row, and the given ''script'' is executed
+in the caller's scope. Upon termination of the command, whether successful or
+unsuccessful, the prepared statement is closed.
 
-This command MUST function the same way as preparing the statement
-explicitly and then executing the '''$statement foreach call on the
-resulting statement handle.
+This command MUST function the same way as preparing the statement explicitly
+and then executing the '''$statement foreach call on the resulting statement
+handle.
 
-Both of these commands SHALL be provided in the '''tdbc::connection'''
-base class.
+Both of these commands SHALL be provided in the '''tdbc::connection''' base
+class.
 
 ~~ Introspecting the sets of handles
 
@@ -493,14 +483,14 @@ This command MUST return a list of the result sets that have been returned (by
 executing statements, or by querying metadata) and have not yet been dismissed
 using [[''resultSetHandle'' '''close''']].
 
-Both of these commands SHALL be provided in the ''tdbc::connection''
-base class.  Using the base class implementations imposes certain
-restrictions on derived classes. (See "The TDBC base classes" below
-for details of integrating this mechanism with the base classes.)
+Both of these commands SHALL be provided in the ''tdbc::connection'' base
+class. Using the base class implementations imposes certain restrictions on
+derived classes. (See "The TDBC base classes" below for details of integrating
+this mechanism with the base classes.)
 
 ~~ Querying metadata
 
-A database interface SHOULD provide a way of enumerating the tables in the
+A database interface MUST provide a way of enumerating the tables in the
 database. The syntax for querying tables MUST be:
 
  * ''dbHandle'' '''tables''' ?''matchPattern''?
@@ -509,82 +499,77 @@ The optional argument ''matchPattern'', if supplied, is a pattern against
 which the table names are to be matched. The database interface MUST recognize
 the SQL wildcards '''%''' and '''_''' in the pattern.
 
-A database interface SHOULD provide a way of enumerating the columns in a
+A database interface MUST provide a way of enumerating the columns in a
 database table. The syntax for querying columns MUST be:
 
  * ''dbHandle'' '''columns''' ''tableName'' ''?matchPattern?''
 
 The return value from the '''tables''' and '''columns''' commands MUST be a
-dictionary.  The keys of the dictionary MUST be the names of the
-tables in the database, or respectively the columns in the given table.
+dictionary. The keys of the dictionary MUST be the names of the tables in the
+database, or respectively the columns in the given table.
 
-The values stored in the dictionary returned from the '''tables'''
-command MUST be dictionaries.  The keys and values of these
-dictionaries, nevertheless, are implementation-defined; only the keys
-are mandated in this specification.
+The values stored in the dictionary returned from the '''tables''' command
+MUST be dictionaries. The keys and values of these dictionaries, nevertheless,
+are implementation-defined; only the keys are mandated in this specification.
 
-The values stored in the dictionary returned from the '''columns'''
-command MUST themselves be dictionaries.  These subdictionaries MUST
-include the keys, '''type''', '''precision''', '''scale''', and
-'''nullable'''. The '''type''' value MUST be the data type of the
-column, and SHOULD be chosen from among the standard types ''bigint'',
-''binary'', ''bit'', ''char'', ''date'', ''decimal'', ''double'',
-''float'', ''integer'', ''longvarbinary'', ''longvarchar'',
-''numeric'', ''real'', ''time'', ''timestamp'', ''smallint'',
+The values stored in the dictionary returned from the '''columns''' command
+MUST themselves be dictionaries. These subdictionaries MUST include the keys,
+'''type''', '''precision''', '''scale''', and '''nullable'''. The '''type'''
+value MUST be the data type of the column, and SHOULD be chosen from among the
+standard types ''bigint'', ''binary'', ''bit'', ''char'', ''date'',
+''decimal'', ''double'', ''float'', ''integer'', ''longvarbinary'',
+''longvarchar'', ''numeric'', ''real'', ''time'', ''timestamp'', ''smallint'',
 ''tinyint'', ''varbinary'', and ''varchar'. The '''precision''' and
-'''scale''' values SHOULD give the precision and scale of the
-column, and the '''nullable''' value SHOULD give a boolean value that
-represents whether the given column can contain NULL values.
+'''scale''' values SHOULD give the precision and scale of the column, and the
+'''nullable''' value SHOULD give a boolean value that represents whether the
+given column can contain NULL values.
 
-Other keys MAY be included in the subdictionaries returned from
-'''tables''' and '''columns''', and SHALL be added to this document
-(as optional columns) on request from the implementors of database
-interfaces.
+Other keys MAY be included in the subdictionaries returned from '''tables'''
+and '''columns''', and SHALL be added to this document (as optional columns)
+on request from the implementors of database interfaces.
 
 ~~ The statement interface
 
-The statement handle returned from the '''prepare''' command on a
-database interface must itself be an ensemble. The following
-subcommands MUST be accepted:
+The statement handle returned from the '''prepare''' command on a database
+interface must itself be an ensemble. The following subcommands MUST be
+accepted:
 
  * ''statementHandle'' '''params'''
 
  > Requests a description of the names and expected data types of the
    parameters to the given statement. The return value from the '''params'''
-   command MUST be a dictionary whose keys are the names of the
-   parameters and whose values are themselves dictionaries.
-   The keys of the subdictionaries MUST include ''name'',
-   ''type'', ''precision'', ''scale'', and ''nullable''. They are interpreted
-   in the same way as those of the '''columns''' subcommand to a database
-   interface (shown above).  The subdictionaries also MUST include the
-   key, ''direction'', whose value identifies the direction of parameter
-   transmission, and MUST be chosen from among ''in'', ''out'' and ''inout''.
+   command MUST be a dictionary whose keys are the names of the parameters and
+   whose values are themselves dictionaries.  The keys of the subdictionaries
+   MUST include ''name'', ''type'', ''precision'', ''scale'', and
+   ''nullable''. They are interpreted in the same way as those of the
+   '''columns''' subcommand to a database interface (shown above). The
+   subdictionaries also MUST include the key, ''direction'', whose value
+   identifies the direction of parameter transmission, and MUST be chosen from
+   among ''in'', ''out'' and ''inout''.
 
  * ''statementHandle'' '''execute''' ?''dictionary''?
 
  > Executes a statement against a database. Any variable substitution present
    in the SQL that was provided when the statement was created MUST be
-   performed at this time.  The variable values MUST be obtained from
-   the given ''dictionary'', if one is supplied.  If the dictionary
-   does not contain a key equal to a variable name in the statement,
-   a NULL value MUST be provided.
+   performed at this time. The variable values MUST be obtained from the given
+   ''dictionary'', if one is supplied. If the dictionary does not contain a
+   key equal to a variable name in the statement, a NULL value MUST be
+   provided.
 
- > If the ''dictionary'' argument is omitted, the variable values MUST
-   be obtained from the scope in which the '''execute''' command was
-   evaluated. Any variable that is undefined in that scope must be
-   replaced with a ''NULL'' value. An array variable provided to a
-   substituent MUST result in an error. Read traces against the
-   substituted variables SHOULD fire, in left-to-right order as they
-   appeared in the SQL statement. The result of the '''execute'''
-   command SHOULD be a result set, as defined under "The result set
-   interface" below.
+ > If the ''dictionary'' argument is omitted, the variable values MUST be
+   obtained from the scope in which the '''execute''' command was evaluated.
+   Any variable that is undefined in that scope must be replaced with a
+   ''NULL'' value. An array variable provided to a substituent MUST result in
+   an error. Read traces against the substituted variables SHOULD fire, in
+   left-to-right order as they appeared in the SQL statement. The result of
+   the '''execute''' command SHOULD be a result set, as defined under "The
+   result set interface" below.
 
- > This method is provided by the '''tdbc::connection''' base
-   class. In the base class, it works by creating an instance of the
-   class whose name appears in the '''statementClass''' instance
-   variable.  See "The TDBC base classes" below for the details of
-   how the derived classes should be implemented to avail themselves
-   of this method.
+ > This method is provided by the '''tdbc::connection''' base class. In the
+   base class, it works by creating an instance of the class whose name
+   appears in the '''statementClass''' instance variable. See "The TDBC base
+   classes" below for the details of how the derived classes should be
+   implemented to avail themselves of this method.
 
  * ''statementHandle'' '''close'''
 
@@ -600,7 +585,13 @@ subcommands MUST be accepted:
    so '''close''' SHALL be considered the standard means of discarding
    statements.
 
- > This command SHALL be provided in the ''tdbc::statement'' base class.
+The ''close'' command SHALL be provided in the ''tdbc::statement'' base class.
+Database interfaces that use the TDBC base classes do not need to implement
+it. The base class implementation destroys the object using '''my destroy'''.
+As a result, any result sets obtained from the statement are also destroyed,
+since they are stored in a namespace that is subordinate to the statement's
+namespace. The destructor of the statement object is expected to release any
+system resources associated with it.
 
 ~~~ Data types of parameters to prepared statements
 
@@ -625,8 +616,8 @@ For this reason, a database interface MUST support allowing the user to
 specify types of the parameters of a prepared statement. The syntax for doing
 so MUST be:
 
- * ''statementHandle'' '''paramtype''' ''paramName'' ?''direction''?
-   ''type'' ''precision'' ''scale''
+ * ''statementHandle'' '''paramtype''' ''paramName'' ?''direction''?  ''type''
+   ''precision'' ''scale''
 
  > Defines that the parameter identified by ''paramName'' in the given
    statement is to be of type ''type''. The ''type'' MUST be chosen from among
@@ -639,19 +630,18 @@ so MUST be:
    come back and extend them later if needed.)
 
  > The ''precision'' of a parameter defines the number of characters or digits
-   that it requires, and its ''scale'' defines the number of digits after
-   the decimal point, if neeeded. A database interface MAY allow negative
-   numbers for ''scale'' in contexts where they make sense.  For example,
-   a ''scale'' of -3, if allowed, SHOULD indicate that quantities in the
-   given column are all multiples of 1000.
+   that it requires, and its ''scale'' defines the number of digits after the
+   decimal point, if neeeded. A database interface MAY allow negative numbers
+   for ''scale'' in contexts where they make sense. For example, a ''scale''
+   of -3, if allowed, SHOULD indicate that quantities in the given column are
+   all multiples of 1000.
 
  > A ''direction'' must be one of the words, '''in''', '''out''' or
-   '''inout'''.  It specifies that the given parameter is an input to
-   the statement, an output from the statement, or both.  It is
-   usually meaningful only in stored procedure calls. Default is
-   '''in''', unless the parameter appears on the left-hand side of an
-   equal side in a stored procedure call, in which case the default is
-   '''out'''.
+   '''inout'''. It specifies that the given parameter is an input to the
+   statement, an output from the statement, or both. It is usually meaningful
+   only in stored procedure calls. Default is '''in''', unless the parameter
+   appears on the left-hand side of an equal side in a stored procedure call,
+   in which case the default is '''out'''.
 
 ''Examples:''
 
@@ -670,99 +660,97 @@ A statement handle MUST support the following two calls:
  * ''$statement'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName''? ?'''--'''? ?''dictionary''?
 
-This command executes the given ''statement''. Variable substitutions
-inside the statement are satisfied from the given ''dictionary'', if
-one is supplied, and from variables in the caller's scope
-otherwise. The '''-as''' option determines the form of the result, and
-the '''-columnsvariable''' option provides an optional variable in
-which the names of the result columns will be stored.  Upon
-termination of the command, whether successful or unsuccessful, the
-prepared statement is closed. The command returns a list of the rows
-returned by the affected statement. (If the affected statement does
-not yield a set of rows, the return value from the ''allrows'' command
-is an empty list.)
+This command executes the given ''statement''. Variable substitutions inside
+the statement are satisfied from the given ''dictionary'', if one is supplied,
+and from variables in the caller's scope otherwise. The '''-as''' option
+determines the form of the result, and the '''-columnsvariable''' option
+provides an optional variable in which the names of the result columns will be
+stored. Upon termination of the command, whether successful or unsuccessful,
+the prepared statement is closed. The command returns a list of the rows
+returned by the affected statement. (If the affected statement does not yield
+a set of rows, the return value from the ''allrows'' command is an empty
+list.)
 
-This command MUST function the same way as executing the statement
-explicitly (with the given ''dictionary'' argument if one is
-supplied), executing the '''$resultset allrows''' call (see
-below) on the resulting result set, and then (irrespective of
-whether the operation succeeeded) destroying the result set.
+This command MUST function the same way as executing the statement explicitly
+(with the given ''dictionary'' argument if one is supplied), executing the
+'''$resultset allrows''' call (see below) on the resulting result set, and
+then (irrespective of whether the operation succeeeded) destroying the result
+set.
 
  * ''statement'' '''foreach'''?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName''? ?'''--'''? ?''dictionary''?
    ''varName'' ''script''
 
-This command executes the given ''statement''. Variable substitutions
-inside the statement are satisfied from the given ''dictionary'', if
-one is supplied, and from variables in the caller's scope
-otherwise. The '''-as''' option determines the form of the result, and
-the '''-columnsvariable''' option provides an optional variable in
-which the names of the result columns will be stored.  For each row
-in the result set, the given ''varName'' is set to a
-list or dictionary containing the returned row, and the given
-''script'' is executed in the caller's scope. Upon termination of the
-command, whether successful or unsuccessful, the result set is
-closed.
+This command executes the given ''statement''. Variable substitutions inside
+the statement are satisfied from the given ''dictionary'', if one is supplied,
+and from variables in the caller's scope otherwise. The '''-as''' option
+determines the form of the result, and the '''-columnsvariable''' option
+provides an optional variable in which the names of the result columns will be
+stored. For each row in the result set, the given ''varName'' is set to a list
+or dictionary containing the returned row, and the given ''script'' is
+executed in the caller's scope. Upon termination of the command, whether
+successful or unsuccessful, the result set is closed.
 
-This command MUST function the same way as executing the statement
-explicitly, executing the '''$resultset foreach''' call on the
-resulting statement handle, and then (irrespective of whether the
-operation succeeded) closing the result set.
+This command MUST function the same way as executing the statement explicitly,
+executing the '''$resultset foreach''' call on the resulting statement handle,
+and then (irrespective of whether the operation succeeded) closing the result
+set.
 
-Both of these commands SHALL be provided in the '''tdbc::statement'''
-base class.
+Both of these commands SHALL be provided in the '''tdbc::statement''' base
+class.
 
 ~~ The result set interface
 
-Result sets represent the results of operations performed on the
-database. A preferred implementation for large result sets is that
-they be implemented as database cursors, so that it is possible to
-iterate over result sets that will not fit in memory. A result set
-MUST be an ensemble. The following subcommands MUST be accepted:
+Result sets represent the results of operations performed on the database. A
+preferred implementation for large result sets is that they be implemented as
+database cursors, so that it is possible to iterate over result sets that will
+not fit in memory. A result set MUST be an ensemble. The following subcommands
+MUST be accepted:
 
  * ''resultSetHandle'' '''rowcount'''
 
  > Determines the number of rows affected by a SQL statement such as
-   '''INSERT''', '''DELETE''' or '''UPDATE'''. This count MUST be
-   returned as an integer. It SHOULD NOT be confused with the number
-   of rows in the result set. A database interface need not provide
-   any interface to determine the latter number (often, the only way
-   to determine it is to read all the rows). For this reason, the
-   '''rowcount''' command MAY return an empty string for '''SELECT'''
-   operations (and any other operations that do not modify rows of the
-   database).
+   '''INSERT''', '''DELETE''' or '''UPDATE'''. This count MUST be returned as
+   an integer. It should not be confused with the number of rows in the result
+   set. A database interface need not provide any interface to determine the
+   latter number (often, the only way to determine it is to read all the
+   rows). For this reason, the '''rowcount''' command MAY return an empty
+   string, or a non-positive number, for '''SELECT''' operations (and any
+   other operations that do not modify rows of the database).
 
  * ''resultSetHandle'' '''columns'''
 
  > Determines the set of columns contained in the result set. The set of
-   columns is returned simply as a list of column names, in the order
-   in which they appear in the results.
+   columns is returned simply as a list of column names, in the order in which
+   they appear in the results.
 
  * ''resultSetHandle'' '''nextrow''' ?'''-as''' '''lists|dicts'''? ?'''--'''?
    ''variableName''
 
+ > (This interface SHALL be provided by the '''tdbc::resultset''' base class.
+   The default implementation SHALL delegate to either the '''nextlist''' or
+   '''nextdict''' methods, below.
+
  > Fetches a row of data from the result set and stores it in the given
    variable in the caller's context. 
 
- > If '''-as dicts''' is specified (the default), the row MUST be
-   represented as a dictionary suitable for use with the '''dict'''
-   command. The keys in the dictionary SHALL be the column names, and
-   the values SHALL be the values of the cells. If no rows remain, the
-   '''nextrow'' command MUST store an empty dictionary. 
-   If a cell in the row is NULL, the key MUST be omitted from the dictionary.
-   A database interface MUST NOT use a special value of any kind to represent
-   a NULL in a dictionary.
+ > If '''-as dicts''' is specified (the default), the row MUST be represented
+   as a dictionary suitable for use with the '''dict''' command. The keys in
+   the dictionary SHALL be the column names, and the values SHALL be the
+   values of the cells. If no rows remain, the '''nextrow'' command MUST store
+   an empty dictionary. If a cell in the row is NULL, the key MUST be omitted
+   from the dictionary. A database interface MUST NOT use a special value of
+   any kind to represent a NULL in a dictionary.
 
- > If '''-as lists''' is specified, the row MUST be represented as
-   a list of values, in the order in which they appear in the query.
-   (If the statement is a stored procedure call, the values comprise
-   all the '''out''' or '''inout''' parameters.)  If no rows remain,
-   the '''nextrow''' command MUST store an empty list.  If a cell in
-   the row is NULL, an empty string MUST be stored as its value.
+ > If '''-as lists''' is specified, the row MUST be represented as a list of
+   values, in the order in which they appear in the query.  (If the statement
+   is a stored procedure call, the values comprise all the '''out''' or
+   '''inout''' parameters.) If no rows remain, the '''nextrow''' command MUST
+   store an empty list. If a cell in the row is NULL, an empty string MUST be
+   stored as its value.
 
-  > The return
-   value of ''nextrow'' MUST be 1 if a row has been returned, and 0 if
-   no rows remain in the result set.
+  > The return value of ''nextrow'' MUST be 1 if a row has been returned, and
+   0 if no rows remain in the result set.
 
  > In the result set, values of type ''bigint'', ''bit'', ''decimal'',
    ''double'', ''float'', ''integer'', ''numeric'', ''real'', ''smallint'',
@@ -779,22 +767,29 @@ MUST be an ensemble. The following subcommands MUST be accepted:
    decimal point and a fraction of a second. Values of type ''binary'',
    ''longvarbinary'' and ''varbinary'' MUST be returned as Tcl byte arrays.
 
- > ''Rationale:'' Dictionaries and lists are both useful in
-   representing the result set rows.  Dictionaries allow for a ready
-   distinction between NULL values in a database and any other
-   string. With any scheme where values that can include NULLs can
-   appear in Tcl objects, the problem arises that NULL must be
-   distinguished from any other string, particularly including the
-   empty string and the word "NULL". The lack of such a distinction
-   has led to several ill-advised proposals, such as [185], for
-   representing NULLs in Tcl. These alternatives founder on the
-   principle of "everything is a string". The NULL value is not any
-   string.  Dictionaries also have the advantage that results can be
-   addressed by name rather than by position.
-   On the other hand, lists are convenient when formatting tabular
-   results from ''ad hoc'' queries.  The brevity of code that can be
-   achieved with them is also attractive.  For this reason, this TIP
-   requires both formats to be made available.
+ > ''Rationale:'' Dictionaries and lists are both useful in representing the
+   result set rows. Dictionaries allow for a ready distinction between NULL
+   values in a database and any other string. With any scheme where values
+   that can include NULLs can appear in Tcl objects, the problem arises that
+   NULL must be distinguished from any other string, particularly including
+   the empty string and the word "NULL". The lack of such a distinction has
+   led to several ill-advised proposals, such as [185], for representing NULLs
+   in Tcl. These alternatives founder on the principle of "everything is a
+   string". The NULL value is not any string.  Dictionaries also have the
+   advantage that results can be addressed by name rather than by position.
+   On the other hand, lists are convenient when formatting tabular results
+   from ''ad hoc'' queries. The brevity of code that can be achieved with them
+   is also attractive. For this reason, this TIP requires both formats to be
+   made available.
+
+ * ''resultSetHandle'' '''nextdict''' ''variableName''
+
+ * ''resultSetHandle'' '''nextlist''' ''variableName''
+
+ > These two calls are precisely equivalent to calls to the '''nextrow'''
+   command with the '''-as dicts''' and '''-as lists''' option respectively. A
+   database interface MUST provide both of these, and they are the fundamental
+   means for retrieving rows from the result set.
 
  * ''resultSetHandle'' '''close'''
 
@@ -808,7 +803,10 @@ MUST be an ensemble. The following subcommands MUST be accepted:
    interfaces, so '''close''' SHALL be considered the standard means of
    discarding result sets.
 
- > This command SHALL be provided by the '''tdbc::resultset''' base class.
+The '''close''' command SHALL be provided by the '''tdbc::resultset''' base
+class. The base class implementation destroys the object using '''my
+destroy'''. The destructor of the result object is expected to release any
+system resources associated with it.
 
 ~~~ Internal iterators
 
@@ -817,49 +815,45 @@ A result set handle MUST support the following two calls:
  * ''$resultset'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName'' ?'''--'''?
 
-This command executes the '''nextrow''' command repeatedly, producing
-a list of dictonaries or of lists (according to the value of the
-'''-as''' option). The '''allrows'''command returns the resulting
-list.  Optionally, the names of the columns of the result set are also
-stored in the named variable given by the '''-columnsvariable'''
-option.
+This command executes the '''nextrow''' command repeatedly, producing a list
+of dictonaries or of lists (according to the value of the '''-as''' option).
+The '''allrows'''command returns the resulting list. Optionally, the names of
+the columns of the result set are also stored in the named variable given by
+the '''-columnsvariable''' option.
 
  * ''statement'' '''foreach'''?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName''? ?'''--'''? ''varName'' ''script''
 
-This command optionally stores the names of the columns of the result
-set in the variable designated by the '''-columnsvariable''' option.
-It then executes the '''nextrow''' command repeatedly until all rows
-of the result set have been processed.  The '''nextrow''' command
-receives the given '''varName''' and '''-as''' option, and stores
-the row in the named variable.  For each row processed, the given
-'''script''' is executed in the caller's scope.
+This command optionally stores the names of the columns of the result set in
+the variable designated by the '''-columnsvariable''' option. It then executes
+the '''nextrow''' command repeatedly until all rows of the result set have
+been processed. The '''nextrow''' command receives the given '''varName''' and
+'''-as''' option, and stores the row in the named variable. For each row
+processed, the given '''script''' is executed in the caller's scope.
 
-Both of these commands SHALL be provided in the '''tdbc::resultset'''
-base class.
+Both of these commands SHALL be provided in the '''tdbc::resultset''' base
+class.
 
 ~~ The TDBC base classes
 
-Most implementations of database drivers SHOULD, as mentioned before,
-use Tcl objects (as in [257]) that inherit from the '''tdbc::connection''',
-'''tdbc::statement''' and '''tdbc::resultset''' classes.  The
-foregoing discussion has described the user-visible methods that are
-provided by doing so (and must otherwise be implemented). This section
-is directed to the driver implementor, and discusses certain necessary
-housekeeping issues.
+Most implementations of database drivers SHOULD, as mentioned before, use Tcl
+objects (as in [257]) that inherit from the '''tdbc::connection''',
+'''tdbc::statement''' and '''tdbc::resultset''' classes. The foregoing
+discussion has described the user-visible methods that are provided by doing
+so (and must otherwise be implemented). This section is directed to the driver
+implementor, and discusses certain necessary housekeeping issues.
 
 ~~~ Database connections
 
-However a database connection object is constructed, its constructor
-will need to seize resources (such as opening a database connection to
-the underlying database system). If the bookkeeping done by the base
-classes is to work correctly, initialization of the
-'''tdbc::connection''' base class needs to happen before external
-resources are seized. In addition, if the '''prepare''' method is not
-overloaded (and the driver SHOULD NOT have to overload it), the name
-of the class that implemements the statement interface needs to be
-provided at this time.  The recommended sequence for connection
-construction is:
+However a database connection object is constructed, its constructor will need
+to seize resources (such as opening a database connection to the underlying
+database system). If the bookkeeping done by the base classes is to work
+correctly, initialization of the '''tdbc::connection''' base class needs to
+happen before external resources are seized. In addition, if the '''prepare'''
+method is not overloaded (and the driver SHOULD NOT have to overload it), the
+name of the class that implemements the statement interface needs to be
+provided at this time. The recommended sequence for connection construction
+is:
 
 |  constructor args {
 |      next;                         # Initialize tdbc::connection
@@ -871,11 +865,11 @@ construction is:
 |                                    # initialization
 |  }
 
-Some database interfaces have a different API to stored procedures
-than to ordinary SQL statements.  These databases may need a separate
-type of statement object from the one that implements ordinary
-statements. This object can be managed as a statement owned by the
-connection by using a '''prepareCall''' method that looks like:
+Some database interfaces have a different API to stored procedures than to
+ordinary SQL statements. These databases may need a separate type of statement
+object from the one that implements ordinary statements. This object can be
+managed as a statement owned by the connection by using a '''prepareCall'''
+method that looks like:
 
 |  method prepareCall {call} {
 |      my variable statementSeq;   # Provided in the
@@ -884,33 +878,32 @@ connection by using a '''prepareCall''' method that looks like:
 |                  Stmt::[incr statementSeq] [self] $call]
 |  }
 
-In this call, '''preparedStatementClass''' is the name of the class
-that implements prepared statements.  Its constructor is expected to
-accept two arguments: the handle to the database connection, and the
-prepared statement that was passed to prepareCall.  Placing the
-resulting object inside the '''Stmt''' namespace under the current
-object (this namespace is created by the constructor of
-'''tdbc::connection''') allows for its destruction to be sequenced
-correctly when the connection is destroyed.
+In this call, '''preparedStatementClass''' is the name of the class that
+implements prepared statements. Its constructor is expected to accept two
+arguments: the handle to the database connection, and the prepared statement
+that was passed to prepareCall. Placing the resulting object inside the
+'''Stmt''' namespace under the current object (this namespace is created by
+the constructor of '''tdbc::connection''') allows for its destruction to be
+sequenced correctly when the connection is destroyed.
 
-The methods that a derived class from '''tdbc::connection''' MUST
-implement are '''prepareCall''', '''begintransaction''', '''commit''',
-and '''rollback'''.  In addition, system resources belonging to the
-connection itself MUST be cleaned up by a destructor or by a deletion
-callback at C level. (Statements and result sets MUST not be deleted
-then; the base classes take care of that.)  See "Best practices for
-memory management" below for further discussion.
+The methods that a derived class from '''tdbc::connection''' MUST implement
+are '''prepareCall''', '''begintransaction''', '''commit''', and
+'''rollback'''. In addition, system resources belonging to the connection
+itself MUST be cleaned up by a destructor or by a deletion callback at C
+level. (Statements and result sets MUST not be deleted then; the base classes
+take care of that.) See "Best practices for memory management" below for
+further discussion.
 
 ~~~ Statements
 
 The class that implements a statement SHOULD normally inherit from the
-'''tdbc::statement''' base class.  Its constructor accepts the
-connection handle and the SQL statement to prepare.  The constructor
-is responsible for invoking the base class constructor with
-'''next''', setting an instance variable ''resultSetClass'' to the
-name of the class that implements its result set, and then preparing
-the statement.  (The constructor is invoked by the '''prepare'''
-method of '''tdbc::connection.)  A sample constructor looks like:
+'''tdbc::statement''' base class. Its constructor accepts the connection
+handle and the SQL statement to prepare. The constructor is responsible for
+invoking the base class constructor with '''next''', setting an instance
+variable ''resultSetClass'' to the name of the class that implements its
+result set, and then preparing the statement. (The constructor is invoked by
+the '''prepare''' method of '''tdbc::connection.) A sample constructor looks
+like:
 
 |  constructor {connection sql} {
 |      next;                        # initialize the base class
@@ -923,101 +916,95 @@ method of '''tdbc::connection.)  A sample constructor looks like:
 |  }
 
 Derived classes from '''tdbc::statement''' MUST also implement the
-'''params''' and '''paramtype''' methods.  In addition, system
-resources belonging to the statement itself MUST be cleaned up by a
-destructor or by a deletion callback at C level. (Result sets MUST not
-be deleted then; the base classes take care of that.)  See "Best
-practices for memory management" below for further discussion.
+'''params''' and '''paramtype''' methods. In addition, system resources
+belonging to the statement itself MUST be cleaned up by a destructor or by a
+deletion callback at C level. (Result sets MUST not be deleted then; the base
+classes take care of that.) See "Best practices for memory management" below
+for further discussion.
 
 ~~~ Result sets
 
-The class that implements a result set SHOULD normally inherit from
-the '''tdbc::resultset''' base class.  Its constructor accepts the
-statement handle and the arguments to the '''execute''' method. The
-constructor is responsible for invoking the base class constructor 
-with '''next''', and executing the statement. A sample constructor
-looks like:
+The class that implements a result set SHOULD normally inherit from the
+'''tdbc::resultset''' base class. Its constructor accepts the statement handle
+and the arguments to the '''execute''' method. The constructor is responsible
+for invoking the base class constructor with '''next''', and executing the
+statement. A sample constructor looks like:
 
 |  constructor {statement args} {
 |      next
 |      uplevel 1 [list {*}[namespace code [my init]] $statement {*}$args]
 |  }
 
-Note the peculiar form of invocation for the '''init''' method in the
-example above. Since the '''init''' method needs access to local variables
-in the caller's context to do variable substitution, it needs to be
-executed at the same stack level as the constructor itself.  The
-[[namespace code [[my init]]]] call gives a command prefix that can
-be used to invoke the method in a foreign context, and this command is
-then executed with [[uplevel 1]] to do the initialization.
+Note the peculiar form of invocation for the '''init''' method in the example
+above. Since the '''init''' method needs access to local variables in the
+caller's context to do variable substitution, it needs to be executed at the
+same stack level as the constructor itself. The [[namespace code [[my init]]]]
+call gives a command prefix that can be used to invoke the method in a foreign
+context, and this command is then executed with [[uplevel 1]] to do the
+initialization.
 
-Besides the constructor and [[init]], the other methods that a result
-set class MUST implement are '''columns''', '''nextrow''', and
-'''rowcount'''. In addition, a destructor (or a C deletion callback)
-MUST clean up any system resources belonging to the result set.
+Besides the constructor and [[init]], the other methods that a result set
+class MUST implement are '''columns''', '''nextrow''', and '''rowcount'''. In
+addition, a destructor (or a C deletion callback) MUST clean up any system
+resources belonging to the result set.
 
 ~~~ Best practices for memory management in database interfaces
 
-Since the TclOO interfaces are so new, it seems wise to give
-developers of database interfaces written in C some guidance about
-effective ways to manage memory. A C-level extension, if written
-correctly, gets considerable assistance in releasing memory at the
-appropriate times from TclOO and the tdbc base classes.
+Since the TclOO interfaces are so new, it seems wise to give developers of
+database interfaces written in C some guidance about effective ways to manage
+memory. A C-level extension, if written correctly, gets considerable
+assistance in releasing memory at the appropriate times from TclOO and the
+tdbc base classes.
 
-When a database interface is first loaded as an extension, it is
-entered through its ''PackageName''_'''Init''' function.  It will
-call, in order, '''Tcl_InitStubs''', '''Tcloo_InitStubs''' (this
-second call may not be required when and if [257] is approved), and
-'''Tdbc_InitStubs''' so that Tcl, the TclOO system, and the TDBC base
-classes are all available.  Its next task is to allocate any
-per-interpreter data that may be required.  (In the case of the
-'''tdbc::odbc''' bridge, the per-interpreter data include an ODBC
-environment handle and a string literal pool.) The per-interpreter
-data structure SHOULD be reference counted, since the order of
-destruction of the objects that refer to it is unpredictable.
-Next, the initialization function creates the classes, usually by
-evaluating an initialization script containing a call to
-'''tcl_findLibrary''', where the Tcl code contains the skeletons of
-the class definitions.  With the class definitions in hand, methods
-that are implemented in C can be attached to them.  Any methods that
-need the per-interpreter data can receive it as ClientData. The
-reference count of the per-interpreter data SHOULD be incremented for
-these, and the method delete procedures should be responsible for
-decrementing the reference count.
+When a database interface is first loaded as an extension, it is entered
+through its ''PackageName''_'''Init''' function. It will call, in order,
+'''Tcl_InitStubs''', '''Tcloo_InitStubs''' (this second call may not be
+required when and if [257] is approved), and '''Tdbc_InitStubs''' so that Tcl,
+the TclOO system, and the TDBC base classes are all available. Its next task
+is to allocate any per-interpreter data that may be required. (In the case of
+the '''tdbc::odbc''' bridge, the per-interpreter data include an ODBC
+environment handle and a string literal pool.) The per-interpreter data
+structure SHOULD be reference counted, since the order of destruction of the
+objects that refer to it is unpredictable. Next, the initialization function
+creates the classes, usually by evaluating an initialization script containing
+a call to '''tcl_findLibrary''', where the Tcl code contains the skeletons of
+the class definitions. With the class definitions in hand, methods that are
+implemented in C can be attached to them. Any methods that need the
+per-interpreter data can receive it as ClientData. The reference count of the
+per-interpreter data SHOULD be incremented for these, and the method delete
+procedures should be responsible for decrementing the reference count.
 
-Each of the three classes that make up a database interface SHOULD
-have a reference-counted data structure to hold any instance data.
-This structure SHOULD be created within the '''init''' method, and
-attached to the object with '''Tcl_ObjectSetMetadata'''. The metadata
-type structure SHOULD designate a delete procedure that decrements the
-reference count.  The type structure MAY designate a clone procedure
-that returns '''TCL_ERROR'''; it is entirely permissible for TDBC
-objects not to be clonable.
+Each of the three classes that make up a database interface SHOULD have a
+reference-counted data structure to hold any instance data. This structure
+SHOULD be created within the '''init''' method, and attached to the object
+with '''Tcl_ObjectSetMetadata'''. The metadata type structure SHOULD designate
+a delete procedure that decrements the reference count. The type structure MAY
+designate a clone procedure that returns '''TCL_ERROR'''; it is entirely
+permissible for TDBC objects not to be clonable.
 
-Generally speaking, each object's instance data structure will contain
-a pointer to (and hold a counted reference to) the next higher object
-in the ownership hierarchy.  A result set will refer to the statement
-that produced it; a statement will refer to the connection in which it
-executes, and a connection will refer to the per-interp data.
+Generally speaking, each object's instance data structure will contain a
+pointer to (and hold a counted reference to) the next higher object in the
+ownership hierarchy. A result set will refer to the statement that produced
+it; a statement will refer to the connection in which it executes, and a
+connection will refer to the per-interp data.
 
-With this infrastructure in place, object destruction becomes strictly
-a local matter. Any object, when its reference count becomes zero,
-MUST release any system resources that belong to it, and decrement the
-reference count of the next object up.  There is no need for a
-connection to track its statements, or a statement to track its result
-sets. This happens automatically because the '''prepare''' and
-'''execute''' methods create statements in a namespace subordinate to
-the namespace of the owning connection, and create result sets in a
-namespace subordinate to that of the owning statement. When the owning
-objects are destroyed, the subordinate namespaces are also destroyed,
-invoking the destructors of the objects within them.
+With this infrastructure in place, object destruction becomes strictly a local
+matter. Any object, when its reference count becomes zero, MUST release any
+system resources that belong to it, and decrement the reference count of the
+next object up. There is no need for a connection to track its statements, or
+a statement to track its result sets. This happens automatically because the
+'''prepare''' and '''execute''' methods create statements in a namespace
+subordinate to the namespace of the owning connection, and create result sets
+in a namespace subordinate to that of the owning statement. When the owning
+objects are destroyed, the subordinate namespaces are also destroyed, invoking
+the destructors of the objects within them.
 
-This whole scheme is simpler than it sounds, and is observed to work
-well for the '''tdbc::odbc''' bridge (see the source code of the
-bridge for further details).  Closing a connection gracefully deletes
-the statement and result class objects (in Tcl) from top to bottom,
-and then deletes the corresponding C data structures from bottom to
-top, finally cleaning up the connection data itself.
+This whole scheme is simpler than it sounds, and is observed to work well for
+the '''tdbc::odbc''' bridge (see the source code of the bridge for further
+details).  Closing a connection gracefully deletes the statement and result
+class objects (in Tcl) from top to bottom, and then deletes the corresponding
+C data structures from bottom to top, finally cleaning up the connection data
+itself.
 
 ~~ Support procedures for implementors of database interfaces
 
@@ -1027,15 +1014,15 @@ provide certain commands to aid the job of database implementors.
 ~~~ SQL tokenisation
 
 The task of mapping variable substituions in the form, ''':varName''' into
-whatever form that a native database API can handle is a somewhat tricky
-one. For instance, substitutions that appear inside quoted strings MUST NOT be
+whatever form that a native database API can handle is a somewhat tricky one.
+For instance, substitutions that appear inside quoted strings MUST NOT be
 mapped. In order to aid in this task, the Tcl system SHALL provide a command,
-'''::tdbc::tokenize'''. This command SHALL accept a SQL statement as its
-sole parameter, and return a list of tokens. The lexical value of the
-tokens can be distinguished by their first characters:
+'''::tdbc::tokenize'''. This command SHALL accept a SQL statement as its sole
+parameter, and return a list of tokens. The lexical value of the tokens can be
+distinguished by their first characters:
 
-   * '$', ':' and '@' are all variable substitutions; the remainder of
-     the token string is a variable name.
+   * '$', ':' and '@' are all variable substitutions; the remainder of the
+     token string is a variable name.
 
    * ';' is a statement separator, for databases that allow multiple
      statements to be prepared together.
@@ -1044,41 +1031,41 @@ tokens can be distinguished by their first characters:
 
    * Anything else is literal text to be copied into a SQL statement.
 
-Assuming that a native database's lexical structure conforms with
-standard SQL, the variable names can be substituted with parameter
-numbers, question marks, or whatever the database needs, to yield the
-native SQL that must be prepared.
+Assuming that a native database's lexical structure conforms with standard
+SQL, the variable names can be substituted with parameter numbers, question
+marks, or whatever the database needs, to yield the native SQL that must be
+prepared.
 
-Tokenisation is also available at the C level; to access it, a C
-extension MUST first call '''Tdbc_InitStubs'''; it is a macro that
-behaves as if it is a function with the type signature
+Tokenisation is also available at the C level; to access it, a C extension
+MUST first call '''Tdbc_InitStubs'''; it is a macro that behaves as if it is a
+function with the type signature
 
 | int Tdbc_InitStubs(Tcl_Interp* interp);
 
-where ''interp'' is a Tcl interpreter. The function returns
-'''TCL_OK''' if successful, and '''TCL_ERROR''' (with an error message
-left in the interpreter) in the case of failure.
+where ''interp'' is a Tcl interpreter. The function returns '''TCL_OK''' if
+successful, and '''TCL_ERROR''' (with an error message left in the
+interpreter) in the case of failure.
 
 The tokenisation is then available by calling 
 
 | Tcl_Obj* Tdbc_TokenizeSql(Tcl_Interp* interp,
 |                           const char* sqlCode);
 
-In this call, ''interp'' is a Tcl interpreter, and ''sqlCode'' is a
-SQL statement to parse.  If the parse is successful, the return value
-is a Tcl object with a reference count of zero that contains a list of
-token strings as with the '''tdbc::tokenize'' call.
+In this call, ''interp'' is a Tcl interpreter, and ''sqlCode'' is a SQL
+statement to parse. If the parse is successful, the return value is a Tcl
+object with a reference count of zero that contains a list of token strings as
+with the '''tdbc::tokenize'' call.
 
 ~ References
 
-This specification is largely built from studying existing
-cross-platform database APIs and deriving a comon set of requirements
-from them. These include both popular offerings in lower-level
-languages (ODBC and JDBC) and Tcl-level ones (notably the
-'nstcl-database' package, the SQLite API and tclodbc).
+This specification is largely built from studying existing cross-platform
+database APIs and deriving a comon set of requirements from them. These
+include both popular offerings in lower-level languages (ODBC and JDBC) and
+Tcl-level ones (notably the 'nstcl-database' package, the SQLite API and
+tclodbc).
 
-"ODBC Programmer's Reference." Redmond, Wash.: Microsoft Corporation,
-2007. [http://msdn2.microsoft.com/library/ms714177.aspx].
+"ODBC Programmer's Reference." Redmond, Wash.: Microsoft Corporation, 2007.
+[http://msdn2.microsoft.com/library/ms714177.aspx].
 
 "Java Platform Standard Edition 6 API Specification." Santa Clara, Calif.: Sun
 Microsystems, 2007 [http://java.sun.com/javase/6/docs/api/]; in particular the
@@ -1103,53 +1090,49 @@ explicitly disclaims all rights under copyright law.
 
 ~ Appendix. Additional possibilities.
 
-An earlier version of this TIP specified several more requirements
-for the TDBC statement objects.  In the current version, these requirements
-have been lifted.  The three areas that have been removed are
-batch processing, asynchronous query handling, and references to cursors.
+An earlier version of this TIP specified several more requirements for the
+TDBC statement objects. In the current version, these requirements have been
+lifted. The three areas that have been removed are batch processing,
+asynchronous query handling, and references to cursors.
 
-''Rationale: '' Specifying an interface like this one is always a
-tradeoff between capability of the interface and burden upon the
-implementors.  The earlier requirement for handling these three areas
-seems improvident.
+''Rationale:'' Specifying an interface like this one is always a tradeoff
+between capability of the interface and burden upon the implementors. The
+earlier requirement for handling these three areas seems improvident.
 
 The handling of bulk data ("batch processing") is to a large extent a
-performance issue. In most cases, if the performance of bulk data
-handling is critical, an implementor will resort to a compiled
-language rather than to Tcl to do so. The reporting of errors on bulk
-operations is complicated, as is the specification of what will happen
-if certain parameter sets succeed while others fail. The benefit of
-bulk data handling at the Tcl level was not deemed adequate to justify
-the implementation complexity.
+performance issue. In most cases, if the performance of bulk data handling is
+critical, an implementor will resort to a compiled language rather than to Tcl
+to do so. The reporting of errors on bulk operations is complicated, as is the
+specification of what will happen if certain parameter sets succeed while
+others fail. The benefit of bulk data handling at the Tcl level was not deemed
+adequate to justify the implementation complexity.
 
-The handling of asynchronous queries is also chiefly a performance
-issue in that it is intended to enable keeping a GUI live while
-long-running database operations are in progress.  This "keep the GUI
-alive during long operations" requirement is equally well satisfied by
-performing database operations in a separate thread (for a
-thread-enabled Tcl) or a separate subprocess, and these techniques are
-familiar to Tcl programmers. For similar reasons, the ODBC manual now
-formally deprecates using ODBC's asynchronous operations on operating
-systems that support multithreading.  Again, the benefits of
-integrating TDBC into the event loop do not appear to justify the cost
-in complexity to be gained.
+The handling of asynchronous queries is also chiefly a performance issue in
+that it is intended to enable keeping a GUI live while long-running database
+operations are in progress. This "keep the GUI alive during long operations"
+requirement is equally well satisfied by performing database operations in a
+separate thread (for a thread-enabled Tcl) or a separate subprocess, and these
+techniques are familiar to Tcl programmers. For similar reasons, the ODBC
+manual now formally deprecates using ODBC's asynchronous operations on
+operating systems that support multithreading. Again, the benefits of
+integrating TDBC into the event loop do not appear to justify the cost in
+complexity to be gained.
 
-References to cursors are a feature that is highly dependent on the
-underlying database. It is not clear that the specification described
-below is even readily implementable on all the platforms that have
-refcursors.  Most of these, in any case, provide some other way of
-achieving the same end.  For instance, Oracle allows returning a
-cursor by name, and then executing a statment, 
-'FETCH ALL FROM :cursorName', to retrieve the data from the cursor.
-Again, here is a feature that adds complexity out of proportion to
-the benefits achieved.
+References to cursors are a feature that is highly dependent on the underlying
+database. It is not clear that the specification described below is even
+readily implementable on all the platforms that have refcursors. Most of
+these, in any case, provide some other way of achieving the same end. For
+instance, Oracle allows returning a cursor by name, and then executing a
+statment, "FETCH ALL FROM :cursorName", to retrieve the data from the cursor.
+Again, here is a feature that adds complexity out of proportion to the
+benefits achieved.
 
 ~~ Batch processing
 
-Some databases provide an interface to pass bulk data into a
-statement, in order to provide an efficient means for doing tasks such
-as inserting a large number of rows into a table at once. A statement
-handle MUST provide the subcommands:
+Some databases provide an interface to pass bulk data into a statement, in
+order to provide an efficient means for doing tasks such as inserting a large
+number of rows into a table at once. A statement handle MUST provide the
+subcommands:
 
  * ''$statement'' '''startbatch'''
 
@@ -1157,125 +1140,120 @@ handle MUST provide the subcommands:
 
  * ''$statement'' '''addtobatch''' ''dictionary''
 
- > Adds the values given by ''dictionary'' into the specified
-   statement.  The ''dictionary'' argument is exactly the same as
-   the ''dictionary'' argument to [[''$statement'' '''execute''']].
+ > Adds the values given by ''dictionary'' into the specified statement. The
+   ''dictionary'' argument is exactly the same as the ''dictionary'' argument
+   to [[''$statement'' '''execute''']].
 
- > If no batch operation is in progress, the database interface MUST
-   throw an error.
+ > If no batch operation is in progress, the database interface MUST throw an
+   error.
 
  * ''$statement'' '''executebatch'''
 
- > Executes the batch of operations accumulated by
-   [[''$statement'' '''addToBatch''']].  
+ > Executes the batch of operations accumulated by [[''$statement''
+   '''addToBatch''']].
 
- > The result of '''executebatch''' MUST be a result set. The rows of
-   the result set are the result of concatenating the rows returned
-   from the individual operations.
+ > The result of '''executebatch''' MUST be a result set. The rows of the
+   result set are the result of concatenating the rows returned from the
+   individual operations.
 
- > If no batch operation is in progress, the database interface MUST
-   return an error.
+ > If no batch operation is in progress, the database interface MUST return an
+   error.
 
-If an underlying database does not support batch operations,
-the database interface SHOULD simulate them by accumulating the data
-in memory and executing the statement repeatedly when the
-'''executeBatch''' operation is requested.
+If an underlying database does not support batch operations, the database
+interface SHOULD simulate them by accumulating the data in memory and
+executing the statement repeatedly when the '''executeBatch''' operation is
+requested.
 
-The database interface MUST return an error if an attempt is made to
-execute a statement in the ordinary manner or to request a commit
-while there is an unfinished batch in progress. A rollback, or
-closing the statement, or closing the database connection, while a
-batch is in progress MUST result in abandoning the batch without 
-applying any changes to the database.
+The database interface MUST return an error if an attempt is made to execute a
+statement in the ordinary manner or to request a commit while there is an
+unfinished batch in progress. A rollback, or closing the statement, or closing
+the database connection, while a batch is in progress MUST result in
+abandoning the batch without applying any changes to the database.
 
 ~~ Asynchronous queries
 
-Some database operations take a long time to complete.  In order to
-avoid freezing the event loop, a database interface MAY provide an
-asynchronous query mechanism.  If it does so, it MUST take the form:
+Some database operations take a long time to complete. In order to avoid
+freezing the event loop, a database interface MAY provide an asynchronous
+query mechanism. If it does so, it MUST take the form:
 
  * ''$resultSet'' '''whenready''' ''script''
 
 In this interface, ''$resultSet'' is the handle of a result set. The
-'''whenready''' command requests that ''script'' be evaluated at the
-global level once for each row of the result set, plus once after all
-rows have been returned.  The script SHOULD execute '''nextrow''' to
-retrieve the next row or get the indication that no rows remain.
+'''whenready''' command requests that ''script'' be evaluated at the global
+level once for each row of the result set, plus once after all rows have been
+returned. The script SHOULD execute '''nextrow''' to retrieve the next row or
+get the indication that no rows remain.
 
 ~~ References to cursors
 
-Some databases allow stored procedures to return references to
-cursors. If a column of a result set contains a reference to a cursor,
-it MUST be represented in Tcl as another result set handle. A Tcl
-script can then iterate over this included result set to use the
-reference to a cursor.  
+Some databases allow stored procedures to return references to cursors. If a
+column of a result set contains a reference to a cursor, it MUST be
+represented in Tcl as another result set handle. A Tcl script can then iterate
+over this included result set to use the reference to a cursor.
 
-The given result set MUST be destroyed upon the next call to
-''nextrow''.  For this reason, Tcl code MUST not use the '''allrows'''
-command with a statement that can return references to cursors.
+The given result set MUST be destroyed upon the next call to ''nextrow''. For
+this reason, Tcl code MUST not use the '''allrows''' command with a statement
+that can return references to cursors.
 
 ----
 
-~ Change summary
+~ Appendix. Change summary
 
-   2008-04-27: Removed asynchronous queries, refcursors, and batch
-   updates from the main body of the spec. Performed a good bit of
-   general cleanup to bring the spec back in line with the reference
-   implementation being developed. 
+   2008-04-27: Removed asynchronous queries, refcursors, and batch updates
+     from the main body of the spec. Performed a good bit of general cleanup
+     to bring the spec back in line with the reference implementation being
+     developed.
 
    2007-11-23: Expanded transaction management to have both the
-   '''transaction''' command and explicit transaction boundaries.
-   Added transaction isolation levels.
+     '''transaction''' command and explicit transaction boundaries. Added
+     transaction isolation levels.
 
- > Added lists as an alternative to dicts as a representation of rows
-   in result sets.  Added a side interface for retrieving the set of
-   column names in the convenience procedures.
+   > Added lists as an alternative to dicts as a representation of rows in
+     result sets. Added a side interface for retrieving the set of column
+     names in the convenience procedures.
 
- > Simplified introspection to return lists instead of result sets
+   > Simplified introspection to return lists instead of result sets
 
- > Added batch processing.
+   > Added batch processing.
 
- > Added asynchronous query processing.
+   > Added asynchronous query processing.
 
- > Added an interface for stored procedures.
+   > Added an interface for stored procedures.
 
- > Added a discussion of returning refcursors.
+   > Added a discussion of returning refcursors.
 
-   2007-11-16: Changed the transaction management API from explicit
-   commit and rollback to a model where a script is executed as an
-   atomic operation.
+   2007-11-16: Changed the transaction management API from explicit commit and
+     rollback to a model where a script is executed as an atomic operation.
 
- > Changed the "execute" API and the convenience procedures that
-   use it to accept an optional dictionary containing substituents,
-   so the substituents need not pollute the local namespace.  The
-   version accepting variables is still provided, because it is
-   useful in the case of static queries where the substitutions follow
-   a predetermined pattern.
+   > Changed the "execute" API and the convenience procedures that use it to
+     accept an optional dictionary containing substituents, so the
+     substituents need not pollute the local namespace. The version accepting
+     variables is still provided, because it is useful in the case of static
+     queries where the substitutions follow a predetermined pattern.
 
- > Added reference to the author's cover letter on tcl-core.
+   > Added reference to the author's cover letter on tcl-core.
 
- > Added missing citation of the nstcl-database API.
+   > Added missing citation of the nstcl-database API.
 
 ----
 
-~ Comments
+~ Appendix. Comments
 
 Artur Trzewik (2007-11-19):
 
- > I miss defined error handling. Current DB-Api handles them in
-   different way. How to obtain SQL-error message from server. If
-   "execute" fails should it return TCL_ERROR or it should be special
-   api for error code.
+ > I miss defined error handling. Current DB-Api handles them in different
+   way. How to obtain SQL-error message from server. If "execute" fails should
+   it return TCL_ERROR or it should be special api for error code.
 
- > I miss C-framework or template to implement such API. Writing
-   everything from scratch for all DB will be quite painfully. There
-   are many things which can be reused: New Tcl objects, handles
-   managing, thread-safe managing, encoding. Also prepared statements
-   are not so easy. For example mysql requires that one allocate fixed
-   size memory for all variables. It does not fit well with Tcl.
+ > I miss C-framework or template to implement such API. Writing everything
+   from scratch for all DB will be quite painfully. There are many things
+   which can be reused: New Tcl objects, handles managing, thread-safe
+   managing, encoding. Also prepared statements are not so easy. For example
+   mysql requires that one allocate fixed size memory for all variables. It
+   does not fit well with Tcl.
 
 Kevin Kenny (2007-11-23):
 
-Rest assured that at least one reference implementation will be
-published before this TIP is considered FINAL; database implementors
-are not going to be abandoned.
+ > Rest assured that at least one reference implementation will be published
+   before this TIP is considered FINAL; database implementors are not going to
+   be abandoned.
