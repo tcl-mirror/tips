@@ -1,14 +1,14 @@
-TIP:		320
-Title:		Improved Variable Handling in the Core Object System
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Donal K. Fellows <dkf@users.sf.net>
-Created:	13-Jun-2008
-Keywords:	TclOO
+TIP:            320
+Title:          Improved Variable Handling in the Core Object System
+Version:        $Revision: 1.2 $
+Author:         Donal K. Fellows <dkf@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Jun-2008
+Post-History:   
+Keywords:       TclOO
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -41,7 +41,7 @@ There are two ways of dealing with this issue.
 
 Studying the first alternative, there are two ways to actually achieve this:
 not putting the variables in a namespace but actually using a separate
-structure (poor, because then we would use the ability to easily use the
+structure (poor, because then we would lose the ability to easily use the
 variable with many of Tcl's general variable facilities), or modifying the
 namespace-visible name of each variable to include some unique string coupled
 to the class declaring it. Though I think that the second option is better
