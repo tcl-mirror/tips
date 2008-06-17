@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -1266,8 +1266,8 @@ Andreas Leitgeb (2008-06-17):
    separate methods. Was this discussion dropped, or has it just
    not yet been reflected here?
 
- > For '''allrows''' and '''foreach''' calls there is:
-     ... ?'''-columnsvariable''' ''varName''? ...
+ > For '''allrows''' and '''foreach''' calls there is
+   ?'''-columnsvariable''' ''varName''? ...
    I think, another option: ?'''-indicatorvariable''' ''varName''?
    would be useful, as it allows both NULLs and equally named 
    columns at the same time. Without indicator, dicts can handle
