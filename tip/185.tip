@@ -1,12 +1,12 @@
 TIP:		185
 Title:		Null Handling
-Version:	$Revision: 1.7 $
+Version:	$Revision: 1.8 $
 Tcl-Version:	8.6
 Author:		John H. Harris <JHHarris@valley.net>
 Created:	08-Apr-2004
 Type:		Project
-State:		Draft
-Vote:		In progress
+State:		Rejected
+Vote:		Done
 Post-History:	
 Keywords:	Tcl, absent value
 
