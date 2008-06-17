@@ -1,8 +1,9 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
+Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -1257,3 +1258,17 @@ Kevin Kenny (2007-11-23):
  > Rest assured that at least one reference implementation will be published
    before this TIP is considered FINAL; database implementors are not going to
    be abandoned.
+
+Andreas Leitgeb (2008-06-17):
+
+ > For '''allrows''' and '''foreach''' calls, there has been some
+   discussion about replacing the idiom '''-as list|dict''' by 
+   separate methods. Was this discussion dropped, or has it just
+   not yet been reflected here?
+
+ > For '''allrows''' and '''foreach''' calls there is:
+     ... ?'''-columnsvariable''' ''varName''? ...
+   I think, another option: ?'''-indicatorvariable''' ''varName''?
+   would be useful, as it allows both NULLs and equally named 
+   columns at the same time. Without indicator, dicts can handle
+   only the former, and lists only the latter.
