@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.48 $
+Version:        $Revision: 1.49 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -167,7 +167,8 @@ assigned:
 			      Jeff Hobbs <JeffH@ActiveState.com>,
                               Joe Mistachkin <joe@mistachkin.com>
 
-   1. ''Release Notes'' - Jeff Hobbs <JeffH@ActiveState.com>,
+   1. ''Release Notes'' - Don Porter <dgp@users.sf.net>,
+                          Jeff Hobbs <JeffH@ActiveState.com>,
                           Daniel Steffen <das@users.sf.net> (Mac OS X),
                           Jim Ingham <jingham@apple.com> (Mac OS X)
 
