@@ -1,6 +1,6 @@
 TIP:            320
 Title:          Improved Variable Handling in the Core Object System
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Donal K. Fellows <dkf@users.sf.net>
 State:          Draft
 Type:           Project
@@ -107,7 +107,7 @@ variables that can be returned by '''info object vars''').
 
 ~ Implementation
 
-Not yet done; details still to be written up here.
+http://sf.net/tracker/?func=detail&aid=2005460&group_id=10894&atid=310894
 
 ~ Copyright
 
