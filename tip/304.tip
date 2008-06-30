@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [chan pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -132,8 +132,8 @@ think it would be theoretically possible to reimplement them in pure Tcl
 thanks to the added power of one tiny extra primitive)
 
 A more serious advantage, is that it allows the "half-close" of a command
-pipeline (detailed in [301] which the current TIP makes 301 partly
-obsolete). Indeed
+pipeline (detailed in [301] which the current TIP makes partly obsolete).
+Indeed
 
 |	chan pipe pr pw
 |	chan pipe qr qw
