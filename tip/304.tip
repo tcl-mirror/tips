@@ -1,13 +1,13 @@
 TIP:            304
-Title:          A Standalone [pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.8 $
+Title:          A Standalone [chan pipe] Primitive for Advanced Child IPC
+Version:        $Revision: 1.9 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        07-Feb-2007
 Post-History:   
-Keywords:       Tcl,exec,process,subprocess,pipeline
+Keywords:       Tcl,exec,process,subprocess,pipeline,channel
 Tcl-Version:    8.6
 
 ~ Abstract
@@ -16,7 +16,8 @@ Currently, it is not easy to get both (separate) dataflows from the stdout and
 stderr of a child. BLT's '''bgexec''' does this in an extension, and could be
 added to the core. But the point of this TIP is to show that a much smaller
 code addition can provide a lower-level primitive with much more potential
-than '''bgexec''''s: a ''standalone pipe'' creation tool like TclX's '''pipe''' command.
+than '''bgexec''''s: a ''standalone pipe'' creation tool like TclX's
+'''pipe''' command.
 
 ~ Background
 
@@ -51,10 +52,11 @@ blocks on open() if other side is not ready).
 
 ~ Proposed Change
 
-All this points to the obvious solution: steal TclX's '''pipe''' command, which wraps the OS's pipe()/CreatePipe()
-syscall, yielding two Tcl channels wrapping the read and write side of the underlying pipe.
+All this points to the obvious solution: steal TclX's '''pipe''' command,
+which wraps the OS's pipe()/CreatePipe() syscall, yielding two Tcl channels
+wrapping the read and write side of the underlying pipe.
 
-TclX's pipe command allows two syntaxes:
+TclX's '''pipe''' command allows two syntaxes:
 
 |	pipe pr pw
 |	foreach {pr pw} [pipe] break
@@ -68,18 +70,39 @@ Its application to following stderr is straightfoward:
 
 ~~ Specification
 
-Nothing more than TclX's which is perfect (quoting TclX's doc):
+Nothing more than TclX's which is perfect (quoting TclX's doc except for a
+minor syntax change):
 
-|	chan pipe ?pr pw?
+ >	'''chan pipe''' ?''pr pw''?
 
-Create a pipe. If ''pr'' and ''pw'' are specified, then [[chan pipe]] will set the variable named ''pr'' to contain the channel wrapping the side of the pipe that was opened for reading, and ''pw'' the same for writing.
-Subsequently, anything written to $pw will be readable on $pr.
- If the variables are not specified, then a list containing the read and write channels is returned as the result of the command.
+Create a pipe. If ''pr'' and ''pw'' are specified, then '''chan pipe''' will
+set the variable named ''pr'' to contain the channel wrapping the side of the
+pipe that was opened for reading, and ''pw'' the same for writing.
+Subsequently, anything written to $pw will be readable on $pr. If the
+variables are not specified, then a list containing the read and write
+channels is returned as the result of the command.
+
+The name is changed to '''chan pipe''' to reduce the amount of cluttering up
+of Tcl's public interface.
+
+~~ C Interface
+
+A counterpart to '''chan pipe''' is added to Tcl's C API:
+
+ > int '''Tcl_CreatePipe'''(Tcl_Interp *''interp'', Tcl_Channel *''rchan'',
+   Tcl_Channel *''wchan'', int ''flags'')
+
+The ''interp'' argument is used for reporting errors and registering the
+channels created, the ''rchan'' and ''wchan'' arguments point to variables
+into which to place the channels for each end of the pipeline, and the
+''flags'' argument is reserved for future expansion.
 
 ~ Discussion
 
-It has been in TclX for years, so it is fireproof.
-The code can be directly copied from there, and is dead simple, just calling  Tcl_MakeFileChannel and Tcl_RegisterChannel on both fds/handles. Just the low-level syscall changes between unix and windows.
+It has been in TclX for years, so it is fireproof. The code can be directly
+copied from there, and is dead simple, just calling Tcl_MakeFileChannel and
+Tcl_RegisterChannel on both fds/handles. Just the low-level syscall changes
+between unix and windows.
 
 ~~ Additional Benefits
 
@@ -108,7 +131,9 @@ of the tedious lines above; however as an orthogonality worshipper I like to
 think it would be theoretically possible to reimplement them in pure Tcl
 thanks to the added power of one tiny extra primitive)
 
-A more serious advantage, is that it allows the "half-close" of a command pipeline (detailed in TIP 301; yes, the current TIP makes 301 partly obsolete...). Indeed
+A more serious advantage, is that it allows the "half-close" of a command
+pipeline (detailed in [301] which the current TIP makes 301 partly
+obsolete). Indeed
 
 |	chan pipe pr pw
 |	chan pipe qr qw
@@ -143,7 +168,8 @@ to a central message routing process).
 
 ~ Reference Implementation
 
-A patch against the Tcl HEAD (8.6) is located at https://sourceforge.net/tracker/index.php?func=detail&aid=1978495&group_id=10894&atid=310894
+A patch against the Tcl HEAD (8.6) is located at
+http://sf.net/tracker/?func=detail&aid=1978495&group_id=10894&atid=310894
 
 ~ Copyright
 
