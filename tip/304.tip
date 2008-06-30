@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -70,9 +70,9 @@ Its application to following stderr is straightfoward:
 
 Nothing more than TclX's which is perfect (quoting TclX's doc):
 
-|	pipe ?pr pw?
+|	chan pipe ?pr pw?
 
-Create a pipe. If ''pr'' and ''pw'' are specified, then pipe will set the variable named ''pr'' to contain the channel wrapping the side of the pipe that was opened for reading, and ''pw'' the same for writing.
+Create a pipe. If ''pr'' and ''pw'' are specified, then [[chan pipe]] will set the variable named ''pr'' to contain the channel wrapping the side of the pipe that was opened for reading, and ''pw'' the same for writing.
 Subsequently, anything written to $pw will be readable on $pr.
  If the variables are not specified, then a list containing the read and write channels is returned as the result of the command.
 
@@ -86,8 +86,8 @@ The code can be directly copied from there, and is dead simple, just calling  Tc
 It should also be noted that this primitive allows to deprecate the use of
 [['''open''' "|..."]] and '''pid''' themselves !
 
-|	pipe p1r p1w
-|	pipe p2r p2w
+|	chan pipe p1r p1w
+|	chan pipe p2r p2w
 |	set pids [exec cmd $args >@ $p1w 2>@ $p2w &]
 |	fileevent $p1r readable got_stdout
 |	fileevent $p2r readable got_stderr
@@ -110,8 +110,8 @@ thanks to the added power of one tiny extra primitive)
 
 A more serious advantage, is that it allows the "half-close" of a command pipeline (detailed in TIP 301; yes, the current TIP makes 301 partly obsolete...). Indeed
 
-|	pipe pr pw
-|	pipe qr qw
+|	chan pipe pr pw
+|	chan pipe qr qw
 |	exec a <@$pr >@$qw &
 
 allows to close just the read side with
