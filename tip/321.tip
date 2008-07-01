@@ -1,0 +1,165 @@
+TIP:		321
+Title:		Add a tk::busy Command
+Version:	$Revision: 1.1 $
+Author:		Jos Decoster <jos.decoster@gmail.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	26-Jun-2008
+Post-History:	
+Keywords:	Tk,BLT,busy
+Tcl-Version:	8.6
+
+~ Abstract
+
+The '''blt::busy''' commands can be used to make Tk widget busy, with all user
+interaction blocked and the cursor can be changed to e.g. a clock. This TIP
+proposes to add this useful feature to Tk.
+
+~ Rationale
+
+BLT has a lot of very useful commands: '''bgexec''', '''busy''', '''vector''',
+'''graph''' widget, '''barchart''' widget, ... But getting BLT to work with
+the latest releases of Tcl and Tk becomes more and more difficult. Some of the
+problems I experienced are:
+
+ * internal Tk structures are mirrored
+
+ * interaction with xft fails, so Tk has to be build without xft support
+
+ * the build process is different from the one used in Tcl and Tk
+
+Discussions on CLT and #tcl indicated that extracting functionality from BLT
+and add it to Tcl and Tk might be a good way to make the blt commands
+available for every Tcl programmer.
+
+This TIP proposes a way to add the blt::busy command to Tk, based on the code
+as found in BLT2.4z and the code as found in busy.kit. While adding the code
+to Tk, it was rewritten to use the Tcl_Obj interface and the new option
+interface.
+
+The name of this new Tk command as currently implemented is '''tk::busy'''.
+Adding it as an option to the '''grab''' command might cause confusion as the
+'''tk::busy''' command has the opposite functionality of the '''grab'''
+command. It blocks all user interaction rather than redirecting it to one
+widget. Another alternative is adding it to the ensemble of '''tk''' commands
+('''tk appname''', '''tk scaling''', '''tk inactive''', ...).
+
+~ Specification
+
+The '''tk::busy''' command is an ensemble with a special feature that any
+unrecognized subcommand that starts with a period is treated as an invokation
+of the '''hold''' subcommand upon the widget with that name.
+
+~~ Hold Subcommand
+
+ > '''tk::busy''' ''window'' ?''option value''?
+
+ > '''tk::busy hold''' ''window'' ?''option value''?
+
+Makes the widget window (and its descendants in the Tk window hierarchy) busy.
+''Window'' must be a valid path name of a Tk widget. The busy window is mapped
+the next time idle tasks are processed, and the widget and its descendants
+will be blocked from user interactions. All events in the widget window and
+its descendants are ignored. Normally update should be called immediately
+afterward to insure that the hold operation is in effect before the
+application starts its processing. The following configuration options are
+valid:
+
+ > '''-cursor''' ''cursorName'' 
+
+Specifies the cursor to be displayed when the widget is made busy. CursorName can be in any form accepted by Tk_GetCursor. The default cursor is watch.
+
+~~ Forget Subcommand
+
+ > '''tk::busy forget''' ''window''
+
+Releases resources allocated by the '''tk::busy''' command for ''window'',
+including the busy window. User events will again be received again by
+window. Resources are also released when window is destroyed. ''Window'' must
+be the name of a widget specified in the '''hold''' operation, otherwise an
+error is reported.
+
+~~ Release Subcommand
+
+ > '''tk::busy release''' ''window''
+
+Restores user interactions to the widget ''window'' again. This differs from
+the '''forget''' operation in that the busy window is not destroyed, but
+simply unmapped. ''Window'' must be the name of a widget specified in a
+'''hold''' operation, otherwise an error is reported.
+
+~~ Isbusy Subcommand
+
+ > '''tk::busy isbusy''' ?''pattern''?
+
+Returns the pathnames of all widgets that are currently busy. If a ''pattern''
+is given, the path names of busy widgets matching ''pattern'' are returned.
+
+~~ Names Subcommand
+
+ > '''tk::busy names''' ?''pattern''?
+
+Returns the pathnames of all widgets that have previously been made busy
+(i.e. a busy window is allocated and associated with the widget). It makes no
+difference if the window is currently busy or not. If a ''pattern'' is given,
+the path names of busy widgets matching ''pattern'' are returned.
+
+~~ Status Subcommand
+
+ > '''tk::busy status''' ''window''
+
+Returns the busy status of a widget ''window''. If ''window'' presently can
+not receive user interactions, 1 is returned, otherwise 0.
+
+~~ Configure Subcommand
+
+ > '''tk::busy configure''' ''window'' ?''option''? ?''value ...''?
+
+Queries or modifies the '''tk::busy''' command configuration options for
+''window''. ''Window'' must be the path name of a widget previously made busy
+by the '''hold''' operation. If no options are specified, a list describing
+all of the available options for window (see Tk_ConfigureInfo for information
+on the format of this list) is returned. If ''option'' is specified with no
+''value'', then the command returns a list describing the one named option
+(this list will be identical to the corresponding sublist of the value
+returned if no option is specified). If one or more ''option-value'' pairs are
+specified, then the command modifies the given widget option(s) to have the
+given value(s); in this case the command returns the empty string. Option may
+have any of the values accepted by the hold operation.
+
+Please note that the option database is referenced through window. For
+example, if the widget .frame is to be made busy, the busy cursor can be
+specified for it by either option command:
+
+|        option add *frame.busyCursor gumby
+|        option add *Frame.BusyCursor gumby
+
+~~ Cget Subcommand
+
+ > '''tk::busy cget''' ''window option''
+
+Queries the '''tk::busy''' command configuration options for ''window''.
+''Window'' must be the path name of a widget previously made busy by the
+'''hold''' operation. The command returns the present value of the specified
+''option''. ''Option'' may have any of the values accepted by the '''hold'''
+operation.
+
+~ Reference Implementation
+
+See SourceForge patch #1997907
+[http://sf.net/tracker/?func=detail&aid=1997907&group_id=12997&atid=312997].
+
+~ Compatibility
+
+Because the command as proposed above has the same interface and behavior as
+the '''blt::busy''' command, replacing '''blt::busy''' with '''tk::busy''' is
+all that's needed to switch to the Tk version of the busy command.
+
+~ Alternatives
+
+The busy command is available as starkit from http://tcl.tk/starkits/busy.kit
+
+~ Copyright
+
+This document has been placed in the public domain.
