@@ -1,6 +1,6 @@
 TIP:            312
 Title:          Create 'link' Command and Add More Link Types
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Rene Zaumseil <r.zaumseil@freenet.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -13,33 +13,27 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-This TIP proposes adding a command, '''link''', to allow Tcl scripts to
-control the linking of Tcl variables and C variables. It also adds more types
-of linked variable.
+This TIP proposes adding a command, '''Tcl_LinkArray''', to allow
+linking of C variables to Tcl lists.
+It also adds more types of linked variable.
 
 ~ Rationale
 
-Until now it has been possible to link C and Tcl variables together, but the API has
-existed only on the C level. This proposal adds a new script-level '''link'''
-command as well as proposed some additional link types. With this new command, it will be very easy to get data from and
-put values into specific memory locations (e.g. shared memories or memory-mapped
-devices).
+The current C-API allows one to only link single variables.
+The proposed ''Tcl_LinkArray'' function allows the linking of C-arrays to Tcl list variables.
+If the given ''size'' value is 1 then it works like the existing ''Tcl_LinkVar'' function.
+The automatic creation of needed space when no ''address'' value is provided could be used for testing scenarios.
 
-The current C-API allows one to only link single variables. The proposed
-''Tcl_LinkArray'' function allows the linking of C-arrays to Tcl list variables.
-
-The new link types also allow one to link from strings and binary arrays to fixed memory
-locations.
-
-The automatic creation of needed space when no ''address'' value is provided
-could be used for testing scenarios.
+The new link types also allow one to link from strings and binary arrays to fixed memory locations.
 
 The use of arrays with a given ''size > 1'' allows a safe and simple C-Tcl
-connection. Overwrites create errors.
+connection. Array overwrites create errors.
 
-It will be possible to crash an application (e.g. with "'''link create int''' ''1 x
-1''"). So the new command should be treated with care and not exposed to unsafe
-interpreters.
+The original proposed ''link'' Tcl command is removed because of security reasons.
+It still exists in the ''tclTest.c'' file as ''TestlinkarrayCmd''
+and is used in the ''link.test'' file as ''testlinkarray'' command.
+
+One can use this as a starting point for own extensions.
 
 ~ Specification
 
@@ -47,7 +41,7 @@ This document proposes the following changes to the Tcl core:
 
 ~~ New C API
 
-Add a new ''Tcl_LinkArray'' function to provide links of single variable and
+Add a new public ''Tcl_LinkArray'' function to provide links of single variable and
 array variables. The new function would have the same parameters as the
 ''Tcl_LinkVar'' function, plus an additional ''int size''. If the given size is 1,
 then we have the same functionality as before. With ''size'' > 1, the linked
@@ -77,44 +71,45 @@ below:
        *''. The address remains always the same. Read and write operations
        must always contain the full sized binary string.
 
-~~ New Tcl API
+~~ New Tcl test API
 
-Add a new Tcl command, '''link''', with the following subcommands:
+The following command is only available for internal testing.
+It is not exposed in ordinary Tcl interpreters.
 
- > '''link create''' ?'''-readonly'''? ''type size name'' ?''address''?
+Add a new Tcl command, '''testlinkarray''', with the following subcommands:
+
+ > '''testlinkarray create''' ?'''-readonly'''? ''type size name'' ?''address''?
 
 Create a new link to the Tcl variable ''name'' and return the address of the C
 variable. If '''-readonly''' is given, then the Tcl variable is read only. The
 ''type'' argument specifies the used link type (from the following list); the used
 names are more verbose then p.e. the signs in the ''binary'' command.
 
- > binary, boolean, char, chars, double, float, int, long, short, string,
+ > binary, boolean, char, char*, double, float, int, long, short, string,
    uchar, uint, uint, ulong, ushort
 
 The ''size'' argument gives the number of ''type'' elements in the array. The
 optional ''address'' argument specifies where the C variable or array is
 located; if omitted, a suitable block of memory is allocated.
 
- > '''link remove''' ''varname ...''
+ > '''testlinkarray remove''' ''varname ...''
 
 Call the ''Tcl_UnlinkVar'' function for each of the given variable names,
-destroying links created with '''link create'''.
+destroying links created with '''testlinkarray create'''.
 
- > '''link update''' ''varname ...''
+ > '''testlinkarray update''' ''varname ...''
 
 Call the ''Tcl_UpdateLinkedVar'' function for each of the given variable
 names.
 
 ~ Reference Implementation
 
-See [https://sourceforge.net/support/tracker.php?aid=1881048].
+See [https://sourceforge.net/support/tracker.php?aid=1992824].
 
 ~ Notes
 
-When using a given ''address'', it is possible to crash your application.
-That is now easier than writing a complete C-extension.
-
-The ''link'' command should not be exposed to safe interpreters.
+The original proposed ''link'' command is moved in the test suite
+and renamed to ''testlinkarray''.
 
 ~ Copyright
 
