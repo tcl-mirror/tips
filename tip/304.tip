@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [chan pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -76,9 +76,10 @@ The basic functionality is to return a pair of channels, so the script-level API
 
 Create a pipe, and return a list of two channels wrapping either side of the pipe. The first element is the side opened for reading, the second for writing:
 
-|	lassign [['''chan pipe''']] pr pw
+|	lassign [chan pipe] pr pw
 
 Subsequently, anything written to $pw will be readable on $pr.
+We purposefully drop the other [[pipe pr pw]] syntax from TclX, for the sake of minimality.
 
 ~~ C Interface
 
