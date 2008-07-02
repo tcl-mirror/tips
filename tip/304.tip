@@ -1,6 +1,6 @@
 TIP:            304
 Title:          A Standalone [chan pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -70,20 +70,15 @@ Its application to following stderr is straightfoward:
 
 ~~ Specification
 
-Nothing more than TclX's which is perfect (quoting TclX's doc except for a
-minor syntax change):
+The basic functionality is to return a pair of channels, so the script-level API does just that:
 
- >	'''chan pipe''' ?''pr pw''?
+ > 	'''chan pipe'''
 
-Create a pipe. If ''pr'' and ''pw'' are specified, then '''chan pipe''' will
-set the variable named ''pr'' to contain the channel wrapping the side of the
-pipe that was opened for reading, and ''pw'' the same for writing.
-Subsequently, anything written to $pw will be readable on $pr. If the
-variables are not specified, then a list containing the read and write
-channels is returned as the result of the command.
+Create a pipe, and return a list of two channels wrapping either side of the pipe. The first element is the side opened for reading, the second for writing:
 
-The name is changed to '''chan pipe''' to reduce the amount of cluttering up
-of Tcl's public interface.
+|	lassign [['''chan pipe''']] pr pw
+
+Subsequently, anything written to $pw will be readable on $pr.
 
 ~~ C Interface
 
@@ -109,8 +104,8 @@ between unix and windows.
 It should also be noted that this primitive allows to deprecate the use of
 [['''open''' "|..."]] and '''pid''' themselves !
 
-|	chan pipe p1r p1w
-|	chan pipe p2r p2w
+|	lassign [chan pipe] p1r p1w
+|	lassign [chan pipe] p2r p2w
 |	set pids [exec cmd $args >@ $p1w 2>@ $p2w &]
 |	fileevent $p1r readable got_stdout
 |	fileevent $p2r readable got_stderr
@@ -135,8 +130,8 @@ A more serious advantage, is that it allows the "half-close" of a command
 pipeline (detailed in [301] which the current TIP makes partly obsolete).
 Indeed
 
-|	chan pipe pr pw
-|	chan pipe qr qw
+|	lassign [chan pipe] pr pw
+|	lassign [chan pipe] qr qw
 |	exec a <@$pr >@$qw &
 
 allows to close just the read side with
