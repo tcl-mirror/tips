@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -56,6 +56,8 @@ like [31].
    * [317], Extend '''binary''' Ensemble with Binary Encodings
 
 ~~ Tcl/Tk 8.6a2; Approximate Release Date: August 1, 2008
+
+   * [304], A Standalone '''chan pipe''' Primitive for Advanced Child IPC
 
    * ''Insert feature here''
 
