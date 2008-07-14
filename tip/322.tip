@@ -1,6 +1,6 @@
 TIP:		322
 Title:		Publish the NRE API
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 State:		Draft
 Type:		Project
@@ -16,9 +16,10 @@ Non-Recursive evaluation Engine.
 
 ~ Rationale
 
-NRE (for Non-Recursive Engine) is a trampoline implementation for command
-evaluation and bytecode execution that massively reduce Tcl's footprint on the
-C stack. It is conceptually related to stackless python.
+NRE (for '''N'''on-'''R'''ecursive '''E'''ngine) is a trampoline
+implementation for command evaluation and bytecode execution that massively
+reduce Tcl's footprint on the C stack. It is conceptually related to stackless
+Python.
 
 NRE is fully backwards compatible with script and C extensions and has already
 been committed to HEAD. Extensions that use the normal Tcl API run properly
@@ -31,9 +32,9 @@ them to exploit the new possibilities.
 
 The first two functions permit the creation of NRE-enabled commands.
 '''TclNR_CreateCommand''' creates a command that implements an NRE interface
-nreProc. As every command needs also a regular objProc, the function
+''nreProc''. As every command needs also a regular ''objProc'', the function
 '''TclNR_CallObjProc''' is provided as a utility permitting a relatively
-simple way to generate the objProc from the nreProc.
+simple way to generate the ''objProc'' from the ''nreProc''.
 
    * Tcl_Command '''TclNR_CreateCommand'''(Tcl_Interp *''interp'', const char
      *''cmdName'', Tcl_ObjCmdProc *''proc'', Tcl_ObjCmdProc *''nreProc'',
