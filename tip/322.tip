@@ -1,13 +1,14 @@
-TIP:		322
-Title:		Publish the NRE API
-Version:	$Revision: 1.2 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6
-Vote:		Pending
-Created:	13-Jul-2008
-Post-History:
+TIP:            322
+Title:          Publish the NRE API
+Version:        $Revision: 1.3 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+Author:         miguel sofer <msofer@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Jul-2008
+Post-History:   
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -31,35 +32,35 @@ them to exploit the new possibilities.
 ~ Functions to be Exported
 
 The first two functions permit the creation of NRE-enabled commands.
-'''TclNR_CreateCommand''' creates a command that implements an NRE interface
+'''Tcl_NRCreateCommand''' creates a command that implements an NRE interface
 ''nreProc''. As every command needs also a regular ''objProc'', the function
-'''TclNR_CallObjProc''' is provided as a utility permitting a relatively
+'''Tcl_NRCallObjProc''' is provided as a utility permitting a relatively
 simple way to generate the ''objProc'' from the ''nreProc''.
 
-   * Tcl_Command '''TclNR_CreateCommand'''(Tcl_Interp *''interp'', const char
+   * Tcl_Command '''Tcl_NRCreateCommand'''(Tcl_Interp *''interp'', const char
      *''cmdName'', Tcl_ObjCmdProc *''proc'', Tcl_ObjCmdProc *''nreProc'',
      ClientData ''clientData'', Tcl_CmdDeleteProc *''deleteProc'')
 
-   * int '''TclNR_CallObjProc'''(Tcl_Interp *''interp'', Tcl_ObjCmdProc
+   * int '''Tcl_NRCallObjProc'''(Tcl_Interp *''interp'', Tcl_ObjCmdProc
      *''objProc'', ClientData ''clientData'', int ''objc'', Tcl_Obj const
      *''objv''[])
 
 The next three functions provide the API to request an evaluation by the
 trampoline, after the caller returned:
 
-   * int '''TclNR_EvalObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'', int
+   * int '''Tcl_NREvalObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'', int
      ''flags'')
 
-   * int '''TclNR_EvalObjv'''(Tcl_Interp *''interp'', int ''objc'', Tcl_Obj
+   * int '''Tcl_NREvalObjv'''(Tcl_Interp *''interp'', int ''objc'', Tcl_Obj
      *const ''objv''[], int ''flags'')
 
-   * int '''TclNR_ObjProc'''(Tcl_Interp *''interp'', Tcl_ObjCmdProc
+   * int '''Tcl_NRObjProc'''(Tcl_Interp *''interp'', Tcl_ObjCmdProc
      *''objProc'', ClientData ''clientData'')
 
 Finally, there is a function to register a callback that the trampoline has
 to execute right after a requested evaluation, typically used for cleanup.
 
-   * void '''TclNR_AddCallback'''(Tcl_Interp *''interp'', TclNR_PostProc
+   * void '''Tcl_NRAddCallback'''(Tcl_Interp *''interp'', Tcl_NRPostProc
      *''postProcPtr'', ClientData ''data0'', ClientData ''data1'', ClientData
      ''data2'', ClientData ''data3'')
 
@@ -81,4 +82,4 @@ http://msofer.com:8080/wiki?name=NRE+short+explanation
 
 ~ Copyright
 
-This document has been placed in the public domain. 
+This document has been placed in the public domain.
