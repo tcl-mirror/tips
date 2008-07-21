@@ -1,6 +1,6 @@
 TIP:            322
 Title:          Publish the NRE API
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         miguel sofer <msofer@users.sf.net>
 State:          Draft
@@ -54,8 +54,9 @@ trampoline, after the caller returned:
    * int '''Tcl_NREvalObjv'''(Tcl_Interp *''interp'', int ''objc'', Tcl_Obj
      *const ''objv''[], int ''flags'')
 
-   * int '''Tcl_NRObjProc'''(Tcl_Interp *''interp'', Tcl_ObjCmdProc
-     *''objProc'', ClientData ''clientData'')
+   * int '''Tcl_NRCmdSwap'''(Tcl_Interp *''interp'', Tcl_Command "cmd",
+int ''objc'', Tcl_Obj const
+     *''objv''[])
 
 Finally, there is a function to register a callback that the trampoline has
 to execute right after a requested evaluation, typically used for cleanup.
