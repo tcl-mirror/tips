@@ -1,6 +1,6 @@
 TIP:            322
 Title:          Publish the NRE API
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         miguel sofer <msofer@users.sf.net>
 State:          Draft
@@ -54,7 +54,7 @@ trampoline, after the caller returned:
    * int '''Tcl_NREvalObjv'''(Tcl_Interp *''interp'', int ''objc'', Tcl_Obj
      *const ''objv''[], int ''flags'')
 
-   * int '''Tcl_NRCmdSwap'''(Tcl_Interp *''interp'', Tcl_Command "cmd",
+   * int '''Tcl_NRCmdSwap'''(Tcl_Interp *''interp'', Tcl_Command ''cmd'',
 int ''objc'', Tcl_Obj const
      *''objv''[])
 
