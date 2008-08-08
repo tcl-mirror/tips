@@ -1,6 +1,6 @@
 TIP:		323
 Title:		Do Nothing Gracefully
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Colin McCormack <colin@chinix.com>
 Author:		Don Porter <dgp@users.sf.net>
 Author:		Kevin B. Kenny <kennykb@acm.org>
@@ -63,10 +63,10 @@ The syntax of the following commands shall be revised as described:
  1. '''namespace upvar''' - accept zero variable names.
 
  1. '''string first''' - able to find empty string.
-    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=360894]
+    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=110894]
  
  1. '''string last''' - able to find empty string.
-    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=360894]
+    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=110894]
  
  1. '''string replace''' - change interpretation of ''last'' < ''first'' case
     to enable replacement of an empty substring anchored at ''first''.
