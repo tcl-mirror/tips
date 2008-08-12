@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.180 $
+Version:        $Revision: 1.181 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -22,126 +22,94 @@ This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
 can take place.
 
-A number of Tcl's built-in commands currently raise errors when given
-arguments that would cause them to do nothing.  This proposal asks that
-they instead simply do nothing gracefully.
+
+This TIP proposes a new command that pops up a dialog box that allows 
+the selection of a font. Where possible, this dialog will be 
+implemented using the host platform's standard dialogs.
 
 ~ Rationale
 
-With the introduction of {*} syntax in Tcl 8.5 and its ability to convert
-one original word into zero words when an empty list is expanded, scripts
-using the syntax are forced to check for the empty list when passing
-expanded arguments to a command taking variable numbers of arguments,
-but arbitrarily rejecting zero arguments.  For example,
-
-| variable {*}$dict
-
-will currently fail if $dict has no entries.  Letting no-ops simply be
-no-ops rather than errors greatly lightens the programming burden on callers.
-There may be some marginal performance benefits as well.
-
-Furthermore, there is no sound reason to constrain the argument count of
-these commands to be positive when an argument count of zero has a natural
-interpretation as a no-op.  There is an elegance in permitting a function
-to range coherently over the complete domain.
+A number of platforms (Windows and MacOSX) have standard dialogs for 
+common user-oriented tasks, and Tk provides an interface to these 
+dialogs through commands such as '''tk_getOpenFile''' and '''tk_chooseColor'''. 
+However, another dialog that they provide and which some programs would 
+find useful is a font selector. This TIP proposes adding a command to 
+do just that; where a platform does not provide such a standard dialog, 
+one implemented using a Tcl script will be used instead. 
 
 ~ Proposal
 
-The syntax of the following commands shall be revised as described:
+Tk shall have a new command, '''tk_chooseFont''', with the syntax described 
+below.
 
- 1. '''file delete''' - accept zero pathnames.
+The dialog will not return a result as on some platforms (MacOSX) this is
+required to be modeless while on others (Windows) it must be modal.
+Therefore all actions will be done via a configured command prefix specified
+by the '''-command''' option to '''configure'''. In the modal case clicking
+either the ''Apply'' button (if present) or the ''OK'' button will cause the
+command prefix to be called with the font specification appended as an
+additional argument. If ''Cancel'' is chosen, or the dialog is closed
+manually on platforms that permit this, this will be called with an empty
+string.  (It will not be so called otherwise.)
 
- 1. '''file mkdir''' - accept zero directories.
+ * '''tk_chooseFont configure''' ''?-option value ...?''
 
- 1. '''global''' - accept zero variable names.
+ >	Read or set (for all but 'visible' option) one or more of the following
+	options.
 
- 1. '''glob''' - accept zero patterns, returning list of zero matching files
-    (with '''-nocomplain''') or "no matches" error.
+ > >	'''-parent''': This specifies the parent window of the dialog
+	(similarly to the '''-parent''' option to other dialogs). 
 
- 1. '''lassign''' - accept zero variable names.
-    [http://sf.net/tracker/index.php?func=detail&aid=1671880&group_id=10894&atid=360894]
+ > >	'''-title''': This specifies the title of the dialog. If the platform 
+	specific dialog cannot support this then the option is ignored. 
 
- 1. '''linsert''' - accept zero elements.
-    [http://sf.net/tracker/index.php?func=detail&aid=1672056&group_id=10894&atid=360894]
+ > >	'''-font''': This specifies the font shown in the dialog in any
+	form given on the font(n) manual page (section "FONT DESCRIPTION").
+	Provided it is  supported by the platform implementation this font
+	will be selected when the dialog is displayed. 
 
- 1. '''lrepeat''' - accept both ''number'' = 0 and zero elements.
-    [http://sf.net/tracker/index.php?func=detail&aid=1671951&group_id=10894&atid=360894]
+ > >	'''-command''': This specifies a command prefix to be called when a
+	font selection has been made by the user. The command will have the 
+	font specification appended as the final parameter and is then 
+	evaluated in the global namespace. The font specification will be 
+	a list of the form described on the font(n) manual page under 
+	"FONT DESCRIPTION" section 3. That is a list of {family size 
+	style ?style ...?}
 
- 1. '''my variable''' - accept zero variable names.
+ > >	This command will be called with an empty string if the user closes
+	the dialog (either by a ''Cancel'' button, close button, or other
+	means.  (It will never be called with an empty string otherwise.)
 
- 1. '''namespace upvar''' - accept zero variable names.
+ > >	'''-visible''': This read-only option returns a boolean indicating
+	whether the font dialog is currently being displayed.  Setting it has
+	no effect.
 
- 1. '''string first''' - able to find empty string.
-    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=360894]
- 
- 1. '''string last''' - able to find empty string.
-    [http://sf.net/tracker/index.php?func=detail&aid=1243354&group_id=10894&atid=360894]
- 
- 1. '''string replace''' - change interpretation of ''last'' < ''first'' case
-    to enable replacement of an empty substring anchored at ''first''.
+ * '''tk_chooseFont hide'''
 
- 1. '''tcl::tm::path add''' - accept zero paths.
+ >	Hides the font dialog if it is currently being shown and exits
+	modal loop if dialog is modal on platform.  Returns the empty string.
 
- 1. '''tcl::tm::path remove''' - accept zero paths.
+ * '''tk_chooseFont show'''
 
- 1. '''variable''' - accept zero variable names.
-    [http://sf.net/tracker/index.php?func=detail&aid=1881284&group_id=10894&atid=360894]
+ >	Shows the font dialog if it is currently hidden, and begins a modal
+	loop if dialog is modal on platform.  On these platforms, this call
+	returns when modal loop as exited.  Returns the empty string.
 
-~ Compatibilty
+Whenever a platform provides a suitable font dialog in its own API, Tk 
+should not use a script-based alternative, even if this means missing 
+out on features like the title or dynamic updating of the font during 
+the selection process. 
 
-Most of the proposed changes convert errors into no-ops.  There should
-be no compatibility concerns with those.  The exceptions are the
-proposed changes to '''string first''', '''string last''', and
-'''string replace''', where current behavior is so inexplicable, it
-would be called a bug if it weren't documented.  Changing those commands
-is an incompatibility, but likely a welcome one.
+Application code should expect that the command prefix registered with 
+'''tk_chooseFont configure -command''' will be called any time the user
+selects a font, even on platforms where the dialog is modal.
 
-~ Implementation
+~ Reference Implementation
 
-When an implementation patch is completed, it will be logged
-in the SF Tracker and noted here.
-
-~ Exclusions
-
-Some other candidates for this treatment are intentionally
-left out of this proposal where for various reasons their
-conversion is complicated in some way, or the benefits of
-conversion are not as clear cut.  These other commands
-might still be revised in a similar way, but are left for
-other TIPs to accomplish it so that this TIP can focus only
-on the low-hanging fruit.
-
- 1. '''after idle'''
-
- 1. '''dict exists'''
-
- 1. '''dict set d''' ''val''	(no ''key'' argument)
-
- 1. '''dict unset d''' ''val''	(no ''key'' argument)
-
- 1. '''dict update d''' ''script''	(no ''key varName'' arguments)
-
- 1. '''eval'''
-
- 1. '''expr'''
-
- 1. '''file join'''
-
- 1. '''interp eval'''
-
- 1. '''namespace eval'''
-
- 1. '''parray''' [http://sf.net/tracker/index.php?func=detail&aid=1739221&group_id=10894&atid=360894]
-    This feature request is more about tolerating errors than about expanding
-    acceptance over a complete input domain.  Not in the spirit of this TIP.
-
- 1. '''uplevel'''
-
- 1. '''upvar''' - presence of the option ''level'' argument makes this
-    one messy.
+See Tk Patch 1477426.
+[http://sourceforge.net/tracker/index.php?func=detail&aid=1477426&group_id=12997&atid=312997]
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
 
