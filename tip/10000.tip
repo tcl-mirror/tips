@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.182 $
+Version:        $Revision: 1.183 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -57,18 +57,18 @@ string.  (It will not be so called otherwise.)
  >	Read or set (for all but 'visible' option) one or more of the following
 	options.
 
- >	'''-parent''': This specifies the parent window of the dialog
+ >	'''-parent''' : This specifies the parent window of the dialog
 	(similarly to the '''-parent''' option to other dialogs). 
 
- >	'''-title''': This specifies the title of the dialog. If the platform 
+ >	'''-title''' : This specifies the title of the dialog. If the platform 
 	specific dialog cannot support this then the option is ignored. 
 
- >	'''-font''': This specifies the font shown in the dialog in any
+ >	'''-font''' : This specifies the font shown in the dialog in any
 	form given on the font(n) manual page (section "FONT DESCRIPTION").
 	Provided it is  supported by the platform implementation this font
 	will be selected when the dialog is displayed. 
 
- >	'''-command''': This specifies a command prefix to be called when a
+ >	'''-command''' : This specifies a command prefix to be called when a
 	font selection has been made by the user. The command will have the 
 	font specification appended as the final parameter and is then 
 	evaluated in the global namespace. The font specification will be 
@@ -80,7 +80,7 @@ string.  (It will not be so called otherwise.)
 	the dialog (either by a ''Cancel'' button, close button, or other
 	means.  (It will never be called with an empty string otherwise.)
 
- >	'''-visible''': This read-only option returns a boolean indicating
+ >	'''-visible''' : This read-only option returns a boolean indicating
 	whether the font dialog is currently being displayed.  Setting it has
 	no effect.
 
