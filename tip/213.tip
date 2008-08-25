@@ -1,6 +1,6 @@
 TIP:            213
 Title:          A Standard Dialog for Font Selection
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Withdrawn
@@ -9,6 +9,7 @@ Vote:           Pending
 Created:        21-Aug-2004
 Post-History:   
 Keywords:       Tk
+Obsoleted-By:	324
 Tcl-Version:    8.6
 
 ~ Abstract
