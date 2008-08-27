@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -62,9 +62,7 @@ like [31].
 
    * NRE core. This is an internal change that allows infinite recursion and enables new features (like ::tcl::unsupported::tailcall). [322], the TIP to publish the C API to NRE, will not be final until later.
 
-   * ''Insert feature here''
-
-~~ Tcl/Tk 8.6b1; Approximate Release Date: October 1, 2008
+~~ Tcl/Tk 8.6b1; Approximate Release Date: October 10, 2008
 
    * ''Insert feature here''
 
