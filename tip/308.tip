@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -443,7 +443,7 @@ affected statement. (If the affected statement does not yield a set of rows,
 the return value from the ''allrows'' command is an empty list.)
 
 This command MUST function the same way as preparing the statement explicitly,
-executing the '''$statement allrows''' call (see below) on the resulting
+executing the '''statement allrows''' call (see below) on the resulting
 statement handle, and then (irrespective of whether the operation succeeeded)
 destroying the statement handle.
 
@@ -463,8 +463,8 @@ in the caller's scope. Upon termination of the command, whether successful or
 unsuccessful, the prepared statement is closed.
 
 This command MUST function the same way as preparing the statement explicitly
-and then executing the '''$statement foreach call on the resulting statement
-handle.
+and then executing the ''statement'' '''foreach''' call on the resulting
+statement handle.
 
 Both of these commands SHALL be provided in the '''tdbc::connection''' base
 class.
@@ -658,7 +658,7 @@ information in their SQL statements.
 
 A statement handle MUST support the following two calls:
 
- > ''$statement'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
+ > ''statement'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName''? ?'''--'''? ?''dictionary''?
 
 This command executes the given ''statement''. Variable substitutions inside
@@ -674,7 +674,7 @@ list.)
 
 This command MUST function the same way as executing the statement explicitly
 (with the given ''dictionary'' argument if one is supplied), executing the
-'''$resultset allrows''' call (see below) on the resulting result set, and
+''resultset'' '''allrows''' call (see below) on the resulting result set, and
 then (irrespective of whether the operation succeeeded) destroying the result
 set.
 
@@ -693,9 +693,9 @@ executed in the caller's scope. Upon termination of the command, whether
 successful or unsuccessful, the result set is closed.
 
 This command MUST function the same way as executing the statement explicitly,
-executing the '''$resultset foreach''' call on the resulting statement handle,
-and then (irrespective of whether the operation succeeded) closing the result
-set.
+executing the ''resultset'' '''foreach''' call on the resulting statement
+handle, and then (irrespective of whether the operation succeeded) closing the
+result set.
 
 Both of these commands SHALL be provided in the '''tdbc::statement''' base
 class.
@@ -811,7 +811,7 @@ system resources associated with it.
 
 A result set handle MUST support the following two calls:
 
- > ''$resultset'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
+ > ''resultset'' '''allrows''' ?'''-as''' ''lists''|''dicts''?
    ?'''-columnsvariable''' ''varName'' ?'''--'''?
 
 This command executes the '''nextrow''' command repeatedly, producing a list
@@ -1137,22 +1137,22 @@ order to provide an efficient means for doing tasks such as inserting a large
 number of rows into a table at once. A statement handle MUST provide the
 subcommands:
 
- > ''$statement'' '''startbatch'''
+ > ''statement'' '''startbatch'''
 
 Prepares to perform batch processing on the specified statement.  
 
- > ''$statement'' '''addtobatch''' ''dictionary''
+ > ''statement'' '''addtobatch''' ''dictionary''
 
 Adds the values given by ''dictionary'' into the specified statement. The
 ''dictionary'' argument is exactly the same as the ''dictionary'' argument to
-[[''$statement'' '''execute''']].
+[[''statement'' '''execute''']].
 
 If no batch operation is in progress, the database interface MUST throw an
 error.
 
- > ''$statement'' '''executebatch'''
+ > ''statement'' '''executebatch'''
 
-Executes the batch of operations accumulated by [[''$statement''
+Executes the batch of operations accumulated by [[''statement''
 '''addToBatch''']].
 
 The result of '''executebatch''' MUST be a result set. The rows of the result
@@ -1181,7 +1181,7 @@ query mechanism. If it does so, it MUST take the form:
 
  > ''resultSet'' '''whenready''' ''script''
 
-In this interface, ''$resultSet'' is the handle of a result set. The
+In this interface, ''resultSet'' is the handle of a result set. The
 '''whenready''' command requests that ''script'' be evaluated at the global
 level once for each row of the result set, plus once after all rows have been
 returned. The script SHOULD execute '''nextrow''' to retrieve the next row or
