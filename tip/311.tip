@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -56,13 +56,13 @@ like [31].
 
    * [317], Extend '''binary''' Ensemble with Binary Encodings
 
-~~ Tcl/Tk 8.6a2; Approximate Release Date: August 1, 2008
+~~ Tcl/Tk 8.6a2; Released: August 25, 2008
 
    * [304], A Standalone '''chan pipe''' Primitive for Advanced Child IPC
 
    * NRE core. This is an internal change that allows infinite recursion and enables new features (like ::tcl::unsupported::tailcall). [322], the TIP to publish the C API to NRE, will not be final until later.
 
-~~ Tcl/Tk 8.6b1; Approximate Release Date: October 10, 2008
+~~ Tcl/Tk 8.6b1; Release Date: October 10, 2008
 
    * ''Insert feature here''
 
