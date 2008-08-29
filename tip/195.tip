@@ -1,6 +1,6 @@
 TIP:            195
-Title:          Script Access to Tcl_GetIndexFromObj
-Version:        $Revision: 1.14 $
+Title:          A Unique Prefix Handling Command
+Version:        $Revision: 1.15 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
