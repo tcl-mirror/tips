@@ -1,0 +1,98 @@
+TIP:		326
+Title:		Add -group Option to lsort
+Version:	$Revision: 1.1 $
+Author:		Kieran Elby <kieran@dunelm.org.uk>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Created:	01-Sep-2008
+Keywords:	Tcl, lsort, sorting
+Post-History:
+
+~ Abstract
+
+This TIP adds a new option, '''-group''', to '''lsort''' to request that a
+list be treated as consisting of repeated groups of elements (as opposed to
+sublists), and that the the groups be sorted according to a chosen element
+within each group.
+
+~ Rationale
+
+Flat name-value pair lists are common in Tcl - consider the output of '''array
+get''' and '''dict create''' or the input to '''foreach'''.
+
+It is surprising then that there is no command to directly sort such a list by
+either the name or the value elements, while preserving the name-value
+mapping.
+
+Doing so currently requires turning a name-value pair list into a list of
+sublists, using the '''lsort''' ''-index'' option to sort them, then
+flattening the list again, which is rather fiddly and inefficient.
+
+While sorting name-value pair lists is no doubt the most common use case,
+lists containing groups of more than two elements are also reasonably common,
+and so providing support for groups of any size seems useful and no harder to
+implement.
+
+The option format follows the Feature Request here:
+http://sf.net/tracker/?func=detail&aid=747083&group_id=10894&atid=360894
+
+~ Proposed Change
+
+A new option, '''-group''', taking one parameter, ''grpSize'' will be added to
+the '''lsort''' command.
+
+If '''-group''' is supplied, the list will be treated as consisting of groups
+of ''grpSize'' elements, and the groups will be sorted by either their first
+element or, if the '''-index''' option is used, by the element within each
+group given by the first index passed to '''-index''' (which is then ignored
+by '''-index''').
+
+Elements always remain in the same position within their group.
+
+The list length must be a multiple of ''grpSize'', which in turn must be at
+least 2.
+
+~ Examples
+
+| lsort -group 2 {carrot 10 apple 50 banana 25}
+
+returns "apple 50 banana 25 carrot 10"
+
+| lsort -group 2 -index 1 -integer {carrot 10 apple 50 banana 25}
+
+returns "carrot 10 banana 25 apple 50"
+
+| lsort -group 3 -index {0 1} {{Bob Smith} 25 Audi {Jane Doe} 40 Ford}
+
+returns "{Jane Doe} 40 Ford {Bob Smith} 25 Audi" (since Smith, which is at
+index 1 of element 0 of the first group comes after Doe, which is at the same
+position in the next group of 3.)
+
+~ Reference Implementation
+
+http://sf.net/tracker/?func=detail&aid=2082681&group_id=10894&atid=310894
+
+~ Compatibility
+
+Since this is a new and unambiguous option, and since the distinction between
+the options and the list to sort is clear, no compatibility problems are
+expected.
+
+~ Limitations
+
+Only one element in each group can be used for comparison; it's not possible
+to compare groups element-by-element.
+
+~ Further Thoughts
+
+There may be some merit in adding a similar option to '''lsearch'''.
+
+The name-value pair case is common enough that an argument could be made for
+adding '''-pairname''' and '''-pairvalue''' options as synonyms for '''-group
+2 -index 0''' and '''-group 2 -index 1''' respectively.
+
+~ Copyright
+
+This document has been placed in the public domain.
