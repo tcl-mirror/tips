@@ -1,6 +1,6 @@
 TIP:		326
 Title:		Add -group Option to lsort
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kieran Elby <kieran@dunelm.org.uk>
 State:		Draft
 Type:		Project
@@ -36,7 +36,7 @@ and so providing support for groups of any size seems useful and no harder to
 implement.
 
 The option format follows the Feature Request here:
-http://sf.net/tracker/?func=detail&aid=747083&group_id=10894&atid=360894
+https://sourceforge.net/support/tracker.php?aid=747083
 
 ~ Proposed Change
 
@@ -72,7 +72,7 @@ position in the next group of 3.)
 
 ~ Reference Implementation
 
-http://sf.net/tracker/?func=detail&aid=2082681&group_id=10894&atid=310894
+Available online at https://sourceforge.net/support/tracker.php?aid=2082681
 
 ~ Compatibility
 
