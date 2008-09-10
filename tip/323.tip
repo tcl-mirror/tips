@@ -1,6 +1,6 @@
 TIP:		323
 Title:		Do Nothing Gracefully
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Colin McCormack <colin@chinix.com>
 Author:		Don Porter <dgp@users.sf.net>
 Author:		Kevin B. Kenny <kennykb@acm.org>
@@ -9,7 +9,7 @@ Type:		Project
 Vote:		Pending
 Created:	06-Aug-2008
 Post-History:
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 
 ~ Abstract
 
