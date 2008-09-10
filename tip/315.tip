@@ -1,11 +1,11 @@
 TIP:		315
 Title:		Add pathSeparator to tcl_platform Array
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Hai Vu <haivu2004@gmail.com>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6
-Vote:		Pending
+Vote:		In progress
 Created:	04-Apr-2008
 Post-History:	
 

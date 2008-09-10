@@ -1,10 +1,10 @@
 TIP:            321
 Title:          Add a tk::busy Command
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        26-Jun-2008
 Post-History:   
 Keywords:       Tk,BLT,busy
@@ -149,7 +149,7 @@ operation.
 ~ Reference Implementation
 
 See SourceForge patch #1997907
-[http://sf.net/tracker/?func=detail&aid=1997907&group_id=12997&atid=312997].
+[https://sourceforge.net/support/tracker.php?aid=1997907].
 
 ~ Compatibility
 

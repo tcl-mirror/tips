@@ -1,10 +1,10 @@
 TIP:            236
 Title:          Absolute Positioning of Canvas Items
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Neil McKay <mckay@eecs.umich.edu>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        25-Dec-2004
 Post-History:   
 Keywords:       Tk,anchor,place
@@ -12,29 +12,28 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-This TIP proposes adding a canvas widget command to set the absolute
-position of canvas items.
+This TIP proposes adding a canvas widget command to set the absolute position
+of canvas items.
 
 ~Rationale
 
-There are many situations where it is desirable to move a group of
-canvas items to a given position. Currently, this is done by
-getting the items' first coordinate, calculating the offset required to
-move the items to the desired position, and using the canvas
-'''move''' command to translate the items to where we want them. This
-is tedious and inefficient.
+There are many situations where it is desirable to move a group of canvas
+items to a given position. Currently, this is done by getting the items' first
+coordinate, calculating the offset required to move the items to the desired
+position, and using the canvas '''move''' command to translate the items to
+where we want them. This is tedious and inefficient.
 
 ~The 'moveto' Canvas Command
 
-This TIP proposes adding a subcommand called '''moveto''' to the canvas
-widget command. It is analogous to the canvas '''move''' command,
-except that it accepts an absolute position instead of a relative
-displacement. For instance, the command
+This TIP proposes adding a subcommand called '''moveto''' to the canvas widget
+command. It is analogous to the canvas '''move''' command, except that it
+accepts an absolute position instead of a relative displacement. For instance,
+the command
 
 |	.c moveto stuff 100 200
 
-will displace all items tagged with ''stuff'' so that the first coordinate of the first (bottom-most) tagged item
-lies at the point (100,200).
+will displace all items tagged with ''stuff'' so that the first coordinate of
+the first (bottom-most) tagged item lies at the point (100,200).
 
 The result of the command will be the empty string.
 

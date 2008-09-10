@@ -1,41 +1,41 @@
 TIP:		252
 Title:		Add New 'string' Command Options
 Author:		Brian Schmidt <contact@schmidtsrus.net>
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Type:		Project
 State:		Draft
-Vote:		Pending
+Vote:		In progress
 Created:	28-Jun-2005
 Tcl-Version:	8.6
 Post-History:	
 
 ~Abstract
 
-This TIP proposes moving several existing string-related commands to
-be options in the existing top-level '''string''' command.
+This TIP proposes moving several existing string-related commands to be
+options in the existing top-level '''string''' command.
 
 ~Rationale
 
-There is an existing top-level '''string''' command already.  However,
-there are other existing top-level string-related commands that for
-consistency should be options in the existing '''string''' command.
+There is an existing top-level '''string''' command already.  However, there
+are other existing top-level string-related commands that for consistency
+should be options in the existing '''string''' command.
 
 These additional string command options would further centralize all
-string-related commands, making it easier for new users to see all the
-related string commands.
+string-related commands, making it easier for new users to see all the related
+string commands.
 
 ~Specification
 
-Additional '''string''' command options would be added utilizing
-existing top-level commands, using the following syntax:
+Additional '''string''' command options would be added utilizing existing
+top-level commands, using the following syntax:
 
 |string split         ;equivalent to split
 |string format        ;equivalent to format
 |string scan          ;equivalent to scan
 |string subst         ;equivalent to subst
 
-Each represents the existing command that is commented. The arguments
-to each would remain what the current command takes.
+Each represents the existing command that is commented. The arguments to each
+would remain what the current command takes.
 
 The old commands could then potentially be eventually deprecated:
 

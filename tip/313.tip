@@ -1,10 +1,10 @@
 TIP:            313
 Title:          Inexact Searching in Sorted List
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        14-Feb-2008
 Post-History:   
 Keywords:       Tcl
@@ -18,13 +18,13 @@ insertion point in a sorted list.
 ~ Rationale
 
 Sometimes, it is necessary to find the location in a sorted list where a
-particular new element could be inserted. Either for actual insertion or
-for lookups to do interpolation or approximate search in data tables.
-Given that the list is already
-sorted, it is obviously the case that the location should be located through
-an O(log N) algorithm that takes advantage of this fact (binary searching is
-the most reliable method given that measuring the "distance" between two
-strings is a complex and expensive operation in itself).
+particular new element could be inserted. Either for actual insertion or for
+lookups to do interpolation or approximate search in data tables. Given that
+the list is already sorted, it is obviously the case that the location should
+be located through an O(log N) algorithm that takes advantage of this fact
+(binary searching is the most reliable method given that measuring the
+"distance" between two strings is a complex and expensive operation in
+itself).
 
 The usefulness of the feature is shown by a quick search. I found usages in
 the core, in tcllib and in tklib. Given that the infrastructure for a binary
@@ -56,9 +56,9 @@ Personally I have had use for both 2 and 3.
 
 One key difference between 1/2 and 3/4 is that 1/2 return last among equals
 while 3/4 returns first among equals. This means that it is easier to lay 3/4
-over 1/2 by first doing an exact search.  I.e. by doing both a -sorted and
-a -bisect search you get all info needed, in log(N) time, to get either
-of 1/2/3/4.
+over 1/2 by first doing an exact search. ''i.e.'' by doing both a -sorted and
+a -bisect search you get all info needed, in log(N) time, to get either of
+1/2/3/4.
 
 Finally, I think it makes sense for '''lsearch''' to return an exact match if
 there is one, leading to type 2 being specified in this TIP.
@@ -102,11 +102,12 @@ A stable insertion sort:
 
 ~ Reference Implementation
 
-http://sourceforge.net/tracker/index.php?func=detail&aid=1894241&group_id=10894&atid=310894
+http://sourceforge.net/support/tracker.php?aid=1894241
 
 ~ Further Use Cases
 
-Some messages on news:comp.lang.tcl provide additional motivation for this TIP:
+Some messages on news:comp.lang.tcl provide additional motivation for this
+TIP:
 
 From Kevin Kenny: <47B59A43.9040205@acm.org>:
 
@@ -132,32 +133,30 @@ From Neil Madden: <fp46r6$pb6$1@oyez.ccc.nottingham.ac.uk>:
 
 ~ Alternatives
 
-Instead of making '''-bisect''' a modifier to '''-sorted''' it could be
-a search mode in itself.  This was the original specification in this TIP.
-Making it a modifier makes more sense and makes documentation simpler.
+Instead of making '''-bisect''' a modifier to '''-sorted''' it could be a
+search mode in itself. This was the original specification in this TIP. Making
+it a modifier makes more sense and makes documentation simpler.
 
-~ Alternative names
+~~ Discussion: Alternative Names
 
-Naming the option based on something like "insert", like '''-insertpos'''
-or making this an option to '''linsert''';  Since the spec selects
-variant 2, it does not return the actual insertion position.
+Naming the option based on something like "insert", like '''-insertpos''' or
+making this an option to '''linsert'''; Since the spec selects variant 2, it
+does not return the actual insertion position.
 
 The name '''-nearest''' was proposed. Since the spec does not return the
 nearest, it is not that good.
 
-"'''-inexact''' (by analogy with switch -exact)."
-"'''-inexact''' is good enough for the title of the TIP, so it should
-be good enough for the option name.  It may be tricky writing the
-documentation since '''-sorted''' already implies '''-exact'''."
+Also proposed was "'''-inexact''' (by analogy with switch -exact)."
+"'''-inexact''' is good enough for the title of the TIP, so it should be good
+enough for the option name. It may be tricky writing the documentation since
+'''-sorted''' already implies '''-exact'''."
 
-"Names that capture the meaning better are too verbose, but maybe
-they'll suggest a good name ...
--allowmissing -maybeabsent -absent -approximate -fuzzy
+"Names that capture the meaning better are too verbose, but maybe they'll
+suggest a good name ... -allowmissing -maybeabsent -absent -approximate -fuzzy
 -insertionpointifmissing"
 
-"The difference with the new option is that the search term need not
-be present in the list.  That distinction is what the option name
-should capture."
+"The difference with the new option is that the search term need not be
+present in the list. That distinction is what the option name should capture."
 
 ~ Copyright
 

@@ -3,9 +3,9 @@ Title:		Portable Access Functions for Stat Buffers
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6
-Vote:		Pending
+Vote:		In progress
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Created:	02-May-2008
 
@@ -22,12 +22,12 @@ common case by far).
 The ''struct stat'' type used by Tcl can be one of many different types
 depending on compile-time options (as a consequence of 64-bit filesystem
 support). Tcl conceals these details by wrapping the type as a ''Tcl_StatBuf''
-and providing a way to allocate these independently of compiler
-configuration. However, there is no way to access the contents of the field
-without binding to a particular type i.e. particular compile time
-configuration of Tcl (and not necessarily the extension code using the API!)
-This TIP proposes a set of simple access functions to conceal these details
-and enable the portable read-only use of the ''Tcl_StatBuf'' type.
+and providing a way to allocate these independently of compiler configuration.
+However, there is no way to access the contents of the field without binding
+to a particular type i.e. particular compile time configuration of Tcl (and
+not necessarily the extension code using the API!)  This TIP proposes a set of
+simple access functions to conceal these details and enable the portable
+read-only use of the ''Tcl_StatBuf'' type.
 
 ~ Proposed Change
 

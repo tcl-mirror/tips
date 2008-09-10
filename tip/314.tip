@@ -1,10 +1,10 @@
 TIP:            314
 Title:          Ensembles with Parameters
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        26-Feb-2008
 Post-History:   
 Tcl-Version:    8.6
@@ -31,23 +31,22 @@ name in an ensemble must follow immediately after the base command name.
 Callbacks from the core which take a subcommand are rare - the only obvious
 example is the reflected channel callback command - but in higher level code
 such callbacks are fairly common. Using namespace ensembles for implementing
-such callbacks makes the code much more modular than using a procedure
-would. Hence it is desirable to remove the restriction that the subcommand
-name of a namespace ensemble must appear as the first argument, and instead
-allow there to be some number of "parameter" arguments between the base
-command name and the subcommand name.
+such callbacks makes the code much more modular than using a procedure would.
+Hence it is desirable to remove the restriction that the subcommand name of a
+namespace ensemble must appear as the first argument, and instead allow there
+to be some number of "parameter" arguments between the base command name and
+the subcommand name.
 
-One application of parameter arguments is to use namespace ensembles as 
-a white-box OO system, where the parameters hold the state of the object. 
-More explicitly, each object instance in such a system would be a command 
-prefix consisting of (i) one ensemble command that handles the method 
-dispatch and (ii) the necessary number of parameter arguments, whose 
-values make up the state of the object. Being values, such objects are 
-necessarily immutable; it is however possible to define methods which 
-return a mutated form of the object. For light-weight objects, this 
-system has the advantage that instances do not have to be destroyed 
-explicitly, but of course that also means that they cannot own any 
-resources that require explicit destruction.
+One application of parameter arguments is to use namespace ensembles as a
+white-box OO system, where the parameters hold the state of the object. More
+explicitly, each object instance in such a system would be a command prefix
+consisting of (i) one ensemble command that handles the method dispatch and
+(ii) the necessary number of parameter arguments, whose values make up the
+state of the object. Being values, such objects are necessarily immutable; it
+is however possible to define methods which return a mutated form of the
+object. For light-weight objects, this system has the advantage that instances
+do not have to be destroyed explicitly, but of course that also means that
+they cannot own any resources that require explicit destruction.
 
 Some may argue that ensemble parameters are not necessary because any client
 data can be embedded into the prefixes of the '''-map''' dictionary of the
@@ -74,8 +73,7 @@ table:
 (This is the same pattern as for the other ensemble options, e.g. for the
 '''-subcommands''' option's implementation.)
 
-The general structure of a namespace ensemble command call will have the
-form:
+The general structure of a namespace ensemble command call will have the form:
 
  > ''baseCmd'' {*}''parameterArgs'' ''subCmd'' {*}''otherArgs''
 
@@ -290,7 +288,7 @@ arguments instead of just one too few.
 ~ Reference Implementation
 
 A reference implementation is available as SF Tcl patch #1901783.
-[http://sf.net/tracker/?func=detail&atid=310894&aid=1901783&group_id=10894]
+[https://sourceforge.net/support/tracker.php?aid=1901783]
 
 ~~ Notes
 

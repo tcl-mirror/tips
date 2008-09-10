@@ -1,10 +1,10 @@
 TIP:            240
 Title:          An Ensemble Command to Manage Processes
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Steve Bold <stevebold@hotmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        22-Feb-2005
 Post-History:   
 Keywords:       Tcl
@@ -114,10 +114,10 @@ four subcommands.
 
 ~ Examples
 
-The following shows how the commands proposed here can be used to
-produce a '''bgexec''' like command in pure Tcl. Not all the
-'''bgexec''' options are included and the implementation lacks the
-error handling needed for a robust implementation.
+The following shows how the commands proposed here can be used to produce a
+'''bgexec''' like command in pure Tcl. Not all the '''bgexec''' options are
+included and the implementation lacks the error handling needed for a robust
+implementation.
 
 |proc bgExecCloseHandler {pid cmd} {
 |   lassign [process status $pid] status exitCode
@@ -244,100 +244,93 @@ error handling needed for a robust implementation.
 ~ Limitations
 
  1. For convenient use, the functionality proposed here needs to be
-    supplemented with additional commands providing a higher level
-    interface, perhaps one of them being similar to the
-    '''bgExecLike''' example given previously.  The author has decided
-    to omit this feature from the TIP because:
+    supplemented with additional commands providing a higher level interface,
+    perhaps one of them being similar to the '''bgExecLike''' example given
+    previously. The author has decided to omit this feature from the TIP
+    because:
 
- > * such commands can be implemented in pure Tcl using the commands
-     described here
+ > * such commands can be implemented in pure Tcl using the commands described
+     here
 
  > * the exact nature of the high level commands may produce lengthy
      discussions
 
- > * it could even be argued that such commands are more appropriate
-     in tcllib rather than the Tcl core
+ > * it could even be argued that such commands are more appropriate in tcllib
+     rather than the Tcl core
 
- 2. As with the current implementation of '''exec''', each channel
-    passed to '''process invoke''' must have a valid underlying OS
-    file handle. Consequently when running on Windows:
+ 2. As with the current implementation of '''exec''', each channel passed to
+    '''process invoke''' must have a valid underlying OS file handle.
+    Consequently when running on Windows:
 
  > * use of a wish standard channel will be immediately rejected
 
- > * use of a socket will be accepted but will trigger an error in the
-     child process.
+ > * use of a socket will be accepted but will trigger an error in the child
+     process.
 
- 3. Efficiency - The author has not yet attempted a detailed
-    performance study, but this proposal does have some theoretical
-    inefficiencies when compared to a pure C implementation, such as
-    '''bgexec''':
+ 3. Efficiency - The author has not yet attempted a detailed performance
+    study, but this proposal does have some theoretical inefficiencies when
+    compared to a pure C implementation, such as '''bgexec''':
 
  > * an intermediate Tcl procedure is used to capture output from a pipe
 
- > * each end of each pipe has to be wrapped in a ''CommandChannel''
-     before it can be passed back to the calling script, even if the
-     pipe is just going to be used to link together two processes in a
-     pipeline.
+ > * each end of each pipe has to be wrapped in a ''CommandChannel'' before it
+     can be passed back to the calling script, even if the pipe is just going
+     to be used to link together two processes in a pipeline.
 
 ~ Related Possibilities for Future Enhancements
 
- 1. For Windows, an important limitation that is not addressed by this
-    TIP, is the lack of control over the console window settings when
-    invoking a process. This will require changes to
-    ''TclpCreateProcess''.
+ 1. For Windows, an important limitation that is not addressed by this TIP, is
+    the lack of control over the console window settings when invoking a
+    process. This will require changes to ''TclpCreateProcess''.
 
- 2. A '''kill''' subcommand would be a useful addition to the
-    '''process''' ensemble. On Windows, the ability to kill a child
-    console process cleanly is related to the choice of console mode,
-    so this issue would ideally be addressed in conjunction with item
-    (1) above.
+ 2. A '''kill''' subcommand would be a useful addition to the '''process'''
+    ensemble. On Windows, the ability to kill a child console process cleanly
+    is related to the choice of console mode, so this issue would ideally be
+    addressed in conjunction with item (1) above.
 
- 3. A command to categorise an exit status obtained from '''process
-    status''' or '''process wait''' along similar lines to the data
-    placed in ''$errorCode'' by ''TclCleanupChildren()''.
+ 3. A command to categorise an exit status obtained from '''process status'''
+    or '''process wait''' along similar lines to the data placed in
+    ''$errorCode'' by ''TclCleanupChildren()''.
 
- 4. Some aspects of the existing '''exec''' command depend on use of
-    temporary files.  Since this TIP transfers the high level
-    implementation of process launching into Tcl scripts, support for
-    creation of uniquely named temporary files, as proposed in [210],
-    would be useful.
+ 4. Some aspects of the existing '''exec''' command depend on use of temporary
+    files. Since this TIP transfers the high level implementation of process
+    launching into Tcl scripts, support for creation of uniquely named
+    temporary files, as proposed in [210], would be useful.
 
- 5. The wish console on Windows could be improved, using this
-    mechanism, so that program names typed interactively will run in
-    the background, allowing output to be seen before the process
-    completes.
+ 5. The wish console on Windows could be improved, using this mechanism, so
+    that program names typed interactively will run in the background,
+    allowing output to be seen before the process completes.
 
- 6. The ability to define ''argv[[0]]'', independently from the
-    program name, would occasionally be useful.  For example, some
-    UNIX shells run as login shells when ''argv[[0]]'' begins with a
-    dash.
+ 6. The ability to define ''argv[[0]]'', independently from the program name,
+    would occasionally be useful. For example, some UNIX shells run as login
+    shells when ''argv[[0]]'' begins with a dash.
 
- 7. Public C functions for invoking a process and creating a pipe
-    wrapped in command channels.
+ 7. Public C functions for invoking a process and creating a pipe wrapped in
+    command channels.
 
  8. Support for detaching process and for reaping detached processes.
 
- 9. The existing '''exit''' command could be duplicated in the
-    '''process''' ensemble.
+ 9. The existing '''exit''' command could be duplicated in the '''process'''
+    ensemble.
 
- 10. The basic form of the existing '''pid''' command, which obtains
-     the process id of the current process, could be added to the
-     '''process''' ensemble.
+ 10. The basic form of the existing '''pid''' command, which obtains the
+     process id of the current process, could be added to the '''process'''
+     ensemble.
 
- 11. In some cases, it is more appropriate to run a child process with
-     its streams connected to a null file rather than disconnected.
-     Since the name of the null file is platform specific, it would
-     be helpful to have a platform independent way of accessing the
-     name.
+ 11. In some cases, it is more appropriate to run a child process with its
+     streams connected to a null file rather than disconnected. Since the name
+     of the null file is platform specific, it would be helpful to have a
+     platform independent way of accessing the name.
 
- 12. An option to obtain full status information. On Windows, process
-     exit codes are 32 bit. On UNIX, higher bits of a waitpid()
-     status value distinguish termination via exit() from termination
-     via an uncaught signal.
+ 12. An option to obtain full status information. On Windows, process exit
+     codes are 32 bit. On UNIX, higher bits of a waitpid() status value
+     distinguish termination via exit() from termination via an uncaught
+     signal.
 
 ~ Reference Implementation
 
-Submitted as patch 1315115 [http://sourceforge.net/tracker/index.php?func=detail&aid=1315115&group_id=10894&atid=310894]
+Submitted as patch 1315115
+[https://sourceforge.net/support/tracker.php?aid=1315115]
 
 ~ Copyright
 
