@@ -1,15 +1,15 @@
-TIP:		328
-Title:		Coroutines
-Version:	$Revision: 1.1 $
-Author:		Miguel Sofer <msofer@users.sf.net>
-Author:		Neil Madden <nem@cs.nott.ac.uk>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	07-Sep-2008
-Post-History:	
-Keywords:	Coroutine, continuation, event-loop, NRE
-Tcl-Version:	8.6
+TIP:            328
+Title:          Coroutines
+Version:        $Revision: 1.2 $
+Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         Neil Madden <nem@cs.nott.ac.uk>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        07-Sep-2008
+Post-History:   
+Keywords:       Coroutine,continuation,event-loop,NRE
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -281,7 +281,7 @@ is a nondeterministic choice operator:
 | puts "x=$x,y=$y"
 
 Intuitively, we would like this code to eventually succeed with values ''x =
-3'' and ''y = 7''. However it is not possible to implement '''choose''' using
+3'' and ''y = 9''. However it is not possible to implement '''choose''' using
 coroutines as we can only yield from inside the choose statement once, and
 then are forced to yield instead from within '''fail''', which is incorrect. A
 multi-shot continuation is capable of implementing '''choose''' as it can
