@@ -1,9 +1,9 @@
 TIP:		265
 Title:		A Convenient C-side Command Option Parser for Tcl
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Sam Bromley <sam@sambromley.com>
-State:		Draft
-Type:		Accepted
+State:		Accepted
+Type:		Project
 Vote:		Done
 Created:	03-Apr-2006
 Post-History:
