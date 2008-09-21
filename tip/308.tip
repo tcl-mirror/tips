@@ -1,13 +1,13 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-State:          Draft
+State:          Accepted
 Type:           Informative
-Vote:           In progress
+Vote:           Done
 Created:        15-Nov-2007
 Post-History:   
 
