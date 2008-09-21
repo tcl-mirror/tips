@@ -1,6 +1,6 @@
 TIP:		327
 Title:		Proper Tailcalls
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Miguel Sofer <msofer@users.sf.net>
 State:		Draft
 Type:		Project
@@ -24,7 +24,7 @@ The command can only be invoked in a procedure or lambda body.
 
 The effect of this command is very similar to:
 
- > '''return [[uplevel 1 [[list [[namespace which cmd]] ?arg ...?]]]]'''
+ > '''return [[uplevel 1 [[list [[namespace which''' ''cmd''''']]''' ?''arg ...''?''']]]]'''
 
 with the sole exception that the invocation of ''cmd'' happens ''after'' the
 currently executing body returns and is not visible in Tcl's call stack.
