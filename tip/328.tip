@@ -1,0 +1,450 @@
+TIP:		328
+Title:		Coroutines
+Version:	$Revision: 1.1 $
+Author:		Miguel Sofer <msofer@users.sf.net>
+Author:		Neil Madden <nem@cs.nott.ac.uk>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	07-Sep-2008
+Post-History:	
+Keywords:	Coroutine, continuation, event-loop, NRE
+Tcl-Version:	8.6
+
+~ Abstract
+
+This TIP recommends adding a coroutine mechanism to Tcl, loosely modelled on
+those present in Lua.
+
+~ Rationale
+
+The new Non-Recursive Engine (NRE) implemented in Tcl 8.6 allows support for a
+number of interesting features which have previously been difficult or
+impossible to implement efficiently in Tcl. One such feature is support for
+''coroutines'', which generalise the notion of subroutine by allowing a
+command to return multiple times. Conceptually, a coroutine allows a command
+to suspend its current execution and return (or ''yield'') a value to its
+caller. The caller may later ''resume'' the coroutine at the point where it
+previously yielded, allowing it to perform further work and potentially yield
+further values. Coroutines have applications to a number of areas, in
+particular they allow a more natural representation of certain programming
+tasks when using the event loop, such as interacting with a Tk graphical user
+interface, performing asynchronous remote procedure calls, communicating
+between threads, and lightweight cooperative multitasking. These use-cases are
+discussed in more detail in the next section, along with a look at the
+limitations of the proposed approach, particularly in comparison to the
+closely related concept of ''continuations''.
+
+It should be noted that coroutines (or continuations) add no extra power to
+the language. Every computation that can be expressed with corouines can be
+expressed using existing features of the language by writing code in so-called
+''continuation-passing style'' (CPS), which is the style of code used in loops
+and other control constructs. Rather, the benefit of coroutines is that it
+allows certain problems to be expressed more succinctly in cases where the CPS
+form is tedious to construct, or would require extensive refactoring of
+existing code. For instance, we can consider the following simple program that
+asks a user for two numbers and then displays their sum:
+
+| proc tell msg { puts $msg }
+| proc ask question {
+|     puts -nonewline "$question "
+|     flush stdout
+|     gets stdin
+| }
+| proc main {} {
+|     set x [ask "First number:"]
+|     set y [ask "Second number:"]
+|     tell "Sum = [expr {$x + $y}]"
+| }
+| main
+
+In converting this code to work with a Tk GUI or some other asynchronous
+interface (such as a Web application) would generally require restructing the
+'''ask''' procedure to take a callback, and then restructuring the main
+application logic to supply these callbacks. This restructuring when moving
+from a synchronous to an asynchronous interface hinders such refactoring and
+also causes the application logic to become fragmented into a number of
+callback procedures. While anonymous procedures introduced in Tcl 8.5 can
+mitigate these drawbacks to some extent, there is still some obfuscation of
+the original code. The coroutine mechanism proposed would allow the interface
+of the '''tell''' and '''ask''' procedures to remain unchanged, and the main
+application logic to remain identical (beyond some trivial wrapping). It is
+this ability of coroutines to convert synchronous code to work in an
+asynchronous manner with minimal changes to the application logic that is the
+main motivating use-case for their consideration. Coroutines can also benefit
+new asynchronous code that is written from scratch, as the familiar ''direct
+style'' of coding that they enable is clearer to understand in many cases, and
+to some extent hides the complexity of the underlying asynchronous model. This
+added expressiveness helps the Tcl programmer to separate logic from control
+(Kowalksi, 1979).
+
+The particular style of coroutines proposed are loosely based on the
+equivalent mechanism implemented in the Lua programming language (Lua, 2004).
+In particular, the coroutines implemented are ''asymmetric'' (yield and resume
+are separate commands), and ''stackful'' (yield can be called from any stack
+depth in the coroutine body). Asymmetric coroutines (similar to
+''generators'') can simulate symmetric coroutines and vice-versa.
+
+~ New Commands and Subcommands
+
+ > '''coroutine''' ''coroCmdName'' '''cmd''' ?''arg ...''?
+
+ > '''yield''' ?''value''?
+
+ > ''coroCmdName'' ?''value''?
+
+ > '''info coroutine'''
+
+'''coroutine''' evaluates the Tcl command 
+
+ > '''uplevel #0 [[list cmd ?arg ...?]]''' 
+
+until it returns or a yield is encountered. If '''yield''' is found then a
+command named ''coroCmdName'' will be created with special behaviour as
+described below.
+
+'''yield''' suspends execution of the coroutine and returns ''returnValue'' to
+the coroutine caller (not the creator, which may be long dead) as the return
+value of the '''coroutine''' or '''coroCmdName''' invocation. It is an error
+to invoke yield outside of a coroutine's body. It is possible to yield from
+within a nested call, but under some circumstances yield can return an error
+(see Limitations).
+
+''coroCmdName'' resumes execution of the suspended coroutine. Execution of the
+suspended coroutine resumes with returnValue being the return value of the
+yield that last suspended execution. ''coroCmdName'' is garbage-collected: the
+command and all internal structs are deleted when the coroutine returns. A
+suspended coroutine is properly cleaned up when its command is rename'd to the
+empty string.
+
+'''info coroutine''' returns the fully qualified name of the command that will
+resume the currently executing coroutine if it yields. In other words, it
+returns ''coroCmdName'' when invoked in a suspendable environment, and the
+empty string otherwise.
+
+Whenever  '''coroCmdName''' is invoked and the coroutine itself is running,
+Tcl's call stack looks exactly as if 
+
+ > '''uplevel #0 [[list cmd ?arg ...?]]''' 
+
+had been invoked instead. This structure is properly reflected in '''info
+level''', '''info frame''' and the error stack.
+
+~ Use Cases
+
+In this section we review a number of motivating use-cases for coroutines.
+
+~~ Tk Graphical User Interfaces
+
+As mentioned in the introduction, one particularly useful application of
+continuations in Tcl is to allow essentially asynchronous operations, using
+the event loop, to provide a familiar interface, much like synchronous
+operations. The example '''tell''' and '''ask''' interface can be written
+using yields to return control temporarily to the event loop until a result is
+available. This is similar to use of '''vwait''', but avoids creating a nested
+event loop, with all the problems that entails:
+
+| proc tell msg { tk_messageBox -message $msg }
+| proc ask question {
+|     toplevel .ask
+|     pack [label .ask.l -text $question] [entry .ask.e]
+|     raise .ask; focus .ask.e
+|     bind .ask.e <Return> [list apply {cb {
+|         set ans [.ask.e get]
+|         destroy .ask
+|         $cb $ans
+|     }} [info coroutine]]
+|     yield
+| }
+| # ... main as before ...
+| coroutine main-coro main
+
+The original '''main''' procedure can be reused as-is. The only constraint is
+that it must be launched as a coroutine using the '''coroutine''' command. The
+operation of the code should be straight-forward to understand, as it is
+mostly standard Tk code. The '''ask''' command simply creates a Tk dialog box
+and registers the current coroutine as an event callback for when the user
+enters a number. Finally the procedure calls '''yield''' which suspends the
+current coroutine (in this case the main procedure) and allows the event loop
+to run.  Once the user has entered a value and hit Return the coroutine is
+invoked with the value. This resumes the main procedure, returing this value
+as the return value of '''ask'''. From the point of view of the main routine
+it is as if the ask procedure worked exactly like the synchronous,
+console-based example.
+
+~~ Complex Iterators
+
+Another common use of coroutines is to support efficient traversal of complex
+data structures. Here the coroutine is used to implement a stateful
+''iterator'' for the data structure. In Tcl, one of the most natural and
+simple ways of writing a traversal interface for a data structure is as a
+custom control structure or loop. For instance, we can write a simple command
+for traversing a binary search tree in-order, applying a function to each
+value:
+
+| # Constructor functions for our BST
+| proc cons {name args} { proc $name $args { info level 0 } }
+| cons Empty
+| cons Branch left val right
+| 
+| proc bst-map {f tree} {
+|     if {[lindex $tree 0] eq "Branch"} {
+|         bst-map $f [lindex $tree 1]
+|         {*}$f [lindex $tree 2]
+|         bst-map $f [lindex $tree 3]
+|     }
+| }
+| # Print every value in the tree in order
+| bst-map puts $tree
+
+While such interfaces are convenient for traversing a single data structure,
+they are more difficult to use when traversing multiple structures
+simultaneously, as when merging trees. A coroutine interface allows such
+custom loops to be easily converted into stateful iterators, allowing a merge
+to be written in a reasonably straight-forward fashion:
+
+| proc bst-merge-map {f t1 t2} {
+|     set a [coroutine l bst-map yield $t1]
+|     set b [coroutine r bst-map yield $t2]
+|     while {[valid l] || [valid r]} {
+|         if {[valid l] && (![valid r] || $a < $b)} {
+|             {*}$f $a; set a [l]
+|         } else {
+|             {*}$f $b; set b [r]
+|         }
+|     }
+| }
+| proc valid cmd { llength [info commands $cmd] }
+| bst-merge-map puts $t1 $t2
+
+The benefit here is that the simple single-tree traversal function can be
+reused for merging multiple trees, simply by wrapping it in a coroutine.
+
+~~ Asynchronous Communications
+
+Similar to the use of coroutines for event-based GUI programming, we can also
+use the mechanism for asynchronous networking, such as fetching data over
+HTTP, making remote procedure calls, and message-passing between threads. For
+example, asynchronous HTTP requests become as simple as synchronous ones:
+
+| proc get url {
+|     http::geturl $url -command [info coroutine]
+|     yield
+| }
+| proc main {} {
+|     set t [get http://wiki.tcl.tk/4]
+|     puts [http::data $t]
+|     http::cleanup $t
+| }
+| coroutine m main
+
+This common pattern of registering the current coroutine as a callback and
+then yielding can be used to accomplish a wide variety of such tasks.
+
+~ Limitations
+
+The coroutine implementation depends on the NRE enhancements recently made to
+the Tcl core. In particular, in order to capture a coroutine it is essential
+that all commands currently on the evaluation stack are NRE-aware. This is the
+case for most core Tcl commands, but at the time of writing few extensions
+will have made this transition. In these cases, trying to capture a coroutine
+while in an evaluation context containing a non-NRE-aware C command will
+result in an error. This situation is currently unavoidable, but we believe
+that it will improve over time as extensions are adapted to take advantage of
+the new features that NRE enables. In the meantime, the coroutine mechanism is
+still useful in a wide variety of situations, and the cases where it is not
+applicable should be easy to detect, as the code will fail immediately on
+trying to capture a coroutine. Nevertheless, library writers should be aware
+of the situation and avoid over reliance on coroutines. It is easy to wrap
+coroutine interfaces around existing callback-based library routines (as in
+the HTTP example).
+
+Coroutines are roughly equivalent in expressive power to ''one-shot
+continuations''. A continuation is simply a function that represents the rest
+of a computation. Continuations can be explicitly created, as in continuation-
+passing style (CPS) code, but some languages (notably Lisp and Scheme) allow
+the current execution context to be automatically captured as a continuation
+with a similar effect to coroutines. Such continuations can either be invoked
+once (a one-shot continuation) or several times (multi-shot). One-shot
+continuations can be used for much the same tasks that we have identified in
+this TIP, and can also be used to implement coroutines. Coroutines can
+likewise implement one-shot continuations. Multi-shot continuations, however,
+are strictly more expressive than either coroutines or one-shot continuations
+as they allow the same continuation to be resumed multiple times. In contrast,
+when a coroutine yields it can only be resumed once, and then must call yield
+again. An example of a construct that cannot be implemented using coroutines
+is a nondeterministic choice operator:
+
+| set x [choose 1 2 3 4]
+| set y [choose 3 9 7]
+| if {$x**2 != $y} { fail }
+| puts "x=$x,y=$y"
+
+Intuitively, we would like this code to eventually succeed with values ''x =
+3'' and ''y = 7''. However it is not possible to implement '''choose''' using
+coroutines as we can only yield from inside the choose statement once, and
+then are forced to yield instead from within '''fail''', which is incorrect. A
+multi-shot continuation is capable of implementing '''choose''' as it can
+resume the ''same'' continuation multiple times with different values,
+essentially allowing the code to jump back to the appropriate choose statement
+for each back-track.
+
+While a non-deterministic choice operator is an interesting use-case, it is
+not considered a primary motivation for this TIP. Such nondeterministic
+searches can be implemented using loops or custom control structures and
+exceptions (this essentially amounts to using CPS). For instance:
+
+| foreach x {1 2 3 4} {
+|     foreach y {3 9 7} {
+|         if {$x**2 == $y} { puts "x=$x,y=$z" }
+|     }
+| }
+
+Furthermore, support for multi-shot continuations is believed to be more
+expensive to implement than coroutines, as the execution environment has to be
+copied for each continuation point, whereas a coroutine reuses the same
+environment for multiple yield/resume pairs. It is believed that the vast
+majority of useful use-cases will fall into the expressive power of
+coroutines. However, this limitation is real and should be taken into account
+when considering this TIP.
+
+A final apparent limitation of the proposed mechanism is that it only supports
+passing a single argument when resuming a coroutine. The reason for this is
+simply that '''yield''' only returns a single result, and so a single argument
+is all that is required. It is believed that this will be sufficient for the
+majority of use-cases. However, in cases where multiple arguments are
+required, it is straight-forward to wrap the coroutine resume command so that
+these are passed as a list:
+
+| proc resume {coro args} { $coro $args }
+
+The coroutine body can then use '''lassign''', '''lindex''' or some other
+means to extract the arguments. This can be used, for instance, when using a
+coroutine for variable tracing, such as in Colin Macleod's coroutine-enabled
+version of '''vwait''' that avoids nesting event loops
+[http://wiki.tcl.tk/21555]:
+
+| proc co_vwait varName {
+|     upvar $varName var
+|     set callback [list resume [info coroutine]]
+|     trace add    variable var write $callback
+|     yield
+|     trace remove variable var write $callback
+| }
+
+Along similar lines, the '''yield''' and ''coroCmdName'' commands currently do
+not offer support for communicating exceptions to/from coroutines. As with
+multiple arguments, this can be addressed by passing a dictionary of options
+(as produced by '''catch''') as well as a value:
+
+| proc exyield {value args} {
+|     lassign [yield [list $value $args]] value opts
+|     return -options $opts $value
+| }
+| proc exresume {coro value args} {
+|     lassign [$coro [list $value $args]] value args
+|     return -options $opts $value
+| }
+| # Usage
+| proc mycoro {} { exyield $val -code error -errorcode $somecode ... }
+
+It is expected that such wrappers can be added to Tcllib for now. Adding
+support for these options directly to the yield and resume command interfaces
+could be done in the future by a further TIP, if the functionality is deemed
+sufficiently critical.
+
+~ Alternatives
+
+An alternative syntax for coroutines is described in (Lua, 2004) based on a
+symmetric '''yield''' command. In this approach, '''yield''' takes as an extra
+argument the name of a coroutine to pass control to, rather than implicitly
+transferring control back to the caller. This eliminates the need for a
+separate ''resume'' interface (the ''coroCmdName'' in the current TIP).
+However, we believe that the asymmetric interface is more intuitive for most
+tasks, and the fact that coroutines are stateful entities requires them to
+have some named representation in any case, so this may as well be used as a
+resume command.  It is possible to simulate symmetric coroutines with the
+current proposal using a simple loop:
+
+| proc run-coros {coro value} {
+|     while 1 { lassign [$coro $value] coro value }
+| }
+| proc symyield {coro value} { yield [list $coro $value] }
+
+An alternative to a coroutine mechanism would be to adopt some form of
+''continuations'' into Tcl. As described previously, a continuation is a
+command that captures the current state of a computation (i.e. the current
+control stack and execution environment) and saves it so that it can be
+resumed later. In this respect, a continuation is similar to a coroutine.
+There are a number of varieties of continuations described in the literature
+(see [http://library.readscheme.org/page6.html] for a collection of
+references), with different expressive powers. ''Escape continuations'' only
+allow jumping to a context which is still on the stack. Such continuations are
+equivalent in power to exceptions, which Tcl already has. ''One-shot''
+continuations can only be resumed once and are then discarded. As previously
+stated, such continuations are equivalent to coroutines as any particular
+'''yield''' can only be resumed once. ''Multi-shot'' continuations allow the
+same continuation to be resumed multiple times. These continuations go beyond
+the power of coroutines, and allow examples such as the nondeterministic
+choice operator to be implemented. Multi-shot continuations are however rather
+more expensive to implement, as each yield point requires creating a fresh
+copy of the execution environment, whereas a coroutine can reuse the same
+environment copy for multiple yield/resumes as it knows it cannot be resumed
+more than once for a single yield. A further refinement is the idea of
+''delimited continuations'' which capture only a certain portion of the
+execution context (stack), rather than everything. Delimited continuations can
+simulate normal continuations by simply capturing the entire dynamic extent,
+but they have the advantage that they can also return a value, allowing them
+to be composed. Coroutines are also of this form, where the extent of the
+coroutine is limited to where the '''coroutine''' command was originally
+called from. The coroutine mechanism proposed is therefore of roughly
+equivalent power to a ''one-shot delimited continuation''. Such a mechanism is
+strictly less powerful than a multi-shot continuation implementation, but it
+is believed that it is sufficient to cover the vast majority of useful
+use-cases, while remaining relatively simple to understand, and efficient to
+implement.
+
+Lars Hellström has also proposed an alternative control mechanism for Tcl
+(Hellström, 2008), which is essentially a form of multi-shot full (non
+delimited) continuation, based on an interface of two commands: '''suspend'''
+and '''resume'''. The '''suspend''' command captures the current evaluation
+context into a continuation and then throws this as an exception with a
+special TCL_SUSPEND return code, allowing it to be caught and later resumed.
+The interface supports communicating values and exceptions to the resumed
+continuation. While the interface is potentially more expressive than the
+coroutine mechanism here, the proposed implementation involves destroying the
+stack as it is captured when the TCL_SUSPEND exception propagates. This
+presents a number of practical problems, such as the destruction of local
+variables (and thus the firing of unset traces), and the overall inefficiency
+of the approach.  As coroutines thus captured are stateless objects they can
+be implemented as plain Tcl values (i.e., strings), albeit potentially quite
+large and complex ones. This provides the usual advantages of easy
+serialisation and transfer, while suffering the usual drawbacks of lack of
+encapsulation (potentially exposing implementation details) and potential
+inefficiencies due to shimmering or excess copying of data (a general problem
+of multi-shot continuations). While some of these problems can be limited or
+overcome entirely, it is our view that the current coroutines proposal covers
+a great deal of the expected use-cases in a much simpler and more efficient
+manner.
+
+~ Implementation
+
+An experimental implementation of the coroutine mechanism is available in Tcl
+8.6a2 in CVS on sourceforge. The implementation is available in the
+::tcl::unsupported namespace, exposing the ''coroutine'', ''yield'', and
+''infoCoroutine'' commands.
+
+~ References
+
+(Kowalski, 1979) Robert Kowalski, "Algorithm = logic + control",
+''Communications of the ACM'' 22(7), pp. 424-436, 1979.
+
+(Lua, 2004) Ana Lûcia De Moura, Roberto Ierusalimschy, "Revisting Coroutines",
+Tech Report, 2004. http://www.inf.puc-rio.br/~roberto/docs/MCC15-04.pdf
+
+(Hellström, 2008) Lars Hellström, "Suspend and Resume",
+http://wiki.tcl.tk/21537
+
+~ Copyright
+
+This document has been placed in the public domain.
