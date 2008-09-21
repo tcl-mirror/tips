@@ -1,11 +1,11 @@
 TIP:            195
 Title:          A Unique Prefix Handling Command
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        02-May-2004
 Post-History:   
 Keywords:       Tcl
