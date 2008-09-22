@@ -1,6 +1,6 @@
 TIP:            328
 Title:          Coroutines
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
 State:          Draft
@@ -97,7 +97,7 @@ depth in the coroutine body). Asymmetric coroutines (similar to
 
 '''coroutine''' evaluates the Tcl command 
 
- > '''uplevel #0 [[list cmd ?arg ...?]]''' 
+ > '''uplevel #0 [[list''' ''cmd'' ?''arg ...''?''']]''' 
 
 until it returns or a yield is encountered. If '''yield''' is found then a
 command named ''coroCmdName'' will be created with special behaviour as
@@ -125,7 +125,7 @@ empty string otherwise.
 Whenever  '''coroCmdName''' is invoked and the coroutine itself is running,
 Tcl's call stack looks exactly as if 
 
- > '''uplevel #0 [[list cmd ?arg ...?]]''' 
+ > '''uplevel #0 [[list''' ''cmd'' ?''arg ...''?''']]''' 
 
 had been invoked instead. This structure is properly reflected in '''info
 level''', '''info frame''' and the error stack.
