@@ -1,14 +1,15 @@
-TIP:		327
-Title:		Proper Tailcalls
-Version:	$Revision: 1.4 $
-Author:		Miguel Sofer <msofer@users.sf.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	20-Sep-2008
-Post-History:	
-Keywords:	tailcall, NRE
-Tcl-Version:	8.6
+TIP:            327
+Title:          Proper Tailcalls
+Version:        $Revision: 1.5 $
+Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         David S. Cargo <escargo@skypoint.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Sep-2008
+Post-History:   
+Keywords:       tailcall,NRE
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -32,7 +33,7 @@ currently executing body returns and is not visible in Tcl's call stack.
 ~ Rationale
 
 The new Non-Recursive Engine (NRE) implemented in Tcl 8.6 allows support for a
-number of interesting features which have previously been difficult or
+number of interesting features that have previously been difficult or
 impossible to implement efficiently in Tcl. One such feature is support for
 ''proper tailcalls'', an important feature for functional-style programming.
 The new command allows unbounded recursion and enables programming in
@@ -40,7 +41,7 @@ The new command allows unbounded recursion and enables programming in
 
 ~ Effect on Tcl's Call Stack
 
-'''tailcall''' is implemented as a new command, as opposed to an optimisation
+'''tailcall''' is implemented as a new command, as opposed to an optimization
 that would be done automatically by the bytecode compiler, due to the effect
 it has on Tcl's call stack.
 
