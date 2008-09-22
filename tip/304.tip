@@ -1,8 +1,8 @@
 TIP:            304
 Title:          A Standalone [chan pipe] Primitive for Advanced Child IPC
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        07-Feb-2007
