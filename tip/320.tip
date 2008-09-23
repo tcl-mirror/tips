@@ -1,8 +1,8 @@
 TIP:            320
 Title:          Improved Variable Handling in the Core Object System
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <dkf@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        13-Jun-2008
