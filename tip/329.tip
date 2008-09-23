@@ -1,6 +1,6 @@
 TIP:		329
 Title:		Try/Catch/Finally syntax
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Trevor Davel <twylite@crypt.co.za>
 State:		Draft
 Type:		Project
@@ -9,6 +9,7 @@ Created:	22-Sep-2008
 Tcl-Version:	8.6
 Obsoletes:	89
 Discussions-To: http://wiki.tcl.tk/21608
+Post-History:	
 
 ~ Abstract
 
