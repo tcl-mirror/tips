@@ -1,15 +1,16 @@
 TIP:            89
 Title:          Try/Catch Exception Handling in the Core
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Tom Wilkason <tom.wilkason@cox.net>
 Author:         Frank Pilhofer <520065607613-0001@t-online.de>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        11-Mar-2002
 Post-History:   
 Discussions-To: news:comp.lang.tcl
 Tcl-Version:    8.6
+Obsoleted-By:	329
 
 ~ Abstract
 
