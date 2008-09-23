@@ -1,0 +1,75 @@
+TIP:		331
+Title:		Allow [lset] to extend lists
+Version:	$Revision: 1.1 $
+Author:		Kevin B. Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	22-Sep-2008
+Post-History:
+Tcl-Version:	8.6
+
+~ Abstract
+
+This TIP proposes to modify the '''lset''' command to allow it to extend
+lists.
+
+~ Proposal
+
+The '''lset''' command shall be modified to allow the index ''end+1'' (or any
+equivalent index designating the element one beyond the last element of the
+list). For the simple usage:
+
+|    lset list end+1 foo
+
+the effect is the same as if the script had evaluated the command:
+
+|    lappend list foo
+
+For the usage:
+
+|    lset list $n end+1 foo
+
+the effect is much the same as if the script had evaluated:
+
+|    set temp [lindex $list $n]
+|    lappend temp foo
+|    lset list $n $temp
+
+(except, of course that no ''temp'' variable is created)
+
+The usage:
+
+|    lset list end+1 0 foo
+
+or, equivalently,
+
+|    lset list end+1 end+1 foo
+
+is equivalent to
+
+|    lappend list [list foo]
+
+~ Rationale
+
+Clearly, there are equivalent constructs to all of these usages. Nevertheless,
+it is convenient not to have to worry about whether a given index is in
+bounds, particularly when iterating through a vector or matrix. With the
+proposed change, many of the standard algorithms in linear algebra will just
+work, without either having to preinitialize a list to a given size or to have
+a test to determine whether to use '''lappend''' or '''lset''' to store a
+given element.
+
+~ Alternatives
+
+Explicitly out of scope is the treatment of indices greater than or equal to
+''end+2''. Setting non-contiguous elements would raise false expectations of
+sparse lists, '''NULL''' elements, and so on.
+
+~ Copyright
+
+Copyright © 2008 by Kevin B. Kenny.
+
+This document may be distributed subject to the terms and conditions set forth
+in the Open Publication License, version 1.0
+[http://www.opencontent.org/openpub/].
