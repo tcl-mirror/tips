@@ -1,15 +1,16 @@
-TIP:		324
-Title:		A Standard Dialog For Font Selection
-Version:	$Revision: 1.1 $
-Author:		Adrian Robert <adrian.b.robert@gmail.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	08-Aug-2008
-Post-History: 
-Keywords:	Tk
-Obsoletes:	213
-Tcl-Version:	8.6
+TIP:            324
+Title:          A Standard Dialog For Font Selection
+Version:        $Revision: 1.2 $
+Author:         Adrian Robert <adrian.b.robert@gmail.com>
+Author:         Adrian Robert <Adrian.B.Robert@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Aug-2008
+Post-History:   
+Keywords:       Tk
+Obsoletes:      213
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -64,7 +65,9 @@ string.  (It will not be so called otherwise.)
         evaluated in the global namespace. The font specification will be
         a list of the form described on the font(n) manual page under
         "FONT DESCRIPTION" section 3. That is a list of {family size
-        style ?style ...?}
+        style ?style ...?}.  For platform dialogs offering the user additional
+        control over font style (e.g., color, overstrike, underline), these
+        may be passed as an optional, second string argument.
 
  >      This command will be called with an empty string if the user closes
         the dialog (either by a ''Cancel'' button, close button, or other
@@ -78,12 +81,19 @@ string.  (It will not be so called otherwise.)
 
  >      Hides the font dialog if it is currently being shown and exits
         modal loop if dialog is modal on platform.  Returns the empty string.
+        A <<TkChoosefontVisibility>> virtual event is sent to the parent window.
 
  * '''tk_chooseFont show'''
 
  >      Shows the font dialog if it is currently hidden, and begins a modal
         loop if dialog is modal on platform.  On these platforms, this call
         returns when modal loop as exited.  Returns the empty string.
+        A <<TkChoosefontVisibility>> virtual event is sent to the parent window.
+
+The <<TkChoosefontVisibility>> virtual event is sent whenever the font panel
+is displayed or withdrawn.  Nothing in the event specifies which of these is
+the case, however; it is necessary to query tk_chooseFont configure -visible
+to know.
 
 Whenever a platform provides a suitable font dialog in its own API, Tk
 should not use a script-based alternative, even if this means missing
@@ -94,6 +104,10 @@ Application code should expect that the command prefix registered with
 '''tk_chooseFont configure -command''' will be called any time the user
 selects a font, even on platforms where the dialog is modal.
 
+Implementors of libraries should be careful when setting -command and -font
+options and should endeavor to do this only in FocusIn handlers, restoring
+previous state in FocusOut handlers, to avoid interfering with user code.
+
 ~ Reference Implementation
 
 See Tk Patch 1477426.
@@ -102,4 +116,3 @@ See Tk Patch 1477426.
 ~ Copyright
 
 This document has been placed in the public domain.
-
