@@ -1,10 +1,10 @@
 TIP:		323
 Title:		Do Nothing Gracefully
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Colin McCormack <colin@chinix.com>
 Author:		Don Porter <dgp@users.sf.net>
 Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	06-Aug-2008
@@ -62,15 +62,6 @@ The syntax of the following commands shall be revised as described:
 
  1. '''namespace upvar''' - accept zero variable names.
 
- 1. '''string first''' - able to find empty string.
-    [https://sourceforge.net/support/tracker.php?aid=1243354]
- 
- 1. '''string last''' - able to find empty string.
-    [https://sourceforge.net/support/tracker.php?aid=1243354]
- 
- 1. '''string replace''' - change interpretation of ''last'' < ''first'' case
-    to enable replacement of an empty substring anchored at ''first''.
-
  1. '''tcl::tm::path add''' - accept zero paths.
 
  1. '''tcl::tm::path remove''' - accept zero paths.
@@ -80,12 +71,8 @@ The syntax of the following commands shall be revised as described:
 
 ~ Compatibilty
 
-Most of the proposed changes convert errors into no-ops.  There should be no
-compatibility concerns with those. The exceptions are the proposed changes to
-'''string first''', '''string last''', and '''string replace''', where current
-behavior is so inexplicable, it would be called a bug if it weren't
-documented. Changing those commands is an incompatibility, but likely a
-welcome one.
+The proposed changes convert errors into no-ops.  There should be no
+compatibility concerns with those. 
 
 ~ Implementation
 
@@ -128,6 +115,14 @@ accomplish it so that this TIP can focus only on the low-hanging fruit.
 
  1. '''upvar''' - presence of the optional ''level'' argument makes this
     one messy.
+
+~ Epilogue
+
+Proposed changes to '''string first''', '''string last''', and
+'''string replace''' in earlier revisions of the TIP that were approved
+by the vote have been rescinded after testing during the implementation
+phase revealed greater than expected issues with the incompatibilities
+those changes introduced.
 
 ~ Copyright
 
