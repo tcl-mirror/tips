@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -90,6 +90,14 @@ like [31].
    * [323], Do Nothing Gracefully
 
    * [326], Add -stride Option to lsort
+
+   * [327], Proper Tailcalls
+
+   * [328], Coroutines
+
+   * [330], Eliminate interp->result from the Public Headers
+
+   * [331], Allow [lset] to Extend Lists
 
    * ''Insert feature here''
 
