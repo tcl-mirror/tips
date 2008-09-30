@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -65,7 +65,31 @@ like [31].
 
 ~~ Tcl/Tk 8.6b1; Release Date: October 10, 2008
 
+   * [195]
+
+   * [236]
+
+   * [265]
+
+   * [308]
+
+   * [313]
+
    * [314], Ensembles with Parameters
+
+   * [315]
+
+   * [316]
+
+   * [318]
+
+   * [320]
+
+   * [321]
+
+   * [323]
+
+   * [326]
 
    * ''Insert feature here''
 
