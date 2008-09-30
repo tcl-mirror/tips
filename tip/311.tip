@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -65,31 +65,31 @@ like [31].
 
 ~~ Tcl/Tk 8.6b1; Release Date: October 10, 2008
 
-   * [195]
+   * [195], A Unique Prefix Handling Command
 
-   * [236]
+   * [236], Absolute Positioning of Canvas Items
 
-   * [265]
+   * [265], A Convenient C-side Command Option Parser for Tcl
 
-   * [308]
+   * [308], Tcl Database Connectivity (TDBC)
 
-   * [313]
+   * [313], Inexact Searching in Sorted List
 
    * [314], Ensembles with Parameters
 
-   * [315]
+   * [315], Add pathSeparator to tcl_platform Array
 
-   * [316]
+   * [316], Portable Access Functions for Stat Buffers
 
-   * [318]
+   * [318], Extend Default Whitespace in 'string trim' Beyond ASCII
 
-   * [320]
+   * [320], Improved Variable Handling in the Core Object System
 
-   * [321]
+   * [321], Add a [tk busy] Command
 
-   * [323]
+   * [323], Do Nothing Gracefully
 
-   * [326]
+   * [326], Add -stride Option to lsort
 
    * ''Insert feature here''
 
