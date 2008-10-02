@@ -1,8 +1,8 @@
 TIP:		330
 Title:		Eliminate interp->result from the Public Headers
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	22-Sep-2008
