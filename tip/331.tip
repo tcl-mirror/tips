@@ -1,8 +1,8 @@
 TIP:		331
 Title:		Allow [lset] to Extend Lists
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	22-Sep-2008
