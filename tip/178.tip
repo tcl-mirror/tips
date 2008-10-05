@@ -1,6 +1,6 @@
 TIP:            178
 Title:          [info pid] and [info tid] Subcommands
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 State:          Draft
 Type:           Project
@@ -48,7 +48,7 @@ identity is known, it can be used to communicate with other processes
 and threads in useful ways that do not require the Thread package.
 Loading the entire Thread package just to get the identity of the
 currently executing thread is overkill and may not be a good solution
-in application embedding scenarios.
+in application embedding scenarios.  This is especially true for the browser plugin where loading extra packages is not ideal.
 
 ~ Proposed Change
 
