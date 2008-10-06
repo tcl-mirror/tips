@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -63,7 +63,7 @@ like [31].
 
    * NRE core. This is an internal change that allows infinite recursion and enables new features (like ::tcl::unsupported::tailcall). [322], the TIP to publish the C API to NRE, will not be final until later.
 
-~~ Tcl/Tk 8.6b1; Release Date: October 10, 2008
+~~ Tcl/Tk 8.6a3; Release Date: October 10, 2008
 
    * [195], A Unique Prefix Handling Command
 
@@ -98,6 +98,10 @@ like [31].
    * [330], Eliminate interp->result from the Public Headers
 
    * [331], Allow [lset] to Extend Lists
+
+   * ''Insert feature here''
+
+~~ Tcl/Tk 8.6b1; Approximate Release Date: December 1, 2008
 
    * ''Insert feature here''
 
