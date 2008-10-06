@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -67,6 +67,8 @@ The new command '''invoke''' could be implemented as:
 
 [[RFE 1577324]] (which depends on [[Patch 1577278]]) provides an
 implementation of '''namespace invoke'''.
+[https://sourceforge.net/support/tracker.php?aid=1577324]
+[https://sourceforge.net/support/tracker.php?aid=1577278]
 
 ~ Differences to other commands
 
