@@ -1,11 +1,11 @@
 TIP:            327
 Title:          Proper Tailcalls
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         David S. Cargo <escargo@skypoint.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        20-Sep-2008
 Post-History:   
 Keywords:       tailcall,NRE
