@@ -1,7 +1,8 @@
 TIP:		97
 Title:		Moving Vertices of Canvas Items
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Agnar Renolen <agnar.renolen@emap.no>
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6
@@ -11,57 +12,72 @@ Post-History:
 
 ~ Abstract
 
-This TIP proposes a canvas subcommand (or possibly two) that allows
-for replacing characters in text objects and to move individual
-vertices of line and polygon items.
+This TIP proposes a canvas subcommand (or possibly two) that allows for
+replacing characters in text objects and to move individual vertices of line
+and polygon items.
 
 ~ Rationale
 
-Interactive graphics programs often allow users to modify shapes of
-objects by selecting and dragging the vertices.  Moving one vertex of
-a canvas item in the current version of Tk, (at least as far as I can
-find out from the documentation), can only be done by first removing
-the coordinate by ''dchars'' and then insert the new one by
-''insert'', or for geometric items like lines and polygons using the
-''coords'' command to obtain and reset the coordinates, after having
-modified the coordinate list by ''lrepace''.
+Interactive graphics programs often allow users to modify shapes of objects by
+selecting and dragging the vertices. Moving one vertex of a canvas item in the
+current version of Tk, (at least as far as I can find out from the
+documentation), can only be done by first removing the coordinate by
+'''dchars''' and then insert the new one by '''insert''', or for geometric
+items like lines and polygons using the '''coords''' command to obtain and
+reset the coordinates, after having modified the coordinate list by
+'''lreplace'''.
 
-The most important issue here, I think, is performance.  I believe
-that the current way of moving a vertex can be slow in some scenarios.
+The most important issue here, I think, is performance. I believe that the
+current way of moving a vertex can be slow in some scenarios.
 
-The ''rchars'' command is proposed merely to conform with the
-''dchars'' and ''insert'' commands, which both operate on lines,
-polygons and text items, hence ''rchars'' should do that as well.
+The '''rchars''' canvas subcommand is proposed merely to conform with the
+'''dchars''' and '''insert''' commands, which both operate on lines, polygons
+and text items, hence '''rchars''' should do that as well.
 
 ~ Specification
 
-Two canvas widget commands are proposed: ''imove'' and ''rchars''.
-The following command is proposed to move a vertex of any canvas item:
+Two canvas widget subcommands are proposed: '''imove''' and '''rchars'''. The
+following subcommand is proposed to move a vertex of any canvas item:
 
  > ''canvas'' '''imove''' ''tagOrID index x y''
 
-This command will move the ''index''th point of the item identified by
-''tagOrID'' to the new position given by ''x'' and ''y''.  The command
-should work for all canvas items.
+This subcommand will move the ''index''th coordinate of the item identified by
+''tagOrID'' to the new position given by ''x'' and ''y''. The ''index'' value
+will be subject to normal '''end''' processing, but refers to coordinate
+indices and not list indices. The subcommand should work for all canvas items,
+though will not offer any benefits for canvas items having only a single
+coordinate (e.g. images, text items, widgets).
 
-The following command provides a similar functionality, but conforms
-to the current ''insert'' and ''dchars'' commands.
+The following command provides a similar functionality, but conforms to the
+model of the current '''insert''' and '''dchars''' subcommands.
 
  > ''canvas'' '''rchars''' ''tagOrID first last string''
 
 This command will:
 
- for text items: replace the characters in the range ''first'' and
-    ''last'' (inclusive) with the characters in ''string''.
+ for text items: replace the characters in the range ''first'' and ''last''
+    (inclusive) with the characters in ''string''.
 
- for line and polygon items: replace the coordinates in the range
-    ''first'' and ''last'' (inclusive) with the coordinates specified
-    in ''string''.
+ for line and polygon items: replace the coordinates in the range ''first''
+    and ''last'' (inclusive) with the coordinate list specified in ''string''
+    (subject to the requirement that the coordinate list is an even number of
+    floating point numbers).
 
-The names of the commands are negotiable.  The ''imove'' command is
-not strictly necessary as the ''rchars'' command can be used to obtain
-the same result.  However, I believe that a separate ''imove'' command
-can be implemented with a better performance with ''rchars''.
+ >  Note that ''first'' and ''last'' refer to coordinate indices, not list
+    indices, and so ''first'' must be doubled to get the list index it refers
+    to and ''last'' must be doubled (after '''end''' processing) and 1 added
+    to get the list index it refers to.
+
+The '''imove''' subcommand is not strictly necessary as the '''rchars'''
+subcommand can be used to obtain the same result. However, I believe that a
+separate '''imove''' subcommand will be easier to understand for users (and
+can be implemented with better performance) than the '''rchars''' subcommand,
+though the latter is still necessary as it allows for more complex processing
+such as insertion or deletion of points.
+
+~ Reference Implementation
+
+To be done...
 
 ~ Copyright
 
