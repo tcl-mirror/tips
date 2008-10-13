@@ -1,0 +1,157 @@
+TIP:		333
+Title:		New Variable and Namespace Resolving Interface
+Version:	$Revision: 1.1 $
+Author:		Arnulf Wiedemann <arnulf@wiedemann-pri.de>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Created:	13-Oct-2008
+Post-History:	
+Keywords:	Tcl, resolution
+
+~ Abstract
+
+This is a TIP to allow easy command and variable resolving for itcl-ng, but is
+not restricted to itcl-ng. It should be possible for an application to drive
+the rules for command and variable lookup using the interface described
+below. This TIP should allow to get rid of namespace and interpreter resolvers
+for itcl-ng.
+
+~ Rationale
+
+The current implementation for command and variable resolution using namespace
+and interpreter resolvers has a lot of problems for the Tcl core
+implementation. Second problem is the additonal performance penality for using
+the resolvers (much more code is needed in the application). The suggested
+interface allows to hide Tcl core details concerning handling of variables and
+commands from the outside. If the interface would be made public, it would be
+also possible to avoid use of tclInt.h in that area and to only use stubs
+interfaces, which means itcl-ng versions would be independent of Tcl versions.
+Other applications (e.g. snit) could also use this interface for fast lookup
+of variables and commands.
+
+~ C-API Specification
+
+At the moment there is only a need for a C-API for the suggested functionality
+
+~~ For Commands (methods/procs)
+
+ > typedef int (*'''TclCheckClassProtectionProc''')(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', const char *''varName'', ClientData
+   ''clientData'');
+
+ > typedef void (*'''Tcl_ClassCommandDeleteProc''')(ClientData
+   ''clientData'');
+
+ > typedef void (*'''Tcl_ObjectCommandDeleteProc''')(ClientData
+   ''clientData'');
+
+ > ClientData '''Tcl_RegisterClassMethod'''(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', const char *''cmdName'', ClientData
+   ''clientData'');
+
+ > Tcl_Command '''Tcl_RegisterObjectMethod'''(TclInterp *''interp'',
+   ClientData ''objectPtr'', const char *''cmdName'', Tcl_Command ''cmdPtr'',
+   ClientData ''clientData'');
+
+ > void '''Tcl_UnregisterClassCommand'''(Tcl_Interp *''interp'', Tcl_Namespace
+   *''nsPtr'', const char *''cmdName'', Tcl_ClassCommandDeleteProc
+   ''delProc'');
+
+ > void '''Tcl_UnregisterObjectCommand'''(Tcl_Interp *''interp'', ClientData
+   ''objectPtr'', const char *''cmdName'', Tcl_ObjectCommandDeleteProc
+   ''delProc'');
+
+ > int '''Tcl_SetCallFrameObject'''(Tcl_Interp *''interp'', ClientData
+   ''objectPtr'');
+
+ > int '''Tcl_SetNamespaceCommandProtectionCallback'''(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', TclCheckNamespaceProtection ''cnpProc'');
+
+~~ For Variables (variables/commons)
+
+ > typedef int (*'''TclCheckClassProtection''')(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', const char *''varName'', ClientData
+   ''clientData'');
+
+ > typedef void (*'''Tcl_ObjectVariableDeleteProc''')(ClientData
+   ''clientData'');
+
+ > typedef void (*'''Tcl_ClassVariableDeleteProc''')(ClientData
+   ''clientData'');
+
+ > ClientData '''Tcl_RegisterClassVariable'''(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', const char *''varName'', ClientData
+   ''clientData'');
+
+ > Tcl_Var '''Tcl_RegisterObjectVariable'''(TclInterp *''interp'', ClientData
+   ''objectPtr'', const char *''varName'', ClientData ''clientData'', Tcl_Var
+   ''varPtr'');
+
+ > void '''Tcl_UnregisterClassVariable'''(Tcl_Interp *''interp'',
+   Tcl_Namespace *''nsPtr'', const char *''varName'',
+   Tcl_ClassVariableDeleteProc ''delProc'');
+
+ > void '''Tcl_UnregisterObjectVariable'''(Tcl_Interp *''interp'', ClientData
+   ''objectPtr'', const char *''varName'', Tcl_ObjectVariableDeleteProc
+   ''delProc'');
+
+ > int '''Tcl_SetCallFrameObject'''(Tcl_Interp *''interp'', ClientData
+   ''objectPtr'');
+
+ > int '''Tcl_SetNamespaceVariableProtectionCallback'''(Tcl_Interp
+   *''interp'', Tcl_Namespace *''nsPtr'', TclCheckNamespaceProtection
+   ''cnpProc'');
+
+~ Detailed Description
+
+For details on how itcl-ng is using variables scopes and command scopes look
+here: http://wiki.tcl.tk/21676
+
+I am only describing details for variables, as variables are more complex and
+commands are handled very similar to variables in itcl-ng concerning lookup.
+There is the need for collecting all variables from an itcl-ng class hierarchy
+for every class in the hierarchy together with the class (which is a
+namespace). Then for each such collection there is the need to specify which
+variables are used phisically based on a per object basis, because every
+object has an own set of variables for the class hierarchy tied to the object.
+There is the need to switch these variable collections during runtime for
+every itcl-ng method (a method is similar to a tcl proc) which is called.
+Every method is called in the class (namespace) where it is defined. Therefor
+it is necessary to have a registration mechanism for variables on a class and
+object base. During execution when calling a method the appropriate set of
+object variables for the currently active object has to be available on a per
+CallFrame basis (Tcl_SetCallFrameObject).
+
+The protection check function shall be called when a class variable is found
+to check the protection level by the caller according to the protection rules
+for the application. The clientData structure has to be filled by the
+application with the appropriate data when registering a variable.
+
+The suggested rules for lookup should be: on all places where the namespace
+resolvers are called at the moment to additionally (instead of) do the lookup
+for the new interfaces and if there is nothing found continue with normal
+lookup.
+
+The *Unregister* functions are for cleaning up variable information when no
+longer needed. The application has to do the calls and the deleteProc is used
+for freeing the contents of the clientData containers used when registering
+the variables. If no registered variable for a class or object is left, also
+the data structures in Tcl core used for registering and lookup should be
+freed.
+
+For commands substitute variable by command in the last few sections.
+
+The names for the interface functions are just a suggestion, maybe someone
+finds better names.
+
+~ Reference Implementation
+
+A reference implementaion has been done for itcl-ng using the namespace
+resolvers and in the resolver functions using the described interfaces. It
+runs aganist the test suite without problems.
+
+~ Copyright
+
+This document has been placed in the public domain.
