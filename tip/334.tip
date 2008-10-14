@@ -1,8 +1,8 @@
 TIP:		334
 Title:		Make 'lrepeat' Accept Zero as a Count
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Michael Thomas Greer <michael.thomas.greer@verizon.net>
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
