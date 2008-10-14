@@ -1,6 +1,6 @@
-TIP:		334
+TIP:		335
 Title:		Controlled Interpreter Deletion via Tcl_GetNumLevels
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
