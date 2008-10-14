@@ -1,0 +1,67 @@
+TIP:		334
+Title:		Controlled Interpreter Deletion via Tcl_GetNumLevels
+Version:	$Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	13-Oct-2008
+Keywords:	numLevels,embedding,terminate,async,thread,safe,gc
+Tcl-Version:	8.6
+Post-History:	
+
+~ Abstract
+
+This TIP introduces the ability to quickly and safely obtain the value of the
+''numLevels'' field of the ''Interp'' structure.
+
+~ Rationale
+
+For applications written in garbage-collected languages, such as C#, it is not
+always desirable to rely upon the '''Tcl_Preserve''' / '''Tcl_Release'''
+mechanism to protect an against deletion of an interpreter while it is in use.
+
+Additionally, an application may want to proactively forbid attempts to delete
+an interpreter while it is in use. Unfortunately, there is currently no
+publicly exposed method to determine if a given Tcl interpreter is in use
+(i.e. one or more calls to '''Tcl_Eval''' are active). This TIP proposes to
+correct that deficiency.
+
+~ Specification
+
+~~ Functions
+
+ > int '''Tcl_GetNumLevels'''(Tcl_Interp *''interp'')
+
+The '''Tcl_GetNumLevels''' function returns the value of the '''numLevels'''
+field in the '''Interp''' structure.
+
+~ Reference Implementation
+
+|/*
+| *----------------------------------------------------------------------
+| *
+| * Tcl_GetNumLevels --
+| *
+| *	Returns the number of nested calls to Tcl_Eval that are in progress
+| *	for the specified interpreter.
+| *
+| * Results:
+| *	See above.
+| *
+| * Side effects:
+| *	None.
+| *
+| *----------------------------------------------------------------------
+| */
+|
+|int
+|Tcl_GetNumLevels(Tcl_Interp *interp)
+|{
+|    Interp *iPtr = (Interp *) interp;
+|    return iPtr->numLevels;
+|}
+
+~ Copyright
+
+This document has been placed in the public domain.
