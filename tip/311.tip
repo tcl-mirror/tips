@@ -1,12 +1,13 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 Author:         miguel sofer <msofer@users.sf.net>
 Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -102,6 +103,8 @@ like [31].
    * ''Insert feature here''
 
 ~~ Tcl/Tk 8.6b1; Approximate Release Date: December 1, 2008
+
+   * [332], Half-Close for Bidirectional Channels
 
    * ''Insert feature here''
 
