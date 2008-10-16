@@ -1,15 +1,15 @@
-TIP:		332
-Title:		Half-Close for Bidirectional Channels
-Version:	$Revision: 1.1 $
-Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	25-Sep-2008
-Post-History:	
-Tcl-Version:	8.6
-Keywords:	Tcl, channel, close, socket, shutdown
-Obsoletes:	301
+TIP:            332
+Title:          Half-Close for Bidirectional Channels
+Version:        $Revision: 1.2 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Sep-2008
+Post-History:   
+Keywords:       Tcl,channel,close,socket,shutdown
+Obsoletes:      301
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -89,7 +89,6 @@ And the same applies to wrong-sided unidirectional channels:
 |	close $f w
 |	==> channel "file3" wasn't opened for writing
 
-
 ~ Rationale
 
 The concept has gone full circle. From an initial half-close proposal very
@@ -105,11 +104,21 @@ API).
 As a consequence, [301] is being withdrawn, and the current TIP goes back to
 its initial, lower profile: just provide the half-close.
 
+~ C Interface
+
+Luckily, the polymorphic channel API in Tcl has been fitted with a half-close function for nearly 10 years (!): the Tcl_ChannelType structure has had a ''close2proc'' member since 1998 in order to avoid deadlocks when closing a command pipeline. As a consequence, the implementation of half-close can be done with a constant channel ABI, avoiding any compatibility issue for extensions.
+
+Still, the ''close2proc'' member does not have public status. To promote symmetry between the script-level and public C APIs, this TIP proposes to add an entry in the main stub table with the following signature:
+
+   > int '''Tcl_CloseEx'''(Tcl_Interp *''interp'', Tcl_Channel ''chan'', int ''flags'')
+
+The behavior being defined as mirrorring the script-level semantics described bove, where ''flags'' is either 0 (meaning bidirectional close) or one of TCL_CLOSE_READ and TCL_CLOSE_WRITE (meaning half-close).
+
 ~ Reference Implementation
 
-Coming soon, once identified the best way of minimizing the channel ABI
-compatibility issue (since the half-close has to cross the generic channel
-interface).
+Coming soon. After a discussion with Andreas Kupries, the plan is to half-close-enable only raw (unstacked) channels for the time being, raising an explicit error when trying a half-close on a non-bottom channel. This leaves time to carefully design the necessary API extension of the generic stacking and reflection layers, while preparing a fully compatible change (error cases becoming valid).
+
+On the channel-type-dependent side, only sockets and pipelines will be half-close-enabled for now: these are assumed to represent the most pressing demand.
 
 ~ Copyright
 
