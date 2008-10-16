@@ -1,14 +1,14 @@
-TIP:		333
-Title:		New Variable and Namespace Resolving Interface
-Version:	$Revision: 1.1 $
-Author:		Arnulf Wiedemann <arnulf@wiedemann-pri.de>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6
-Vote:		Pending
-Created:	13-Oct-2008
-Post-History:	
-Keywords:	Tcl, resolution
+TIP:            333
+Title:          New Variable and Namespace Resolving Interface
+Version:        $Revision: 1.2 $
+Author:         Arnulf Wiedemann <arnulf@wiedemann-pri.de>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Oct-2008
+Post-History:   
+Keywords:       Tcl,resolution
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -151,6 +151,18 @@ finds better names.
 A reference implementaion has been done for itcl-ng using the namespace
 resolvers and in the resolver functions using the described interfaces. It
 runs aganist the test suite without problems.
+
+~ Details about the Prototype Implementation
+
+I have used a straight forward approach, which was easy to implement.
+
+All lookup info is at the moment in a structure available with Tcl_SetAssocData/Tcl_GetAssocData
+
+Tcl_RegisterClassVariable fills a Tcl_HashTable with the namespace as the key (not necessary in Tcl core there the info should be tied to the Namespace structure). The value is a Tcl_HashTable for the variable infos. In that hash table there are entries with varName as a key and clientData as the value.
+
+Tcl_RegisterObjectVariable fills a Tcl_HashTable with the objectClientData as key and value is a Tcl_HashTable. The key for the hash table is clientData tied to a varName from Tcl_RegisterClassVariable and if varPtr != NULL then it is the value for the hash table otherwise a new variable is created and used for the varPtr. The variable is created at the moment in a special per object namespace but better should be stored in a per object TclVarHashTable.
+
+Lookup in the namespace resolvers fetches the lookup data structure, looks with namespace and varName for clientData, and if found calls Tcl_CheckClassProtection and if TCL_OK is returned gets the itcl object and looks for the varPtr with objectClientData and clientData and if successful returns varPtr.
 
 ~ Copyright
 
