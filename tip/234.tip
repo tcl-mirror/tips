@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -139,7 +139,7 @@ Streaming is handled in one of two ways. Either by '''push'''ing a
 transformation onto a channel's transformation stack, or by a worker command
 which is created by calling the '''zlib''' command's '''stream''' subcommand.
 
-~~~ Channel Transformations
+~~ Channel Transformations
 
  > '''zlib push'''
    '''deflate'''|'''inflate'''|'''compress'''|'''decompress'''|'''gzip'''|'''gunzip'''
@@ -176,7 +176,7 @@ When the base channel or transform returns EOF, compression will automatically
 finalize. When EOF occurs during decompression but the compressed stream is not
 yet at EOF, an error will be raised. 
 
-~~~ The zlib stream command
+~~ The zlib stream command
 
  > '''zlib stream'''
    '''deflate'''|'''inflate'''|'''compress'''|'''decompress'''|'''gzip'''|'''gunzip'''
@@ -186,7 +186,7 @@ Returns a command name which will perform the requested operation in a
 streaming fashion. The compression level value, ''level'', is only used when
 compressing data.
 
-~~~~ Stream Worker Command
+~~~ Stream Worker Command
 
 The stream worker command is used to actually compress and decompress in
 smaller chunks than the input and/or output.
