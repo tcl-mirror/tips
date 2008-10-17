@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -88,35 +88,29 @@ There are three compressed formats supported by this command:
 Data is treated as binary, meaning that all input and output is going to be
 converted and treated as byte arrays in Tcl.
 
- > '''zlib compress''' ''data'' ?''level''?
+ > '''zlib compress''' ''data'' ?''-level level''?
 
 Returns raw deflated byte-array version of binary data ''data'', at an
 optional compression ''level''. The compression level must be between 0 and 9:
 1 gives best speed, 9 gives best compression, 0 gives no compression at all
 (the input data is simply copied a block at a time).
 
- > '''zlib decompress''' ''compressedData'' ?''bufferSize''?
+ > '''zlib decompress''' ''compressedData'' 
 
 Decompresses a raw deflated byte array as obtained from '''zlib compress'''.
-The optional buffer size can be used to specify the size of the decompressed
-data in bytes if it is known before decompression. Otherwise, the buffer
-starts out at 16Kb and is doubled until the decompressed data fits.
 
- > '''zlib deflate''' ''data'' ?''level''?
+ > '''zlib deflate''' ''data'' ?''-level level''?
 
 Returns zlib-compressed version of ''data'', at an optional compression
 '''level'''. The compression level must be between 0 and 9: 1 gives best
 speed, 9 gives best compression, 0 gives no compression at all (the input data
 is simply copied a block at a time).
 
- > '''zlib inflate''' ''deflatedData'' ?''bufferSize''?
+ > '''zlib inflate''' ''deflatedData'' 
 
 Decompresses the zlib-compressed data as obtained from '''zlib deflate'''.
-The optional buffer size can be used to specify the size of the decompressed
-data in bytes if it is known before decompression. Otherwise, the buffer
-starts out at 16Kb and is doubled until the decompressed data fits.
 
- > '''zlib gzip''' ''data'' ?''level''?
+ > '''zlib gzip''' ''data'' ?''-level level''?
 
 Returns gzip-compressed ''data'', at an optional compression ''level''. The
 compression level must be between 0 and 9: 1 gives best speed, 9 gives best
@@ -127,12 +121,10 @@ The gzip header will have no file name, no extra data, no comment, no
 modification time (set to zero), no header crc, and the operating system will
 be set to 255 (unknown).
 
- > '''zlib gunzip''' ''gzipData'' ?''bufferSize''?
+ > '''zlib gunzip''' ''gzipData'' 
 
-Decompresses the gzip data as obtained from '''zlib deflate''' or any gzip
-file. The optional buffer size can be used to specify the size of the
-decompressed data in bytes if it is known before decompression.  Otherwise,
-the buffer starts out at 16Kb and is doubled until the decompressed data fits.
+Decompresses the gzip data as obtained from '''zlib gzip''' or any gzip
+file. 
 
 Only the uncompressed gzip data is available, not the original filename, extra
 data, modification time, header crc or the operating system from the gzip
@@ -143,18 +135,58 @@ Note that '''compress'''/'''decompress''', '''deflate'''/'''inflate''' and
 
 ~~ Streaming Compression and Decompression
 
-Streaming is handled by a worker command which is created by calling the
-'''zlib''' command's '''stream''' subcommand:
+Streaming is handled in one of two ways. Either by '''push'''ing a
+transformation onto a channel's transformation stack, or by a worker command
+which is created by calling the '''zlib''' command's '''stream''' subcommand.
+
+~~~ Channel Transformations
+
+ > '''zlib push'''
+   '''deflate'''|'''inflate'''|'''compress'''|'''decompress'''|'''gzip'''|'''gunzip'''
+   ''channel''
+   ?''-level level''?
+   ?''-limit count''?
+
+Pushes the requested transformation onto the channel stack. The
+compression level must be between 0 and 9: 1 gives best speed, 9 gives best
+compression, 0 gives no compression at all (the input data is simply copied a
+block at a time). The ''-limit'' option specifies the maximum number of bytes to
+read from the channel. This is mainly intended to specify how much compressed
+should be read from a non-seekable channel.
+
+Additional [chan] commands are enabled after pushing a zlib transformation:
+
+ > '''chan adler32''' ''channelId''
+
+Returns the Adler32 checksum for the data. Continuously updated during
+compression, available only at the of decompression.
+
+ > '''chan fullflush''' ''channelId''
+
+Performs a fullflush on the compression output.
+
+At the end of the data during compression, simply '''[chan pop]''' to finalize
+compression and flush any remaining compressed data.
+
+At the end of compressed data, the channel will return EOF until the
+transformation is popped from the channel. If no '''-limit''' was specified, the 
+current access position of the channel is undefined.
+
+When the base channel or transform returns EOF, compression will automatically
+finalize. When EOF occurs during decompression but the compressed stream is not
+yet at EOF, an error will be raised. 
+
+~~~ The zlib stream command
 
  > '''zlib stream'''
    '''deflate'''|'''inflate'''|'''compress'''|'''decompress'''|'''gzip'''|'''gunzip'''
-   ?''level''?
+   ?''-level level''?
 
 Returns a command name which will perform the requested operation in a
 streaming fashion. The compression level value, ''level'', is only used when
 compressing data.
 
-~~~ Stream Worker Command
+~~~~ Stream Worker Command
 
 The stream worker command is used to actually compress and decompress in
 smaller chunks than the input and/or output.
@@ -188,7 +220,7 @@ For compression, this signals the end of the input data; no more data can be
 added to the stream after the '''finalize''' subcommand is called. For
 decompression, this functions the same as the '''flush''' subcommand.
 
- > ''stream'' '''get''' ?''count''?
+ > ''stream'' '''get''' ?''-count count''?
 
 Gets (de)compressed data from the stream. The optional ''count'' parameter
 specifies the maximum number of bytes to read from the stream. Especially for
@@ -220,12 +252,12 @@ command cannot be used anymore.
 
 ~~ Checksums
 
- > '''zlib crc32''' ''data'' ?''startValue''?
+ > '''zlib crc32''' ''data'' ?''-startValue startValue''?
 
 Calculates a standard ''CRC-32'' checksum, with an optional start value for
 incremental calculations.
 
- > '''zlib adler32''' ''data'' ?''startValue''?
+ > '''zlib adler32''' ''data'' ?''-startValue startValue''?
 
 Calculates a quick ''Adler-32'' checksum, with an optional start value for
 incremental calculations.
@@ -238,7 +270,7 @@ Tcl_Obj *
 '''Zlib_Deflate'''(''interp'', ''format'', ''data'', ''level'')
 
 Tcl_Obj *
-'''Zlib_Inflate'''(''interp'', ''format'', ''data'', ''bufferSize'')
+'''Zlib_Inflate'''(''interp'', ''format'', ''data'')
 
 unsigned int
 '''Zlib_CRC32'''(''crc'', ''bytes'', ''length'')
@@ -298,11 +330,6 @@ int
  unsigned int crc (in): start value value for the crc-32 calculation
 
  unsigned int adler (in): start value value for the adler-32 calculation
-
- int buffersize (in): The buffer size can be used to specify the size of the
-   decompressed data in bytes if it is known before decompression. If
-   ''buffersize'' is 0, the buffer starts out at 16Kb and is doubled until the
-   decompressed data fits.
 
  int *zshandlePtr (in/out): Pointer to an integer to receive the handle to the
    stream. All subsequent ''Zlib_Stream*''() calls require this handle.
@@ -399,6 +426,8 @@ The reference implementation is available at the subversion repository
 [http://svn.scheffers.net/zlib]. Alternatively, a recent snapshot is available
 [http://svn.scheffers.net/zlib.tar.gz]. This reference implementation includes
 a copy of zlib-1.2.1 [http://www.gzip.org].
+
+The reference implementation currently implements a version 1.8 of this TIP.
 
 ~ Comments
 
