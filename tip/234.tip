@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -122,12 +122,12 @@ data, no comment, no modification time (set to zero), no header crc, and the
 operating system will be set to 255 (unknown).
 
 The header dict may contain:
- > '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
- > '''fname''' ''string: original file name''
- > '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
- > '''os''' ''integer: Operating system used (see RFC 1952)''
- > '''crc''' ''integer: CRC-32 of the uncompressed data''
- > '''size''' ''integer: uncompressed size modulo 2^32''
+* '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
+* '''fname''' ''string: original file name''
+* '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
+* '''os''' ''integer: Operating system used (see RFC 1952)''
+* '''crc''' ''integer: CRC-32 of the uncompressed data''
+* '''size''' ''integer: uncompressed size modulo 2^32''
 
  > '''zlib gunzip''' ''gzipData'' ?''-headerVar headerDictVarName''?
 
