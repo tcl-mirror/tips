@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -110,25 +110,35 @@ is simply copied a block at a time).
 
 Decompresses the zlib-compressed data as obtained from '''zlib deflate'''.
 
- > '''zlib gzip''' ''data'' ?''-level level''?
+ > '''zlib gzip''' ''data'' ?''-level level''? ?''-header gzipHeaderDict''?
 
 Returns gzip-compressed ''data'', at an optional compression ''level''. The
 compression level must be between 0 and 9: 1 gives best speed, 9 gives best
 compression, 0 gives no compression at all (the input data is simply copied a
 block at a time).
 
-The gzip header will have no file name, no extra data, no comment, no
-modification time (set to zero), no header crc, and the operating system will
-be set to 255 (unknown).
+When header dict is not given, the gzip header will have no file name, no extra
+data, no comment, no modification time (set to zero), no header crc, and the
+operating system will be set to 255 (unknown).
 
- > '''zlib gunzip''' ''gzipData'' 
+The header dict may contain:
+ > '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
+ > '''fname''' ''string: original file name''
+ > '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
+ > '''os''' ''integer: Operating system used (see RFC 1952)''
+ > '''crc''' ''integer: CRC-32 of the uncompressed data''
+ > '''size''' ''integer: uncompressed size modulo 2^32''
+
+ > '''zlib gunzip''' ''gzipData'' ?''-headerVar headerDictVarName''?
 
 Decompresses the gzip data as obtained from '''zlib gzip''' or any gzip
 file. 
 
-Only the uncompressed gzip data is available, not the original filename, extra
-data, modification time, header crc or the operating system from the gzip
-header.
+The command returns the uncompressed data. The optional -header variable name will
+be filled with the available header fields. If a field does not exist in the
+gzip header, it will not be present in the dict. For example, the original
+filename, comment and crc are optional header fields and will be omited from the
+dict if they do not exist.
 
 Note that '''compress'''/'''decompress''', '''deflate'''/'''inflate''' and
 '''gzip'''/'''gunzip''' must be used in pairs.
@@ -146,6 +156,8 @@ which is created by calling the '''zlib''' command's '''stream''' subcommand.
    ''channel''
    ?''-level level''?
    ?''-limit count''?
+   ?''-header gzipHeaderDict''?
+   ?''-headerVar headerDictVarName''?
 
 Pushes the requested transformation onto the channel stack. The
 compression level must be between 0 and 9: 1 gives best speed, 9 gives best
@@ -153,6 +165,9 @@ compression, 0 gives no compression at all (the input data is simply copied a
 block at a time). The ''-limit'' option specifies the maximum number of bytes to
 read from the channel. This is mainly intended to specify how much compressed
 should be read from a non-seekable channel.
+
+The -header and -headerVar are only used for gzip and gunzip respectively. See
+the previous section for their definition.
 
 Additional [chan] commands are enabled after pushing a zlib transformation:
 
@@ -181,10 +196,15 @@ yet at EOF, an error will be raised.
  > '''zlib stream'''
    '''deflate'''|'''inflate'''|'''compress'''|'''decompress'''|'''gzip'''|'''gunzip'''
    ?''-level level''?
+   ?''-header gzipHeaderDict''?
+   ?''-headerVar headerDictVarName''?
 
 Returns a command name which will perform the requested operation in a
 streaming fashion. The compression level value, ''level'', is only used when
 compressing data.
+
+The -header and -headerVar are only used for gzip and gunzip respectively. See
+the previous section for their definition.
 
 ~~~ Stream Worker Command
 
