@@ -1,8 +1,8 @@
 TIP:            321
 Title:          Add a [tk busy] Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        26-Jun-2008
