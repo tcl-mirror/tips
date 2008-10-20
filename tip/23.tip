@@ -1,6 +1,6 @@
 TIP:            23
 Title:          Tk Toolkit Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.29 $
+Version:        $Revision: 1.30 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Jim Ingham <jingham@apple.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
@@ -501,10 +501,14 @@ be a Category in the SourceForge Tracker for Tk:
      generic/tkFocus.c,
      tests/focus.test
 
- 56. '''[[grab]]''' -
+ 56. '''[[grab]] and [[tk busy]]''' -
      doc/Grab.3,
+     doc/busy.n
      doc/grab.n,
+     generic/tkBusy.c,
+     generic/tkBusy.h,
      generic/tkGrab.c,
+     tests/busy.test,
      tests/grab.test
 
  57. '''[[option]]''' -
