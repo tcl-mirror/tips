@@ -1,0 +1,67 @@
+TIP:		337
+Title:		Make TclBackgroundException() Public
+Version:	$Revision: 1.1 $
+Author:		Don Porter <dgp@users.sf.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	21-Oct-2008
+Post-History:	
+Tcl-Version:	8.6
+
+~ Abstract
+
+This TIP proposes to make the ''TclBackgroundException'' routine available in
+the public interface so that extensions may notify Tcl about all return codes
+that occur during background operations.
+
+~ Background
+
+When background operations in Tcl result in a non-'''TCL_OK''' return code, it
+has been recommended practice to call ''Tcl_BackgroundError()'' so that Tcl
+can arrange for background error handlers to react to the exceptional
+situation. The prototype of that routine is:
+
+ > void '''Tcl_BackgroundError'''(Tcl_Interp *''interp'')
+
+In Tcl 8.5, the new '''interp bgerror''' command permits registration of
+handlers that receive the full return options dictionary as an argument [221].
+This means that such handlers can respond differently to different exceptions.
+At the same time a new internal routine '''TclBackgroundException''' with
+prototype:
+
+ > void '''TclBackgroundException'''(Tcl_Interp *''interp'', int ''code'')
+
+and the implementation of '''Tcl_BackgroundError''' became:
+
+|void Tcl_BackgroundError(Tcl_Interp *interp) {
+|    TclBackgroundException(interp, TCL_ERROR);
+|}
+
+The new '''TclBackgroundException''' routine is a more general routine
+suitable for announcing any exceptional code returned by background
+operations, not limited to '''TCL_ERROR''' like '''Tcl_BackgroundError''' has
+been. The new '''TclBackgroundException''' routine is used throughout the
+internal portions of Tcl so that full exception information gets reliably
+passed through to background exception handlers, when the background
+processing is governed by things which are built in to Tcl, such as
+'''after''' and '''chan event'''.
+
+The oversight of [221] was not proposing to make '''TclBackgroundException'''
+public at the same time, so that extensions which govern background
+operations, notably Tk, have access to the same full expressive power.
+
+~ Proposal
+
+Rename the internal routine '''TclBackgroundException''' to
+'''Tcl_BackgroundException''' and place it in the public stubs table.
+
+Apply Tk Patch 1789752 to make use of the new facility.
+
+~ Compatibility
+
+No compatibility concerns from a new public routine.
+
+~ Copyright
+
+This document has been placed in the public domain.
