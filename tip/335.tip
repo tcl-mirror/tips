@@ -1,6 +1,6 @@
 TIP:		335
-Title:		Controlled Interpreter Deletion via Tcl_GetNumLevels
-Version:	$Revision: 1.2 $
+Title:		Controlled Interpreter Deletion via Tcl_InterpActive
+Version:	$Revision: 1.3 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
@@ -13,7 +13,8 @@ Post-History:
 ~ Abstract
 
 This TIP introduces the ability to quickly and safely obtain the value of the
-''numLevels'' field of the ''Interp'' structure.
+''numLevels'' field of the ''Interp'' structure, allowing an external system
+to determine whether it is safe to delete the interpreter.
 
 ~ Rationale
 
