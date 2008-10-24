@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -57,10 +57,9 @@ The package utilizes zlib/libz from the gzip project
 with the Tcl license, it also compiles on most, if not all, platforms where
 Tcl compiles.
 
-For ease of use, the core distribution should probably include a copy of libz
-under ''tcl/compat'', with configuration options available so that people
-building Tcl on platforms that already come with an installed copy of the
-basic zlib library can use that instead.
+For ease of use, the core distribution shall include a copy of libz
+under ''tcl/contrib''. This copy will be built and used automatically when
+autoconf cannot find zlib.h during the configure stage. 
 
 ~ Streaming
 
