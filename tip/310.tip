@@ -1,10 +1,10 @@
 TIP:		310
 Title:		Add a New Pseudo-Random Number Generator
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Arjen Markus <arjen.markus@wldelft.nl>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	07-Jan-2008
 Post-History:
 Tcl-Version:	8.6

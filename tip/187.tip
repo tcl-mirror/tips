@@ -1,12 +1,12 @@
 TIP:            187
 Title:          Procedures as Values
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Paul Nash <webscool@ihug.co.nz>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        20-Apr-2004
 Post-History:   
 Keywords:       Tcl,lambda,anonymous,command,function
