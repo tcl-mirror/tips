@@ -1,6 +1,6 @@
 TIP:		97
 Title:		Moving Vertices of Canvas Items
-Version:	$Revision: 1.7 $
+Version:	$Revision: 1.8 $
 Author:		Agnar Renolen <agnar.renolen@emap.no>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:		Draft
@@ -46,7 +46,8 @@ This subcommand will move the ''index''th coordinate of the items identified by
 ''tagOrID'' to the new position given by ''x'' and ''y''. The ''index'' value
 will be processed according to normal canvas index rules (see the INDICES
 section of the '''canvas''' manual). The subcommand will only work for line
-and polygon items.
+and polygon items (or any third party items that set the TK_MOVABLE_POINTS
+flag).
 
 The following command provides a similar functionality, but conforms to the
 model of the current '''insert''' and '''dchars''' subcommands.
@@ -65,6 +66,15 @@ This command will:
 
 In both cases, ''first'' and ''last'' will be processed according to the rules
 in the INDICES section of the '''canvas''' manual page.
+
+At the C level, the only change is the addition of a new flag,
+'''TK_MOVABLE_POINTS'''. If this flag is set in the ''alwaysRedraw'' field of
+the item type structure, it implies that the item supplies non-NULL
+''dcharsProc'', ''indexProc'' and ''insertProc'' fields, and gives them
+semantics equivalent to the line and polygon items (i.e. that the methods will
+work with the coordinate list). Note that text items, despite having all the
+required methods, do not set the flag because those methods work with
+character indices.
 
 ~~ Notes
 
