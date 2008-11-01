@@ -1,11 +1,11 @@
 TIP:            128
 Title:          Ability to Install a Custom Memory Allocator
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Christophe Cap <udragon@users.sourceforge.net>
-Author:         MIke Jackson <hhyJackson1275@who-got-mail.com>
-State:          Draft
+Author:         Mike Jackson <hhyJackson1275@who-got-mail.com>
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        13-Mar-2003
 Post-History:   
 Tcl-Version:    8.6
