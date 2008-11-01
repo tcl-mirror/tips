@@ -1,9 +1,9 @@
 TIP:		97
 Title:		Moving Vertices of Canvas Items
-Version:	$Revision: 1.9 $
+Version:	$Revision: 1.10 $
 Author:		Agnar Renolen <agnar.renolen@emap.no>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.6
 Vote:		Done
