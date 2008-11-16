@@ -1,6 +1,6 @@
 TIP:            332
 Title:          Half-Close for Bidirectional Channels
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -116,7 +116,9 @@ The behavior being defined as mirrorring the script-level semantics described bo
 
 ~ Reference Implementation
 
-Coming soon. After a discussion with Andreas Kupries, the plan is to half-close-enable only raw (unstacked) channels for the time being, raising an explicit error when trying a half-close on a non-bottom channel. This leaves time to carefully design the necessary API extension of the generic stacking and reflection layers, while preparing a fully compatible change (error cases becoming valid).
+See Patch 219159 [https://sourceforge.net/tracker/index.php?func=detail&aid=219159&group_id=10894&atid=310894].
+
+After a discussion with Andreas Kupries, the plan is to half-close-enable only raw (unstacked) channels for the time being, raising an explicit error when trying a half-close on a non-bottom channel. This leaves time to carefully design the necessary API extension of the generic stacking and reflection layers, while preparing a fully compatible change (error cases becoming valid).
 
 On the channel-type-dependent side, only sockets and pipelines will be half-close-enabled for now: these are assumed to represent the most pressing demand.
 
