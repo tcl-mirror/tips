@@ -1,6 +1,6 @@
-TIP:            339
+TIP:            340
 Title:          Const Qualification of Tcl_SetResult's Argument and -Wwrite-strings
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jan Nijtmans <nijtmans@users.sourceforge.net>
 State:          Draft
 Type:           Project
