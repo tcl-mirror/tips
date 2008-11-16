@@ -1,0 +1,68 @@
+TIP:            339
+Title:          Const Qualification of Tcl_SetResult's Argument and -Wwrite-strings
+Version:        $Revision: 1.1 $
+Author:         Jan Nijtmans <nijtmans@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Tcl-Version:    8.6
+Vote:           Pending
+Created:        14-Nov-2008
+Keywords:       Tcl_SetResult
+Post-History:
+
+~ Abstract
+
+As a follow-up of [27], in Tcl 8.6 and Tk 8.6 much work has been done to clean
+up the remaining places where pointers were not ''const'' qualified. The
+question is, how can we prevent that in the future similar "mistakes" are
+made. The gcc compiler warning ''-Wwrite-strings'' helps in that, therefore
+this TIP proposes to add that to the CFLAGS_WARNING flag in Tcl and Tk when
+using gcc. But for this flag to be introduced, all warnings will have to be
+eliminated. In the HEAD, this is done already, except for one function:
+'''Tcl_SetResult'''. This function is explicitely mentioned in [27] not to be
+modified, because it cannot be handled without unsafe casting. This TIP
+proposes to modify it, as a special exception of [27], and use a single type
+cast (in tclResult.c, line 423) for that.
+
+~ Rationale
+
+The gcc manual mentions for the flag -Wwrite-strings:
+
+ > When compiling C, give string constants the type ''const char[length]'' so
+   that copying the address of one into a non-''const char *'' pointer will
+   get a warning .... These warnings will help you find at compile time code
+   that can try to write into a string constant, but only if you have been
+   very careful about using const in declarations and prototypes. Otherwise,
+   it will just be a nuisance; this is why we did not make -Wall request these
+   warnings.
+
+Now that all Tcl and Tk API's are modified to be very careful about using
+const, this opens the way to add ''-Wwrite-strings'' to CFLAGS_WARNING when
+building with gcc. Other extensions can start to do the same, if they want to
+find out about this type of potential problem.
+
+When considering the elimination of the warning when using '''Tcl_SetResult'',
+I see two alternatives:
+
+ * Change the implementation such that '''Tcl_SetResult'''(''i, s, f'') does
+   the same as '''Tcl_SetObjResult'''(''i'', '''Tcl_NewStringObj'''(''s'',
+   -1)), ignoring the last parameter.
+
+ > This can be done without an unsafe type cast, but it has the disadvantage
+   that after a (modified) '''Tcl_SetResult''' call the result is no longer
+   available in interp->result. Older extensions might expect that, those will
+   be silently broken.
+
+ * Leave the '''Tcl_SetResult''' implementation as it is, only add a single
+   type cast to prevent a gcc warning.
+
+ > This violates the [27] conditions, but is in fact not more dangerous than
+   the current situation.
+
+~ Reference Implementation
+
+Available, will be put in sourceforge patches.
+
+~ Copyright
+
+This document has been placed in the public domain.
