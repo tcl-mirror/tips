@@ -1,6 +1,6 @@
 TIP:            210
 Title:          Add 'tempname' Subcommand to 'file'
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
 State:          Draft
 Type:           Project
@@ -12,45 +12,56 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-Programmers often need to create temporary files.  This TIP proposes
-adding the new subcommand '''tempname''' to the '''file''' command,
-simplifying programmer effort in creating a unique temporary file
-name.
+Programmers often need to create temporary files. This TIP proposes adding the
+new subcommand '''tempname''' to the '''file''' command, simplifying
+programmer effort in creating a unique temporary file name.
 
 ~ Rationale
 
-Creating temporary files is a primitive and common enough operation
-that the ANSI C standard defines several subroutines to assist
-programmers.  The ''tmpnam()'' function generates a string that is a
-valid file name that is not the name of an existing file.  The
-''tmpfile()'' function returns a valid file pointer to a temporary
-file that is removed automatically when it is closed or at program
-termination.  Both functions are commonly used by programmers, without
-worrying about the optimal location for temporary files or schemes
+Creating temporary files is a primitive and common enough operation that the
+ANSI C standard defines several subroutines to assist programmers. The
+''tmpnam()'' function generates a string that is a valid file name that is not
+the name of an existing file. The ''tmpfile()'' function returns a valid file
+pointer to a temporary file that is removed automatically when it is closed or
+at program termination. Both functions are commonly used by programmers,
+without worrying about the optimal location for temporary files or schemes
 required to create unique file names.
 
-Tcl has not supported temporary files, so programmers have had to
-write code to generate unique file names and choose locations like
-''/tmp'' or ''c://temp.''  The ''fileutil'' module of tcllib provides
-a relatively sophisticated implementation of ''tempfile'', but
-extension writers have not been able to rely on this code.  Modules in
-Iwidgets, the Tcl plugin, tcllib, and tclx all appear to have this
-sort of code, and not all are correct.
+Tcl has not supported temporary files, so programmers have had to write code
+to generate unique file names and choose locations like ''/tmp'' or
+''C:\temp''. The ''fileutil'' module of tcllib provides a relatively
+sophisticated implementation of ''tempfile'', but extension writers have not
+been able to rely on this code. Modules in Iwidgets, the Tcl plugin, tcllib,
+and TclX all appear to have this sort of code, and not all are correct.
 
-This TIP proposes to extend the '''file''' command with one subcommand
-to generate temporary files and file names.  By extending the core command, application programmers and extension writers will be able to depend on this functionality for their code, without resorting to copying or depending on tcllib.
+This TIP proposes to extend the '''file''' command with one subcommand to
+generate temporary files and file names. By extending the core command,
+application programmers and extension writers will be able to depend on this
+functionality for their code, without resorting to copying or depending on
+tcllib.
 
 ~ Specification
 
-This TIP proposes an extension to the ''file''
-command, implementing the functionality of the POSIX standard
-mkstemp() function.  The new subcommand will be called ''tempfile''.  It will return an open file channel, and (optionally) the name of the temporary file.
+This TIP proposes an extension to the ''file'' command, implementing the
+functionality of the POSIX standard mkstemp() function. The new subcommand
+will be called ''tempfile''. It will return an open file channel, and
+(optionally) the name of the temporary file.
 
 ~ Synopsis
 
  > '''file tempfile''' ?''template''? ?''namevar''?
 
-Opens a unique temporary file and returns an open file channel.  If the ''template'' string is specified and non-empty, then characters will be appended to create the unique filename.  If ''namevar'' is specified, then the command will set the variable to the name of the temporary file.
+Opens a unique temporary file and returns an open file channel. If the
+''template'' string is specified and non-empty, then characters will be
+appended to create the unique filename. If ''namevar'' is specified, then the
+command will set the variable to the name of the temporary file. The returned
+channel will have been opened in read-write mode (but not append mode) using
+the defaults for EOL translation, encoding, etc.
+
+~ Reference Implementation
+
+Available as Tcl Patch #999162 on SourceForge
+[https://sourceforge.net/support/tracker.php?aid=999162].
 
 ~ Copyright
 
