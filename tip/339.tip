@@ -1,13 +1,13 @@
 TIP:		339
 Title:		Case-Insensitive Package Names
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Andreas Kupries <andreask@activestate.com>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	14-Nov-2008
 Post-History:
-Tcl-Version:	8.5
+Tcl-Version:	8.6
 
 ~Abstract
 
