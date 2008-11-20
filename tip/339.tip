@@ -1,15 +1,15 @@
-TIP:		339
-Title:		Case-Insensitive Package Names
-Version:	$Revision: 1.2 $
-Author:		Andreas Kupries <andreask@activestate.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	14-Nov-2008
-Post-History:
-Tcl-Version:	8.6
+TIP:            339
+Title:          Case-Insensitive Package Names
+Version:        $Revision: 1.3 $
+Author:         Andreas Kupries <andreask@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Nov-2008
+Post-History:   
+Tcl-Version:    8.6
 
-~Abstract
+~ Abstract
 
 This document proposes to change the package management facilities of the Tcl
 core to handle package names in a case-insensitive manner, switching back to
@@ -195,7 +195,8 @@ reimplemented in terms of ''Tcl_PkgRequireProcEx''.
 
 ~ Reference Implementation
 
-An implementation patch is soon to be available at SourceForge.
+An implementation patch is soon to be available at SourceForge
+[http://sourceforge.net/support/tracker.php?aid=2316115].
 
 ~Copyright
 
