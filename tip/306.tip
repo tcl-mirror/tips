@@ -1,6 +1,6 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Koen Danckaert <koen@retarget.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
 State:          Draft
@@ -14,8 +14,8 @@ Tcl-Version:    8.6
 ~ Abstract
 
 A Tk programmer must give every widget a unique name. This is often quite
-annoying, especially for widgets whose name is stored in a variable (which also
-must be given a name). This TIP proposes a small extension to generate
+annoying, especially for widgets whose name is stored in a variable (which
+also must be given a name). This TIP proposes a small extension to generate
 automatic names for widgets.
 
 ~ Rationale
@@ -47,15 +47,17 @@ itself.
 
 Further motivation for this can be found in the following:
 
- * Tcl/Tk already uses auto-naming for other things, e.g. for channels and for images.
+ * Tcl/Tk already uses auto-naming for other things, e.g. for channels and for
+   images.
 
- * In Python and Ruby's Tk implementation, automatic widget names are the default.
-   For example, a label in TkInter is normally created as:
+ * In Python and Ruby's Tk implementation, automatic widget names are the
+   default. For example, a label in TkInter is normally created as:
 
 | mylabel = Label(parentframe, text="something")
 
- > In this case the Tk widget name will be something like $parentframe.123
-   Only if you really want to assign a name yourself, you can use:
+ > In this case the Tk widget name will be something like
+   ''$parentframe''.'''123'''. If you really want to assign a name yourself,
+   you can use the optional ''name'' argument:
 
 | mylabel = Label(parentframe, text="koen", name = "mylabel")
 
@@ -65,10 +67,10 @@ make an (almost) backwards compatible extension, as presented below.
 
 ~ Specification
 
-When creating a new widget with a name that ends on "%", the "%" will be
-replaced by a counter. The actual widget name is then returned. Depending on the
-chosen implementation, there may be one global counter or each parent widget can
-have its own counter.
+When creating a new widget with a name that ends with "'''%'''", the "%" will
+be replaced by a counter. The actual widget name is then returned. Depending
+on the chosen implementation, there may be one global counter or each parent
+widget can have its own counter.
 
 | % button .%
 | .1
@@ -94,31 +96,22 @@ The examples above can now be written as:
 ~ Reference Implementation
 
 See SourceForge patch #1735008[http://sf.net/support/tracker.php?aid=1735008].
-
-Basically, the TkWindow structure gets a new member "autocount", which is
-initalized to 0 when the widget is created, and which is incremented when the
-auto-name feature is used for creating child widgets (this is done in the
-NameWindow() function).
-
-2008/09/22: A new implementation has been added to the tracker, which uses
-only one global counter. Indeed, there is no need for each parent window to have
-its own counter. The new patch is cleaner since it does not need to modify the
-TkWindow and Tk_FakeWin structures.
-
-2008/11/19: Changed implementation to keep the counter in TkMainInfo. (Global counter was not thread-safe.)
+The reference implementation keeps a counter in the TkMainInfo structure,
+which is thread-local.
 
 ~ Compatibility
 
 ~~ Backward Compatibility
 
 The presented extension is backward compatible, except for existing code which
-uses widget names ending on "%". Even this will only be a problem if the widgets
-are referenced directly (i.e. not by a variable) after creation.
+uses widget names ending on "%". Even this will only be a problem if the
+widgets are referenced directly (i.e. not by a variable) after creation.
 
 ~~ Forward Compatibility
 
-This is another issue. Megawidgets which want to support the new naming scheme,
-will probably have to be adapted. In particular, when they are written as:
+This is another issue. Megawidgets which want to support the new naming
+scheme, will probably have to be adapted. In particular, when they are written
+as:
 
 | proc mymegawidget {win args} {
 |     # do some stuff with $win
@@ -147,16 +140,16 @@ they will have to be rewritten in the following way:
 | }
 
 In Tk itself, there is one such example which has to be rewritten:
-tk_optionMenu.
+'''tk_optionMenu'''. This is not expected to be a significant hurdle.
 
 ~ Alternatives
 
  1. Implementing this TIP in Tcl. This would require all widget commands to be
-    wrapped. That's a lot of work compared to the simple C code patch
-    used here.
+    wrapped. That's a lot of work compared to the simple C code patch used
+    here.
 
- 2. Make a separate autoname command, and use this when creating widgets.
-    For example:
+ 2. Make a separate '''autoname''' command, and use this when creating
+    widgets. For example:
 
 | set frame [frame [autoname .%]]
 | label [autoname $frame.%]
@@ -164,7 +157,8 @@ tk_optionMenu.
  > This makes the code a longer and more difficult to read, which is the
    opposite of what this TIP tries to achieve.
 
- 3. A very simple autonaming can be done by just setting aside one global variable and define an alias that increments that variable:
+ 3. A very simple autonaming can be done by just setting aside one global
+    variable and define an alias that increments that variable:
 
 | set ::# 0
 | interp alias {} % {} incr ::#
@@ -172,27 +166,29 @@ tk_optionMenu.
 | label $frame.[%]
 
  > However, using a short procedure name like "%" has the drawback that
-   extensions or modules which you want to incorporate in your code, may already
-   have defined "%" for something else. Also, as each module may have its own
-   autonaming scheme, there is a risk for overlapping widget names. So auto-naming really belongs in the core.
+   extensions or modules which you want to incorporate in your code, may
+   already have defined "%" for something else. Also, as each module may have
+   its own autonaming scheme, there is a risk for overlapping widget names. So
+   auto-naming really belongs in the core.
 
- 4. Instead of using a special character, the widget creation commands could get
-    a "-parent" option to define the parent widget. Then, allow the widget
-    command to be called without an explicit widget path, in which case it
-    creates an auto-named child of the parent. The use of -parent and an
-    explicit pathname would be mutually exclusive. For example:
+ 4. Instead of using a special character, the widget creation commands could
+    get a '''-parent''' option to define the parent widget. Then, allow the
+    widget command to be called without an explicit widget path, in which case
+    it creates an auto-named child of the parent. The use of '''-parent''' and
+    an explicit pathname would be mutually exclusive. For example:
 
 | set frame [frame .f]
 | set button [button -parent $frame -borderwidth 2 ...]
 
- > This may create confusion, since it seems to allow the parent to be modified
-   (after creation) with the "configure" widget command. Furthermore, to
-   implement this, all widget creation C functions have to be modified, instead of
-   just the NameWindow() function. Probably also the "configure" commands have
+ > This may create confusion, since it seems to allow the parent to be
+   modified (after creation) with the "configure" widget command. Furthermore,
+   to implement this, all widget creation C functions have to be modified,
+   including in extensions such as BLT and tktable, instead of just the
+   NameWindow() function. Probably also the '''configure''' subcommands have
    to be adapted...
 
- > Another drawback is that "normal" and "automatic" widget creation now have a
-   different syntax.
+ > Another drawback is that "normal" and "automatic" widget creation now have
+   a different syntax.
 
  5. A variation of the previous version can be implemented in pure Tcl:
 
@@ -205,9 +201,9 @@ tk_optionMenu.
 | set button [newchildof $frame button -borderwidth 2 ...]
 
  > A drawback of this is that it is a bit verbose, and that "normal" and
-   "automatic" widget creation have a different syntax. Also each extension may
-   use its own autonaming scheme, which does not exactly favor code readability,
-   and may cause name collisions.
+   "automatic" widget creation have a different syntax. Also each extension
+   may use its own autonaming scheme, which does not exactly favor code
+   readability, and may cause name collisions.
 
 ~ Discussion
 
@@ -216,14 +212,15 @@ There was a short discussion about this TIP on comp.lang.tcl
 Most alternatives which came forth from this discussion, were added to the
 previous section.
 
-While some of the alternative proposals above are usable (especially (5)), they still have drawbacks. The TIP author believes that auto-naming really belongs in the core. Just
-like in Python and Ruby, auto widget names will probably be the default
-once they're added to Tk. A good standard syntax for this will not only increase
-the writability of the code, but also the readability. Indeed, in current Tk
-code many widget names are used but never referred to again. Just using ".%" on
-these places makes it clear that the actual widget name is unimportant.
-Also, the proposed syntax is clear and concise and does not divert from the
-normal widget creation syntax.
+While some of the alternative proposals above are usable (especially
+'''(5)'''), they still have drawbacks. The TIP author believes that
+auto-naming really belongs in the core. Just like in Python and Ruby, auto
+widget names will probably be the default once they're added to Tk. A good
+standard syntax for this will not only increase the writability of the code,
+but also the readability. Indeed, in current Tk code many widget names are
+used but never referred to again. Just using ".%" on these places makes it
+clear that the actual widget name is unimportant. Also, the proposed syntax is
+clear and concise and does not divert from the normal widget creation syntax.
 
 ~ Copyright
 
