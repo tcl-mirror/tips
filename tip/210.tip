@@ -1,6 +1,6 @@
 TIP:            210
 Title:          Add 'tempname' Subcommand to 'file'
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
 State:          Draft
 Type:           Project
@@ -49,14 +49,19 @@ will be called ''tempfile''. It will return an open file channel, and
 
 ~ Synopsis
 
- > '''file tempfile''' ?''template''? ?''namevar''?
+ > '''file tempfile''' ?''namevar''? ?''template''?
 
-Opens a unique temporary file and returns an open file channel. If the
-''template'' string is specified and non-empty, then characters will be
-appended to create the unique filename. If ''namevar'' is specified, then the
-command will set the variable to the name of the temporary file. The returned
-channel will have been opened in read-write mode (but not append mode) using
-the defaults for EOL translation, encoding, etc.
+Opens a unique temporary file and returns an open file channel. If ''namevar''
+is specified, then the command will set the variable to the name of the
+temporary file. If the ''template'' string is specified, it will be decomposed
+into (up to) three parts: the path, the root, and the extension. Any part may
+be absent. If the path or root are absent, system-dependent defaults will be
+used. If the extension is absent, no extension will be used. The temporary
+name will then be formed from the path, the root, some unique string, and the
+extension (if defined).
+
+The returned channel will have been opened in read-write mode (but not append
+mode) using the defaults for EOL translation, encoding, etc.
 
 ~ Reference Implementation
 
