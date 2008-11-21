@@ -1,6 +1,6 @@
 TIP:            281
 Title:          Improvements in System Error Handling
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         David Gravereaux <davygrvy@pobox.com>
 State:          Draft
 Type:           Project
@@ -18,13 +18,19 @@ system errors to be returned to scripts.
 ~Rationale
 
 The current method for handling of system errors is done via the
-''Tcl_PosixError()'' API call.  Its job is to grab the value of ''errno'' and format it for display to a script within the $errorCode special variable.
+''Tcl_PosixError()'' API call. Its job is to grab the value of ''errno'' and
+format it for display to a script within the '''errorCode''' special variable.
 
 Unfortunately, not all such system errors are left in ''errno'' and on
-Windows, not all information can be translated effectively to a POSIX error code without loss of valuable information to the user.
+Windows, not all information can be translated effectively to a POSIX error
+code without loss of valuable information to the user.
 
 On UNIX, ''gethostbyname()'' for example, leaves its errors in ''h_errno''
-[http://www.opengroup.org/onlinepubs/009695399/basedefs/netdb.h.html]. If we look at our use of ''gethostbyname()'' in unix/tclUnixChan.c for the ''CreateSocketAddress()'' function, you'll see we are setting ''errno'' to a wrong code rather than retrieving the proper error information defined in ''netdb.h''.
+[http://www.opengroup.org/onlinepubs/009695399/basedefs/netdb.h.html]. If we
+look at our use of ''gethostbyname()'' in unix/tclUnixChan.c for the
+''CreateSocketAddress()'' function, you'll see we are setting ''errno'' to a
+wrong code rather than retrieving the proper error information defined in
+''netdb.h''.
 
 An example of the current mistranslation would be:
 
@@ -40,26 +46,46 @@ And on Windows:
 |% set errorCode
 |POSIX EINVAL {invalid argument}
 
-Notice that the two are different as well as wrong. EHOSTUNREACH is a routing error at the IP level and is returned by connect(), send().. etc., not by gethostbyname().  For windows, the error translation function TclWinConvertWSAError() sets ''errno'' to EINVAL for a WSAHOST_NOT_FOUND even though the code in CreateSocketAddress() appears to set errno to EHOSTUNREACH. What I would like to see is the following (on all platforms):
+Notice that the two are different as well as wrong. EHOSTUNREACH is a routing
+error at the IP level and is returned by connect(), send().. etc., not by
+gethostbyname(). For windows, the error translation function
+TclWinConvertWSAError() sets ''errno'' to EINVAL for a WSAHOST_NOT_FOUND even
+though the code in CreateSocketAddress() appears to set errno to EHOSTUNREACH.
+What I would like to see is the following (on all platforms):
 
 |% socket foo.example.com 1234
 |couldn't open socket: No such host is known
 |% set errorCode
 |NETDB HOST_NOT_FOUND {No such host is known}
 
-If we could specify a place from where the error could be retrieved along with the formatting functions for that type, Tcl's error information to the user would be improved.
+If we could specify a place from where the error could be retrieved along with
+the formatting functions for that type, Tcl's error information to the user
+would be improved.
 
 A facility to extend/add formatters would also help extension authors.
 
-For example with the windows port of Expect, there are numerous specific errors that Expect could return regarding how the Console API debugger was unable to function, but the error path is only limited to POSIX pipe errors rather than anything specific.
+For example with the windows port of Expect, there are numerous specific
+errors that Expect could return regarding how the Console API debugger was
+unable to function, but the error path is only limited to POSIX pipe errors
+rather than anything specific.
 
-I tried to make a facility to manage these specific errors in a controlled way using a message catalog [http://www.pobox.com/~davygrvy/expect-src/win/expWinErr.mc] to compile into the expect dll a "windows"-ish style of error management along with a specific "EXPECT" formatter, see ExpWinError() [[last function in file]] [http://www.pobox.com/~davygrvy/expect-src/win/expWinUtils.cpp].  I used the "customer" bit in the errorcode as a key to forward to the "WINDOWS" formatter and thought it was quite smart of me..
+I tried to make a facility to manage these specific errors in a controlled way
+using a message catalog
+[http://www.pobox.com/~davygrvy/expect-src/win/expWinErr.mc] to compile into
+the expect dll a "windows"-ish style of error management along with a specific
+"EXPECT" formatter, see ExpWinError() [[last function in file]]
+[http://www.pobox.com/~davygrvy/expect-src/win/expWinUtils.cpp]. I used the
+"customer" bit in the '''errorCode''' as a key to forward to the "WINDOWS"
+formatter and thought it was quite smart of me.
 
-But alas..  The POSIX restriction was not to be bypassed in a manageable manner.
+But alas... the POSIX restriction was not to be bypassed in a manageable
+manner.
 
 ~Reference Implementation
 
-A reference implementation is not done at this time.  An experimental WINDOWS $errorCode formatter can be seen @ [http://iocpsock.cvs.sourceforge.net/iocpsock/iocpsock/tclWinError.c?revision=HEAD&view=markup]
+A reference implementation is not done at this time. An experimental WINDOWS
+'''errorCode''' formatter can be seen @
+[http://iocpsock.cvs.sourceforge.net/iocpsock/iocpsock/tclWinError.c?revision=HEAD&view=markup]
 
 ~Copyright
 
