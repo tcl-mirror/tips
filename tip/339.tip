@@ -1,6 +1,6 @@
 TIP:            339
 Title:          Case-Insensitive Package Names
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
@@ -156,13 +156,13 @@ detect such avoidable mismatches.
 
 At the C-level the only functions to consider are
 
- * Tcl_PkgPresent	/exact
+ * Tcl_PkgPresent
 
- * Tcl_PkgPresentEx	/exact
+ * Tcl_PkgPresentEx
 
- * Tcl_PkgRequire	/exact
+ * Tcl_PkgRequire
 
- * Tcl_PkgRequireEx	/exact
+ * Tcl_PkgRequireEx
 
  * Tcl_PkgRequireProc
 
