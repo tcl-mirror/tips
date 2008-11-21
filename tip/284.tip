@@ -1,10 +1,10 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        01-Oct-2006
 Post-History:   
 Tcl-Version:    8.6

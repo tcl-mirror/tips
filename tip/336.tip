@@ -1,10 +1,10 @@
 TIP:		336
 Title:		Supported Access To interp->errorline
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Don Porter <dgp@users.sf.net>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	21-Oct-2008
 Post-History:	
 Tcl-Version:	8.6

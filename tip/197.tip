@@ -1,12 +1,12 @@
 TIP:		197
 Title:		Unfocussed Text Widget Cursor Control
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6
-Vote:		Pending
+Vote:		In progress
 Created:	12-May-2004
 Post-History:	
 Keywords:	Tk
