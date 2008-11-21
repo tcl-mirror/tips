@@ -1,6 +1,6 @@
 TIP:            288
 Title:          Allow "args" Anywhere in Procedure Formal Arguments
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
@@ -48,7 +48,9 @@ All such occurrances would need to be fixed.
 Detecting such scripts in an automated way would be simple and fixing them is trivial.
 
 ~ Examples
+
 New style:
+
  proc lgurka {args list item} {
      array set opts {-apa 1 -bepa "" -cepa 0}
      foreach {arg val} $args {
