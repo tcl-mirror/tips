@@ -1,10 +1,10 @@
 TIP:            210
-Title:          Add 'tempname' Subcommand to 'file'
-Version:        $Revision: 1.7 $
+Title:          Add 'tempfile' Subcommand to 'file'
+Version:        $Revision: 1.8 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        19-Jul-2004
 Post-History:   
 Keywords:       Tcl,filename
@@ -13,7 +13,7 @@ Tcl-Version:    8.6
 ~ Abstract
 
 Programmers often need to create temporary files. This TIP proposes adding the
-new subcommand '''tempname''' to the '''file''' command, simplifying
+new subcommand '''tempfile''' to the '''file''' command, simplifying
 programmer effort in creating a unique temporary file name.
 
 ~ Rationale
