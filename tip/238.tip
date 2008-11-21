@@ -1,6 +1,6 @@
 TIP:		238
 Title:		Fire Event when Widget Created
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Gerald W. Lester <Gerald.Lester@cox.net>
 State:		Draft
 Type:		Project
@@ -23,14 +23,15 @@ allow custom code to be run when a widget of a particular class is created.
 
 Note that the standard X11 <Create> event is not quite suitable, because that
 is delivered to the X11 parent of the widget, which is not Tk in the case of
-toplevel windows. It is also delivered when the underlying window is created
-and not earlier, when its representative Tk widget is created.
+toplevel windows.
 
 ~ Proposal
 
 It is proposed that the virtual event <<Create>> be sent to every widget upon
-its creation. (This means that only bindings on classes, toplevels and "all"
-will actually be able to trap it.)
+the creation of its actual underlying window (i.e. as part of
+'''Tk_MakeWindowExist'''). Note that this is the earliest at which an event
+can actually be delivered to the widget; before that, doing '''event
+generate''' to the widget just creates an event that gets discarded.
 
 ~~ Example
 
