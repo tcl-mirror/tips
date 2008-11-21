@@ -1,6 +1,6 @@
 TIP:		197
 Title:		Unfocussed Text Widget Cursor Control
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:		Draft
@@ -41,12 +41,13 @@ Supported values will be:
    the focus.
 
  hollow: Display the border of the insertion cursor when the text widget
-   doesn't have the focus, but otherwise do not display anything. If the
+   doesn't have the focus, but do not fill the cursor or make it flash. If the
    '''-insertborderwidth''' option is zero, draw (but do not fill) a rectangle
    in the '''-insertbackground''' color.
 
  solid: Display the insertion cursor unchanged whether or not the text widget
-   has the focus.
+   has the focus. The insertion cursor will not flash when the widget does not
+   have the focus.
 
 In all cases, the insertion cursor will be displayed as at present when the
 text widget does have the focus.
