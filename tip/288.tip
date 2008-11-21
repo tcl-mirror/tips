@@ -1,6 +1,6 @@
 TIP:            288
 Title:          Allow "args" Anywhere in Procedure Formal Arguments
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter Spjuth <peter.spjuth@space.se>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Peter Spjuth <peter.spjuth@gmail.com>
@@ -48,6 +48,31 @@ All such occurrances would need to be fixed.
 Detecting such scripts in an automated way would be simple and fixing them is trivial.
 
 ~ Examples
+New style:
+ proc lgurka {args list item} {
+     array set opts {-apa 1 -bepa "" -cepa 0}
+     foreach {arg val} $args {
+         set opts([prefix match {-apa -bepa -cepa} $arg]) $val
+     }
+     # Do real stuff
+ }
+
+Old style:
+
+ proc lgurka {args} {
+    if {[llength $args] < 2} {
+        return -code error "wrong # args: should be \"lgurka ?args? list item\""
+    }
+    set item [lindex $args end]
+    set list [lindex $args end-1]
+    set args [lrange $args 0 end-2]
+
+    array set opts {-apa 1 -bepa "" -cepa 0}
+    foreach {arg val} $args {
+        set opts([prefix match {-apa -bepa -cepa} $arg]) $val
+    }
+    # Do real stuff
+ }
 
  proc x {a args b} { puts "a=$a, args=$args, b=$b" }
 
@@ -55,7 +80,7 @@ Detecting such scripts in an automated way would be simple and fixing them is tr
 
  x 1 2 3 ;# ->  a=1, args=2, b=3
 
- x 1 ;# -> error: wrong # args: should be "x a args b"
+ x 1 ;# -> error: wrong # args: should be "x a ?args? b"
 
  proc y {a {b x} args c} { ... }
 
@@ -63,7 +88,7 @@ Detecting such scripts in an automated way would be simple and fixing them is tr
 
  proc z {a {b x} c args} { ... }
 
- z 1 2  ;# -> error: wrong # args: should be "z a ?b? c args"
+ z 1 2  ;# -> error: wrong # args: should be "z a ?b? c ..."
 
 To change "z" is not covered by this TIP.
 
