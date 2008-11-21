@@ -1,6 +1,6 @@
 TIP:            339
 Title:          Case-Insensitive Package Names
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
@@ -213,6 +213,29 @@ argument is added after the clientData. This argument recognizes
 ''TCL_PKG_STRICT'' as defined above and uses it to switch between
 case-insensitive and strict search. The old ''Tcl_PkgRequireProc'' is
 reimplemented in terms of ''Tcl_PkgRequireProcEx''.
+
+~~ Unknown handlers
+
+The contract between the package management facilities in the Tcl core and the
+handler commands registered with ''package unknown'' is amended. The handler has
+to perform case-insensitive search for the package whose name it is invoked with.
+
+~~ Discussions
+
+The contract for the package unknown handler is amended because not doing so would
+force the package management facilities in the Tcl core to search for a package by
+iterating over all possible combinations of upper/lower case in the package name.
+For a name containing N alphabetic characters (i.e. not counting ':'s, and digits)
+this means to loop 2**N times. This exponentional explosion and consequent running
+time is not acceptable (The longest name for a package currently found in
+ActiveState's public TEApot repository is 25 alpabetic characters, forcing over
+30 million searches before the core can give up).
+
+Further, of the two known standard package unknown handlers the handler for regular
+packages need not be modified at all as it always register every possible package
+it finds. Only the unknown handler for Tcl Modules has to be modified to perform
+case insensitive filesystem searches, and only for Unix. On Windows the builtin
+'''glob''' command already perform such.
 
 ~ Reference Implementation
 
