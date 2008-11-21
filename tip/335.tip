@@ -1,6 +1,6 @@
 TIP:		335
-Title:		Controlled Interpreter Deletion via Tcl_InterpActive
-Version:	$Revision: 1.3 $
+Title:		An API for Detecting Active Interpreters
+Version:	$Revision: 1.4 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
@@ -21,6 +21,8 @@ to determine whether it is safe to delete the interpreter.
 For applications written in garbage-collected languages, such as C#, it is not
 always desirable to rely upon the '''Tcl_Preserve''' / '''Tcl_Release'''
 mechanism to protect an against deletion of an interpreter while it is in use.
+For details of how this is used, see [http://wiki.tcl.tk/6580]
+[http://eagle.to/] and Joe Mistachkin's talk at Tcl 2008.
 
 Additionally, an application may want to proactively forbid attempts to delete
 an interpreter while it is in use. Unfortunately, there is currently no
@@ -30,7 +32,7 @@ correct that deficiency.
 
 ~ Specification
 
-~~ Functions
+This TIP introduces a single function to Tcl's public API:
 
  > int '''Tcl_GetNumLevels'''(Tcl_Interp *''interp'')
 
