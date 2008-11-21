@@ -1,6 +1,6 @@
 TIP:            284
 Title:          New 'invoke' and 'namespace invoke' Commands
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -39,7 +39,7 @@ There is currently no script-level equivalent to ''Tcl_EvalObjv()'', though
 the functionality is provided by one of:
 
 |   eval [list cmd ?arg ...?]
-|   {expand}[list cmd ?arg ...?]
+|   {*}[list cmd ?arg ...?]
 
 Note that the core tries to optimise the first case, but has to be careful to
 only avoid reparsing when it is guaranteed safe to do so. The notation is
@@ -70,17 +70,26 @@ implementation of '''namespace invoke'''.
 [https://sourceforge.net/support/tracker.php?aid=1577324]
 [https://sourceforge.net/support/tracker.php?aid=1577278]
 
-~ Differences to other commands
+~ Differences to Other Commands
 
-   1. Both these commands perform command invocation, as opposed to the script evaluation done by '''eval''', '''uplevel''', '''namespace eval''' and '''namespace inscope'''
+   1. Both these commands perform command invocation, as opposed to the script
+      evaluation done by '''eval''', '''uplevel''', '''namespace eval''' and
+      '''namespace inscope'''
 
-   1. '''namespace inscope''' does a magic expansion of the first argument, '''namespace invoke''' takes the first argument as a command name. In other words, '''namespace inscope''' can be used with a command prefix. ''Feedback on the semantics suggest that this is a worthy feature, very useful for packing up command prefixes. This tip may yet be revised or withdrawn to take that into consideration.''
+   1. '''namespace inscope''' does a magic expansion of the first argument,
+      '''namespace invoke''' takes the first argument as a command name. In
+      other words, '''namespace inscope''' can be used with a command prefix.
+      ''Feedback on the semantics suggest that this is a worthy feature, very
+      useful for packing up command prefixes. This tip may yet be revised or
+      withdrawn to take that into consideration.''
 
-   1. both '''namespace eval''' and '''namespace inscope''' add a call frame,'''namespace invoke''' does not - it invokes in the caller's frame
+   1. Both '''namespace eval''' and '''namespace inscope''' add a call
+      frame,'''namespace invoke''' does not - it invokes in the caller's
+      frame.
 
-~ Sample usage
+~ Sample Usage
 
-In tcllib's ::math::calculus::romberg we see (edited)
+In tcllib's '''::math::calculus::romberg''' we see (edited for brevity):
 
 |    # Replace f with a context-independent version
 |
@@ -88,39 +97,41 @@ In tcllib's ::math::calculus::romberg we see (edited)
 |    set f [lreplace $f 0 0 $fqname]
 |    ...
 |    set cmd $f
-|    lappend cmd [expr { 0.5 * ( $a + $b ) }]
+|    lappend cmd [expr {0.5 * ($a + $b)}]
 |    set v [eval $cmd]
 
 where the command name in the prefix ''f'' is replaced with its fully
-qualified name. A further variable is lappended, and the result is
-sent to '''eval'''.
+qualified name. A further variable is lappended, and the result is sent to
+'''eval'''.
 
-With '''namespace invoke''' and '''invoke''' this would be coded as
+With '''namespace invoke''' and '''invoke''' this would be coded as:
 
 |    set ns [invoke 1 namespace current]
-|    set f [list namespace invoke $ns {expand}$f]
+|    set f [list namespace invoke $ns {*}$f]
 |    ...
-|    set v [{expand}$f [expr { 0.5 * ( $a + $b ) }]]
+|    set v [{*}$f [expr {0.5 * ($a + $b)}]]
 
-If both new commands took the ''cmd'' argument as a prefix to be
-expanded (as suggested by some early commenters), it would be even nicer for this usage:
+If both new commands took the ''cmd'' argument as a prefix to be expanded (as
+suggested by some early commenters), it would be even nicer for this usage:
 
 |    set ns [invoke 1 [list namespace current]]
 |    set f [list namespace invoke $ns $f]
 |    ...
-|    set v [invoke 0 $f [expr { 0.5 * ( $a + $b ) }]]
+|    set v [invoke 0 $f [expr {0.5 * ($a + $b)}]]
 
-The same thing (with slightly different semantics and a performance cost due to script evaluation instead of command invocation) could be obtained today by doing
-
-|    set f [uplevel 1 [list namespace code [list uplevel 1 $f]]]
-|    ...
-|    set v [eval [lappend f [expr { 0.5 * ( $a + $b ) }]]]
-
-In order to fully reproduce the semantics and performance it would have to be
+The same thing (with slightly different semantics and a performance cost due
+to script evaluation instead of command invocation) could be obtained today by
+doing:
 
 |    set f [uplevel 1 [list namespace code [list uplevel 1 $f]]]
 |    ...
-|    lset f end end [linsert [lindex $f end end] end [expr { 0.5 * ( $a + $b ) }]]  
+|    set v [eval [lappend f [expr {0.5 * ($a + $b)}]]]
+
+In order to fully reproduce the semantics and performance it would have to be:
+
+|    set f [uplevel 1 [list namespace code [list uplevel 1 $f]]]
+|    ...
+|    lset f end end [linsert [lindex $f end end] end [expr {0.5 * ($a + $b)}]]  
 |    set v [eval $f]
 
 ~ Copyright
