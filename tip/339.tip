@@ -1,6 +1,6 @@
 TIP:            339
 Title:          Case-Insensitive Package Names
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
@@ -16,7 +16,7 @@ core to handle package names in a case-insensitive manner, switching back to
 case-sensitive operation if and only if explicitly requested by the user. The
 case of package names is preserved in the storage however.
 
-~Rationale
+~ Rationale
 
 The package management facilities of Tcl are an area where the user of
 packages is currently burdened with more ... than is convenient or easy. A big
@@ -33,7 +33,7 @@ comparison, will lift this burden and make things easier, as it is not
 necessary anymore to get the capitalization right. Most people will likely
 simply start to write all package names lower-case after this change.
 
-~Specification
+~ Specification
 
 ~~ Script Level
 
@@ -140,17 +140,38 @@ In detail
    specify the exact name of the package to look for, capitalization and all.
    Given our rationale for the TIP this should be required seldomly.
 
-It is important to note that the sub-command ''ifneeded'' does not change with
-regard to its API.
+ * '''package ifneeded''' ''name'' ''version'' ''script''
 
-''package ifneeded'' keeps storing the package name as given, preserving
-capitalization, and ''package provide'' searches case-sensitively. This means
-that the name used by '''provide''' has to match the name used by the
-'''ifneeded''', just like the version numbers have to match. While we are
-working on easing the load on the user of a package with regard to letter case
-we do assume that the developer of a package does know how it is spelled,
-capitalization and all, therefore a strict, case-sensitive search is best to
-detect such avoidable mismatches.
+ > This form of the command is left unchanged. It keeps storing the package
+   name as given, preserving capitalization, and ''package provide'' searches
+   case-sensitively. This means that the name used by '''provide''' has to
+   match the name used by the '''ifneeded''', just like the version numbers
+   have to match. While we are working on easing the load on the user of a
+   package with regard to letter case we do assume that the developer of a
+   package does know how it is spelled, capitalization and all, therefore a
+   strict, case-sensitive search is best to detect such avoidable mismatches.
+
+ * '''package ifneeded''' ''name'' ''version''
+
+ > This form of the command is similar to '''package present''' or '''package
+   provide'''. It is therefore changed in the same manner, i.e:
+
+ > This form of the sub-command is changed to accept an additional option
+   ''-strict''.
+
+ > If this option is present this form of the sub-command performs an old-style, i.e.
+   case-sensitive search for the package ''name'' before returning the script, or
+   the empty string if nothing was found.
+
+ > Otherwise this form of the sub-command is changed to disregard case during the
+   search for ''name''. In that case it is possible that multiple packages are
+   found which have the same name, just with different capitalizations, and the
+   same version. To resolve this conflict the command will return the script of the
+   package in the matching set it found first among the loaded packages.
+
+ > If that resolves to the wrong package the user has to use ''-strict'' and specify
+   the exact name of the package to look for, capitalization and all. Given our
+   rationale for the TIP this should be required seldomly.
 
 ~~ C API
 
@@ -198,7 +219,7 @@ reimplemented in terms of ''Tcl_PkgRequireProcEx''.
 An implementation patch is soon to be available at SourceForge
 [http://sourceforge.net/support/tracker.php?aid=2316115].
 
-~Copyright
+~ Copyright
 
 This document has been placed in the public domain.
 
