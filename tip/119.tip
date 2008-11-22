@@ -1,13 +1,14 @@
 TIP:            119
 Title:          Angled Text on a Canvas
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Simon Geard <simon.geard@ntlworld.com>
-State:          Accepted
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        18-Nov-2002
 Post-History:   
-Tcl-Version:    8.5
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -24,7 +25,8 @@ there is simply no way of displaying such text on a canvas.
 
 Another consideration is the competition.  Both Qt and Java canvas
 objects support angled text on their canvas object - most new users
-would I believe be surprised to discover that this functionality is not supported.
+would I believe be surprised to discover that this functionality is not
+supported.
 
 Due to the internal architecture of Tk a side effect of this work
 would be to enable buttons (and possibly other widgets) to have their
@@ -58,6 +60,23 @@ for X only.  It doesn't use any X extensions and should work for X11R3
 and above.  I don't know how it would be done on non-X systems but
 hopefully they'll (Win & MacOS at least) provide native tools to make
 their implementation straightforward as well.
+
+~~ Implementation Notes
+
+The implementation was tricky to develop, because it was wholly different on
+each rendering platform (X11 is two, depending on which font rendering engine
+is used). This delayed implementation of this TIP for a whole release.
+
+ Classic X11: Uses a general monochrome pixmap rotation engine.
+
+ X11 + Xft: Generates rotated versions of the fonts by installing a rotation
+   matrix, caching them in the subfont management engine.
+
+ Win32: Generates rotated versions of the fonts using the built-in font
+   rotation suport, caching them in the subfont management engine.
+
+ MacOS X: Applies the rotation to the Current Transformation Matrix
+   immediately before rendering.
 
 ~ Copyright
 
