@@ -1,6 +1,6 @@
 TIP:		335
 Title:		An API for Detecting Active Interpreters
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
@@ -12,9 +12,9 @@ Post-History:
 
 ~ Abstract
 
-This TIP introduces the ability to quickly and safely obtain the value of the
-''numLevels'' field of the ''Interp'' structure, allowing an external system
-to determine whether it is safe to delete the interpreter.
+This TIP introduces the ability to quickly and safely decide whether a Tcl
+script is evaluating in an interpreter, allowing an external system to
+determine whether it is safe to delete that interpreter.
 
 ~ Rationale
 
@@ -34,20 +34,19 @@ correct that deficiency.
 
 This TIP introduces a single function to Tcl's public API:
 
- > int '''Tcl_GetNumLevels'''(Tcl_Interp *''interp'')
+ > int '''Tcl_InterpActive'''(Tcl_Interp *''interp'')
 
-The '''Tcl_GetNumLevels''' function returns the value of the '''numLevels'''
-field in the '''Interp''' structure.
+The '''Tcl_InterpActive''' function returns non-zero if the interpreter is in
+use, and zero if it is idle (i.e. not evaluating any script).
 
 ~ Reference Implementation
 
 |/*
 | *----------------------------------------------------------------------
 | *
-| * Tcl_GetNumLevels --
+| * Tcl_InterpActive --
 | *
-| *	Returns the number of nested calls to Tcl_Eval that are in progress
-| *	for the specified interpreter.
+| *	Returns non-zero if the specified interpreter is in use.
 | *
 | * Results:
 | *	See above.
@@ -59,10 +58,9 @@ field in the '''Interp''' structure.
 | */
 |
 |int
-|Tcl_GetNumLevels(Tcl_Interp *interp)
+|Tcl_InterpActive(Tcl_Interp *interp)
 |{
-|    Interp *iPtr = (Interp *) interp;
-|    return iPtr->numLevels;
+|    return (((Interp *) interp)->numLevels > 0);
 |}
 
 ~ Copyright
