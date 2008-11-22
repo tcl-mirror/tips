@@ -1,6 +1,6 @@
 TIP:            340
 Title:          Const Qualification of Tcl_SetResult's Argument and -Wwrite-strings
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jan Nijtmans <nijtmans@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -51,13 +51,18 @@ I see two alternatives:
  > This can be done without an unsafe type cast, but it has the disadvantage
    that after a (modified) '''Tcl_SetResult''' call the result is no longer
    available in interp->result. Older extensions might expect that, those will
-   be silently broken.
+   be silently broken. A the moment, serveral tests fail when doing this,
+   because in various places of the Tcl core there are hack which still support
+   older extensions which still use interp->result directly. It's a little
+   short before Tcl 8.6 to do it now, but it should certainly be considered
+   for the future.
 
- * Leave the '''Tcl_SetResult''' implementation as it is, only add a single
-   type cast to prevent a gcc warning.
+ * The solution proposed in this TIP is to leave the '''Tcl_SetResult''' implementation
+   as it is, only add a single type cast to prevent a gcc warning.
 
  > This violates the [27] conditions, but is in fact not more dangerous than
-   the current situation.
+   the current situation. It is only dangerous, when the Tcl_SetResult call
+   has another value than TCL_STATIC or TCL_VOLATILE as last argument
 
 There has been a discussion stating that changing the Tcl_SetResult
 signature is wrong, because Tcl_SetResult() cannot be made
@@ -78,7 +83,7 @@ TIP) Tcl_SetResult calls, one of them was wrong [Bug 2308236],
 two of them were in tclTest.c meant to test the Tcl_SetResult
 function itself. Tk had only 5 such calls. All those calls
 have been modified now. Tcl and Tk are free from
-''depreceded'' Tcl_SetResult calls now.
+''deprecated'' Tcl_SetResult calls now.
 
 ~ Reference Implementation
 
