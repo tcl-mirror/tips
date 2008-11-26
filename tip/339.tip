@@ -1,6 +1,6 @@
 TIP:            339
 Title:          Case-Insensitive Package Names
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
@@ -239,7 +239,7 @@ case insensitive filesystem searches, and only for Unix. On Windows the builtin
 
 ~ Reference Implementation
 
-An implementation patch is soon to be available at SourceForge
+An implementation patch is available at SourceForge
 [http://sourceforge.net/support/tracker.php?aid=2316115].
 
 ~ Copyright
