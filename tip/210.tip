@@ -1,8 +1,9 @@
 TIP:            210
 Title:          Add 'tempfile' Subcommand to 'file'
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
-State:          Accepted
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        19-Jul-2004
@@ -66,7 +67,8 @@ mode) using the defaults for EOL translation, encoding, etc.
 ~ Reference Implementation
 
 Available as Tcl Patch #999162 on SourceForge
-[https://sourceforge.net/support/tracker.php?aid=999162].
+[https://sourceforge.net/support/tracker.php?aid=999162]. ''(That
+patch is for an old version of the TIP.)''
 
 ~ Copyright
 
