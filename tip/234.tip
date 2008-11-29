@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -328,7 +328,7 @@ int
 '''Zlib_StreamPut'''(''zshandle, bytes, length, flush'')
 
 int
-'''Zlib_StreamGet'''(''zshandle, bytes, length)
+'''Zlib_StreamGet'''(''zshandle, bytes, length'')
 
 ~~ Arguments
 
