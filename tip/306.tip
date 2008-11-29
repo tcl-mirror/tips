@@ -1,11 +1,11 @@
 TIP:            306
 Title:          Auto-Naming Widgets
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Koen Danckaert <koen@retarget.com>
 Author:         Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>
-State:          Draft
+State:          Rejected
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        11-Jun-2007
 Post-History:   
 Keywords:       automatic,Tk,widget,naming
