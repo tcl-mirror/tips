@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -23,15 +23,16 @@ well as one of the standard compression algorithms in the HTTP protocol
 specifications.
 
 Including support for Zlib compression in the core would enable the use of
-compressed VFS files, pure Tcl implementations of gzip and zip utilities and
-the use of compression in various network protocols.
+compressed VFS files, fast pure Tcl implementations of gzip and zip utilities
+and the use of compression in various network protocols.
 
 A compressed VFS would be of great benefit to the new '''clock'''
 implementation [173], which brings a long a large number of small files which
 contain the timezone data. Although this would also require support for a VFS
 file format in the core. One possible candidate would be the Tcl Read Only fs
 (trofs), or perhaps a zip file VFS (only a tclvfs zip handler exists at the
-time of writing).
+time of writing). Such a compressed VFS is outside the scope of this TIP, but
+would be much easier in the future based on top of it.
 
 ~~ History and Implementation Notes
 
@@ -54,12 +55,12 @@ changed.
 
 The package utilizes zlib/libz from the gzip project
 [http://www.gzip.org/zlib/]. The license of this project/library is compatible
-with the Tcl license, it also compiles on most, if not all, platforms where
-Tcl compiles.
+with the Tcl license, and it also compiles on most, if not all, platforms
+where Tcl compiles.
 
-For ease of use, the core distribution shall include a copy of libz
-under ''tcl/contrib''. This copy will be built and used automatically when
-autoconf cannot find zlib.h during the configure stage. 
+For ease of use, the core distribution shall include a copy of libz under
+''tcl/contrib''. This copy will be built and used automatically when autoconf
+cannot find zlib.h during the configure stage.
 
 ~ Streaming
 
@@ -87,7 +88,7 @@ There are three compressed formats supported by this command:
 Data is treated as binary, meaning that all input and output is going to be
 converted and treated as byte arrays in Tcl.
 
- > '''zlib compress''' ''data'' ?''-level level''?
+ > '''zlib compress''' ''data'' ?'''-level''' ''level''?
 
 Returns raw deflated byte-array version of binary data ''data'', at an
 optional compression ''level''. The compression level must be between 0 and 9:
@@ -98,7 +99,7 @@ optional compression ''level''. The compression level must be between 0 and 9:
 
 Decompresses a raw deflated byte array as obtained from '''zlib compress'''.
 
- > '''zlib deflate''' ''data'' ?''-level level''?
+ > '''zlib deflate''' ''data'' ?'''-level''' ''level''?
 
 Returns zlib-compressed version of ''data'', at an optional compression
 '''level'''. The compression level must be between 0 and 9: 1 gives best
@@ -109,35 +110,44 @@ is simply copied a block at a time).
 
 Decompresses the zlib-compressed data as obtained from '''zlib deflate'''.
 
- > '''zlib gzip''' ''data'' ?''-level level''? ?''-header gzipHeaderDict''?
+ > '''zlib gzip''' ''data'' ?'''-level''' ''level''? ?'''-header'''
+   ''gzipHeaderDict''?
 
 Returns gzip-compressed ''data'', at an optional compression ''level''. The
 compression level must be between 0 and 9: 1 gives best speed, 9 gives best
 compression, 0 gives no compression at all (the input data is simply copied a
 block at a time).
 
-When header dict is not given, the gzip header will have no file name, no extra
-data, no comment, no modification time (set to zero), no header crc, and the
-operating system will be set to 255 (unknown).
+When header dict is not given with the '''-header''' option, the gzip header
+will have no file name, no extra data, no comment, no modification time (set
+to zero), no header crc, and the operating system will be set to 255
+(unknown).
 
 The header dict may contain:
-* '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
-* '''fname''' ''string: original file name''
-* '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
-* '''os''' ''integer: Operating system used (see RFC 1952)''
-* '''crc''' ''integer: CRC-32 of the uncompressed data''
-* '''size''' ''integer: uncompressed size modulo 2^32''
 
- > '''zlib gunzip''' ''gzipData'' ?''-headerVar headerDictVarName''?
+ * '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
 
-Decompresses the gzip data as obtained from '''zlib gzip''' or any gzip
-file. 
+ * '''fname''' ''string: original file name''
 
-The command returns the uncompressed data. The optional -header variable name will
-be filled with the available header fields. If a field does not exist in the
-gzip header, it will not be present in the dict. For example, the original
-filename, comment and crc are optional header fields and will be omited from the
-dict if they do not exist.
+ * '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
+
+ * '''os''' ''integer: Operating system used (see RFC 1952)''
+
+ * '''crc''' ''integer: CRC-32 of the uncompressed data''
+
+ * '''size''' ''integer: uncompressed size modulo 2^32''
+
+Other fields may be added in the future.
+
+ > '''zlib gunzip''' ''gzipData'' ?'''-headerVar''' ''headerDictVarName''?
+
+Decompresses the gzip data as obtained from '''zlib gzip''' or any gzip file.
+
+The command returns the uncompressed data. The optional '''-headerVar'''
+variable name will be filled with the available header fields. If a field does
+not exist in the gzip header, it will not be present in the dict. For example,
+the original filename, comment and crc are optional header fields and will be
+not set in the dict if they do not exist.
 
 Note that '''compress'''/'''decompress''', '''deflate'''/'''inflate''' and
 '''gzip'''/'''gunzip''' must be used in pairs.
@@ -158,17 +168,19 @@ which is created by calling the '''zlib''' command's '''stream''' subcommand.
    ?''-header gzipHeaderDict''?
    ?''-headerVar headerDictVarName''?
 
-Pushes the requested transformation onto the channel stack. The
-compression level must be between 0 and 9: 1 gives best speed, 9 gives best
-compression, 0 gives no compression at all (the input data is simply copied a
-block at a time). The ''-limit'' option specifies the maximum number of bytes to
-read from the channel. This is mainly intended to specify how much compressed
+Pushes the requested transformation onto the channel stack. The compression
+level must be between 0 and 9: 1 gives best speed, 9 gives best compression, 0
+gives no compression at all (the input data is simply copied a block at a
+time). The '''-limit''' option specifies the maximum number of bytes to read
+from the channel. This is mainly intended to specify how much compressed
 should be read from a non-seekable channel.
 
-The -header and -headerVar are only used for gzip and gunzip respectively. See
-the previous section for their definition.
+The '''-header''' and '''-headerVar''' are only used for '''gzip''' and
+'''gunzip''' modes respectively. See the previous section for their
+definition.
 
-Additional [chan] commands are enabled after pushing a zlib transformation:
+Additional '''chan''' commands are enabled after pushing a zlib
+transformation:
 
  > '''chan adler32''' ''channelId''
 
@@ -179,12 +191,12 @@ compression, available only at the of decompression.
 
 Performs a fullflush on the compression output.
 
-At the end of the data during compression, simply '''[chan pop]''' to finalize
+At the end of the data during compression, simply '''chan pop''' to finalize
 compression and flush any remaining compressed data.
 
 At the end of compressed data, the channel will return EOF until the
-transformation is popped from the channel. If no '''-limit''' was specified, the 
-current access position of the channel is undefined.
+transformation is popped from the channel. If no '''-limit''' was specified,
+the current access position of the channel is undefined.
 
 When the base channel or transform returns EOF, compression will automatically
 finalize. When EOF occurs during decompression but the compressed stream is not
@@ -202,8 +214,8 @@ Returns a command name which will perform the requested operation in a
 streaming fashion. The compression level value, ''level'', is only used when
 compressing data.
 
-The -header and -headerVar are only used for gzip and gunzip respectively. See
-the previous section for their definition.
+The '''-header''' and '''-headerVar''' are only used for '''gzip''' and
+'''gunzip''' modes respectively. See earlier in this TIP for their definition.
 
 ~~~ Stream Worker Command
 
@@ -239,7 +251,7 @@ For compression, this signals the end of the input data; no more data can be
 added to the stream after the '''finalize''' subcommand is called. For
 decompression, this functions the same as the '''flush''' subcommand.
 
- > ''stream'' '''get''' ?''-count count''?
+ > ''stream'' '''get''' ?'''-count''' ''count''?
 
 Gets (de)compressed data from the stream. The optional ''count'' parameter
 specifies the maximum number of bytes to read from the stream. Especially for
@@ -271,12 +283,12 @@ command cannot be used anymore.
 
 ~~ Checksums
 
- > '''zlib crc32''' ''data'' ?''-startValue startValue''?
+ > '''zlib crc32''' ''data'' ?'''-startValue''' ''startValue''?
 
 Calculates a standard ''CRC-32'' checksum, with an optional start value for
 incremental calculations.
 
- > '''zlib adler32''' ''data'' ?''-startValue startValue''?
+ > '''zlib adler32''' ''data'' ?'''-startValue''' ''startValue''?
 
 Calculates a quick ''Adler-32'' checksum, with an optional start value for
 incremental calculations.
@@ -286,20 +298,19 @@ incremental calculations.
 ~~ Synopsys
 
 Tcl_Obj *
-'''Zlib_Deflate'''(''interp'', ''format'', ''data'', ''level'')
+'''Zlib_Deflate'''(''interp, format, data, level, dictObj'')
 
 Tcl_Obj *
-'''Zlib_Inflate'''(''interp'', ''format'', ''data'')
+'''Zlib_Inflate'''(''interp, format, data, dictObj'')
 
 unsigned int
-'''Zlib_CRC32'''(''crc'', ''bytes'', ''length'')
+'''Zlib_CRC32'''(''initValue, bytes, length'')
 
 unsigned int
-'''Zlib_Adler32'''(''adler'', ''bytes'', ''length'')
+'''Zlib_Adler32'''(''initValue, bytes, length'')
 
 int
-'''Zlib_StreamInit'''(''interp'', ''mode'', ''format'', ''level'',
-''zshandlePtr'')
+'''Zlib_StreamInit'''(''interp, mode, format, level, dictObj, zshandlePtr'')
 
 Tcl_Obj *
 '''Zlib_StreamGetCommandName'''(''zshandle'')
@@ -314,10 +325,10 @@ int
 '''Zlib_StreamAdler32'''(''zshandle'')
 
 int
-'''Zlib_StreamPut'''(''zshandle'', ''data'', ''flush'')
+'''Zlib_StreamPut'''(''zshandle, bytes, length, flush'')
 
 int
-'''Zlib_StreamGet'''(''zshandle'', ''data'', ''count'')
+'''Zlib_StreamGet'''(''zshandle, bytes, length)
 
 ~~ Arguments
 
@@ -333,27 +344,35 @@ int
  int mode (in): Compress or decompress mode. Either '''ZLIB_INFLATE''' or
    '''ZLIB_DEFLATE'''.
 
- Tcl_Obj *data (in): The input data for compression or decompression.
+ Tcl_Obj *data (in): The input data for compression or decompression. Will be
+   interpreted as a bytearray object.
 
- int level (in): The compression level. Must be between 0 and 9; 1 gives best
-   speed, 9 gives best compression, 0 gives no compression at all (the input
-   data is simply copied a block at a time).
+ int level (in): The compression level. Must either be between 0 and 9 (1
+   gives best speed, 9 gives best compression, 0 gives no compression at all
+   with the input data is simply copied a block at a time) or -1 to get a
+   default level that balances speed and compressed size. This parameter is
+   ignored by decompressing streams.
 
- Tcl_Obj *compresseddata (in): The compressed input data for
-   decompression.
+ const char *bytes (in/out): On input, an array of bytes for calculation of
+   checksums or compression/decompression. On output, an array of bytes to
+   copy compressed or decompressed data into.
 
- CONST char *bytes (in): input bytes for calculation of checksums.
+ int length (in): number of bytes to calculate the checksum on, or the size of
+   ''bytes'' buffer to read from or write to.
 
- int length (in): number of bytes to calculate the checksum on.
+ unsigned int initValue (in): start value value for the crc-32 or adler-32
+   calculation.
 
- unsigned int crc (in): start value value for the crc-32 calculation
+ Tcl_Obj *dictPtr (in): A reference to a dict containing any additional
+   options for the stream handler. This is used to pass options such as
+   '''-limit''', '''-header''', etc. See the Tcl command documentation for a
+   list of options supported for a particular format and mode. If NULL, will
+   be treated as if it is an empty dict.
 
- unsigned int adler (in): start value value for the adler-32 calculation
+ Zlib_Stream **zshandlePtr (out): Pointer to an integer to receive the handle
+   to the stream. All subsequent ''Zlib_Stream*''() calls require this handle.
 
- int *zshandlePtr (in/out): Pointer to an integer to receive the handle to the
-   stream. All subsequent ''Zlib_Stream*''() calls require this handle.
-
- int zshandle (in): Handle for the stream.
+ Zlib_Stream *zshandle (in): Handle for the stream.
 
  int flush (in): Flush parameter. '''ZLIB_NO_FLUSH''', '''ZLIB_FLUSH''',
    '''ZLIB_FULLFLUSH''' or '''ZLIB_FINALIZE'''.
@@ -364,14 +383,14 @@ int
 
  > '''Zlib_Deflate()'''
 
-Depending on the ''type'' flag, this function returns a ''Tcl_Obj*'' with a
+Depending on the ''type'' flag, this function returns a ''Tcl_Obj *'' with a
 zero reference count containing the compressed data in either raw deflate
 format, zlib format or gzip format. If an error happens during compression,
 this function will return NULL and store a message in the Tcl interpreter.
 
  > '''Zlib_Inflate()'''
 
-This function returns a ''Tcl_Obj*'' with a zero reference count containing
+This function returns a ''Tcl_Obj *'' with a zero reference count containing
 the decompressed data. The ''buffersize'' argument may be used as a hint if
 the decompressed size is know before decompression. If an error happens during
 decompression, this function will return NULL and store a message in the Tcl
@@ -397,8 +416,8 @@ when initialization was succesful.
 
  > '''Zlib_StreamGetCommandName()'''
 
-This function returns a ''Tcl_Obj*'' which contains the fully qualified stream
-worker command name associated with this stream.
+This function returns a ''Tcl_Obj *'' which contains the fully qualified
+stream worker command name associated with this stream.
 
  > '''Zlib_StreamEof()'''
 
@@ -420,14 +439,16 @@ uncompressed data when ''Zlib_StreamGet'' returns an empty string.
 
  > '''Zlib_StreamPut()'''
 
-This function is used to add data to the stream. For compression, the final
-block of data, which may be an empty string, must be indicated with
-'''ZLIB_FINALIZE''' as the flush parameter.
+This function is used to copy data to the stream from the given buffer. For
+compression, the final block of data, which may be an empty string, must be
+indicated with '''ZLIB_FINALIZE''' as the flush parameter. The number of bytes
+read from the supplied buffer is returned (or -1 on error).
 
  > '''Zlib_StreamGet()'''
 
-This function is used to get the data from the stream. A ''count'' parameter
-of -1 will return all available data.
+This function is used to copy the data from the stream to the given buffer.
+The number of bytes written to the supplied buffer is returned (or -1 on
+error).
 
 ~ Usage
 
