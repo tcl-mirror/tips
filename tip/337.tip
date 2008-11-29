@@ -1,8 +1,8 @@
 TIP:		337
 Title:		Make TclBackgroundException() Public
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Don Porter <dgp@users.sf.net>
-State:		Accpeted
+State:		Accepted
 Type:		Project
 Vote:		Done
 Created:	21-Oct-2008
