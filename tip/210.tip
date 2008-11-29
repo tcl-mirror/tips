@@ -1,6 +1,6 @@
 TIP:            210
 Title:          Add 'tempfile' Subcommand to 'file'
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Bob Techentin <techentin.robert@mayo.edu>
 State:          Accepted
 Type:           Project
@@ -42,9 +42,9 @@ tcllib.
 
 ~ Specification
 
-This TIP proposes an extension to the ''file'' command, implementing the
+This TIP proposes an extension to the '''file''' command, implementing the
 functionality of the POSIX standard mkstemp() function. The new subcommand
-will be called ''tempfile''. It will return an open file channel, and
+will be called '''tempfile'''. It will return an open file channel, and
 (optionally) the name of the temporary file.
 
 ~ Synopsis
