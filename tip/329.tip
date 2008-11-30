@@ -1,15 +1,15 @@
-TIP:		329
-Title:		Try/Catch/Finally syntax
-Version:	$Revision: 1.2 $
-Author:		Trevor Davel <twylite@crypt.co.za>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	22-Sep-2008
-Tcl-Version:	8.6
-Obsoletes:	89
+TIP:            329
+Title:          Try/Catch/Finally syntax
+Version:        $Revision: 1.3 $
+Author:         Trevor Davel <twylite@crypt.co.za>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        22-Sep-2008
+Post-History:   
 Discussions-To: http://wiki.tcl.tk/21608
-Post-History:	
+Obsoletes:      89
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -21,14 +21,13 @@ options dictionary introduced in Tcl 8.5 by [90].
 
 See [89] for general rationale for enhancing exception handling.
 
-The '''try...catch''' syntax presented here is not intended to replace
-'''catch''', but to simplify the expression of existing exception/error
-handling techniques, leading to greater code clarity and less error-prone
-workarounds for '''finally''' blocks. There is no deficiency in the
-functionality of Tcl's exception handling mechanisms - what is lacking is a
-more readable syntax and a standard for behaviour across packages for the
-common case of catching a subset errors that are thrown from within a
-particular block of code.
+The '''try''' syntax presented here is not intended to replace '''catch''', but 
+to simplify the expression of existing exception/error handling techniques, 
+leading to greater code clarity and less error-prone workarounds for 
+'''finally''' blocks. There is no deficiency in the functionality of Tcl's 
+exception handling mechanisms - what is lacking is a more readable syntax and a 
+standard for behaviour across packages for the common case of catching a subset 
+errors or exceptions that are thrown from within a particular block of code.
 
 In Tcl 8.4 exceptions could be caught using '''catch''', and exception
 information was available via the '''catch''' return value and resultvar. If
@@ -49,77 +48,83 @@ Benefits of adding this functionality to the core:
 
  * Bring to Tcl a construct commonly understood and widely used in other
    languages.
- 
+
  * A standard for identifying categories/classes of errors, which will improve
    interoperability between packages.
- 
+
  * A byte-coded implementation would be significantly faster than the Tcl
    implementation that is presented.
 
 ~ Specification
 
+ > '''try''' ''body'' ?'''as''' {''resultVarName'' ?''optionsVarName''?}?
+   ?''handler'' ...? ?'''finally''' ''body''?
+
  > '''throw''' ''type message''
- 
-Since the '''catch''' handlers in the '''try...catch''' control structure will
-filter based on the exception's errorcode, it makes sense to have a command
+
+The '''try''' body is evaluated in the caller's scope.  The handlers ('''on'''
+and '''trap''') are searched in order of declaration until a matching one
+is found, and the associated body is executed.  If no matching handler is found
+then '''try''' returns the result of the '''try''' body (exceptions will 
+propagate up the stack as usual); otherwise '''try''' returns the result of the
+handler body.
+
+The '''finally''' body (if present) will be executed last, and is always 
+executed whatever the results of the try and handler bodies (excepting resource
+exhaustion or cancellation).  If the '''finally''' body returns an exceptional
+code then this will become the result of '''try''', otherwise the result of
+the '''finally''' body is ignored.
+
+Only one handler body (that of the first matching handler) will be executed. If 
+the handler body is the literal string "'''-'''" then the body for the 
+subsequent handler will be used instead. It is an error for the last handler's 
+body to be a literal "'''-'''".
+
+If the '''as''' clause is present the results of executing the '''try''' body
+will be assigned into the given variables in the caller's scope, as with 
+[['''catch''']].
+
+Since the '''trap''' handlers in the '''try''' control structure are
+filtered based on the exception's -errorcode, it makes sense to have a command
 that will encourage the use of error codes when throwing an exception.
 '''throw''' is merely a reordering of the arguments of the '''error'''
-command.
+command.  ''type'' SHOULD be constructed as a list to maintain compatibility 
+with ::errorcode, but it is treated as a string by '''trap''' (see below).
 
-''type'' SHOULD be constructed as a list to maintain compatibility with
-::errorcode, but it is treated as a string by [try...catch].
+~~Handlers
 
- > '''try''' ''body'' ?'''catch''' {''type'' ?''emvar''? ?''optvar''?}
-   ''body''? ?...? ?'''finally''' ''body''?
- 
-The '''try''' body is evaluated in the caller's scope. If the result is
-TCL_ERROR then each '''catch''' handler is considered in order until one is
-found with a type that matches the exception's errorcode, then the body of
-that handler is executed. The '''finally''' body (if present) will be executed
-after the '''try''' and any '''catch''' scripts have been executed, whatever
-the result of those scripts (excepting resource exhaustion or cancellation).
+ > '''on''' ''code'' ''body''
 
-Returns the result of the last executed body (but not the finally body). If
-'''try''' returns TCL_OK then it will return the result of the try body,
-otherwise it will return the result of the catch body.
+The '''on''' handler allows exact matching against the exceptional return code
+(the integer value that would be returned by '''catch''').  ''code'' may be 
+given as an integer or one of the magic keywords '''ok''' (0), '''error''' (1),
+'''return''' (2), '''break''' (3), '''continue''' (4).
 
-Rules:
+ > '''trap''' ''pattern'' ''body''
 
- * The type is a glob that is used to match against the exception's errorcode
-   ('''-errorcode''' in the options dictionary, treated as a string).
+The '''trap''' handler allows glob-style pattern matching against the 
+-errorcode when the exceptional return code is TCL_ERROR (1).  For this 
+match the -errorcode is treated as a string.
 
- * Only one '''catch''' handler will be executed. If the type matches for more
-   than one handler then on the first handler (reading left-to-right in the
-   command) will be executed.
+Notes & clarifications:
 
- * If no matching handler is found then the exception will propagate up the
-   call stack. All return codes other than TCL_ERROR automatically propagate
-   up the call stack.
+ * Handlers are searched in order of declaration (left-to-right).  One
+   consequence of this search order is that an '''on error''' handler will
+   supercede all subsequent '''trap''' handlers. 
 
- * If the '''catch''' body is a literal "'''-'''" then the body of the
-   following '''catch''' block will be executed instead. (It is an error for
-   the last '''catch''' body to be a literal "'''-'''".)
+ * The result of the last executed body (other than the '''finally''' body) is
+   the result of the '''try'''.  Exceptions in any body (including the 
+   '''finally''' body) replace the existing exception and propagate.
 
- * When the handler body is executed the error message will be stored in the
-   ''emvar'' (if specified) and the return options dictionary in the
-   ''optvar'' (if specified). The ''emvar'' must be given in order to give the
-   ''optvar''.
+ * Any unhandled exception propagates.
 
- * If an exception (in fact any return code other than TCL_OK) occurs in a
-   '''catch''' block then the new exception takes precedence and will
-   propagate up the stack. The original error stack will be appended to the
-   new ''errorInfo'' in order to maintain context.
-
-Irrespective of the outcome of the '''try''' or '''catch''' bodies that are
-executed, the '''finally''' body (if present) will be executed as the last
-step before the result is propagated up the call stack (unless the reason for
-the propagation is the breaching of a resource limit or the complete
-cancellation of an interpreter). If the result of the '''finally''' body is
-anything other than TCL_OK, that result will take precedence.
+ * If any exception is replaced (by an exception in a handler body or in the
+   '''finally''' body) then the new exception shall introduce a field into 
+   its options dict that contains all details of the original exception.         
 
 ~ Examples
 
-Simple example of '''try'''/'''catch'''/'''finally''' logic in Tcl using
+Simple example of '''try'''/''handler''/'''finally''' logic in Tcl using
 currently available syntax:
 
 | proc read_hex_file {fname} {
@@ -138,7 +143,7 @@ currently available syntax:
 |    return -options $opts $em
 | }
 
-And the same example rewritten to use [['''try...catch...finally''']]:
+And the same example rewritten to use [['''try''']]:
 
 | proc read_hex_file {fname} {
 |    set f [open $fname "r"]
@@ -147,7 +152,7 @@ And the same example rewritten to use [['''try...catch...finally''']]:
 |       while { [gets $f line] >= 0 } {
 |         append data [binary format H* $line]
 |       }
-|    } catch {* em} {
+|    } as {em} trap * {
 |       error "Could not process file '$fname': $em"
 |    } finally {
 |       close $f
@@ -155,12 +160,13 @@ And the same example rewritten to use [['''try...catch...finally''']]:
 | }
 
 This illustrates how the intent of the code is more clearly expressed by
-[['''try...catch''']], but does not demonstrate the use of multiple catch
+[['''try''']], but does not demonstrate the use of multiple catch
 blocks.
 
 ~ References
 
  * Tcl 8.4 catch [http://www.tcl.tk/man/tcl8.4/TclCmd/catch.htm]
+ * Tcl 8.5 catch [http://www.tcl.tk/man/tcl8.5/TclCmd/catch.htm]
 
 ~ Rejected Alternatives
 
@@ -169,14 +175,177 @@ along with reasons for their rejection.
 
 ~ Future Extensions
 
-No support is provided for catching return codes other than TCL_ERROR. Support
-may be added in future via an alternative keyword to ''catch'' (say
-''catchcode'').
+No specific future exceptions are planned, but '''try''' could be extended
+by adding new handler keywords and/or introducing new varnames to the '''as'''
+list. 
 
 ~ Reference Implementation
 
-A prototype implementation is available on the wiki
-[http://wiki.tcl.tk/21608].
+| namespace eval ::control {
+| 
+|   # These are not local, since this allows us to [uplevel] a [catch] rather than
+|   # [catch] the [uplevel]ing of something, resulting in a cleaner -errorinfo:
+|   variable em {}
+|   variable opts {}
+| 
+|   set ON_CODES { ok 0 error 1 return 2 break 3 continue 4 }
+| 
+| }
+| 
+| proc ::control::throw {type message} {
+|   return -code error -errorcode $type -errorinfo $message -level 2 $message
+| }
+| 
+| # For future reference: rethrow can be implemented by adding a "-rethrow"
+| # key to the return options dict
+| # proc ::control::rethrow {{type {}} {message {}}} {
+| #   return -code error -errorcode $type -rethrow 1 $message
+| # }
+| 
+| proc ::control::try {args} {
+| 
+|   variable ON_CODES
+| 
+|   # Check parameters
+|     set try_block [lindex $args 0]
+|     set handlers {}
+|     set finally {}
+|     set as_result {}
+|     set as_options {}
+|     set i 1
+| 
+|     # Optional "as {resultVarName ?optionsVarName?}"
+|     if { [lindex $args $i] eq "as" } {
+|       lassign [lindex $args $i+1] as_result as_options
+|       incr i 2
+|     }
+|     
+|     # Handlers & finally
+|     while { $i < [llength $args] } {
+|       switch -- [lindex $args $i] {
+|         "on" {
+|           # on code body
+|           # translate code to integer
+|           if { [scan [lindex $args $i+1] %d%c code dummy] != 1 } {
+|             # not a number - try the magic keywords
+|             if { [dict exists $ON_CODES [lindex $args $i+1]] } {
+|               set code [dict get $ON_CODES [lindex $args $i+1]]
+|             } else {
+|               # otherwise its an error
+|               break
+|             }            
+|           }
+|           # otherwise store the handler for later
+|           lappend handlers "${code},*" [lindex $args $i+2] 
+|           incr i 3
+|         }
+|         "trap" {
+|           # trap pattern body
+|           # store the handler for later
+|           lappend handlers "1,[lindex $args $i+1]" [lindex $args $i+2]
+|           incr i 3
+|         }
+|         "finally" {
+|           # finally body (and no further handlers)
+|           set finally [lindex $args $i+1]
+|           incr i 2
+|           break
+|         }
+|         default {
+|           # unrecognised handler keyword
+|           break
+|         }
+|       }
+|     }
+| 
+|     # If we broke out before the last arg (or need more args) then there is a 
+|     # parameter problem
+|     # If the last handler body is a "-" then reject
+|     if { $i != [llength $args] || [lindex $handlers end] eq "-" } {
+|       error "wrong # args: should be \"try body ?as {resultVar ?optionsVar?}? ?on code body ...? ?trap pattern body ...? ?finally body?\""
+|     }
+|     
+|   # Execute the try_block, catching errors
+|     variable em
+|     variable opts
+|     set code [uplevel 1 [list ::catch $try_block \
+|       [namespace which -variable em] [namespace which -variable opts] ]]
+|       
+|   # Assign try body result to caller's variables
+|   if { $as_result ne {} } {
+|     upvar $as_result _as_em
+|     set _as_em $em
+|     if { $as_options ne {} } {
+|       upvar $as_options _as_opt
+|       set _as_opt $opts
+|     }
+|   }
+|     
+|   # Keep track of the original error message & options
+|     set _em $em
+|     set _opts $opts
+| 
+|   # Find and execute handler
+|     set errorcode {}
+|     if { [dict exists $_opts -errorcode] } {
+|       set errorcode [dict get $_opts -errorcode]
+|     }
+|     set exception "$code,$errorcode"
+| 
+|     set found false
+|     foreach {pattern body} $handlers {
+|       if { ! $found && ! [string match $pattern $exception] } continue
+|       set found true
+|       if { $body eq "-" } continue
+|       
+|       # Handler found - execute it
+|       set code [uplevel 1 [list ::catch $body \
+|         [namespace which -variable em] [namespace which -variable opts] ]]
+|             
+|       # Handler result replaces the original result (whether success or
+|       # failure); capture context of original exception for reference
+|       dict set opts -during $_opts
+|       set _em $em
+|       set _opts $opts
+|     
+|       # Handler has been executed - stop looking for more
+|       break
+|     }
+|     
+|     # No catch handler found -- error falls through to caller
+|     # OR catch handler executed -- result falls through to caller
+| 
+|   # If we have a finally block then execute it
+|     if { $finally ne {} } {
+|       set code [uplevel 1 [list ::catch $finally \
+|         [namespace which -variable em] [namespace which -variable opts] ]]
+|       
+|       # Finally result takes precedence except on success
+|       if { $code != 0 } {
+|         dict set opts -during $_opts
+|         set _em $em
+|         set _opts $opts
+|       }
+|       
+|       # Otherwise our result is not affected
+|     }
+| 
+|   # Propegate the error or the result of the executed catch body to the caller
+| 
+|     #FIXME -level 2 will hide the try...catch itself from errorInfo, but it
+|     #  breaks nested 'try { try ... catch } catch'
+|     dict incr _opts -level 1
+| 
+|     return -options $_opts $_em
+| }
+| 
+| interp alias {} ::try {} ::control::try
+| interp alias {} ::throw {} ::control::throw
+
+~ Thanks
+
+Thanks in particular to DKF, NEM and JE for their feedback and suggestions
+on this TIP.
 
 ~ Copyright
 
