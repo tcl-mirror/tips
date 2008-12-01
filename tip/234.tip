@@ -1,10 +1,10 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        08-Dec-2004
 Post-History:   
 Keywords:       Tcl,zip,gzip,deflate
