@@ -1,10 +1,10 @@
 TIP:            244
 Title:          PNG Photo Image Support for Tk
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Michael Kirkham <mikek@muonics.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        22-Mar-2005
 Post-History:   
 Discussions-To: news:comp.lang.tcl
@@ -12,97 +12,92 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-Tk's photo image type has had support for alpha channels internally
-since version 8.3.  However, to date there is no photo format in the
-core that exposes this functionality.  This TIP proposes adding
-support for the PNG (Portable Network Graphics) format.
+Tk's photo image type has had support for alpha channels internally since
+version 8.3. However, to date there is no photo format in the core that
+exposes this functionality. This TIP proposes adding support for the PNG
+(Portable Network Graphics) format.
 
 ~ Rationale
 
-There is a current push for "beautifying" Tcl/Tk with more modern
-appearing widgets and default configuration options.  One method that
-can provide significant improvement in appearance is the use of images
-with alpha channels for antialiasing and smooth blending into the
-background of the GUI.  While the Tk core supports alpha channels,
-this support is neither exposed through the Tk_GetColor() format used
-by '''image put''' and similar interfaces, nor by the only photo image
-format, GIF, which allows only fully-opaque or fully-transparent
-pixels.  Instead, a third party package is currently required to add a
-format supporting alpha channels, which may not have a suitable
+There is a current push for "beautifying" Tcl/Tk with more modern appearing
+widgets and default configuration options. One method that can provide
+significant improvement in appearance is the use of images with alpha channels
+for antialiasing and smooth blending into the background of the GUI. While the
+Tk core supports alpha channels, this support is neither exposed through the
+Tk_GetColor() format used by '''image put''' and similar interfaces, nor by
+the only photo image format, GIF, which allows only fully-opaque or
+fully-transparent pixels. Instead, a third party package is currently required
+to add a format supporting alpha channels, which may not have a suitable
 license or increase the number of external dependencies unreasonably.
 
-The PNG image format is an open standard supporting a wide range of
-colors, from 1 bit per pixel black and white to 16 bit per pixel RGBA,
-with loss-less compression.  It's becoming increasingly widely used as
-the image format of choice in many areas including GUI and web page
-design for its color range, alpha support and small image size.  As
-such it is the obvious choice for adding alpha support to Tk.  An
-implementation can be light-weight and not add any new dependencies
-(such as on libpng) to Tk: while the format also depends on the zlib
-format for compression, [234] proposes zlib support for the Tcl core.
+The PNG image format is an open standard supporting a wide range of colors,
+from 1 bit per pixel black and white to 16 bit per pixel RGBA, with loss-less
+compression. It's becoming increasingly widely used as the image format of
+choice in many areas including GUI and web page design for its color range,
+alpha support and small image size. As such it is the obvious choice for
+adding alpha support to Tk. An implementation can be light-weight and not add
+any new dependencies (such as on libpng) to Tk: while the format also depends
+on the zlib format for compression, [234] proposes zlib support for the Tcl
+core.
 
 ~ Specification
 
-The implementation shall use the ''Tk_CreatePhotoImageFormat()''
-mechanisms to supply handlers to Tk for PNG support.  The
-implementation must:
+The implementation shall use the ''Tk_CreatePhotoImageFormat()'' mechanisms to
+supply handlers to Tk for PNG support. The implementation must:
 
    1. Support the full range of color types and bit depths allowed and
-      required by the PNG standard, including alpha channels and
-      boolean transparency.
+      required by the PNG standard, including alpha channels and boolean
+      transparency.
 
    2. Support reading of interlaced images.
 
-   3. Support base64 encoded data through '''image create photo
-      -data'''
+   3. Support base64 encoded data through '''image create photo -data'''.
 
-   4. Otherwise conform to the requirements of the PNG specification,
-      such as the handling of unsupported ancillary and critical
-      chunks and support for all required filter types.
+   4. Otherwise conform to the requirements of the PNG specification, such as
+      the handling of unsupported ancillary and critical chunks and support
+      for all required filter types.
 
 In addition, the implementation should:
 
-   5. Support exporting to the PNG format through '''image data''' and '''image write'''.
+   5. Support exporting to the PNG format through '''image data''' and
+      '''image write'''.
 
-   6. Allow modification of the overall alpha transparency of imported
-      images through '''-format "png -alpha value"'''
+   6. Allow modification of the overall alpha transparency of imported images
+      through '''-format "png -alpha value"'''.
 
-   7. Allow application of display gamma (if known) in conjunction
-      with the "gAMA" chunk of imported images, if present, through
-      '''-format "png -gamma value"'''.
+   7. Allow application of display gamma (if known) in conjunction with the
+      "gAMA" chunk of imported images, if present, through '''-format "png
+      -gamma value"'''.
 
 ~ Reference Implementation
 
-A reference implementation is
-available[http://www.muonics.com/FreeStuff/TkPNG/].  This reference
-implementation has been done as a loadable extension, but requires
-only the file ''tkImgPNG.c'' and the ''Tk_CreatePhototoImageFormat()''
-invocation from ''tkImgPNGInit.c'' to be added to
-''CreateTopLevelWindow()'' in ''tkWindow.c'' to be built into the
-core.
+A reference implementation is available
+[http://www.muonics.com/FreeStuff/TkPNG/]. This reference implementation has
+been done as a loadable extension, but requires only the file ''tkImgPNG.c''
+and the ''Tk_CreatePhototoImageFormat()'' invocation from ''tkImgPNGInit.c''
+to be added to ''CreateTopLevelWindow()'' in ''tkWindow.c'' to be built into
+the core.
 
-The only new dependency for this implementation is on zlib.  It
-currently meets requirements 1 - 6; it does not implement 7.
+The only new dependency for this implementation is on zlib. It currently meets
+requirements 1 - 6; it does not implement 7.
 
-~ Notes
+~~ Notes
 
-   1. It is understood that there will likely be some reformatting
-      required to conform to the Tcl Style Guide if this TIP is
-      accepted.
+   1. It is understood that there will likely be some reformatting required to
+      conform to the Tcl Style Guide if this TIP is accepted.
 
-   2. Performance is currently comparable to Img for small (i.e.,
-      toolbar button) sized images - a little faster or slower
-      depending on the image.  It seems to be somewhat slower for
-      larger images, but there may be room for additional
-      optimizations.
+   2. Performance is currently comparable to Img for small (i.e., toolbar
+      button) sized images - a little faster or slower depending on the image.
+      It seems to be somewhat slower for larger images, but there may be room
+      for additional optimizations.
 
-   3. At this time there is a bug (1155596) in Tk Aqua bevel buttons
-      that will crash Tk if images with partially transparent pixels
-      are used.  This is not the fault of the extension, but occurs
-      also with Img.  The author is attempting to find a fix, however.
+   3. At this time there is a bug (1155596) in Tk Aqua bevel buttons that will
+      crash Tk if images with partially transparent pixels are used. This is
+      not the fault of the extension, but occurs also with Img. The author is
+      attempting to find a fix, however.
 
-   4. The implementation has been tested with PngSuite, which is
-      fairly exhaustive, but more tests would probably be useful.
+   4. The implementation has been tested with PngSuite, which is fairly
+      exhaustive, but more tests would probably be useful.
 
 ~ Copyright
 
@@ -110,11 +105,14 @@ This document has been placed in the public domain.
 
 ~ References
 
-PngSuite [http://www.schaik.com/pngsuite/pngsuite.html]
+ * PngSuite
+   [http://www.schaik.com/pngsuite/pngsuite.html]
 
-Portable Network Graphics (PNG) Specification and Extensions
-[http://www.libpng.org/pub/png/spec/]
+ * Portable Network Graphics (PNG) Specification and Extensions
+   [http://www.libpng.org/pub/png/spec/]
 
-zlib Compression Library [http://www.gzip.org/zlib/]
+ * zlib Compression Library
+   [http://www.gzip.org/zlib/]
 
-zlib Specifications [http://www.gzip.org/zlib/zlib_docs.html]
+ * zlib Specifications
+   [http://www.gzip.org/zlib/zlib_docs.html]
