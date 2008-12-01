@@ -2,10 +2,10 @@ TIP:		150
 Title:          Implement the Tk send Command for Windows
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 Type:           Project
-State:		Accepted
+State:		Deferred
 Vote:		Done
 Tcl-Version:    8.5
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Keywords:       tk, send
 Created:        25-Jul-2003
 Post-History:	
