@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Draft
 Type:           Project
@@ -125,17 +125,25 @@ to zero), no header crc, and the operating system will be set to 255
 
 The header dict may contain:
 
- * '''ftext''' ''flag, 0 or 1: 0 for binary data, 1 for 'probably text' ''
+ * '''ftext''' -
+   flag, 0 or 1: 0 for binary data, 1 for "probably text".
 
- * '''fname''' ''string: original file name''
+ * '''fname''' -
+   string: original file name.
 
- * '''mtime''' ''integer: unix mtime in seconds since 1970-1-1''
+ * '''mtime''' -
+   integer: unix mtime in seconds since 1970-1-1, suitable for use with
+   '''clock format'''.
 
- * '''os''' ''integer: Operating system used (see RFC 1952)''
+ * '''os''' -
+   integer: Operating system used (see RFC 1952
+   [http://www.ietf.org/rfc/rfc1952.txt] for list of codes).
 
- * '''crc''' ''integer: CRC-32 of the uncompressed data''
+ * '''crc''' -
+   integer: CRC-32 of the uncompressed data.
 
- * '''size''' ''integer: uncompressed size modulo 2^32''
+ * '''size''' -
+   integer: uncompressed size modulo 2**32.
 
 Other fields may be added in the future.
 
