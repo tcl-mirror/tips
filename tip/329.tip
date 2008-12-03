@@ -1,6 +1,6 @@
 TIP:            329
 Title:          Try/Catch/Finally syntax
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -73,18 +73,19 @@ the handler body is the literal string "'''-'''" then the body for the
 subsequent handler will be used instead. It is an error for the last handler's 
 body to be a literal "'''-'''".
 
-The '''finally''' body (if present) will be executed last, and is always 
-executed whatever the results of the try and handler bodies (excepting resource
-exhaustion or cancellation).  If the '''finally''' body returns an exceptional
-code then this will become the result of '''try''', otherwise the result of
-the '''finally''' body is ignored.
+The '''finally''' body (if present) will be executed last, and is always
+executed whatever the results of the try and handler bodies (excepting
+resource exhaustion or cancellation). If the '''finally''' body returns an
+exceptional code then this will become the result of '''try''', otherwise the
+result of the '''finally''' body is ignored.
 
-Since the '''trap''' handlers in the '''try''' control structure are filtered 
-based on the exception's -errorcode, it makes sense to have a command that will 
-encourage the use of error codes when throwing an exception. '''throw''' is 
-merely a reordering of the arguments of the '''error''' command. ''type'' is 
-treated as a list by '''trap''' (see below), which maintains compatibility with 
-the description of ::errorCode given in '''tclvars'''.
+Since the '''trap''' handlers in the '''try''' control structure are filtered
+based on the exception's '''-errorcode''', it makes sense to have a command
+that will encourage the use of error codes when throwing an exception.
+'''throw''' is merely a reordering of the arguments of the '''error'''
+command. ''type'' is treated as a list by '''trap''' (see below), which
+maintains compatibility with the description of ::errorCode given in
+'''tclvars'''.
 
 ~~Handlers
 
@@ -96,37 +97,40 @@ scope), and the body of the handler.
  > '''on''' ''code {?resultVar ?optionsVar?} body''
 
 The '''on''' handler allows exact matching against the exceptional return code
-(the integer value that would be returned by '''catch''').  ''code'' may be 
+(the integer value that would be returned by '''catch'''). The ''code'' may be 
 given as an integer or one of the magic keywords '''ok''' (0), '''error''' (1),
 '''return''' (2), '''break''' (3), '''continue''' (4).
 
  > '''trap''' ''pattern {?resultVar ?optionsVar?} body''
 
-The '''trap''' handler allows list prefix matching against the 
--errorcode when the exceptional return code is TCL_ERROR (1).  The -errorcode
-is treated as a list (it is not an exception if the -errorcode cannot be 
-interpreted as a list; the handler will simply not match).
-
-Given a ''pattern'' and an ''errorcode'', a list prefix match is successful 
-if for every element in ''pattern'' there is a corresponding and identical
-element in ''errorcode''.  Trailing elements in ''errorcode'' are ignored.
+The '''trap''' handler allows list prefix matching against the
+'''-errorcode''' from the options when the exceptional return code is
+TCL_ERROR (1). Given a ''pattern'' and an ''errorcode'', a list prefix match
+is successful if for every element in ''pattern'' there is a corresponding and
+identical element in ''errorcode''. Trailing elements in ''errorcode'' are
+ignored.
 
 Notes & clarifications:
 
- * Handlers are searched in order of declaration (left-to-right).  One
+ * Handlers are searched in order of declaration (left-to-right). One
    consequence of this search order is that an '''on error''' handler will
-   supercede all subsequent '''trap''' handlers. 
+   supercede all subsequent '''trap''' handlers.
 
  * Any unhandled exception propagates.
 
  * The result of the last executed body (other than the '''finally''' body) is
-   the result of the '''try'''.  Exceptions in any ''handler'' body or in the 
+   the result of the '''try'''. Exceptions in any ''handler'' body or in the
    '''finally''' replace the existing exception and propagate.
 
  * If any exception is replaced (by an exception in a handler body or in the
-   '''finally''' body) then the new exception shall introduce into its 
-   options dict the field '''-during''' that contains the options dict of the
+   '''finally''' body) then the new exception shall introduce into its options
+   dictionary the field '''-during''' that contains the options dict of the
    exception that was replaced.
+
+ * If any errorcode happens to be not a list, a '''trap''' handler will be
+   unable to process it. However, this should only happen in cases where there
+   is a bug or other problem elsewhere, since '''return''' is documented to
+   require the errorcode to be a list.
 
 ~ Examples
 
