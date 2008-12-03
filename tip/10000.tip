@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.185 $
+Version:        $Revision: 1.186 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -21,7 +21,6 @@ Post-History:
 This proposal has no content.  It exists only to provide a document
 on which testing of and practice using of the TIP editing interfaces
 can take place.
-
 
 This TIP proposes a new command that pops up a dialog box that allows 
 the selection of a font. Where possible, this dialog will be 
@@ -109,7 +108,8 @@ selects a font, even on platforms where the dialog is modal.
 See Tk Patch 1477426.
 [http://sourceforge.net/tracker/index.php?func=detail&aid=1477426&group_id=12997&atid=312997]
 
+Also see [issue:1477426].
+
 ~ Copyright
 
 This document has been placed in the public domain.
-
