@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.35 $
+Version:        $Revision: 1.36 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -189,23 +189,12 @@ releases of Tcl/Tk are generated:
 ~ Branch Tags - Features
 
 The following branch tags label branches on which features are being
-devloped and tested.  No releases of Tcl/Tk will be spawned from these
+developed and tested.  No releases of Tcl/Tk will be spawned from these
 branches.  As the features mature, they will be merged onto the HEAD
 branch, or they may be rejected.
 
    * ''core-8-4-win-speedup'' (Tk) - Work on improving performance of
      Tk on the Windows platforms.
-
-   * ''daves-mk-branch'' (Tcl) - On-going work to improve the native
-     windows makefiles.  One top-root makefile.win will serve as the
-     starting point for MSVC++, BCC, and Watcom.  Extreme use of
-     shared info will highlight this new system.  This is not TEA -
-     this is anti-TEA. (maintained by davygrvy@pobox.com)
-
-   * ''daves-chop-branch'' (Tcl) - Attempts to modularize subsystems so
-     they can be easily removed at compile-time.  First step towards
-     a 'tinytcl' on the HEAD rather than starting with an older
-     version.  (maintained by davygrvy@pobox.com)
 
    * ''tip-59-implementation'' (Tcl) - For coordinating between Andreas
      Kupries and the platform maintainers on implementing [59].
@@ -233,6 +222,9 @@ branch, or they may be rejected.
      for advance testing of issues that might arise when the HEAD is
      declared more stable.
 
+   * ''tip-162-branch'' (Tcl) - Work on [162].  Includes extreme
+     window's winsock code rewrite.  Maintain by davygrvy@pobox.com
+
 ~ Dead Branches
 
 The following branch tags label branches that are no longer being
@@ -257,6 +249,17 @@ have been merged into an official branch, or rejected.
    * ''core-8-3-1-io-rewrite'' (Tcl) - Work rewriting Tcl's IO Channels
      to correct problems with the implementation of stacked channels.
      Merged into Tcl 8.3.2 and Tcl 8.4a2.
+
+   * ''daves-chop-branch'' (Tcl) - Attempts to modularize subsystems so
+     they can be easily removed at compile-time.  First step towards
+     a 'tinytcl' on the HEAD rather than starting with an older
+     version.  (maintained by davygrvy@pobox.com)
+
+   * ''daves-mk-branch'' (Tcl) - On-going work to improve the native
+     windows makefiles.  One top-root makefile.win will serve as the
+     starting point for MSVC++, BCC, and Watcom.  Extreme use of
+     shared info will highlight this new system.  This is not TEA -
+     this is anti-TEA. (maintained by davygrvy@pobox.com)
 
    * ''core-8-3-1-branch'' - Spawned Tcl/Tk 8.3.X releases.
 
