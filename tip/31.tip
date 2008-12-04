@@ -1,6 +1,6 @@
 TIP:            31
 Title:          CVS tags in the Tcl and Tk repositories
-Version:        $Revision: 1.36 $
+Version:        $Revision: 1.37 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         miguel sofer <mig@utdt.edu>
 Author:         Jeff Hobbs <JeffH@ActiveState.com>
@@ -223,7 +223,7 @@ branch, or they may be rejected.
      declared more stable.
 
    * ''tip-162-branch'' (Tcl) - Work on [162].  Includes extreme
-     window's winsock code rewrite.  Maintain by davygrvy@pobox.com
+     windows channel driver rewrite.  Maintained by davygrvy@pobox.com
 
 ~ Dead Branches
 
