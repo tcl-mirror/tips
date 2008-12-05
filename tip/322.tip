@@ -1,11 +1,11 @@
 TIP:            322
 Title:          Publish the NRE API
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         miguel sofer <msofer@users.sf.net>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        13-Jul-2008
 Post-History:   
 Tcl-Version:    8.6
