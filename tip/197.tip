@@ -1,9 +1,9 @@
 TIP:		197
 Title:		Unfocussed Text Widget Cursor Control
-Version:	$Revision: 1.9 $
+Version:	$Revision: 1.10 $
 Author:		R. Timothy Edwards <tim@stravinsky.jhuapl.edu>
 Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.6
 Vote:		Done
@@ -51,10 +51,6 @@ Supported values will be:
 
 In all cases, the insertion cursor will be displayed as at present when the
 text widget does have the focus.
-
-~Reference Implementation
-
-[[To come.]]
 
 ~Copyright
 
