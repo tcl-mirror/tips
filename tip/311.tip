@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.29 $
+Version:        $Revision: 1.30 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -102,8 +102,6 @@ like [31].
 
    * [331], Allow [lset] to Extend Lists
 
-   * ''Insert feature here''
-
 ~~ Tcl/Tk 8.6b1; Approximate Release Date: December 1, 2008
 
    * [97], Moving Vertices of Canvas Items
@@ -131,6 +129,8 @@ like [31].
    * Itcl-ng (Itcl 4.0 + Itk 4.0) as packages bundled to Tcl core
 
    * [329], Try/Catch/Finally syntax
+
+   * ''Insert feature here''
 
 ~ Work Roster
 
