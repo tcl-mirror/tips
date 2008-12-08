@@ -1,10 +1,10 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        08-Dec-2004
 Post-History:   
 Keywords:       Tcl,zip,gzip,deflate
@@ -306,51 +306,51 @@ incremental calculations.
 ~~ Synopsys
 
 Tcl_Obj *
-'''Zlib_Deflate'''(''interp, format, data, level, dictObj'')
+'''Tcl_ZlibDeflate'''(''interp, format, data, level, dictObj'')
 
 Tcl_Obj *
-'''Zlib_Inflate'''(''interp, format, data, dictObj'')
+'''Tcl_ZlibInflate'''(''interp, format, data, dictObj'')
 
 unsigned int
-'''Zlib_CRC32'''(''initValue, bytes, length'')
+'''Tcl_ZlibCRC32'''(''initValue, bytes, length'')
 
 unsigned int
-'''Zlib_Adler32'''(''initValue, bytes, length'')
+'''Tcl_ZlibAdler32'''(''initValue, bytes, length'')
 
 int
-'''Zlib_StreamInit'''(''interp, mode, format, level, dictObj, zshandlePtr'')
+'''Tcl_ZlibStreamInit'''(''interp, mode, format, level, dictObj, zshandlePtr'')
 
 Tcl_Obj *
-'''Zlib_StreamGetCommandName'''(''zshandle'')
+'''Tcl_ZlibStreamGetCommandName'''(''zshandle'')
 
 int
-'''Zlib_StreamEof'''(''zshandle'')
+'''Tcl_ZlibStreamEof'''(''zshandle'')
 
 int
-'''Zlib_StreamClose'''(''zshandle'')
+'''Tcl_ZlibStreamClose'''(''zshandle'')
 
 int
-'''Zlib_StreamAdler32'''(''zshandle'')
+'''Tcl_ZlibStreamAdler32'''(''zshandle'')
 
 int
-'''Zlib_StreamPut'''(''zshandle, bytes, length, flush'')
+'''Tcl_ZlibStreamPut'''(''zshandle, bytes, length, flush'')
 
 int
-'''Zlib_StreamGet'''(''zshandle, bytes, length'')
+'''Tcl_ZlibStreamGet'''(''zshandle, bytes, length'')
 
 ~~ Arguments
 
  Tcl_Interp *interp (in): Optional interpreter to use for error reporting.
 
  int format (in): Compressed data format. For compression and decompression
-   either '''ZLIB_FORMAT_RAW''', '''ZLIB_FORMAT_ZLIB''' or
-   '''ZLIB_FORMAT_GZIP'''. A fourth value, '''ZLIB_FORMAT_AUTO''' is available
-   for decompression, which can be used when decompressing either GZIP or ZLIB
-   formatted data. Decompression of RAW data requires specifying the format as
-   RAW.
+   either '''TCL_ZLIB_FORMAT_RAW''', '''TCL_ZLIB_FORMAT_ZLIB''' or
+   '''TCL_ZLIB_FORMAT_GZIP'''. A fourth value, '''TCL_ZLIB_FORMAT_AUTO''' is
+   available for decompression, which can be used when decompressing either
+   GZIP or ZLIB formatted data. Decompression of RAW data requires specifying
+   the format as RAW.
 
- int mode (in): Compress or decompress mode. Either '''ZLIB_INFLATE''' or
-   '''ZLIB_DEFLATE'''.
+ int mode (in): Compress or decompress mode. Either '''TCL_ZLIB_INFLATE''' or
+   '''TCL_ZLIB_DEFLATE'''.
 
  Tcl_Obj *data (in): The input data for compression or decompression. Will be
    interpreted as a bytearray object.
@@ -377,26 +377,27 @@ int
    list of options supported for a particular format and mode. If NULL, will
    be treated as if it is an empty dict.
 
- Zlib_Stream **zshandlePtr (out): Pointer to an integer to receive the handle
-   to the stream. All subsequent ''Zlib_Stream*''() calls require this handle.
+ Tcl_ZlibStream **zshandlePtr (out): Pointer to an integer to receive the
+   handle to the stream. All subsequent ''Tcl_ZlibStream*''() calls require
+   this handle.
 
- Zlib_Stream *zshandle (in): Handle for the stream.
+ Tcl_ZlibStream *zshandle (in): Handle for the stream.
 
- int flush (in): Flush parameter. '''ZLIB_NO_FLUSH''', '''ZLIB_FLUSH''',
-   '''ZLIB_FULLFLUSH''' or '''ZLIB_FINALIZE'''.
+ int flush (in): Flush parameter. '''TCL_ZLIB_NO_FLUSH''',
+   '''TCL_ZLIB_FLUSH''', '''TCL_ZLIB_FULLFLUSH''' or '''TCL_ZLIB_FINALIZE'''.
 
  int count (in): Maximum number of bytes to be written to the data Tcl_Obj.
 
 ~~ Functions
 
- > '''Zlib_Deflate()'''
+ > '''Tcl_ZlibDeflate()'''
 
 Depending on the ''type'' flag, this function returns a ''Tcl_Obj *'' with a
 zero reference count containing the compressed data in either raw deflate
 format, zlib format or gzip format. If an error happens during compression,
 this function will return NULL and store a message in the Tcl interpreter.
 
- > '''Zlib_Inflate()'''
+ > '''Tcl_ZlibInflate()'''
 
 This function returns a ''Tcl_Obj *'' with a zero reference count containing
 the decompressed data. The ''buffersize'' argument may be used as a hint if
@@ -404,55 +405,55 @@ the decompressed size is know before decompression. If an error happens during
 decompression, this function will return NULL and store a message in the Tcl
 interpreter.
 
- > '''Zlib_CRC32()'''
+ > '''Tcl_ZlibCRC32()'''
 
 This function returns the standard CRC-32 calculation. The ''startvalue''
 should contain the previously returned value for streaming calculations, or
 zero for the first block.
 
- > '''Zlib_Adler32()'''
+ > '''Tcl_ZlibAdler32()'''
 
 This function returns a quick Adler-32 calculation. The ''startvalue'' should
 contain the previously returned value for streaming calculations, or zero for
 the first block.
 
- > '''Zlib_StreamInit()'''
+ > '''Tcl_ZlibStreamInit()'''
 
 This function initializes the internal state for compression or decompression
 and creates the Tcl worker command for use at the script level. Returns TCL_OK
 when initialization was succesful.
 
- > '''Zlib_StreamGetCommandName()'''
+ > '''Tcl_ZlibStreamGetCommandName()'''
 
 This function returns a ''Tcl_Obj *'' which contains the fully qualified
 stream worker command name associated with this stream.
 
- > '''Zlib_StreamEof()'''
+ > '''Tcl_ZlibStreamEof()'''
 
 This function returns 0 or 1 depending on the state of the (de)compressor. For
 decompression, eof is reached when the entire compressed stream has been
 decompressed. For compression, eof is reached when the stream has been flushed
-with '''ZLIB_FINALIZE'''.
+with '''TCL_ZLIB_FINALIZE'''.
 
- > '''Zlib_StreamClose()'''
+ > '''Tcl_ZlibStreamClose()'''
 
 This function frees up all memory associated with this stream, deletes the Tcl
 worker command and discards all remaining input and output data.
 
- > '''Zlib_StreamAdler32()'''
+ > '''Tcl_ZlibStreamAdler32()'''
 
 This function returns the Adler-32 checksum of the uncompressed data up to this
 point. For decompressing streams, the checksum will only match the checksum of
-uncompressed data when ''Zlib_StreamGet'' returns an empty string.
+uncompressed data when ''Tcl_ZlibStreamGet'' returns an empty string.
 
- > '''Zlib_StreamPut()'''
+ > '''Tcl_ZlibStreamPut()'''
 
 This function is used to copy data to the stream from the given buffer. For
 compression, the final block of data, which may be an empty string, must be
-indicated with '''ZLIB_FINALIZE''' as the flush parameter. The number of bytes
-read from the supplied buffer is returned (or -1 on error).
+indicated with '''TCL_ZLIB_FINALIZE''' as the flush parameter. The number of
+bytes read from the supplied buffer is returned (or -1 on error).
 
- > '''Zlib_StreamGet()'''
+ > '''Tcl_ZlibStreamGet()'''
 
 This function is used to copy the data from the stream to the given buffer.
 The number of bytes written to the supplied buffer is returned (or -1 on
@@ -460,8 +461,8 @@ error).
 
 ~ Usage
 
-Because zlib is to be implemented as a core package, applications will need to
-do a [[package require zlib]] or the C equivalent.
+Zlib support is to form part of Tcl's standard API: no special measures will
+be needed for Tcl code or C-implemented extensions to make use of it.
 
 ~ Safe Interpreters
 
@@ -470,16 +471,12 @@ are therefore safe make available in the safe interpreter.
 
 ~ Reference Implementation
 
-The reference implementation is available at the subversion repository
-[http://svn.scheffers.net/zlib]. Alternatively, a recent snapshot is available
-[http://svn.scheffers.net/zlib.tar.gz]. This reference implementation includes
-a copy of zlib-1.2.1 [http://www.gzip.org].
+An old version the reference implementation is available at the subversion
+repository [http://svn.scheffers.net/zlib]. Alternatively, a recent snapshot
+is available [http://svn.scheffers.net/zlib.tar.gz]. This reference
+implementation includes a copy of zlib-1.2.1 [http://www.gzip.org].
 
 The reference implementation currently implements a version 1.8 of this TIP.
-
-~ Comments
-
-[[ Insert here please ]]
 
 ~ Copyright
 
