@@ -1,10 +1,10 @@
 TIP:            244
 Title:          PNG Photo Image Support for Tk
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Michael Kirkham <mikek@muonics.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        22-Mar-2005
 Post-History:   
 Discussions-To: news:comp.lang.tcl
