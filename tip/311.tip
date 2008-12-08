@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.30 $
+Version:        $Revision: 1.31 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -147,7 +147,6 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |DAS     324:A Standard Dialog For Font Selection
 |DKF     329:Try/Catch/Finally syntax
 |AF      332:Half-Close for Bidirectional Channels
-|JN      340:Const Qualification of Tcl_SetResult's Argument and -Wwrite-strings
 |DKF     341:Multiple 'dict filter' Patterns
 |AF      343:A Binary Specifier for [format/scan]
 |
