@@ -1,14 +1,14 @@
 TIP:            340
-Title:          Const Qualification of Tcl_SetResult's Argument and -Wwrite-strings
-Version:        $Revision: 1.6 $
+Title:          Const Qualification of Tcl_SetResult's Argument
+Version:        $Revision: 1.7 $
 Author:         Jan Nijtmans <nijtmans@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           In progress
+Vote:           Pending
 Created:        14-Nov-2008
 Post-History:   
 Keywords:       Tcl_SetResult
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -21,8 +21,8 @@ using gcc. But for this flag to be introduced, all warnings will have to be
 eliminated. In the HEAD, this is done already, except for one function:
 '''Tcl_SetResult'''. This function is explicitely mentioned in [27] not to be
 modified, because it cannot be handled without unsafe casting. This TIP
-proposes to deprecate Tcl_SetResult in full, and provide a new macro
-Tcl_SetStringResult in its place.
+proposes to deprecate '''Tcl_SetResult''' in full, and provide a new macro
+'''Tcl_SetStringResult''' in its place.
 
 ~ Rationale
 
@@ -65,34 +65,35 @@ I originally see two alternatives:
    the current situation. It is only dangerous, when the Tcl_SetResult call
    has another value than TCL_STATIC or TCL_VOLATILE as last argument
 
- * The final proposal is a new macro Tcl_SetStringResult() that takes over the
-   function of Tcl_SetResult(). The function Tcl_SetResult will be deprecated
-   in full.
+ * The final proposal is a new macro '''Tcl_SetStringResult''' that takes over
+   the function of '''Tcl_SetResult'''. The function '''Tcl_SetResult''' will
+   be deprecated in full.
 
-There has been a discussion stating that changing the Tcl_SetResult signature
-is wrong, because Tcl_SetResult() cannot be made const-correct.
+There has been a discussion stating that changing the '''Tcl_SetResult'''
+signature is wrong, because '''Tcl_SetResult''' cannot be made const-correct.
 
-Most Tcl_SetResult calls use TCL_STATIC or TCL_VOLATILE as last argument. In
-this case, the second argument is expected to be a const. The macro
-Tcl_SetStringResult takes care of that, since it is implemented in terms of
-Tcl_SetObjResult() and Tcl_NewStringObj().
+Most '''Tcl_SetResult''' calls use TCL_STATIC or TCL_VOLATILE as last
+argument. In this case, the second argument is expected to be a const. The
+macro '''Tcl_SetStringResult''' takes care of that, since it is implemented in
+terms of '''Tcl_SetObjResult''' and '''Tcl_NewStringObj'''.
 
-Very few Tcl_SetResult calls have some other value as last argument, most
-likely TCL_DYNAMIC. This TIP proposes to deprecate Tcl_SetResult for all
-values of freeProc. If the value is TCL_STATIC or TCL_VOLATILE, there is a new
-macro Tcl_SetStringResult which can be used in stead. For other values the
-call can be replaced with Tcl_SetStringResult as well, but then the caller is
-responsible to free the memory after the Tcl_SetStringResult call.
+Very few '''Tcl_SetResult''' calls have some other value as last argument,
+most likely TCL_DYNAMIC. This TIP proposes to deprecate '''Tcl_SetResult'''
+for all values of freeProc. If the value is TCL_STATIC or TCL_VOLATILE, there
+is a new macro '''Tcl_SetStringResult''' which can be used in stead. For other
+values the call can be replaced with '''Tcl_SetStringResult''' as well, but
+then the caller is responsible to free the memory after the
+'''Tcl_SetStringResult''' call.
 
 It turns out that Tcl had only 4 deprecated (as defined by this TIP)
-Tcl_SetResult calls, one of them was wrong [[Bug 2308236]], two of them were
-in tclTest.c meant to test the Tcl_SetResult function itself. Tk had only 5
-such calls. All those calls have been modified now. Tcl and Tk now only calls
-Tcl_SetResult with either TCL_STATIC or TCL_VOLATILE
+'''Tcl_SetResult''' calls, one of them was wrong [[Bug 2308236]], two of them
+were in tclTest.c meant to test the '''Tcl_SetResult''' function itself. Tk
+had only 5 such calls. All those calls have been modified now. Tcl and Tk now
+only calls '''Tcl_SetResult''' with either TCL_STATIC or TCL_VOLATILE
 
 This proposal does not have the "forward compatibility" problem, that
-extensions using Tcl_SetStringResult compiled. it is even possible for
-extensions to use Tcl_SetStringResult with Tcl 8.5 and before:
+extensions using '''Tcl_SetStringResult''' compiled. it is even possible for
+extensions to use '''Tcl_SetStringResult''' with Tcl 8.5 and before:
 
 | #ifndef
 | #   define Tcl_SetStringResult(i,s) \
