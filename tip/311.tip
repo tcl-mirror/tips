@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.33 $
+Version:        $Revision: 1.34 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -64,7 +64,10 @@ like [31].
 
    * [304], A Standalone '''chan pipe''' Primitive for Advanced Child IPC
 
-   * NRE core. This is an internal change that allows infinite recursion and enables new features (like ::tcl::unsupported::tailcall). [322], the TIP to publish the C API to NRE, will not be final until later.
+   * NRE core. This is an internal change that allows infinite recursion and
+     enables new features (like '''::tcl::unsupported::tailcall'''). [322],
+     [327] and [328], the TIPs to publish the API to NRE's features, will not
+     be final until later.
 
 ~~ Tcl/Tk 8.6a3; Release Date: October 10, 2008
 
@@ -84,15 +87,15 @@ like [31].
 
    * [316], Portable Access Functions for Stat Buffers
 
-   * [318], Extend Default Whitespace in 'string trim' Beyond ASCII
+   * [318], Extend Default Whitespace in '''string trim''' Beyond ASCII
 
    * [320], Improved Variable Handling in the Core Object System
 
-   * [321], Add a [tk busy] Command
+   * [321], Add a '''tk busy''' Command
 
    * [323], Do Nothing Gracefully
 
-   * [326], Add -stride Option to lsort
+   * [326], Add '''-stride''' Option to '''lsort'''
 
    * [327], Proper Tailcalls
 
@@ -100,7 +103,7 @@ like [31].
 
    * [330], Eliminate interp->result from the Public Headers
 
-   * [331], Allow [lset] to Extend Lists
+   * [331], Allow '''lset''' to Extend Lists
 
 ~~ Tcl/Tk 8.6b1; Approximate Release Date: December 19, 2008
 
@@ -114,7 +117,7 @@ like [31].
 
    * [307], Make TclTransferResult() Public
 
-   * [321], Add a [tk busy] Command
+   * [321], Add a [[tk busy]] Command
 
    * [335], An API for Detecting Active Interpreters
 
@@ -142,20 +145,20 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |
 |# Vote in progress
 |MS      322:Publish the NRE API
-|DAS     324:A Standard Dialog For Font Selection
 |DKF     329:Try/Catch/Finally syntax
-|AF      332:Half-Close for Bidirectional Channels
-|DKF     341:Multiple 'dict filter' Patterns
 |AF      343:A Binary Specifier for [format/scan]
 |
 |# Accepted:
-|?       141:Multiple Initial-Files in [tk_getOpenFile]
+|DNW     141:Multiple Initial-Files in [tk_getOpenFile]
 |JH      171:Change Default <MouseWheel> Bindings Behavior
 |PS      234:Add Support For Zlib Compression
 |JH      244:PNG Photo Image Support for Tk
 |KBK     308:Tcl Database Connectivity (TDBC)
+|DAS     324:A Standard Dialog For Font Selection
+|AF      332:Half-Close for Bidirectional Channels
 |DGP     337:Make TclBackgroundException() Public
 |DGP     338:Embedder Access to Startup Scripts of *_Main()
+|DKF     341:Multiple 'dict filter' Patterns
 
 ~ Copyright
 
