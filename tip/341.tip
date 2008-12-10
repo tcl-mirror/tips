@@ -1,8 +1,8 @@
 TIP:		341
 Title:		Multiple 'dict filter' Patterns
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Tcl-Version:	8.6
