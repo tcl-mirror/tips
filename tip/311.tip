@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.35 $
+Version:        $Revision: 1.36 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -113,15 +113,21 @@ like [31].
 
    * [197], Unfocussed Text Widget Cursor Control
 
-   * [210], Add 'tempfile' Subcommand to 'file'
+   * [210], Add '''tempfile''' Subcommand to '''file'''
 
    * [307], Make TclTransferResult() Public
 
-   * [321], Add a [[tk busy]] Command
+   * [321], Add a '''tk busy''' Command
+
+   * [324], A Standard Dialog For Font Selection
 
    * [335], An API for Detecting Active Interpreters
 
    * [336], Supported Access To interp->errorline
+
+   * [337], Make TclBackgroundException() Public
+
+   * [341], Multiple '''dict filter''' Patterns
 
    * ''Insert feature here''
 
