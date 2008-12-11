@@ -1,6 +1,6 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
 State:          Accepted
 Type:           Project
@@ -333,10 +333,10 @@ int
 '''Tcl_ZlibStreamAdler32'''(''zshandle'')
 
 int
-'''Tcl_ZlibStreamPut'''(''zshandle, bytes, length, flush'')
+'''Tcl_ZlibStreamPut'''(''zshandle, dataObj, flush'')
 
 int
-'''Tcl_ZlibStreamGet'''(''zshandle, bytes, length'')
+'''Tcl_ZlibStreamGet'''(''zshandle, dataObj, count'')
 
 ~~ Arguments
 
@@ -383,10 +383,15 @@ int
 
  Tcl_ZlibStream *zshandle (in): Handle for the stream.
 
+ Tcl_Obj *dataObj (in/out): A bytearray object to read the streamed data from
+   ('''Tcl_ZlibStreamPut''') or write the streamed data to
+   ('''Tcl_ZlibStreamGet''').
+
  int flush (in): Flush parameter. '''TCL_ZLIB_NO_FLUSH''',
    '''TCL_ZLIB_FLUSH''', '''TCL_ZLIB_FULLFLUSH''' or '''TCL_ZLIB_FINALIZE'''.
 
- int count (in): Maximum number of bytes to be written to the data Tcl_Obj.
+ int count (in): Maximum number of bytes to be written to the ''dataObj''
+   Tcl_Obj. The special flag value -1 means get all bytes.
 
 ~~ Functions
 
