@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.40 $
+Version:        $Revision: 1.41 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -752,6 +752,12 @@ assigned one or more maintainers:
      tools/regexpTestLib.tcl
 
   56. '''LibTomMath''' - libtommath/*
+
+  57. '''zlib''' (see [234]) -
+     doc/zlib.n,
+     doc/TclZlib.3,
+     generic/tclZlib.c,
+     tests/zlib.c
 
 ~ Shared Files
 
