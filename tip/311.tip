@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.36 $
+Version:        $Revision: 1.37 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -119,6 +119,8 @@ like [31].
 
    * [321], Add a '''tk busy''' Command
 
+   * [322], Publish the NRE API
+
    * [324], A Standard Dialog For Font Selection
 
    * [335], An API for Detecting Active Interpreters
@@ -129,6 +131,8 @@ like [31].
 
    * [341], Multiple '''dict filter''' Patterns
 
+   * [343], A Binary Specifier for '''format'''/'''scan'''
+
    * ''Insert feature here''
 
 ~~ Wishes
@@ -136,8 +140,6 @@ like [31].
    * [332], Half-Close for Bidirectional Channels
 
    * Itcl-ng (Itcl 4.0 + Itk 4.0) as packages bundled to Tcl core
-
-   * [329], Try/Catch/Finally syntax
 
    * ''Insert feature here''
 
@@ -149,20 +151,15 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |# Big projects
 |JH      162:IPv6 Sockets for Tcl
 |
-|# Vote in progress
-|MS      322:Publish the NRE API
-|
 |# Accepted:
 |DNW     141:Multiple Initial-Files in [tk_getOpenFile]
 |JH      171:Change Default <MouseWheel> Bindings Behavior
 |PS      234:Add Support For Zlib Compression
 |JH      244:PNG Photo Image Support for Tk
 |KBK     308:Tcl Database Connectivity (TDBC)
-|DAS     324:A Standard Dialog For Font Selection
 |DKF     329:Try/Catch/Finally syntax
 |AF      332:Half-Close for Bidirectional Channels
 |DGP     338:Embedder Access to Startup Scripts of *_Main()
-|AF      343:A Binary Specifier for [format/scan]
 
 ~ Copyright
 
