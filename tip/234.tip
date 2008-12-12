@@ -1,8 +1,8 @@
 TIP:            234
 Title:          Add Support For Zlib Compression
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Pascal Scheffers <pascal@scheffers.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        08-Dec-2004
@@ -276,12 +276,14 @@ When [[''stream'' '''eof''']] is returning true, and [[''stream'' '''get'''
 ?''count''?] returns an empty string, you will have obtained all data from the
 stream.
 
- > ''stream'' '''adler32'''
+ > ''stream'' '''checksum'''
 
-Returns the adler32 checksum of the uncompressed data. For compressing
-streams, this value is updated on each '''$stream put'''. For decompressing
-streams, the value will only match the adler32 of the decompressed string
-after the last [[''stream'' '''get''']] returned an empty string.
+Returns the Adler-32 or CRC-32 checksum of the uncompressed data. For
+compressing streams, this value is updated on each '''$stream put'''. For
+decompressing streams, the value will only match the adler32 of the
+decompressed string after the last [[''stream'' '''get''']] returned an empty
+string. Which type of checksum is computed (Adler-32 or CRC-32) depends on the
+compression format of the stream.
 
  > ''stream'' '''close'''
 
