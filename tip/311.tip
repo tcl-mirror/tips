@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.37 $
+Version:        $Revision: 1.38 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -115,6 +115,8 @@ like [31].
 
    * [210], Add '''tempfile''' Subcommand to '''file'''
 
+   * [234], Add Support For Zlib Compression
+
    * [307], Make TclTransferResult() Public
 
    * [321], Add a '''tk busy''' Command
@@ -148,13 +150,9 @@ like [31].
 Does not include anything which is already done. The initials refer to
 the responsible ''maintainer'' (i.e. the person to shout at).
 
-|# Big projects
-|JH      162:IPv6 Sockets for Tcl
-|
 |# Accepted:
 |DNW     141:Multiple Initial-Files in [tk_getOpenFile]
 |JH      171:Change Default <MouseWheel> Bindings Behavior
-|PS      234:Add Support For Zlib Compression
 |JH      244:PNG Photo Image Support for Tk
 |KBK     308:Tcl Database Connectivity (TDBC)
 |DKF     329:Try/Catch/Finally syntax
