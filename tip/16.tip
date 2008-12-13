@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.41 $
+Version:        $Revision: 1.42 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -570,6 +570,7 @@ assigned one or more maintainers:
      doc/ExprLongObj.3,
      doc/GetVersion.3,
      doc/Interp.3,
+     doc/NRE.3,
      doc/ParseCmd.3,
      doc/SaveResult.3,
      doc/SetRecLimit.3,
