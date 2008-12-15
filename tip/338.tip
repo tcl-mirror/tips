@@ -1,8 +1,8 @@
 TIP:		338
 Title:		Embedder Access to Startup Scripts of *_Main()
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Don Porter <dgp@users.sf.net>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	22-Oct-2008
