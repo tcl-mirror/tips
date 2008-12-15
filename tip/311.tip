@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.39 $
+Version:        $Revision: 1.40 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -159,7 +159,6 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |KBK     308:Tcl Database Connectivity (TDBC)
 |DKF     329:Try/Catch/Finally syntax
 |AF      332:Half-Close for Bidirectional Channels
-|DGP     338:Embedder Access to Startup Scripts of *_Main()
 
 ~ Copyright
 
