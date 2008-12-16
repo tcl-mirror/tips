@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.40 $
+Version:        $Revision: 1.41 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -125,6 +125,8 @@ like [31].
 
    * [324], A Standard Dialog For Font Selection
 
+   * [329], '''Try'''/'''Catch'''/'''Finally''' syntax
+
    * [335], An API for Detecting Active Interpreters
 
    * [336], Supported Access To interp->errorline
@@ -157,7 +159,6 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |JH      171:Change Default <MouseWheel> Bindings Behavior
 |JH      244:PNG Photo Image Support for Tk
 |KBK     308:Tcl Database Connectivity (TDBC)
-|DKF     329:Try/Catch/Finally syntax
 |AF      332:Half-Close for Bidirectional Channels
 
 ~ Copyright
