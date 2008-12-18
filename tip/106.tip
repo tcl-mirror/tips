@@ -1,6 +1,6 @@
 TIP:            106
 Title:          Add Encoding Abilities to the [dde] Command
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Harald Oehlmann <Harald.Oehlmann@Elmicron.de>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
@@ -41,8 +41,7 @@ encoding (''cp1252'' in my locale).
 Most people who use DDE to communicate with, for example, Excel use
 the fact that what Excel expects (''cp1252'') and what Tcl actually
 sends (''utf-8'') is identical for 7-bit values and they don't use
-8-bit values.  Unfortunately, characters needed in German, French and
-other languages are located over this limit and thus are not
+8-bit values.  Unfortunately, characters used in languages like german, french, etc. are located over this limit and thus are not
 transferable.
 
 Peter Hardie addressed this point on 2000-10-26 in the Tcl Feature
