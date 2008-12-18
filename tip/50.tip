@@ -1,6 +1,6 @@
 TIP:            50
 Title:          Bundle [incr Tcl] with the Core Tcl distribution
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Kevin Kenny <kennykb@acm.org>
 Author:         Mark Harrison <markh@asiainfo.com>
 Author:         Jeff Hobbs <jeffh@ActiveState.com>
@@ -9,12 +9,11 @@ Author:         Karl Lehenbauer <karl@procplace.com>
 Author:         Michael McLennan <mmc@cadence.com>
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Brent Welch <welch@acm.org>
-State:          Deferred
-Type:           Project
+State:          Accepted
+Type:           Informative
 Vote:           Done
 Created:        27-Jul-2001
 Post-History:   
-Tcl-Version:    8.5
 
 ~ Abstract
 
