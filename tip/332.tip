@@ -1,8 +1,8 @@
 TIP:            332
 Title:          Half-Close for Bidirectional Channels
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        25-Sep-2008
