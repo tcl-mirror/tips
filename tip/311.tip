@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.43 $
+Version:        $Revision: 1.44 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -105,7 +105,7 @@ like [31].
 
    * [331], Allow '''lset''' to Extend Lists
 
-~~ Tcl/Tk 8.6b1; Approximate Release Date: December 19, 2008
+~~ Tcl/Tk 8.6b1; Approximate Release Date: December 23, 2008
 
    * [97], Moving Vertices of Canvas Items
 
