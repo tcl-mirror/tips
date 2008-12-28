@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.44 $
+Version:        $Revision: 1.45 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -10,6 +10,7 @@ Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Arnulf Wiedemann <arnulf@wiedemann-pri.de>
 Author:         Trevor Davel <twylite@crypt.co.za>
+Author:		Donal K. Fellows <dkf@users.sf.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -105,7 +106,7 @@ like [31].
 
    * [331], Allow '''lset''' to Extend Lists
 
-~~ Tcl/Tk 8.6b1; Approximate Release Date: December 23, 2008
+~~ Tcl/Tk 8.6b1; Release Date: December 23, 2008
 
    * [97], Moving Vertices of Canvas Items
 
@@ -141,6 +142,10 @@ like [31].
 
    * [343], A Binary Specifier for '''format'''/'''scan'''
 
+~~ Tcl/Tk 8.6b2; Approximate Release Date: ....?
+
+   * [244], PNG Photo Image Support for Tk
+
    * ''Insert feature here''
 
 ~~ Wishes
@@ -155,9 +160,9 @@ Does not include anything which is already done. The initials refer to
 the responsible ''maintainer'' (i.e. the person to shout at).
 
 |# Accepted:
+|APW     50:Bundle [incr Tcl] with the Core Tcl distribution
 |DNW     141:Multiple Initial-Files in [tk_getOpenFile]
 |JH      171:Change Default <MouseWheel> Bindings Behavior
-|JH      244:PNG Photo Image Support for Tk
 
 ~ Copyright
 
