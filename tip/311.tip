@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.45 $
+Version:        $Revision: 1.46 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -144,6 +144,8 @@ like [31].
 
 ~~ Tcl/Tk 8.6b2; Approximate Release Date: ....?
 
+   * [171], Change Default <MouseWheel> Bindings Behavior
+
    * [244], PNG Photo Image Support for Tk
 
    * ''Insert feature here''
@@ -162,7 +164,6 @@ the responsible ''maintainer'' (i.e. the person to shout at).
 |# Accepted:
 |APW     50:Bundle [incr Tcl] with the Core Tcl distribution
 |DNW     141:Multiple Initial-Files in [tk_getOpenFile]
-|JH      171:Change Default <MouseWheel> Bindings Behavior
 
 ~ Copyright
 
