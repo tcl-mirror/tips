@@ -1,0 +1,44 @@
+TIP:		344
+Title:		Bring TCP_NODELAY and SO_KEEPALIVE to socket options
+Version:	$Revision: 1.1 $
+Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	31-Dec-2008
+Post-History:	
+Tcl-Version:	8.6
+
+~ Abstract
+
+Just expose to script level, via '''fconfigure''', the two most important
+setsockopt() use cases: TCP_NODELAY (disabling the Nagle agorithm) and
+SO_KEEPALIVE (sending automatic keepalives).
+
+~ Background & Rationale
+
+Currently, there is no way to set nodefault values to a Tcl socket's
+underlying socket options TCP_NODELAY and SO_KEEPALIVE. That is frustrating
+because all TCP stacks support setsockopt().
+
+Of these two options, the most important I guess is TCP_NODELAY. Indeed, the
+Nagle algorithm being on by default may introduce unwanted latencies in some
+specific cases. This TIP does not try to argument about the prevalence of
+these cases; the ubiquity of setsockopt(TCP_NODELAY) suffices to justify
+exposing it to script level.
+
+~ Proposed Change
+
+This TIP proposes to add two boolean [fconfigure] options to sockets:
+'''-nodelay''' (or '''-nonagle''', or '''-nagle''', take your pick) and
+'''-keepalive'''.
+
+~ Reference Implementation
+
+Pretty trivial; will be provided shortly after validation. The code has even
+been in place for a long time, though only in the Windows-specific part, and
+commented/ifdef'ed out...
+ 
+~ Copyright
+
+This document has been placed in the public domain.
