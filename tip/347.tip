@@ -1,10 +1,10 @@
 TIP:            347
 Title:          Add 'string is bignum' to the 'string is' Subcommand
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
 State:          Draft
 Type:           Project
-Created:        09-feb-2009
+Created:        09-Feb-2009
 Post-History:   
 Vote:		Pending
 Discussions-To: news:comp.lang.tcl
