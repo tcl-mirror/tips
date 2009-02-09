@@ -1,0 +1,57 @@
+TIP:            346
+Title:          Error on Failed String Encodings
+Version:        $Revision: 1.1 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        02-Feb-2009
+Post-History:   
+Keywords:       Tcl,encoding,convertto,strict,Unicode,String,ByteArray
+Tcl-Version:    8.7
+
+~ Abstract
+
+This TIP proposes to raise an error when a String-to-ByteArray conversion
+loses information.
+
+~ Background
+
+A String-to-ByteArray conversion occurs e.g. when writing a string to a
+channel. In doing so, Unicode characters are converted to sequences of bytes
+according to the channel's encoding. Alternatively, the conversion can occur
+on request of the ByteArray internal representation of an object, the target
+encoding being returned by '''encoding system'''. In both cases, for some
+combinations of Unicode char and target encoding, the mapping is lossy
+(non-injective). For example, the "e acute" character, and many of its
+cousins, is mapped to a "?" in the 'ascii' target encoding.
+
+This loss of information, in the first case, introduces unnoticed i18n
+mishandlings. In the second case, it makes it unreliable to do pure-ByteArray
+operations on objects unless they have no string representation. This induces
+unwanted and hard-to-debug performance hits on bytearray manipulations when
+people add debugging '''puts'''.
+
+~ Proposed Change
+
+This TIP proposes to make this loss conspicuous.
+
+For the first use case, the idea is to introduce a '''-strict''' option to
+'''encoding convertto''', that would raise an explicit error when non-mappable
+characters are met. For the second case, we simply want the conversion to
+fail, like does the Listification of an ill-formed list. In both cases, the
+change consists of letting '''Tcl_GetByteArrayFromObj''' return TCL_ERROR.
+
+~ Rationale
+
+The second case does imply a Potential Incompatibility. However, it is felt
+that virtually all cases that are sensitive to this, are actually half-working
+in a completely hidden manner. Hence the global effect is a healthy one.
+
+~ Reference Example
+
+See Bug 1665628 [https://sourceforge.net/support/tracker.php?aid=1665628].
+
+~ Copyright
+
+This document has been placed in the public domain.
