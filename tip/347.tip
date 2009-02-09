@@ -1,0 +1,44 @@
+TIP:            347
+Title:          Add 'string is bignum' to the 'string is' Subcommand
+Version:        $Revision: 1.1 $
+Author:         Jos Decoster <jos.decoster@gmail.com>
+State:          Draft
+Type:           Project
+Created:        09-feb-2009
+Post-History:   
+Vote:		Pending
+Discussions-To: news:comp.lang.tcl
+Keywords:       Tcl
+Tcl-Version:    8.6
+
+~ Abstract
+
+The '''string''' command supports tests for a number of Tcl's basic types, for
+example, integers, doubles, and booleans. This TIP proposes adding bignum
+integers, as was done for wide integers in [188].
+
+~ Rationale
+
+The '''string''' command includes tests for the common Tcl types: '''string is
+boolean''', '''string is double''' and '''string is integer'''. Unaccountably,
+'''string is bignum''' is missing from the list, making it difficult for an
+input validation procedure to determine whether, in fact, a string contains a
+valid (bignum) integer.
+
+~ Specification
+
+This document proposes augmenting the '''string is''' command with a '''string
+is bignum''' that functions the same as '''string is integer''' in every
+respect except for the fact that it accepts any string containing a substring
+that is valid as a bignum integer (that is, acceptable to
+''Tcl_GetBignumFromObj'') possibly surrounded by whitespace.
+
+~ Reference Implementation
+
+Patches that implement '''string is bignum''', provide test cases for it, and
+update ''doc/string.n'' to include it are available at SourceForge as Tcl
+Patch #2581150[https://sourceforge.net/support/tracker.php?aid=2581150].
+
+~ Copyright
+
+This document has been placed in the public domain.
