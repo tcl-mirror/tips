@@ -1,6 +1,6 @@
 TIP:            225
 Title:          Arithmetic Series with Optimized Space Complexity
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Salvatore Sanfilippo <antirez@invece.org>
 Author:         Miguel Sofer <msofer@users.sf.net>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        25-Oct-2004
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

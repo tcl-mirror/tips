@@ -1,6 +1,6 @@
 TIP:            86
 Title:          Improved Debugger Support
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Peter MacDonald <peter@browsex.com>
 Author:         Peter MacDonald <peter@pdqi.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        08-Feb-2002
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

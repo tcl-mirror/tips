@@ -1,6 +1,6 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Kevin Kenny <kennykb@acm.org>
@@ -9,7 +9,7 @@ Type:           Project
 Vote:           Pending
 Created:        03-Oct-2006
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

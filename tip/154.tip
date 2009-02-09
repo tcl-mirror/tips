@@ -1,13 +1,13 @@
 TIP:            154
 Title:          Add Named Colors to Tk
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Damon Courtney <damon@unreality.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        03-Sep-2003
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

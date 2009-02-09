@@ -1,13 +1,13 @@
 TIP:            167
 Title:          Add a New Option for Context Help for Windows
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Ramon Ribó <ramsan@cimne.upc.es>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        19-Nov-2003
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

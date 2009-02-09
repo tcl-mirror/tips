@@ -1,13 +1,13 @@
 TIP:            297
 Title:          Integer Type Introspection and Conversion
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        20-Nov-2006
 Post-History:
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 Keywords:	Tcl, number, expression
 
 ~ Abstract

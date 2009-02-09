@@ -1,6 +1,6 @@
 TIP:            282
 Title:          Enhanced Expression Syntax
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Will Duquette <William.H.Duquette@jpl.nasa.gov>
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        13-Oct-2006
 Post-History:   
 Keywords:       expr,operator,assignment
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

@@ -1,10 +1,10 @@
 TIP:		319
 Title:		Implement Backwards Compatibility for ttk Themed Widgets in tk Widgets
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Eric Taylor <et2@rocketship1.biz>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 Vote:		Pending
 Created:	04-Jun-2008
 Post-History:	

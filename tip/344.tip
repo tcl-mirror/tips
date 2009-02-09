@@ -1,13 +1,13 @@
 TIP:		344
 Title:		Bring TCP_NODELAY and SO_KEEPALIVE to socket options
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:		Draft
 Type:		Project
 Vote:		Pending
 Created:	31-Dec-2008
 Post-History:	
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 
 ~ Abstract
 

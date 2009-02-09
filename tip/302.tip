@@ -1,6 +1,6 @@
 TIP:            302
 Title:          Fix "after"'s Sensitivity To Adjustments Of System Clock
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        13-Dec-2006
 Post-History:   
 Keywords:       Tcl,time changes
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

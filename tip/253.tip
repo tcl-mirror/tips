@@ -1,12 +1,12 @@
 TIP:		253
 Title:		Consolidate Package-Related Commands
 Author:		Brian Schmidt <contact@schmidtsrus.net>
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Type:		Project
 State:		Draft
 Vote:		Pending
 Created:	05-Jul-2005
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 Post-History:	
 
 ~Abstract

@@ -1,9 +1,9 @@
 TIP:		180
 Title:		Add a Megawidget Support Core Package
 Author:		Damon Courtney <damon@unreality.com>
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 Created:	22-Mar-2003
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Type:		Project
 State:		Draft
 Vote:		Pending

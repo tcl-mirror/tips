@@ -1,6 +1,6 @@
 TIP:            295
 Title:          Enhance Arguments to lrange
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        06-Nov-2006
 Post-History:   
 Keywords:       Tcl,lrange
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

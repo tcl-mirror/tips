@@ -1,6 +1,6 @@
 TIP:            164
 Title:          Add Rotate Subcommand to the Canvas Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Arjen Markus <arjen.markus@wldelft.nl>
 Author:         Dimitrios Zachariadis <dzach@hol.gr>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
@@ -10,7 +10,7 @@ Vote:           Pending
 Created:        17-Nov-2003
 Post-History:   
 Keywords:       Tk,canvas
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

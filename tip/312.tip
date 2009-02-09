@@ -1,6 +1,6 @@
 TIP:            312
 Title:          Add More Link Types
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Rene Zaumseil <r.zaumseil@freenet.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        26-Jan-2008
 Post-History:   
 Keywords:       variable,trace
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

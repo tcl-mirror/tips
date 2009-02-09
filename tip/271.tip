@@ -1,6 +1,6 @@
 TIP:            271
 Title:          Windows-Style Open and Save File Dialog on Unix
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Matthew Middleton <matthew.middleton@ansys.com>
 Author:         susanta kumar mishra <hi.skmishra@gmail.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        11-Jul-2006
 Post-History:   
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

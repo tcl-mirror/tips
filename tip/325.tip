@@ -1,10 +1,10 @@
 TIP:		325
 Title:		System Tray Access
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		David N. Welton <davidw@dedasys.com>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 Vote:		Pending
 Created:	25-Aug-2008
 Post-History:	

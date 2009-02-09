@@ -1,6 +1,6 @@
 TIP:            333
 Title:          New Variable and Namespace Resolving Interface
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Arnulf Wiedemann <arnulf@wiedemann-pri.de>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        13-Oct-2008
 Post-History:   
 Keywords:       Tcl,resolution
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 

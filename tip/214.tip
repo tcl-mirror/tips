@@ -1,6 +1,6 @@
 TIP:            214
 Title:          Add New Object Introspection Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Ulrich Schöbel <usus@aladyn.de>
 Author:         Larry W. Virden <lvirden@yahoo.com>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        24-Aug-2004
 Post-History:   
 Keywords:       Tcl,info,representation
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 Obsoletes:	117
 
 ~ Abstract
