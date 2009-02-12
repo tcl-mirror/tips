@@ -1,12 +1,12 @@
 TIP:            347
 Title:          Add 'string is entier' to the 'string is' Subcommand
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
 State:          Draft
 Type:           Project
+Vote:           Pending
 Created:        09-Feb-2009
 Post-History:   
-Vote:		Pending
 Discussions-To: news:comp.lang.tcl
 Keywords:       Tcl
 Tcl-Version:    8.7
@@ -14,29 +14,104 @@ Tcl-Version:    8.7
 ~ Abstract
 
 The '''string''' command supports tests for a number of Tcl's basic types, for
-example, integers, doubles, and booleans. This TIP proposes adding bignum
-integers, as was done for wide integers in [188].
+example, integers, doubles, and booleans. 
+The '''tcl::mathfunc''' mathematical functions provides sevaral functions to
+limit the number of bits used in integer numbers. 
+This TIP proposes to align both groups of functions for '''int''', '''long''',
+'''wide''' and '''entier'''.
 
 ~ Rationale
 
 The '''string''' command includes tests for the common Tcl types: '''string is
-boolean''', '''string is double''' and '''string is integer'''. Unaccountably,
-'''string is entier''' is missing from the list, making it difficult for an
-input validation procedure to determine whether, in fact, a string contains a
-valid (bignum) integer.
+boolean''', '''string is double''' and '''string is integer'''. Some of the
+integer ranges used in Tcl internals are missing from the list, making it
+difficult for an input validation procedure to determine whether, in fact, a
+string contains a valid integer number to be used for that specific Tcl
+command. 
+
+Ranges already present are:
+
+ * '''integer'''
+
+ * '''wideinteger'''
+
+Missing ranges are:
+
+ * '''long'''
+
+ * '''entier'''
+
+The '''::tcl::mathfunc''' mathematical functions provides sevaral functions to
+limit the number of bits used in integer numbers. Some of the integer ranges
+used in Tcl internals are missing from the list, and other check an unexpected
+range. 
+
+Functions already present are:
+
+ * '''wide'''
+
+ * '''entier'''
+
+Functions already present but with unexpected behavior are:
+
+ * '''int''' actually does a '''long''' conversion
+
+Missing functions are:
+
+ * '''long'''
+
+Providing a '''string is''' function for every integer range used in Tcl
+internals will make it possible to check every argument in input validation
+procedures before calling a Tcl command. Providing '''::tcl::mathfunc''' for
+every integer range used in Tcl internals will make it possible to create values
+in a valid range before calling a Tcl command.
+
+Having the same integer range names in the '''string is''' functions and in the
+'''::tcl::mathfunc''' when they act on the same integer ranges would make the
+commands easier to recognise.
 
 ~ Specification
 
-This document proposes augmenting the '''string is''' command with a '''string
-is entier''' that functions the same as '''string is integer''' in every
-respect except for the fact that it accepts any string containing a substring
-that is valid as a bignum integer (that is, acceptable to
-''Tcl_GetBignumFromObj'') possibly surrounded by whitespace.
+This document proposes:
 
-~~ Alternatives
+ * augmenting the '''string is''' command with a '''string is long''' that
+functions the same as '''string is integer''' in every respect except for the
+fact that it accepts any string containing a substring that is valid as a long
+integer (that is, acceptable to ''Tcl_GetLongFromObj'') possibly surrounded by
+whitespace.
 
-The '''string is bignum''' was rejected because in favor of '''string is
-entier''' because '''entier''' is already used as a function in '''expr'''.
+ * augmenting the '''string is''' command with a '''string is entier''' that
+functions the same as '''string is integer''' in every respect except for the
+fact that it accepts any string containing a substring that is valid as a bignum
+integer (that is, acceptable to ''Tcl_GetBignumFromObj'') possibly surrounded by
+whitespace.
+
+ * modifying the '''::tcl::mathfunc::int''' to convert to an integer (that is,
+acceptable to ''Tcl_GetIntFromObj'').
+
+ * adding the '''::tcl::mathfunc::long''' to convert to a long integer (that is,
+acceptable to ''Tcl_GetLongFromObj'').
+
+ * keeping the '''string is integer''' command as it can be abbreviated to
+   '''string is int''' to align with '''::tcl::mathfunc::int'''.
+
+ * keeping the '''string is wideinteger''' command as it can be abbreviated to
+   '''string is wide''' to align with '''::tcl::mathfunc::wide'''.
+
+~ Compatibility
+
+On platforms where a '''long'' variable has a different range than an '''int'''
+variable, renaming the '''::tcl::mathfunc::int''' to '''::tcl::mathfunc::long'''
+will let code like:
+
+ | set a [expr {int($b)}]
+
+behave differently for '''long''' values outside the '''int''' range.
+
+~ Alternatives
+
+The '''bignum''' was rejected in favor of '''entier''' because '''entier''' is
+already used in '''::tcl::mathfunc::entier'''.
 
 ~ Reference Implementation
 
