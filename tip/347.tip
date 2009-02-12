@@ -1,6 +1,6 @@
 TIP:            347
 Title:          Add 'string is entier' to the 'string is' Subcommand
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
 State:          Draft
 Type:           Project
@@ -115,9 +115,9 @@ already used in '''::tcl::mathfunc::entier'''.
 
 ~ Reference Implementation
 
-Patches that implement '''string is entier''', provide test cases for it, and
-update ''doc/string.n'' to include it are available at SourceForge as Tcl
-Patch #2581150[https://sourceforge.net/support/tracker.php?aid=2581150].
+Patches that implement the above, provide test cases for it, and update
+documentation to include it are available at SourceForge as Tcl Patch
+#2581150[http://sourceforge.net/tracker2/?func=detail&aid=2581150&group_id=10894&atid=310894].
 
 ~ Copyright
 
