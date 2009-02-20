@@ -1,6 +1,6 @@
 TIP:            347
-Title:          Add 'string is entier' to the 'string is' Subcommand
-Version:        $Revision: 1.6 $
+Title:          Align 'string is ...' to Type-Conversion Functions in 'expr'
+Version:        $Revision: 1.7 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
 State:          Draft
 Type:           Project
