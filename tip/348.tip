@@ -1,0 +1,60 @@
+TIP:            348
+Title:          Substituted 'errorStack' / 'traceback'
+Version:        $Revision: 1.1 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        26-Feb-2009
+Post-History:   
+Keywords:       Tcl,debugging
+Tcl-Version:    8.7
+
+~ Abstract
+
+This TIP proposes to add a '''::tcl::errorStack''' variable giving a
+"substituted" traceback similar to Python's or gdb's ones.
+
+~ Background
+
+The ::errorInfo variable is a valuable tool for debugging; however, it yields
+mostly static information regarding each level of procedure call, as it only
+gives the static text (extracted from the source) at the call site. This leads
+to frustrating situations, like when an error occurs at a deep level of a
+recursive function, ''::errorInfo'' repeatedly reporting "f $x [[foo
+[[bar]]]]" or similar un-substituted commands. In other languages, the
+traceback is more useful in that it contains the actual values passed as
+arguments.
+
+~ Proposed Change
+
+This TIP proposes to create a '''::tcl::errorStack''' variable which is a list
+of lists, made of the [['''info level''' 0]] lists of command-and-args at each
+proc level at the time of error unwinding.
+
+~ Rationale
+
+In a natural implementation, its construction is analogous to ::errorInfo's,
+which is built incrementally, one level at a time while popping back from the
+error site.  The only differences are that (1) dynamic arglists (from [info
+level 0]) are stored, (2) the result is a true list built by '''lappend''',
+and (3) the granularity is coarser than ::errorInfo's since there is just one
+element per proc level (and not for intervening '''while''' or '''foreach'''
+constructs) and no adornment like "... while executing ..." .
+
+The performance hit of maintaining ::errorStack should be very small, since
+basically it amounts to growing a (usually short) list whose elements are
+already existing Tcl_Obj's (the [['''info level''' 0]] lists).
+
+However, if it proves necessary to provide an on/off switch, one can imagine a
+::tcl::useErrorStack boolean linked var.
+
+~ Reference Implementation
+
+A C reference implementation will be provided shortly.  In the meantime, a
+pure-Tcl proof of concept based on write traces on ::errorInfo can be found at
+http://wiki.tcl.tk/traceback .
+
+~ Copyright
+
+This document has been placed in the public domain.
