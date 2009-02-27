@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -36,18 +36,18 @@ proc level at the time of error unwinding.
 
 In a natural implementation, its construction is analogous to ::errorInfo's,
 which is built incrementally, one level at a time while popping back from the
-error site.  The only differences are that (1) dynamic arglists (from [info
-level 0]) are stored, (2) the result is a true list built by '''lappend''',
-and (3) the granularity is coarser than ::errorInfo's since there is just one
-element per proc level (and not for intervening '''while''' or '''foreach'''
-constructs) and no adornment like "... while executing ..." .
+error site.  The only differences are that (1) dynamic arglists (from
+[['''info level''' 0]]) are stored, (2) the result is a true list built by
+'''lappend''', and (3) the granularity is coarser than ::errorInfo's since
+there is just one element per proc level (and not for intervening '''while'''
+or '''foreach''' constructs) and no adornment like "... while executing ..." .
 
 The performance hit of maintaining ::errorStack should be very small, since
 basically it amounts to growing a (usually short) list whose elements are
 already existing Tcl_Obj's (the [['''info level''' 0]] lists).
 
 However, if it proves necessary to provide an on/off switch, one can imagine a
-::tcl::useErrorStack boolean linked var.
+'''::tcl::useErrorStack''' boolean linked var.
 
 ~ Reference Implementation
 
