@@ -1,53 +1,48 @@
-TIP:            311
-Title:          Tcl/Tk 8.6 Release Calendar for 2008
-Version:        $Revision: 1.46 $
-Author:         Don Porter <dgp@users.sourceforge.net>
-Author:         Larry W. Virden <lvirden@gmail.com>
-Author:         Joe Mistachkin <joe@mistachkin.com>
-Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-Author:         miguel sofer <msofer@users.sf.net>
-Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
-Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-Author:         Arnulf Wiedemann <arnulf@wiedemann-pri.de>
-Author:         Trevor Davel <twylite@crypt.co.za>
+TIP:		311
+Title:		Tcl/Tk 8.6 Release Calendar for 2008
+Version:	$Revision: 1.47 $
+Author:		Don Porter <dgp@users.sourceforge.net>
+Author:		Larry W. Virden <lvirden@gmail.com>
+Author:		Joe Mistachkin <joe@mistachkin.com>
+Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
+Author:		Miguel Sofer <msofer@users.sf.net>
+Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
+Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:		Arnulf Wiedemann <arnulf@wiedemann-pri.de>
+Author:		Trevor Davel <twylite@crypt.co.za>
 Author:		Donal K. Fellows <dkf@users.sf.net>
-State:          Draft
-Type:           Informative
-Vote:           Pending
-Created:        08-Jan-2008
-Post-History:   
+State:		Draft
+Type:		Informative
+Vote:		Pending
+Created:	08-Jan-2008
+Post-History:	
 
 ~ Abstract
 
-This TIP serves to coordinate Tcl/Tk 8.6 development releases and
-the features they deliver.
+This TIP serves to coordinate Tcl/Tk 8.6 development releases and the features
+they deliver.
 
 ~ Introduction
 
-Following up on a message to the 'tcl-core@lists.sourceforge.net'
-mailing list,
-[http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3594952],
-a draft release calendar for Tcl/Tk 8.6 alpha and beta releases
-is presented below.
+Following up on a message to the 'tcl-core@lists.sourceforge.net' mailing
+list, [http://aspn.activestate.com/ASPN/Mail/Message/tcl-core/3594952], a
+draft release calendar for Tcl/Tk 8.6 alpha and beta releases is presented
+below.
 
-The intent is for developers working on Tcl and Tk to add under
-each release date those features they intend to make part
-of that release.  For features which already are described by
-another TIP, a reference to that TIP is sufficient, and the
-recommended way to update this page.  For features which have
-not yet been TIPped, a brief description and the names of those
-actively working on it are an acceptable temporary replacement,
-but should be replaced with a TIP reference as soon as one is
-ready.
+The intent is for developers working on Tcl and Tk to add under each release
+date those features they intend to make part of that release. For features
+which already are described by another TIP, a reference to that TIP is
+sufficient, and the recommended way to update this page. For features which
+have not yet been TIPped, a brief description and the names of those actively
+working on it are an acceptable temporary replacement, but should be replaced
+with a TIP reference as soon as one is ready.
 
-This is meant to be a working document, which gets updated by
-all stakeholders to reflect ongoing progress and any changes of
-plan.  It's not a contract or a promise, just a place to record
-the intents of an entire community of developers.  Anything in it
-might be revised, and any intent expressed in it might well not
-be fulfilled.  Due to its nature, there will never be any vote
-on this TIP.  It is more analogous to similar informational TIPs
-like [31].
+This is meant to be a working document, which gets updated by all stakeholders
+to reflect ongoing progress and any changes of plan. It's not a contract or a
+promise, just a place to record the intents of an entire community of
+developers. Anything in it might be revised, and any intent expressed in it
+might well not be fulfilled.  Due to its nature, there will never be any vote
+on this TIP. It is more analogous to similar informational TIPs like [31].
 
 ~ Release Calendar
 
@@ -144,6 +139,11 @@ like [31].
 
 ~~ Tcl/Tk 8.6b2; Approximate Release Date: ....?
 
+   * [50], Bundle [[incr Tcl]] with the Core Tcl distribution
+
+   > * Note that this is Itcl-ng (Itcl 4.0), and it is done by the external
+       packages mechanism
+
    * [171], Change Default <MouseWheel> Bindings Behavior
 
    * [244], PNG Photo Image Support for Tk
@@ -152,18 +152,13 @@ like [31].
 
 ~~ Wishes
 
-   * Itcl-ng (Itcl 4.0 + Itk 4.0) as packages bundled to Tcl core
+   * Thread package bundled to Tcl core
 
    * ''Insert feature here''
 
 ~ Work Roster
 
-Does not include anything which is already done. The initials refer to
-the responsible ''maintainer'' (i.e. the person to shout at).
-
-|# Accepted:
-|APW     50:Bundle [incr Tcl] with the Core Tcl distribution
-|DNW     141:Multiple Initial-Files in [tk_getOpenFile]
+See the Wiki page, http://wiki.tcl.tk/20966
 
 ~ Copyright
 
