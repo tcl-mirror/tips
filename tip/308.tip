@@ -1,6 +1,6 @@
 TIP:            308
 Title:          Tcl Database Connectivity (TDBC)
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Artur Trzewik <mail@xdobry.de>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -10,10 +10,16 @@ Type:           Informative
 Vote:           Done
 Created:        15-Nov-2007
 Post-History:   
+Obsoleted-By:	350
 
 ~ Abstract
 
 This TIP defines a common database access interface for Tcl scripts.
+
+~ Corrections
+
+There are corrections to this TIP in [350] as well. Readers of this document
+should see that one too.
 
 ~ Introduction
 
