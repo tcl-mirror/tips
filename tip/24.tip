@@ -1,6 +1,6 @@
 TIP:            24
 Title:          Tcl Maintainer Assignments
-Version:        $Revision: 1.52 $
+Version:        $Revision: 1.53 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Kevin B. Kenny <kennykb@acm.org>
@@ -102,7 +102,8 @@ assigned:
    1. ''dde Package'' - Pat Thoyts <patthoyts@users.sf.net>,
                          Kevin Kenny <kennykb@acm.org>
 
-   1. ''http Package'' - Jeff Hobbs <JeffH@ActiveState.com>
+   1. ''http Package'' - Pat Thoyts <patthoyts@users.sf.net>,
+                         Jeff Hobbs <JeffH@ActiveState.com>
 
    1. ''msgcat Package'' - Don Porter <dgp@users.sf.net>
 
