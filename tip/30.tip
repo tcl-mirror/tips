@@ -1,6 +1,6 @@
 TIP:            30
 Title:          Tk Toolkit Maintainer Assignments
-Version:        $Revision: 1.45 $
+Version:        $Revision: 1.46 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Donal K. Fellows <fellowsd@cs.man.ac.uk>
 Author:         Jan Nijtmans <j.nijtmans@chello.nl>
@@ -316,7 +316,7 @@ appropriate maintainer:
 
 ~ Areas Without Maintainers
 
-Those funcational areas without a maintainer are maintained by the Tcl 
+Those functional areas without a maintainer are maintained by the Tcl 
 Core Team with each change requiring TYANNOTT review.
 
 ~ Copyright
