@@ -1,0 +1,47 @@
+TIP:		351
+Title:		Add Striding Support to lsearch
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Peter da Silva <peter@taronga.com>
+Author:		Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Created:	09-Jul-2009
+
+~ Abstract
+
+This TIP allows the searching of lists that are grouped into collections of
+several elements.
+
+~ Rationale
+
+When operating on strided lists (for example key-value lists) it's normal to
+convert them between lists and arrays and back again. If it was possible to
+efficiently perform a strided search of the list it would be possible to (for
+example) search just the keys and ignore the values. Indeed, Tcl has a long
+tradition of working with lists which are structured into groups through
+'''foreach''' and '''array get''', and this is strengthened further with
+dictionaries [111] and striding sorts [326]. However, there is currently no
+facility for searching such lists; this TIP proposes fixing this.
+
+~ Proposed Change
+
+We propose adding a '''-stride''' option to '''lsearch''', by exact analogy
+with the option added to '''lsort''' in [326], whose semantics it should
+closely match. When '''lsearch''' is returning indices, it should return the
+indices of the first element of the striding group(s) that is/are being
+indicated.
+
+~~ Example
+
+In this example, the variable ''kvlist'' holds a key-value list (e.g., a
+dictionary).
+
+|set index [lsearch -stride 2 $kvlist $key]
+|puts [lindex $kvlist $index+1]
+
+~ Copyright
+
+This document has been placed in the public domain.
