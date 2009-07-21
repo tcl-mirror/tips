@@ -1,6 +1,6 @@
 TIP:            296
 Title:          Enhanced Syntax for Pair-Wise Indices
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -50,6 +50,9 @@ No change at all is proposed for each range's start index.
 ~ Draft Implementation
 
 None, at the moment.
+
+For a sketch see previous section. In bytecode, it could be done such, that if an '''s'''-prefix is seen for an (eventually bytecoded range-related command), then the current stack-top (the corresponding start-index) is dup'ed and then incremented or decremented according to
+any offset (s+#, s-#).
 
 ~ Further Thoughts
 
