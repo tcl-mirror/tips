@@ -1,6 +1,6 @@
 TIP:		353
 Title:		NR-enabled Expressions for Extensions
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Don Porter <dgp@users.sf.net>
 State:		Draft
 Type:		Project
@@ -54,7 +54,7 @@ direct use of a single NR-enabled primitive.
 
 Add the following routine to Tcl's public interface:
 
-   * int '''Tcl_NRExprObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'',
+   > int '''Tcl_NRExprObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'',
      Tcl_Obj *''resultPtr'')
 
 This routine places on the NR stack a request that the Tcl non-recursive
