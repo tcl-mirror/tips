@@ -1,6 +1,6 @@
 TIP:		353
 Title:		NR-enabled Expressions for Extensions
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Don Porter <dgp@users.sf.net>
 State:		Draft
 Type:		Project
@@ -17,8 +17,8 @@ non-recursive manner.
 
 ~ Background
 
-In a few contexts, expressions that contain '''[yield]''' raise the error
-'''cannot yield: C stack busy'''; see Tcl Bugs 2823282
+In a few contexts, expressions that contain '''yield''' raise the error
+"''cannot yield: C stack busy''"; see Tcl Bugs 2823282
 [https://sourceforge.net/support/tracker.php?aid=2823282] and 2823276
 [https://sourceforge.net/support/tracker.php?aid=2823276]. This is because a
 few little-visited corners of Tcl's implementation call the routine
@@ -67,7 +67,7 @@ interface.
 
 The ''resultPtr'' argument must be an unshared Tcl value.  When expression
 evaluation succeeds, the result of the expression is written to ''resultPtr''
-in the same way that '''Tcl_SetStringObj()''' would write a string value to an
+in the same way that '''Tcl_SetStringObj''' would write a string value to an
 unshared Tcl value.  If expression evaluation produces any return code other
 than '''TCL_OK''', the value of ''resultPtr'' is left untouched.
 
