@@ -1,10 +1,10 @@
 TIP:		353
 Title:		NR-enabled Expressions for Extensions
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Don Porter <dgp@users.sf.net>
-State:		Draft
+State:		Accepted
 Type:		Project
-Vote:		In progress
+Vote:		Done
 Created:	29-Jul-2009
 Tcl-Version:	8.6
 Post-History:
@@ -26,7 +26,7 @@ few little-visited corners of Tcl's implementation call the routine
 
 For extensions wishing to evaluate Tcl expressions, '''Tcl_ExprObj''' is not
 little-visited.  It is the public, supported, recommended tool for the job.
-Just as [322] provided a routine '''Tcl_NREvalObj'' as an NR-enabled
+Just as [322] provided a routine '''Tcl_NREvalObj''' as an NR-enabled
 replacement for '''Tcl_EvalObj''', extensions wishing to NR-enable their
 commands need an analogous replacement for '''Tcl_ExprObj'''.
 
