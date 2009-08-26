@@ -1,0 +1,53 @@
+TIP:		354
+Title:		Minor Production-Driven TclOO Revisions
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	26-Aug-2009
+
+~ Abstract
+
+This TIP describes a few small changes required for solving issues that have
+been found when using TclOO in production.
+
+~ Description
+
+TclOO (see [257]) has now had a substantial amount of use for relatively
+complex functionality (as well as production deployment) and it has turned out
+that there were a few small changes required.
+
+ 1. The scope of resolution for the target of a forwarded method is updated so
+    that it is with respect to the object's namespace. This means that a class
+    may create methods that forward to a command given by each instance, which
+    makes creating megawidgets by wrapping real Tk widgets much easier, since
+    the forwards do not have to be created at the instance level.
+
+ 2. A subcommand was added to '''info object''' to allow the discovery of the
+    namespace of an object by code outside that object. This makes it far
+    easier for code that needs to "break the abstraction" to do so, which
+    turns out to be necessary for things like serialization.
+
+  > To expand on the requirements for serialization, the serialization code
+    needs to call a method on each object to create the serialization for that
+    object. However, the method should not be part of the public API for the
+    object as it cannot perform a complete serialization correctly, since the
+    serialization depends on the rest of the object graph. (It also requires a
+    number of global overheads that are best applied once, not repeatedly.)
+
+  > Note that I plan to release the serialization code itself (originally
+    developed as part of a solution for a Rosetta Code task) as a package via
+    tcllib. This TIP does not propose its inclusion with Tcl.
+
+ 3. A new C API function has been added to allow code at that level to
+    ''efficiently'' discover the name of an object that it already has a
+    handle to. This new function, '''Tcl_GetObjectName''', returns a shared
+    Tcl_Obj reference to the name that needs no special reference count
+    management.
+
+~ Copyright
+
+This document has been placed in the public domain.
