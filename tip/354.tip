@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	26-Aug-2009
 
@@ -20,16 +20,19 @@ TclOO (see [257]) has now had a substantial amount of use for relatively
 complex functionality (as well as production deployment) and it has turned out
 that there were a few small changes required.
 
- 1. The scope of resolution for the target of a forwarded method is updated so
-    that it is with respect to the object's namespace. This means that a class
-    may create methods that forward to a command given by each instance, which
-    makes creating megawidgets by wrapping real Tk widgets much easier, since
-    the forwards do not have to be created at the instance level.
+ 1. The scope of resolution for the target of a '''forward'''ed method is
+    updated so that it is with respect to the object's namespace. This means
+    that a class may create methods that forward to a command given by each
+    instance, which makes creating megawidgets by wrapping real Tk widgets
+    much easier, since the forwards do not have to be created at the instance
+    level.
 
  2. A subcommand was added to '''info object''' to allow the discovery of the
     namespace of an object by code outside that object. This makes it far
     easier for code that needs to "break the abstraction" to do so, which
-    turns out to be necessary for things like serialization.
+    turns out to be necessary for things like serialization. This subcommand,
+    '''namespace''', takes an object name as its only argument and returns the
+    name of the object's namespace.
 
   > To expand on the requirements for serialization, the serialization code
     needs to call a method on each object to create the serialization for that
