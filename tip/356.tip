@@ -1,0 +1,103 @@
+TIP:		356
+Title:		NR-enabled Substitutions for Extensions
+Version:	$Revision: 1.1 $
+Author:		Don Porter <dgp@users.sf.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	17-Sep-2009
+Tcl-Version:	8.6
+Post-History:
+Keywords:	Tcl, C API, subst
+
+~ Abstract
+
+This TIP proposes the new public routine '''Tcl_NRSubstObj''' to provide
+extension commands that evaluate Tcl substitutions the ability to do so in a
+non-recursive manner.
+
+~ Background 
+
+Continuing in the path of [322] and [353], we want extensions to be able to
+create NR-enabled commands, and any command procedures currently calling the
+'''Tcl_SubstObj''' routine are not NR-enabled.  The solution is to provide the
+NR-enabled counterpart.
+
+~ Proposal
+
+Add the following routine to Tcl's public interface:
+
+   > int '''Tcl_NRSubstObj'''(Tcl_Interp *''interp'', Tcl_Obj *''objPtr'',
+     int ''flags'')
+
+This routine places on the NR stack a request that the Tcl non-recursive
+trampoline evaluate the ''objPtr'' value as a Tcl substitution in interpreter
+''interp'', as controlled by the value of ''flags''.  The ''flags'' value is
+the same combination of '''TCL_SUBST_BACKSLASHES''', '''TCL_SUBST_COMMANDS''',
+and '''TCL_SUBST_VARIABLES''' that control '''Tcl_SubstObj'''.  This routine
+returns the value '''TCL_OK''', since there is (currently) no way this request
+operation can fail.  The proposed interface still provides for an int return
+value so that future revisions to Tcl's internals have the freedom to change
+that without need to change the public interface.
+
+After the trampoline completes the requested substitution, it will pass the
+return code, either '''TCL_OK''' or '''TCL_ERROR''', to the next callback on
+the NR-stack, and either the result of the substitution or the error message
+will be stored in the result of ''interp''. The caller of '''Tcl_NRSubstObj'''
+may also call '''Tcl_NRAddCallback''' to request a '''Tcl_NRPostProc'''
+callback routine be placed on the NR stack to receive these results, if needed
+to achieve the task the caller is performing.
+
+~ Implementation
+
+The proposed routine is already present in the HEAD of Tcl as the internal
+routine '''TclNRSubstObj'''.  This proposal would simply promote it to Tcl's
+public interface.
+
+~ Compatibility
+
+There should be no compatibility issues, since at the interface level this is
+just the addition of a new routine.
+
+~ Migration
+
+As an example for extensions to follow, consider this template for a
+'''Tcl_ObjCmdProc''' currently calling '''Tcl_SubstObj'''.
+
+|int ObjCmd(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
+|    Tcl_Obj *resultPtr;
+|    /* determine text to be substituted, objPtr */
+|    /* determine flags value to control substitution */
+|    resultPtr = Tcl_SubstObj(interp, objPtr, flags);
+|    if (resultPtr == NULL) {return TCL_ERROR}
+|    /* resultPtr holds substitution result; continue */
+|}
+|
+|Tcl_CreateObjCommand(interp, name, ObjCmd, /* ... */);
+
+To use '''Tcl_NRSubstObj''' to NR-enable this command, rewrite along these
+lines:
+
+|int ObjCmd(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
+|{   return Tcl_NRCallObjProc(interp, NRObjCmd, cd, objc, objv);  }
+|
+|int NRObjCmd(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[])
+|{   
+|    /* determine text to be substituted, objPtr */
+|    /* determine flags value to control substitution */
+|    Tcl_NRAddCallback(interp, Callback, /*...*/);
+|    return Tcl_NRSubstObj(interp, objPtr, flags);
+|}
+|
+|int Callback(ClientData data[], Tcl_Interp *interp, int code)
+|{   Tcl_Obj *resultPtr;
+|    if (code == TCL_ERROR) {return TCL_ERROR;}
+|    resultPtr = Tcl_GetObjResult(interp);
+|    /* resultPtr holds expression result; continue */
+|}
+|
+|Tcl_NRCreateCommand(interp, name, ObjCmd, NRObjCmd, /*...*/);
+
+~ Copyright
+
+This document has been placed in the public domain.
