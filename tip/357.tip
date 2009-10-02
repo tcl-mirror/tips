@@ -1,0 +1,86 @@
+TIP:		357
+Title:		Export TclLoadFile
+Version:	$Revision: 1.1 $
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	01-Oct-2009
+Author:		Kevin Kenny <kevin.b.kenny@gmail.com>
+Post-History:
+Tcl-Version:	8.7
+
+~ Abstract
+
+This TIP proposes to promote the internal call ''TclLoadFile'' to the
+external API, making it available to C extensions.
+
+~ Rationale
+
+In developing TDBC, the author of this TIP was advised to look at the
+way that the 'oratcl' extension contrives to build on a system where
+Oracle is not installed as a model for TDBC extensions.  Examination
+of the code revealed that it operates essentially by constructing at
+run time a Stubs table for the routines in the Oracle client
+library. There is a maze of '''#if''' directives selecting whether
+this process is accomplished by the system calls that manage Unix .so
+files (''dlopen'' and friends), Windows .DLL files (''LoadLibrary'' and
+related calls), HP-UX .shl files (''shl_load,'' etc.), and so on.
+
+Tcl already has functionality so that a caller can abstract away all
+this complexity.  It provides the capability in the ''TclLoadFile''
+call, but this call is '''MODULE_SCOPE''' and not exported even in the
+internal Stubs table. For this reason, it is entirely unavailable to
+TEA-compliant extensions.
+
+If this call were available, it would be feasible, in the 8.6 time frame,
+to bundle all the database-specific TDBC drivers with the core TDBC
+distribution, since things could be set up so that they will build
+anywhere, even in the absence of the databases where they connect.
+
+~ Specification
+
+The ''TclLoadFile'' call shall be renamed ''Tcl_LoadFile'' and exported
+in the external Stubs.  Its call signature is:
+
+ > EXTERN int
+   '''Tcl_LoadFile'''(
+       Tcl_Interp *''interp'',
+       Tcl_Obj *''pathPtr'',
+       int ''symc'',
+       const char *''symbols''[],
+       Tcl_PackageInitProc **''procPtrs''[],
+       Tcl_LoadHandle *''handlePtr'',
+       ClientData *''clientDataPtr'',
+       Tcl_FSUnloadFileProc **''unloadProcPtr'')
+
+In this call, ''interp'' designates an interpreter for error reporting.
+''pathPtr'' is an object containing the path of the library to be loaded.
+If ''pathPtr'' is a single name, the library search path of the current
+environment will be used to resolve it.  ''symc'' is the number of
+symbols that are to be imported from the newly loaded library.
+The ''symbols'' array gives ''symc'' character strings that are the names
+of the imported symbols.
+
+The return value of ''Tcl_LoadFile'' is a standard Tcl result code. If the
+result is TCL_ERROR, the interpreter result will contain an appropriate
+error message.
+
+On return, ''Tcl_LoadFile'' fills in ''procPtrs'' with the addresses
+that correspond to the names in ''symbols.'' If a name cannot be
+resolved in the given library, the corresponding entry in ''procPtrs''
+will be NULL. The ''loadHandle'' pointer will be a handle suitable for
+passing to ''TclpFindSymbol'' for resolving additional symbols in the
+library.  The ''clientData'' will be filled in with client data that
+is needed if the library is to be unloaded, and the ''unloadProcPtr''
+will have the correct filesystem-dependent procedure for unloading the
+library.
+
+~ Reference Implementation
+
+This TIP proposes simply documenting and renaming an existing internal
+routine.  No new executable code ought to be needed to support it.
+
+~ License
+
+This file is explicitly released to the public domain and the author
+explicitly disclaims all rights under copyright law.
