@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -37,23 +37,20 @@ proc level at the time of error unwinding.
 In a natural implementation, its construction is analogous to ::errorInfo's,
 which is built incrementally, one level at a time while popping back from the
 error site.  The only differences are that (1) dynamic arglists (from
-[['''info level''' 0]]) are stored, (2) the result is a true list built by
+[['''info level''' 0]]) are stored, (2) the result is a true list built by (the equivalent of)
 '''lappend''', and (3) the granularity is coarser than ::errorInfo's since
 there is just one element per proc level (and not for intervening '''while'''
 or '''foreach''' constructs) and no adornment like "... while executing ..." .
 
-The performance hit of maintaining ::errorStack should be very small, since
-basically it amounts to growing a (usually short) list whose elements are
-already existing Tcl_Obj's (the [['''info level''' 0]] lists).
+An associated boolean variable ::tcl::useErrorStack serves as an on/off switch, so that there is no overhead when not using the feature.
 
-However, if it proves necessary to provide an on/off switch, one can imagine a
-'''::tcl::useErrorStack''' boolean linked var, or the mere existence of the ::tcl::errorStack variable can serve as the switch.
+And even when enabled, the performance hit of maintaining ::errorStack is very small, since basically it amounts to growing a (usually short) list whose elements are already existing Tcl_Obj's (the [['''info level''' 0]] lists). This list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the enabling of the feature.
 
 ~ Reference Implementation
 
-A crude implementation can be found at https://sourceforge.net/tracker/?func=detail&aid=2868499&group_id=10894&atid=310894 . Also, a
-pure-Tcl proof of concept based on write traces on ::errorInfo can be found at
-http://wiki.tcl.tk/traceback .
+The reference implementation can be found at https://sourceforge.net/tracker/?func=detail&aid=2868499&group_id=10894&atid=310894 .
+
+An earlier, extremely slow, pure-Tcl proof of concept based on write traces on ::errorInfo can be found at http://wiki.tcl.tk/traceback .
 
 ~ Copyright
 
