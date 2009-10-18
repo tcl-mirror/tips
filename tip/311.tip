@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.48 $
+Version:	$Revision: 1.49 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -61,9 +61,8 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
    * [304], A Standalone '''chan pipe''' Primitive for Advanced Child IPC
 
    * NRE core. This is an internal change that allows infinite recursion and
-     enables new features (like '''::tcl::unsupported::tailcall'''). [322],
-     [327] and [328], the TIPs to publish the API to NRE's features, will not
-     be final until later.
+     enables new features (like '''::tcl::unsupported::tailcall'''). Official
+     API exposure was in later versions.
 
 ~~ Tcl/Tk 8.6a3; Release Date: October 10, 2008
 
