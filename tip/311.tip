@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.49 $
+Version:	$Revision: 1.50 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -46,7 +46,7 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
 ~ Release Calendar
 
-~~ Tcl/Tk 8.6a1; Released June 25, 2008
+~~ Tcl/Tk 8.6a1; Release Date: June 25, 2008
 
    * [230], Tcl Channel Transformation Reflection API
 
@@ -56,7 +56,7 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [317], Extend '''binary''' Ensemble with Binary Encodings
 
-~~ Tcl/Tk 8.6a2; Released: August 25, 2008
+~~ Tcl/Tk 8.6a2; Release Date: August 25, 2008
 
    * [304], A Standalone '''chan pipe''' Primitive for Advanced Child IPC
 
