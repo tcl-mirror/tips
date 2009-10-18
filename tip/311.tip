@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.50 $
+Version:	$Revision: 1.51 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -148,6 +148,16 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
    * [244], PNG Photo Image Support for Tk
 
    * ''Insert feature here''
+
+~~ Tcl/Tk 8.6.0: Approximate Release Date: ???
+
+Depends on how fast we can stabilize Tcl and Tk and fix issues. The more
+community testing we get (and help with coding too), the better. Note that
+8.6b2 is effectively an early Release Candidate for 8.6.0. If too much changes
+(other than direct bugfixes) after 8.6b2, we will need an 8.6b3, which will
+add months of delay for the final release...
+
+The major constraint is simply developer effort.
 
 ~~ Wishes
 
