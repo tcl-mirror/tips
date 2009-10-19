@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.186 $
+Version:        $Revision: 1.187 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -10,6 +10,7 @@ Author:         Vince Darley <vincentdarley@users.sourceforge.net>
 Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Mark Janssen <mpc.janssen@gmail.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -38,8 +39,7 @@ one implemented using a Tcl script will be used instead.
 
 ~ Proposal
 
-Tk shall have a new command, '''tk_chooseFont''', with the syntax described 
-below.
+Tk shall have a new command, '''tk_chooseFont''', with the syntax described below.
 
 The dialog will not return a result as on some platforms (MacOSX) this is
 required to be modeless while on others (Windows) it must be modal.
