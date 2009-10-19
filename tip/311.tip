@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.51 $
+Version:	$Revision: 1.52 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -146,6 +146,12 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
    * [171], Change Default <MouseWheel> Bindings Behavior
 
    * [244], PNG Photo Image Support for Tk
+
+   * [353], NR-enabled Expressions for Extensions
+
+   * [354], Minor Production-Driven TclOO Revisions
+
+   * [356], NR-enabled Substitutions for Extensions
 
    * ''Insert feature here''
 
