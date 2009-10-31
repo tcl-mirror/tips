@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -12,8 +12,7 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposes to add a '''::tcl::errorStack''' variable giving a
-"substituted" traceback similar to Python's or gdb's ones.
+This TIP proposes to add an '''errorstack''' options dict entry and associated '''info''' subcommand, giving a "substituted" traceback similar to Python's or gdb's ones.
 
 ~ Background
 
@@ -28,9 +27,8 @@ arguments.
 
 ~ Proposed Change
 
-This TIP proposes to create a '''::tcl::errorStack''' variable which is a list
-of lists, made of the [['''info level''' 0]] lists of command-and-args at each
-proc level at the time of error unwinding.
+This TIP proposes to create an '''errorstack''' options dictionary entry, and an associated '''info errorstack''' command returning a list
+of lists, made of the [['''info level''' 0]] lists of command-and-args at each proc level at the time of error unwinding.
 
 ~ Rationale
 
@@ -42,9 +40,7 @@ error site.  The only differences are that (1) dynamic arglists (from
 there is just one element per proc level (and not for intervening '''while'''
 or '''foreach''' constructs) and no adornment like "... while executing ..." .
 
-An associated boolean variable '''::tcl::useErrorStack''' serves as an on/off switch, so that there is no overhead when not using the feature.
-
-And even when enabled, the performance hit of maintaining errorStack is very small, since basically it amounts to growing a list whose elements are already existing Tcl_Obj's (the [['''info level''' 0]] lists). This list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the enabling of the feature.
+Measurements show that the performance hit of maintaining errorstack is very small, and hits only the error cases. To achieve this speed, the list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the errorstack machinery.
 
 ~ Reference Implementation
 
