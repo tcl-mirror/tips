@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -27,7 +27,7 @@ arguments.
 
 ~ Proposed Change
 
-This TIP proposes to create a '''-errorstack''' options dictionary entry, and an associated '''info errorstack''' command returning a list
+This TIP proposes to create a '''-errorstack''' options dictionary entry, and an associated '''info errorstack ?interp?''' command returning a list
 of lists, made of the [['''info level''' 0]] lists of command-and-args at each proc level at the time of error unwinding.
 
 ~ Rationale
