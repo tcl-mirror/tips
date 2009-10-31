@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -27,7 +27,7 @@ arguments.
 
 ~ Proposed Change
 
-This TIP proposes to create an '''errorstack''' options dictionary entry, and an associated '''info errorstack''' command returning a list
+This TIP proposes to create a '''-errorstack''' options dictionary entry, and an associated '''info errorstack''' command returning a list
 of lists, made of the [['''info level''' 0]] lists of command-and-args at each proc level at the time of error unwinding.
 
 ~ Rationale
@@ -40,7 +40,7 @@ error site.  The only differences are that (1) dynamic arglists (from
 there is just one element per proc level (and not for intervening '''while'''
 or '''foreach''' constructs) and no adornment like "... while executing ..." .
 
-Measurements show that the performance hit of maintaining errorstack is very small, and hits only the error cases. To achieve this speed, the list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the errorstack machinery.
+Measurements show that the performance hit of maintaining errorstack is small, being under 5% for realistic errorstack sizes, and hits only the error cases. To achieve this speed, the list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the errorstack machinery.
 
 ~ Reference Implementation
 
