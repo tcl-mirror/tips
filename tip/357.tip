@@ -1,18 +1,22 @@
-TIP:		357
-Title:		Export TclLoadFile
-Version:	$Revision: 1.2 $
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	01-Oct-2009
-Author:		Kevin Kenny <kevin.b.kenny@gmail.com>
-Post-History:
-Tcl-Version:	8.6
+TIP:            357
+Title:          Export TclLoadFile
+Version:        $Revision: 1.3 $
+Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Oct-2009
+Post-History:   
+Tcl-Version:    8.6
 
 ~ Abstract
 
-This TIP proposes to promote the internal call ''TclLoadFile'' to the
-external API, making it available to C extensions.
+This TIP proposes to promote the internal calls, ''TclLoadFile'' and
+''TclpFindSymbol'' to the
+external API, making them available to C extensions. In addition, it
+proposes to introduce a ''Tcl_FSUnloadFile'' to the VFS layer, removing
+the weird duplicate client data from ''TclLoadFile'' and wrapping all
+necessary data into the '''Tcl_LoadHandle'''.
 
 ~ Rationale
 
@@ -37,10 +41,16 @@ to bundle all the database-specific TDBC drivers with the core TDBC
 distribution, since things could be set up so that they will build
 anywhere, even in the absence of the databases where they connect.
 
+However, this call was never fully rationalized in the VFS world. Its
+strange API (with both a '''Tcl_LoadHandle''' and a '''ClientData''',
+and a function pointer for unloading the library) is, as several reviewers
+pointed out, not somehting that we want to make available to general callers.
+Hence, a few more routines need rework.
+
 ~ Specification
 
 The ''TclLoadFile'' call shall be renamed ''Tcl_LoadFile'' and exported
-in the external Stubs.  Its call signature is:
+in the external Stubs.  Its call signature shall be changed to:
 
  > EXTERN int
    '''Tcl_LoadFile'''(
@@ -48,10 +58,8 @@ in the external Stubs.  Its call signature is:
        Tcl_Obj *''pathPtr'',
        int ''symc'',
        const char *''symbols''[],
-       Tcl_PackageInitProc **''procPtrs''[],
-       Tcl_LoadHandle *''handlePtr'',
-       ClientData *''clientDataPtr'',
-       Tcl_FSUnloadFileProc **''unloadProcPtr'')
+       void *''procPtrs''[],
+       Tcl_LoadHandle *''handlePtr'');
 
 In this call, ''interp'' designates an interpreter for error reporting.
 ''pathPtr'' is an object containing the path of the library to be loaded.
@@ -69,16 +77,57 @@ On return, ''Tcl_LoadFile'' fills in ''procPtrs'' with the addresses
 that correspond to the names in ''symbols.'' If a name cannot be
 resolved in the given library, the corresponding entry in ''procPtrs''
 will be NULL. The ''loadHandle'' pointer will be a handle suitable for
-passing to ''TclpFindSymbol'' for resolving additional symbols in the
-library.  The ''clientData'' will be filled in with client data that
-is needed if the library is to be unloaded, and the ''unloadProcPtr''
-will have the correct filesystem-dependent procedure for unloading the
-library.
+passing to ''Tcl_FindSymbol'' for resolving additional symbols in the
+library, or to ''Tcl_FSUnloadFile'' to unload the library.
+
+The ''TclpFindSymbol'' call shall be renamed ''Tcl_FindSymbol'' and
+exported in the internal Stubs.  Its call signature shall be:
+
+ > EXTERN void*
+   '''Tcl_FindSymbol'''(
+       Tcl_Interp *''interp'',
+       Tcl_LoadHandle *''loadHandle'',
+       const char *''symbol'');
+
+This call searches for the given ''symbol'' in the already-loaded
+library identified by ''loadHandle''. If the symbol is found, a pointer
+to its memory address is returned.  Otherwise, NULL is returned, and
+an error message is left in ''interp'' (if ''interp'' is not NULL).
+
+A new call, ''Tcl_FSUnloadFile'' shall be introduced and exported.
+Its call signature shall be:
+
+ > EXTERN void*
+   '''Tcl_FSUnloadFile'''(
+       Tcl_Interp *''interp'',
+       Tcl_LoadHandle *''loadHandle'');
+
+This call unloads the library identified by ''loadHandle''.  It differs
+from the [[unload]] command in that no 'unload' procedure is called; the
+library is simply unloaded without first being given a chance to clean
+itself up. (This function is a lower-level interface used by [[unload]]
+as part of doing its work.)
+
+~ Discussion
+
+At least one reviewer made the suggestion that ''Tcl_LoadLibrary'' should
+fail if any symbol is not found, rather than returning NULL and continuing.
+The rationale was that the code for the simple case (load a library and
+resolve a specific symbol) is simpler. Further inspection, however, has
+revealed that the simple case may actually be the unusual one. Consider,
+for instance what the [[load]] command does. It tries to resolve four
+symbols (''Foo_Init'', ''Foo_SafeInit'', ''Foo_Unload'' and 
+''Foo_SafeUnload'').  Three of the four are op<tional. Certainly this one
+case is simpler if all the work can be accomplished in one call, with
+simple checks for NULL symbols. The intended uses in TDBC are, for the
+most part, somewhat similar, with different versions of database libraries
+providing subtly different API's (that the drivers are prepared to handle).
 
 ~ Reference Implementation
 
-This TIP proposes simply documenting and renaming an existing internal
-routine.  No new executable code ought to be needed to support it.
+A reference implementation is being prepared. When it is complete, it
+will be uploaded to the SourceForge patch manager for inspection, and
+this TIP will be updated to indicate where to find it.
 
 ~ License
 
