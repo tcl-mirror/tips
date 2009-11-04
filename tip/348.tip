@@ -1,6 +1,6 @@
 TIP:            348
 Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -8,7 +8,7 @@ Vote:           Pending
 Created:        26-Feb-2009
 Post-History:   
 Keywords:       Tcl,debugging
-Tcl-Version:    8.7
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -16,37 +16,52 @@ This TIP proposes to add an '''errorstack''' options dict entry and associated '
 
 ~ Background
 
-The ::errorInfo variable is a valuable tool for debugging; however, it yields
-mostly static information regarding each level of procedure call, as it only
-gives the static text (extracted from the source) at the call site. This leads
-to frustrating situations, like when an error occurs at a deep level of a
-recursive function, ''::errorInfo'' repeatedly reporting "f $x [[foo
+The '''::errorInfo''' variable is a valuable tool for debugging; however, it
+yields mostly static information regarding each level of procedure call, as it
+only gives the static text (extracted from the source) at the call site. This
+leads to frustrating situations, like when an error occurs at a deep level of
+a recursive function, '''::errorInfo''' repeatedly reporting "f $x [[foo
 [[bar]]]]" or similar un-substituted commands. In other languages, the
 traceback is more useful in that it contains the actual values passed as
 arguments.
 
 ~ Proposed Change
 
-This TIP proposes to create a '''-errorstack''' options dictionary entry, and an associated '''info errorstack ?interp?''' command returning a list
-of lists, made of the [['''info level''' 0]] lists of command-and-args at each proc level at the time of error unwinding.
+This TIP proposes to create an '''-errorstack''' options dictionary entry, and
+an associated '''info errorstack''' ?''interp''? command returning a list of
+lists, made of the [['''info level''' 0]] lists of command-and-args at each
+stack frame level at the time of error unwinding.
 
 ~ Rationale
 
-In a natural implementation, its construction is analogous to ::errorInfo's,
-which is built incrementally, one level at a time while popping back from the
-error site.  The only differences are that (1) dynamic arglists (from
-[['''info level''' 0]]) are stored, (2) the result is a true list built by (the equivalent of)
-'''lappend''', and (3) the granularity is coarser than ::errorInfo's since
-there is just one element per proc level (and not for intervening '''while'''
-or '''foreach''' constructs) and no adornment like "... while executing ..." .
+In a natural implementation, its construction is analogous to that of
+'''::errorInfo'''', which is built incrementally, one level at a time while
+popping back from the error site.  The only differences are that:
 
-Measurements show that the performance hit of maintaining errorstack is small, being under 5% for realistic errorstack sizes, and hits only the error cases. To achieve this speed, the list-growing is done carefully, reusing earlier Tcl_ListObjReplace optimizations for the in-place case, so that in routine use the allocated Tcl_Obj, intrep, and element array storage backing the list never change. This way, even code heavily relying on [catch] across dozens of proc levels won't noticeably suffer from the errorstack machinery.
+ 1. dynamic arglists (from [['''info level''' 0]]) are stored,
+
+ 2. the result is a true list built by (the equivalent of) '''lappend''', and
+
+ 3. the granularity is coarser than with '''::errorInfo''' since there is just
+    one element per stack frame level (and not for intervening '''while''' or
+    '''foreach''' constructs) and no adornment like "... while executing ..."
+
+Measurements show that the performance hit of maintaining the error stack is
+small, being under 5% for realistic error stack sizes, and hits only the error
+cases. To achieve this speed, the list-growing is done carefully, reusing
+earlier '''Tcl_ListObjReplace''' optimizations for the in-place case, so that
+in routine use the allocated Tcl_Obj, internal representation, and element
+array storage backing the list never change. This way, even code heavily
+relying on ''''catch''' across dozens of stack frame levels won't noticeably
+suffer from the error stack machinery.
 
 ~ Reference Implementation
 
-The reference implementation can be found at https://sourceforge.net/tracker/?func=detail&aid=2868499&group_id=10894&atid=310894 .
+The reference implementation can be found on
+SourceForge[https://sourceforge.net/support/tracker.php?aid=2868499].
 
-An earlier, extremely slow, pure-Tcl proof of concept based on write traces on ::errorInfo can be found at http://wiki.tcl.tk/traceback .
+An earlier, extremely slow, pure-Tcl proof of concept based on write traces on
+'''::errorInfo''' can be found on the Wiki[http://wiki.tcl.tk/traceback].
 
 ~ Copyright
 
