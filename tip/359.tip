@@ -4,7 +4,7 @@ Created:		21-Dec-2009
 Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
 Type:		Project
 State:		Draft
-Version:		$Revision: 1.1 $
+Version:		$Revision: 1.2 $
 Tcl-Version:	8.6
 Keywords:	Tk, X11, ewmh, window manager
 Vote:		Pending
@@ -58,9 +58,10 @@ bounce on Ubuntu.
 
 ~ Reference Implementation
 
-There is a provisional patch [http://paste.tclers.tk/1886] which implements
-the '''-type''' option but not quite as described here (the list of hint names
-is locked-down).
+There is a provisional patch
+[https://sourceforge.net/support/tracker.php?aid=2918731] which implements the
+'''-type''' option but not quite as described here (the list of hint names is
+locked-down).
 
 ~ Copyright
 
