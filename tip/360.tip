@@ -1,11 +1,11 @@
 TIP:		360
-Title:		Modernize X11 menus.
+Title:		Modernize X11 Menus
 Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
 Type:		Project
 State:		Draft
 Vote:		Pending
 Created:	24-Dec-2009
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Tcl-Version:	8.6
 Keywords:	Tk, X11, menu
 Post-History:	
