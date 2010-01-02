@@ -1,6 +1,6 @@
 TIP:            359
 Title:          Extended Window Manager Hint Support
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -30,25 +30,16 @@ but this has already been handled in the C code in recent commits.
 
 ~ Specification
 
-The '''wm attributes''' command will have a new '''-type''' option which will return the current list of
-'''_NET_WM_WINDOW_TYPE''' atoms set for this '''toplevel''' or allow the list
-to be modified. The set of possible window type names is unconstrained to permit compatibility with future versions of the specification. However the window type names at the script level will be all
+The '''wm attributes''' command for the X11 windowing system will have a new X11 platform-specific '''-type''' option which will return the current list of '''_NET_WM_WINDOW_TYPE''' atoms set for this '''toplevel''' or allow the list to be modified. The set of possible window type names is unconstrained to permit compatibility with future versions of the specification. However the window type names at the script level will be all
 lower-case and exclude any '''_NET_WM_WINDOW_TYPE_''' prefix.
 
 As specified in the freedesktop.org document, the property is a list of hints
-with the types specified in order of preference as window managers may not implement some types.
-
-When setting a hint, the provided name is converted to upper-case, appended to
+with the types specified in order of preference as window managers may not implement some types. When setting a hint, the provided name is converted to upper-case, appended to
 '''_NET_WM_WINDOW_TYPE_''' and converted to an atom. This permits new hints
 that may be specified in the future to be handled without modification to Tk.
 
 The Tk library scripts will set the type for all dialogs created by library
-functions and will set the combo hint for the '''ttk::combobox''' dropdown
-listbox.
-
-The '''-type''' option will be accepted but have no effect on Windows and
-MacOSX Aqua. It will return whatever list was set by the last call to the '''-type''' attributes or an empty list when called with no
-arguments.
+functions and will set the combo hint for the '''ttk::combobox''' dropdown listbox.
 
 This feature is actually needed on 8.5 as well. Under compiz Tk window are
 inappropriately animated. The '''combobox''' dropdown in particular tends to
