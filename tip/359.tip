@@ -1,10 +1,10 @@
 TIP:            359
 Title:          Extended Window Manager Hint Support
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        21-Dec-2009
 Post-History:   
 Keywords:       Tk,X11,ewmh,window manager
