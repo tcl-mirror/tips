@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.52 $
+Version:	$Revision: 1.53 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -152,6 +152,13 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
    * [354], Minor Production-Driven TclOO Revisions
 
    * [356], NR-enabled Substitutions for Extensions
+
+   * [359], Extended Window Manager Hint Support
+
+   > * Note that this is also being backported to 8.5 and 8.4; it is
+       in response to a change in expectations in third-party software.
+
+   * [360], Modernize X11 Menus
 
    * ''Insert feature here''
 
