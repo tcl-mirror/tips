@@ -1,8 +1,8 @@
 TIP:            359
 Title:          Extended Window Manager Hint Support
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        21-Dec-2009
