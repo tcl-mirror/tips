@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.42 $
+Version:        $Revision: 1.43 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -286,6 +286,7 @@ assigned one or more maintainers:
  21. '''[[namespace]]''' -
      doc/Namespace.3,
      doc/namespace.n,
+     generic/tclEnsemble.c,
      generic/tclNamesp.c,
      generic/tclResolve.c,
      tests/namespace.test,
