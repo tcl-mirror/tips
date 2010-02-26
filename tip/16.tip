@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.43 $
+Version:        $Revision: 1.44 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -602,6 +602,7 @@ assigned one or more maintainers:
 
  47. '''Bytecode Compiler''' - compat/float.h,
      generic/tclCompCmds.c,
+     generic/tclCompCmdsSZ.c,
      generic/tclCompExpr.c,
      generic/tclCompile.c,
      generic/tclCompile.h,
