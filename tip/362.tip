@@ -1,7 +1,7 @@
 TIP:		362
 Title:		Simple 32 and 64 bit Registry Support
 Author:		Damon Courtney <damon@tclhome.com>
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 State:		Draft
 Type:		Project
 Vote:		Pending
@@ -48,7 +48,7 @@ subcommands of '''registry'''.
 ~Reference Implementation
 
 See Patch #2960976 at SourceForge
-[https://sourceforge.net/support/tracker.phpaid=2960976].
+[https://sourceforge.net/support/tracker.php?aid=2960976].
 
 ~ Copyright
 
