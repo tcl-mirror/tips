@@ -1,6 +1,6 @@
 TIP:            357
 Title:          Export TclLoadFile
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
 Type:           Project
@@ -20,7 +20,7 @@ necessary data into the '''Tcl_LoadHandle'''
 
 ~ Rationale
 
-In developing TDBC, the author of this TIP was advised to look at the
+In developing TDBC [308], the author of this TIP was advised to look at the
 way that the 'oratcl' extension contrives to build on a system where
 Oracle is not installed as a model for TDBC extensions.  Examination
 of the code revealed that it operates essentially by constructing at
@@ -58,7 +58,7 @@ in the external Stubs.  Its call signature shall be changed to:
        Tcl_Obj *''pathPtr'',
        int ''symc'',
        const char *''symbols''[],
-       void *''procPtrs''[],
+       void *''procPtrs'',
        Tcl_LoadHandle *''handlePtr'');
 
 In this call, ''interp'' designates an interpreter for error reporting.
@@ -73,10 +73,12 @@ The return value of ''Tcl_LoadFile'' is a standard Tcl result code. If the
 result is TCL_ERROR, the interpreter result will contain an appropriate
 error message.
 
-On return, ''Tcl_LoadFile'' fills in ''procPtrs'' with the addresses
+On return, ''Tcl_LoadFile'' fills in the block of memory commencing
+at the address given by ''procPtrs'' with the addresses
 that correspond to the names in ''symbols.'' If a name cannot be
-resolved in the given library, the corresponding entry in ''procPtrs''
-will be NULL. The ''loadHandle'' pointer will be a handle suitable for
+resolved in the given library, an error will be returned and all
+entries in ''procPtrs'' will be invalid. On a successful return,
+the ''loadHandle'' pointer will be a handle suitable for
 passing to ''Tcl_FindSymbol'' for resolving additional symbols in the
 library, or to ''Tcl_FSUnloadFile'' to unload the library.
 
@@ -139,26 +141,10 @@ able to determine, no non-Core filesystem provides anything but NULL
 for the ''loadFileProc''. Certainly, tclvfs and trofs do not. Most other
 virtual filesystems layer atop tclvfs.  
 
-~ Discussion
-
-At least one reviewer made the suggestion that ''Tcl_LoadLibrary'' should
-fail if any symbol is not found, rather than returning NULL and continuing.
-The rationale was that the code for the simple case (load a library and
-resolve a specific symbol) is simpler. Further inspection, however, has
-revealed that the simple case may actually be the unusual one. Consider,
-for instance what the [[load]] command does. It tries to resolve four
-symbols (''Foo_Init'', ''Foo_SafeInit'', ''Foo_Unload'' and 
-''Foo_SafeUnload'').  Three of the four are optional. Certainly this one
-case is simpler if all the work can be accomplished in one call, with
-simple checks for NULL symbols. The intended uses in TDBC are, for the
-most part, somewhat similar, with different versions of database libraries
-providing subtly different API's (that the drivers are prepared to handle).
-
 ~ Reference Implementation
 
-A reference implementation is being prepared. When it is complete, it
-will be uploaded to the SourceForge patch manager for inspection, and
-this TIP will be updated to indicate where to find it.
+A reference implementation is nearing completion, and the draft code is
+available attached to [[Patch 2891616]] at SourceForge.
 
 ~ License
 
