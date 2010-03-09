@@ -1,7 +1,7 @@
 TIP:		362
 Title:		Simple 32 and 64 bit Registry Support
 Author:		Damon Courtney <damon@tclhome.com>
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 State:		Draft
 Type:		Project
 Vote:		Pending
@@ -34,9 +34,10 @@ currently.
 The '''registry''' command will receive two new (mutually exclusive) options
 to specify that the given '''registry''' command should be executed against
 the 32 bit or 64 bit registry. The proposed implementation is the addition of
-a -32bit and a -64bit option like so:
+a '''-32bit''' and a '''-64bit''' option, one of which may be placed before
+the ''subcommand'' like so:
 
- > '''registry''' ''subcommand'' ?'''-32bit''' | '''-64bit'''? ?''options''?
+ > '''registry''' ?'''-32bit'''|'''-64bit'''? ''subcommand'' ?''options''?
 
 By default, no option will mean that the '''registry''' command does what it
 has always done, which is to operate on the registry that matches the current
