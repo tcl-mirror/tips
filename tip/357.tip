@@ -1,6 +1,6 @@
 TIP:            357
 Title:          Export TclLoadFile
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
 Type:           Project
@@ -65,7 +65,7 @@ In this call, ''interp'' designates an interpreter for error reporting.
 ''pathPtr'' is an object containing the path of the library to be loaded.
 If ''pathPtr'' is a single name, the library search path of the current
 environment will be used to resolve it.  
-The ''symbols'' array  contains a NULL-terminate set of
+The ''symbols'' array  contains a NULL-terminated set of
 character strings that are the names
 of the imported symbols.
 
