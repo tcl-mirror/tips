@@ -1,6 +1,6 @@
 TIP:            357
 Title:          Export TclLoadFile
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
 Type:           Project
@@ -67,7 +67,7 @@ If ''pathPtr'' is a single name, the library search path of the current
 environment will be used to resolve it.  
 The ''symbols'' array  contains a NULL-terminated set of
 character strings that are the names
-of the imported symbols.
+of the imported symbols. ''symbols'' may be NULL if the library is to be loaded without resolving any symbols.
 
 The return value of ''Tcl_LoadFile'' is a standard Tcl result code. If the
 result is TCL_ERROR, the interpreter result will contain an appropriate
@@ -77,7 +77,10 @@ On return, ''Tcl_LoadFile'' fills in the block of memory commencing
 at the address given by ''procPtrs'' with the addresses
 that correspond to the names in ''symbols.'' If a name cannot be
 resolved in the given library, an error will be returned and all
-entries in ''procPtrs'' will be invalid. On a successful return,
+entries in ''procPtrs'' will be invalid. ''procPtrs'' may be NULL
+if no symbols are to be resolved.
+
+On a successful return,
 the ''loadHandle'' pointer will be a handle suitable for
 passing to ''Tcl_FindSymbol'' for resolving additional symbols in the
 library, or to ''Tcl_FSUnloadFile'' to unload the library.
