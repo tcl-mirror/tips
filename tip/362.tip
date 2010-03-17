@@ -1,6 +1,6 @@
 TIP:            362
 Title:          Simple 32 and 64 bit Registry Support
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Damon Courtney <damon@tclhome.com>
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
@@ -39,6 +39,7 @@ a '''-32bit''' and a '''-64bit''' option, one of which may be placed before
 the ''subcommand'' like so:
 
  > '''package require registry 1.3'''
+
  > '''registry''' ?'''-32bit'''|'''-64bit'''? ''subcommand'' ?''options''?
 
 By default, no option will mean that the '''registry''' command does what it
