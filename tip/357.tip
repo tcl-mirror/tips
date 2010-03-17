@@ -1,6 +1,6 @@
 TIP:            357
 Title:          Export TclLoadFile
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
 Type:           Project
@@ -56,17 +56,17 @@ in the external Stubs.  Its call signature shall be changed to:
    '''Tcl_LoadFile'''(
        Tcl_Interp *''interp'',
        Tcl_Obj *''pathPtr'',
-       int ''symc'',
        const char *''symbols''[],
+       int ''flags'',
        void *''procPtrs'',
        Tcl_LoadHandle *''handlePtr'');
 
 In this call, ''interp'' designates an interpreter for error reporting.
 ''pathPtr'' is an object containing the path of the library to be loaded.
 If ''pathPtr'' is a single name, the library search path of the current
-environment will be used to resolve it.  ''symc'' is the number of
-symbols that are to be imported from the newly loaded library.
-The ''symbols'' array gives ''symc'' character strings that are the names
+environment will be used to resolve it.  
+The ''symbols'' array  contains a NULL-terminate set of
+character strings that are the names
 of the imported symbols.
 
 The return value of ''Tcl_LoadFile'' is a standard Tcl result code. If the
