@@ -1,16 +1,17 @@
-TIP:		362
-Title:		Simple 32 and 64 bit Registry Support
-Author:		Damon Courtney <damon@tclhome.com>
-Version:	$Revision: 1.3 $
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	01-Mar-2010
-Tcl-Version:	8.6
-Keywords:	Windows, Tcl
-Post-History:
+TIP:            362
+Title:          Simple 32 and 64 bit Registry Support
+Version:        $Revision: 1.4 $
+Author:         Damon Courtney <damon@tclhome.com>
+Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Mar-2010
+Post-History:   
+Keywords:       Windows,Tcl
+Tcl-Version:    8.6
 
-~Abstract
+~ Abstract
 
 Add new options to the '''registry''' command on Windows to allow it to
 specify that the action should be taken specifically on the 32 or 64 bit
@@ -45,6 +46,8 @@ compiled version of the running Tcl. Specifying '''-32bit''' means to operate
 on the 32 bit registry regardless of the current binary, and '''-64bit'''
 means to operate on the 64 bit registry. The options will be supported by all
 subcommands of '''registry'''.
+
+Concurrently with this change, the version number of the '''registry''' package will be advanced to 1.3.
 
 ~Reference Implementation
 
