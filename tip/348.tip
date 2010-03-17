@@ -1,6 +1,6 @@
 TIP:            348
-Title:          Substituted 'errorStack' / 'traceback'
-Version:        $Revision: 1.10 $
+Title:          Substituted 'errorstack' / 'traceback'
+Version:        $Revision: 1.11 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
