@@ -1,7 +1,8 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
+Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -34,7 +35,7 @@ The interpreter should understand:
 |socket -server accept 9999
 |socket www.euro6ix.org
 
-and fconfigure should give detailed info on resulting sockets, as
+and '''fconfigure''' should give detailed info on resulting sockets, as
 
 |fconfigure sock3 -blocking 1 -buffering full -buffersize 4096 \
 |	-encoding iso8859-1 -eofchar {{} {}} -translation {auto crlf} \
