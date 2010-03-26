@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.54 $
+Version:	$Revision: 1.55 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -162,6 +162,14 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
 ~~~ Pending Features
 
+These have been voted in, but not yet implemented.
+
+   * [357], Export TclLoadFile
+
+   > * Enables bundling of TDBC drivers with Tcl.
+
+   * [362], Simple 32 and 64 bit Registry Support
+
 These are currently on the schedule to make 8.6, though in some cases only
 partially.
 
@@ -173,12 +181,6 @@ partially.
        change).
 
    * [348], Substituted 'errorstack' / 'traceback'
-
-   * [357], Export TclLoadFile
-
-   > * Enables bundling of TDBC drivers with Tcl.
-
-   * [362], Simple 32 and 64 bit Registry Support
 
    * [364], Threading Support: Configuration and Package
 
