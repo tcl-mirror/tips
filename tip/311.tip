@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.55 $
+Version:	$Revision: 1.56 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -182,7 +182,8 @@ partially.
 
    * [348], Substituted 'errorstack' / 'traceback'
 
-   * [364], Threading Support: Configuration and Package
+   * [364],
+     Threading Support: Configuration and Package
 
 ~~ Tcl/Tk 8.6.0: Approximate Release Date: ???
 
