@@ -1,9 +1,9 @@
 TIP:            362
 Title:          Simple 32 and 64 bit Registry Support
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Damon Courtney <damon@tclhome.com>
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        01-Mar-2010
