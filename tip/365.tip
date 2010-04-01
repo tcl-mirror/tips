@@ -1,0 +1,70 @@
+TIP:		365
+Title:		Add Python Compatibility Mode
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	01-Apr-2010
+Keywords:	Look at the date
+
+~ Abstract
+
+This TIP adds support for reading and evaluating code written in Python to the
+''tclsh'' interpreter.
+
+~ Rationale
+
+There is a lot of Python code out there, all of which suffers from the problem
+that the implementation quality of those interpreters is distinctly below what
+any reasonable person would consider "production".  This presents a major
+opportunity for the well-known dynamic Tcl community to provide people across
+the whole world the power of Tcl (especially through the new '''case'''
+command) while requiring no changes on the users part other than a simple
+recoding of the calling sequence for their code.
+
+~ Proposed Change
+
+A '''PythonLanguageCompatibility''' package will be provided. Upon being
+'''package require'''d, the remainder of the script will be evaluated in the
+Python language. This enables simple programs like this to be written:
+
+| package require Tcl 8.6
+| interp create worker
+| $worker eval {
+|     package require PythonLanguageCompatibility
+|     romanDgts= 'ivxlcdmVXLCDM_'
+|     def ToRoman(num):
+|       namoR = ''
+|       if num >=4000000:
+|         print 'Too Big -'
+|         return '-----'
+|       for rdix in range(0, len(romanDgts), 2):
+|         if num==0: break
+|         num,r = divmod(num,10)
+|         v,r = divmod(r, 5)
+|         if r==4:
+|           namoR += romanDgts[rdix+1+v] + romanDgts[rdix]
+|         else:
+|           namoR += r*romanDgts[rdix] + (romanDgts[rdix+1] if(v==1) else '')
+|       return namoR[-1::-1]
+| }
+| interp alias {} ToRoman $worker ToRoman
+| after 100 {package require PythonLanguageCompatibility}
+| after 200 {package forget PythonLanguageCompatibility}
+| for {set i 0} {$i < 10000} {incr i} {
+|    try {
+|       print '%x - %s'%(i,ToRoman(i))
+|    } trap {LANGUAGE WRONG} {} {
+|       puts "$i was not printed as a roman number"
+|    }
+| }
+
+Clearly this allows the intermixing of both Tcl's and Python's strengths with
+minimal effort on users' parts.
+
+~ Copyright
+
+This document has been placed in the public domain.
