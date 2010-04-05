@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.58 $
+Version:	$Revision: 1.59 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -147,6 +147,8 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [244], PNG Photo Image Support for Tk
 
+   * [348], Substituted 'errorstack' / 'traceback'
+
    * [353], NR-enabled Expressions for Extensions
 
    * [354], Minor Production-Driven TclOO Revisions
@@ -169,8 +171,6 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 ~~~ Pending Features
 
 These have been voted in, but not yet implemented.
-
-   * [348], Substituted 'errorstack' / 'traceback'
 
    * [364],
      Threading Support: Configuration and Package
