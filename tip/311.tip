@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.57 $
+Version:	$Revision: 1.58 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -153,6 +153,10 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [356], NR-enabled Substitutions for Extensions
 
+   * [357], Export TclLoadFile
+
+   > * Enables bundling of TDBC drivers with Tcl.
+
    * [359], Extended Window Manager Hint Support
 
    > * Note that this is also being backported to 8.5 and 8.4; it is in
@@ -166,9 +170,10 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
 These have been voted in, but not yet implemented.
 
-   * [357], Export TclLoadFile
+   * [348], Substituted 'errorstack' / 'traceback'
 
-   > * Enables bundling of TDBC drivers with Tcl.
+   * [364],
+     Threading Support: Configuration and Package
 
 These are currently on the schedule to make 8.6, though in some cases only
 partially.
@@ -179,11 +184,6 @@ partially.
 
    > * Might only be partial (e.g., the parts that do not require an API
        change).
-
-   * [348], Substituted 'errorstack' / 'traceback'
-
-   * [364],
-     Threading Support: Configuration and Package
 
 ~~ Tcl/Tk 8.6.0: Approximate Release Date: ???
 
