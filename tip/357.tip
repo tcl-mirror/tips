@@ -1,8 +1,8 @@
 TIP:            357
 Title:          Export TclLoadFile
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        01-Oct-2009
