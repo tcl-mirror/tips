@@ -1,10 +1,10 @@
 TIP:            348
 Title:          Substituted 'errorstack' / 'traceback'
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        26-Feb-2009
 Post-History:   
 Keywords:       Tcl,debugging
