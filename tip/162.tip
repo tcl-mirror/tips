@@ -1,6 +1,6 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Reinhard Max <max@tclers.tk>
@@ -39,19 +39,21 @@ The interpreter should understand:
 Where a hostname resolves to multiple addresses in multiple families,
 the addresses are tried one by one as returned by the the resolver library until a connection can be established. The order depends on the resolver library and its configuration; it is deliberately not touched by Tcl, so that local preferences are automatically respected by Tcl programs.
 
-The '''fconfigure''' command should give detailed info on resulting sockets,
-for example:
+For sockets that actually use IPv6 the output of '''fconfigure''' needs to be changed to reflect the fact:
 
-|% set s [socket -server foo 0]
-|sock5
-|% foreach {k v} [fconfigure $s] {puts [list $k $v]}
-|-blocking 1
-|-buffering full
-|-buffersize 4096
-|-encoding iso8859-1
-|-eofchar {{} {}}
-|-translation {auto crlf}
-|-sockname {0.0.0.0 0.0.0.0 54142 :: :: 54142}
+Client sockets:
+
+|% fconfigure sock5 -peername
+|2001:800:4a01::2 ipv6.example.com 7
+|% fconfigure sock5 -sockname
+|2001:800:4a01::dead:beef 2001:800:4a01::dead:beef 49198
+
+Server sockets:
+
+|% socket -server accept 0
+|sock3
+|% fconfigure sock3 -sockname
+0.0.0.0 0.0.0.0 49198 :: :: 49198
 
 The '''-sockname''' and '''-peername''' options are the affected ones;
 for client sockets they can indicate addresses in the IPv6 or IPv4
@@ -63,11 +65,11 @@ single address as they will always be connected by a definite protocol.)
 
 ~ Reference Implementation
 
-A patch is available for UNIX platforms
-[http://www.ngn.euro6ix.org/IPv6/tcl].
-
 A development branch has been opened up; see
 [http://wiki.tcl.tk/25947] for details.
+
+An older patch is available for UNIX platforms
+[http://www.ngn.euro6ix.org/IPv6/tcl].
 
 ~ Copyright
 
