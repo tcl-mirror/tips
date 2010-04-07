@@ -1,6 +1,6 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 State:          Draft
@@ -35,15 +35,39 @@ The interpreter should understand:
 |socket -server accept 9999
 |socket www.euro6ix.org
 
-and '''fconfigure''' should give detailed info on resulting sockets, as
+Where a hostname resolves to multiple addresses in multiple families,
+it is not defined which one will be used to connect, but it will
+normally be the first one listed that is accessible by the current host.
 
-|fconfigure sock3 -blocking 1 -buffering full -buffersize 4096 \
-|	-encoding iso8859-1 -eofchar {{} {}} -translation {auto crlf} \
-|	-peername {2001:800:40:2a05::10 2001:800:40:2a05::10 7} \
-|	-sockname {2001:800:40:2a05:2c0:9fff:fe1d:e518 2001:800:40:2a05:2c0:9fff:fe1d:e518 1050}
+The '''fconfigure''' command should give detailed info on resulting sockets,
+for example:
+
+|% set s [socket -server foo 0]
+|sock5
+|% foreach {k v} [fconfigure $s] {puts [list $k $v]}
+|-blocking 1
+|-buffering full
+|-buffersize 4096
+|-encoding iso8859-1
+|-eofchar {{} {}}
+|-translation {auto crlf}
+|-sockname {0.0.0.0 0.0.0.0 54142 :: :: 54142}
+
+The '''-sockname''' and '''-peername''' options are the affected ones;
+for client sockets they can indicate addresses in the IPv6 or IPv4
+namespaces, and for server sockets the '''-sockname''' option will
+list all the addresses bound (2 in the above example), three elements
+each. To maximize backward compatibility, the IPv4 address (if bound)
+will always be listed first. (Client sockets will always only list a
+single address as they will always be connected by a definite protocol.)
+
+~ Reference Implementation
 
 A patch is available for UNIX platforms
 [http://www.ngn.euro6ix.org/IPv6/tcl].
+
+A development branch has been opened up; see
+[http://wiki.tcl.tk/25947] for details.
 
 ~ Copyright
 
