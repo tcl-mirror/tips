@@ -1,8 +1,9 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Reinhard Max <max@tclers.tk>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -33,11 +34,10 @@ The interpreter should understand:
 |socket 2001:800:4a01::2 echo
 |socket 192.168.34.43 http
 |socket -server accept 9999
-|socket www.euro6ix.org
+|socket www.euro6ix.org 42
 
 Where a hostname resolves to multiple addresses in multiple families,
-it is not defined which one will be used to connect, but it will
-normally be the first one listed that is accessible by the current host.
+the addresses are tried one by one as returned by the the resolver library until a connection can be established. The order depends on the resolver library and its configuration; it is deliberately not touched by Tcl, so that local preferences are automatically respected by Tcl programs.
 
 The '''fconfigure''' command should give detailed info on resulting sockets,
 for example:
