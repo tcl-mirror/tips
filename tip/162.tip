@@ -1,6 +1,6 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Reinhard Max <max@tclers.tk>
@@ -18,35 +18,41 @@ same way that you would use the current (IPv4) sockets.
 
 ~ Rationale
 
-IPv6 is the next generation of the IP protocol that underlies Internet
-sockets.  IPv6 advantages include a wider address space (128 bits
-instead current 32 bits), improved mobility, mandatory security at IP
-layer (IPsec...), etc.  Tcl should allow the programmers try both
-protocols at their networking programs without too much effort
-(dependant on underlying operating system support, of course), just
-accepting the literal address (2001:80:2aff::24, 192.23.56.3) or the
-DNS names (www.server.com).
+IPv6 is the next generation of the IP protocol that underlies
+Internet sockets.  IPv6 advantages include a wider address
+space (128 bits instead current 32 bits), improved mobility,
+mandatory security at IP layer (IPsec...), etc.  Tcl should allow
+the programmers try both protocols at their networking programs
+without too much effort (dependant on underlying operating system
+support, of course), just accepting the literal
+address (192.0.2.42, 2001:DB8::baad:f00d) or the DNS
+names (www.example.com).
 
 ~ Proposed Change
 
 The interpreter should understand:
 
-|socket 2001:800:4a01::2 echo
-|socket 192.168.34.43 http
+|socket 192.0.2.42 http
+|socket 2001:DB8::baad:f00d echo
 |socket -server accept 9999
-|socket www.euro6ix.org 42
+|socket ipv6.example.com 8080
 
-Where a hostname resolves to multiple addresses in multiple families,
-the addresses are tried one by one as returned by the the resolver library until a connection can be established. The order depends on the resolver library and its configuration; it is deliberately not touched by Tcl, so that local preferences are automatically respected by Tcl programs.
+Where a hostname resolves to multiple addresses in multiple
+families, the addresses are tried one by one as returned by the
+the resolver library until a connection can be established. The
+order depends on the resolver library and its configuration; it
+is deliberately not touched by Tcl, so that local preferences are
+automatically respected by Tcl programs.
 
-For sockets that actually use IPv6 the output of '''fconfigure''' needs to be changed to reflect the fact:
+For sockets that actually use IPv6 the output of '''fconfigure'''
+needs to be changed to reflect the fact:
 
 Client sockets:
 
 |% fconfigure sock5 -peername
-|2001:800:4a01::2 ipv6.example.com 7
+|2001:DB8::baad:f00d ipv6.example.com 7
 |% fconfigure sock5 -sockname
-|2001:800:4a01::dead:beef 2001:800:4a01::dead:beef 49198
+|2001:DB8::dead:beef 2001:DB8::dead:beef 49198
 
 Server sockets:
 
@@ -55,13 +61,14 @@ Server sockets:
 |% fconfigure sock3 -sockname
 0.0.0.0 0.0.0.0 49198 :: :: 49198
 
-The '''-sockname''' and '''-peername''' options are the affected ones;
-for client sockets they can indicate addresses in the IPv6 or IPv4
-namespaces, and for server sockets the '''-sockname''' option will
-list all the addresses bound (2 in the above example), three elements
-each. To maximize backward compatibility, the IPv4 address (if bound)
-will always be listed first. (Client sockets will always only list a
-single address as they will always be connected by a definite protocol.)
+The '''-sockname''' and '''-peername''' options are the affected
+ones; for client sockets they can indicate addresses in the IPv6
+or IPv4 namespaces, and for server sockets the '''-sockname'''
+option will list all the addresses bound (2 in the above
+example), three elements each. To maximize backward
+compatibility, the IPv4 address (if bound) will always be listed
+first. (Client sockets will always only list a single address as
+they will always be connected by a definite protocol.)
 
 ~ Reference Implementation
 
