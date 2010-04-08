@@ -1,6 +1,6 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Reinhard Max <max@tclers.tk>
@@ -59,7 +59,7 @@ Server sockets:
 |% socket -server accept 0
 |sock3
 |% fconfigure sock3 -sockname
-0.0.0.0 0.0.0.0 49198 :: :: 49198
+|0.0.0.0 0.0.0.0 49198 :: :: 49198
 
 The '''-sockname''' and '''-peername''' options are the affected
 ones; for client sockets they can indicate addresses in the IPv6
