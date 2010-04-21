@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.45 $
+Version:        $Revision: 1.46 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -490,13 +490,16 @@ assigned one or more maintainers:
      doc/packagens.n,
      doc/pkgMkIndex.n,
      doc/PkgRequire.3,
+     doc/tm.n,
      generic/tclPkg.c,
      generic/tclStubLib.c,
      library/package.tcl,
+     library/tm.tcl,
      tests/package.test,
      tests/pkg.test,
      tests/pkgMkIndex.test,
-     tests/pkg/*.tcl
+     tests/pkg/*.tcl,
+     tests/tm.test
 
  40. '''Dynamic Loading''' - compat/dlfcn.h,
      doc/load.n,
