@@ -1,0 +1,58 @@
+TIP:		366
+Title:		Variable Sized Indicators for Menubuttons
+Version:	$Revision: 1.1 $
+Author:		Russell Davidson <russelld@actarg.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	29-Apr-2010
+Keywords:	Tk
+Post-History:
+
+~ Abstract
+
+This TIP is to allow custom sizing of menubutton indicators using
+'''-indwidth''' and '''-indheight''' as options.
+
+~ Rationale
+
+Currently there is no way to vary the size of the indicator for a classic Unix
+menubutton widget.  Adding the ability to control this via configuration
+options will give the coder more control over a GUI's appearance for when such
+fine control is required.
+
+~ Specification
+
+The following options are proposed to be added to the '''::menubutton'''
+widget:
+
+ > The '''-indwidth''' option allows the specification of the width of the
+   indicator in any form that converts to a screen distance (will be converted
+   to an integer number of pixels).
+
+ > The '''-indheight''' option allows the specification of the height of the
+   indicator in any form that converts to a screen distance (will be converted
+   to an integer number of pixels).
+
+Changes were made to:
+
+ * '''tkMenubutton.h''' to change the default indicator size, and to add
+   strings for the indicator width and indicator height,
+
+ * '''tkMenubutton.c''' to add '''-indwidth''' and '''-indheight''' options,
+   and implement them for custom sizes,
+
+ * '''tkUnixDefault.h''' to add default values for the indicator width and
+   height,
+
+ * '''tkUnixMenubu.c''' to implement the changes for drawing the indicator.
+
+~ Implementation
+
+A patch exists in SourceForge (Feature Request 2994285
+[https://sourceforge.net/support/tracker.php?aid=2994285]).
+
+~ Copyright
+
+This document has been placed in the public domain.
