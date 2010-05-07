@@ -1,6 +1,6 @@
 TIP:            366
 Title:          Variable Sized Indicators for Menubuttons
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Russell Davidson <russelld@actarg.com>
 State:          Draft
 Type:           Project
@@ -28,12 +28,10 @@ The following options are proposed to be added to the '''::menubutton'''
 widget:
 
  > The '''-indwidth''' option allows the specification of the width of the
-   indicator in any form that converts to a screen distance (will be converted
-   to an integer number of pixels).
+   indicator in 10ths of a mm (will be converted to an integer number of pixels).
 
  > The '''-indheight''' option allows the specification of the height of the
-   indicator in any form that converts to a screen distance (will be converted
-   to an integer number of pixels).
+   indicator in 10ths of a mm (will be converted to an integer number of pixels).
 
 ~ Implementation
 
