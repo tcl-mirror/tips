@@ -24,12 +24,18 @@ With the '''cargo''' command there are three parameters that can go with it:
 
 '''Set''' adds and alters entries in the cargo dictionary.
 
+ > ''pathName'' '''cargo set''' ''name value'' ?''name value ...''?
+
 '''Unset''', with the name of an entry, will delete the entry from the cargo
 dictionary and free the memory that entry used. '''Unset''', without an entry
 name, will delete the entire dictionary and free all memory.
 
+ > ''pathName'' '''cargo unset''' ?''name ...''?
+
 '''Get''' with the name of an entry will return the associated value.
 '''Get''' without an entry will return all entry-value pairs.
+
+ > ''pathName'' '''cargo get''' ?''name''?
 
 ~ Usage
 
@@ -75,8 +81,8 @@ widget}''".
 
 This deletes all entries and frees the memory
 
-When a widget is destroyed, the cargo dictionary associated with it is erased
-and the memory is freed.
+Note that when a widget is destroyed, the cargo dictionary associated with it
+is erased and the memory is freed.
 
 ~ Rationale
 
