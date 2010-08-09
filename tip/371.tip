@@ -1,0 +1,50 @@
+TIP:		371
+Title:		Improvements for the dict command
+Version:	$Revision: 1.1 $
+Author:		Thomas Perschak <tombert@gmx.at>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.5
+Vote:		Pending
+Created:	05-Aug-2010
+Post-History:
+
+~ Abstract
+
+The '''dict''' command is limited by allowing manipulation of only the first
+level of key elements.  Not only should the '''dict get''' accept a nested key
+list, but also the other commands like '''dict replace'''.
+
+~ Specification And Example
+
+The following line:
+
+|dict get {-range {-values {a b c} -base M} -name myname} \
+|        -range -base
+
+Results in:
+
+|M
+
+But how to change the base? I suggest the following '''dict''' syntax
+extension:
+
+|dict replace {-range {-values {a b c} -base M} -name myname} \
+|        {-range -base} k
+
+Results in:
+
+|-range {-values {a b c} -base k} -name myname
+
+Allowing a nested key list would not break any previous code, but
+substantially improve the '''dict''' command.
+
+~ Rationale
+
+The '''dict''' command is the basis for handling database like structures.  By
+allowing nested keys this would give more freedom in organizing these
+structures like the example above.
+
+~ Copyright
+
+This document has been placed in the public domain.
