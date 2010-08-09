@@ -1,6 +1,6 @@
 TIP:		370
 Title:		Extend Tk's selection with a -time option
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		George Petasis <petasis@iit.demokritos.gr>
 State:		Draft
 Type:		Project
@@ -30,7 +30,7 @@ not offer the ability to provide a timestamp if needed?
 
 ~ Proposed Change
 
-Add a new option to '''selection get''. Something like this:
+Add a new option to '''selection get'''. Something like this:
 
  > '''selection get''' ?'''-displayof''' ''window''? ?'''-selection'''
    ''selection''? ?'''-type''' ''type''? ?'''-time''' ''time''?
