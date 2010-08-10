@@ -1,6 +1,6 @@
 TIP:            369
 Title:          Widget cargo command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Russell Davidson <russelld@actarg.com>
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
@@ -135,17 +135,17 @@ A patch exists in SourceForge (FRQ 3023578
 ~ Comments
 
 Twylite 2010/08/10: 
- * The performance overhead for doing this in a script rather than in the core
+   * The performance overhead for doing this in a script rather than in the core
 is minimal.  
- * Developer overhead is easily dealt with by means of an appropriate 
+   * Developer overhead is easily dealt with by means of an appropriate 
 abstraction.
- * Script-level resource management can be achieved by binding to <Destroy>.
- * This proposal fails to address some variables that may need to be associated
+   * Script-level resource management can be achieved by binding to <Destroy>.
+   * This proposal fails to address some variables that may need to be associated
 with a widget, in particular those used with -variable or -textvariable which
 require the ability to reference the variable by name.  These are also 
 instance-related variables that can benefit from automated resource management
 and a cleaner abstraction.
-  * For a pure-Tcl implementation of functionality equivalent to '''cargo'''
+    * For a pure-Tcl implementation of functionality equivalent to '''cargo'''
 plus direct reference by name, take a look at my tk::wprop module
 (doc [http://dev.crypt.co.za/incubator/doc/tcltm/tk/wprop.wiki], source 
 [http://dev.crypt.co.za/incubator/artifact/d480935465])   
