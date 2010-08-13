@@ -1,15 +1,15 @@
-TIP:		373
-Title:		Improved Yielding Support for Coroutines
-Version:	$Revision: 1.3 $
-Author:		Miguel Sofer <msofer@users.sourceforge.net>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6
-Vote:		Pending
-Created:	12-Aug-2010
-Keywords:	coroutine, yield
-Post-History:
-Obsoletes:	372
+TIP:            373
+Title:          Improved Yielding Support for Coroutines
+Version:        $Revision: 1.4 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Aug-2010
+Post-History:   
+Keywords:       coroutine,yield
+Obsoletes:      372
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -73,7 +73,7 @@ while getting rid of the camelCase, and extend the '''coroutine'''
 documentation and test-suite to refer to the new command.
 
 ~ Rationale and Proposal for "yieldset"
- 
+
 [372] justifies and requests a different interface to a coroutine's resume
 command, allowing for an arbitrary number of arguments that shall be returned
 to the coroutine's body in a list.
@@ -100,16 +100,17 @@ In this manner, current '''yield''' behaves as if
 
 had been called. This shall remain the default behaviour.
 
+If '''yieldset''' is called outside of a coroutine context, it sets the default behaviour for newly created coroutines. If it is called within a coroutine context it sets the behaviour for the current coroutine only. 
+
 In order to obtain [372]'s '''yieldm''' behaviour for '''yield''', it would be
 necessary to call:
 
 | yieldset args
 
-to set that behaviour for '''yield''' in the coroutine.
+either before creating the coroutine or else within the coroutine body. 
 
-Coroutines shall be born with arglist '''{{arg {}}}'''. The arglist value can
-be changed with '''yieldset''' at any time, and remains valid until changed
-again.
+The default arglist shall be '''{{arg {}}}''', so that the current '''yield''' is the default behaviour. The arglist value can
+be changed with '''yieldset''' at any time, and remains valid until changed again.
 
 ~ Caveat
 
