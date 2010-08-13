@@ -1,6 +1,6 @@
 TIP:		373
 Title:		Improved Yielding Support for Coroutines
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 State:		Draft
 Type:		Project
@@ -62,15 +62,15 @@ causes:
  3. from the point of view of the coroutine's caller, the return value and
     options of the new command is what the coroutine returned on yielding.
 
-IOW, '''yieldto''' implements ''suspend yourself and tailcall the new
-command'''; '''yieldto''' is to '''tailcall''' as '''yield''' is to
+In other words, '''yieldto''' implements "suspend yourself and '''tailcall'''
+the new command"; '''yieldto''' is to '''tailcall''' as '''yield''' is to
 '''return'''.
 
 ~~ Implementation of "yieldto"
 
-Simply rename the '''::tcl::unsupported::yieldTo''' into the global 
-namespace while getting rid of the camelCase, and extend the coroutine
-documentation and testsuite to refer to the new command. 
+Simply rename the '''::tcl::unsupported::yieldTo''' into the global namespace
+while getting rid of the camelCase, and extend the '''coroutine'''
+documentation and test-suite to refer to the new command.
 
 ~ Rationale and Proposal for "yieldset"
  
