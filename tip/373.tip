@@ -1,6 +1,6 @@
 TIP:		373
 Title:		Improved Yielding Support for Coroutines
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Miguel Sofer <msofer@users.sourceforge.net>
 State:		Draft
 Type:		Project
@@ -28,7 +28,7 @@ coroutine's resume command will accept. Note that '''yieldset''' obsoletes
 [372], in the sense that it provides a different way of satisfying the
 same needs. 
 
-~~ Detailed Rationale for '''yieldto'''
+~~ Detailed Rationale for "yieldto"
 
 The current '''yield''' and proposed '''yieldm''' suspend a coroutine and
 return the control to the coroutine's caller: they implement asymmetric
@@ -46,7 +46,7 @@ code to the caller without terminating the coroutine:
 
 | yieldto return -level 0 -code 1 ERROR
 
-~ Proposal for '''yieldto'''
+~ Proposal for "yieldto"
 
 The new command
 
@@ -66,13 +66,13 @@ IOW, '''yieldto''' implements ''suspend yourself and tailcall the new
 command'''; '''yieldto''' is to '''tailcall''' as '''yield''' is to
 '''return'''.
 
-~~ Implementation of '''yieldto'''
+~~ Implementation of "yieldto"
 
 Simply rename the '''::tcl::unsupported::yieldTo''' into the global 
 namespace while getting rid of the camelCase, and extend the coroutine
 documentation and testsuite to refer to the new command. 
 
-~ Rationale and Proposal for '''yieldset'''
+~ Rationale and Proposal for "yieldset"
  
 [372] justifies and requests a different interface to a coroutine's resume
 command, allowing for an arbitrary number of arguments that shall be returned
