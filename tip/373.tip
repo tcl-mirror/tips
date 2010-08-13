@@ -1,0 +1,125 @@
+TIP:		373
+Title:		Improved Yielding Support for Coroutines
+Version:	$Revision: 1.1 $
+Author:		Miguel Sofer <msofer@users.sourceforge.net>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Created:	12-Aug-2010
+Keywords:	coroutine, yield
+Post-History:
+Obsoletes:	372
+
+~ Abstract
+
+This TIP proposes two new commands that improve control over the yielding 
+behaviour of coroutines.
+
+~ Rationale
+
+The new command '''yieldto''' allows a coroutine to suspend its execution
+and tailcall into an arbitrary command. It provides support for symmetric
+coroutines, simply specifying that the new command be another coroutine's
+resume command.
+
+The new command '''yieldset''' specifies the number of arguments that the
+coroutine's resume command will accept. Note that '''yieldset''' obsoletes
+[372], in the sense that it provides a different way of satisfying the
+same needs. 
+
+~~ Detailed Rationale for '''yieldto'''
+
+The current '''yield''' and proposed '''yieldm''' suspend a coroutine and
+return the control to the coroutine's caller: they implement asymmetric
+coroutines. 
+
+It is well known that symmetric and asymmetric coroutines have equal power,
+in that each can be implemented on top of the other. In Tcl8.6 as of today,
+symmetric coroutines can be implemented by coding a scheduler, which may
+but doesn't have to use the event loop. The new command '''yieldto'''
+implements symmetric coroutines directly. 
+
+The ability of '''yieldto''' to yield to an arbitrary command also provides
+new possibilities. For instance, it allows to return a non-ok
+code to the caller without terminating the coroutine:
+
+| yieldto return -level 0 -code 1 ERROR
+
+~ Proposal for '''yieldto'''
+
+The new command
+
+ > '''yieldto''' ''cmd'' ?''arg1 ...''?
+
+causes:
+
+ 1. the currently executing coroutine to suspend its execution (yield),
+
+ 2. the command built from the arguments to '''yieldto''', as resolved in the
+    coroutine's context, is run in the coroutine's caller scope,
+
+ 3. from the point of view of the coroutine's caller, the return value and
+    options of the new command is what the coroutine returned on yielding.
+
+IOW, '''yieldto''' implements ''suspend yourself and tailcall the new
+command'''; '''yieldto''' is to '''tailcall''' as '''yield''' is to
+'''return'''.
+
+~~ Implementation of '''yieldto'''
+
+Simply rename the '''::tcl::unsupported::yieldTo''' into the global 
+namespace while getting rid of the camelCase, and extend the coroutine
+documentation and testsuite to refer to the new command. 
+
+~ Rationale and Proposal for '''yieldset'''
+ 
+[372] justifies and requests a different interface to a coroutine's resume
+command, allowing for an arbitrary number of arguments that shall be returned
+to the coroutine's body in a list.
+
+In order to limit the number of additional commands ('''yieldm''' and also
+'''yieldmto'''), and increase the flexibility, it is proposed to add a
+command:
+
+ > '''yieldset''' ?''arglist''?
+
+that sets the acceptable arguments for the resume command. 
+
+If '''yieldset''' is called with no arguments it returns the current list of
+arguments.
+
+If '''yieldset''' is called with a list argument, it specifies the arguments
+to the resume command in the manner of '''proc'''. The argument names shall
+only be used for the error message if the resume command is called with an
+invalid number of arguments.
+
+In this manner, current '''yield''' behaves as if 
+
+| yieldset {{arg {}}}
+
+had been called. This shall remain the default behaviour.
+
+In order to obtain [372]'s '''yieldm''' behaviour for '''yield''', it would be
+necessary to call:
+
+| yieldset args
+
+to set that behaviour for '''yield''' in the coroutine.
+
+Coroutines shall be born with arglist '''{{arg {}}}'''. The arglist value can
+be changed with '''yieldset''' at any time, and remains valid until changed
+again.
+
+~ Caveat
+
+Some new proposals for better coroutine interfaces are being discussed, based
+on ensembles and providing additional functionality.
+
+I do not foresee the discussion to settle in the immediate future. The current
+TIP is not meant to preempt any such design, it just attempts to provide a
+limited improvement that is easy to implement immediately.
+
+~ Copyright
+
+This document has been placed in the public domain.
