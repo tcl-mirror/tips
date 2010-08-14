@@ -1,6 +1,6 @@
 TIP:            373
 Title:          Improved Yielding Support for Coroutines
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -63,7 +63,7 @@ causes:
     options of the new command is what the coroutine returned on yielding.
 
 In other words, '''yieldto''' implements "suspend yourself and '''tailcall'''
-the new command"; '''yieldto''' is to '''tailcall''' as '''yield''' is to
+the new command"; '''yieldto''' is to '''yield''' as '''tailcall''' is to
 '''return'''.
 
 ~~ Implementation of "yieldto"
