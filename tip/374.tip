@@ -1,6 +1,6 @@
 TIP:		374
 Title:		Stackless Vwait
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Thomas Perschak <tombert@gmx.at>
 State:		Draft
 Type:		Project
@@ -56,7 +56,8 @@ In addition I would allow a timeout value to be specified:
 
 ~ Example
 
-This is only a very reduced example, but should show the principle of the problem:
+This is only a very reduced example, but should show the principle of the
+problem:
 
 | proc myproc1 {} {
 |    open socket
@@ -65,11 +66,11 @@ This is only a very reduced example, but should show the principle of the proble
 |    read data
 | }
 
-Having more than one of these procedure above, the vwait would block data
-reading depending on the vwait stack.
+Having more than one of these procedure above, the '''vwait''' would block
+data reading depending on the '''vwait''' stack.
 
-The new stackless vwait would look like the following example: On a global
-level I would do the following:
+The new stackless '''vwait''' would look like the following example: On a
+global level I would do the following:
 
 | vwaitgroup sockreadgroup whoever-comes-first
 
