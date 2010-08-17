@@ -1,13 +1,14 @@
-TIP:		371
-Title:		Improvements for the dict command
-Version:	$Revision: 1.2 $
-Author:		Thomas Perschak <tombert@gmx.at>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	05-Aug-2010
-Post-History:
+TIP:            371
+Title:          Improvements for the dict command
+Version:        $Revision: 1.3 $
+Author:         Thomas Perschak <tombert@gmx.at>
+Author:         Trevor Davel <twylite@crypt.co.za>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Aug-2010
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -44,6 +45,27 @@ substantially improve the '''dict''' command.
 The '''dict''' command is the basis for handling database like structures.  By
 allowing nested keys this would give more freedom in organizing these
 structures like the example above.
+
+----
+
+~ Comments
+
+Twylite 2010/08/17: The specification states that "Allowing a nested key list would not break any previous code".  This is not correct, for example:
+
+|dict replace {"Jane Smith" "11 Foo Road" "John Doe" "Address unknown"} {Jane Smith} new_address
+|-> {Jane Smith} new_address {John Doe} {Address unknown}
+
+Existing code that uses '''dict replace''' in conjunction with keys that are valid lists of 2 or more elements would break.
+
+Also, drawing from experience, the nested key approach is a source of subtle bugs.  It is natural to write code such as:
+
+|dict replace $dict $key $value
+
+but that contains a bug that is often missed during testing.  The correct approach would be:
+
+|dict replace $dict [list $key] $value
+
+----
 
 ~ Copyright
 
