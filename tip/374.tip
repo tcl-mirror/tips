@@ -1,7 +1,8 @@
 TIP:            374
 Title:          Stackless Vwait
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Thomas Perschak <tombert@gmx.at>
+Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -86,6 +87,14 @@ Then the procedures:
 |    vwait myvar sockreadgroup
 |    read data
 | }
+
+----
+
+~ Comments
+
+Twylite 2010/08/17: "coroutine-enabled event handling" (http://wiki.tcl.tk/21555) presents pure-Tcl implementations of coroutine-enabled '''vwait''' and '''gets''' that do what this TIP describes without attempting to implement a custom scheduler.
+
+----
 
 ~ Copyright
 
