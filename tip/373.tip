@@ -1,6 +1,6 @@
 TIP:            373
 Title:          Improved Yielding Support for Coroutines
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Withdrawn
 Type:           Project
@@ -9,6 +9,7 @@ Created:        12-Aug-2010
 Post-History:   
 Keywords:       coroutine,yield
 Obsoletes:      372
+Obsoleted-By:	375
 Tcl-Version:    8.6
 
 ~ Abstract
