@@ -1,0 +1,66 @@
+TIP:            375
+Title:          Symmetric Coroutines and Yieldto
+Version:        $Revision: 1.1 $
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        12-Aug-2010
+Post-History:   
+Keywords:       coroutine,yield
+Obsoletes:      373
+Tcl-Version:    8.6
+
+~ Abstract
+
+The new command '''yieldto''' allows a coroutine to suspend its execution and
+tailcall into an arbitrary command. If the new command is another coroutine's
+resume command we obtain symmetric coroutines.
+
+~~ Rationale
+
+The current '''yield''' and proposed '''yieldm''' commands suspend a coroutine
+and return the control to the coroutine's caller: they implement asymmetric
+coroutines.
+
+It is well known that symmetric and asymmetric coroutines have equal power, in
+that each can be implemented on top of the other. In Tcl8.6 as of today,
+symmetric coroutines can be implemented by coding a scheduler, which may but
+doesn't have to use the event loop. The new command '''yieldto''' implements
+symmetric coroutines directly.
+
+The ability of '''yieldto''' to yield to an arbitrary command also provides
+new possibilities. For instance, it allows to return a non-ok code to the
+caller without terminating the coroutine:
+
+| yieldto return -level 0 -code 1 ERROR
+
+~ Proposal for "yieldto"
+
+The new command
+
+ > '''yieldto''' ''cmd'' ?''arg1 ...''?
+
+causes:
+
+ 1. the currently executing coroutine to suspend its execution (yield),
+
+ 2. the command built from the arguments to '''yieldto''', as resolved in the
+    coroutine's context, to be run in the coroutine's caller scope,
+
+ 3. from the point of view of the coroutine's caller, the return value and
+    options of the new command is what the coroutine returned on yielding.
+
+In other words, '''yieldto''' implements "suspend yourself and '''tailcall'''
+the new command"; '''yieldto''' is to '''yield''' as '''tailcall''' is to
+'''return'''.
+
+~~ Implementation of "yieldto"
+
+Simply rename the '''::tcl::unsupported::yieldTo''' into the global namespace
+while getting rid of the camelCase, and extend the '''coroutine'''
+documentation and test-suite to refer to the new command.
+
+~ Copyright
+
+This document has been placed in the public domain.
