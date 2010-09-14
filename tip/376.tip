@@ -1,0 +1,73 @@
+TIP:		376
+Title:		Bundle sqlite3 and tdbc::sqlite3 Packages
+Version:	$Revision: 1.1 $
+Author:		Don Porter <dgp@users.sf.net>
+Author:		D. Richard Hipp <drh@hwaci.com>
+Author:		Kevin Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	14-Sep-2010
+Tcl-Version:	8.6
+Post-History:
+
+~ Abstract
+
+This TIP proposes the packages '''sqlite3''' and '''tdbc::sqlite3''' be
+re-distributed as part of the Tcl source code distribution.
+
+~ Background
+
+Starting with the 8.6.* releases of Tcl, a collection of third party packages
+are being redistributed as part of the Tcl source code distribution under the
+directory ''tcl/pkgs/''.  This is partial fulfillment of the long-awaited
+''batteries included'' vision for Tcl releases.  The current collection of
+redistributed packages is Itcl [50], Thread [364], and tdbc [308].
+
+The sqlite3 package is perhaps the most striking example of a Tcl extension
+that has grown to eclipse Tcl itself.  Created and maintained by TCT emeritus
+D. Richard Hipp, it should require little explanation here.
+
+The tdbc::sqlite3 package provides the driver functionality to use the
+facilities provided by sqlite3 as the backend of tdbc operations.  Created and
+maintained by Kevin Kenny of the TCT, it should also be familiar to Tcl
+insiders.
+
+~ Proposal
+
+Add CVS modules for tracking releases of the '''sqlite3''' and
+'''tdbc::sqlite3''' packages within Tcl's CVS repository.  Redefine the
+'''tcl''' module so that default checkouts include these packages.  Adapt
+release operations as needed so that the latest release of each of these
+packages is included in releases of Tcl 8.6.*.
+
+~ Expected Benefits
+
+Distribution of the '''tdbc''' package without any backend drivers has quite
+limited utility.  Adding these two packages to the distributed set provides at
+least one fully working backend with no third-party dependencies.  This
+permits testing and demonstrating the capabilities of '''tdbc''' everywhere it
+goes.
+
+By including '''sqlite3''' in the Tcl source code distribution, Tcl can take a
+place alongside PHP and Python on the list of famous users of SQLite
+[http://www.sqlite.org/famous.html].  Since SQLite is now easily more broadly
+esteemed than Tcl itself, this can only help our public image.
+
+The package '''tdbc::sqlite3''' is itself written entirely in Tcl.  Unlike the
+packages so far chosen for redistribution under ''tcl/pkgs/'', it contains no
+C code.  The ''tcl/pkgs/'' harness and the TEA or tclconfig systems it
+descends from have so far not paid sufficient attention to this case.
+Including this package will force those systems over time to better support
+that common implementation case.  This can only make package support tools
+better for more package authors.  Also, as support for such packages under
+''tcl/pkgs/'' matures, the large collection of packages that have been
+distributed with Tcl on a more ad hoc basis, including '''tcltest''',
+'''msgcat''', '''http''', '''platform''', and '''platform::shell''', may be
+able to migrate to new places under the ''tcl/pkgs/'' framework.  This may
+eventually lead to the ability to selectively take packages from tcllib for
+redistribution with Tcl.
+
+~ Copyright
+
+This document has been placed in the public domain.
