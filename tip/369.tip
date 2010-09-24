@@ -1,6 +1,6 @@
 TIP:            369
 Title:          Widget cargo command
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Russell Davidson <russelld@actarg.com>
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
@@ -9,7 +9,7 @@ Vote:           Pending
 Created:        15-Jul-2010
 Post-History:   
 Keywords:       Tk,user-defined data,dictionary
-Tcl-Version:    8.5
+Tcl-Version:    8.7
 
 ~ Abstract
 
