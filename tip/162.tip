@@ -1,10 +1,10 @@
 TIP:            162
 Title:          IPv6 Sockets for Tcl
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Rafael Martínez Torres <rafael.martinez@novagnet.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Reinhard Max <max@tclers.tk>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        23-Oct-2003
