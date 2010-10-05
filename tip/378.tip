@@ -1,0 +1,62 @@
+TIP:            378
+Title:          Fixing the Performance of TIP 280
+Version:        $Revision: 1.1 $
+Author:         Andreas Kupries <andreask@activestate.com>
+Author:         Jeff Hobbs <jeffh@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        04-Oct-2010
+Tcl-Version:	8.6
+Post-History:
+
+~ Abstract
+
+A Tcl command is proposed which enable a user of Tcl to disable the most
+performance intensive parts of the [280] implementation, at the loss of some
+detail.
+
+~ Background and Motivation
+
+[280] extended Tcl's abilities for introspection with the '''info frame'''
+command able to determine the location of its call, i.e., the name of the file
+the code is in, and the absolute line number in that file.
+
+In the quest for the best possible detail one particular part of the
+implementation had a great impact on the performance of bytecode execution,
+doing complex stack/hash manipulations for each argument of each
+INST_INVOKE_STK instruction to keep track of the location of scripts delivered
+to '''uplevel''' commands as arguments of Tcl procedures (i.e.,
+implementations of control structures in Tcl).
+
+This TIP now proposes to put the execution of this part of [280]'s
+implementation under user control, allowing them to trade '''info
+frame'''-exactness for speed, and vice versa.
+
+~ Script Level API
+
+ > '''interp debug''' ''interp-path'' ?'''-frame''' ?''boolean''??
+
+This API was chosen to be potentially extensible for other future interpreter
+level control needs.
+
+~~ Default Setting
+
+This behavior will be turned off by default, unless Tcl is compiled with
+-DTCL_INTERP_DEBUG_FRAME or $::env(TCL_INTERP_DEBUG_FRAME) is set at
+interpreter creation time.
+
+Note that this is a one-way switch because the '''info frame''' tracking is
+maintained in a stack that must remain consistent once switched on.  Switching
+off when deep in the stack would cause memory loss and possible crashes
+without tracing on top of tracing, and it is felt that being an interp-level
+switch, one-way switching should be sufficient for user needs.
+
+~ Reference Implementation
+
+A reference implementation is provided at SourceForge
+[https://sourceforge.net/support/tracker.php?aid=3081184].
+
+~ Copyright
+
+This document has been placed in the public domain.
