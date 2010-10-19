@@ -1,6 +1,6 @@
 TIP:		379
 Title:		Add a Command for Delivering Events Without Tk
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Will Duquette <will@wjduquette.com>
 State:		Draft
 Type:		Project
@@ -133,12 +133,12 @@ configuration options.
 This command sets the value of one or more of the '''notifier''' command's
 configuration options:
 
- > -bgerror: This is a boolean flag.  If true, errors in binding scripts are
-    handled by the interpreter's [interp bgerror] handler.  If false (the
+ -bgerror: This is a boolean flag.  If true, errors in binding scripts are
+    handled by the interpreter's '''interp bgerror''' handler.  If false (the
     default) errors in binding scripts are propagated to the caller of
-    [notifier send].
+    '''notifier send'''.
 
- > -tracecommand: The option's value should be a command prefix taking four
+ -tracecommand: The option's value should be a command prefix taking four
     arguments: a ''subject'', an ''event'', a list of event ''argument
     values'', and a list of ''objects receiving'' the event.  The command will
     be called for each event that is sent.
