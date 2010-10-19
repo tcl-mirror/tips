@@ -1,0 +1,193 @@
+TIP:		379
+Title:		Add a Command for Delivering Events Without Tk
+Version:	$Revision: 1.1 $
+Author:		Will Duquette <will@wjduquette.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	17-Oct-2010
+Post-History:	
+Keywords:	event
+
+~ Abstract
+
+This proposal defines the '''notifier''' ensemble command, which allows Tcl
+modules to subscribe to arbitrary ''events'' sent by other modules.  A module
+which sends an event is called a ''subject''.  A subject can send any number
+of distinct events, and any number of modules can bind callbacks to a
+particular event sent by a particular subject.  Event bindings can be queried
+and deleted.
+
+~ Rationale
+
+Tcl modules can send notifications to other modules in two ways: via Tk
+events, and via callback options like the text widget's '''-yscrollcommand'''
+option.  Tk events are available only in Tk, and callback options require
+tight coupling between the modules sending and receiving the notification.
+
+Loose coupling between sender and receiver is often desirable, however.  In
+Model/View/Controller terms, a View can send a command (stemming from user
+input) to the Controller, which updates the Model.  The Model can then send an
+event ''to which all relevant Views subscribe.''  The Model is decoupled from
+the Views, and indeed need not know whether any Views actually exist.
+
+At present, Tcl/Tk has no standard mechanism for implementing loose coupling
+of this kind.  This proposal defines a new command, '''notifier''', which
+implements just such a mechanism.
+
+~ Events
+
+The '''notifier''' manages a collection of event bindings.  An event binding
+has four elements:
+
+   * A ''subject'': the name of the entity that will be sending the event.  It
+     will usually be the name of a Tcl command representing an object of some
+     kind, but can also be the name of a namespace, or any other unique
+     string.
+
+   * The ''event'' itself: an occurrence in the life of the ''subject'' that
+     other entities might care about.  An ''event'' has a name, and may also
+     have arguments.  By convention, event names are written in camel-case in
+     angle brackets, e.g., <MyEvent>.  Each ''subject'' must document the
+     names and arguments of the events it can send.
+
+   * The ''object'' that wishes to receive the ''event'' from the ''subject''.
+     As with ''subjects'', this is usually the name of a Tcl command or
+     namespace, but can be any unique string.
+
+   * The ''binding'' proper, a command prefix to which the ''event'' arguments
+     will be appended.
+
+Note that although the ''subject'' and ''object'' will often be Tcl objects,
+e.g., TclOO instances or Tk widgets, they need not be; they simply need to be
+well-defined names within the application.
+
+Event bindings are created, updated, deleted, and queried using the
+'''notifier bind''' command.
+
+Events are sent using the '''notifier send''' command.  When a subject sends
+an event, any bindings bound to that subject and event are called immediately,
+before '''notifier send''' returns (the Tcl event loop is not involved).  The
+precise order of execution is undefined.
+
+If an entity which appears as the subject or object in one or more bindings is
+destroyed, all relevant bindings can be deleted in one step by calling
+'''notifier forget'''.
+
+~~ Error Handling
+
+If a notifier event binding throws an error, the error is propagated to the
+caller of '''notifier send''' in the usual way.  This is often undesirable, as
+it may prevent any number of other bindings from being executed, so if the
+notifier's '''-bgerror''' option is set to "'''yes'''", such errors will be
+handled in the interpreter's '''bgerror''' handler instead.
+
+~~ Event Tracing
+
+It is often desirable to trace event execution for debugging purposes.  The
+notifier's '''-tracecommand''' can be set to capture all events sent, whether
+bindings are present or not.
+
+~ Specification
+
+The '''notifier''' command is an ensemble command with the following
+subcommands:
+
+~~ Bind Subcommand
+
+This subcommand is used to create, update, delete, and query event bindings.
+
+ > '''notifier bind''' ?''subject''? ?''event''? ?''object''? ?''binding''?
+
+Called with no arguments, '''notifier bind''' returns a list of the subjects
+with active bindings.
+
+Called with one argument, a ''subject'', '''notifier bind''' returns a list of
+the events for which the ''subject'' has active bindings.
+
+Called with two arguments, a ''subject'' and an ''event'', '''notifier bind'''
+returns a list of the objects which are bound to this ''subject'' and
+''event''.
+
+Called with three arguments, a ''subject'', an ''event'', and an ''object'',
+'''notifier bind''' returns the binding proper, the command prefix to be
+called when the event is sent, or the empty string if there is no such
+binding.
+
+Called with four arguments, '''notifier bind''' creates, updates, or deletes a
+binding.  If ''binding'' is the empty string, '''notifier bind''' deletes any
+existing binding for the ''subject'', ''event'', and ''object''.  Otherwise,
+''binding'' must be a command prefix taking as many arguments as are
+documented for the ''subject'' and ''event''.
+
+~~ Configuration Subcommands
+
+ > '''notifier cget''' ''option''
+
+This command returns the value of one of the '''notifier''' command's
+configuration options.
+
+ > '''notifier configure''' ''option value'' ...
+
+This command sets the value of one or more of the '''notifier''' command's
+configuration options:
+
+ > -bgerror: This is a boolean flag.  If true, errors in binding scripts are
+    handled by the interpreter's [interp bgerror] handler.  If false (the
+    default) errors in binding scripts are propagated to the caller of
+    [notifier send].
+
+ > -tracecommand: The option's value should be a command prefix taking four
+    arguments: a ''subject'', an ''event'', a list of event ''argument
+    values'', and a list of ''objects receiving'' the event.  The command will
+    be called for each event that is sent.
+
+~~ Forget Subcommand
+
+ > '''notifier forget''' ''object''
+
+This command deletes any existing bindings in which the named object appears
+as either the ''subject'' or the ''object''.
+
+~~ Send Subcommand
+
+ > '''notifier send''' ''subject event'' ?''args...''?
+
+This command is called when the named ''subject'' wishes to send the named
+''event''.  All relevant bindings are called with the specified arguments.
+See above for options that affect what happens on '''notifier send'''.
+
+~ Example
+
+The ::model module sends the <Update> event in response to commands that
+change the model's data:
+
+|   notifier send ::model <Update>
+
+The .view megawidget displays the model state, and needs to know about model
+updates.  Consequently, it subscribes to the ::model's <Update> event.
+
+|   notifier bind ::model <Update> .view [list .view ModelUpdate]
+
+When the ::model sends the event, the .view's ModelUpdate subcommand will be
+called.
+
+Later the .view megawidget is destroyed.  In its destructor, it tells the
+'''notifier''' that it no longer exists:
+
+|   notifier forget .view
+
+All bindings involving .view are deleted.
+
+~ Reference Implementation
+
+The reference implementation is available
+[http://www.wjduquette.com/notifier/].  It is written in Tcl, and makes use of
+SQLite3, which will be included as a package in Tcl 8.6 to support TDBC.
+Provided that SQLite3 is available, the reference implementation should work
+in Tcl 8.5 as well.
+
+~ Copyright
+
+This document has been placed in the public domain.
