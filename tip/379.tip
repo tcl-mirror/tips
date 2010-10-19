@@ -1,6 +1,6 @@
 TIP:		379
 Title:		Add a Command for Delivering Events Without Tk
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Will Duquette <will@wjduquette.com>
 State:		Draft
 Type:		Project
@@ -41,12 +41,14 @@ implements just such a mechanism.
 The '''notifier''' manages a collection of event bindings.  An event binding
 has four elements:
 
-   * A ''subject'': the name of the entity that will be sending the event.  It
+   * A
+     ''subject'': the name of the entity that will be sending the event.  It
      will usually be the name of a Tcl command representing an object of some
      kind, but can also be the name of a namespace, or any other unique
      string.
 
-   * The ''event'' itself: an occurrence in the life of the ''subject'' that
+   * The
+     ''event'' itself: an occurrence in the life of the ''subject'' that
      other entities might care about.  An ''event'' has a name, and may also
      have arguments.  By convention, event names are written in camel-case in
      angle brackets, e.g., <MyEvent>.  Each ''subject'' must document the
