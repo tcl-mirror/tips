@@ -1,0 +1,88 @@
+TIP:		381
+Title:		Call Chain Introspection and Control
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	20-Oct-2010
+Keywords:	TclOO, iTcl
+
+~ Abstract
+
+This TIP proposes mechanisms for inspecting the TclOO call chain for a
+particular method, both externally via '''info''' and from within a call to
+that method. It also proposes a mechanism that will allow the traversal of the
+call chain in a more controlled way than at present with the '''next'''
+command.
+
+~ Rationale
+
+Experience with TclOO in deployment has shown that the call chain mechanism
+used for identifying method implementations to bind to a particular method
+call is not just a powerful system, but also fairly difficult to understand.
+In particular, there is currently no way to discover what implementations of a
+method will be actually called, which makes debugging more difficult than it
+ought to be.
+
+In addition, it has been found that it is quite difficult to manage multiple
+inheritance with TclOO. In particular, when a "diamond" inheritance graph is
+constructed where the different arms of the graph require different arguments,
+it is exceptionally difficult to ensure that the correct arguments get
+delivered to the right constructors, this being a requirement for some of the
+ways in which people use [[incr Tcl]] and build megawidgets. Arguably, in
+these cases it would be perhaps better for code to use delegation as a class
+composition mechanism, but it is not the place of TclOO to impose such a
+policy. As such, there needs to be a mechanism to allow more precise runtime
+control over the traversal of call chain (control over the construction of the
+chain would not be so useful; there simply is no right order that can ensure
+that immiscible constructor arguments get passed correctly).
+
+~ Proposed Changes
+
+There will be the the following subcommands of '''info''' added:
+
+ > '''info object call''' ''objectName methodName''
+
+This will return a list describing the methods used to implement a call to the
+given ''methodName'' on the given ''objectName''. It will be an error to call
+it on anything that is not an object, but in the case that ''methodName'' does
+not describe a (visible) method, the returned list will describe how things
+are handled by '''unknown''' processing.
+
+ > '''info class call''' ''className methodName''
+
+This will be similar to '''info object call''', but will instead describe what
+would happen with a stereotypical instance of ''className''.
+
+In addition, there will be an extra subcommand of '''self''':
+
+ > '''self call'''
+
+This will return a list of two items, the first being the list that would have
+been returned by '''info object call''' for this method call, and the second
+being an index into the list of the current method (i.e., '''0''' for the
+first implementation on the list).
+
+Finally, there will be another command made available inside method bodies to
+provide the advanced chain calling described above:
+
+ > '''nextto''' ''className'' ?''arg ...''?
+
+This command will behave just like '''next''' except that it will scan
+''forward'' in the current method chain until the implementation of the method
+provided by ''className'' is located, and chain to that (while passing in the
+''arg''uments given, of course). It will be an error to attempt to call a
+class's implementation of a method that is not on the chain, or that is
+preceding the currently executing method implementation, and it will not be
+possible to jump to filters applied to the method.
+
+~ Reference Implementation
+
+To be done...
+
+~ Copyright
+
+This document has been placed in the public domain.
