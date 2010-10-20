@@ -1,0 +1,109 @@
+TIP:		380
+Title:		TclOO Slots for Flexible Declarations
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal K. Fellows <dkf@users.sf.net>
+Created:	20-Oct-2010
+
+~ Abstract
+
+This TIP proposes a system that enables a more flexible system of handling all
+declarations relating to classes and objects that resolve to control over a
+list of things. This system, which will use TclOO to configure itself, will
+enable the scripting of additional mechanisms for manipulating declarations
+and will also include a change to the default behavior of the '''filter''' and
+'''variable''' declarations, where the standard "replace everything" behavior
+was found to be non-obvious in practice. In order to enable this, the exact
+behavior of the '''unknown''' method mechanism will be slightly varied.
+
+~ Rationale
+
+Substantial deployment experience with TclOO now exists, and one of the things
+that has been consistently found to be surprising has been the way that the
+'''variable''' declaration (part of '''oo::define''' and '''oo::objdefine''')
+replaces the current list of declared variables. Personal experimentation has
+indicated that the '''filter''' declaration is just as surprising, though it
+is admittedly less frequently used. Therefore it is desirable to alter the way
+such declarations work so that they append to the list of variables (or
+filters, depending on what is being declared).
+
+However, if this is being done then there is a need for substantial complexity
+to be added; there must be ''some'' way to set the list of things being
+declared or clear it as well as appending to it. Moreover, at the base level
+both '''superclass''' and '''mixin''' declarations are basically the same
+structure; a list of things. For moral consistency, it becomes necessary to
+apply the same basic rules there, though with different defaults; in practice
+the default "replace" rule is suitable in for both those two cases.
+
+Note that for the declarations not mentioned, their natural model is not that
+of a list so there is no underlying unity of declaration system possible at
+this level. They will be left unchanged by this TIP.
+
+~ Proposed Change
+
+My proposed solution is the introduction of a new standard class,
+'''::oo::Slot''', whose instances will provide configuration services to the
+'''oo::define''' and '''oo::objdefine''' commands. The proposed definition of
+the class will be this:
+
+|oo::define oo::Slot {
+|    method Get {} {error unimplemented}
+|    method Set list {error unimplemented}
+|    method --default-operation args {error unimplemented}
+|    method -set args {
+|        tailcall my Set $args
+|    }
+|    method -append args {
+|        tailcall my Set [list \
+|                {*}[uplevel 1 [list [namespace which my] Get]] {*}$args]
+|    }
+|    method -clear {} {
+|        tailcall my Set {}
+|    }
+|    method unknown {args} {
+|        if {[llength $args] == 0} {
+|            tailcall my $def --default-operation
+|        } elseif {![string match -* [lindex $args 0]]} {
+|            tailcall my --default-operation {*}$args
+|        }
+|        next {*}$args
+|    }
+|    export -set -append -clear
+|    unexport unknown destroy
+|}
+
+It will be up to the instances (whose names do ''not'' form part of this
+specification) to define appropriate interpretations for the '''Get''',
+'''Set''' and '''--default-operation''' methods, with the last being envisaged
+as an ideal fit for being done by one of the other methods, with the
+connection being made by '''forward'''.
+
+In order to enable this, a small change is required to the '''unknown'''
+method mechanism. This change is that in the case that there is no method name
+at all passed to a call into an object, that will have to be handled by
+passing into the unknown method mechanism. This will only have a significant
+impact on declarations of the '''unknown''' method where the formal argument
+list was ''args''; in the other cases there is typically a required first
+formal argument and that leads under the current implementation of methods to
+the same error message as currently defined. Since this is a rare case of a
+rarely used mechanism, I judge that this is likely to be an acceptable
+semantic change.
+
+The real major change here is that for certain things (i.e., '''variable''',
+'''superclass''', '''mixin''' and '''filter''' declarations) it becomes
+trickier to use these with named things whose names start with a "-"
+character. I believe this to be a reasonable and minimal trade-off, given that
+in return we are getting more natural usage for many users while maintaining a
+standard mechanism for a whole way of handling declarations.
+
+~ Reference Implementation
+
+See SF Patch #3084339 [https://sourceforge.net/support/tracker.php?aid=3084339]
+
+~ Copyright
+
+This document has been placed in the public domain.
