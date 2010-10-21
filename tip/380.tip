@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	20-Oct-2010
 
@@ -66,7 +66,7 @@ the class will be this:
 |    }
 |    method unknown {args} {
 |        if {[llength $args] == 0} {
-|            tailcall my $def --default-operation
+|            tailcall my --default-operation
 |        } elseif {![string match -* [lindex $args 0]]} {
 |            tailcall my --default-operation {*}$args
 |        }
