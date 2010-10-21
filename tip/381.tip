@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	20-Oct-2010
 Keywords:	TclOO, iTcl
@@ -51,6 +51,15 @@ given ''methodName'' on the given ''objectName''. It will be an error to call
 it on anything that is not an object, but in the case that ''methodName'' does
 not describe a (visible) method, the returned list will describe how things
 are handled by '''unknown''' processing.
+
+Each element of the list will be a tuple. The first element of the tuple will
+be either '''filter''' or '''method''' to indicate whether it is a filter or
+not; the remainder of the tuple's interpretation will depend on which it is.
+With a normal method implementation, the second element will be '''object'''
+or the fully-qualified name of the class of that provided the implementation.
+With a filter, the second element will be the filter name, and the third
+element will be '''object''' or the fully-qualified name of the class that
+provided the implementation.
 
  > '''info class call''' ''className methodName''
 
