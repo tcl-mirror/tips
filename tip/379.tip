@@ -1,6 +1,6 @@
 TIP:		379
 Title:		Add a Command for Delivering Events Without Tk
-Version:	$Revision: 1.7 $
+Version:	$Revision: 1.8 $
 Author:		Will Duquette <will@wjduquette.com>
 State:		Draft
 Type:		Project
@@ -278,7 +278,7 @@ however, the same effect can be achieved by calling '''hook send''' in an
 I've often considered adding a mode like this to our existing implementation,
 but have always thought better of it in the end.
 
-~~ The '''hook call''' Command
+~~ The [hook call] Command
 
 Two members of tcl-core have suggested that a '''hook call''' command would be
 useful to support plug-in architectures.  '''hook call''' is like '''hook
