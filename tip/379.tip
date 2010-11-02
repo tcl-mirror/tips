@@ -1,6 +1,6 @@
 TIP:		379
 Title:		Add a Command for Delivering Events Without Tk
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Will Duquette <will@wjduquette.com>
 State:		Draft
 Type:		Project
@@ -245,7 +245,7 @@ Later the .view megawidget is destroyed.  In its destructor, it tells the
 
 All bindings involving .view are deleted.
 
-- Possible Additions
+~ Possible Additions
 
 During discussions on the tcl-core mailing list, members suggested a number of
 possible additions to the functionality described in the first draft of this
@@ -266,7 +266,7 @@ as TIPs in their own right.
 On the other hand, they are genuinely interesting, so I want to mention them
 here.
 
--- Asynchronous Dispatch
+~~ Asynchronous Dispatch
 
 The '''hook send''' command calls bindings synchronously, returning after all
 bindings have been called.  An asychronous mode has been proposed, where
@@ -278,7 +278,7 @@ however, the same effect can be achieved by calling '''hook send''' in an
 I've often considered adding a mode like this to our existing implementation,
 but have always thought better of it in the end.
 
-~~ The '''hook call''' command
+~~ The '''hook call''' Command
 
 Two members of tcl-core have suggested that a '''hook call''' command would be
 useful to support plug-in architectures.  '''hook call''' is like '''hook
