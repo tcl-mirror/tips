@@ -1,0 +1,51 @@
+TIP:		382
+Title:		Add -nocomplain Option to tk_getSaveFile
+Version:	$Revision: 1.1 $
+Author:		Pawel Salawa <pawelsalawa@gmail.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	02-Nov-2010
+Post-History:	
+Keywords:	Tk, dialog
+
+~ Abstract
+
+This document describes new option for '''tk_getSaveFile''' named
+'''-nocomplain''' that turns off the warning dialog when selecting an existing
+file for overwriting.
+
+~ Rationale
+
+There's been numerous requests for support for file dialog that allows to
+select a file name with no matter if it exists or not.  One workaround was to
+use '''ttk::getAppendFile''' from http://wiki.tcl.tk/15897, but it used its
+own file dialog, instead of native one.  This TIP makes use of native file
+dialog.
+
+Option name is chosen to fit into Tcl naming convention and be intuitive.  The
+'''glob''' command already supports option with that name and it's used for
+similar purpose.
+
+~ Specification
+
+The '''tk_getSaveFile''' would support '''-nocomplain''' option with boolean
+value as its argument.  Default value for this option would be "'''false'''".
+If value for this option is "'''true'''", then the dialog won't warn user in
+case he selects existing file, that he's about to overwrite the file.  The
+option would be available only for '''tk_getSaveFile''' and won't be available
+for '''tk_getOpenFile'''.
+
+There's no support for MacOS X platform, since Cocoa framework doesn't provide
+public API to accomplish that.  Therefore a platform-specific note would be
+required in Tk documentation.  Maybe this will be supported on MacOS X
+platform in future.
+
+~ Reference Implementation
+
+http://joanna18.net.autocom.pl/~boogie/nocomplain.patch
+
+~ Copyright
+
+This document has been placed in the public domain.
