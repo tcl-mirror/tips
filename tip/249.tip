@@ -1,12 +1,12 @@
 TIP:            249
 Title:          Unification of Tcl's Parsing of Numbers
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         David S. Cargo <escargo@skypoint.com>
 Author:         Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Informative
-Vote:           Pending
+Vote:           No voting
 Created:        13-Jun-2005
 Post-History:   
 
