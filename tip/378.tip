@@ -1,11 +1,11 @@
 TIP:            378
 Title:          Fixing the Performance of TIP 280
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Kupries <andreask@activestate.com>
 Author:         Jeff Hobbs <jeffh@activestate.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        04-Oct-2010
 Tcl-Version:	8.6
 Post-History:
