@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.189 $
+Version:        $Revision: 1.190 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -11,6 +11,7 @@ Author:         Fabrice Pardo <Fabrice.Pardo@l2m.cnrs.fr>
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Mark Janssen <mpc.janssen@gmail.com>
+Author:         Reinhard Max <max@tclers.tk>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -109,6 +110,26 @@ See Tk Patch 1477426.
 [http://sourceforge.net/tracker/index.php?func=detail&aid=1477426&group_id=12997&atid=312997]
 
 Also see [issue:1477426].
+
+----
+~ Proposal
+
+A new subcommand should get added to [file] with the following syntax:
+
+| file monitor '''path''' '''filter''' '''callback'''
+
+Similar to the '''fileevent command, this will register
+'''callback''' to be called from the event loop when one of the events
+specified by '''filter''' occurs to the file or directory specified by
+'''path'''.
+
+The argument conventions for the callback and the syntax of the filter
+argument are yet to be determined.
+
+The ''file'' command was chosen over ''fileevent'', because the object to
+be monitored is passed by name and not as an open channel.
+
+----
 
 ~ Copyright
 
