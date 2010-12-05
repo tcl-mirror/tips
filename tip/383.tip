@@ -1,0 +1,92 @@
+TIP:            383
+Title:          Injecting Code into Suspended Coroutines
+Version:        $Revision: 1.1 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:         Miguel Sofer <msofer@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Created:        03-Dec-2010
+Vote:		Pending
+Post-History:   
+Keywords:       debugging,coroutine,yielded
+Tcl-Version:    8.6
+
+~ Abstract
+
+This proposes a new command, '''coroinject''', that allows a programmer to
+inject arbitrary code into a suspended coroutine, for execution on next
+resumption.
+
+~ Rationale
+
+When debugging complex coroutines - with many yield points and possibly rich
+state in local variables - sometimes one would like to inspect their state
+"from the outside", i.e., at a point where they are suspended.
+
+A typical situation is that of a big, single-threaded, event+coro system,
+where the coro happily enables/disables fileevents along its life, and the
+fileevents are one way to resume the coro. At a given point (bug), things get
+stalled, with the fileevents disabled. The obvious questions are:
+
+ 1. "where" is the coro (at which yield site)? and
+
+ 2. what are the values of its local variables?
+
+Both these questions can be answered with the new '''coroinject''' primitive.
+The idea is to force a resumption of the coro along with an "immediate
+execution of extra code" directive, where the extra code says "dump the call
+stack with '''info level''' and '''info frame'''", or "dump the locals", etc.
+
+Another use would be to inject "'''return -code return'''", as an alternative
+to renaming to {} for terminating the coro in a way that respects its
+'''catch'''/'''finally''' termination handlers. Alternatively, returning with
+an error code will have the effect of gathering call stack information in the
+'''-errorstack''' options dictionary entry.
+
+At the other end of the spectrum, the injected code can be completely
+transparent: either with a forced resumption and injected code ending with
+'''yield''', or merely waiting for normal resumption when the app sees fit,
+and injected code falling back to normal coro code.
+
+Note that the feature is similar to a proc-entry trace, but coroutine
+resumption is not currently a trace target.  Also, it is an intrinsically
+"one-shot" mechanism, which makes it a better fit for its debugging purposes.
+
+~ Definition
+
+The new command
+
+ > '''coroinject''' ''coroname'' ''cmd'' ?''arg1 ...''?
+
+prepends to the code to be executed on resumption of the currently suspended
+coroutine, ''coroname'', the following code:
+
+ >  ''cmd'' ''arg1...'' ''resumearg''
+
+where ''resumearg'' is the single argument passed to the resumption command
+''coroname''.  In turn, the result from the execution of ''cmd'' will be seen
+by the corotine's code as the result of '''yield'''.
+ 
+Note that:
+
+ 1. Resumption itself must be done separately, by calling ''coroname'' later,
+
+ 2. If '''coroinject''' is called several times on the same ''coroname''
+    before resuming it, the commands pile up in LIFO order.
+
+ 3. In combination, the appending of ''resumearg'' and the use of the result
+    of ''cmd'' to provide the result of '''yield''' will allow the following
+    style of fully transparent injection:
+
+|    proc probe {x y resumearg} {do things $x $y;return $resumearg}
+|    coroinject C probe foo bar
+
+~ Reference Implementation
+
+The current '''::tcl::unsupported::inject''' implements most of the
+functionality described here, minus the ''resumearg'' passing.  It will be
+updated to include it if consensus gathers on this style.
+
+~ Copyright
+
+This document has been placed in the public domain.
