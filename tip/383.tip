@@ -1,12 +1,12 @@
 TIP:            383
 Title:          Injecting Code into Suspended Coroutines
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
+Vote:           Pending
 Created:        03-Dec-2010
-Vote:		Pending
 Post-History:   
 Keywords:       debugging,coroutine,yielded
 Tcl-Version:    8.6
@@ -65,8 +65,8 @@ coroutine, ''coroname'', the following code:
 
 where ''resumearg'' is the single argument passed to the resumption command
 ''coroname''.  In turn, the result from the execution of ''cmd'' will be seen
-by the corotine's code as the result of '''yield'''.
- 
+by the coroutine's code as the result of '''yield'''.
+
 Note that:
 
  1. Resumption itself must be done separately, by calling ''coroname'' later,
@@ -75,7 +75,7 @@ Note that:
     before resuming it, the commands pile up in LIFO order.
 
  3. In combination, the appending of ''resumearg'' and the use of the result
-    of ''cmd'' to provide the result of '''yield''' will allow the following
+    of ''cmd'' to provide the result of '''yield''', will allow the following
     style of fully transparent injection:
 
 |    proc probe {x y resumearg} {do things $x $y;return $resumearg}
