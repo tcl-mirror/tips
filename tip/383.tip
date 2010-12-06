@@ -1,6 +1,6 @@
 TIP:            383
 Title:          Injecting Code into Suspended Coroutines
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
@@ -80,6 +80,10 @@ Note that:
 
 |    proc probe {x y resumearg} {do things $x $y;return $resumearg}
 |    coroinject C probe foo bar
+
+~ Naming
+
+Of course, the proposed '''coroinject''' is a placeholder for a suitable name. Alternatives that also make sense are: '''::tcl::coroinject''' and '''interp coroinject'''. Constructive bikeshedding welcome.
 
 ~ Reference Implementation
 
