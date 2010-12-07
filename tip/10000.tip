@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.197 $
+Version:        $Revision: 1.198 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -51,7 +51,7 @@ Platform-speciffic APIs which should be supported by the final implementation (l
 
 ~ Proposal
 
-A new subcommand should get added to [file] with the following syntax:
+A new subcommand should get added to the '''file''' command with the following syntax:
 
  > '''file monitor''' ''path'' ''callback'' ?''filter''?
 
