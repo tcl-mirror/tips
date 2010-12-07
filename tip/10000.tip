@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.193 $
+Version:        $Revision: 1.194 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -40,8 +40,11 @@ these monitoring capabilities or instances on which they have been
 disabled.
 
 The currently known native APIs are (list to be extended):
+
  * Linux: inotify[http://en.wikipedia.org/wiki/Inotify]
+
  * BSD: kqueue[http://en.wikipedia.org/wiki/Kqueue]
+
  * Mac OS X: FSEvents[http://en.wikipedia.org/wiki/FSEvents]
 
 ~ Proposal
