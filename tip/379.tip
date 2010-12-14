@@ -1,6 +1,6 @@
 TIP:		379
 Title:		Add a Command for Delivering Events Without Tk
-Version:	$Revision: 1.8 $
+Version:	$Revision: 1.9 $
 Author:		Will Duquette <will@wjduquette.com>
 State:		Draft
 Type:		Project
@@ -13,11 +13,12 @@ Keywords:	event
 ~ Abstract
 
 This proposal defines the '''hook''' ensemble command, which implements the
-Subject/Observer pattern.  It allows ''subjects'', which may modules, objects,
-widgets, etc., to synchronously send ''events'' to an arbitrary number of
-subscribers, called ''observers''.  A subject may send any number of distinct
-events, and any number of observers can bind callbacks to a particular event
-sent by a particular subject. Event bindings can be queried and deleted.
+Subject/Observer pattern.  It allows ''subjects'', which may be modules,
+objects, widgets, and so forth, to synchronously call ''hooks'' which may be
+bound to an arbitrary number of subscribers, called ''observers''.  A subject
+may call any number of distinct hooks, and any number of observers can bind
+callbacks to a particular hook called by a particular subject. Hook bindings
+can be queried and deleted.
 
 ~ Rationale
 
@@ -28,37 +29,37 @@ tight coupling between the modules sending and receiving the notification.
 
 Loose coupling between sender and receiver is often desirable, however.  In
 Model/View/Controller terms, a View can send a command (stemming from user
-input) to the Controller, which updates the Model.  The Model can then send an
-event ''to which all relevant Views subscribe.''  The Model is decoupled from
+input) to the Controller, which updates the Model.  The Model can then call a
+hook ''to which all relevant Views subscribe.''  The Model is decoupled from
 the Views, and indeed need not know whether any Views actually exist.
 
 At present, Tcl/Tk has no standard mechanism for implementing loose coupling
 of this kind.  This proposal defines a new command, '''hook''', which
 implements just such a mechanism.
 
-~ Hook Events
+~ Hook Bindings
 
-The '''hook''' command manages a collection of event bindings.  An event
-binding has four elements:
+The '''hook''' command manages a collection of hook bindings.  A hook binding
+has four elements:
 
    * A
-     ''subject'': the name of the entity that will be sending the event.
+     ''subject'': the name of the entity that will be calling the hook.
 
-   * The
-     ''event'' itself: an occurrence in the life of the ''subject'' that other
-     entities might care about.  An ''event'' has a name, and may also have
-     arguments.  By convention, event names are written in mixed-case in angle
-     brackets, e.g., <MyEvent>.  Each ''subject'' must document the names and
-     arguments of the events it can send.
+   * The ''hook'' itself. A hook usually reflects some occurrence in the life
+     of the ''subject'' that other entities might care to know about.  A
+     ''hook'' has a name, and may also have arguments.  Hook names are
+     arbitrary strings.  Each ''subject'' must document the names and
+     arguments of the hooks it can call.
 
-   * The name of the ''observer'' that wishes to receive the ''event'' from
+   * The name of the ''observer'' that wishes to receive the ''hook'' from
      the ''subject''.
 
-   * A command prefix to which the ''event'' arguments will be appended.
+   * A command prefix to which the ''hook'' arguments will be appended when
+     the binding is executed.
 
 ~~ Subjects and Observers
 
-For convenience, this TIP, collectively refers to subjects and observers as
+For convenience, this TIP collectively refers to subjects and observers as
 ''objects'', while placing no requirements on how these ''objects'' are
 actually implemented.  An object can be a a TclOO or Snit or XOTcl object, a
 Tcl command, a namespace, a module, a pseudo-object managed by some other
@@ -66,8 +67,8 @@ object (as tags are managed by the Tk text widget) or simply a well-known
 name.
 
 Subject and observer names are arbitrary strings; however, as '''hook''' might
-be used at the core and package level, it's necessary to have conventions that
-avoid name collisions between packages written by different people.
+be used at the package level, it's necessary to have conventions that avoid
+name collisions between packages written by different people.
 
 Therefore, any subject or observer name used in core or package level code
 should look like a Tcl command name, and should be defined in a namespace
@@ -76,8 +77,8 @@ that creates a set of pseudo-objects and uses '''hook''' to send
 notifications.  The pseudo-objects have names that are not commands and exist
 in their own namespace, rather like file handles do.  To avoid name collisions
 with subjects defined by other packages, users of '''hook''', these
-'''::foo''' handles ''SHOULD'' have names like '''::foo::1''', '''::foo::2''',
-and so on.
+'''::foo''' handles should have names like '''::foo::1''', '''::foo::2''', and
+so on.
 
 Because object names are arbitrary strings, application code can use whatever
 additional conventions are dictated by the needs of the application.
@@ -88,52 +89,71 @@ The '''hook''' command is an ensemble command with the following subcommands:
 
 ~~ Bind Subcommand
 
-This subcommand is used to create, update, delete, and query event bindings.
+This subcommand is used to create, update, delete, and query hook bindings.
 
- > '''hook bind''' ?''subject''? ?''event''? ?''observer''? ?''cmdprefix''?
+ > '''hook bind''' ?''subject''? ?''hook''? ?''observer''? ?''cmdPrefix''?
 
 Called with no arguments, '''hook bind''' returns a list of the subjects with
-active bindings.
+hooks to which observers are currently bound.
 
 Called with one argument, a ''subject'', '''hook bind''' returns a list of the
-events for which the ''subject'' has active bindings.
+subject's hooks to which observers are currently bound.
 
-Called with two arguments, a ''subject'' and an ''event'', '''hook bind'''
-returns a list of the observers which are bound to this ''subject'' and
-''event''.
+Called with two arguments, a ''subject'' and a ''hook'', '''hook bind'''
+returns a list of the observers which are currently bound to this ''subject''
+and ''hook''.
 
-Called with three arguments, a ''subject'', an ''event'', and an ''observer'',
+Called with three arguments, a ''subject'', a ''hook'', and an ''observer'',
 '''hook bind''' returns the binding proper, the command prefix to be called
-when the event is sent, or the empty string if there is no such binding.
+when the hook is called, or the empty string if there is no such binding.
 
 Called with four arguments, '''hook bind''' creates, updates, or deletes a
-binding.  If ''binding'' is the empty string, '''hook bind''' deletes any
-existing binding for the ''subject'', ''event'', and ''observer''.  Otherwise,
-''binding'' must be a command prefix taking as many arguments as are
-documented for the ''subject'' and ''event''.
+binding.  If ''cmdPrefix'' is the empty string, '''hook bind''' deletes any
+existing binding for the ''subject'', ''hook'', and ''observer''; nothing is
+returned.  Otherwise, ''cmdPrefix'' must be a command prefix taking as many
+additional arguments as are documented for the ''subject'' and ''hook''. The
+binding is added or updated, and the observer is returned.
 
 If the ''observer'' is the empty string, "", '''hook''' will create a new
 binding using an automatically generated observer name of the form
 '''::hook::ob'''<''number''>.  The automatically generated name will be
 returned, and can be used to query, update, and delete the binding as usual.
+If automated observer names are always used, the observer name effectively
+becomes a unique binding ID.
 
-The ''subject'' and ''event'' can contain wildcards; the observer will be
-bound to all matching subjects and events.  The wildcards will be resolved
-when events are sent.
+~~~ Binds During Calls
 
-The ''cmdprefix'' may contain '''%s''', '''%e''', and '''%o''' conversions,
-which are expanded at call time to the actual subject, object, and observer
-names.
+It is possible to call '''hook bind''' to create or delete a binding to a
+''subject'' and ''hook'' while in an observer binding for that same
+''subject'' and ''hook''.  The following rules determine what happens when
+'''hook bind $s $h $o $binding''' is called during the execution of '''hook
+call $s $h''':
+
+   * No binding is ever called after it is deleted.
+
+   * When a binding is called, the most recently given command prefix is
+     always used.
+
+   * The set of observers whose bindings are to be called is determined when
+     '''hook call''' begins to execute, and does not change thereafter, except
+     that deleted bindings are not called.
+
+In particular:
+
+   * If $o's binding to $s and $h is deleted, and $o's binding has not yet
+     been called during this execution of '''hook call $s $h''', it will not
+     be called.  (Note that it might already have been called; and in all
+     likelihood, it is probably deleting itself.)
+
+   * If $o changes the command prefix that's bound to $s and $h, and if $o's
+     binding has not yet been called during this execution of '''hook call $s
+     $h''', the new binding will be called when the time comes.  (But again,
+     it is probably $o's binding that is is making the change.)
+
+   * If a new observer is bound to $s and $h, its binding will not be called
+     until the next invocation of '''hook call $s $h'''.
 
 ~~~ Discussion
-
-'''Subject/Event Order:''' It has been suggested that the event name should
-precede the subject name, as an observer might want to subscribe to the same
-event from all subjects.  However, the subject has priority, as it is the
-subject that determines the events that are available, and the semantics of
-those events.  A "cannon" object and a "house" object might both have <Fire>
-events, but it's unlikely that a single callback would reasonably handle both
-of them.
 
 '''Optional Observers:''' It has been suggested that the ''observer'' argument
 should follow the ''cmdprefix'' argument; if it is omitted, an observer name
@@ -143,49 +163,40 @@ frequently used in practice, and is likely to be much shorter than the
 following long ones tend to get lost visually; keeping the ''observer'' before
 the ''cmdprefix'' leads to more easily readable code.
 
-~~ Send Subcommand
+~~ Call Subcommand
 
- > '''hook send''' ''subject event'' ?''args...''?
+ > '''hook call''' ''subject hook'' ?''args...''?
 
-This command is called when the named ''subject'' wishes to send the named
-''event''.  All relevant bindings are called with the specified arguments in
+This command is called when the named ''subject'' wishes to call the named
+''hook''.  All relevant bindings are called with the specified arguments in
 the global namespace. Note that the bindings are called synchronously, before
-'''hook send''' returns; this allows the ''args'' to include references to
-entities that will be cleaned up as soon as the event has been sent.
+'''hook call''' returns; this allows the ''args'' to include references to
+entities that will be cleaned up as soon as the hook has been called.
 
-The order in which the bindings are called is undefined.  If sequence among
-observers must be preserved, define one observer and have it call the others
-in sequence.
+The order in which the bindings are called is not guaranteed.  If sequence
+among observers must be preserved, define one observer and have its bindings
+call the other callbacks directly in the proper sequence.
 
 Because the '''hook''' mechanism is intended to support loose coupling, it is
 presumed that the ''subject'' has no knowledge of the observers, nor any
-expectation regarding return values.  (But see the discussion of the '''hook
-call''' command, below.)  This has a number of implications:
+expectation regarding return values.  This has a number of implications:
 
-   * '''hook send''' returns the empty string.
+   * '''hook call''' returns the empty string.
 
-   * Normal return values from binding commands are ignored.
+   * Normal return values from observer bindings are ignored.
 
-   * Error values are handled by the '''interp bgerror''' mechanism by
-     default.  Because the ''subject'' has no knowledge of the observers, it
-     has no particular competence at handling their errors.  That makes it an
-     application issue, and subject to the application policy for handling
-     background errors.  Hence, '''interp bgerror''' is used.
+   * Errors and other exceptional returns propagate normally by default.  This
+     will rarely be what is wanted, because the subjects usually have no
+     knowledge of the observers and will therefore have no particular
+     competence at handling their errors.  That makes it an application issue,
+     and so applications will usually want to define an '''-errorcommand'''.
 
-   * Observers have no reason to affect the execution of '''hook'''.  Hence,
-     any other exceptional return codes (e.g., continue or break) will cause
-     '''hook''' to throw an error on behalf of the particular binding.  The
-     error will be handled as though the binding had thrown it.
+If the '''-errorcommand''' configuration option has a non-empty value, its
+value will be invoked for all errors and other exceptional returns in observer
+bindings.  See '''hook configure''', below, for more information on
+configuration options.
 
-If the '''-errordelete''' configuration option is true, bindings throwing
-errors will be deleted so that it doesn't happen again.
-
-If the '''-bgerror''' configuration option is false, errors in bindings will
-propagate to the caller of '''hook send''' in the normal way, possibly
-preventing subsequent bindings from being called.
-
-See '''hook configure''', below, for more information on configuration
-options.
+Also, see below for possible extensions to '''hook call'''.
 
 ~~ Forget Subcommand
 
@@ -193,6 +204,17 @@ options.
 
 This command deletes any existing bindings in which the named object appears
 as either the ''subject'' or the ''observer''.
+
+Bindings deleted by '''hook forget''' will never be called again.  In
+particular,
+
+  * If an observer is forgotten during a call to '''hook call''', any uncalled
+    binding it might have had to the relevant subject and hook will '''not'''
+    be called subsequently.
+
+  * If a subject $s is forgotten during a call to '''hook call $s $h''',
+    '''hook call''' will return as soon as the current binding returns.  No
+    further bindings will be called.
 
 ~~ Configuration Subcommands
 
@@ -206,36 +228,34 @@ configuration options.
 This command sets the value of one or more of the '''hook''' command's
 configuration options:
 
- -bgerror: This boolean flag, if true (the default), means that errors in
-    binding scripts are handled by the interpreter's '''interp bgerror'''
-    handler.  If false, errors in binding scripts are propagated to the caller
-    of '''hook send'''.
-
- -errordelete: The boolean flag, if true (the default), means that bindings
-    that throw an error are deleted, so that the error doesn't recur.  '''I
-    can see that this is a useful feature; in at least one of the applications
-    in which I've used this mechanism, a setting of false is genuinely what's
-    wanted.  Hence, I've added this option.'''
+ -errorcommand: If the value of this option is the empty string, "", then
+    errors and other exception returns in binding scripts are propagated
+    normally.  Otherwise, it must be a command prefix taking three additional
+    arguments: a list {''subject hook arglist observer''}, the result string,
+    and the return options dictionary.  Given this information, the
+    '''-errorcommand''' can choose to log the error, call '''interp
+    bgerror''', delete the errant binding (thus preventing the error from
+    arising a second time) and so forth.
 
  -tracecommand: The option's value should be a command prefix taking four
-    arguments: a ''subject'', an ''event'', a list of event ''argument
-    values'', and a list of ''objects receiving'' the event.  The command will
-    be called for each event that is sent. This allows the application to
-    trace event execution for debugging purposes.
+    arguments: a ''subject'', a ''hook'', a list of the hook's ''argument
+    values'', and a list of ''objects'' the hook.  The command will be called
+    for each hook that is called.  This allows the application to trace hook
+    execution for debugging purposes.
 
 ~ Example
 
-The ::model module sends the <Update> event in response to commands that
+The ::model module calls the <Update> hook in response to commands that
 change the model's data:
 
-|   hook send ::model <Update>
+|   hook call ::model <Update>
 
 The .view megawidget displays the model state, and needs to know about model
-updates.  Consequently, it subscribes to the ::model's <Update> event.
+updates.  Consequently, it subscribes to the ::model's <Update> hook.
 
 |   hook bind ::model <Update> .view [list .view ModelUpdate]
 
-When the ::model sends the event, the .view's ModelUpdate subcommand will be
+When the ::model calls the hook, the .view's ModelUpdate subcommand will be
 called.
 
 Later the .view megawidget is destroyed.  In its destructor, it tells the
@@ -268,39 +288,39 @@ here.
 
 ~~ Asynchronous Dispatch
 
-The '''hook send''' command calls bindings synchronously, returning after all
+The '''hook call''' command calls bindings synchronously, returning after all
 bindings have been called.  An asychronous mode has been proposed, where
 bindings would be called in the context of the event loop for even looser
 coupling between the subject and the observers.  This is certainly doable;
-however, the same effect can be achieved by calling '''hook send''' in an
+however, the same effect can be achieved by calling '''hook call''' in an
 '''after''' handler.
 
 I've often considered adding a mode like this to our existing implementation,
 but have always thought better of it in the end.
 
-~~ The [hook call] Command
+~~ Accumulating Binding Return Values
 
-Two members of tcl-core have suggested that a '''hook call''' command would be
-useful to support plug-in architectures.  '''hook call''' is like '''hook
-send''', except that it would capture the return values of all observer
-bindings for use by the caller.  This is an interesting notion; but I'm not
-sure how to get it right.  In some use cases, it would be enough just to get a
-list of the return values.  In other uses cases, the caller might want to know
-the observer, the return value, and the complete dictionary of return options.
+Two members of tcl-core have suggested that '''hook call''' would be useful to
+support plug-in architectures if the return values of all bindings called were
+properly captured.  This is an interesting notion; but I'm not sure how to get
+it right.  In some use cases, it would be enough just to get a list of the
+return values.  In other uses cases, the caller might want to know the
+observer, the return value, and the complete dictionary of return options.
 
-This command could easily use the same table of bindings as '''hook send''',
-but it wouldn't change the basic infrastructure particularly.  Consequently,
-it can be easily added later, should this TIP be accepted.
+I don't want to build up all of this return information in the usual case; if
+it isn't needed, there's no reason to spend the time accumulating it.
+Consequently, what makes sense to me is an option or options that determine
+what kind of information should be returned, e.g., '''hook call ?options...?
+$s $h ...'''
+
+Given that '''hook call''' currently returns the empty string, this
+functionality can easily be added at a later time.
 
 ~ Prototype Implementation
 
 A prototype implementation is available at
-[http://www.wjduquette.com/notifier/].  It is written in Tcl, and makes use of
-SQLite3.  Provided that SQLite3 is available, the prototype implementation
-should work in both Tcl 8.5 and Tcl 8.6.
-
-'''Note:''' The prototype is still for the old '''notifier''' API.  I'll
-update it after the community has had a chance at this draft of the TIP.
+[http://www.wjduquette.com/notifier/hook-0.1.zip].  It is written in Tcl.  The
+prototype implementation should work in both Tcl 8.5 and Tcl 8.6.
 
 ~ Copyright
 
