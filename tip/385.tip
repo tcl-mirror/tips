@@ -1,6 +1,6 @@
 TIP:            385
 Title:          Functional Traces On Variables 
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -12,10 +12,9 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-Functional traces are new variants of read/write variable traces, that rely
+Functional traces are new variants of variable traces, that rely
 purely on value passing rather than variable updating. Applied to array
-traces, they allow a much more efficient implementation of various storage
-backends.
+traces, they allow a much more efficient implementation of various storage backends.
 
 ~ Rationale
 
@@ -44,7 +43,7 @@ passed as an argument to a write trace callback, and taken from the return
 value of a read trace callback. This way, no access to the underlying variable
 is needed.  The array syntax can become a frontend to just about anything,
 without any memory consumption, and with adequate preformance since values are
-passed as ''Tcl_Obj''s.
+passed as ''Tcl_Obj''s. Thus functional traces could also be named "virtual variables".
 
 As an extra bonus, "read-only variables" can be implemented efficiently, which
 is notably impossible with the current API (since the write trace is called
@@ -59,12 +58,14 @@ The new subcommands
 
  > '''trace add variable''' ''name'' '''writef''' ''cmdprefix''
 
-are the functional variants of the existing '''read''' and '''write'''
-variable traces.  The ''cmdprefix'' callback API is close to that of current
-traces, with two variations:
+ > '''trace add variable''' ''name'' '''unsetf''' ''cmdprefix''
 
-  1. For a '''readf''' trace, the callback's returned value is used as the
-     result of the read operation.
+ > '''trace add variable''' ''name'' '''existsf''' ''cmdprefix''
+
+are the functional variants of the existing '''read''', '''write''', and '''unset'''
+variable traces. The new '''existsf''' is made possible by the functional style. The ''cmdprefix'' callback API is close to that of current traces, with two variations:
+
+  1. For a '''readf''' or '''existsf''' trace, the callback's returned value is used as the result of the read/exists operation.
 
   2. For a '''writef''' trace, the value to be written is passed as an extra
      argument to the callback:
@@ -110,6 +111,10 @@ bound checking, disguised as array keys:
 
 Obviously, the same principle can be applied to an SQLite or TDBC database;
 the net result is an instant-loadable "array".
+
+~ Possible Extensions
+
+A natural generalization would be to hook into array-level operations like '''size''', '''names''', '''get''', '''unset''', '''startSearch''', etc. But then, maybe an ensemble/oo API would be preferred (hook one single command prefix for all operations concerning array ''a''). To be discussed.
 
 ~ Reference Implementation
 
