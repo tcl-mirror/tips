@@ -1,6 +1,6 @@
 TIP:		385
 Title:		Functional Traces On Variables 
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:		Draft
 Type:		Project
@@ -8,7 +8,7 @@ Vote:		Pending
 Created:	13-Feb-2011
 Post-History:	
 Keywords:	traces
-Tcl-Version:	8.6
+Tcl-Version:	8.7
 
 ~ Abstract
 
