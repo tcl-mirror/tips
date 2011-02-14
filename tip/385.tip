@@ -1,14 +1,14 @@
-TIP:		385
-Title:		Functional Traces On Variables 
-Version:	$Revision: 1.2 $
-Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	13-Feb-2011
-Post-History:	
-Keywords:	traces
-Tcl-Version:	8.7
+TIP:            385
+Title:          Functional Traces On Variables 
+Version:        $Revision: 1.3 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Feb-2011
+Post-History:   
+Keywords:       traces
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -33,7 +33,7 @@ function which is called on every read, the memory usage is that of a memoized
 function; this does not scale up at all.
 
 A typical situation where this matters, is the use of traces to wrap the
-convenient array syntax over another kind of storage (like a pre-existing
+convenient array syntax around another kind of storage (like a pre-existing
 dictionary or database): what is intended is that '''$a($x)''' becomes
 syntactic sugar for '''[[dict get $d $x]]''', but without duplicating the
 storage in the array. This is currently impossible.
@@ -50,17 +50,17 @@ As an extra bonus, "read-only variables" can be implemented efficiently, which
 is notably impossible with the current API (since the write trace is called
 after the fact, it must rely on another mechanism to retrieve the pre-write
 value).
- 
+
 ~ Definition
 
 The new subcommands
 
- > '''trace add variable''' ?''name''? '''readf''' ?''cmdprefix''?
+ > '''trace add variable''' ''name'' '''readf''' ''cmdprefix''
 
- > '''trace add variable''' ?''name''? '''writef''' ?''cmdprefix''?
+ > '''trace add variable''' ''name'' '''writef''' ''cmdprefix''
 
 are the functional variants of the existing '''read''' and '''write'''
-variable trace.  The ''cmdprefix'' callback API is close to that of current
+variable traces.  The ''cmdprefix'' callback API is close to that of current
 traces, with two variations:
 
   1. For a '''readf''' trace, the callback's returned value is used as the
@@ -69,7 +69,7 @@ traces, with two variations:
   2. For a '''writef''' trace, the value to be written is passed as an extra
      argument to the callback:
 
->    ''cmdprefix... name1 name2'' '''writef''' ''value''
+ >    ''cmdprefix'' ''name1'' ''name2'' '''writef''' ''value''
 
 In both cases, the value is passed efficiently as a '''Tcl_Obj'''.
 
