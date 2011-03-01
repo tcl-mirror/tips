@@ -1,0 +1,121 @@
+TIP:		386
+Title:		Relocation of Tcl/Tk Source Control Repositories
+Version:	$Revision: 1.1 $
+Author:		Kevin B. Kenny <kennykb@acm.org>
+State:		Draft
+Type:		Informative
+Vote:		Pending
+Created:	01-Mar-2011
+Post-History:	
+Keywords:	Fossil, DVCS
+
+~ Abstract
+
+This TIP describes the changed locations and procedures for source control
+for Tcl/Tk.
+
+~ Background
+
+Earlier this year, SourceForge's CVS repositories were attacked by parties
+unknown, resulting in an outage of several weeks' duration. Although all data
+were eventually recovered, the aftermath of the attack and outage was that
+SourceForge staff have formally designated CVS hosting to be a legacy product
+and offered assistance with migration to Subversion.
+
+Since for some time the Tcl/Tk maintainers have wanted to transfer the version
+control repository to a distributed version control system (DVCS), the
+decision has been made to abandon SourceForge and adopt a Fossil repository. A
+donor who wishes to remain anonymous has given a reasonably powerful machine,
+'''core.tcl.tk''' to the Tcl Community Association and is providing rack space
+and bandwidth. The donor has also generously offered to make free shell
+accounts to qualified Tcl/Tk developers for CPU- and bandwidth-intensive tasks
+such as performance analysis and memory management audits. Interested
+developers should contact one of the TCT members listed at the end of this
+document.
+
+Needless to say, given the distributed nature of Fossil, we expect several
+mirrors to emerge; Richard Hipp of SQLite.org has provided the first one,
+appropriately named '''mirror1.tcl.tk'''.
+
+~ Repository Locations
+
+The code base for Tcl itself now resides in a Fossil repository at
+[http://core.tcl.tk/tcl/].  The Fossil repository is available for anonymous
+cloning and for examination of version control history.  At present, the bug
+tracker is disabled.  Similarly, the code base for Tk resides at
+[http://core.tcl.tk/tk].  Tcl and Tk developers shall be granted 'push' rights
+to the respective repositories.
+
+Developers who are unfamiliar with Fossil are strongly encouraged to consult
+the documentation at [http://fossil-scm.org/], in particular, the 'Fossil
+Concepts' paper at
+[http://fossil-scm.org/index.html/doc/trunk/www/concepts.wiki].  Novices to
+Fossil may want to work at least temporarily in 'autosync mode', which allows
+a CVS-like workflow.
+
+At present, the bug, feature request and patch trackers will remain on
+SourceForge. Any developer hosting a mirror is expected to disable the bug
+tracker (it suffices to remove 't' permission from the 'anonymous' user). At
+some point we may use a SourceForge-to-Fossil converter for the existing
+trackers, and we do not wish to worry about trying to keep SourceForge and
+Fossil in sync.
+
+'''mirror1.tcl.tk''' shall be kept up to date by a periodic automatic
+synchronization with '''core.tcl.tk'''.  In order to avoid inadvertent
+forking, developers are requested not to push to mirrors unless
+'''core.tcl.tk''' suffers an inadvertent outage.
+
+Before using a clone from a mirror, developers should verify that it copies
+the correct version of the repository at '''core.tcl.tk'''.  This can be
+determined by examining the 'project ID', reported by the 'clone'
+operation. For Tcl, the ID should be
+
+|    1ec9da4c469c29f4717e2a967fe6b916d9c8c06e
+
+and for Tk, it should be
+
+|    b5a34cc57b6712927bc5fd34ae98433a14c9fdea 
+
+~ Workflow
+
+Generally speaking, workflow will follow the description in 
+[http://fossil-scm.org/index.html/doc/trunk/www/concepts.wiki#workflow]. 
+
+It is expected that large projects will be conducted on named branches in the
+Fossil repository; in fact, such a project should most likely be commenced by
+committing to a branch in your local clone. If you do not wish to share your
+work with others, you may use a private branch, and Fossil will refrain from
+synchronizing it when you synchronize your clone.
+
+Simple bug fixes should be developed on the branch of the ''earliest'' stable
+release that you intend to fix, and then merged forward onto the later
+releases' branches. It is expected that such "dovetail merges" will be
+frequent, so as to control the number of nuisance conflicts that will have to
+be resolved when merging.
+
+Questions about Fossil on the Tcl'ers Chat or in comp.tcl.tk are encouraged;
+it's essential that all Tcl/Tk developers develop at least some familiarity
+with the technology, and it's somewhat new to all of us!
+
+~ Requesting access
+
+Tcl and Tk maintainers may request repository access by emailing one of the
+Tcl Core Team members on the following list:
+
+   Joe English, Donal Fellows, Jeff Hobbs, Kevin Kenny, Andreas Kupries, Don
+   Porter
+
+all of whom have the required access to add new users to core.tcl.tk.
+
+~ Acknowledgments
+
+Major thanks are due to Roy Keene, for leading the migration effort, to Jörg
+Sonnenberger (author of cvs2fossil) and D. Richard Hipp (author of fossil
+itself) for many hours of unpaid support in getting the conversion to go, to
+Mark Janssen for developing scripts to audit the Fossil content against
+historical Tcl/Tk distributions, and to the many Tcl/Tk developers who tested
+and debugged the conversion process.
+
+~ Copyright
+
+This document has been placed in the public domain.
