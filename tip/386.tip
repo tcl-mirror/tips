@@ -1,6 +1,6 @@
 TIP:            386
 Title:          Relocation of Tcl/Tk Source Control Repositories
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Kevin B. Kenny <kennykb@acm.org>
 Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
 State:          Draft
@@ -64,7 +64,7 @@ Fossil in sync.
 '''mirror1.tcl.tk''' shall be kept up to date by a periodic automatic
 synchronization with '''core.tcl.tk'''.  In order to avoid inadvertent
 forking, developers are requested not to push to mirrors unless
-'''core.tcl.tk''' suffers an inadvertent outage.
+'''core.tcl.tk''' suffers an extended outage.
 
 Before using a clone from a mirror, developers should verify that it copies
 the correct version of the repository at '''core.tcl.tk'''.  This can be
