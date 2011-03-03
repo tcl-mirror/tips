@@ -1,13 +1,14 @@
-TIP:		386
-Title:		Relocation of Tcl/Tk Source Control Repositories
-Version:	$Revision: 1.1 $
-Author:		Kevin B. Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Informative
-Vote:		Pending
-Created:	01-Mar-2011
-Post-History:	
-Keywords:	Fossil, DVCS
+TIP:            386
+Title:          Relocation of Tcl/Tk Source Control Repositories
+Version:        $Revision: 1.2 $
+Author:         Kevin B. Kenny <kennykb@acm.org>
+Author:         Kevin Kenny <kevin.b.kenny@gmail.com>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        01-Mar-2011
+Post-History:   
+Keywords:       Fossil,DVCS
 
 ~ Abstract
 
@@ -93,7 +94,7 @@ releases' branches. It is expected that such "dovetail merges" will be
 frequent, so as to control the number of nuisance conflicts that will have to
 be resolved when merging.
 
-Questions about Fossil on the Tcl'ers Chat or in comp.tcl.tk are encouraged;
+Questions about Fossil on the Tcl'ers Chat or in comp.lang.tcl are encouraged;
 it's essential that all Tcl/Tk developers develop at least some familiarity
 with the technology, and it's somewhat new to all of us!
 
