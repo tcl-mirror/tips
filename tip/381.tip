@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	20-Oct-2010
 Keywords:	TclOO, iTcl
@@ -53,13 +53,16 @@ not describe a (visible) method, the returned list will describe how things
 are handled by '''unknown''' processing.
 
 Each element of the list will be a tuple. The first element of the tuple will
-be either '''filter''' or '''method''' to indicate whether it is a filter or
-not; the remainder of the tuple's interpretation will depend on which it is.
-With a normal method implementation, the second element will be '''object'''
-or the fully-qualified name of the class of that provided the implementation.
-With a filter, the second element will be the filter name, and the third
-element will be '''object''' or the fully-qualified name of the class that
-provided the implementation.
+be one of '''filter''', '''method''' and '''unknown''' to indicate whether it
+is a filter, a normal method call, or a special method call used to handle
+unknown methods (i.e., with the method name as an additional argument); the
+remainder of the tuple's interpretation will depend on which it is.
+The second element will be the literal '''object''' or the fully-qualified
+name of the class of that provided the implementation of the method or filter
+(NB: not necessarily the class that enabled the filtering through that name).
+The third element will be the name of the method implementation (always
+'''unknown''' in the case of unknown handling, except where that is
+intercepted by a filter).
 
  > '''info class call''' ''className methodName''
 
@@ -90,7 +93,8 @@ possible to jump to filters applied to the method.
 
 ~ Reference Implementation
 
-To be done...
+See https://core.tcl.tk/tcloo/timeline?r=development-next2 for the proposed
+implementation (notably commit-f26fbca704).
 
 ~ Copyright
 
