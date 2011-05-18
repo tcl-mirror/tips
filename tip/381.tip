@@ -3,9 +3,9 @@ Title:		Call Chain Introspection and Control
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6
-Vote:		Pending
+Vote:		In progress
 Post-History:	
-Version:	$Revision: 1.6 $
+Version:	$Revision: 1.7 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	20-Oct-2010
 Keywords:	TclOO, iTcl
