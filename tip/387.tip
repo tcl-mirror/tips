@@ -6,8 +6,8 @@ Type:		Project
 Vote:		Pending
 Created:	30-May-2011
 Tcl-Version:	8.6
-Keywords:	
-Version:	$Revision: 1.1 $
+Keywords:	Tcl, coroutine
+Version:	$Revision: 1.2 $
 Post-History:	
 
 ~ Abstract
