@@ -7,7 +7,7 @@ Vote:		Pending
 Created:	30-May-2011
 Tcl-Version:	8.6
 Keywords:	Tcl, coroutine
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Post-History:	
 
 ~ Abstract
@@ -51,6 +51,9 @@ of return's options in '''yield''', as all such functionality can be attained
 by yielding to '''return'''.
 
 ~ Possible Options
+
+We identify the following options: '''-arguments''', '''-delivery''' and
+'''-to'''. These are described below:
 
 ~~ Argument Specifiers
 
