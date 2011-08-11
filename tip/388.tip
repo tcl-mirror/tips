@@ -1,6 +1,6 @@
 TIP:            388
-Title:          Extending unicode literals past the BMP
-Version:        $Revision: 1.1 $
+Title:          Extending Unicode literals past the BMP
+Version:        $Revision: 1.2 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 State:          Draft
 Type:           Project
