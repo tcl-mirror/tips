@@ -1,7 +1,8 @@
 TIP:            388
 Title:          Extending Unicode literals past the BMP
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -21,13 +22,12 @@ quoted forms of Unicode characters outside the Basic Multilingual Plane.
 Tcl provides backslash substitutions of the form '''\uhhhh''' for unicode
 characters, but this form is not sufficient to model unicode literals past the
 BMP. The outcome of the discussion on Tcl-Core was to add the form
-'''\Uhhhhhhhh''' (one up to 8 hexadecimal digits), but still it is not
-ambigous how characters > 0x10ffff, Unicode Noncharacers and Unicode
-Substitutes need to be handled. This TIP is meant to sort that out, it is not
-meant to specify how characters outside the BMP are handled. The reference
-implementation just replaces any character in the range '''\U010000''' -
-'''\U10ffff''' with '''\ufffd''', but as soon as Tcl has support for
-characters outside the BMP this range is reserved for exactly that.
+'''\Uhhhhhhhh''' (one up to 8 hexadecimal digits), but still it is
+ambiguous how characters > 0x10ffff are to be handled. This TIP is meant to
+sort that out, it is not meant to specify how characters outside the BMP are
+handled. The reference implementation just replaces any character in the range
+'''\U010000''' - '''\U10ffff''' with '''\ufffd''', but as soon as Tcl has
+support for characters outside the BMP this range is reserved for exactly that.
 
 Currently, the form '''\U''' is parsed by Tcl as a literal '''U''', so -
 however small - this change results in a non-trivial potential incompatibility
@@ -50,55 +50,50 @@ In tcl.h there is a remark regarding the possible values of TCL_UTF_MAX:
 
 This document proposes to add another value:
 
- * 4 The same as 3, but allowing the use of Unicode surrogate pairs to
-   represent the range '''\U010000''' - '''\U10ffff'''
+ * 4 Not supported. The same as 3, but allowing the use of Unicode surrogate
+   pairs to represent the range '''\U010000''' - '''\U10ffff'''
 
 ~ Rationale
 
 Consider the string '''\701''', how is that supposed to be interpreted?  Tcl
 specifies octal sequences as 8 bits, and silently strips the 9th bit, the same
 as gcc does. In Tcl's regular expression engine, the 9th bit is not stripped,
-there it is equivalent to '''\u01c1'''.  Java parses it as '''\70''' - a valid
-8-bit octal value - followed by '''1''', so it's a string of length 2.
+there it is equivalent to '''\u01c1'''.  Java - for example - parses it as
+'''\70''' - a valid 8-bit octal value - followed by '''1''', so it's a string
+of length 2.
 
 Then the string '''\x1234'''. Tcl specifies this as 8 bits as well, and
 silently strips all higher bits, so it is equivalent to '''\u0034'''.  This is
-the same as gcc does, but Java considers it as '''\x12''' followed by
-'''34''', so it's a string of lenght 3.
+the same as gcc does, but Java  - for example - considers it as '''\x12'''
+followed by '''34''', so it's a string of lenght 3.
 
 Consider the string '''\U00123456''', which would result in an invalid Unicode
 character. In the Tcl parser we don't have the possibility to flag invalid
 backslash sequences, in Tcl's regexp engine we have.  Unicode characters
-higher than '''\U0010ffff''' cannot appear in an UTF-8 stream, Unicode
-Noncharacters and Unicode surrogates are not supposed to appear in an UTF-8
-stream, it would be best to handle that as early as possible.
+higher than '''\U0010ffff''' cannot appear in an UTF-8 stream.
 
 In tcl.h, we find Tcl_UniChar to be defined as unsigned int when TCL_UTF_MAX >
-3 and as unsigned short otherwise. It would be useful to allow TCL_UTF_MAX to
-be defined in extensions as 4 and still define Tcl_UniChar as unsigned
-short. That would allow the path to a full support for out-of BMP Unicode
-characters shorter, because Unicode Surrogate pairs can be used for that.
+3 and as unsigned short otherwise. It would be useful to reserve the value 4
+and still define Tcl_UniChar as unsigned short. That would allow the path to
+a full support for out-of BMP Unicode characters shorter, because Unicode
+Surrogate pairs can be used for that.
 
 ~ Specification
 
 This document proposes:
 
- * Change the parsers in Tcl to handle octal sequences just like Java, so
-   '''\701''' is handled as the valid sequence '''\70''' followed by '''1'''.
+ * Change the parsers in Tcl to handle octal sequences higher than '''\377'''
+   differently, splitting it in a two-digit valid octal secuence and handling
+   the additional character separately. So '''\701''' is handled as the valid
+   sequence '''\70''' followed by '''1'''.
    This is a '''potential incompatibility'''.
- 
+
  * Change the parsers in Tcl to handle the '''\xhh''' sequence to parse just 2
    digits, and not silently strip all higher hex digits any more.  This is a
    '''potential incompatibility'''.
 
- * Change the parsers in Tcl to handle the '''\uhhhh''' sequence, where it
-   represents a Unicode noncharacter or surrogate, especially. In the regexp
-   engine, those can be flagged as invalid. In the Tcl parser that is
-   impossible, the only option is replacing them with '''\ufffd''' as
-   recommended by Unicode. This is a '''potential incompatibility'''.
- 
  * Add the '''\Uhhhhhhhh''' handling, similar to the '''\uhhhh''' handling,
-   only accepting up to 8 characters. The parser will stop parsing learlier
+   only accepting up to 8 characters. The parser will stop parsing earlier
    when a code point '''\U00011000''' or higher is reached, as shifting it 4
    bits more will lead to a code point outside the Unicode range.  The regexp
    engine already handles '''\Uhhhhhhhh''', but currently it always generates
@@ -109,25 +104,23 @@ This document proposes:
 
 Tcl scripts using the form '''\ooo''' where the first digit is in the range
 4-7, will now interpred the string as '''\oo''' followed by '''o'''. There is
-no test-case in the Tcl test suite for that.
+currently no test case in the Tcl test suite affected by that.
 
-Tcl scripts using the form '''\uhhhh''' where it represents a Unicode
-noncharacter or surrogate result in a different character '''\ufffd'''.  In
-the Tcl regexp engine, those are flagged as illegal and will generate an
-exception.
+Tcl scripts using the form '''\xhhh''', which used to strip off the higher
+digits, will now end the sequence when two digits are handled.
 
 Tcl scripts using '''\U''' as a literal '''U''' will no longer work when it is
-followed with at least one hexadecimal digit.  There is no test case in the
-Tcl test suite for this.
+followed with at least one hexadecimal digit.  There is currently no test case
+in the Tcl test suite affected by that.
 
 ~ Alternatives
 
-How should unicode sequences bigger than '''\U0010ffff''' be handled?
-Alternatives are replacing it with '''\ufffd''' or (in the regexp engine)
-flagging it as invalid backslash sequence.
-
-How should unicode noncharacters be handled? Is flagging them as an invalid
-sequence or replacing them with '''\ufffd''' really a good idea?
+Unicode Noncharacters or Surrogages are not supposed to be in an UTF-8
+stream, the Unicode standard recommends to replace those with '''\ufffd'''.
+This TIP does not propose that, because they may be used internally e.g. as
+part of a character range in a regular expression. A better place to do
+that is in the Utf8-To-Utf8 conversion, but that's outside the scope of
+this TIP.
 
 How should Unicode surrogates be handled? Should we allow something like
 '''\udc00\ud800''' as equivalent to '''\U00010000'''?
@@ -135,7 +128,7 @@ How should Unicode surrogates be handled? Should we allow something like
 ~ Reference Implementation
 
 A reference implementation is available at http://core.tcl.tk/tcl in branch
-??? (to be determined)
+tip-388-impl
 
 ~ Copyright
 
