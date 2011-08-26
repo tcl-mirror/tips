@@ -1,14 +1,15 @@
-TIP:		384
-Title:		Add File Alteration Monitoring to the Tcl Core
-Author:		Reinhard Max <max@tclers.tk>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	02-Dec-2010
-Keywords:	kqueue, inotify, dnotify, gamin, FSevents, fam
-Version:	$Revision: 1.1 $
-Post-History:	
+TIP:            384
+Title:          Add File Alteration Monitoring to the Tcl Core
+Version:        $Revision: 1.2 $
+Author:         Reinhard Max <max@tclers.tk>
+Author:         Gerald W. Lester <Gerald.Lester@cox.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        02-Dec-2010
+Post-History:   
+Keywords:       kqueue,inotify,dnotify,gamin,FSevents,fam
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -35,7 +36,7 @@ Platform-specific APIs which should be supported by the final implementation
 
  * FSEvents[http://en.wikipedia.org/wiki/FSEvents] (Mac OS X)
 
- * (Windows?)
+ * TWAPI [http://twapi.magicsplat.com/disk.html#begin_filesystem_monitor] (Windows)
 
 ~ Proposal
 
