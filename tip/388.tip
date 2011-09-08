@@ -1,6 +1,6 @@
 TIP:            388
 Title:          Extending Unicode literals past the BMP
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -121,9 +121,6 @@ This TIP does not propose that, because they may be used internally e.g. as
 part of a character range in a regular expression. A better place to do
 that is in the Utf8-To-Utf8 conversion, but that's outside the scope of
 this TIP.
-
-How should Unicode surrogates be handled? Should we allow something like
-'''\udc00\ud800''' as equivalent to '''\U00010000'''?
 
 ~ Reference Implementation
 
