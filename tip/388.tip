@@ -1,16 +1,45 @@
 TIP:            388
 Title:          Extending Unicode literals past the BMP
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        10-Aug-2011
 Post-History:   
 Discussions-To: Tcl Core list
 Keywords:       Tcl
 Tcl-Version:    8.6
+TIP:		???
+Title:		Title for Skeleton TIP
+State:		Draft
+Type:		Project
+Tcl-Version:	9.0
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.5 $
+Author:		Donal K. Fellows <dkf@donal-k-fellowss-macbook-pro.local>
+Created:	12-Sep-2011
+
+~ Abstract
+
+A ''single'' paragraph, in third person voice, outlining what your TIP
+is all about.
+
+~ Rationale
+
+Why is this TIP needed?
+
+~ Proposed Change
+
+What are you going to do?  ''This need not include a patch during
+initial discussion, and should not include a verbatim patch at all
+(due to publishing restrictions.)''
+
+~ Copyright
+
+This document has been placed in the public domain.
 
 ~ Abstract
 
