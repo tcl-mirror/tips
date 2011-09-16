@@ -1,11 +1,11 @@
 TIP:            388
 Title:          Extending Unicode literals past the BMP
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        10-Aug-2011
 Post-History:   
 Discussions-To: Tcl Core list
