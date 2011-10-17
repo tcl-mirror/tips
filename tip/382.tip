@@ -1,10 +1,11 @@
 TIP:		382
-Title:		Add -nocomplain Option to tk_getSaveFile
-Version:	$Revision: 1.1 $
+Title:		Let tk_getSaveFile ignore file overwrites
+Version:	$Revision: 1.2 $
 Author:		Pawel Salawa <pawelsalawa@gmail.com>
+Author:		Don Porter <dgp@users.sourceforge.net>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.7
+Tcl-Version:	8.5.11
 Vote:		Pending
 Created:	02-Nov-2010
 Post-History:	
@@ -13,8 +14,8 @@ Keywords:	Tk, dialog
 ~ Abstract
 
 This document describes new option for '''tk_getSaveFile''' named
-'''-nocomplain''' that turns off the warning dialog when selecting an existing
-file for overwriting.
+'''-confirmoverwrite''' to control whether a warning dialog is displayed
+when selecting an existing file for overwriting.
 
 ~ Rationale
 
@@ -24,15 +25,12 @@ use '''ttk::getAppendFile''' from http://wiki.tcl.tk/15897, but it used its
 own file dialog, instead of native one.  This TIP makes use of native file
 dialog.
 
-Option name is chosen to fit into Tcl naming convention and be intuitive.  The
-'''glob''' command already supports option with that name and it's used for
-similar purpose.
-
 ~ Specification
 
-The '''tk_getSaveFile''' would support '''-nocomplain''' option with boolean
-value as its argument.  Default value for this option would be "'''false'''".
-If value for this option is "'''true'''", then the dialog won't warn user in
+The '''tk_getSaveFile''' will accept a '''-confirmoverwrite''' option with
+boolean value as its argument.  Default value for this option would
+ be "'''true'''".
+If value for this option is "'''false'''", then the dialog won't warn user in
 case he selects existing file, that he's about to overwrite the file.  The
 option would be available only for '''tk_getSaveFile''' and won't be available
 for '''tk_getOpenFile'''.
@@ -42,9 +40,13 @@ public API to accomplish that.  Therefore a platform-specific note would be
 required in Tk documentation.  Maybe this will be supported on MacOS X
 platform in future.
 
+~ Compatibility
+
+Default value matches existing behavior.  
+
 ~ Reference Implementation
 
-http://joanna18.net.autocom.pl/~boogie/nocomplain.patch
+See the '''tip-382''' branch.
 
 ~ Copyright
 
