@@ -1,6 +1,6 @@
 TIP:		382
 Title:		Let tk_getSaveFile ignore file overwrites
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Pawel Salawa <pawelsalawa@gmail.com>
 Author:		Don Porter <dgp@users.sourceforge.net>
 State:		Draft
@@ -28,17 +28,17 @@ dialog.
 ~ Specification
 
 The '''tk_getSaveFile''' will accept a '''-confirmoverwrite''' option with
-boolean value as its argument.  Default value for this option would
- be "'''true'''".
+boolean value as its argument.  Default value for this option is "'''true'''".
 If value for this option is "'''false'''", then the dialog won't warn user in
 case he selects existing file, that he's about to overwrite the file.  The
-option would be available only for '''tk_getSaveFile''' and won't be available
-for '''tk_getOpenFile'''.
+option will be supported only for '''tk_getSaveFile''', not
+for '''tk_getOpenFile'''.  A non-boolean value for this option will raise
+an error.
 
-There's no support for MacOS X platform, since Cocoa framework doesn't provide
-public API to accomplish that.  Therefore a platform-specific note would be
-required in Tk documentation.  Maybe this will be supported on MacOS X
-platform in future.
+The new option will be recognized and accepted on all platforms.  For
+any platform where the underlying windowing system does not permit
+the required configuration, the option will have no effect, and the platform
+dialog will just do what it does.
 
 ~ Compatibility
 
@@ -46,7 +46,12 @@ Default value matches existing behavior.
 
 ~ Reference Implementation
 
-See the '''tip-382''' branch.
+See the '''tip-382''' branch.  It includes implementations for X,
+supported Windows, and OSX Carbon.  The proposed option will not be implemented
+for Pre-NT Windows.  An implementation for OSX Cocoa may be possible using
+the approach outlined at 
+[http://stackoverflow.com/questions/1930352/nssavepanel-squelching-the-confirm-replace-dialog/2390780#2390780],
+but no such implementation is yet completed.
 
 ~ Copyright
 
