@@ -1,9 +1,9 @@
 TIP:		382
 Title:		Let tk_getSaveFile ignore file overwrites
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Author:		Pawel Salawa <pawelsalawa@gmail.com>
 Author:		Don Porter <dgp@users.sourceforge.net>
-State:		Accepted
+State:		Final
 Type:		Project
 Tcl-Version:	8.5.11
 Vote:		Done
