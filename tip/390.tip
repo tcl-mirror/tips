@@ -1,0 +1,66 @@
+TIP:		390
+Title:		A Logging API for Tcl
+Author:		Jeff Rogers <dvrsn@diphi.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Created:	27-Oct-2011
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Post-History:	
+
+~ Abstract
+
+This TIP proposes a standard API for logging in Tcl applications, both at the
+Tcl and C level.
+
+~ Rationale
+
+Logging is needed in most applications.  There is no standard, documented
+logging API in Tcl, for either Tcl or C code, leading most people to roll
+their own. The TIP proposes a standard Tcl and C API that handles the most
+common logging functions.
+
+The default implementation of the logger should just print the message (with
+substitutions performed as if with '''format''') to the standard error
+channel.
+
+~ Specification
+
+ 1. '''Tcl_Log'''(''interp'', ''level'', ''message'', ...)
+
+ > This is the main C api call; it logs the formatted message at the specified
+   loglevel. If interp is specified, it operates within the context of that
+   interp; if NULL then it logs in a maner not associated with any interp.
+
+ 2. '''Tcl_SetLogLevel'''(''interp'', ''level'')
+
+ > Instructs the logging system to set the loglevel to the given value.  Legal
+   levels are TCL_LOG_DEV, TCL_LOG_DEBUG, TCL_LOG_INFO, TCL_LOG_NOTICE,
+   TCL_LOG_WARNING, TCL_LOG_ERROR, TCL_LOG_FATAL, TCL_LOG_BUG
+
+ 3. '''Tcl_SetLogHandler'''(''interp'', ''logHandler'')
+
+|    struct Tcl_LogHandler {
+|        Tcl_LogHandlerProc(interp, level, message, ...)
+|        Tcl_SetLogLevelProc(interp, level)
+|    }
+
+ > Installs a new loghandler for a specified interp or globally.  If no log
+   handler is installed, the default action is to print the formatted message
+   on standard error if the message level is equal to or greater than the
+   loglevel; in the context of an interp the default action is to call the
+   configured log handler (which does the same thing by default)
+
+ 4. '''interp logger''' ?''loggerCommandFragment''?
+
+ > Gets or sets the log handler for an interp.  The log handler will have
+   these arguments appended on invoke: ''level message args''
+
+ 5. '''log''' ''level message''
+
+ > Tcl equivalent of '''Tcl_Log'''.
+
+~ Copyright
+
+This document has been placed in the public domain.
