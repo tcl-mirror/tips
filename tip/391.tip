@@ -1,0 +1,66 @@
+TIP:		391
+Title:		Support for UDP Sockets in Tcl
+Author:		Jeff Rogers <dvrsn@diphi.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	26-Oct-2011
+Version:	$Revision: 1.1 $
+Post-History:
+
+~ Abstract
+
+This proposal is to add UDP socket support to the core in a clean and
+unobtrusive way.
+
+~ Rationale
+
+UDP is used for sending datagrams over the internet, which is an integral part
+of a number of protocols, notably including direct DNS queries in the majority
+of deployment. Thus, it is useful to be able have Tcl able to send and receive
+messages via UDP sockets, filling out a signficant missing feature.
+
+UDP sockets have the same basic needs as tcp sockets - creating, reading,
+writing.  So it follows that they could be handled by the same basic commands.
+
+~ Specification
+
+The '''socket''' command should have a flag, '''-udp''', added.  This should
+work for both client and server sockets.
+
+ > '''socket -udp''' ?'''-myaddr''' ''addr''? ?'''-myport''' ''port''? ''host
+   port''
+
+ > '''socket -udp -server''' ''command'' ?'''-myaddr''' ''addr''? ''port''
+
+To complement this, the sockets created by the above commands will have an
+additional configuration option, '''-peeraddr'''.  This is a read/write
+option.  It is used to set the peer address before a write, and to retrieve
+the peer address after a read.  The peer address should persist until it is
+changed by a read or fconfigure.
+
+When used on a UDP socket, '''puts''' sends a single message (sendmsg).  If
+the data is too large to fit in a single message then an error is raised.
+
+When reading from a udp socket, the data retuend will only ever be the
+contents of a single message in a single operation.  Thus, '''read''' will
+return one entire message, and '''read''' with a bytecount or '''gets''' will
+read a new message into their buffer iff it is completely empty, and will
+return the requested data from that buffer.
+
+Readable and writable fileevents should work naturally.  
+
+~ Example Usage
+
+|set udpsock [socket -udp 8.8.8.8 53]
+|
+|fconfigure $udpsock -peeraddr {8.8.8.8 53}
+|puts $udpsock $packet
+|
+|set packet [read $udpsock]
+|set peer [fconfigure $udpsock -peeraddr]
+
+~ Copyright
+
+This document has been placed in the public domain.
