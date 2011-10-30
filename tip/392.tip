@@ -1,0 +1,103 @@
+TIP:		392
+Title:		Allow Bignums to be Disabled at Runtime on a Per-Interp Basis
+Version:	$Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	30-Oct-2011
+Keywords:	bignum,runaway,safe,math,precision,integer,tcl
+Tcl-Version:	8.5
+Post-History:	
+
+~ Abstract
+
+This TIP proposes the ability to enable or disable all use of bignums at
+runtime on a per-interpreter basis.  The mechanism being presented to
+accomplish this goal has been designed to be generic enough so that it can be
+used for other per-interpreter configuration parameters in the future.
+
+~ Rationale
+
+As of Tcl version 8.5, almost any integer math calculation can result in
+bignums being used.  Normally, this does not pose a serious problem; however,
+there are circumstances in which this can exhaust key system resources, such
+as memory or CPU time.  Unlike other similar resource exhaustion problems,
+this one cannot be prevented by use of '''interp create -safe''', '''interp
+limit''', '''interp cancel''', or similar mechanisms.  If Tcl is being used in
+an embedding scenario, this has the potential to negatively impact the entire
+application or system.  If Tcl is being used to evaluate marginally trusted or
+untrusted scripts in a safe interpreter, this can result in a
+denial-of-service (DoS) attack.
+
+~ Specification
+
+A new '''interp configure''' script command will be added, as follows:
+
+ > '''interp configure''' ''path'' ?''name''? ?''value''?
+
+This command instructs Tcl to modify or query the value of the named
+configuration parameter ''name'' in the interpreter identified by ''path''.
+
+~~ Arguments
+
+ > ''path''
+
+This argument is required and specifies the interpreter to be reconfigured. An
+empty string may be used to indicate the current interpreter.
+
+ > ''name''
+
+This argument is optional.  If this argument is not supplied, the current list
+of configuration parameter names for the interpreter identified by ''path''
+will be returned.
+
+ > ''value''
+
+This argument is optional.  If this argument is not supplied, the current
+value of the named configuration parameter for the interpreter identified by
+''path'' will be returned; otherwise, the current value of the configuration
+parameter will be changed to the specified value.
+
+~~ C API
+
+ > Tcl_Obj* '''Tcl_InterpConfigure'''(Tcl_Interp* ''interp'',
+   Tcl_Obj* ''nameObjPtr'', Tcl_Obj* ''valueObjPtr'')
+
+The '''Tcl_InterpConfigure''' function gets or sets the named configuration
+parameter for the specified interpreter.  The ''nameObjPtr'', if not NULL,
+must be a string containing the name of a known configuration parameter;
+otherwise, NULL will be returned and the interpreter result will be modified
+to contain an appropriate error message.  The ''valueObjPtr'', if not NULL,
+must have a value convertible to the type required by the configuration
+parameter being set; otherwise, NULL will be returned and the interpreter
+result will be modified to contain an appropriate error message.  If
+''valueObjPtr'' is NULL, the current value of the named configuration
+parameter will be returned instead of being changed.  If ''nameObjPtr'' is
+NULL, the complete list of known configuration parameter names will be
+returned.  The caller is responsible for managing the reference count of the
+returned value.
+
+~ Configuration Parameters
+
+Upon interpreter creation, all configuration parameters start with a default
+value.  The default value for a configuration parameter is considered to be
+part of the formal interface.
+
+Initially, the only supported configuration parameter will be '''bignums'''.
+
+When setting the '''bignums''' configuration parameter, the value must be
+convertible to a boolean.  When the value of this configuration parameter is
+false, any math operation that would require using bignums to calculate will
+instead be limited to the precision available in the '''Tcl_WideInt''' type.
+The default value of this configuration parameter will be true (i.e. use of
+bignums will be enabled by default, preserving backward compatibility).
+
+~ Reference Implementation
+
+Not yet complete; however, it will eventually be available on the
+'''tip-392''' branch of the Tcl source code repository.
+
+~ Copyright
+
+This document has been placed in the public domain.
