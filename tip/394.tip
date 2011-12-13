@@ -1,0 +1,64 @@
+TIP:		394
+Title:		Platform-Independent Handling of Contemporary Mice
+Version:	$Revision: 1.1 $
+Author:		Andreas Leitgeb <avl@logic.at>
+Type:		Project
+Tcl-Version:	8.7
+State:		Draft
+Vote:		Pending
+Created:	30-Nov-2011
+Post-History:	
+
+~ Abstract
+
+This TIP proposes a change to Tk's Events such as to support new features of
+modern pointer devices (mice) in a platform-independent way.
+
+~ Rationale
+
+Modern pointing devices (mice) do have more controls beyond the standard three
+buttons and one-dimensional scrolling gadget.  They often have any of these as
+well:
+
+ * Tilt-able scroll wheel
+
+ * A second wheel for horizontal scrolling
+
+ * A scroll-ball rather than a scroll wheel (see Apple's "mightymouse")
+
+ * Additional "forward" and "backward" buttons
+
+ * even more buttons...
+
+On Linux platform, bind'ing on <Button> will catch all(?) or these (and "%b"
+gives an ordinal number which allows for some heuristic recognition). But even
+on Linux, it is not possible to bind specifically to e.g. <Button-8>, or to
+<B8-Motion> kind of events.
+
+On Windows platform, the system offers different types of events for certain
+different controls. An app would e.g. register extra to receive horizontal
+scroll events and those extra buttons. (This is gathered from hearsay.)
+
+~ Proposal
+
+Just like the MouseWheel event that was added to Tk in response to wheel-mice
+filling the market, we'd have to define new events for each new control.
+
+For legacy-reasons, the dichotomy between vertical scroll wheel and buttons 4
+and 5 will need to be preserved, maybe as well as the buttons 6 and 7 for
+horizontal scrolling.
+
+Any extra buttons could then be either named "X1", "X2", "X3", ...  or
+numbered 8, 9, 10, ...  which would reflect as bind events <Button-8> or
+<Button-X1>, but also <B8-Motion> or <BX1-Motion>
+
+For horizontal scrolling, <MouseWheelHoriz> would be the preferred way for
+cross-platform apps, but depending on whether "4 and 5" button events are
+already emulated for scrolling on windows, it would be worthwhile to also
+emulate "6 and 7" button events for horizontal wheel-activity.
+
+At this stage of this TIP the decision isn't yet made.
+
+~ Copyright
+
+This document has been placed in the public domain.
