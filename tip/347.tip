@@ -1,8 +1,8 @@
 TIP:            347
 Title:          Align 'string is ...' to Type-Conversion Functions in 'expr'
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        09-Feb-2009
@@ -10,6 +10,7 @@ Post-History:
 Discussions-To: news:comp.lang.tcl
 Keywords:       Tcl
 Tcl-Version:    8.7
+Obsoleted-By:	395
 
 ~ Abstract
 
