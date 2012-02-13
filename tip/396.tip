@@ -1,6 +1,6 @@
 TIP:		396
 Title:		Symmetric Coroutines, Multiple Args, and yieldto
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Kenny <kennykb@acm.org>
 State:		Draft
 Type:		Project
@@ -8,7 +8,7 @@ Vote:		Pending
 Created:	11-Feb-2012
 Post-History:	
 Keywords:	coroutine, yield, yieldto
-Obsoletes:	372, 373, 375
+Obsoletes:	372
 Tcl-Version:	8.6
 
 ~ Abstract
