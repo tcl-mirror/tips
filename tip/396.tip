@@ -1,15 +1,15 @@
-TIP:		396
-Title:		Symmetric Coroutines, Multiple Args, and yieldto
-Version:	$Revision: 1.2 $
-Author:		Kevin Kenny <kennykb@acm.org>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	11-Feb-2012
-Post-History:	
-Keywords:	coroutine, yield, yieldto
-Obsoletes:	372
-Tcl-Version:	8.6
+TIP:            396
+Title:          Symmetric Coroutines, Multiple Args, and yieldto
+Version:        $Revision: 1.3 $
+Author:         Kevin Kenny <kennykb@acm.org>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        11-Feb-2012
+Post-History:   
+Keywords:       coroutine,yield,yieldto
+Obsoletes:      372
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -39,14 +39,16 @@ construction, invocation, and yielding.
 
 Requirements that are thought to be essential for this TIP include:
 
-'''The ability for a coroutine invocation to implement anything an ordinary
-Tcl command can do.''' A coroutine invocation must be able to return an error
-status or another unusual status (e.g., ''break'', ''continue'' or ''return'')
-to its caller, and to perform a tailcall.
+'''The ability for a coroutine invocation to implement any argument
+signature that an Tcl command can implement.''' A coroutine invocation
+must be able to accept multiple arguments, and to allow for
+call-by-name (or rather, call-by-quasi-value-result, see below) parameter
+transmission.
 
-'''The ability for a coroutine invocation to accept multiple arguments.''' If
-a coroutine is to model a non-coroutine-based Tcl command, it must be able to
-accept that command's arguments.
+'''The ability to return an unusual status.''' A coroutine invocation
+must be able to return an error status or another unusual status
+(e.g., ''break'', ''continue'' or ''return'') to its caller, and to
+perform a tailcall.
 
 '''Support for symmetric coroutines.''' Although it is well known that
 asymmetric coroutines (such as Tcl 8.6 implements today) and symmetric
@@ -72,22 +74,26 @@ shall accept one or more arguments:
 
 It shall have the following effects:
 
- 1. The current coroutine shall suspend its execution in the same way as with
-    the '''yield''' command.
-
- 2. The ''cmd'' argument shall be resolved in the current coroutine's context,
+ 1. The ''cmd'' argument shall be resolved in the current coroutine's context,
     resulting in a command to invoke.  If resolution fails, the error is
     presented in the coroutine's context.
 
+ 2. The current coroutine shall suspend its execution in the same way as with
+    the '''yield''' command.
+
  3. The command that invokes the coroutine shall be placed into a state such
     that it will accept multiple arguments when it is next invoked, rather
-    than the single argument demanded by '''yield'''.
+    than the single argument demanded by '''yield'''. 
 
  4. The command and arguments shall be invoked in just the same way as if they
     had been called directly from the coroutine's caller. The given command
     replaces the coroutine invocation on the runtime stack. Data and status
     returned from the given command are returned to the context that invoked
     the coroutine.
+
+ 5. When the coroutine is resumed, any arguments passed into the coroutine
+    command are assembled into a list and returned as the value of the
+    '''yieldto''' command.
 
 In other words, '''yieldto''' means "suspend the current coroutine and
 '''tailcall''' the given command: '''yieldto''' is to '''yield''' as
@@ -166,6 +172,57 @@ each coroutine may yield to the other:
 
 | lassign [yieldto producer] string
 
+-- 3. Call by name.
+
+It turns out that '''yieldto''' allows for a rough simulation of Tcl's
+call by name, although it requires explicit transmission of values
+between coroutines, rather than a simple '''uplevel''' operation. Let
+us assume that a caller invokes a coroutine with the name of an
+array, and that the coroutine wishes to set elements of that array.
+A procedure like the following will give approximately the desired
+result.
+
+| proc remote-set {varName value} {
+|     lassign [yieldto remote-set-worker $varName $value [info coroutine]] \
+|         status result
+|     return -code $status $result
+| }
+| proc remote-set-worker {varName value coro} {
+|     tailcall $coro \
+|         [catch {uplevel 1 [list set $varName $value]} result] \
+|         $result
+| }
+
+(Proper transmission of the options dictionary from '''catch''' is omitted
+for the sake of simplicity.)
+
+Let's look at what happens when code in the coroutine ''mycoro'' does
+
+| remote-set array(key) value
+
+ 1. The '''remote-set''' procedure yields to the command
+|         remote-set-worker array(key) value mycoro
+
+ 2. The '''remote-set-worker''', executing in the calling coroutine,
+    invokes
+|         set array(key) value
+ >  in its caller's scope, capturing the status and return value.  Presuming
+    that the variable was set successfully, It then invokes
+|         mycoro 0 value
+ >  as a tailcall, re-entering the ''mycoro'' coroutine. The two-element
+ >  list, {0 value}, becomes the return value of '''yieldto'''
+
+ 3. The '''remote-set''' procedure returns the same status and result
+    that the '''set''' command returned.
+
+This technique actually shows how arbitrary commands may be executed
+in a calling coroutine.  The way this is done opens some interesting
+possibilities for tools such as debugging interactors. For instance, a
+'''trace''' callback might invoke a debugging coroutine to interact with
+the user, allow the user to execute arbitrary commands to probe the state 
+of the code being debugged, and then transparently resume at the place
+that the code left off, without otherwise disturbing its stack.
+
 ~ Implementation notes
 
 The '''yieldto return''' idiom is expected to be used widely, since it is the
@@ -181,6 +238,10 @@ interest in seeing it implemented while being unwilling at the present time to
 shepherd it through the sometimes acrimonious discussions on tcl-core. To him
 belongs all the credit for the ideas: any errors in the specification as
 presented here are the author's.
+
+Thanks are due to Donal Fellows, Joe English, Andreas Leitgeb, and
+Lars Hellström for making needed corrections to the initial version of
+this TIP.
 
 ~ Copyright
 
