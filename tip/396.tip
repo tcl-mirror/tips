@@ -1,6 +1,6 @@
 TIP:            396
 Title:          Symmetric Coroutines, Multiple Args, and yieldto
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -201,14 +201,19 @@ Let's look at what happens when code in the coroutine ''mycoro'' does
 | remote-set array(key) value
 
  1. The '''remote-set''' procedure yields to the command
+
 |         remote-set-worker array(key) value mycoro
 
  2. The '''remote-set-worker''', executing in the calling coroutine,
     invokes
+
 |         set array(key) value
+
  >  in its caller's scope, capturing the status and return value.  Presuming
     that the variable was set successfully, It then invokes
+
 |         mycoro 0 value
+
  >  as a tailcall, re-entering the ''mycoro'' coroutine. The two-element
  >  list, {0 value}, becomes the return value of '''yieldto'''
 
