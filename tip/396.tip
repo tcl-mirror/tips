@@ -1,6 +1,6 @@
 TIP:            396
 Title:          Symmetric Coroutines, Multiple Args, and yieldto
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
 Type:           Project
@@ -172,7 +172,7 @@ each coroutine may yield to the other:
 
 | lassign [yieldto producer] string
 
--- 3. Call by name.
+~~ 3. Call by name.
 
 It turns out that '''yieldto''' allows for a rough simulation of Tcl's
 call by name, although it requires explicit transmission of values
