@@ -1,0 +1,64 @@
+TIP:            398
+Title:          Quickly Exit with Non-Blocking Blocked Channels
+Version:        $Revision: 1.1 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+State:          Draft
+Type:           Project
+Vote:		Pending
+Created:        24-Feb-2012
+Post-History:   
+Keywords:       close,exit,flush,blocking,nonblocking
+Tcl-Version:    8.6
+
+~ Abstract
+
+This TIP reverts an age-old documented behavior that is useless, and the ill
+effects of which cannot be circumvented: Tcl's insistence on flushing even
+non-blocking channels on exit.
+
+~ Rationale
+
+The close.n manpage says:
+
+ > Channels are automatically closed when an interpreter is destroyed and when
+   the process exits.  Channels are switched to blocking mode, to ensure that
+   all output is correctly flushed before the process exits.
+
+So, assuming the application has been using nonblocking IO all the time to
+stay responsive even with blocked sockets (network failures) or pipes (stalled
+consumer), if it decides to give up and exit, it ''cannot'' do so today: Tcl
+will switch those channels back to blocking mode, and sit forever trying to
+flush them, until a kind hand hits ^C.
+
+No combination of '''close'''/'''fconfigure'''/'''exit''' will do, thanks to
+the above clarification.
+
+Note that the intent of this behavior is to automagically prevent careless
+applications from truncating their output. The flaw of this logic is that such
+careless applications typically don't use nonblocking channels. Hence the
+generalization is abusive.
+
+Hence, the proposal of this TIP is simply to revert this deleterious choice.
+This way:
+
+ * simple apps continue to autoflush their blocking channels,
+
+ * smart nonblocking contraptions enjoy a timely exit, and
+
+ * generic code can even guarantee quick death by switching all channels to
+   nonblocking mode, like this:
+
+|   proc instantdeath {{status 0}} {
+|       foreach ch [chan names] {fconfigure $ch -blocking 0}
+|       exit $status
+|   }
+
+~ Related Bugs
+
+Bug 2946474 noted the accidental, non-TIP-warranted suppression of this
+strange behavior.  Fixing this bug simply meant to comply with Day One
+documentation.  This TIP now judges the substance.
+
+~ Copyright
+
+This document has been placed in the public domain.
