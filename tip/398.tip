@@ -1,10 +1,10 @@
 TIP:            398
 Title:          Quickly Exit with Non-Blocking Blocked Channels
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
-Vote:		Pending
+Vote:           Pending
 Created:        24-Feb-2012
 Post-History:   
 Keywords:       close,exit,flush,blocking,nonblocking
@@ -52,6 +52,18 @@ This way:
 |       foreach ch [chan names] {fconfigure $ch -blocking 0}
 |       exit $status
 |   }
+
+~ Specification
+
+Channels are automatically closed when their parent
+interpreter is destroyed, and when the process calls
+'''exit''' or ''Tcl_Exit()''.  Blocking channels shall
+be automatically flushed, as before.  However, nonblocking
+channels shall no longer be automagically switched to
+blocking mode during finalization, nor will a
+"background flush" be scheduled.  Furthermore,
+any currently running background flushes shall
+be cancelled.
 
 ~ Related Bugs
 
