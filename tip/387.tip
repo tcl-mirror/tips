@@ -3,11 +3,11 @@ Title:		Unified Yield Command Syntax
 Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
 State:		Withdrawn
 Type:		Project
-Vote:		Draft
+Vote:		Pending
 Created:	30-May-2011
 Tcl-Version:	8.6
 Keywords:	Tcl, coroutine
-Version:	$Revision: 1.5 $
+Version:	$Revision: 1.6 $
 Post-History:	
 
 ~ Abstract
