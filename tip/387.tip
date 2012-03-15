@@ -1,13 +1,13 @@
 TIP:		387
 Title:		Unified Yield Command Syntax
 Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
-State:		Draft
+State:		Withdrawn
 Type:		Project
-Vote:		In progress
+Vote:		Draft
 Created:	30-May-2011
 Tcl-Version:	8.6
 Keywords:	Tcl, coroutine
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Post-History:	
 
 ~ Abstract
