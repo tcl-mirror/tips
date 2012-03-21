@@ -1,14 +1,15 @@
 TIP:            375
 Title:          Symmetric Coroutines and Yieldto
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        12-Aug-2010
 Post-History:   
 Keywords:       coroutine,yield
 Obsoletes:      373
+Obsoleted-By:	396
 Tcl-Version:    8.6
 
 ~ Abstract

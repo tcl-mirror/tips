@@ -1,15 +1,16 @@
 TIP:		372
 Title:		Multi-argument Yield for Coroutines
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Colin McCormack <colin@chinix.com>
 State:		Draft
 Type:		Project
-Vote:		In progress
+Vote:		Done
 Created:	11-Aug-2010
 Post-History:
 Tcl-Version:	8.6
 Discussions-To: http://wiki.tcl.tk/26006
 Keywords:	coroutine, yield
+Obsoleted-By:	396
 
 ~ Abstract
 
