@@ -1,11 +1,11 @@
 TIP:		380
 Title:		TclOO Slots for Flexible Declarations
-State:		Draft
+State:		Accepted
 Type:		Project
 Tcl-Version:	8.6
-Vote:		In progress
+Vote:		Done
 Post-History:	
-Version:	$Revision: 1.3 $
+Version:	$Revision: 1.4 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	20-Oct-2010
 
