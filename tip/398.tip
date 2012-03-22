@@ -1,6 +1,6 @@
 TIP:            398
 Title:          Quickly Exit with Non-Blocking Blocked Channels
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -55,15 +55,14 @@ This way:
 
 ~ Specification
 
-Channels are automatically closed when their parent
-interpreter is destroyed, and when the process calls
-'''exit''' or ''Tcl_Exit()''.  Blocking channels shall
-be automatically flushed, as before.  However, nonblocking
-channels shall no longer be automagically switched to
-blocking mode during finalization, nor will a
-"background flush" be scheduled.  Furthermore,
-any currently running background flushes shall
-be cancelled.
+Nonblocking channels shall no longer be switched to blocking mode
+when the process calls '''exit''' or ''Tcl_Exit()''.  Any buffered data
+for nonblocking channels will be discarded.
+
+~ Notes
+
+Blocking channels are unaffected by this TIP;  blocking channels shall
+still be flushed and closed at '''exit'''-time
 
 ~ Related Bugs
 
