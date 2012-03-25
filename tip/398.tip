@@ -1,6 +1,6 @@
 TIP:            398
 Title:          Quickly Exit with Non-Blocking Blocked Channels
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -69,6 +69,10 @@ still be flushed and closed at '''exit'''-time
 Bug 2946474 noted the accidental, non-TIP-warranted suppression of this
 strange behavior.  Fixing this bug simply meant to comply with Day One
 documentation.  This TIP now judges the substance.
+
+~ Reference Implementation
+
+Branch tip-398-impl holds the code.
 
 ~ Copyright
 
