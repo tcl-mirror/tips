@@ -1,8 +1,8 @@
 TIP:            395
 Title:          New 'string is entier' Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jos Decoster <jos.decoster@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        13-Dec-2011
