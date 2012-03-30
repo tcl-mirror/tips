@@ -1,0 +1,92 @@
+TIP:		399
+Title:		Dynamic Locale Changing for msgcat
+Version:	$Revision: 1.1 $
+Author:		Harald Oehlmann <Harald.Oehlmann@elmicron.de>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Created:	27-Mar-2012
+Post-History:
+Keywords:	Tcl, localization
+
+~ Abstract
+
+This TIP adds dynamic locale switching to the msgcat package.
+
+~ Rationale
+
+The msgcat package has a 3 stage processing model:
+
+ 1. Set locale list: '''mclocale''' ''locale''
+
+ 2. Load language files with other package load: '''mcload''' ''catalog''
+
+ 3. Translate strings: '''mc''' ''key args...''
+
+If the locale should be changed after other packages are loaded, one must
+restart at step 2.
+
+Within a multi-language application like a web-server, one may change the
+language quite quickly, for example if users with different locales are
+requesting pages.
+
+The issue is that '''mcload''' only loads language files included in the
+current locale ('''mcpreferences''') and does not load any others.
+
+The aim of this tip is to extend '''mcload''' to load additional language
+files. Then '''mclocale''' may be called to change the language on runtime.
+
+~ Specification
+
+This TIP proposes to add a new command:
+
+ > '''msgcat::mcconfig -pattern''' ?''patternlist''?
+
+This command may get or set package options.
+There is currently one option "'''-pattern'''".
+Options may be set using
+
+ > '''msgcat::mcconfig''' ''option value'' ?''option''? ?''value''?
+
+Current option values may be read using:
+
+ > '''msgcat::mcconfig''' ''option''
+
+The option '''-pattern'' consists of a list of language file name patterns
+like fr*, *, fr_ch.
+
+~ Example Usage
+
+Initialise msgcat within an application which supports the current user
+language and french, german and english.
+
+|package require msgcat 1.5
+|msgcat::mcconfig -pattern {fr.* de.* en.*}
+|# require any other package
+|package require BWidget
+|
+|# switch to french
+|msgcat::mclocale fr
+
+~ Reference Implementation
+
+See Tcl Feature Request 3511941.
+[http://sourceforge.net/support/tracker.php/?aid=3511941]
+
+~ Compatibility
+
+No incompatibilities are introduced
+
+~ Alternatives
+
+This implementation requires the setting of the pattern before any package
+with msgcat is loaded. To avoid this, msgcat must store all paths passed by
+any '''mcload''' call. In case of a locale change, any currently missing files
+are loaded. This requires much more housekeeping and may lead to side effects,
+especially if packages are not aware of the fact that their package files are
+loaded outside of the '''mcload''' command.
+
+~ Copyright
+
+This document has been placed in the public domain.
