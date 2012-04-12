@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
@@ -13,11 +13,7 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-This TIP adds dynamic locale switching to the msgcat package.
-
-~ Abstract
-
-This TIP adds dynamic locale switching to the msgcat package.
+This TIP adds dynamic locale switching capabilities to the msgcat package.
 
 ~ Rationale
 
@@ -25,7 +21,7 @@ The msgcat package has a 3 stage processing model:
 
  1. Set locale list: '''mclocale''' ''locale''
 
- 2. Load language files with other package load: '''mcload''' ''catalog''
+ 2. Load language files with other package load: '''mcload''' ''msg-folder''
 
  3. Translate strings: '''mc''' ''key args...''
 
@@ -34,14 +30,14 @@ restart at step 2.
 This implies to reload all packages which is mostly not possible.
 
 Within a multi-language application like a web-server, one may change the
-language quite frequently, for example if users with different locales are
+locale quite frequently, for example if users with different locales are
 requesting pages.
 
 The issue is that '''mcload''' only loads language files included in the
 current locale ('''mcpreferences''') and does not load any others.
 
 The aim of this tip is to extend '''mcload''' to load additional language
-files. Then '''mclocale''' may be called to change the language on runtime.
+files. Then '''mclocale''' may be called to change the locale on runtime.
 
 ~ Specification
 
@@ -78,7 +74,7 @@ An implementation of the application with the current msgcat 1.4.4 would require
 |package require msgcat
 |package require np
 
-and the following code to change the language to french:
+and the following code to change the locale to french:
 
 |package forget np
 |msgcat::mclocale fr
@@ -90,11 +86,11 @@ Using the extension of this tip, the required code for initialisation is:
 |msgcat::mcconfig -pattern {fr* de* en*}
 |package require np
 
-and to change to french language:
+and to change to french locale:
 
 |msgcat::mclocale fr
 
-Within this modification, language change is a cheap operation.
+Within this modification, locale change is a cheap operation.
 Before, it was computational expensive (if not impossible).
 
 ~ Reference Implementation
@@ -105,7 +101,7 @@ See Tcl Feature Request 3511941.
 ~ Compatibility
 
 No incompatibilities are introduced.
-But packages might not be aware of a language change and may buffer translations outside of msgcat.
+But packages might not be aware of a locale change and may buffer translations outside of msgcat.
 There is no way to fix this but modifying the package.
 
 ~ Alternatives
