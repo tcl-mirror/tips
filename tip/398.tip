@@ -1,10 +1,10 @@
 TIP:            398
 Title:          Quickly Exit with Non-Blocking Blocked Channels
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        24-Feb-2012
 Post-History:   
 Keywords:       close,exit,flush,blocking,nonblocking
