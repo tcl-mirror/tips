@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -42,21 +42,26 @@ indicated.
 ~~ Examples
 
 In these examples, the variable ''kvlist'' holds the key-value list:
+
 | set kvlist {K1 V1 K2 V1 K1 K1}
 
 Example 1: find keys even if they exist multiple times:
+
 |% lsearch -all -stride 2 -exact $kvlist K1
 |0 4
 
 Example 2: find existance of a value:
+
 |% lsearch -all -stride 2 -index 1 -exact $kvlist V1
 |0 2
+
 Remark that the indexes of the first group elements are returned.
 The real values are at "result+index" eq '''1 3'''.
 
 Example 3: extract a sub-kv-list starting from key K2:
+
 | lrange $kvlist [lsearch -stride 2 -exact K2] end
-K2 V1 K1 K1
+| K2 V1 K1 K1
 
 ~ Copyright
 
