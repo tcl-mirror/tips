@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -60,7 +60,7 @@ The real values are at "result+index" eq '''1 3'''.
 
 Example 3: extract a sub-kv-list starting from key K2:
 
-|% lrange $kvlist [lsearch -stride 2 -exact K2] end
+|% lrange $kvlist [lsearch -stride 2 -exact $kvlist K2] end
 |K2 V1 K1 K1
 
 ~ Copyright
