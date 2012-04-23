@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -33,14 +33,15 @@ We propose adding a '''-stride''' option to '''lsearch''', by exact analogy
 with the option added to '''lsort''' in [326], whose semantics it should
 closely match.
 
-If -stride is supplied, the list will be treated as consisting of groups of grpSize elements, and the groups will be searched for either the first element or, if the -index option is used, by the element within each group given by the first index passed to -index (which is then ignored by -index).
-No specified index option or an index option with the empty list is equivalent of an index value of 0.
+If '''-stride''' is supplied, the list will be treated as consisting of groups of grpSize elements, and the groups will be searched for either the first element or, if the '''-index''' option is used, by the element within each group given by the first index passed to '''-index''' (which is then ignored by '''-index''').
+
+No specified index option or an '''-index''' option with the empty list is equivalent to an '''-index''' value of 0.
 
 When '''lsearch''' is returning indices, it should return the
 indices of the first element of the striding group(s) that is/are being
 indicated.
 
-The list length must be a multiple of grpSize, which in turn must be at least 2.
+The list length must be a multiple of '''grpSize''', which in turn must be at least 2.
 
 ~~ Examples
 
@@ -68,13 +69,13 @@ Example 3: extract a sub-kv-list starting from key K2:
 
 ~ Alternate propositions
 
-Don't use option -index, but -groupindex as striding group index.
-In lsort, -index has two meanings: striding group index and nested group index.
+Don't use option '''-index''', but '''-groupindex''' as striding group index.
+In lsort, '''-index''' has two meanings: striding group index and nested group index.
 As a compatibility to lsort, this is specified here the same way.
 It might be clearer to separate the two functionalities.
 
 Search sublists in list groups:
-There might be an option -grouplength to search a sublist of the given length within the list group.
+There might be an option '''-grouplength''' to search a sublist of the given length within the list group.
 Nevertheless, this is out of the scope of this TIP
 
 ~ Copyright
