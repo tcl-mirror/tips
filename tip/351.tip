@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -59,7 +59,8 @@ E.g.
 
 Functions should operate the same way on both representation, with the only difference, that '''-stride 3''' must be specified in the second case.
 
-Unfortunately, the current implementation of '''lsort''' is not doing this:
+Unfortunately, the current implementation of '''lsort''' is not doing this.
+It interpretes '''-index ""''' as '''-index 1''':
 
 |% lsort -stride 2 {A 1 A 2 A 0}
 |A 1 A 2 A 0
