@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -29,19 +29,33 @@ facility for searching such lists; this TIP proposes fixing this.
 
 ~ Proposed Change
 
-We propose adding a '''-stride''' option to '''lsearch''', by exact analogy
-with the option added to '''lsort''' in [326], whose semantics it should
-closely match.
+We propose adding a '''-stride''' option to '''lsearch''', by exact analogy with the option added to '''lsort''' in [326], whose semantics it should closely match.
 
-If '''-stride''' is supplied, the list will be treated as consisting of groups of grpSize elements, and the groups will be searched for either the first element or, if the '''-index''' option is used, by the element within each group given by the first index passed to '''-index''' (which is then ignored by '''-index''').
+If '''-stride''' is supplied, the list will be treated as consisting of groups of grpSize elements.
+The search will be operated within this group as it is a first level of nested lists (see ''Conceptual Backround'' below).
 
-No specified index option or an '''-index''' option with the empty list is equivalent to an '''-index''' value of 0.
+The first element of '''-index''' is used to seach for an item of the group.
 
-When '''lsearch''' is returning indices, it should return the
-indices of the first element of the striding group(s) that is/are being
-indicated.
+The option '''-start''' always points to the beginning of the group, even if a position within the group is given.
+
+Returned indices are the first element of the striding group(s) that is/are being indicated.
 
 The list length must be a multiple of '''grpSize''', which in turn must be at least 2.
+
+~ Conceptual Backround
+
+The striding within the list is seen as the first level of list nesting.
+
+E.g.
+* Nested list:
+
+|set deep {{1 a A} {2 b B} {3 c C}}
+
+* flat strided list: 
+
+|set flat {1 a A 2 b B 3 c C}
+
+Functions should operate the same way on both representation, with the only difference, that '''-stride 3''' must be specified in the second case.
 
 ~~ Examples
 
@@ -51,7 +65,7 @@ In these examples, the variable ''kvlist'' holds the key-value list:
 
 Example 1: find keys even if they exist multiple times:
 
-|% lsearch -all -stride 2 -exact $kvlist K1
+|% lsearch -all -stride 2 -index 0 -exact $kvlist K1
 |0 4
 
 Example 2: find existance of a value:
@@ -64,19 +78,20 @@ The real values are at "result+index" eq '''1 3'''.
 
 Example 3: extract a sub-kv-list starting from key K2:
 
-|% lrange $kvlist [lsearch -stride 2 -exact $kvlist K2] end
+|% lrange $kvlist [lsearch -stride 2 -index 0 -exact $kvlist K2] end
 |K2 V1 K1 K1
 
-~ Alternate propositions
+Example 4: find a group within a list:
 
-Don't use option '''-index''', but '''-groupindex''' as striding group index.
-In lsort, '''-index''' has two meanings: striding group index and nested group index.
-As a compatibility to lsort, this is specified here the same way.
-It might be clearer to separate the two functionalities.
+|% lsearch -stride 2 -exact $kvlist {K2 V1}
+|2
 
-Search sublists in list groups:
-There might be an option '''-grouplength''' to search a sublist of the given length within the list group.
-Nevertheless, this is out of the scope of this TIP
+Example 5: find in combined strided and nested list
+
+| % lsearch -stride 2 -index {1 1} -exact\
+|        {K0 {V0.0 V0.1} K1 {V1.0 V1.1}}\
+|        V1.1
+|2
 
 ~ Copyright
 
