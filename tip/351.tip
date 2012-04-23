@@ -1,6 +1,6 @@
 TIP:            351
 Title:          Add Striding Support to lsearch
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Peter da Silva <peter@taronga.com>
 Author:         Donal K. Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
@@ -45,16 +45,16 @@ The list length must be a multiple of '''grpSize''', which in turn must be at le
 ~ Conceptual Backround
 
  * The striding within the list is seen as the first level of list nesting.
- * E.g.
- * Nested list:
+ > E.g.
+ > Nested list:
 
 |set deep {{1 a A} {2 b B} {3 c C}}
 
- *  flat strided list: 
+ >  flat strided list: 
 
 |set flat {1 a A 2 b B 3 c C}
 
- * Functions should operate the same way on both representation, with the only difference, that '''-stride 3''' must be specified in the second case.
+ > Functions should operate the same way on both representation, with the only difference, that '''-stride 3''' must be specified in the second case.
 
  * Numerical positional indices (-start parameter, return value) follow the flatened list and not the grouped list.
 > This is different to the nested list view.
