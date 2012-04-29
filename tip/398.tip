@@ -1,8 +1,8 @@
 TIP:            398
 Title:          Quickly Exit with Non-Blocking Blocked Channels
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        24-Feb-2012
