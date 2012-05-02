@@ -1,19 +1,20 @@
 TIP:            401
 Title:          Comment Words with Leading {#}
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
-Tcl-Version:    8.7
 Created:        29-Apr-2012
 Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
 The basic syntax rules of Tcl (the "dodekalogue") are modified to allow words
 that are comments. In analogy with the argument expansion '''{*}''', such
-comment words will begin with '''{#}''' (left brace, hash sign, right brace).
+comment words will begin with '''{#}''' (left brace, hash sign, right brace).  
+The change concerns both words in scripts and, more importantly, words in lists.
 
 ~ Rationale
 
@@ -113,7 +114,6 @@ but things like this are also legal:
 
 | cmd {#}$var {#}$x,\n {#}[foo bar]
 
-
 ''Note 3:''
 It is ''very'' important for serveral use-cases that comment words are
 recognised as such also in lists. One might (as I would) argue that this
@@ -131,7 +131,7 @@ However, presently the argument expansion '''{*}''' is not recognised in
 lists, despite there not being a stated exception for that either. (This state
 of affairs is reasonable, since it would be very complicated to extend present
 mechanisms to support argument expansion in lists and the benefit of doing so
-is smil at best, but it should be more clearly documented.)
+is slim at best, but it should be more clearly documented.)
 
 ~ Use Cases
 
@@ -355,7 +355,8 @@ It is also possible to use '''regsub''' or something similar to the end of
 removing comments from a block of code before it is evaluated or put in a
 variable; instead of having the core language recognise some pieces of code as
 comments, one preprocesses the code as a string before telling the core that
-it actually is Tcl code. Thus instead of (assuming comment words):
+it actually is Tcl code (or a list/dict/etc.). Thus instead of (assuming 
+comment words):
 
 |   set tclCommands {
 |       after append array binary break case catch cd clock close concat
@@ -410,6 +411,73 @@ prefix. '''\#''' is however a shorter way to list-quote '''#''', so it seems
 unlikely that '''{#}''' should be common in manually written code (unlike
 '''{}''', which is very common).
 
+~~ Additional alternatives from tcl-core discussion
+
+That (in script words) the initial substitution round performs variable 
+and command substitution is by several seen as problematic. Only 
+performing backslash substitution there is no great loss, as the only 
+use-case above which relies on other substitutions is the K combinator one 
+that anyway has several alternatives already, but it complicates the 
+implementation by introducing a new parsing mode for scripts (grab word 
+without variable or command substitution, but with backslash substitution). 
+In particular, one would have to decide on the exact rules for this; it 
+would probably be best to use the same rules as for command words in 
+lists, which however implies that
+
+| list {#}[foo bar]
+
+would produce a list with one element, namely the string "bar]".
+
+A different way of fitting comments into the 
+brace-''something''-brace-''something'' syntax region would be to put the 
+comment material in the first ''something'' rather than the second. This 
+could take the form of comment words which begin with '''{#''' and end 
+with '''}#''', as in
+
+|  $canvas create polygon 0 0 {# left top }# 30 0 {#bend down}# 30 30 \
+|    {# concave part}# 60 30 {#bend up }# 60 0 {# right top }# 90 0 \
+|    {# curving back }# 90 30 45 67 0 30 {# done }# -smooth true \
+|    -width 2 -fill orange -outline green {# Official colours }# \
+|    -tags {button {# for clicking }# buoyant {#affects movement}#}
+
+This is similar to Cloverfield's current '''#{''' and '''}#''' comment 
+delimiters, and perhaps also reminicient of C's '''/*''' ... '''*/''' and 
+Pascal's '''(*''' ... '''*)'''. It should however be stressed that the 
+nesting here would still be that of braces rather than brace+hash 
+combinations, so
+
+|  {# a b { c }# d {# e f } g }#
+
+would be one comment word, not two with a non-comment word '''d''' in 
+between. Using this syntax could thus lead to false expectations about 
+where a comment ends.
+
+A technical disadvantage of '''{#''' and '''}#''' for comment word 
+delimiters is that they make TclFindElement slightly more expensive than 
+for the proposed '''{#}''' prefix. The reason is that TclFindElement needs 
+to peek at the word after the element it finds to check if that is a 
+comment (and if so scan past it and peek at the word after that too). If 
+the comment status of a word can be determined from whether it carries a 
+'''{#}''' prefix, then it is at worst necessary to peek at the first four 
+characters, but if it matters how the word ends then it might be necessary 
+to parse the whole of the next element in a list before being able to tell 
+that it indeed was not a comment. From a usability point of view, this 
+syntax lends less support for the argument placeholder use-case than the 
+proposed prefix.
+
+Donald G Porter has pointed out that this proposal has two functionally 
+unrelated parts, which indeed are easy to discern in the reference 
+implementation: comment words in lists and the like (changes in 
+TclFindElement) and comment words in scripts (all other changes). It would 
+be possible to propose implementing either one of these parts alone, and 
+the one which is most interesting is then comment words in lists. (Given 
+just that, one could even use
+
+|   {*}{{#}"Comment goes here"}
+
+as an ugly substitute for word comments in scripts.) However, I believe it 
+is more natural to introduce both together.
+
 ~ Suggested Stylistic Considerations
 
 Like ordinary words, comment words come in three varieties: brace-delimited,
@@ -441,8 +509,11 @@ comment word is a comment word throughout so many contexts.
 ~ Reference Implementation
 
 A reference implementation is available as SF Tcl patch #3522426
-[https://sourceforge.net/support/tracker.php?aid=3522426].  It includes some
-tests, but more could be needed.
+[https://sourceforge.net/support/tracker.php?aid=3522426]. It includes some
+tests, but more could be needed. DGP has also created a branch 
+'''tip-401''' [http://core.tcl.tk/tcl/timeline?r=tip-401] for it in the 
+core fossil respository; further development is best conducted in the 
+latter.
 
 Implementing comment words in lists and the like could be achieved by
 modifications only in TclFindElement. Comment words in scripts are implemented
@@ -450,5 +521,4 @@ as argument expansion that does not contribute any word.
 
 ~ Copyright
 
-This document has been placed in the public domain. 
-
+This document has been placed in the public domain.
