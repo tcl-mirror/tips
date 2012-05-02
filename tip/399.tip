@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
@@ -37,7 +37,8 @@ The issue is that '''mcload''' only loads language files included in the
 current locale ('''mcpreferences''') and does not load any others.
 
 The aim of this tip is to extend '''mcload''' to load additional language
-files. Then '''mclocale''' may be called to change the locale on runtime.
+files.
+Then, '''mclocale''' may be called to change the locale on runtime without the requirement to re-execute '''mcload''' (which would normally imply to reinitialise or reload the package).
 
 ~ Specification
 
@@ -91,7 +92,7 @@ and to change to french locale:
 |msgcat::mclocale fr
 
 Within this modification, locale change is a cheap operation.
-Before, it was computational expensive (if not impossible).
+Before, it was computational expensive (if possible, as many packages are not reloadable or a reload may disturb current processing (force to close sockets etc.)).
 
 ~ Reference Implementation
 
