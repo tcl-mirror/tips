@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -49,8 +49,10 @@ This TIP proposes to add a new command:
 
  > '''msgcat::mcconfig -pattern''' ?''patternlist''?
 
-This command may get or set package options.  There is currently one option
-"'''-pattern'''".  Options may be set using
+This command may get or set package options.
+There is currently one option "'''-pattern'''".
+
+Options may be set using
 
  > '''msgcat::mcconfig''' ''option value'' ?''option''? ?''value''?
 
