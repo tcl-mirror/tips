@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -61,6 +61,10 @@ Current option values may be read using:
 The option '''-pattern''' consists of a list of language file name patterns
 like '''fr*''', '''*''', or '''fr_ch'''.
 
+Any '''mcload''' command executed after this setting will consider this list in addition to the current locale list.
+Files are searched using a '''glob''' command per element with the specified pattern plus the string ".msg".
+If '''fr*''' is specified within the pattern list, the file search pattern is '''fr*.msg'''.
+
 ~ Example Usage
 
 Imagine an application which supports the current user language and French,
@@ -104,9 +108,12 @@ See Tcl Feature Request 3511941.
 
 ~ Compatibility
 
-No incompatibilities are introduced.  But packages might not be aware of a
-locale change and may buffer translations outside of '''msgcat'''.  There is
-no way to fix this except by modifying those packages.
+No incompatibilities are introduced.
+
+~ Issues
+
+Packages might not be aware of a locale change and may buffer translations outside of '''msgcat'''.
+Packages should not buffer msgcat messages if they are used in a dynamic locale application (like tklib tooltip does for example).
 
 ~ Alternatives
 
