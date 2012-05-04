@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -55,7 +55,7 @@ Current option values may be read using:
 
  > '''msgcat::mcconfig''' ''option''
 
-The option '''-pattern'' consists of a list of language file name patterns
+The option '''-pattern''' consists of a list of language file name patterns
 like '''fr*''', '''*''', or '''fr_ch'''.
 
 ~ Example Usage
