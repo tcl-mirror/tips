@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -23,11 +23,14 @@ requesting pages. Unfortunately, this does not fit well with the model adopted
 by the '''msgcat''' package, which assumes that all code follows this
 sequence:
 
- 1. Set locale list: '''mclocale''' ''locale''
+ 1.
+ Set locale list: '''mclocale''' ''locale''
 
- 2. Load language files with other package load: '''mcload''' ''msg-folder''
+ 2.
+ Load language files with other package load: '''mcload''' ''msg-folder''
 
- 3. Translate strings: '''mc''' ''key args...''
+ 3.
+ Translate strings: '''mc''' ''key args...''
 
 Note that if the locale should be changed after other packages are loaded, one
 must restart at step 2.  This requires reloading all packages which is mostly
