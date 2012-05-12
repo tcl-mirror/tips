@@ -1,6 +1,6 @@
 TIP:            106
 Title:          Add Encoding Abilities to the [dde] Command
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -30,8 +30,8 @@ is given.  Otherwise, it is interpreted as utf-8.
 
 Examples:
 
-| dde execute ?-async? ?-binary CS CS [encoding convertto [encoding system] Äpfel]
-| dde poke -binary CS CS I [encoding convertto [encoding system] Äpfel]
+| dde execute -binary CS CS [encoding convertto [encoding system] Äpfel]\0
+| dde poke -binary CS CS I [encoding convertto [encoding system] Äpfel]\0
 
 ~ Rationale
 
@@ -66,9 +66,6 @@ DDE is so little used at those days so a minimal support is sufficient.
 
 The '''dde request''' subcommand already has a parameter ''-binary''.
 It is more logical to extend this to the other commands.
-
-I could not locate the implementation of Peter Hardie.
-If anybody still have the patch, this might be used as implementation too.
 
 ~ Copyright
 
