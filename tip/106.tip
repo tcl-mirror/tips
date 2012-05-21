@@ -1,10 +1,10 @@
 TIP:            106
 Title:          Add Encoding Abilities to the [dde] Command
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        13-Aug-2002
 Post-History:   
 Tcl-Version:    8.6
