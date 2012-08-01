@@ -1,0 +1,118 @@
+TIP:		405
+Title:		Add 'mapeach' Command, a Collecting Loop
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Trevor Davel <twylite@crypt.co.za>
+Created:	31-Jul-2012
+Keywords:	Tcl, mapeach, loop, accumulator
+
+~ Abstract
+
+The '''mapeach''' command is a collecting loop with the semantics of
+'''foreach'''.  When the loop begins an accumulator is set to an empty list.
+In any iteration where the body of the loop completes normally, the result of
+the body is appended to the accumulator list.  The return value for
+'''mapeach''' is the contents of the accumulator.
+
+~ Rationale
+
+'''mapeach''' arises from a Tcler's Wiki discussion on higher order functions
+[http://wiki.tcl.tk/26013].  The construct combines the capabilities of the
+higher order functions ''map'' and ''filter'' with the familiarity and
+expressive power of Tcl's '''foreach'''.
+
+While '''mapeach''' can be implemented in pure Tcl using '''uplevel''' (see
+the Wiki for examples), substantial performance gains are possible with a
+bytecode implementation.
+
+~ Proposed Changes
+
+A new command '''mapeach''' will be created, with arguments are intentionally
+very similar to those to '''foreach''':
+
+ > '''mapeach''' ''varname list body''
+
+ > '''mapeach''' ''varlist1 list1'' ?''varlist2 list2 ...''? ''body''
+
+The '''mapeach''' command implements a loop where the loop variable(s) take on
+values from one or more lists, and the loop returns a list of results
+collected from each iteration.
+
+In the simplest case there is one loop variable, ''varname'', and one list,
+''list'', that is a list of values to assign to ''varname''. The ''body''
+argument is a Tcl script. For each element of list (in order from first to
+last), '''mapeach''' assigns the contents of the element to ''varname'' as if
+the '''lindex''' command had been used to extract the element, then calls the
+Tcl interpreter to execute body.  If execution of the body completes normally
+then the result of the body is appended to an accumulator list.  '''mapeach'''
+returns the accumulator list.
+
+In the general case there can be more than one value list (e.g., ''list1'' and
+''list2''), and each value list can be associated with a list of loop
+variables (e.g., ''varlist1'' and ''varlist2''). During each iteration of the
+loop the variables of each varlist are assigned consecutive values from the
+corresponding list. Values in each list are used in order from first to last,
+and each value is used exactly once. The total number of loop iterations is
+large enough to use up all the values from all the value lists. If a value
+list does not contain enough elements for each of its loop variables in each
+iteration, empty values are used for the missing elements.
+
+The '''break''' and '''continue''' statements may be invoked inside body, with
+the same effect as in the '''for''' and '''foreach''' commands.  In these
+cases the body does not complete "normally" and the result is not appended to
+the accumulator list.
+
+~ Examples
+
+Zip lists together:
+
+| set zipped [map a $list1 b $list2 {list $a $b}] 
+
+Consume several values at once:
+
+| set sums [map {a b} $values {+ $a $b}] 
+
+Filter a list:
+
+| set goodOnes [map x $values {expr {[isGood $x] ? $x : [continue]}}] 
+
+Take a prefix from a list:
+
+| set prefix [map x $values {expr {[isGood $x] ? $x : [break]}}] 
+
+Comparative performance figures:
+
+| for {set i 0} {$i < 1000000} {incr i} {
+|   lappend input [expr { int(rand() * 1000000) }] 
+| }
+| # Test the performance of [mapeach]
+| time { apply {{} { 
+|   set accum 0
+|   foreach val [mapeach i $::input {expr { $i * 5}}] { incr accum $val }
+|   puts $accum 
+| }} } 10
+| # Pure Tcl 'Approach #2' implementation from [http://wiki.tcl.tk/26013]
+| #   1259118.1 microseconds per iteration
+| # C implementation (not bytecode compiled)
+| #   1107894.4 microseconds per iteration
+| # Bytecode compiled
+| #    375085.5 microseconds per iteration
+
+~ Reference Implementation
+
+A reference implementation can be found in Patch #3163961
+[https://sourceforge.net/support/tracker.php?aid=3163961].  The implementation
+leverages the existing '''foreach''' infrastructure to provide bytecode
+support.  A test suite is provided.
+
+~ Thanks
+
+Thanks to DKF for suggesting a collecting '''foreach''' and providing examples.
+
+~ Copyright
+
+This document has been placed in the public domain.
