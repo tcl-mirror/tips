@@ -1,14 +1,14 @@
-TIP:		405
-Title:		Add 'mapeach' Command, a Collecting Loop
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Trevor Davel <twylite@crypt.co.za>
-Created:	31-Jul-2012
-Keywords:	Tcl, mapeach, loop, accumulator
+TIP:            405
+Title:          Add 'mapeach' Command, a Collecting Loop
+Version:        $Revision: 1.2 $
+Author:         Trevor Davel <twylite@crypt.co.za>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        31-Jul-2012
+Post-History:   
+Keywords:       Tcl,mapeach,loop,accumulator
+Tcl-Version:    8.6
 
 ~ Abstract
 
@@ -17,6 +17,8 @@ The '''mapeach''' command is a collecting loop with the semantics of
 In any iteration where the body of the loop completes normally, the result of
 the body is appended to the accumulator list.  The return value for
 '''mapeach''' is the contents of the accumulator.
+The '''dict map''' command is a collecting loop with the semantics of
+'''dict for'''.
 
 ~ Rationale
 
@@ -29,6 +31,10 @@ While '''mapeach''' can be implemented in pure Tcl using '''uplevel''' (see
 the Wiki for examples), substantial performance gains are possible with a
 bytecode implementation.
 
+'''dict map''' was suggested by DKF on tcl-core (2012-08-01) as native
+dictionary iteration is more efficient that a '''mapeach''' with two 
+variables).
+
 ~ Proposed Changes
 
 A new command '''mapeach''' will be created, with arguments are intentionally
@@ -37,6 +43,10 @@ very similar to those to '''foreach''':
  > '''mapeach''' ''varname list body''
 
  > '''mapeach''' ''varlist1 list1'' ?''varlist2 list2 ...''? ''body''
+
+The '''dict''' ensemble will be extended with a new sub-command '''map''':
+
+ > '''dict map''' ''{keyVar valueVar} dictionary script''
 
 The '''mapeach''' command implements a loop where the loop variable(s) take on
 values from one or more lists, and the loop returns a list of results
@@ -65,6 +75,22 @@ The '''break''' and '''continue''' statements may be invoked inside body, with
 the same effect as in the '''for''' and '''foreach''' commands.  In these
 cases the body does not complete "normally" and the result is not appended to
 the accumulator list.
+
+The '''dict map''' command takes three arguments, the first a two-element list
+of variable names (for the key and value respectively of each mapping in
+the dictionary), the second the dictionary value to iterate across,
+and the third a script to be evaluated for each mapping with the key
+and value variables set appropriately (in the manner of '''mapeach'''.)
+In an iteration where the evaluated script completes normally 
+(''TCL_OK'') the script result is appended to an accumulator list.
+The result of the '''dict map''' command is the accumulator list.
+If any evaluation of the body generates a ''TCL_BREAK'' result, no 
+further pairs from the dictionary will be iterated over and the 
+'''dict map''' command will terminate successfully immediately. If any
+evaluation of the body generates a ''TCL_CONTINUE'' result, the
+current iteration is aborted and the accumulator list is not modified.
+The order of iteration is the order in which the keys were inserted into
+the dictionary.
 
 ~ Examples
 
