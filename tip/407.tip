@@ -1,6 +1,6 @@
 TIP:            407
 Title:          The String Representation of Tcl Lists: the Gory Details
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Donal K. Fellows <dkf@users.sf.net>
 Author:         Kevin Kenny <kennykb@acm.org>
 State:          Draft
@@ -277,5 +277,5 @@ the Tcl source code distribution.
 |Copyright (c) 2001 by Kevin B. Kenny. All rights reserved.
 
 This document is made available under the same license as Tcl.
-----
+
 [[I, Kevin B. Kenny, dedicate any and all copyright interest in TIP #407 to the public domain. I make this dedication for the benefit of the public at large and to the detriment of my heirs and successors. I intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to TIP #407 under copyright law.]]
