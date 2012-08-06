@@ -1,8 +1,9 @@
 TIP:            407
 Title:          The String Representation of Tcl Lists: the Gory Details
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Donal K. Fellows <dkf@users.sf.net>
 Author:         Kevin Kenny <kennykb@acm.org>
+Author:		Don Porter <dgp@users.sf.net>
 State:          Draft
 Type:           Informative
 Vote:           Pending
