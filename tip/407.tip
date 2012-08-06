@@ -4,7 +4,7 @@ State:		Draft
 Type:		Informational
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	06-Aug-2012
 
@@ -28,12 +28,12 @@ properly formatted elements.
 The ASCII characters which can make up the whitespace between list elements
 are:
 
-|	\u0009	\t	TAB
-|	\u000A	\n	NEWLINE
-|	\u000B	\v	VERTICAL TAB
-|	\u000C	\f	FORM FEED
-|	\u000D	\r	CARRIAGE RETURN
-|	\u0020		SPACE
+|    \u0009    \t    TAB
+|    \u000A    \n    NEWLINE
+|    \u000B    \v    VERTICAL TAB
+|    \u000C    \f    FORM FEED
+|    \u000D    \r    CARRIAGE RETURN
+|    \u0020          SPACE
 
 '''NOTE:''' differences between this and other places where Tcl defines a role
 for "whitespace".
@@ -65,7 +65,7 @@ changes.
 Backslash substitution replaces an "escape sequence" of one or more
 characters starting with
 
-|	\u005c	\	BACKSLASH
+|    \u005c    \    BACKSLASH
 
 with a single character. The one character escape sequent case happens only
 when BACKSLASH is the last character in the string. In all other cases, the
@@ -76,11 +76,11 @@ following cases:
 
  * If the first character of a formatted substring is
 
-|		\u007b	{	OPEN BRACE
+|    \u007b    {    OPEN BRACE
 
  > then the end of the substring is the matching 
 
-|		\u007d	}	CLOSE BRACE
+|    \u007d    }    CLOSE BRACE
 
  > character, where matching is determined by counting nesting levels, and not
    including any brace characters that are contained within a backslash escape
@@ -104,7 +104,7 @@ following cases:
 
  * If the first character of a formatted substring is
 
-|		\u0022	"	QUOTE
+|    \u0022    "    QUOTE
 
  > then the end of the substring is the next QUOTE character, not counting any
    QUOTE characters that are contained within a backslash escape sequence. If
@@ -155,22 +155,22 @@ by Tcl. Such list values are often said to be in "canonical form":
 
  > * The command terminating character,
 
-|		\u003b	;	SEMICOLON
+|    \u003b    ;    SEMICOLON
 
  > > must be BRACEd, QUOTEd, or escaped so that it does not terminate the
      command prematurely.
 
  > * Any of the characters that begin substitutions in scripts,
 
-|		\u0024	$	DOLLAR
-|		\u005b	[	OPEN BRACKET
-|		\u005c	\	BACKSLASH
+|    \u0024    $    DOLLAR
+|    \u005b    [    OPEN BRACKET
+|    \u005c    \    BACKSLASH
 
  > > need to be BRACEd or escaped.
 
  > * In any list where the first character of the first element is
 
-|		\u0023	#	HASH
+|    \u0023    #    HASH
 
  > > that HASH character must be BRACEd, QUOTEd, or escaped so that it does
      not convert the command into a comment.
@@ -183,11 +183,11 @@ by Tcl. Such list values are often said to be in "canonical form":
  * It is also guaranteed that one can use a canonical list as a building block
    of a larger script within command substitution, as in this example:
 
-|	set script "puts \[[list $cmd $arg]]"; eval $script
+|        set script "puts \[[list $cmd $arg]]"; eval $script
 
  > To support this usage, any appearance of the character
 
-|		\u005d	]	CLOSE BRACKET
+|    \u005d    ]    CLOSE BRACKET
 
  > in a list element must be BRACEd, QUOTEd, or escaped.
 
@@ -197,12 +197,12 @@ by Tcl. Such list values are often said to be in "canonical form":
    makes it possible to construct scripts where an argument word is given a
    list value by enclosing the canonical form of that list in braces:
 
-|	set script "puts {[list $one $two $three]}"; eval $script
+|        set script "puts {[list $one $two $three]}"; eval $script
 
  > This sort of coding was once fairly common, though it's become more
    idiomatic to see the following instead:
 
-|	set script [list puts [list $one $two $three]]; eval $script
+|        set script [list puts [list $one $two $three]]; eval $script
 
  > In order to support this guarantee, every canonical list must have balance
    when counting those braces that are not in escape sequences.
@@ -227,13 +227,13 @@ character or an internal QUOTE character, a strange formatting mode is
 recommended. For example, if the value "'''a{b]]c}d'''" is converted by the
 usual modes:
 
-|	CONVERT_BRACE:	a{b]c}d		=> {a{b]c}d}
-|	CONVERT_ESCAPE:	a{b]c}d		=> a\{b\]c\}d
+|    CONVERT_BRACE:    a{b]c}d    => {a{b]c}d}
+|    CONVERT_ESCAPE:   a{b]c}d    => a\{b\]c\}d
 
 we get perfectly usable formatted list elements. However, this is not what Tcl
 releases have been producing. Instead, we have:
 
-|	CONVERT_MASK:	a{b]c}d		=> a{b\]c}d
+|    CONVERT_MASK:     a{b]c}d    => a{b\]c}d
 
 where the CLOSE BRACKET is escaped, but the BRACEs are not. The same effect
 can be seen replacing ''']]''' with '''"''' in this example. There does not
