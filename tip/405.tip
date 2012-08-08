@@ -1,6 +1,6 @@
 TIP:            405
 Title:          Add 'mapeach' Command, a Collecting Loop
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -130,7 +130,7 @@ Comparative performance figures:
 
 ~ Alternatives
 
-The name '''lmap''' has been proposed as an alternative to '''mapeach'''.  Jim Tcl already supports '''lmap''' with the same semantics as '''mapeach''', and a pure-Tcl implementation with similar semantics appears on the Wiki [http://wiki.tcl.tk/13920].  The TIP author is in favour of '''lmap'''.
+The name '''lmap''' has been proposed as an alternative to '''mapeach'''.  Jim Tcl already supports '''lmap''' with the same semantics as '''mapeach''', and a pure-Tcl implementation with similar semantics appears on the Wiki [http://wiki.tcl.tk/13920].  The TIP author favours '''lmap'''.
 
 ~ Reference Implementation
 
@@ -140,7 +140,7 @@ support.  A test suite is provided.
 
 ~ Thanks
 
-Thanks to DKF for suggesting a collecting '''foreach''' and providing examples.
+Thanks to DKF for suggesting a collecting '''foreach''' and providing examples, and to Steve Bennett for suggesting the name '''lmap'''.
 
 ~ Copyright
 
