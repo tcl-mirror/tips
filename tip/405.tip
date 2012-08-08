@@ -1,6 +1,6 @@
 TIP:            405
 Title:          Add 'mapeach' Command, a Collecting Loop
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -128,10 +128,13 @@ Comparative performance figures:
 | # Bytecode compiled
 | #    375085.5 microseconds per iteration
 
+~ Alternatives
+
+The name '''lmap''' has been proposed as an alternative to '''mapeach'''.  Jim Tcl already supports '''lmap''' with the same semantics as '''mapeach''', and a pure-Tcl implementation with similar semantics appears on the Wiki [http://wiki.tcl.tk/13920].  The TIP author is in favour of '''lmap'''.
+
 ~ Reference Implementation
 
-A reference implementation can be found in Patch #3163961
-[https://sourceforge.net/support/tracker.php?aid=3163961].  The implementation
+A reference implementation is provided as branch tip-405-impl-td. Older revisions are attached to Patch #3163961 [https://sourceforge.net/support/tracker.php?aid=3163961].  The implementation
 leverages the existing '''foreach''' infrastructure to provide bytecode
 support.  A test suite is provided.
 
