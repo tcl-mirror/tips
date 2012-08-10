@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -65,7 +65,7 @@ Current option values may be read using:
 The option '''-pattern''' consists of a list of language file name patterns
 like '''fr*''', '''*''', or '''fr_ch'''.
 
-Any '''mcload''' command executed after this setting will consider this list "in addition" to the current locale list.
+Any '''mcload''' command executed after this setting will consider this list ''in addition'' to the current locale list.
 Files are searched using a '''glob''' command per element on the specified pattern plus the string ".msg".
 If "fr*" is specified within the pattern list, the file search pattern is "fr*.msg".
 
