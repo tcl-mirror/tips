@@ -1,6 +1,6 @@
 TIP:            402
 Title:          General Platform UNC Support
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 State:          Draft
 Type:           Project
@@ -9,7 +9,7 @@ Created:        16-Jul-2011
 Post-History:   
 Discussions-To: Tcl Core list
 Keywords:       Tcl
-Tcl-Version:    8.6
+Tcl-Version:    8.7
 
 ~ Abstract
 
