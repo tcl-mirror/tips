@@ -1,6 +1,6 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
@@ -70,7 +70,7 @@ Files are searched using a '''glob''' command per element on the specified patte
 If "fr*" is specified within the pattern list, the file search pattern is "fr*.msg".
 
 The default option value is the empty list {}.
-In consequence, only files couvered by the current locale list are sourced.
+In consequence, only files covered by the current locale list are sourced.
 
 ~ Example Usage
 
