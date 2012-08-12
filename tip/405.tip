@@ -1,6 +1,6 @@
 TIP:            405
-Title:          Add 'mapeach' Command, a Collecting Loop
-Version:        $Revision: 1.4 $
+Title:          Add Collecting Loops, the 'lmap' and 'dict map' Commands
+Version:        $Revision: 1.5 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -12,53 +12,51 @@ Tcl-Version:    8.6
 
 ~ Abstract
 
-The '''mapeach''' command is a collecting loop with the semantics of
+The '''lmap''' command is a collecting loop with the semantics of
 '''foreach'''.  When the loop begins an accumulator is set to an empty list.
 In any iteration where the body of the loop completes normally, the result of
-the body is appended to the accumulator list.  The return value for
-'''mapeach''' is the contents of the accumulator.
-The '''dict map''' command is a collecting loop with the semantics of
-'''dict for'''.
+the body is appended to the accumulator list.  The return value for '''lmap'''
+is the contents of the accumulator.  The '''dict map''' command is an
+equivalent collecting loop with the semantics based off '''dict for'''.
 
 ~ Rationale
 
-'''mapeach''' arises from a Tcler's Wiki discussion on higher order functions
+'''lmap''' arises from a Tcler's Wiki discussion on higher order functions
 [http://wiki.tcl.tk/26013].  The construct combines the capabilities of the
 higher order functions ''map'' and ''filter'' with the familiarity and
 expressive power of Tcl's '''foreach'''.
 
-While '''mapeach''' can be implemented in pure Tcl using '''uplevel''' (see
-the Wiki for examples), substantial performance gains are possible with a
-bytecode implementation.
+While '''lmap''' can be implemented in pure Tcl using '''uplevel''' (see the
+Wiki for examples), substantial performance gains are possible with a bytecode
+implementation.
 
 '''dict map''' was suggested by DKF on tcl-core (2012-08-01) as native
-dictionary iteration is more efficient that a '''mapeach''' with two 
-variables).
+dictionary iteration is more efficient that a '''lmap''' with two variables).
 
 ~ Proposed Changes
 
-A new command '''mapeach''' will be created, with arguments are intentionally
+A new command '''lmap''' will be created, with arguments are intentionally
 very similar to those to '''foreach''':
 
- > '''mapeach''' ''varname list body''
+ > '''lmap''' ''varname list body''
 
- > '''mapeach''' ''varlist1 list1'' ?''varlist2 list2 ...''? ''body''
+ > '''lmap''' ''varlist1 list1'' ?''varlist2 list2 ...''? ''body''
 
 The '''dict''' ensemble will be extended with a new sub-command '''map''':
 
  > '''dict map''' ''{keyVar valueVar} dictionary script''
 
-The '''mapeach''' command implements a loop where the loop variable(s) take on
+The '''lmap''' command implements a loop where the loop variable(s) take on
 values from one or more lists, and the loop returns a list of results
 collected from each iteration.
 
 In the simplest case there is one loop variable, ''varname'', and one list,
 ''list'', that is a list of values to assign to ''varname''. The ''body''
 argument is a Tcl script. For each element of list (in order from first to
-last), '''mapeach''' assigns the contents of the element to ''varname'' as if
+last), '''lmap''' assigns the contents of the element to ''varname'' as if
 the '''lindex''' command had been used to extract the element, then calls the
 Tcl interpreter to execute body.  If execution of the body completes normally
-then the result of the body is appended to an accumulator list.  '''mapeach'''
+then the result of the body is appended to an accumulator list.  '''lmap'''
 returns the accumulator list.
 
 In the general case there can be more than one value list (e.g., ''list1'' and
@@ -77,20 +75,18 @@ cases the body does not complete "normally" and the result is not appended to
 the accumulator list.
 
 The '''dict map''' command takes three arguments, the first a two-element list
-of variable names (for the key and value respectively of each mapping in
-the dictionary), the second the dictionary value to iterate across,
-and the third a script to be evaluated for each mapping with the key
-and value variables set appropriately (in the manner of '''mapeach'''.)
-In an iteration where the evaluated script completes normally 
-(''TCL_OK'') the script result is appended to an accumulator list.
-The result of the '''dict map''' command is the accumulator list.
-If any evaluation of the body generates a ''TCL_BREAK'' result, no 
-further pairs from the dictionary will be iterated over and the 
+of variable names (for the key and value respectively of each mapping in the
+dictionary), the second the dictionary value to iterate across, and the third
+a script to be evaluated for each mapping with the key and value variables set
+appropriately (in the manner of '''lmap'''.)  In an iteration where the
+evaluated script completes normally (''TCL_OK'') the script result is appended
+to an accumulator list.  The result of the '''dict map''' command is the
+accumulator list.  If any evaluation of the body generates a ''TCL_BREAK''
+result, no further pairs from the dictionary will be iterated over and the
 '''dict map''' command will terminate successfully immediately. If any
-evaluation of the body generates a ''TCL_CONTINUE'' result, the
-current iteration is aborted and the accumulator list is not modified.
-The order of iteration is the order in which the keys were inserted into
-the dictionary.
+evaluation of the body generates a ''TCL_CONTINUE'' result, the current
+iteration is aborted and the accumulator list is not modified.  The order of
+iteration is the order in which the keys were inserted into the dictionary.
 
 ~ Examples
 
@@ -115,10 +111,10 @@ Comparative performance figures:
 | for {set i 0} {$i < 1000000} {incr i} {
 |   lappend input [expr { int(rand() * 1000000) }] 
 | }
-| # Test the performance of [mapeach]
+| # Test the performance of [lmap]
 | time { apply {{} { 
 |   set accum 0
-|   foreach val [mapeach i $::input {expr { $i * 5}}] { incr accum $val }
+|   foreach val [lmap i $::input {expr { $i * 5}}] { incr accum $val }
 |   puts $accum 
 | }} } 10
 | # Pure Tcl 'Approach #2' implementation from [http://wiki.tcl.tk/26013]
@@ -130,17 +126,24 @@ Comparative performance figures:
 
 ~ Alternatives
 
-The name '''lmap''' has been proposed as an alternative to '''mapeach'''.  Jim Tcl already supports '''lmap''' with the same semantics as '''mapeach''', and a pure-Tcl implementation with similar semantics appears on the Wiki [http://wiki.tcl.tk/13920].  The TIP author favours '''lmap'''.
+The name '''mapeach''' was originally proposed instead of '''lmap'''.
+However, since Jim Tcl already supports '''lmap''' with the same semantics as
+this TIP proposes, and a pure-Tcl implementation with similar semantics
+appears on the Wiki [http://wiki.tcl.tk/13920], this TIP was updated with the
+change of name.  The TIP author favours '''lmap'''.
 
 ~ Reference Implementation
 
-A reference implementation is provided as branch tip-405-impl-td. Older revisions are attached to Patch #3163961 [https://sourceforge.net/support/tracker.php?aid=3163961].  The implementation
+A reference implementation is provided as branch ''tip-405-impl-td''. Older
+revisions are attached to Patch #3163961
+[https://sourceforge.net/support/tracker.php?aid=3163961].  The implementation
 leverages the existing '''foreach''' infrastructure to provide bytecode
 support.  A test suite is provided.
 
 ~ Thanks
 
-Thanks to DKF for suggesting a collecting '''foreach''' and providing examples, and to Steve Bennett for suggesting the name '''lmap'''.
+Thanks to Donal Fellows for suggesting a collecting '''foreach''' and
+providing examples, and to Steve Bennett for suggesting the name '''lmap'''.
 
 ~ Copyright
 
