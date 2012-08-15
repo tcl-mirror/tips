@@ -1,10 +1,10 @@
 TIP:            404
 Title:          Let Message Catalogs get the Locale from their File Name
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        17-Jul-2011
 Post-History:   
 Discussions-To: Tcl Core list
