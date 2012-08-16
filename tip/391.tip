@@ -1,12 +1,12 @@
 TIP:		391
 Title:		Support for UDP Sockets in Tcl
 Author:		Jeff Rogers <dvrsn@diphi.com>
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Tcl-Version:	8.7
 Vote:		Pending
 Created:	26-Oct-2011
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Post-History:
 
 ~ Abstract
