@@ -1,6 +1,6 @@
 TIP:		376
 Title:		Bundle sqlite3 and tdbc::sqlite3 Packages
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Don Porter <dgp@users.sf.net>
 Author:		D. Richard Hipp <drh@hwaci.com>
 Author:		Kevin Kenny <kennykb@acm.org>
@@ -35,11 +35,9 @@ insiders.
 
 ~ Proposal
 
-Add CVS modules for tracking releases of the '''sqlite3''' and
-'''tdbc::sqlite3''' packages within Tcl's CVS repository.  Redefine the
-'''tcl''' module so that default checkouts include these packages.  Adapt
-release operations as needed so that the latest release of each of these
-packages is included in releases of Tcl 8.6.*.
+Adapt release operations as needed so that the latest releases of 
+the '''sqlite3''' and '''tdbc::sqlite3''' packages are included in releases
+of Tcl 8.6.*.
 
 ~ Expected Benefits
 
