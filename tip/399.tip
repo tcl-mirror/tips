@@ -1,10 +1,10 @@
 TIP:            399
 Title:          Dynamic Locale Changing for msgcat
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        27-Mar-2012
 Post-History:   
 Keywords:       Tcl,localization,msgcat
