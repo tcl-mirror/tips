@@ -1,0 +1,213 @@
+TIP:		409
+Title:		Datagram I/O in Tcl
+Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:		Colin McCormack <colin@chinix.com>
+Type:		Project
+Tcl-Version:	8.7
+Created:	17-Aug-2012
+Version:	$Revision: 1.1 $
+State:		Draft
+Vote:		Pending
+Post-History:	
+Keywords:	udp
+Obsoletes:	391
+
+~ Abstract
+
+This TIP adds support for Datagram I/O in Tcl (starting with UDP), with a pure
+event approach to packet reception (as opposed to hijacking the existing
+channel infrastructure).
+
+~ Rationale
+
+UDP support is a long-awaited feature in Tcl. Some extensions have
+traditionally supported it through the channel abstraction. This is of course
+doable, but there is a non-negligible cost in both complexity and performance
+due to the impedance mismatch between the "fluid" model behind channels and
+the "granular" world of packets or datagrams (where boundaries are
+significant).  Another discrepancy is the existence of (per-packet) metadata
+(like the source address and port of an incoming UDP packet), which does not
+fit nicely in the (per-connection) options of the channel API (via
+'''fconfigure''').
+
+Once this mismatch is acknowledged, it is easy to identify a better home for
+packet I/O in Tcl: let it be a direct event source (for the receive side),
+just like Tk or Snack.
+
+Indeed, hooking a callback for packet reception is a natural fit with Tcl's
+event-driven tradition, while preserving packet boundaries and easily exposing
+per-packet metadata.
+
+Sending is trivially handled by a direct per-packet call (but not disguised as
+a '''puts''').  Again, this naturally allows for boundary preservation and
+metadata specification.
+
+The script API put forth in this TIP is also designed for easy generalization
+to other kinds of packet I/O.  Though only UDP is supported in the reference
+implementation, other protocols may be defined, and selected with the
+''protocol'' parameter.  Future additions may include:
+
+ * raw IP sockets
+
+ * USB
+
+ * Bluetooth
+
+This TIP asks for UDP-in-the core for two strong reasons:
+
+ * it enables another important core
+   feature: asynchronous (event-driven) DNS lookups
+ 
+ * the C runtime supports it without extra libraries (unlike USB or Bluetooth)
+
+It is thus expected that extension-based support of other protocols will use
+the core UDP support (at least) as a syntactic template, minimizing the WTF
+effect of random new APIs.
+
+To this effect, the next section describes the common syntax to be followed
+for all protocols, be they in the core or not, merely by extending a single
+ensemble.  This notably removes the burden of defining a new stub entry for
+mundane things like protocol registration.
+
+~ Overall Specification
+
+The new '''dgram''' command creates a "datagram endpoint" of the given
+protocol:
+
+ > '''dgram''' ''protocol'' ?''options''?
+
+Following the traditions of Tk and Snack, it returns a Tcl command, which
+takes subcommands implementing the needed verbs. An endpoint is thus created
+by:
+
+|   set d [dgram protocol ?-option value? ...]
+
+The returned command lives by default in the '''::tcl::dgram''' namespace;
+however, the generic ''-name'' option allows it to take a (possibly fully
+qualified) user-provided name:
+
+|   dgram protocol -name foo ...
+
+creates (and returns) the command '''::foo''' to hold the endpoint.
+
+Once created, its configuration can be tweaked by:
+
+|   $d configure -option $value
+
+and retrieved with
+
+|   set value [$d configure -option]
+
+To close the endpoint, use:
+
+|   $d close
+
+or, as in Tk, destroy the command:
+
+|   rename $d {}
+
+or the whole namespace.
+
+Other verbs, and the detailed list of options, are protocol-specific. From now
+on, the specification concentrates on the UDP case.  The rationale for ''not''
+generalizing much is the feeling that the costs of parameter variability would
+largely outweigh the tiny amount of code sharing.
+
+~ The UDP case
+
+With UDP, addresses and ports may only be specified on creation:
+
+ > set d [['''dgram udp''' ?'''-localaddr''' ''address''? ?'''-localport'''
+   ''port''?]]
+
+The '''-localaddr''' defaults to INADDR_ANY, and the '''-localport''' defaults
+to 0.  In case of port 0, after creation of the endpoint the actual port
+chosen by the OS can be retrieved with [[$d configure]]:
+
+|   set d [dgram udp]
+|   puts "Local port is: [$d configure -localport]"
+
+One can also specify remote address and port, meaning to connect() the
+underlying UDP socket:
+
+ > set d [['''dgram udp''' ?'''-remoteaddr''' ''address'' '''-remoteport'''
+   ''port''?]]
+
+These options suffer no default, and must be simultaneously present or
+absent. The semantics, as is well known, is to tell the kernel (a) to forbid
+sending to any other destination, and (b) to discard all incoming packets sent
+by another source.
+
+All the other options may be specified on creation or through [[$d
+configure]].
+
+~~ Sending a Message
+
+Sending is done with, unsurprisingly, the '''send''' verb:
+
+ > $d '''send''' ''payload'' ?''destaddr'' ''destport''?
+
+Its blocking semantics is that of the underlying system calls: it typically
+returns immediately, though the hardware may buffer the data for some time,
+and delivery is not guaranteed. The ''payload'' is interpreted as a byte array
+that holds the entire content of the UDP message to send.
+
+The destination parameters can be omitted if the endpoint has been created
+with the '''-remoteaddr'''/'''-remoteport''' options (connected mode).
+
+~~ Receiving a message
+
+Receiving is done with the '''-listener''' callback:
+
+ > $d '''configure -listener''' ''command_prefix''
+
+Subsequently, when an incoming packet hits Tcl in the event loop, the
+''command_prefix'' is called with the endpoint identifier, payload and
+metadata:
+
+ > ''command_prefix'' $d ''payload'' ''metadata_dict''
+
+where ''payload'' is the byte array of the UDP payload, and ''metadata_dict''
+is a dict containing at least three options:
+
+ >   '''-remoteaddr''' ''address''
+
+ >   '''-remoteport''' ''port''
+
+ >   '''-localaddr''' ''address''
+
+When ''command_prefix'' is the empty string, the notifier gives up interest in
+the underlying UDP socket; this allows to keep the port bound while letting
+the OS buffer any incoming packets (up to a configurable limit) without any
+script-level handling, while leaving the event loop active.  This is similar
+to setting a '''fileevent''' on a channel to the empty string.
+
+~~ Advanced UDP features
+
+The following few verbs and options control extra IP features that are
+typically useful in popular UDP applications like media streaming:
+
+ > $d '''configure -sndbuf''' ''buffersize''
+
+ > $d '''configure -rcvbuf''' ''buffersize''
+
+Set the OS's send (resp. receive) buffer sizes to the given values (in bytes).
+
+ > $d '''join''' ''multiaddr'' ?''sourceaddr''?
+
+Joins the multicast group ''multiaddr'', optionally using IGMPv3's source
+membership target ''sourceaddr''.
+
+ > $d '''leave''' ''multiaddr'' ?''sourceaddr''?
+
+Leaves the same multicast group with or without source membership.
+
+ > $d '''configure -ttl''' ''ttl''
+
+Sets the TTL of the packet. Some operating systems typically reduce the
+default TTL to one for multicast packets; this override may thus come in
+handy.
+
+~ Copyright
+
+This document has been placed in the public domain.
