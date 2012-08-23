@@ -1,16 +1,16 @@
-TIP:		409
-Title:		Datagram I/O in Tcl
-Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-Author:		Colin McCormack <colin@chinix.com>
-Type:		Project
-Tcl-Version:	8.7
-Created:	17-Aug-2012
-Version:	$Revision: 1.1 $
-State:		Draft
-Vote:		Pending
-Post-History:	
-Keywords:	udp
-Obsoletes:	391
+TIP:            409
+Title:          Datagram I/O in Tcl
+Version:        $Revision: 1.2 $
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:         Colin McCormack <colin@chinix.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        17-Aug-2012
+Post-History:   
+Keywords:       udp
+Obsoletes:      391
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -57,7 +57,7 @@ This TIP asks for UDP-in-the core for two strong reasons:
 
  * it enables another important core
    feature: asynchronous (event-driven) DNS lookups
- 
+
  * the C runtime supports it without extra libraries (unlike USB or Bluetooth)
 
 It is thus expected that extension-based support of other protocols will use
@@ -88,7 +88,7 @@ qualified) user-provided name:
 
 |   dgram protocol -name foo ...
 
-creates (and returns) the command '''::foo''' to hold the endpoint.
+creates (and returns) the command '''foo''' (in the current namespace) to hold the endpoint.
 
 Once created, its configuration can be tweaked by:
 
