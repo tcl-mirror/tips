@@ -1,6 +1,6 @@
 TIP:            409
 Title:          Datagram I/O in Tcl
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -150,7 +150,7 @@ chosen by the OS can be retrieved with [[$d configure]]:
 
 |   puts "Local port is: [lindex [$d configure -local] 1]"
 
-In the case of '''-remote''', $address and $port must be fully specified.
+In the case of '''-remote''', both address and port must be fully specified.
 The semantics, as is well known, is to tell the kernel (a) to forbid
 sending to any other destination, and (b) to discard all incoming packets sent
 by another source.
