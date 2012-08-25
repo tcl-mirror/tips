@@ -1,6 +1,6 @@
 TIP:            409
 Title:          Datagram I/O in Tcl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -126,6 +126,7 @@ largely outweigh the tiny amount of code sharing.
 With UDP, two things may only be specified on creation:
 
  > - local interface+port
+
  > - (optional) connect() target's address+port
 
 while all the other options may be specified ''both'' on creation or through [[$d configure]].
