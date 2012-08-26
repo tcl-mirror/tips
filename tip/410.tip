@@ -1,0 +1,124 @@
+TIP:            410
+Title:          Three Features of scan Adapted for binary scan/format
+Version:        $Revision: 1.1 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Created:        26-Aug-2012
+Vote:		Pending
+Post-History:	
+Tcl-Version:	8.7
+
+~ Abstract
+
+This proposal specifies three new features for '''binary scan''' and '''binary
+format''' that already exist similarly for '''scan''', namely: '''#''' for
+consuming a count-value from the parameter list (like "'''scan %*'''"),
+'''p''' for writing current position to a consumed parameter variable (like
+"'''scan %n'''") and returning a single parsed value if no parameter is left.
+
+~ Rationale
+
+Experience with '''binary format''' and '''binary scan''' indicates that there
+are some features of '''scan''' which it would be highly desirable to have. In
+particular, the ability to take an item length as a separate parameter, to
+store the current location, and to return a list of matched values when no
+variables are supplied would all
+be highly desirable.
+
+Different symbols for some of the operations have had to be chosen, as both
+"*" and "n" already exist and have a different meaning for '''binary scan'''
+and '''binary format'''.  The TIP-Author believes that these are all rather
+"low hanging fruit". If this turns out not to be the case, then any
+controversial one of these features shall be moved to its own TIP.
+
+~ Proposal
+
+A "'''#'''" (number sign) at a place in the format-string where a number or a
+"'''*'''" is currently allowed, shall consume one item from the parameter list
+and interpret it as a number. It shall only occur after a conversion specifier
+that accepts trailing numbers. The parameter consumed for "'''#'''" is the one
+''after'' the parameter used for the conversion specifier itself, as the
+"'''#'''" follows that specifier.
+
+A new conversion specifier "'''p'''" shall not accept a trailing count and
+consume one item from parameter list and interpret it as the name of a local
+variable into which to store the current cursor-position. No data is consumed
+for '''binary scan''' and no data produced for '''binary format'''.
+
+A '''binary scan''' with a format-string that contains only one actual data
+conversion specifier and no parameters (except eventually those for any
+"'''#'''"s) shall return the converted value, or an empty string if the
+conversion wasn't successful.
+
+~~ Details
+
+A "'''p'''"-conversion is not counted. In classic usage with variable
+parameters, the return value of '''binary scan''' gives only the number of
+real data conversions, thus not counting "'''@'''", "'''x'''", "'''X'''" or
+"'''p'''".
+
+A "'''#'''" given as count will always imply a list of values written to the
+variable, even if the value is "1" and the list is of length 1. A negative
+value could change the direction for relative movements "'''x'''" and
+"'''X'''", and is treated as 0 in all other cases. A non-numeric value
+(including the empty string!) given for a "'''#'''" causes the '''binary'''
+command to return an error, just like garbage in the format string would. It
+is explicitly not intended to get single-value behaviour with "'''#'''" and
+empty string.
+
+~ Further Ideas
+
+Eventually, as a special case for '''binary scan''', the following idiom shall
+be allowed outside of the basic specification:
+
+|  binary scan "\0\0\0\x2A" "I p" pos
+
+returns 42 and then writes 4 to variable pos.
+
+While the idiom would be quite practical, there is a risk of reader's
+confusion about which value would be written and which returned, despite
+unambiguous definition. Also, this one might turn out to be less than trivial
+to implement, as it would require some lookahead to reserve the remaining
+parameter for "p", not for "I" that is currently at hand.
+
+~ Examples
+
+|   # pad out 12 nuls, then set cursor to 0, write an 
+|   #   int, record position, then write another int.
+|   set data [binary format "x# @0 I p I" 12 1 pos 42]
+|   --> data: "\0\0\0\1\0\0\0\x2A\0\0\0\0"  pos: 4
+|
+|   # set cursor position from value of first param, scan 
+|   # three items from the data and write them to the
+|   # next three parameter variables, then write new cursor
+|   # position to next parameter variable.
+|   binary scan $data "@# Iss p" $pos beI leS1 leS2 pos
+|   --> beI: 42  leS1:0 leS2:0 pos:12
+|
+|   # 4 is value for "#", no further param, thus return 
+|   # result for "I"
+|   set val [binary scan $data "@# I" 4]
+|   --> val: 42
+|
+|   # extra "further ideas" feature:
+|   set val [binary scan $data "@# I p" 4 pos]
+|   --> val: 42 pos: 8
+
+~ Rejected Alternatives
+
+For a format string "'''a#'''", one could have argued to use first parameter
+for the count and second for the conversion target, as that would be the order
+of relevance (count is needed before the resulting value is even generated). I
+think, this is a bikeshedding issue, and any choice is a good choice, so I
+went with order of occurrence, thus "'''a#'''" expects the target variable
+first, and the count second.
+
+It would be possible to use "'''@'''" without a count instead of "'''p'''",
+but I consider it dangerous, when a previous error turns into overwriting of
+variables. I consider a typo "'''@ 42 ...'''" to be common enough to not want
+to give it a new unexpected meaning and side-effect.
+
+~ Copyright
+
+This document has been placed in the public domain.
