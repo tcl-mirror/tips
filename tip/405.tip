@@ -1,6 +1,6 @@
 TIP:            405
 Title:          Add Collecting Loops, the 'lmap' and 'dict map' Commands
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -78,7 +78,7 @@ The '''dict map''' command takes three arguments, the first a two-element list
 of variable names (for the key and value respectively of each mapping in the
 dictionary), the second the dictionary value to iterate across, and the third
 a script to be evaluated for each mapping with the key and value variables set
-appropriately (in the manner of '''lmap'''.)  In an iteration where the
+appropriately (in the manner of '''lmap''').  In an iteration where the
 evaluated script completes normally (''TCL_OK'') the script result is appended
 to an accumulator list.  The result of the '''dict map''' command is the
 accumulator list.  If any evaluation of the body generates a ''TCL_BREAK''
@@ -90,21 +90,25 @@ iteration is the order in which the keys were inserted into the dictionary.
 
 ~ Examples
 
+Square the values of a list:
+
+| set squares [lmap a $list {expr {$a ** 2}}]
+
 Zip lists together:
 
-| set zipped [map a $list1 b $list2 {list $a $b}] 
+| set zipped [lmap a $list1 b $list2 {list $a $b}] 
 
 Consume several values at once:
 
-| set sums [map {a b} $values {+ $a $b}] 
+| set sums [lmap {a b} $values {+ $a $b}] 
 
 Filter a list:
 
-| set goodOnes [map x $values {expr {[isGood $x] ? $x : [continue]}}] 
+| set goodOnes [lmap x $values {expr {[isGood $x] ? $x : [continue]}}] 
 
 Take a prefix from a list:
 
-| set prefix [map x $values {expr {[isGood $x] ? $x : [break]}}] 
+| set prefix [lmap x $values {expr {[isGood $x] ? $x : [break]}}] 
 
 Comparative performance figures:
 
