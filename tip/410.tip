@@ -1,13 +1,13 @@
 TIP:            410
 Title:          Three Features of scan Adapted for binary scan/format
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
+Vote:           Pending
 Created:        26-Aug-2012
-Vote:		Pending
-Post-History:	
-Tcl-Version:	8.7
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -22,13 +22,18 @@ consuming a count-value from the parameter list (like "'''scan %*'''"),
 Experience with '''binary format''' and '''binary scan''' indicates that there
 are some features of '''scan''' which it would be highly desirable to have. In
 particular, the ability to take an item length as a separate parameter, to
-store the current location, and to return a list of matched values when no
-variables are supplied would all
-be highly desirable.
+store the current location, and to return a '''single matched value''' when
+last variable is not supplied would all be highly desirable.
 
 Different symbols for some of the operations have had to be chosen, as both
 "*" and "n" already exist and have a different meaning for '''binary scan'''
-and '''binary format'''.  The TIP-Author believes that these are all rather
+and '''binary format'''. Also, unlike with ''scan''. no list of values shall
+be returned (except for a single counted conversion), but instead only one
+extra conversion character allowed. Experience with scan shows that people
+tend to forget about the list-layer and use ''[scan "08" %d]'' directly as
+a number, which, while safe for integers, is just the wrong thing to do.
+
+The TIP-Author believes that these are all rather
 "low hanging fruit". If this turns out not to be the case, then any
 controversial one of these features shall be moved to its own TIP.
 
@@ -46,10 +51,10 @@ consume one item from parameter list and interpret it as the name of a local
 variable into which to store the current cursor-position. No data is consumed
 for '''binary scan''' and no data produced for '''binary format'''.
 
-A '''binary scan''' with a format-string that contains only one actual data
-conversion specifier and no parameters (except eventually those for any
-"'''#'''"s) shall return the converted value, or an empty string if the
-conversion wasn't successful.
+A '''binary scan''' with a format-string that contains '''one''' data
+conversion specifier '''more''' than variable parameters shall return
+the remaining converted value (or an empty string if the last conversion
+wasn't successful).
 
 ~~ Details
 
@@ -65,7 +70,8 @@ value could change the direction for relative movements "'''x'''" and
 (including the empty string!) given for a "'''#'''" causes the '''binary'''
 command to return an error, just like garbage in the format string would. It
 is explicitly not intended to get single-value behaviour with "'''#'''" and
-empty string.
+empty string, nor have the separate count-value contain an asterisk or further
+conversion characters.
 
 ~ Further Ideas
 
@@ -100,6 +106,10 @@ parameter for "p", not for "I" that is currently at hand.
 |   # result for "I"
 |   set val [binary scan $data "@# I" 4]
 |   --> val: 42
+|
+|   # error case: more than one conversion to return
+|   set val [binary scan $data "@# II" 4]
+|   --> error: "not enough arguments for all format specifiers"
 |
 |   # extra "further ideas" feature:
 |   set val [binary scan $data "@# I p" 4 pos]
