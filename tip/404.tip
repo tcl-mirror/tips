@@ -1,6 +1,6 @@
 TIP:            404
 Title:          Let Message Catalogs get the Locale from their File Name
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Accepted
 Type:           Project
@@ -21,12 +21,15 @@ it less error-prone to produce message catalogs.
 
 Current message catalog files are as follows:
 
- * File name: ''<locale>'''''.msg'''
+ * File
+   name: ''<locale>'''''.msg'''
 
- * Folder: technically any, recommended: msgs in package main folder. Must be
+ * Folder: technically any,
+   recommended: msgs in package main folder. Must be
    specified to the command '''mcload'''.
 
- * File Contents: One command per translated item:
+ * File
+   Contents: One command per translated item:
 
 |        msgcat::mcset locale ori ?translation?
 
