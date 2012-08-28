@@ -1,6 +1,6 @@
 TIP:            404
 Title:          Let Message Catalogs get the Locale from their File Name
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Accepted
 Type:           Project
@@ -80,8 +80,9 @@ following properties:
  * The '''mc file locale''' may also be set by the command
    '''::msgcat::mcconfig -mcfilelocale value'''.
 
- * The original message file may not be reconstructed by:
-   '''[::msgcat::mcconfig -mcfilelocale].msg'''.
+ * The original message filename may ''not'' be reconstructed
+   by: '''[::msgcat::mcconfig -mcfilelocale].msg'''; there can be case
+   differences.
 
 The command '''::msgcat::mcconfig''' is shared with [399].  It has a new
 option '''-mcfilelocale'''.
