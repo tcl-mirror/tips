@@ -1,6 +1,6 @@
 TIP:            409
 Title:          Datagram I/O in Tcl
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -44,8 +44,7 @@ preservation and metadata specification.
 
 This TIP asks for UDP-in-the core for two strong reasons:
 
- * it   enables   another   important   core   feature:   asynchronous
-   (event-driven) DNS lookups
+ * it   enables   another   important   core   feature:   asynchronous (event-driven) DNS lookups
 
  * the C runtime supports it without extra libraries (unlike USB or Bluetooth)
 
@@ -234,11 +233,18 @@ handy.
 
 ~ Rejected Alternatives
 
- * Token-based API (like for channels) instead of commands: would need extra machinery (a new Tcl_ObjType). Moreover, the command style gives reflection for free: a simple proc can emulate an UDP endpoint, and is compatible with all OO schemes.
+ * Token-based API (like for channels) instead of commands: would need  
+   extra machinery (a new Tcl_ObjType). Moreover, the command style 
+   gives reflection for free: a simple proc can emulate an UDP endpoint,   
+   and is compatible with all OO schemes.
 
- * Address+Port pairs as dicts or urls: would hamper performance for no added value
+ * Address+Port pairs as dicts or urls: would hamper performance for no 
+   added value
 
- * Listener as specific subcommand instead of option: R/W semantics is actually that of an option; a subcommand would preclude the direct specification of the listener on creation ; analogy with the -command of [fcopy], [http], or Tk widgets. 
+ * Listener as specific subcommand instead of option: R/W semantics is 
+   actually that of an option; a subcommand would preclude the direct 
+   specification of the listener on creation ; analogy with the -command 
+   of [fcopy], [http], or Tk widgets. 
 
 ~ Sources of Inspiration
 
