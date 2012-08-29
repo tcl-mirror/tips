@@ -1,6 +1,6 @@
 TIP:            409
 Title:          Datagram I/O in Tcl
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -14,215 +14,235 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP adds support for Datagram I/O in Tcl (starting with UDP), with a pure
-event approach to packet reception (as opposed to hijacking the existing
-channel infrastructure).
+This TIP  adds support for UDP in  Tcl, with a pure  event approach to
+packet  reception  (as  opposed  to  hijacking  the  existing  channel
+infrastructure).
 
 ~ Rationale
 
-UDP support is a long-awaited feature in Tcl. Some extensions have
-traditionally supported it through the channel abstraction. This is of course
-doable, but there is a non-negligible cost in both complexity and performance
-due to the impedance mismatch between the "fluid" model behind channels and
-the "granular" world of packets or datagrams (where boundaries are
-significant).  Another discrepancy is the existence of (per-packet) metadata
-(like the source address and port of an incoming UDP packet), which does not
-fit nicely in the (per-connection) options of the channel API (via
-'''fconfigure''').
+UDP support  is a  long-awaited feature in  Tcl. Some  extensions have
+traditionally supported it through the channel abstraction. This is of
+course doable, but  there is a non-negligible cost  in both complexity
+and  performance due  to the  impedance mismatch  between  the "fluid"
+model  behind channels and  the "granular"  world of  datagrams (where
+boundaries are significant).  Another  discrepancy is the existence of
+(per-packet) metadata, the source address  and port of an incoming UDP
+packet, which do not fit nicely in the (per-connection) options of the
+channel API (via '''fconfigure''').
 
-Once this mismatch is acknowledged, it is easy to identify a better home for
-packet I/O in Tcl: let it be a direct event source (for the receive side),
-just like Tk or Snack.
+Once this  mismatch is acknowledged, it  is easy to  identify a better
+home for UDP in Tcl: let it  be a direct event source (for the receive
+side), just like Tk or Snack.
 
-Indeed, hooking a callback for packet reception is a natural fit with Tcl's
-event-driven tradition, while preserving packet boundaries and easily exposing
-per-packet metadata.
+Indeed, hooking a callback for  packet reception is a natural fit with
+Tcl's event-driven  tradition, while preserving  packet boundaries and
+easily exposing per-packet metadata.
 
-Sending is trivially handled by a direct per-packet call (but not disguised as
-a '''puts''').  Again, this naturally allows for boundary preservation and
-metadata specification.
-
-The script API put forth in this TIP is also designed for easy generalization
-to other kinds of packet I/O.  Though only UDP is supported in the reference
-implementation, other protocols may be defined, and selected with the
-''protocol'' parameter.  Future additions may include:
-
- * raw IP sockets
-
- * USB
-
- * Bluetooth
+Sending  is trivially  handled by  a direct  per-packet call  (but not
+disguised as a '''puts''').  Again, this naturally allows for boundary
+preservation and metadata specification.
 
 This TIP asks for UDP-in-the core for two strong reasons:
 
- * it enables another important core
-   feature: asynchronous (event-driven) DNS lookups
+ * it   enables   another   important   core   feature:   asynchronous
+   (event-driven) DNS lookups
 
  * the C runtime supports it without extra libraries (unlike USB or Bluetooth)
 
-It is thus expected that extension-based support of other protocols will use
-the core UDP support (at least) as a syntactic template, minimizing the WTF
-effect of random new APIs.
+We then believe that the ubiquity of the need and the lack of external
+dependencies justify  for UDP the  first-class status that  TCP enjoys
+(regardless of the channel vs event models).
 
-To this effect, the next section describes the common syntax to be followed
-for all protocols, be they in the core or not, merely by extending a single
-ensemble.  This notably removes the burden of defining a new stub entry for
-mundane things like protocol registration.
+~ Specification
 
-~ Overall Specification
+The new  '''udp''' ensemble hosts three subcommands: '''new''', '''create''', and '''names'''
 
-The new '''datagram''' command creates a "datagram endpoint" of the given
-protocol:
+ > '''udp new''' ?''options''?
 
- > '''datagram''' ''protocol'' ?''options''?
+ > '''udp create''' ''name'' ?''options''?
 
-Following the traditions of Tk and Snack, it returns a Tcl command, which
-takes subcommands implementing the needed verbs. An endpoint is thus created
-by:
+both create an UDP endpoint ;
 
-|   set d [datagram protocol ?-option value? ...]
+ > '''udp names'''
 
-The returned command lives by default in the '''::tcl::datagram''' namespace;
-however, the generic ''-name'' option allows it to take a (possibly fully
-qualified) user-provided name:
+returns the list of existing such endpoints.
 
-|   datagram protocol -name foo ...
+~~ Lifecycle
 
-creates (and returns) the command '''foo''' (in the current namespace) to hold the endpoint.
+Following the  traditions of  Tk and Snack,  '''udp new'''  and '''udp
+create''' return  a Tcl command, which  takes subcommands implementing
+the  needed  verbs.  By analogy  with the  corresponding  TclOO  constructors,
 
-Once created, its configuration can be tweaked by:
+ * '''new'''   generates   the    command   name   internally,   in   the '''::tcl::udp''' namespace
 
-|   $d configure -option $value
+ * '''create''' takes an extra ''name'' argument providing the target command name, either fully qualified, or relative to the current namespace.
 
-and retrieved with
+ An UDP endpoint is thus created by:
 
-|   set value [$d configure -option]
-
-or 
-
-|   set fullconf [$d configure]
-
-To close the endpoint, use:
-
-|   $d close
+|   set u [udp new ...]
 
 or
 
-|   $d destroy
+|   udp create foo ...
+
+ Once created, its configuration can be tweaked by:
+
+|   $u configure -option $value
+
+and retrieved with
+
+|   set value [$u configure -option]
+
+or 
+
+|   set fullconf [$u configure]
+
+To close the endpoint, use:
+
+|   $u close
+
+or
+
+|   $u destroy
 
 or, as in Tk, destroy the command:
 
-|   rename $d {}
+|   rename $u {}
 
 or the whole namespace.
 
-Other verbs, and the detailed list of options, are protocol-specific. From now
-on, the specification concentrates on the UDP case.  The rationale for ''not''
-generalizing much is the feeling that the costs of parameter variability would
-largely outweigh the tiny amount of code sharing.
+~~ Addresses and Ports
 
-~ The UDP case
-
-With UDP, two things may only be specified on creation:
+Among options, two may only be specified on creation:
 
  > - local interface+port
 
  > - (optional) connect() target's address+port
 
-while all the other options may be specified ''both'' on creation or through [[$d configure]].
+while all the  other options may be specified  ''both'' on creation or
+through [[$u configure]].
 
 These creation-only options have the following syntax:
 
- > set d [['''datagram udp''' ?'''-local''' ''address_port''? ]]
+ > set u [['''udp new''' ?'''-local''' ''address_port''? ]]
 
- > set d [['''datagram udp''' ?'''-remote''' ''address_port''? ]]
+ > set u [['''udp new''' ?'''-remote''' ''address_port''? ]]
 
 where ''address_port'' pairs are represented as 2-element Tcl lists.
 
  > set address_port [list $address $port]
 
-In the case of '''-local''', $address can be specified as "*", meaning INADDR_ANY, and $port can be 0, asking for the OS to select a free port. Thus a dynamic port on all interfaces can be requested with
+Addresses can be  given either as numeric IP (v4  or v6) addresses, or
+as  hostnames; in  the latter  case, a  synchronous DNS  resolution is
+performed before actual use, just like for '''socket'''.
 
-|   set d [datagram udp -local [list * 0]]
+In the case of '''-local''', $address can be specified as "*", meaning
+INADDR_ANY, and  $port can be  0, asking for  the OS to select  a free
+port. Thus a dynamic port on all interfaces can be requested with
+
+|   set u [udp new -local [list * 0]]
 
 In case of port 0, after creation of the endpoint, the actual port
-chosen by the OS can be retrieved with [[$d configure]]:
+chosen by the OS can be retrieved with [[$u configure]]:
 
-|   puts "Local port is: [lindex [$d configure -local] 1]"
+|   puts "Local port is: [lindex [$u configure -local] 1]"
 
-In the case of '''-remote''', both address and port must be fully specified.
-The semantics, as is well known, is to tell the kernel (a) to forbid
-sending to any other destination, and (b) to discard all incoming packets sent
-by another source.
+In  the case of  '''-remote''', both  address and  port must  be fully
+specified.  The semantics, as is well known, is to tell the kernel (a)
+to forbid  sending to  any other destination,  and (b) to  discard all
+incoming packets sent by another source.
 
 ~~ Sending a Message
 
 Sending is done, unsurprisingly, with the '''send''' verb:
 
- > $d '''send''' ''payload'' ?''dest_addr_port''?
+ > $u '''send''' ''payload'' ?''dest_addr_port''?
 
 where ''dest_addr_port'' is a pair as above.
 
-Its blocking semantics is that of the underlying system calls: it typically
-returns immediately, though the hardware may buffer the data for some time,
-and delivery is not guaranteed. The ''payload'' is interpreted as a byte array
-that holds the entire content of the UDP message to send.
+Its  blocking  semantics is  that  of  the underlying  send()/sendto()
+system calls:  it typically  returns immediately, though  the hardware
+may buffer the data for some time, and delivery is not guaranteed. The
+''payload''  is interpreted  as a  byte  array that  holds the  entire
+content of the UDP message to send.
 
 The destination parameter can be omitted if the endpoint has been created
 with the '''-remote''' option (connected mode).
 
 ~~ Receiving a message
 
-Receiving is done with the '''-listener''' callback:
+Message reception is done by specifying a listener callback to '''new/create''' or '''configure''':
 
- > $d '''configure -listener''' ''command_prefix''
+ > $u '''configure -listener''' ''command_prefix''
 
 Subsequently, when an incoming packet hits Tcl in the event loop, the
 ''command_prefix'' is called with the endpoint identifier, payload and
 metadata:
 
- > {*}''command_prefix'' $d ''payload'' ''metadata_dict''
+ > {*}''command_prefix'' $u ''payload'' ''metadata_dict''
 
-where ''payload'' is the byte array of the UDP payload, and ''metadata_dict''
-is a dict containing at least two options:
+where  ''payload''  is   the  byte  array  of  the   UDP  payload  and ''metadata_dict'' is a dict containing at least two options:
 
  >   '''-remote''' ''address_port''
 
  >   '''-local''' ''address_port''
 
-Note that ''command_prefix'' is a single command, possibly with arguments, that will be expanded on invocation (hence it must be a proper list); it is *not* an arbitrary script as in Tk's '''bind'' tradition. 
+When read from options or  metadata, all address components apart from
+"*" are returned in numeric form; no reverse DNS is ever performed.
 
-When ''command_prefix'' is the empty list, the notifier gives up interest in
-the underlying UDP socket; this allows to keep the port bound while letting
-the OS buffer any incoming packets (up to a configurable limit) without any
-script-level handling, while leaving the event loop active.  This is similar
-to setting a '''fileevent''' on a channel to the empty string.
+Note  that ''-local''  may carry  more information  than  a configured
+''-local'' where the address part  is "*", by identifying which of the
+system's several interfaces was targeted.
 
-~~ Advanced UDP features
+Also note  that  ''command_prefix''  is  a single  command,  possibly  with
+arguments, that  will be  expanded on invocation  (hence it must  be a
+proper list);  it is  *not* an arbitrary  script as in  Tk's '''bind''
+tradition.
+
+When ''command_prefix'' is the empty  list (which is the default), the
+notifier gives up  interest in the underlying UDP  socket; this allows
+to  keep the  port  bound while  letting  the OS  buffer any  incoming
+packets  (up  to  a   configurable  limit)  without  any  script-level
+handling, while  leaving the  event loop active.   This is  similar to
+setting a '''fileevent''' on a channel to the empty string.
+
+~~ Advanced features
 
 The following few verbs and options control extra IP features that are
 typically useful in popular UDP applications like media streaming:
 
- > $d '''configure -sendbuffer''' ''buffersize''
+ > $u '''configure -sendbuffer''' ''buffersize''
 
- > $d '''configure -receivebuffer''' ''buffersize''
+ > $u '''configure -receivebuffer''' ''buffersize''
 
 Set the OS's send (resp. receive) buffer sizes to the given values (in bytes).
 
- > $d '''join''' ''multiaddr'' ?'''-source''' ''sourceaddr''?
+ > $u '''join''' ''multiaddr'' ?'''-source''' ''sourceaddr''?
 
 Joins the multicast group ''multiaddr'', optionally using IGMPv3's source
 membership target ''sourceaddr''.
 
- > $d '''leave''' ''multiaddr'' ?'''-source''' ''sourceaddr''?
+ > $u '''leave''' ''multiaddr'' ?'''-source''' ''sourceaddr''?
 
 Leaves the same multicast group with or without source membership.
 
- > $d '''configure -ttl''' ''ttl''
+ > $u '''configure -ttl''' ''ttl''
 
 Sets the TTL of the packet. Some operating systems typically reduce the
 default TTL to one for multicast packets; this override may thus come in
 handy.
+
+~ Rejected Alternatives
+
+ * Token-based API (like for channels) instead of commands: would need extra machinery (a new Tcl_ObjType). Moreover, the command style gives reflection for free: a simple proc can emulate an UDP endpoint, and is compatible with all OO schemes.
+
+ * Address+Port pairs as dicts or urls: would hamper performance for no added value
+
+ * Listener as specific subcommand instead of option: R/W semantics is actually that of an option; a subcommand would preclude the direct specification of the listener on creation ; analogy with the -command of [fcopy], [http], or Tk widgets. 
+
+~ Sources of Inspiration
+
+This TIP builds on experience with previous attempts at UDP extensions: TclUDP, ceptcl, Duft, along with intensive practice with unpublished work, and borrows ideas from all of them.
 
 ~ Copyright
 
