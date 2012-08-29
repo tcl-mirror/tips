@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -131,7 +131,7 @@ These creation-only options have the following syntax:
 
 where ''address_port'' pairs are represented as 2-element Tcl lists.
 
- > set address_port [list $address $port]
+ > set address_port [[list $address $port]]
 
 Addresses can be  given either as numeric IP (v4  or v6) addresses, or
 as  hostnames; in  the latter  case, a  synchronous DNS  resolution is
@@ -235,18 +235,21 @@ handy.
 
 ~ Rejected Alternatives
 
- * Token-based API (like for channels) instead of commands: would need  
+ * Token-based API (like for channels) instead of
+   commands: would need  
    extra machinery (a new Tcl_ObjType). Moreover, the command style 
    gives reflection for free: a simple proc can emulate an UDP endpoint,   
    and is compatible with all OO schemes.
 
- * Address+Port pairs as dicts or urls: would hamper performance for no 
+ * Address+Port pairs as dicts or
+   urls: would hamper performance for no 
    added value
 
- * Listener as specific subcommand instead of option: R/W semantics is 
+ * Listener as specific subcommand instead of
+   option: R/W semantics is 
    actually that of an option; a subcommand would preclude the direct 
    specification of the listener on creation ; analogy with the -command 
-   of [fcopy], [http], or Tk widgets. 
+   of '''fcopy''', '''http''', or Tk widgets. 
 
 ~ Sources of Inspiration
 
