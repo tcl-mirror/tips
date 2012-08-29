@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -89,23 +89,23 @@ or
 
  Once created, its configuration can be tweaked by:
 
- >  '''$u configure''' ''-option'' ''value''
+ >  $u '''configure''' ''-option'' ''value''
 
 and retrieved with
 
- >   set value ['''$u configure''' -''option'']
+ >   set value [$u '''configure''' -''option'']
 
 or 
 
- >   set fullconf ['''$u configure''']
+ >   set fullconf [$u '''configure''']
 
 To destroy the endpoint, use:
 
- >   '''$u destroy'''
+ >   $u '''destroy'''
 
 or, as in Tk, destroy the command:
 
- >   '''rename $u''' {}
+ >   '''rename''' $u {}
 
 or the whole namespace.
 
