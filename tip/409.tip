@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        17-Aug-2012
 Post-History:   
-Keywords:       udp, datagram, message
+Keywords:       udp,datagram,message
 Obsoletes:      391
 Tcl-Version:    8.7
 
@@ -44,7 +44,8 @@ preservation and metadata specification.
 
 This TIP asks for UDP-in-the core for two strong reasons:
 
- - it   enables   another   important   core   feature:   asynchronous 
+ - it   enables   another   important   core
+   feature:   asynchronous 
    (event-driven) DNS lookups
 
  - the C runtime supports it without extra libraries (unlike USB or 
@@ -52,7 +53,7 @@ This TIP asks for UDP-in-the core for two strong reasons:
 
 We then believe that the ubiquity of the need and the lack of external
 dependencies justify  for UDP the  first-class status that  TCP enjoys
-(regardless of the channel vs event models).
+(regardless of the channel vs event models). Note that an acceptable compromise would be a bundled extension, ie distributed-with-the-core (in "pkgs/").
 
 ~ Specification
 
@@ -226,6 +227,10 @@ membership target ''sourceaddr''.
  > $u '''leave''' ''multiaddr'' ?'''-source''' ''sourceaddr''?
 
 Leaves the same multicast group with or without source membership.
+
+ > $u '''configure -reuse''' 1|0
+
+Sets/resets the SO_REUSEADDR socket option, so that multiple processes may bind to the same local port and interface, and receive the same packets. Defaults to 0.
 
  > $u '''configure -ttl''' ''ttl''
 
