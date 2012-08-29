@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -99,11 +99,7 @@ or
 
 |   set fullconf [$u configure]
 
-To close the endpoint, use:
-
-|   $u close
-
-or
+To destroy the endpoint, use:
 
 |   $u destroy
 
