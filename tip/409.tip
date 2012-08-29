@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -230,9 +230,7 @@ Sets/resets the SO_REUSEADDR socket option, so that multiple processes may bind 
 
  > $u '''configure -ttl''' ''ttl''
 
-Sets the TTL of the packet. Some operating systems typically reduce the
-default TTL to one for multicast packets; this override may thus come in
-handy.
+Sets the TTL of subsequent outgoing packets. Some operating systems typically reduce the default TTL to one for multicast packets; this override may thus come in handy.
 
 ~ Rejected Alternatives
 
