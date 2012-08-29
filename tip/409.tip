@@ -1,6 +1,6 @@
 TIP:            409
-Title:          Datagram I/O in Tcl
-Version:        $Revision: 1.9 $
+Title:          UDP in Tcl
+Version:        $Revision: 1.10 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -8,7 +8,7 @@ Type:           Project
 Vote:           Pending
 Created:        17-Aug-2012
 Post-History:   
-Keywords:       udp
+Keywords:       udp, datagram, message
 Obsoletes:      391
 Tcl-Version:    8.7
 
