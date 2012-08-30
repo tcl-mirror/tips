@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -109,18 +109,22 @@ or, as in Tk, destroy the command:
 
 or the whole namespace.
 
-~~ Addresses and Ports
+~~ Status of options
 
-Among options, two may only be specified on creation:
+Among options, a few may only be specified on creation:
 
  > - local interface+port
 
  > - (optional) connect() target's address+port
 
+ > - reuse flag (described in Advanced Features)
+
 while all the  other options may be specified  ''both'' on creation or
 through [[$u configure]].
 
-These creation-only options have the following syntax:
+~~ Addresses and Ports
+
+The first two creation-only options have the following syntax:
 
  > set u [['''udp new''' ?'''-local''' ''address_port''? ]]
 
@@ -224,9 +228,9 @@ membership target ''sourceaddr''.
 
 Leaves the same multicast group with or without source membership.
 
- > $u '''configure -reuse''' 1|0
+ > set u ['''udp new -reuse 1''']
 
-Sets/resets the SO_REUSEADDR socket option, so that multiple processes may bind to the same local port and interface, and receive the same packets. Defaults to 0.
+Sets the SO_REUSEADDR socket option, so that multiple processes may bind to the same local port and interface, and receive the same packets. Creation-time only.
 
  > $u '''configure -ttl''' ''ttl''
 
