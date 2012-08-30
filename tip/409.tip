@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -214,7 +214,7 @@ Synchronous message reception is done with the '''recv''' verb:
 
  > set payload [$u '''recv''' ''metadata_dict_var'']
 
-The payload is returned as a byte array, and the variable passed as argument received the metadata dict.
+The payload is returned as a byte array, and the variable passed as argument receives the metadata dict just described.
 
 ~~ Advanced features
 
