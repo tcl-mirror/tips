@@ -1,6 +1,6 @@
 TIP:            409
 Title:          UDP in Tcl
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 Author:         Colin McCormack <colin@chinix.com>
 State:          Draft
@@ -171,9 +171,9 @@ content of the UDP message to send.
 The destination parameter can be omitted if the endpoint has been created
 with the '''-remote''' option (connected mode).
 
-~~ Receiving a message
+~~ Receiving a message asynchronously
 
-Message reception is done by specifying a listener callback to '''new/create''' or '''configure''':
+Asynchronous (i.e. event-driven) message reception is done by specifying a listener callback to '''new/create''' or '''configure''':
 
  > $u '''configure -listener''' ''command_prefix''
 
@@ -207,6 +207,14 @@ to  keep the  port  bound while  letting  the OS  buffer any  incoming
 packets  (up  to  a   configurable  limit)  without  any  script-level
 handling, while  leaving the  event loop active.   This is  similar to
 setting a '''fileevent''' on a channel to the empty string.
+
+~~ Receiving a message synchronously
+
+Synchronous message reception is done with the '''recv''' verb:
+
+ > set payload [$u '''recv''' ''metadata_dict_var'']
+
+The payload is returned as a byte array, and the variable passed as argument received the metadata dict.
 
 ~~ Advanced features
 
