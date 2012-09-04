@@ -1,6 +1,6 @@
 TIP:		411
 Title:		Improved Channel Introspection via "chan info"
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Pawel Salawa <pawelsalawa@gmail.com>
 State:		Draft
 Type:		Project
@@ -88,7 +88,7 @@ The '''chaninfo''' subcommand of a reflected channel implementation command
 returns a dict that is provided in response to a '''chan info''' request. If
 the dictionary does not include the mandatory '''type''' member, the reflected
 channel baseline implementation will add it and set it to '''refchan'''. It is
-an error to return a 
+an error to return a non-dictionary.
 
 Since reflected channels are free to set the type to anything, they can
 simulate standard channels, like "'''file'''", as well as create completely
