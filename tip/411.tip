@@ -1,6 +1,6 @@
 TIP:		411
 Title:		Improved Channel Introspection via "chan info"
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Pawel Salawa <pawelsalawa@gmail.com>
 State:		Draft
 Type:		Project
@@ -91,8 +91,8 @@ channel baseline implementation will add it and set it to '''refchan'''. It is
 an error to return a 
 
 Since reflected channels are free to set the type to anything, they can
-simulate standard channels, like "file", as well as create completely new
-types.
+simulate standard channels, like "'''file'''", as well as create completely
+new types.
 
 If the operation is not supported, the baseline implementation will treat it
 the same as if the operation returned an empty dictionary.
@@ -102,7 +102,7 @@ the same as if the operation returned an empty dictionary.
 Channel structure in Tcl core would require another API level indicating
 channels that have a function returning an "info" dict. All core channels are
 expected to migrate to this level, although it's possible to stay at current
-API version - it will just cause the "'''type'''" in '''chan info'' dict to be
+API version - it will just cause the '''type''' in '''chan info''' dict to be
 the ''typeName'' field of the channel's ''Tcl_ChannelType'' structure, with no
 additional keys in the dict.
 
