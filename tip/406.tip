@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	01-Aug-2012
 
@@ -63,29 +63,42 @@ jar command like this:
 
 The ''cookieName'' and ''cookieValue'' are relatively self-explanatory; they
 represent the name/value pair to store. The ''optionDictionary'' contains the
-parsed cookie options, being these (any of which may be absent):
+parsed cookie options, being at least these:
 
- persistent: Boolean; whether the HTTP server wishes the cookie to persist for
- longer than the current "session". This is the only mandatory property.
+ hostonly: Boolean; whether the cookie should only ever be returned to the
+ originating host (if not, it should be sent according to the domain). This
+ property is always present.
 
  httponly: Boolean; whether the cookie ought to be only used with HTTP
- connections. (NB: This is unlikely to be something we enforce.)
+ connections. (NB: This is unlikely to be something we enforce.) This property
+ is always present.
 
- expires: Timestamp; when a persistent cookie will cease to be interesting to
- the HTTP server that issued it.
-
- domain: String; what domains should this cookie be sent to.
-
- path: String; what resource paths within the relevant HTTP servers should a
- cookie be sent to.
+ persistent: Boolean; whether the HTTP server wishes the cookie to persist for
+ longer than the current "session". This property is always present.
+ Non-persistent cookies are expected to never be committed to permanent
+ storage.
 
  secure: Boolean; whether the cookie should only be sent on "secure"
  connections to the HTTP server. (This typically means "HTTPS is required",
- but the specification is less-than-clear in this area.)
+ but the various cookie specifications are less-than-clear in this area.) This
+ property is always present.
 
-The current HTTP connection token will be in the calling stack frame at the
-point that this is called, with name ''token''. The result of this command
-will be ignored (so long as it is non-exceptional).
+ expires: Timestamp; when a persistent cookie will cease to be interesting to
+ the HTTP server that issued it. (NB: If this is in the past, any matching
+ cookie should be deleted.) This property is only present if the "persistent"
+ property is true.
+
+ domain: String; what domains should this cookie be sent to. This property is
+ always present, but may sometimes be the same as the "origin" property; see
+ the "hostonly" property for how to treat this.
+
+ origin: String; what host did we send the request to that caused this cookie
+ to be generated. This property is always present.
+
+ path: String; what resource paths within the relevant HTTP servers should a
+ cookie be sent to. This property is always present.
+
+The result of this command will be ignored (so long as it is non-exceptional).
 
 ~~ When Making an HTTP Request
 
@@ -93,7 +106,7 @@ Each time an HTTP request is made, the cookie store is consulted (prior to the
 connection being opened) to find out what cookies should be sent as part of
 the request, like this:
 
- > {*}''$commandPrefixList'' '''getCookies''' ''protocol host port path''
+ > {*}''$commandPrefixList'' '''getCookies''' ''protocol host path''
 
 The ''protocol'' is the name of the protocol scheme that will be used to
 contact the HTTP server (typically '''http''' or '''https'''), the ''host'' is
@@ -108,9 +121,6 @@ a list with an even number of items in it, with the first key at index 0 and
 the first value at index 1) and describes the collection of cookies to send.
 The ''http'' package will manage the formatting of the cookies as part of the
 request to send.
-
-The current HTTP connection token will be in the calling stack frame at the
-point that this is called, with name ''token''.
 
 ~ A Cookie Jar Implementation
 
@@ -133,12 +143,25 @@ script using this:
 |
 | http::config -cookiejar [http::cookiejar new ~/mycookies.db]
 
+The '''::http::cookiejar''' class will also allow configuration of its logging
+level via the '''loglevel''' method on the class (which takes a single
+argument, the new logging level, or which returns the current logging level if
+called with no arguments). Permitted log levels are '''error''', '''warn''',
+'''info''' and '''debug'''. Log messages will be written by a call to
+'''::http::Log''' (which does nothing by default anyway).
+
+An example of setting the logging level to the (substantially more verbose)
+'''debug''' level:
+
+| http::cookiejar loglevel debug
+
 ~~ Implementation Notes
 
 It is worth noting that the current cookiejar package will download a list of
 "bad" domains (i.e., domains that correspond to super-registries, such as
-'''com''', '''ac.uk'' or '''tk''') when a new database is constructed. This
-extensive list of domains
+'''com''', '''ac.uk'' or '''tk''') when a new database is constructed
+(provided the cookiejar instance is backed by a database file; in-memory
+databases never have this part populated). This extensive list of domains
 [http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1]
 is a security feature that prevents the setting of cookies for large numbers
 of hosts at once, but it is belived sufficiently long that it is excessive for
