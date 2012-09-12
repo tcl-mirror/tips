@@ -1,8 +1,8 @@
 TIP:            404
 Title:          Let Message Catalogs get the Locale from their File Name
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        17-Jul-2011
