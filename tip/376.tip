@@ -1,10 +1,10 @@
 TIP:		376
 Title:		Bundle sqlite3 and tdbc::sqlite3 Packages
-Version:	$Revision: 1.4 $
+Version:	$Revision: 1.5 $
 Author:		Don Porter <dgp@users.sf.net>
 Author:		D. Richard Hipp <drh@hwaci.com>
 Author:		Kevin Kenny <kennykb@acm.org>
-State:		Accepted
+State:		Final
 Type:		Project
 Vote:		Done
 Created:	14-Sep-2010
