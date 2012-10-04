@@ -1,6 +1,6 @@
 TIP:            405
 Title:          Add Collecting Loops, the 'lmap' and 'dict map' Commands
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 State:          Draft
 Type:           Project
@@ -44,7 +44,9 @@ very similar to those to '''foreach''':
 
 The '''dict''' ensemble will be extended with a new sub-command '''map''':
 
- > '''dict map''' ''{keyVar valueVar} dictionary script''
+ > '''dict map''' {''keyVar valueVar''} ''dictionary script''
+
+~~ The "lmap" Command
 
 The '''lmap''' command implements a loop where the loop variable(s) take on
 values from one or more lists, and the loop returns a list of results
@@ -74,19 +76,31 @@ the same effect as in the '''for''' and '''foreach''' commands.  In these
 cases the body does not complete "normally" and the result is not appended to
 the accumulator list.
 
+~~ The "dict map" Command
+
 The '''dict map''' command takes three arguments, the first a two-element list
 of variable names (for the key and value respectively of each mapping in the
 dictionary), the second the dictionary value to iterate across, and the third
 a script to be evaluated for each mapping with the key and value variables set
 appropriately (in the manner of '''lmap''').  In an iteration where the
-evaluated script completes normally (''TCL_OK'') the script result is appended
-to an accumulator list.  The result of the '''dict map''' command is the
-accumulator list.  If any evaluation of the body generates a ''TCL_BREAK''
-result, no further pairs from the dictionary will be iterated over and the
-'''dict map''' command will terminate successfully immediately. If any
-evaluation of the body generates a ''TCL_CONTINUE'' result, the current
-iteration is aborted and the accumulator list is not modified.  The order of
-iteration is the order in which the keys were inserted into the dictionary.
+evaluated script completes normally (''TCL_OK''), the script result is put
+into an accumulator dictionary using the current value of the key variable at
+that point (having an unset key variable at that point is an error); the
+result of the '''dict map''' command is that accumulator dictionary. Note that
+it is a deliberate consequence of the above specification that you can change
+what key a value is mapped to by altering the key variable during the body of
+the loop.
+
+If any evaluation of the body generates a ''TCL_BREAK'' result, no further
+pairs from the dictionary will be iterated over and the '''dict map''' command
+will terminate successfully immediately. If any evaluation of the body
+generates a ''TCL_CONTINUE'' result, the current iteration is aborted and the
+accumulator dictionary is not modified.  The order of iteration is the order
+in which the keys were inserted into the dictionary (the "natural" iteration
+order).
+
+(Note that you can view '''dict map''' as being to '''dict for''' what
+'''lmap''' is to '''foreach'''.)
 
 ~ Examples
 
@@ -127,6 +141,26 @@ Comparative performance figures:
 | #   1107894.4 microseconds per iteration
 | # Bytecode compiled
 | #    375085.5 microseconds per iteration
+
+Finding the square root of each of the values in a dictionary, filtering out
+everything that is not a non-negative number (i.e., outside the domain of the
+square root operation):
+
+| set roots [dict map {k num} $someDict {
+|     try {
+|         expr {$num ** 0.5}
+|     } on error {} {
+|         continue
+|     }
+| }]
+
+Adjusting the global '''env''' array so that all keys are also present as
+upper-case keys and lower-case values (a not-particularly-useful operation):
+
+| array set env [dict map {key val} [dict get env] {
+|     set key [string toupper $key]
+|     string tolower $val
+| }]
 
 ~ Alternatives
 
