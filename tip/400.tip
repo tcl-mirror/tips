@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	30-Mar-2012
 Keywords:	Tcl, zlib
@@ -38,6 +38,8 @@ header descriptor with '''zlib stream gzip''').
 
 ~ Proposed Changes: Tcl
 
+~~ Changes to the Channel Transforms
+
 The '''zlib push''' command will gain two extra options, '''-dictionary''' and
 '''-limit''':
 
@@ -69,6 +71,8 @@ terms of computational complexity: when the underlying data source is known to
 never block for long and to have complete data, a larger value can be used
 which will greatly improve performance. This value can be set at runtime using
 '''chan configure'''.
+
+~~ Changes to the Streams
 
 The '''zlib stream''' command will also gain some complexity. In particular, 
 the '''compress''', '''decompress''', '''deflate''' and '''inflate'''
