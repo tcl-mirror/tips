@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.6
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	01-Aug-2012
 
@@ -110,11 +110,13 @@ the request, like this:
 
 The ''protocol'' is the name of the protocol scheme that will be used to
 contact the HTTP server (typically '''http''' or '''https'''), the ''host'' is
-the server's hostname, the ''port'' is the server's port number (e.g.,
-'''80''' for standard HTTP), and the ''path'' is the resource path on that
-server. The query and fragment parts of the URL are ''never'' supplied to the
-cookie store as part of this request, nor are any user identification
-credentials.
+the server's hostname, and the ''path'' is the resource path on that server.
+The query and fragment parts of the URL are ''never'' supplied to the cookie
+store as part of this request, nor is the port, nor are any user
+identification credentials (the cookie specification specifically states that
+it is a known problem that cookies have ''always'' ignored the service port
+number for the purposes of whether to send the cookie; we therefore duplicate
+this failure).
 
 The result is treated as a list of keys and values (i.e., it is expected to be
 a list with an even number of items in it, with the first key at index 0 and
@@ -155,13 +157,34 @@ An example of setting the logging level to the (substantially more verbose)
 
 | http::cookiejar loglevel debug
 
+The instances of the '''::http::cookiejar''' class will additionally support
+the method '''forceLoadDomainData''' and the method '''lookup'''.
+
+ > ''instance'' '''forceLoadDomainData'''
+
+This instructs the instance to load (or reload) its definitions of what
+domains may not have cookies set for them. It takes no extra arguments and
+produces an empty result (unless an error occurs).
+
+ > ''instance'' '''lookup''' ?''host''? ?''key''?
+
+This looks up cookies in the store. If neither ''host'' nor ''key'' are
+specified, this returns the list hosts for which cookies are defined. If
+''host'' is specified but ''key'' is not, this returns the list of cookie keys
+for the host (note that these may be session cookies or durable cookies; this
+interface does not distinguish). If both ''host'' and ''key'' are specified,
+the value for the particular cookie is returned (with it being an error if no
+such cookie is defined). This method provides no mechanism for setting the
+value of a cookie or creating a new one.
+
 ~~ Implementation Notes
 
 It is worth noting that the current cookiejar package will download a list of
 "bad" domains (i.e., domains that correspond to super-registries, such as
 '''com''', '''ac.uk'' or '''tk''') when a new database is constructed
 (provided the cookiejar instance is backed by a database file; in-memory
-databases never have this part populated). This extensive list of domains
+databases never have this part populated by default). This extensive list of
+domains
 [http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1]
 is a security feature that prevents the setting of cookies for large numbers
 of hosts at once, but it is belived sufficiently long that it is excessive for
@@ -169,6 +192,17 @@ supplying as part of the package directly.
 
 The degree to which it is necessary to update cookie stores from that list has
 not yet been studied.
+
+The underlying SQLite database is forwarded to the cookiejar instance's
+interface as the (default non-exported) method '''Database'''; this takes all
+the normal subcommands of an SQLite ''dbcmd'', as documented in
+[http://www.sqlite.org/tclsqlite.html].
+
+The cookiejar package handles conversion of host names into and out of
+punycode so that lookups are always performed on canonical names. This is
+important because there is no guarantee that the encoding of host names will
+be the same as they are referred to in another context; for example, the list
+of forbidden domains above is in UTF-8 and not using the IDNA scheme.
 
 ~ Privacy
 
