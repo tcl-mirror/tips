@@ -1,0 +1,41 @@
+TIP:		414
+Title:		Add (back) Tcl_InitSubsystems as Public API
+Version:	$Revision: 1.1 $
+Author:		Brian Griffin <brian_griffin@mentor.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	15-Oct-2012
+Post-History:
+Tcl-Version:	8.7
+
+~ Abstract
+
+The ability to initialize just the lower level Tcl subsystems used to be part
+of the public API, now it is no longer exposed. This TIP proposes that it be
+re-exposed.
+
+~ Rationale
+
+Some parts of Tcl's API are useful in portable applications even without
+creating a Tcl interpreter; examples of this include Tcl_Alloc and (most of)
+the Tcl_DString-related functions. In order to use these functions correctly,
+the Tcl library ''must'' be initialized, yet the function for doing so -
+Tcl_InitSubsystems (currently TclInitSubsystems) - was removed from Tcl's API;
+using Tcl_FindExecutable instead feels incorrect as we're not seeking to make
+the name of the executable available to Tcl scripts.
+
+~ Proposed Change
+
+The function TclInitSubsystems should be exposed as Tcl_InitSubsystems in
+Tcl's C API. This will ''not'' be a part of the Stub API; it is not intended
+to ever be used from a stubbed environment, as it is meant to be used prior to
+the stub table being available.
+
+~ Reference Implementation
+
+Not yet available.
+
+~ Copyright
+
+This document has been placed in the public domain.
