@@ -1,6 +1,6 @@
 TIP:		311
 Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.59 $
+Version:	$Revision: 1.60 $
 Author:		Don Porter <dgp@users.sourceforge.net>
 Author:		Larry W. Virden <lvirden@gmail.com>
 Author:		Joe Mistachkin <joe@mistachkin.com>
@@ -136,12 +136,14 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [343], A Binary Specifier for '''format'''/'''scan'''
 
-~~ Tcl/Tk 8.6b2; Approximate Release Date: April 2010
+~~ Tcl/Tk 8.6b2; Release Date: August 5, 2011
 
    * [50], Bundle [[incr Tcl]] with the Core Tcl distribution
 
    > * Note that this is Itcl-ng (Itcl 4.0), and it is done by the external
        packages mechanism.
+
+   * [162], IPv6 Sockets for Tcl
 
    * [171], Change Default <MouseWheel> Bindings Behavior
 
@@ -168,32 +170,76 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [362], Simple 32 and 64 bit Registry Support
 
+   * [364],
+     Threading Support: Configuration and Package
+
+   * [381], Call Chain Introspection and Control
+
+~~ Tcl/Tk 8.6b3; Release Date: September 18, 2012
+
+   * [106], Add Encoding Abilities to the [[dde]] Command
+
+   * [376], Bundle sqlite3 and tdbc::sqlite3 Packages
+
+   * [378], Fixing the Performance of [280]
+
+   * [380], TclOO Slots for Flexible Declarations
+
+   * [382], Let tk_getSaveFile ignore file overwrites
+
+   * [388], Extending Unicode literals past the BMP
+
+   * [395], New 'string is entier' Command
+
+   * [396], Symmetric Coroutines, Multiple Args, and yieldto
+
+   * [397], Extensible Object Copying
+
+   * [398], Quickly Exit with Non-Blocking Blocked Channels
+
+   * [403], Web Colors for Tk
+
+   * [404], Let Message Catalogs get the Locale from their File Name
+
+~~ Tcl/Tk 8.6.0: Approximate Release Date: November 2012
+
+Depends on how fast we can stabilize Tcl and Tk and fix issues. The more
+community testing we get (and help with coding too), the better. Note that
+8.6b3 is effectively an early Release Candidate for 8.6.0. If too much changes
+(other than direct bugfixes) after 8.6b3, we will need an 8.6b4, which will
+add months of delay for the final release...
+
+The major constraint is simply developer effort.
+
+~~~ Implemented Features
+
+   * [400], Setting the Compression Dictionary and Other 'zlib' Updates
+
+   * [405], Add Collecting Loops, the 'lmap' and 'dict map' Commands
+
 ~~~ Pending Features
 
 These have been voted in, but not yet implemented.
 
-   * [364],
-     Threading Support: Configuration and Package
+   * [399], Dynamic Locale Changing for msgcat
 
-These are currently on the schedule to make 8.6, though in some cases only
-partially.
+   > * May be superseded by [412] due to problems found with a lack of
+       dynamism in this TIP's API.
 
-   * [162], IPv6 Sockets for Tcl
+These are currently on the schedule to make 8.6.
 
-   * [271], Windows-Style Open and Save File Dialog on Unix
+   * [392], Allow Bignums to be Disabled at Runtime on a Per-Interp Basis
 
-   > * Might only be partial (e.g., the parts that do not require an API
-       change).
+   > * May make later versions than 8.6.0 and may be backported to 8.5.
 
-~~ Tcl/Tk 8.6.0: Approximate Release Date: ???
+   * [406], "C" is for Cookie
 
-Depends on how fast we can stabilize Tcl and Tk and fix issues. The more
-community testing we get (and help with coding too), the better. Note that
-8.6b2 is effectively an early Release Candidate for 8.6.0. If too much changes
-(other than direct bugfixes) after 8.6b2, we will need an 8.6b3, which will
-add months of delay for the final release...
+   * [412], Dynamic Locale Changing for msgcat with On-Demand File
+     Load
 
-The major constraint is simply developer effort.
+   > * Replacement for [399].
+
+   * [413], Unicode Support for 'string is space' and 'string trim'
 
 ~ Work Roster
 
