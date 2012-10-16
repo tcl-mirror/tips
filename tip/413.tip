@@ -1,6 +1,6 @@
 TIP:            413
 Title:          Unicode Support for 'string is space' and 'string trim'
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 State:          Draft
 Type:           Project
@@ -36,10 +36,10 @@ even should not occur in normal text. Therefore, it is not in the "Tcl space
 set", but it is very useful to let it be stripped by '''string trim'''.
 
 The Unicode standard changed in time, which resulted in whitespace characters
-being removed (deprecated) and added.  The String.Trim() method in .NET 3.5
-stripped zero width space (U+200B) and zero width no-break space (U+FEFF) from
-strings, but later .NET versions don't do that any more.  The "Tcl space set"
-should not depend on that: If characters are deprecated in future Unicode
+being removed (deprecated) and added.  The ''String.Trim()'' method in .NET
+3.5 stripped zero width space (U+200B) and zero width no-break space (U+FEFF)
+from strings, but later .NET versions don't do that any more.  The "Tcl space
+set" should not depend on that: If characters are deprecated in future Unicode
 versions, and because of that Whitespace properties are changed, they will not
 be removed from the "Tcl space set". But if new whitespace characters are
 added in future Unicode standards, they will be added to the "Tcl space set"
@@ -53,19 +53,19 @@ character to be stripped, as it is used now as Byte Order Mark (BOM). It has
 no visible representation, and - in fact - no meaning at all within Tcl, as
 Tcl is UTF-8 internally already. It should not occur anywhere else in the
 string, but in the past it could as being a zero-width no-break space. It had
-the White_Space property in Unicode 2.0, but later versions of Unicode do not;
-the use of the BOM as a space was deprecated.
+the ''White_Space'' property in Unicode 2.0, but later versions of Unicode do
+not; the use of the BOM as a space was deprecated.
 
 When the use as space was deprecated for (U+FEFF), another character was put
 forward as replacement for it: word joiner (U+2060). As this character has no
 visible representation, and has no meaning at all when at the start or the end
 of a string, it makes sense to include it in the "Tcl space set" as well, the
-more because its predecessor had the White_Space property.
+more because its predecessor had the ''White_Space'' property.
 
-Finally, zero width space (U+200B), had the White_Space property in Unicode
-3.0. In the current Unicode Charts it is still listed as being a space, even
-though the White_Space property was removed later. Therefore it should be in
-the "Tcl space set" as well.
+Finally, zero width space (U+200B), had the ''White_Space'' property in
+Unicode 3.0. In the current Unicode Charts it is still listed as being a
+space, even though the White_Space property was removed later. Therefore it
+should be in the "Tcl space set" as well.
 
 ~ Specification
 
@@ -79,8 +79,9 @@ This document proposes:
  * For characters outside ASCII, the Unicode '''White_Space'''
    [http://www.unicode.org/Public/6.2.0/ucd/PropList.txt] property forms the
    basis of what '''string is space''' and '''string trim''' consider being
-   space. But 3 characters are added to the set: zero with space (U+200b),
-   word joiner (U+2060) and zero width no-break space (U+feff) (=BOM).
+   space. But 3 characters are added to the set: zero with space (U+200B),
+   word joiner (U+2060) and zero width no-break space (U+FEFF) (i.e., the
+   BOM).
 
 The '''string trimleft''' and '''string trimright''' commands will also be
 modified, as they track '''string trim'''.
@@ -97,16 +98,16 @@ existing code.
 ~ Alternatives
 
  1. NUL could be added to '''string is space''', but that would
-    be in conflict with what POSIX isspace() function does.
+    be in conflict with what POSIX ''isspace()'' function does.
 
  2. NUL could be left out of the '''string trim''' set.
 
  3. Additional characters I considered being part of the set:
 
-|        break permitted here (U+0082)
-|        no break here (U+0083)
-|        zero width joiner (U+200C)
-|        zero with non-joiner (U+200D)
+|    break permitted here (U+0082)
+|    no break here (U+0083)
+|    zero width joiner (U+200C)
+|    zero with non-joiner (U+200D)
 
   > Those are clearly useful characters to be stripped, as they have no
     meaning and no visible appearance at the beginning or end of a string. But
