@@ -1,11 +1,11 @@
 TIP:            405
 Title:          Add Collecting Loops, the 'lmap' and 'dict map' Commands
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Trevor Davel <twylite@crypt.co.za>
 Author:		Donal K. Fellows <dkf@users.sf.net>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        31-Jul-2012
 Post-History:   
 Keywords:       Tcl,mapeach,loop,accumulator
