@@ -1,10 +1,10 @@
 TIP:            412
 Title:          Dynamic Locale Changing for msgcat with On-Demand File Load
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 State:          Draft
 Type:           Project
-Vote:           Done
+Vote:           Pending
 Created:        27-Mar-2012
 Post-History:   
 Keywords:       Tcl,localization,msgcat
