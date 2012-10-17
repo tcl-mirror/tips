@@ -1,0 +1,75 @@
+TIP:		415
+Title:		Enable Easy Creation of Circular Arc Segments
+Version:	$Revision: 1.1 $
+Author:		Simon Geard <simon@whiteowl.co.uk>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	16-Oct-2012
+Post-History:
+Keywords:	Tk
+
+~ Abstract
+
+Creating a segment of a circular arc is unnecessarily difficult using the
+'''canvas''' arc. This TIP proposes a simple extension of the syntax to
+support the creation of circular arc segments in a natural way. A similar
+extension to support the more general elliptical arc segments is outside the
+scope of this TIP.
+
+~ Rationale
+
+There is scope to enhance arc creation to make it much more useful as was
+shown by a recent discussion on news:comp.lang.tcl. The proposal here is the
+simplest enhancement to enable creation of circular arc segments from a single
+parameter.
+
+~ Proposal
+
+Enhance arc creation to support a new -height option
+
+ > ''canvas'' '''create arc''' ''x1 y1 x2 y2'' '''-height''' ''h''
+   ?''options''?
+
+This will create an arc from (''x1'',''y1'') to (''x2'',''y2'') with a
+mid-point a distance ''h'' from the chord. For ''h''>0 the arc will be
+clockwise, and for ''h''<0 the arc will be anti-clockwise. A value of 0 is not
+valid and is currently ignored so that the command reverts to it's previous
+behaviour.
+
+If '''-height''' is present the style is automatically set to '''arc'''; the
+'''pieslice''' style option is not permitted.
+
+If '''-height''' is present the '''-start''' and '''-extent''' options are
+ignored.
+
+Note that in this version of the command (''x1'',''y1'') and (''x2'',''y2'')
+no longer form the corners of the bounding box but instead the start and end
+points of the arc's chord.
+
+~ Example
+
+A pretty pattern can be created with the following:
+
+|set c [canvas .c -width 700 -height 700 -bg grey]
+|pack $c -fill both -expand 1
+|
+|$c create line 300 100 400 500 -fill magenta
+|array set colours {0 red 1 yellow 2 green 3 cyan 4 blue 5 magenta}
+|for {set i 1} {$i <= 24} {incr i} {
+|    set col [expr {$i % 6}]
+|    $c create arc 400 500 300 100 -height [expr {$i*10}] \
+|            -outline $colours($col) -tags a_$i
+|    $c create arc 400 500 300 100 -height [expr {-$i*10}] \
+|            -outline $colours($col) -tags b_$i
+|}
+
+~ Reference Implementation
+
+A reference implementation for the functionality is available, but handling
+the option combinations, manual updates and unit testing is still to do.
+
+~ Copyright
+
+This document has been placed in the public domain.
