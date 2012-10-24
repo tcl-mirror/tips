@@ -1,6 +1,6 @@
 TIP:            415
 Title:          Enable Easy Creation of Circular Arc Segments
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Simon Geard <simon@whiteowl.co.uk>
 State:          Draft
 Type:           Project
@@ -42,7 +42,7 @@ If ''h'' != 0 then the options ''-start'' and ''-extent'' are ignored (because t
 
 Any non-zero value of ''h'' defines a unique arc.
 
-If ''h'' = 0 the option is ignored and the command is processed as if it wasn't present. In addition
+If ''h'' = 0 (exactly) the option is ignored and the command is processed as if it wasn't present. In addition
 
  > ''canvas'' '''itemcget''' ''tagOrId'' ''--height'''
 
