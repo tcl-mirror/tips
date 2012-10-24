@@ -1,6 +1,6 @@
 TIP:            415
 Title:          Enable Easy Creation of Circular Arc Segments
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Simon Geard <simon@whiteowl.co.uk>
 State:          Draft
 Type:           Project
@@ -27,16 +27,18 @@ parameter.
 
 ~ Proposal
 
-Enhance arc creation to support a new -height option
+Enhance arc creation to support a new '''-height''' option
 
  > ''canvas'' '''create arc''' ''x1 y1 x2 y2'' '''-height''' ''h'' ?''options''?
 
-The new option '''-height''' ''h'' causes the specified coordinates to be interpreted as the
+The new option '''-height''' ''h'' causes the specified coordinates ''x1 y1'' and '' x2 y2'' to be interpreted as the
 start and end points of the arc's chord. The value of ''h'' is the (canvas) distance of the arc's
 mid-point from the chord with the sign of ''h'' determining the direction of the arc:
 
 ''h'' > 0 => clockwise
 ''h'' < 0 => anticlockwise
+
+Thus any non-zero value of ''h'' defines a unique arc.
 
 If ''h'' = 0 the option is ignored and the command is processed as if it wasn't present. In addition
 
