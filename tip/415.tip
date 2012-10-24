@@ -1,6 +1,6 @@
 TIP:            415
 Title:          Enable Easy Creation of Circular Arc Segments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Simon Geard <simon@whiteowl.co.uk>
 State:          Draft
 Type:           Project
@@ -38,7 +38,9 @@ mid-point from the chord with the sign of ''h'' determining the direction of the
 ''h'' > 0 => clockwise
 ''h'' < 0 => anticlockwise
 
-Thus any non-zero value of ''h'' defines a unique arc.
+If ''h'' != 0 then the options ''-start'' and ''-extent'' are ignored (because they are calculated internally for a given ''h'').
+
+Any non-zero value of ''h'' defines a unique arc.
 
 If ''h'' = 0 the option is ignored and the command is processed as if it wasn't present. In addition
 
