@@ -1,6 +1,6 @@
 TIP:            415
 Title:          Enable Easy Creation of Circular Arc Segments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Simon Geard <simon@whiteowl.co.uk>
 State:          Draft
 Type:           Project
@@ -57,12 +57,12 @@ and using a '''scale''' widget to dynamically control the arcs
 
 |# Callback for modifying the arcs' h value
 |proc deltaHeight {h} {
-|		global c
-|		global arcList
-|		foreach {i hp hm} $arcList {
-|				$c itemconfigure a_$i -height [expr {$h*$hp}]
-|				$c itemconfigure b_$i -height [expr {$h*$hm}]
-|		}
+|	global c
+|	global arcList
+|	foreach {i hp hm} $arcList {
+|		$c itemconfigure a_$i -height [expr {$h*$hp}]
+|		$c itemconfigure b_$i -height [expr {$h*$hm}]
+|	}
 |}
 |
 |# Create the canvas and its duplicate
