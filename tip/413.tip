@@ -1,8 +1,8 @@
 TIP:            413
 Title:          Unicode Support for 'string is space' and 'string trim'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
-State:          Accepted
+State:          Final
 Type:           Project
 Vote:           Done
 Created:        08-Oct-2012
