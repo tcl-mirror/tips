@@ -1,0 +1,129 @@
+TIP:		416
+Title:		New Options for 'load': -global and -lazy
+Version:	$Revision: 1.1 $
+Author:		Christian Delbaere <cdelbaere@rogers.com>
+Author:		Jan Nijtmans <nijtmans@users.sf.net>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	31-Oct-2012
+Post-History:	
+Tcl-Version:	8.7
+
+~ Abstract
+
+This TIP proposes enhancing the Tcl '''load''' command with the additional
+options '''-global''' and '''-lazy'''. It is implemented on top of [357], by
+defining a meaning to the '''flags''' parameter already defined there.
+
+~ Rationale
+
+Platforms that use the ''dlopen()'' function to Tcl '''load''' shared modules
+at runtime provide options to control how the library is loaded:
+
+ * global vs. local symbol scoping
+
+ * lazy vs. now symbol resolution
+
+Currently, Tcl's '''load''' command has hard coded defaults for these options
+and they cannot be overridden within a Tcl script.  This imposes contraints on
+the internal implementation of the modules intended to be loaded into the
+interpreter.  This is especially problematic for modules that provide Tcl
+scripting bindings for existing C++ APIs.  Often, the C++ APIs make
+assumptions about the availability and scoping of their symbols.
+ 
+Tcl binding packages for C++ APIs are often created by a different development
+group than the one that created the original C++ API.  Because the two groups
+are indepedent, the C++ API maintainers will not always be open or able to
+change their code to fit the requirements to be loaded into a scripting
+language.
+
+A common problem occurs when the same static variable is present in two
+different Tcl modules.  For some applications, the variable is meant to be
+shared across modules (global scoping), while in other applications, the
+variable must have its own value within each module (local scoping).  If the
+wrong scoping is chosen, the underlying code will not work correctly; rather
+it will yield strange bugs and / or crashes.
+
+Also in the domain of Tcl bindings for C++ APIs: it's convenient for the
+binding package maintainers to have binary compatibility between one version
+of the Tcl API and several versions of the C++ API.  The '''-lazy''' flag for
+Tcl's load command will provides the feature necessary for this flexibility,
+since it can be used to defer missing symbol errors.  So, users can often
+continue to run their scripts as long as they restrict themselves to calling
+only commands where the symbols are available.
+
+Of course, some applications work best when '''load''' is called with
+'''-global''' and some work best without it.  The same can be said for
+'''-lazy'''.  By providing these options, Tcl will allow programmers to choose
+the best fit for their application.
+
+~ Specification
+
+In [357], the ''Tcl_LoadFile'' is given as:
+
+ > EXTERN int
+   '''Tcl_LoadFile'''(
+       Tcl_Interp *''interp'',
+       Tcl_Obj *''pathPtr'',
+       const char *''symbols''[],
+       int ''flags'',
+       void *''procPtrs'',
+       Tcl_LoadHandle *''handlePtr'');
+
+The meaning of the ''flags'' parameter is not defined in TIP #357, except
+that the current value should be 0. This TIP defines the meaning of the first
+two bits of this parameter:
+
+|#define TCL_LOAD_GLOBAL 1
+|#define TCL_LOAD_LAZY 2
+
+Any combination (logical or) of those two bits can be given to the ''flags''
+parameter. The remaining bits are meant for future extension, and are
+currently ignored, but should be set to 0.
+
+The '''load''' command will get two new options:
+
+Current specification:
+
+ > '''load''' ''fileName'' ?''packageName'' ?''interp''??
+
+Recommended specification:
+
+ > '''load''' ?'''-global'''? ?'''-lazy'''? ?'''--'''? ''fileName''
+   ?''packageName'' ?''interp''??
+
+~ Discussion
+
+Not all platforms may support library loading to a degree required for this
+TIP functionality.  In that case, the additional options just act as if they
+were not there. The reference implementation works on most modern UNIX systems
+and MacOSX, which use ''dlopen()'' or ''NSLinkModule()''.
+
+The '''load''' command will determine the use of the new form by checking if
+more than one argument is given and the first argument starts with a '''-'''.
+This should not affect any existing extensions, as dynamic library filenames
+beginning with '''-''' are rare.
+
+~ Examples
+
+Load a module with the defaults (local scoping, "now" resolution)
+
+| load module.so
+
+Load the module with global scoping and "now" resolution
+
+| load -global module.so
+
+Load the module with global scoping and lazy resolution
+
+| load -global -lazy module.so
+
+~ Reference Implementation
+
+A reference implementation is available in the '''frq-3579001''' branch; see
+https://core.tcl.tk/tcl/timeline?r=frq-3579001
+
+~ Copyright
+
+This document has been placed in the public domain.
