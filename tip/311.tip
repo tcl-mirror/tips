@@ -1,21 +1,22 @@
-TIP:		311
-Title:		Tcl/Tk 8.6 Release Calendar
-Version:	$Revision: 1.60 $
-Author:		Don Porter <dgp@users.sourceforge.net>
-Author:		Larry W. Virden <lvirden@gmail.com>
-Author:		Joe Mistachkin <joe@mistachkin.com>
-Author:		Pat Thoyts <patthoyts@users.sourceforge.net>
-Author:		Miguel Sofer <msofer@users.sf.net>
-Author:		Lars Hellström <Lars.Hellstrom@residenset.net>
-Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-Author:		Arnulf Wiedemann <arnulf@wiedemann-pri.de>
-Author:		Trevor Davel <twylite@crypt.co.za>
-Author:		Donal K. Fellows <dkf@users.sf.net>
-State:		Draft
-Type:		Informative
-Vote:		Pending
-Created:	08-Jan-2008
-Post-History:	
+TIP:            311
+Title:          Tcl/Tk 8.6 Release Calendar
+Version:        $Revision: 1.61 $
+Author:         Don Porter <dgp@users.sourceforge.net>
+Author:         Larry W. Virden <lvirden@gmail.com>
+Author:         Joe Mistachkin <joe@mistachkin.com>
+Author:         Pat Thoyts <patthoyts@users.sourceforge.net>
+Author:         Miguel Sofer <msofer@users.sf.net>
+Author:         Lars Hellström <Lars.Hellstrom@residenset.net>
+Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+Author:         Arnulf Wiedemann <arnulf@wiedemann-pri.de>
+Author:         Trevor Davel <twylite@crypt.co.za>
+Author:         Donal K. Fellows <dkf@users.sf.net>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
+State:          Draft
+Type:           Informative
+Vote:           Pending
+Created:        08-Jan-2008
+Post-History:   
 
 ~ Abstract
 
@@ -217,6 +218,8 @@ The major constraint is simply developer effort.
 
    * [405], Add Collecting Loops, the 'lmap' and 'dict map' Commands
 
+   * [413], Unicode Support for 'string is space' and 'string trim'
+
 ~~~ Pending Features
 
 These have been voted in, but not yet implemented.
@@ -238,8 +241,6 @@ These are currently on the schedule to make 8.6.
      Load
 
    > * Replacement for [399].
-
-   * [413], Unicode Support for 'string is space' and 'string trim'
 
 ~ Work Roster
 
