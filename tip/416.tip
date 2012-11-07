@@ -1,14 +1,15 @@
-TIP:		416
-Title:		New Options for 'load': -global and -lazy
-Version:	$Revision: 1.1 $
-Author:		Christian Delbaere <cdelbaere@rogers.com>
-Author:		Jan Nijtmans <nijtmans@users.sf.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	31-Oct-2012
-Post-History:	
-Tcl-Version:	8.7
+TIP:            416
+Title:          New Options for 'load': -global and -lazy
+Version:        $Revision: 1.2 $
+Author:         Christian Delbaere <cdelbaere@rogers.com>
+Author:         Jan Nijtmans <nijtmans@users.sf.net>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        31-Oct-2012
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -26,15 +27,15 @@ at runtime provide options to control how the library is loaded:
  * lazy vs. now symbol resolution
 
 Currently, Tcl's '''load''' command has hard coded defaults for these options
-and they cannot be overridden within a Tcl script.  This imposes contraints on
+and they cannot be overridden within a Tcl script.  This imposes constraints on
 the internal implementation of the modules intended to be loaded into the
 interpreter.  This is especially problematic for modules that provide Tcl
 scripting bindings for existing C++ APIs.  Often, the C++ APIs make
 assumptions about the availability and scoping of their symbols.
- 
+
 Tcl binding packages for C++ APIs are often created by a different development
 group than the one that created the original C++ API.  Because the two groups
-are indepedent, the C++ API maintainers will not always be open or able to
+are independent, the C++ API maintainers will not always be open or able to
 change their code to fit the requirements to be loaded into a scripting
 language.
 
@@ -79,7 +80,7 @@ two bits of this parameter:
 |#define TCL_LOAD_LAZY 2
 
 Any combination (logical or) of those two bits can be given to the ''flags''
-parameter. The remaining bits are meant for future extension, and are
+parameter. The remaining bits are meant for future extension and are
 currently ignored, but should be set to 0.
 
 The '''load''' command will get two new options:
@@ -98,12 +99,18 @@ Recommended specification:
 Not all platforms may support library loading to a degree required for this
 TIP functionality.  In that case, the additional options just act as if they
 were not there. The reference implementation works on most modern UNIX systems
-and MacOSX, which use ''dlopen()'' or ''NSLinkModule()''.
+and MacOSX, which use ''dlopen()'' or ''NSLinkModule()''. Windows does not allow
+lazy loading or global scoping, so the options have no effect on Windows.
 
 The '''load''' command will determine the use of the new form by checking if
 more than one argument is given and the first argument starts with a '''-'''.
 This should not affect any existing extensions, as dynamic library filenames
 beginning with '''-''' are rare.
+
+Note that use of the '''-global''' or '''-lazy''' option may lead to crashes in your
+application later (in case of symbol conflicts resp. missing symbols), which cannot
+be detected during the '''load'''. So, only use this when you know what you are doing,
+you will not get a nice error message when something is wrong with the loaded library.
 
 ~ Examples
 
