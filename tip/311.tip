@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar
-Version:        $Revision: 1.61 $
+Version:        $Revision: 1.62 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -204,11 +204,8 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
 ~~ Tcl/Tk 8.6.0: Approximate Release Date: November 2012
 
-Depends on how fast we can stabilize Tcl and Tk and fix issues. The more
-community testing we get (and help with coding too), the better. Note that
-8.6b3 is effectively an early Release Candidate for 8.6.0. If too much changes
-(other than direct bugfixes) after 8.6b3, we will need an 8.6b4, which will
-add months of delay for the final release...
+Depends on when contributed packages (notably [[incr Tcl]] 4.0 and TDBC 1.0)
+produce final releases and not betas.
 
 The major constraint is simply developer effort.
 
@@ -229,7 +226,8 @@ These have been voted in, but not yet implemented.
    > * May be superseded by [412] due to problems found with a lack of
        dynamism in this TIP's API.
 
-These are currently on the schedule to make 8.6.
+These are currently on the schedule to make 8.6, though perhaps not 8.6.0.
+[406] and [412] target co-distributed packages, not Tcl itself.
 
    * [392], Allow Bignums to be Disabled at Runtime on a Per-Interp Basis
 
