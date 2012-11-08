@@ -1,6 +1,6 @@
 TIP:            416
 Title:          New Options for 'load': -global and -lazy
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Christian Delbaere <cdelbaere@rogers.com>
 Author:         Jan Nijtmans <nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
@@ -100,7 +100,7 @@ Not all platforms may support library loading to a degree required for this
 TIP functionality.  In that case, the additional options just act as if they
 were not there. The reference implementation works on most modern UNIX systems
 and MacOSX, which use ''dlopen()'' or ''NSLinkModule()''. Windows does not allow
-lazy loading or global scoping, so the options have no effect on Windows.
+lazy symbol resolution or global scoping, so the options have no effect on Windows.
 
 The '''load''' command will determine the use of the new form by checking if
 more than one argument is given and the first argument starts with a '''-'''.
