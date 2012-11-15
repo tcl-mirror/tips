@@ -1,12 +1,12 @@
 TIP:            416
 Title:          New Options for 'load': -global and -lazy
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Christian Delbaere <cdelbaere@rogers.com>
 Author:         Jan Nijtmans <nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        31-Oct-2012
 Post-History:   
 Tcl-Version:    8.6
