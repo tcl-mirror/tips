@@ -1,6 +1,6 @@
 TIP:		418
 Title:		Add [binary] Subcommands for In-Place Modification
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Jeff Rogers <dvrsn@diphi.com>
 State:		Draft
 Type:		Project
@@ -91,7 +91,8 @@ be incremented and re-used on each iteration.
 
 ~~ Additional Library Commands
 
-Library commands should be provided for the following:
+Suggested additional library commands are '''poke''' and '''append'''. The
+arguments to '''binary poke''' will be:
 
  > '''binary poke''' ''varName index formatStr'' ?''var ...''?
 
@@ -99,6 +100,8 @@ This moves the cursor to a specified index, then overwrite with the specified
 format string.  Implemented as
 
 |      binary edit varName "@${index} $formatStr z*" var ...
+
+The arguments to '''binary append''' will be:
 
  > '''binary append''' ''varName formatStr'' "?''var ...''?
 
