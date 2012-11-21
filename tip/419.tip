@@ -1,13 +1,13 @@
-TIP:		419
-Title:		A New Command for Binding to Tk Events
-Version:	$Revision: 1.1 $
-Author:		Jeff Rogers <dvrsn@diphi.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	28-Aug-2012
-Post-History:	
+TIP:            419
+Title:          A New Command for Binding to Tk Events
+Version:        $Revision: 1.2 $
+Author:         Jeff Rogers <dvrsn@diphi.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Aug-2012
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -62,7 +62,7 @@ that event is evaluated.
 ~ Reference Implementation
 
 A sample implementation of these commands in pure tcl is available at
-http://wiki.tcl.tk/mumble
+http://wiki.tcl.tk/tkevent
 
 ~ Cross-Compatibility with Bind
 
