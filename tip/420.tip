@@ -1,26 +1,25 @@
-TIP:		420
-Title:		'vexpr', a Vector Expression Command
-Version:	$Revision: 1.2 $
-Author:		Sean Woods <yoda@etoyoc.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	15-Nov-2013
-Post-History:	
+TIP:            420
+Title:          'vexpr', a Vector Expression Command
+Version:        $Revision: 1.3 $
+Author:         Sean Woods <yoda@etoyoc.com>
+Author:         Andreas Kupries <andreask@activestate.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Nov-2013
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposed to add a new command to Tcl for manipulating vectors and
+This TIP proposes to add a new command to Tcl for manipulating vectors and
 related mathematical objects. The command, '''vexpr''', will provide
-C-optimized implementations of generally useful scaler, 2D, 3D and affine
-transforms. '''vexpr''' is a compliment to '''expr''', and expects to take in
-vector arguments and return vector results.
+C-optimized implementations of generally useful scalar, 2D, 3D and affine transforms. '''vexpr''' is a compliment to '''expr''', and expects to take in vector arguments and return vector results.
 
 ~ Rationale
 
 With the interest expressed in the community by [363], I am concerned about
-the introduction of non-scaler results from '''expr''' (and parts of the
+the introduction of non-scalar results from '''expr''' (and parts of the
 language the use '''expr'''). As the goal of that TIP is to introduce vector
 math operations, a less ambitious, but arguable equally effective technique
 could be to introduce a dedicated command. In particular, one designed from
@@ -230,11 +229,11 @@ Pushes the value of PI onto the stack.
 
  > VECTOR -> VECTOR
 
-Converts a vector or scaler in degrees to radians.
+Converts a vector or scalar in degrees to radians.
 
 ~~setDT
 
- > SCALER -> (None)
+ > SCALAR -> (None)
 
 Pops the current stack value and stores it in the dT variable.
 
@@ -271,15 +270,15 @@ Adds 2 vectors, which must be of the same length.
 
 ~~vector_length
 
- > VECTOR -> SCALER
+ > VECTOR -> SCALAR
 
 Produces the length of a vector.
 
 ~~vector_scale
 
- > SCALER VECTOR -> VECTOR
+ > SCALAR VECTOR -> VECTOR
 
-Scales a vector by a scaler
+Scales a vector by a scalar
 
 ~~vector_subtract
 
