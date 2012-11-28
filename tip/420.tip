@@ -1,6 +1,6 @@
 TIP:            420
 Title:          'vexpr', a Vector Expression Command
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Sean Woods <yoda@etoyoc.com>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
@@ -115,8 +115,7 @@ comes to rest at 0.0,2,0 after completing a 90 degree bend.
 
 ~ Operations
 
-Note that all arguments that are not one of these operation words are instead
-treated as values to push onto the evaluation stack.
+Note that all arguments that are not one of these operation words are instead treated as values to push onto the evaluation stack.
 
 ~~affine_multiply
 
@@ -137,7 +136,7 @@ transformation. NOTE: the angles should be in radians.
 
  > VECTOR -> AFFINE
 
-Converts a scale vector (Xscale Yscale Zscale) into and affine transformation.
+Converts a scale vector (Xscale Yscale Zscale) into an affine transformation.
 Note: 1.0 1.0 1.0 = No scaling. 2.0 2.0 2.0 = Double the size. 0.5 0.5 0.5 =
 Half the size.
 
@@ -193,17 +192,17 @@ Converts a cylindrical vector in degrees to radians.
 
  > VECTOR -> VECTOR
 
-Converts a vector or scaler in radians to degrees.
+Converts a vector or scalar in radians to degrees.
 
 ~~dot
 
- > VECTOR VECTOR -> SCALER
+ > VECTOR VECTOR -> SCALAR
 
 Produces the dot product of two vectors.
 
 ~~dT
 
- > (None) -> SCALER
+ > (None) -> SCALAR
 
 Pushes the value of dT into the stack.
 
@@ -259,8 +258,7 @@ Converts a spherical vector in degrees to a spherical vector in radians.
 
  > ANY -> ANY
 
-Stores the top of the stack internally for later use. The value stored remains
-at the top of the stack.
+Stores the top of the stack internally for later use. The value stored remains at the top of the stack.
 
 ~~vector_add
 
@@ -294,17 +292,12 @@ Transforms a vector using an affine matrix.
 
 ~Implementation
 
-A test implementation for '''vexpr''' is available as an TEA extension, and
-can be downloaded [http://www.etoyoc.com/tclmatrix3d].  At this point in time,
-the goal is adding '''vexpr''' as a standalone command.
+A test implementation for '''vexpr''' is available as an TEA extension, and can be downloaded [http://www.etoyoc.com/tclmatrix3d].  At this point in time, the goal is adding '''vexpr''' as a standalone command.
 
 ~~ Limits
 
 '''vexpr''' converts all arguments to an array of 16 double precision
-elements; only the item left on the top of the stack is converted back into a
-Tcl list. The "stack" itself has a hard-coded limit of 32 elements. (It is
-implemented as an array.) Exceeding the stack size will cause the command to
-throw a Tcl error.
+elements; only the item left on the top of the stack is converted back into a Tcl list. The "stack" itself has a hard-coded limit of 32 elements. (It is implemented as an array.) Exceeding the stack size will cause the command to throw a Tcl error.
 
 ~ Copyright
 
