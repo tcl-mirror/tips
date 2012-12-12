@@ -1,9 +1,10 @@
 TIP:            278
 Title:          Fix Variable Name Resolution Quirks
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Miguel Sofer <msofer@users.sf.net>
 Author:         Kevin Kenny <kennykb@acm.org>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -235,7 +236,7 @@ getting all the action. The code is however fragile, this aspect is not to be un
 
 ~ Reference Implementation and Documentation
 
-A cvs branch tip-278-branch has been opened to test the implementation of this tip; the modifications are logged in the Changelog of the branch.
+A cvs branch tip-257-implementation-branch has been opened to test the implementation of this tip; the modifications are logged in the Changelog of the branch.
 
 ~ Notes
 
