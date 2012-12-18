@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar
-Version:        $Revision: 1.63 $
+Version:        $Revision: 1.64 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -202,7 +202,7 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [404], Let Message Catalogs get the Locale from their File Name
 
-~~ Tcl/Tk 8.6.0: Approximate Release Date: November 2012
+~~ Tcl/Tk 8.6.0: Release Date: December 20, 2012
 
    * [400], Setting the Compression Dictionary and Other 'zlib' Updates
 
