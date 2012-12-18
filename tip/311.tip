@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar
-Version:        $Revision: 1.64 $
+Version:        $Revision: 1.65 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -210,7 +210,7 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
 
    * [413], Unicode Support for 'string is space' and 'string trim'
 
-   * [416], New Options for 'load': -global and -lazy
+   * [416], New Options for 'load' - -global and -lazy
 
 ~~~ Pending Features
 
