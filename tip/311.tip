@@ -1,6 +1,6 @@
 TIP:            311
 Title:          Tcl/Tk 8.6 Release Calendar
-Version:        $Revision: 1.65 $
+Version:        $Revision: 1.66 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Larry W. Virden <lvirden@gmail.com>
 Author:         Joe Mistachkin <joe@mistachkin.com>
@@ -86,8 +86,6 @@ on this TIP. It is more analogous to similar informational TIPs like [31].
    * [318], Extend Default Whitespace in '''string trim''' Beyond ASCII
 
    * [320], Improved Variable Handling in the Core Object System
-
-   * [321], Add a '''tk busy''' Command
 
    * [323], Do Nothing Gracefully
 
