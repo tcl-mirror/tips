@@ -1,0 +1,92 @@
+TIP:            422
+Title:          Don't Use stdarg.h/va_list in Public API
+Version:        $Revision: 1.1 $
+Author:         Jan Nijtmans <nijtmans@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        02-Jan-2013
+Post-History:   
+Tcl-Version:    9.0
+Keywords:	Tcl, API removal, varargs
+
+~ Abstract
+
+This TIP proposes to remove all functions which use the ''va_list'' type from
+the public API, and it describes what extensions using this should do to make
+their extension portable on the mingw-w64 gcc compiler on the AMD64 platform.
+
+~ Rationale
+
+The use of ''va_list'' in public API has the problem that different compilers
+have a different implementation of the ''va_list'' structure. The implication
+of this is that extensions which are compiled with mingw-w64 for the AMD64
+platform, and call any of those functions will fail with a MSVC-compiled Tcl
+core. The reverse fails as well. For a brief description about this problem,
+see: http://www.bailopan.net/blog/?p=30.  See also an earlier discusion in the
+Tcl Core mailing list: http://code.activestate.com/lists/tcl-core/10807/
+
+~ Specification
+
+This TIP proposes to remove the following 4 functions from the public API
+
+ * Tcl_AppendResultVA
+
+ * Tcl_AppendStringsToObjVA
+
+ * Tcl_SetErrorCodeVA
+
+ * Tcl_PanicVA
+
+In addition, the inclusion of <stdarg.h> should move from tcl.h to tclInt.h,
+as no public Tcl header uses it any more.
+ 
+~ Compatibility
+
+Extensions using any of those functions will not compile and run in Tcl 9.0
+any more. They should be rewritten to use the same functions without the VA
+parameter. This can be done as follows.
+
+Before:
+
+|int mypanic(const char *fmt, ...) {
+|    va_list ap;
+|    va_start(ap, fmt);
+|    Tcl_PanicVA(fmt, ap);
+|    va_end(ap);
+|}
+
+After:
+
+|int mypanic(const char *fmt, ...) {
+|    va_list ap;
+|    char *arg1, *arg2, *arg3, *arg4;
+|    va_start(ap, fmt);
+|    arg1 = va_arg(argList, char *);
+|    arg2 = va_arg(argList, char *);
+|    arg3 = va_arg(argList, char *);
+|    arg4 = va_arg(argList, char *);
+|    va_end(ap);
+|    Tcl_Panic(fmt, arg1, arg2, arg3, arg4);
+|}
+
+The number of args used (4, in this example) should be chosen to be the
+maximum number of additional parameters that is used in any "mypanic" call.
+Since this function is only ever called from the extensions itself, this can
+be determined easily.
+
+In addition, the extension must do its own inclusion of <stdarg.h>, as tcl.h
+doesn't do that any more.
+
+Extensions rewritten this way, will continue to compile and function with Tcl
+8.x as well. I am not aware of any extension which actually calls any of those
+VA functions.
+
+~ Reference Implementation
+
+A reference implementation is available in the '''novem-remove-va''' branch.
+[https://core.tcl.tk/tcl/timeline?r=novem-remove-va]
+
+~ Copyright
+
+This document has been placed in the public domain.
