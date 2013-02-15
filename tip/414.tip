@@ -1,13 +1,14 @@
-TIP:		414
-Title:		Add (back) Tcl_InitSubsystems as Public API
-Version:	$Revision: 1.3 $
-Author:		Brian Griffin <brian_griffin@mentor.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	15-Oct-2012
-Post-History:
-Tcl-Version:	8.7
+TIP:            414
+Title:          Add (back) Tcl_InitSubsystems as Public API
+Version:        $Revision: 1.4 $
+Author:         Brian Griffin <brian_griffin@mentor.com>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        15-Oct-2012
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -25,16 +26,83 @@ Tcl_InitSubsystems (currently TclInitSubsystems) - was removed from Tcl's API;
 using Tcl_FindExecutable instead feels incorrect as we're not seeking to make
 the name of the executable available to Tcl scripts.
 
+However, exposing the current TclInitSubsystems has the limitation that there
+is no way to control exactly what is initialized: What will be the system
+encoding, what will be the registered name of the executable, what panic
+proc should be used when a panic occurs during initialization. Therefore,
+the function will get a ''flags'' parameter which controls in finer detail
+how the initialization is done. The default, 0, means that the initialization
+is done exactly the same as Tcl_FindExecutable(NULL). But other flags can
+be set to modify the initialization, and more flag values can be defined in
+the future. This TIP proposes 4 additional values for the ''flags'' value.
+
 ~ Proposed Change
 
-The function TclInitSubsystems should be exposed as Tcl_InitSubsystems in
-Tcl's C API. This will ''not'' be a part of the Stub API; it is not intended
-to ever be used from a stubbed environment, as it is meant to be used prior to
-the stub table being available.
+A new function Tcl_InitSubsystems, similar to the internal TclInitSubsystems,
+should be exposed as alternative to Tcl_FindExecutable in Tcl's C API. This
+will ''not'' be a part of the Stub API; it is not intended to ever be used
+from an initialized stubbed environment, as it is meant to be used prior to
+the stub table being available. It has a variable number of arguments, the
+first of which is ''flags'' which controls the interpretation of the\
+additional arguments. If ''flags'' is 0, then this function does exactly the
+same as ''Tcl_FindExecutable(NULL)''
+
+If you supply the flag ''TCL_INIT_PANIC'' to ''Tcl_InitSubsystems'',
+the function expects an additional argument, a custom panicProc,
+immediately following the ''flags'' argument. This is equivalent
+to calling ''Tcl_SetPanicProc'' immediately before
+''Tcl_InitSubsystems'', except that you possibly cannot do
+that yet if it requires an initialized stub table. Of course
+''Tcl_SetPanicProc'' could be called immediately after
+''Tcl_InitSubsystems'', but then panics which could be produced
+by the initialization itself still use the default panic procedure.
+
+If you supply one of the flags ''TCL_INIT_CREATE'', ''TCL_INIT_CREATE_UTF8''
+or ''TCL_INIT_CREATE_UNICODE'' to ''Tcl_InitSubsystems'' (possibly in
+combination with ''TCL_INIT_PANIC''), the function gets two additional
+parameters, argc and argv. Then a new Tcl interpreter will be created.
+If argc > 0 then the variables ''argc'' and ''argv'' will be set in this
+interpreter. The 3 variants assume a different encoding for the arguments,
+except for ''argv[0]'' which is always assumed to be in the system encoding.
+If argc is 0, still argv must be provided (possibly as NULL value)
+as it might be used to set the executable name used in scripts.
+
+The return value of ''Tcl_InitSubsystems'' is, if one of the
+''TCL_INIT_CREATE_??'' flag values is used  , the newly created
+interpreter. If you want to use the Tcl library without
+the need to create a Tcl Interpreter, ''Tcl_InitSubsystems''
+still returns a pointer to a Tcl_Interp structure, but
+the only allowed use for this pointer is as input parameter
+of the ''Tcl_InitStubs'' function. For example:
+
+|Tcl_InitStubs(Tcl_InitSubSystems(0), NULL, 0);
+
+This will initialize the Stub table without the need for
+a real Tcl Interpreter. Applications embedding Tcl can
+now be compiled using USE_TCL_STUBS=1, and linked with
+the Tcl stub library (in addition to the Tcl library).
+After the ''Tcl_InitStubs'' call, all other parts of
+Tcl API can be called normally, as long as they don't
+need a real Tcl interpreter.
+
+Another new possibility, allowed by this approach, is
+linking the application with the Tcl Stub library, but
+load the Tcl shared library dynamically. For example:
+
+|Tcl_Interp *(*initSubSystems)(int, ...);
+|void *handle = dlopen("libtcl8.6.so", RTLD_NOW|RTLD_LOCAL);
+|initSubSystems = dlsym(handle, "Tcl_InitSubsystems");
+|Tcl_InitStubs(initSubSystems(0), NULL, 0);
+
+This way, the application doesn't depend on a single Tcl
+version any more, but it could determine at runtime which
+Tcl version is available (8.6, 8.7, 9.0 ...) and load
+the prevered version at runtime.
 
 ~ Reference Implementation
 
-Not yet available.
+A reference implementation is available in the '''initsubsystems''' branch.
+[https://core.tcl.tk/tcl/timeline?r=initsubsystems]
 
 ~ Copyright
 
