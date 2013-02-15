@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -68,7 +68,7 @@ combination with ''TCL_INIT_PANIC''), the function gets two additional
 parameters, argc and argv. Then a new Tcl interpreter will be created.
 If argc > 0 then the variables ''argc'' and ''argv'' will be set in this
 interpreter. The 3 variants assume a different encoding for the arguments,
-except for ''argv[0]'' which is always assumed to be in the system encoding.
+except for ''argv\[0\]'' which is always assumed to be in the system encoding.
 If argc is 0, still argv must be provided (possibly as NULL value)
 as it might be used to set the executable name used in scripts.
 
