@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -45,7 +45,12 @@ from an initialized stubbed environment, as it is meant to be used prior to
 the stub table being available. It has a variable number of arguments, the
 first of which is ''flags'' which controls the interpretation of the
 additional arguments. If ''flags'' is 0, then this function does exactly the
-same as ''Tcl_FindExecutable(NULL)''
+same as ''Tcl_FindExecutable(NULL)''. The full signature is:
+
+ > EXTERN Tcl_Interp *
+   '''Tcl_InitSubsystems'''(
+       int ''flags'',
+       ...);
 
 If you supply the flag ''TCL_INIT_PANIC'' to ''Tcl_InitSubsystems'',
 the function expects an additional argument, a custom panicProc,
