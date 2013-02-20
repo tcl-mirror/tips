@@ -1,12 +1,12 @@
 TIP:            420
 Title:          'vexpr', a Vector Expression Command
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Sean Woods <yoda@etoyoc.com>
 Author:         Andreas Kupries <andreask@activestate.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
-Created:        15-Nov-2013
+Created:        15-Nov-2012
 Post-History:   
 Tcl-Version:    8.7
 
