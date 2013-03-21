@@ -1,14 +1,14 @@
-TIP:		418
-Title:		Add [binary] Subcommands for In-Place Modification
-Version:	$Revision: 1.2 $
-Author:		Jeff Rogers <dvrsn@diphi.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	27-Aug-2012
-Post-History:	
-Keywords:	Tcl, binary data
+TIP:            418
+Title:          Add [binary] Subcommands for In-Place Modification
+Version:        $Revision: 1.3 $
+Author:         Jeff Rogers <dvrsn@diphi.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Aug-2012
+Post-History:   
+Keywords:       Tcl,binary data
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -27,8 +27,8 @@ would greatly improve the performance of these operations on large objects.
 While it will be possible to implement these modification operations as
 standard copy-on-write operations taking a value instead of a variable name, I
 believe this would result in copying unless the well-known but still clumsy
-technique of unsetting the variable after reading it (i.e., [[K $x [[unset
-x]]]]) is used. This TIP is intended to fix this by providing a more
+technique of unsetting the variable after reading it (i.e., [[K $x [[set x {}]]]]) 
+is used. This TIP is intended to fix this by providing a more
 convenient and simpler-to-use mechanism which also admits more efficient
 implementation.
 
@@ -143,4 +143,4 @@ Forthcoming.
 
 ~ Copyright
 
-This document has been placed in the public domain. 
+This document has been placed in the public domain.
