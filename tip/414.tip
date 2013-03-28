@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -40,7 +40,7 @@ The need for the ''TCL_INIT_CREATE_???'' flags is inspired by the current
 complication of the ''Tk_Main'' and ''Tcl_Main'' macros, and the internal
 functions ''Tcl_MainEx'', ''Tcl_MainExW'', ''Tk_MainEx'' and ''Tk_MainExW''
 which have a lot of code in common. With help of the ''Tcl_InitSubsystems'',
-those macro could be simplified, or replaced with a totally different
+those macros could be simplified, or replaced with a totally different
 approach in Tcl 9. How that is done, is out of scope for this TIP.
 
 ~ Proposed Change
