@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -62,10 +62,11 @@ If you supply one of the flags ''TCL_INIT_CREATE'', ''TCL_INIT_CREATE_UTF8''
 or ''TCL_INIT_CREATE_UNICODE'' to ''Tcl_InitSubsystems'', the function gets
 two additional parameters, argc and argv. Then a new Tcl interpreter will be
 created. If argc > 0 then the variables ''argc'' and ''argv'' will be set in
-this interpreter. The 3 variants assume a different encoding for the arguments,
-except for ''argv[0]'' which is always assumed to be in the system encoding.
-If argc is 0, still argv must be provided (possibly as NULL value)
-as it might be used to set the executable name used in scripts.
+this interpreter. If argv is specified, irrespective of the value of argc,
+the variable ''argv0'' will be set in the interpreter, and this value will
+be used to determine the value returned by ''info executable''. The 3 flag
+variants assume a different encoding for the arguments, except for ''argv0''
+which is always assumed to be in the system encoding.
 
 If you supply the flag ''TCL_INIT_CUSTOM'' to ''Tcl_InitSubsystems'',
 the function expects two additional arguments following the previously
