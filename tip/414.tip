@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -28,13 +28,12 @@ the name of the executable available to Tcl scripts.
 
 However, exposing the current TclInitSubsystems has the limitation that there
 is no way to control exactly what is initialized: What will be the system
-encoding, what will be the registered name of the executable, what panic
-proc should be used when a panic occurs during initialization. Therefore,
+encoding, what will be the registered name of the executable. Therefore,
 the function will get a ''flags'' parameter which controls in finer detail
 how the initialization is done. The default, 0, means that the initialization
 is done exactly the same as Tcl_FindExecutable(NULL). But other flags can
 be set to modify the initialization, and more flag values can be defined in
-the future. This TIP proposes 5 additional values for the ''flags'' value.
+the future. This TIP proposes 4 values for the ''flags'' value.
 
 The need for the ''TCL_INIT_CREATE_???'' flags is inspired by the current
 complication of the ''Tk_Main'' and ''Tcl_Main'' macros, and the internal
@@ -59,22 +58,11 @@ same as ''Tcl_FindExecutable(NULL)''. The full signature is:
        int ''flags'',
        ...);
 
-If you supply the flag ''TCL_INIT_PANIC'' to ''Tcl_InitSubsystems'',
-the function expects an additional argument, a custom panicProc,
-immediately following the ''flags'' argument. This is equivalent
-to calling ''Tcl_SetPanicProc'' immediately before
-''Tcl_InitSubsystems'', except that you possibly cannot do
-that yet if it requires an initialized stub table. Of course
-''Tcl_SetPanicProc'' could be called immediately after
-''Tcl_InitSubsystems'', but then panics which could be produced
-by the initialization itself still use the default panic procedure.
-
 If you supply one of the flags ''TCL_INIT_CREATE'', ''TCL_INIT_CREATE_UTF8''
-or ''TCL_INIT_CREATE_UNICODE'' to ''Tcl_InitSubsystems'' (possibly in
-combination with ''TCL_INIT_PANIC''), the function gets two additional
-parameters, argc and argv. Then a new Tcl interpreter will be created.
-If argc > 0 then the variables ''argc'' and ''argv'' will be set in this
-interpreter. The 3 variants assume a different encoding for the arguments,
+or ''TCL_INIT_CREATE_UNICODE'' to ''Tcl_InitSubsystems'', the function gets
+two additional parameters, argc and argv. Then a new Tcl interpreter will be
+created. If argc > 0 then the variables ''argc'' and ''argv'' will be set in
+this interpreter. The 3 variants assume a different encoding for the arguments,
 except for ''argv[0]'' which is always assumed to be in the system encoding.
 If argc is 0, still argv must be provided (possibly as NULL value)
 as it might be used to set the executable name used in scripts.
@@ -93,40 +81,12 @@ and ''Tcl_FSRegister''.
 
 The return value of ''Tcl_InitSubsystems'' is, if one of the
 ''TCL_INIT_CREATE_??'' flag values is used, the newly created
-interpreter. If you want to use the Tcl library without
-the need to create a Tcl Interpreter, ''Tcl_InitSubsystems''
-still returns a pointer to a Tcl_Interp structure, but
-the only allowed use for this pointer is as input parameter
-of the ''Tcl_InitStubs'' function. For example:
-
-|Tcl_InitStubs(Tcl_InitSubSystems(0), NULL, 0);
-
-This will initialize the Stub table without the need for
-a real Tcl Interpreter. Applications embedding Tcl can
-now be compiled using USE_TCL_STUBS=1, and linked with
-the Tcl stub library (in addition to the Tcl library).
-After the ''Tcl_InitStubs'' call, all other parts of
-Tcl API can be called normally, as long as they don't
-need a real Tcl interpreter.
-
-Another new possibility, allowed by this approach, is
-linking the application with the Tcl Stub library, but
-load the Tcl shared library dynamically. For example:
-
-|Tcl_Interp *(*initSubSystems)(int, ...);
-|void *handle = dlopen("libtcl8.6.so", RTLD_NOW|RTLD_LOCAL);
-|initSubSystems = dlsym(handle, "Tcl_InitSubsystems");
-|Tcl_InitStubs(initSubSystems(0), NULL, 0);
-
-This way, the application doesn't depend on a single Tcl
-version any more, but it could determine at runtime which
-Tcl version is available (8.6, 8.7, 9.0 ...) and load
-the preferred version at runtime.
+interpreter, NULL otherwise.
 
 ~ Reference Implementation
 
 A reference implementation is available in the '''initsubsystems2''' branch.
-[https://core.tcl.tk/tcl/vdiff?from=6a633181a375bed3&to=8e182c8395d19757]
+[http://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=3ae7bcc7f0032fbe]
 
 ~ Copyright
 
