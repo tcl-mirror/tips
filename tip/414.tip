@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -87,7 +87,7 @@ interpreter, NULL otherwise.
 ~ Reference Implementation
 
 A reference implementation is available in the '''initsubsystems2''' branch.
-[https://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=07ffdd76953695ef]
+[https://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=6d958308453ec637]
 
 ~ Copyright
 
