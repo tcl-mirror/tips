@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -64,6 +64,7 @@ TclInitSubsystems and the TclpSetInitialEncodings()
 call. This was not possible without creating an
 interpreter first, because those calls were united in a
 single function Tcl_FindExecutable():
+
 |const char *version = Tcl_InitSubSystems(NULL);                               
 |Tcl_Interp *interp = Tcl_CreateInterp();
 |/* Optional: Set VFS or additional encoding paths here. */
