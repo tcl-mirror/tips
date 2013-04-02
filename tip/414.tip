@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -26,21 +26,13 @@ Tcl_InitSubsystems (currently TclInitSubsystems) - was removed from Tcl's API;
 using Tcl_FindExecutable instead feels incorrect as we're not seeking to make
 the name of the executable available to Tcl scripts.
 
-However, exposing the current TclInitSubsystems has the limitation that there
-is no way to control exactly what is initialized: What will be the system
-encoding, what will be the registered name of the executable. Therefore,
-the function will get a ''flags'' parameter which controls in finer detail
-how the initialization is done. The default, 0, means that the initialization
-is done exactly the same as Tcl_FindExecutable(NULL). But other flags can
-be set to modify the initialization, and more flag values can be defined in
-the future. This TIP proposes 4 values for the ''flags'' value.
-
-The need for the ''TCL_INIT_CREATE_???'' flags is inspired by the current
-complication of the ''Tk_Main'' and ''Tcl_Main'' macros, and the internal
-functions ''Tcl_MainEx'', ''Tcl_MainExW'', ''Tk_MainEx'' and ''Tk_MainExW''
-which have a lot of code in common. With help of the ''Tcl_InitSubsystems'',
-those macros could be simplified, or replaced with a totally different
-approach in Tcl 9. How that is done, is out of scope for this TIP.
+However, exposing the current TclInitSubsystems has the limitation that this
+function cannot be used in a stubbed environment without createing an interpreter,
+and there is no way to define a panic proc in a stubbed environment before calling
+Tcl_InitSubsystems, as Tcl_InitSubsystems must be the first function called.
+Therefore, the function will get a ''panicProc'' parameter, and it will be
+turned into a macro - which does stubs initialization as well - when
+USE_TCL_STUBS is set.
 
 ~ Proposed Change
 
@@ -48,47 +40,39 @@ A new function Tcl_InitSubsystems, similar to the internal TclInitSubsystems,
 should be exposed as alternative to Tcl_FindExecutable in Tcl's C API. This
 will ''not'' be a part of the Stub API; it is not intended to ever be used
 from an initialized stubbed environment, as it is meant to be used prior to
-the stub table being available. It has a variable number of arguments, the
-first of which is ''flags'' which controls the interpretation of the
-additional arguments. If ''flags'' is 0, then this function does exactly the
-same as ''Tcl_FindExecutable(NULL)''. The full signature is:
+the stub table being available. It has a single argument, ''panicProc''.
+When NULL, the default panic function is used. The full signature is:
 
- > EXTERN Tcl_Interp *
+ > EXTERN const char *
    '''Tcl_InitSubsystems'''(
-       int ''flags'',
-       ...);
+       Tcl_PanicProc *''panicProc'');
 
-If you supply one of the flags ''TCL_INIT_CREATE'', ''TCL_INIT_CREATE_UTF8''
-or ''TCL_INIT_CREATE_UNICODE'' to ''Tcl_InitSubsystems'', the function gets
-two additional parameters, argc and argv. Then a new Tcl interpreter will be
-created. If argc > 0 then the variables ''argc'' and ''argv'' will be set in
-this interpreter. If argv is specified, irrespective of the value of argc,
-this value will be used to determine the value returned by
-''info executable''. The 3 flag variants assume a different encoding for
-the arguments, except for ''argv0'' which is always assumed to be in the
-system encoding. On Windows and Cygwin, the value returned by
-''info executable'' can be determined without use of ''argv0''.
+The return value of ''Tcl_InitSubsystems'' is the Tcl version.
 
-If you supply the flag ''TCL_INIT_CUSTOM'' to ''Tcl_InitSubsystems'',
-the function expects two additional arguments following the previously
-mentioned ones: ClientData and a custom proc. The proc will be
-executed just before the encodings are initialized, and it will be
-given two arguments: the Tcl interpreter and ClientData. Remember that
-encodings other than UTF-8, unicode and iso8859-1 are not yet
-available when the customProc is run, the system encoding is not
-determined, and no variables are set in the interpreter yet. This
-means that no libaries/packages can be found yet, it is typically
-only used for calling functions like ''Tcl_SetEncodingSearchPath''
-and ''Tcl_FSRegister''.
+Further on, the ''Tcl_MainEx*'' functions will be added an initial
+''TclpSetInitialEncodings()'' and ''TclpFindExecutable(argv[0])'' call,
+while in the Tcl_Main() macro, the Tcl_FindExecutable(argv[0]) call
+will be replaced by a call to the new function. This is fully
+upwards compatible: in any application compiled against Tcl 8.6.0
+headers but later upgraded to Tcl 8.6.1 or later, those two calls
+will be done twice, but this turns the second call in nothing more
+than a nop.
 
-The return value of ''Tcl_InitSubsystems'' is, if one of the
-''TCL_INIT_CREATE_??'' flag values is used, the newly created
-interpreter, NULL otherwise.
+Using ''Tcl_InitSubsystems'', it now becomes possible to
+install a VFS or modify the encoding path between the
+TclInitSubsystems and the TclpSetInitialEncodings()
+call. This was not possible without creating an
+interpreter first, because those calls were united in a
+single function Tcl_FindExecutable():
+|const char *version = Tcl_InitSubSystems(NULL);                               
+|Tcl_Interp *interp = Tcl_CreateInterp();
+|/* Optional: Set VFS or additional encoding paths here. */
+|Tcl_MainEx(argc, argv, appInitProc, interp);
 
 ~ Reference Implementation
 
-A reference implementation is available in the '''initsubsystems2''' branch.
-[https://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=78c782a997f5f87a]
+A reference implementation is available in the '''initsubsystems''' branch.
+[https://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=6d958308453ec637]
 
 ~ Copyright
 
