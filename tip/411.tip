@@ -1,13 +1,13 @@
-TIP:		411
-Title:		Improved Channel Introspection via "chan info"
-Version:	$Revision: 1.3 $
-Author:		Pawel Salawa <pawelsalawa@gmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	31-Aug-2012
-Post-History:
+TIP:            411
+Title:          Improved Channel Introspection via "chan info"
+Version:        $Revision: 1.4 $
+Author:         Pawel Salawa <pawelsalawa@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        31-Aug-2012
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -163,7 +163,9 @@ information in '''chan info''':
 
 ~ Reference Implementation
 
-Not yet available.
+http://sqlitestudio.pl/tcl/patches/tip-411-chan_info.patch
+
+Patch made against 8.6.0 (just before final release).
 
 ~ Copyright
 

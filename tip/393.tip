@@ -1,13 +1,13 @@
-TIP:           393
-Title:         Add -command Option to lsearch
-Version:       $Revision: 1.1 $
-Author:        Pawel Salawa <pawelsalawa@gmail.com>
-State:         Draft
-Type:          Project
-Tcl-Version:   8.7
-Vote:          Pending
-Created:       25-Apr-2011
-Post-History:
+TIP:            393
+Title:          Add -command Option to lsearch
+Version:        $Revision: 1.2 $
+Author:         Pawel Salawa <pawelsalawa@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Apr-2011
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -47,7 +47,9 @@ method, therefor it's treated the same way as '''-exact''', '''-glob''',
 
 ~ Reference Implementation
 
-Not yet available.
+http://sqlitestudio.pl/tcl/patches/tip-393-lsearch-command.patch
+
+Patch made against 8.6.0 beta.
 
 ~ Copyright
 
