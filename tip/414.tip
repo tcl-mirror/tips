@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -73,7 +73,7 @@ single function Tcl_FindExecutable():
 ~ Reference Implementation
 
 A reference implementation is available in the '''initsubsystems''' branch.
-[https://core.tcl.tk/tcl/vdiff?from=ab56b33031c7ed32&to=6d958308453ec637]
+[http://core.tcl.tk/tcl/info/f76bf90f39]
 
 ~ Copyright
 
