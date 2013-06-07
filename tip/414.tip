@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -69,6 +69,13 @@ single function Tcl_FindExecutable():
 |Tcl_Interp *interp = Tcl_CreateInterp();
 |/* Optional: Set VFS or additional encoding paths here. */
 |Tcl_MainEx(argc, argv, appInitProc, interp);
+
+When ''Tcl_InitSubsystems'' is called in code where
+''USE_TCL_STUBS'' is set, it does one additional thing:
+initialize the Stub table for using Tcl as utility
+library, without needing a Tcl interpreter. This
+means that the above code example will compile and
+run equally well when compiled with ''-DUSE_TCL_STUBS''
 
 ~ Reference Implementation
 
