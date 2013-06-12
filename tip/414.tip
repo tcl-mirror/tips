@@ -1,11 +1,11 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        15-Oct-2012
 Post-History:   
 Tcl-Version:    8.7
