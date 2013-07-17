@@ -1,0 +1,81 @@
+TIP:		423
+Title:		Internationalization of Default Panic Callback on Windows
+Version:	$Revision: 1.1 $
+Author:		Jan Nijtmans <jan.nijtmans@gmail.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	17-Jul-2013
+Post-History:
+Tcl-Version:	8.7
+Keywords:	Tcl, platform integration, i18n
+
+~ Abstract
+
+The default panic proc on Windows console applications writes the message in
+UTF-8 to stderr. Unfortunately, the Windows console normally does not have
+UTF-8 as code page but some single-byte code page like CP1252. When using
+characters outside the ASCII range, that does not give the expected output in
+the console. This TIP proposes to add a new Console panic proc to the stub
+library, and modify the Tcl_Main() macro to use it.
+
+~ Rationale
+
+Many parts of Tcl are initernationalized in Tcl 8.6: The command line
+handling, and the communication with all Win32 API functions.  But the Panic
+proc has - so far - not been modified accordingly for Windows console
+applications, even though win32 has a suitable API to do so.
+
+On Windows, there actually are two different panic procs, one for GUI
+applications and one for console applications, but external embedders don't
+have an API for deciding which one should be used other than provide their
+own. This TIP in combination with [414] can finally do that: The call
+''Tcl_InitSubsystems(Tcl_ConsolePanic)'' will initialize the Tcl subsystem for
+Console applications, while ''Tcl_InitSubsystems(NULL)'' will do the same for
+GUI applications.
+
+~ Proposed Change
+
+A new function ''Tcl_ConsolePanic'' is added to the stub library, which can be
+installed as panic proc on Windows. The full signature is:
+
+ > EXTERN void
+   '''Tcl_ConsolePanic'''(
+       const char *''format''
+       ...);
+
+On other platforms, ''Tcl_ConsolePanic'' is a macro equivalent to NULL.
+
+This function is meant to be used for Win32 console
+applications, and can deliver the message in 3 possible ways
+
+ * If a debugger is running, the message is sent there.
+
+ * If stderr is connected to a Windows console, the message is sent there in
+   unicode.
+
+ * Otherwise, stderr must have been redirected to a file or a pipe or any
+   character device. Then the UTF-8 BOM (3 bytes) is written followed by the
+   message in UTF-8.
+
+The maximum number of (unicode) characters that is written is 26000, as that
+is the maximum that WriteConsoleW() can handle in a single call. See:
+[https://connect.microsoft.com/VisualStudio/feedback/details/635230] If the
+message is longer than that, the string is truncated and three dots appended
+to it. If the message is sent to a character device, it is not truncated, but
+the UTF-8 BOM is prepended.
+
+The function is available from the stub library, in order to provide full
+compatibility in the Tcl 8.6 line: Embedding console applications which are
+compiled against Tcl 8.6.1 headers and linked with the Tcl 8.6.1 stub library
+will still run fine in a Tcl 8.6.0 environment. If an additional symbol would
+have been added to the Tcl 8.6.1 library, that would not work any more.
+
+~ Reference Implementation
+
+A reference implementation is available in the '''win-console-panic''' branch.
+[https://core.tcl.tk/tcl/info/5317ab91f8]
+
+~ Copyright
+
+This document has been placed in the public domain.
