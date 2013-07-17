@@ -1,0 +1,40 @@
+TIP:		423
+Title:		Formatting Timestamps with Milliseconds
+Version:	$Revision: 1.1 $
+Author:		Thomas Perschak <tombert.group@live.at>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	07-Jun-2013
+Post-History:
+Keywords:	Tcl, time, millisecond resolution
+
+~ Abstract
+
+This TIP describes a change to '''clock format''' to allow it to handle
+timestamps with sub-second accuracy.
+
+~ Rationale
+
+Currently, the '''clock format''' accepts only integer numbers for clock
+formatting. Since the '''clock milliseconds''' command was introduced in Tcl
+8.5, this limitation seems a bit restrictive.
+
+In particular, the timestamp column in a number of databases (e.g.,
+http://www.postgresql.org/docs/9.1/static/datatype-datetime.html) handles
+high-resolution timestamps by allowing full ISO 8601 times, which look like
+"04:05:06.789"; this would simplify database write operations.
+
+~ Proposal
+
+The '''clock format''' command should accept floating point values for
+timestamps.
+
+Another format letter should be added to '''clock format''' which puts the
+milliseconds into the output string; the millisecond value should not be
+written unless explicitly requested.
+
+~ Copyright
+
+This document has been placed in the public domain.
