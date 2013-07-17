@@ -1,6 +1,6 @@
-TIP:		423
+TIP:		425
 Title:		Internationalization of Default Panic Callback on Windows
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Jan Nijtmans <jan.nijtmans@gmail.com>
 State:		Draft
 Type:		Project
