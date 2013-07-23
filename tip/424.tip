@@ -1,6 +1,6 @@
 TIP:		424
 Title:		Improving [exec]
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:		Draft
 Type:		Project
@@ -134,9 +134,11 @@ Goals reached:
     passed, expanded, to '''exec'''. And it is handy to type
     '''open "|| {foo >} > file"'''
 
- 3. Simple pipelines are simple:  '''exec | $cmd1 | $cmd2 | $cmd3 > file'''
+ 3. Simple pipelines are simple.
 
- 4. Advanced redirections are possible: e.g. nonlinear pipe graph:
+  >  '''exec | $cmd1 | $cmd2 | $cmd3 > file'''
+
+ 4. Advanced redirections are possible (e.g. nonlinear pipe graph)
 
 |      lassign [chan pipe] pr pw
 |      exec | {foo bar} 3>@ $pw | {gnu gnats} | {hey ho} 3<@ $pr
@@ -155,7 +157,9 @@ does.
 
  * Replace the leading "'''|'''" in '''exec |''' by '''--extended'''
 
- * Use a different toplevel command name: '''exec2'''...
+ * Use a different toplevel command name.
+
+  > '''exec2'''...
 
 ~ Reference Implementation
 
