@@ -1,6 +1,6 @@
 TIP:            424
 Title:          Improving [exec]
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -129,8 +129,8 @@ Goals reached:
     sublist, with no in-band encoding of redirections.
 
  2. The above mapping is consistent with the existing '''open |[list foo
-    bar]''' logic.  It respects the invariant saying that for '''open |''',
-    that '''string range $openarg 1 end''' is always the list that would be
+    bar]''' logic.  It respects the invariant saying, for '''open |''',
+    that '''[string range $openarg 1 end]''' is always the list that would be
     passed, expanded, to '''exec'''. And it is handy to type
     '''open "|| {foo >} > file"'''
 
