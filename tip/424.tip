@@ -1,6 +1,6 @@
 TIP:            424
 Title:          Improving [exec]
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -119,8 +119,8 @@ goals by decreasing importance:
 
 Examples:
 
-|      exec | {foo bar baz} 3>@ $ch < /dev/null 2>&1 | {gnu gnats} >&3
-|      exec | {test AAA < BBB} ;# the 2nd arg to 'test' is Cool
+|      exec | {echo >} ;# this returns ">"
+|      exec | {cmd "<funny>xml</funny>"} 3>@ $ch < /dev/null 2>&1 | {cmd2 arg} >&3
 
 Goals reached:
 
@@ -141,7 +141,7 @@ Goals reached:
  4. Advanced redirections are possible (e.g. nonlinear pipe graph)
 
 |      lassign [chan pipe] pr pw
-|      exec | {foo bar} 3>@ $pw | {gnu gnats} | {hey ho} 3<@ $pr
+|      exec | {demuxer ...} 3>@ $pw | {filter ...} | {muxer ...} 3<@ $pr
 
 ~ TL;DR
 
