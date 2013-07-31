@@ -1,11 +1,11 @@
-TIP:		436
+TIP:		426
 Title:		Determining the "Type" of Commands
 State:		Draft
 Type:		Project
 Tcl-Version:	8.7
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal K. Fellows <dkf@users.sf.net>
 Created:	31-Jul-2013
 Keywords:	introspection, commands, Tcl, Tk
