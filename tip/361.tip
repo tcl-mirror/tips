@@ -1,13 +1,14 @@
-TIP:		361
-Title:		Releasing Channel Buffers
-Version:	$Revision: 1.1 $
-Author:		Wayne Cuddy <wcuddy@useunix.net>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	03-Feb-2010
-Tcl-Version:	8.7
-Post-History:
+TIP:            361
+Title:          Releasing Channel Buffers
+Version:        $Revision: 1.2 $
+Author:         Wayne Cuddy <wcuddy@useunix.net>
+Author:         prada online <suversuns1944@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Feb-2010
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -17,43 +18,5 @@ the operating system. This is of particular interest with output mechanisms
 which can block indefinitely causing the interpreter to consume unnecessary
 resources or prevent the interpreter from exiting.
 
-~ Problem
-
-When working with processes that handle multiplexing/non-blocking I/O it is
-not uncommon to write, or call '''puts''', with more data than the operating
-system will accept. Thus Tcl begins to buffer this data using internal buffers
-at the application level and flushes the data in the background. Problems
-arise when the consumer of this data, be it the other end of a socket, pipe or
-FIFO, refuse to read data and do not close the channel.
-
-This has adverse effects on the '''close''' function and consequently the
-interpreter/process when it attempts to flush and close channels during
-finalization.
-
-~~ Consequences
-
-   1. When '''close''' is issued on a non-blocking channel Tcl removes the
-      channel from pool of accessible channels from the current interpreter
-      and attempts to flush any remaining data in the output buffers before
-      closing the channel. Since the other end of the channel is not consuming
-      data Tcl will never be able to flush it's internal buffers nor close the
-      lower level channel driver. In a multiplexing server which opens new
-      channels this will eventually result in resource starvation or denial of
-      service.
-
-   2. When '''exit''' is called Tcl attempts to flush all output buffers, if
-      any open channel blocks the interpreter will be unable exit and must be
-      forcibly terminated by OS specific mechanisms.
-
-~ Propose API Additions
-
-Provide a function and/or flags to existing functions which can be used to
-clear internal buffers without flushing.
-
-   * '''chan clear''' ''channelId''
-
-   * '''close -noflush''' ''channelId''
-
-~ Copyright
-
-This document has been placed in the public domain.
+there's pair of puma Ferrari as well as that is to be the right diamond necklace for you personally personally.
+﻿http://pradaoutlet.webmium.com/
