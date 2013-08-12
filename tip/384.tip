@@ -1,8 +1,9 @@
 TIP:            384
 Title:          Add File Alteration Monitoring to the Tcl Core
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Reinhard Max <max@tclers.tk>
 Author:         Gerald W. Lester <Gerald.Lester@cox.net>
+Author:         prada online <suversuns1944@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -16,71 +17,5 @@ Tcl-Version:    8.7
 This TIP proposes to add capabilities for monitoring changes in the file
 system to the Tcl core.
 
-~ Rationale
-
-Most, if not all, platforms supported by Tcl today allow user space processes
-to monitor the file system for certain changes such as the creation, deletion,
-alteration or renaming of files.
-
-Unfortunately there is no unique cross-platform API for this, so a Tcl core
-feature will have to be backed by a series of platform-dependent
-implementations and possibly a fallback for platforms that don't have these
-monitoring capabilities or instances on which they have been disabled.
-
-Platform-specific APIs which should be supported by the final implementation
-(list to be extended):
-
- * inotify[http://en.wikipedia.org/wiki/Inotify] (Linux)
-
- * kqueue[http://en.wikipedia.org/wiki/Kqueue] (BSD)
-
- * FSEvents[http://en.wikipedia.org/wiki/FSEvents] (Mac OS X)
-
- * TWAPI [http://twapi.magicsplat.com/disk.html#begin_filesystem_monitor] (Windows)
-
-~ Proposal
-
-A new subcommand should get added to the '''file''' command with the following
-syntax:
-
- > '''file monitor''' ''path'' ''callback'' ?''filter''?
-
-This will register ''callback'' to be called from the event loop when one of
-the events specified by ''filter'' occurs to the file or directory specified
-by ''path''.  Calling '''file monitor''' with an empty callback argument
-removes an existing callback from the given path.
-
-The calling conventions for ''callback'' and the syntax of ''filter'' are yet
-to be determined.
-
-~ Rejected Alternatives
-
-The '''file''' command was chosen over '''fileevent''' and '''chan event''',
-because the object to be monitored is passed by name and not as an open
-channel.
-
-As an API, FAM[http://en.wikipedia.org/wiki/File_alteration_monitor] would
-have been a more portable alternative, but it requres a daemon to be running
-on the local machine and it requires linking against a lib that is licensed
-under the LGPL. It might be possible to support FAM as a compile time
-alternative to the system's native notification method. There exists a
-serverless implementation of a subset of the FAM API, called
-Gamin[http://people.gnome.org/~veillard/gamin/index.html], but that's also
-licensed under the LGPL.
-
-There exists a Tcl extension for
-inotify[https://sourceforge.net/projects/tcl-inotify/], but it is licensed
-under the GPL and it's script level API is too close to the inotify primitives
-to serve as the basis of a cross-platform abstraction for such
-notifications. But it might be a good base for a scripted prototype to sort
-out the remaining details of the proposed script level API.
-
-~ Further Ideas
-
-It might be an option to release the C code that unifies the various OS
-speciffic mechanisms under a single API as a separate library, so that
-projects other than Tcl can use it as well.
-
-~ Copyright
-
-This document has been placed in the public domain.
+you will discover a pair of the puma company Ferrari shoes and boots that will be the perfect diamond necklace to you personally.
+﻿http://pradaoutlet.webmium.com/
