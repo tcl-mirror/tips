@@ -1,6 +1,6 @@
 TIP:            424
 Title:          Improving [exec]
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
 State:          Draft
 Type:           Project
@@ -128,8 +128,8 @@ Goals reached:
     now lives on its own. For example, with a putative "NUMBER>@" family
     of operators, one could define a nonlinear pipe graph:
 
-    |      lassign [chan pipe] pr pw
-    |      exec | {demuxer ...} 3>@ $pw | {filter ...} | {muxer ...} 3<@ $pr
+|      lassign [chan pipe] pr pw
+|      exec | {demuxer ...} 3>@ $pw | {filter ...} | {muxer ...} 3<@ $pr
 
     The definition of these advanced operators will be hosted by another TIP.
 
