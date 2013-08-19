@@ -1,6 +1,6 @@
 TIP:            414
 Title:          Add (back) Tcl_InitSubsystems as Public API
-Version:        $Revision: 1.24 $
+Version:        $Revision: 1.25 $
 Author:         Brian Griffin <brian_griffin@mentor.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -26,14 +26,6 @@ Tcl_InitSubsystems (currently TclInitSubsystems) - was removed from Tcl's API;
 using Tcl_FindExecutable instead feels incorrect as we're not seeking to make
 the name of the executable available to Tcl scripts.
 
-However, exposing the current TclInitSubsystems has the limitation that this
-function cannot be used in a stubbed environment without createing an interpreter,
-and there is no way to define a panic proc in a stubbed environment before calling
-Tcl_InitSubsystems, as Tcl_InitSubsystems must be the first function called.
-Therefore, the function will get a ''panicProc'' parameter, and it will be
-turned into a macro - which does stubs initialization as well - when
-USE_TCL_STUBS is set.
-
 ~ Proposed Change
 
 A new function Tcl_InitSubsystems, similar to the internal TclInitSubsystems,
@@ -49,38 +41,10 @@ When NULL, the default panic function is used. The full signature is:
 
 The return value of ''Tcl_InitSubsystems'' is the Tcl version.
 
-Further on, the ''Tcl_MainEx*'' functions will be added an initial
-''TclpSetInitialEncodings()'' and ''TclpFindExecutable(argv[0])'' call,
-while in the Tcl_Main() macro, the Tcl_FindExecutable(argv[0]) call
-will be replaced by a call to the new function. This is fully
-upwards compatible: in any application compiled against Tcl 8.6.0
-headers but later upgraded to Tcl 8.6.1 or later, those two calls
-will be done twice, but this turns the second call in nothing more
-than a nop.
-
-Using ''Tcl_InitSubsystems'', it now becomes possible to
-install a VFS or modify the encoding path between the
-TclInitSubsystems and the TclpSetInitialEncodings()
-call. This was not possible without creating an
-interpreter first, because those calls were united in a
-single function Tcl_FindExecutable():
-
-|const char *version = Tcl_InitSubSystems(NULL);                               
-|Tcl_Interp *interp = Tcl_CreateInterp();
-|/* Optional: Set VFS or additional encoding paths here. */
-|Tcl_MainEx(argc, argv, appInitProc, interp);
-
-When ''Tcl_InitSubsystems'' is called in code where
-''USE_TCL_STUBS'' is set, it does one additional thing:
-initialize the Stub table for using Tcl as utility
-library, without needing a Tcl interpreter. This
-means that the above code example will compile and
-run equally well when compiled with ''-DUSE_TCL_STUBS''
-
 ~ Reference Implementation
 
 A reference implementation is available in the '''initsubsystems''' branch.
-[http://core.tcl.tk/tcl/info/62048336ab]
+[http://core.tcl.tk/tcl/info/3c9828933f]
 
 ~ Copyright
 
