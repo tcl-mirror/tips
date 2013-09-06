@@ -1,10 +1,9 @@
 TIP:            220
 Title:          Escalate Privileges in VFS Close Callback
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Colin McCormack <colin@sharedtech.dyndns.org>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Vince Darley <vincentdarley@users.sourceforge.net>
-Author:         prada outlet online <suversuns1944@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -19,5 +18,111 @@ privileges and have them restored on close, to permit last-minute
 processing.  It is sufficient to resolve a ''tclvfs'' bug, minimal,
 and safe.
 
-a simple pair of puma Ferrari heels that is to be the perfect diamond necklace in your case personally.
-﻿http://pradaoutlet.webmium.com/
+~ Abstract
+
+This tip allows the creator and opener of a channel to cast away
+privileges and have them restored on close, to permit last-minute
+processing.  It is sufficient to resolve a ''tclvfs'' bug, minimal,
+and safe.
+
+~ Rationale
+
+''Tclvfs'' has a bug '''[[1004273]]''' ''Can't read from channel in
+close callback''
+[http://sourceforge.net/support/tracker.php?aid=1004273]
+that is due in part to the core channel handler behaviour.
+
+The problem is that the user has requested a read-only or write-only
+channel, but the ''tclvfs'' close process absolutely requires fuller
+access to the channel.
+
+Use case one: A user's write-only channel has to be read by close in
+order to be processed.
+
+The second relevant use case: A user's read-only channel has to be
+written, i.e. loaded with data, before it is passed to the user.
+
+The first use case can be modelled by the ''owner'' of a channel (in
+this case, the ''tclvfs'' code) by opening it with minimal
+permissions, handing the channel to a user, then subsequently
+re-aquiring full possible channel permissions at the point where the
+channel needs to be closed - that is, immediately before the
+''tclvfs'' close callback is invoked.
+
+The second use case can be modelled by the ''owner'' of a channel (in
+this case, the ''tclvfs'' code) by opening it with maximal
+permissions, loading the data, and handing the channel to a user
+'''after''' removing the unwanted permissions from the channel.
+
+~ Safety
+
+   * Escalation of privilege is controlled with the Tcl core, and is
+     unavailable to extensions except in their role as vfs
+     implementations.
+
+   * Privilege is only granted to the entity which opened the channel,
+     because only that entity implements the close callback.
+
+   * The creator/opener can't operate with any permissions it could
+     not have obtained at creation/opening time, since they are
+     granted by the OS and not Tcl.
+
+   * Privilege escalation occurs only at a point immediately before
+     the Tcl core is about to completely close the channel, so the
+     privileges can't leak.
+
+   * The operation of releasing privileges only restricts the user of
+     a channel, it cannot be used to reaquire privileges which are not
+     granted by the channel.
+
+~ Proposed Changes
+
+Immediately prior to invoking the VFS close callback on a channel,
+Tcl core should set channel's permissions to the maximum possible.
+
+Export a new function as part of the public API which allows a user to
+remove privileges from channel, but not to add them.
+
+~ Details
+
+The signature of the new function is
+
+| int Tcl_RemoveChannelMode (Tcl_Interp* interp, Tcl_Channel chan, int mode);
+|
+| /* Codes for 'mode', already defined, _not_ new */
+|
+| #define TCL_READABLE	(1<<1)
+| #define TCL_WRITABLE	(1<<2)
+
+The argument ''mode'' determines which privilege to release, and is
+set to one of the two specified codes. It is '''not''' a bitset. It is
+not allowed to release all privileges of the channel, as this would
+make the channel completely inacessible. Trying to do so will
+therefore cause the generation of an error, without changing the
+channel. The function will return a regular Tcl result code, either
+TCL_OK, or TCL_ERROR. If the ''interp'' argument is set an error
+message will be left in the interp in the error case. If the
+''interp'' argument is NULL it will be ignored.
+
+~ History
+
+This TIP was originally written to allow C code to modify permissions,
+but this makes the permissions system mean nothing, as a channel's
+permissions could then be freely modified in an ''ad hoc'' manner.
+The TIP now specifies a weaker modification that is still powerful
+enough to implemenent the desired channel semantics.
+
+~ Reference Implementation
+
+A reference implementation will be provided at SourceForge
+[http://sourceforge.net/support/tracker.php?aid=1057093].
+
+~ Comments
+
+It may be preferable for the new function to be in tclInt.h and therefore in the non-public interfaces (tclvfs already makes use of tclInt.h anyway): TclRemoveChannelMode.
+
+''[[ Add more comments on the document here ]]''
+
+~ Copyright
+
+This document has been placed in the public domain.

@@ -1,9 +1,8 @@
 TIP:            283
 Title:          Modify Ensemble Command Resolution Behaviour
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Miguel Sofer <msofer@users.sourceforge.net>
 Author:         Neil Madden <nem@cs.nott.ac.uk>
-Author:         prada outlet <suversuns1944@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -15,5 +14,159 @@ Tcl-Version:    8.7
 
 This TIP proposes that ensembles resolve all commands in their namespace.
 
-you can find a pair of the puma company Ferrari heels which will be the right diamond necklace on your behalf.
-﻿http://pradaoutlet.webmium.com/
+~ Rationale
+
+Ensembles as proposed in [112] cannot interoperate with the '''namespace
+path''' and '''namespace unknown''' functionality: as they resolve all
+commands in the caller's scope, it is necessary to define them using fully
+qualified names to insure that they are found in the ensemble's namespace. But
+fully qualified names bypass the namespace's '''path''' and '''unknown'''
+redirectors.
+
+As an example (and risking "uh-oo" reactions in the present context) I would
+like to remark that this feature enables lightweight OO systems based on ensembles
+to provide inheritance of methods via '''namespace path''' and '''namespace
+unknown'''.
+
+~ Proposed Change
+
+This TIP proposes to fix this by changing the man page description of the
+ensemble unknown handler from:
+
+ > It is up to the unknown handler to supply all namespace qualifiers if the
+   implementing subcommand is not in the namespace of the caller of the
+   ensemble command.
+
+to:
+
+ > The implementing subcommand is looked up in the ensemble's namespace using
+   normal command location rules.
+
+The description of the ''-map'' option should change from:
+
+ > When non-empty, this option supplies a dictionary that provides a mapping
+   from subcommand names to a list of prefix words to substitute in place of
+   the ensemble command and subcommand words (in a manner similar to an alias
+   created with '''interp alias'''; the words are not reparsed after
+   substitution).
+
+to:
+
+ > When non-empty, this option supplies a dictionary that provides a mapping
+   from subcommand names to a list of prefix words to substitute in place of
+   the ensemble command and subcommand words (in a manner similar to an alias
+   created with '''interp alias'''; the words are not reparsed after
+   substitution). The resulting command is invoked with the original arguments
+   in the namespace of the ensemble, though no additional stack frames are
+   pushed in the process.
+
+~~ Compatability
+
+All scripts that followed previous best-practice and placed fully qualified
+command names in the command map or returned them from the unknown handler
+will be unaffected by this change. Only ensembles whose behaviour was
+undefined previously will be influenced, and then strictly in a positive
+direction.
+
+~ Reference Implementation and Documentation
+
+[[RFE 1577282]]
+[http://sourceforge.net/tracker/index.php?func=detail&aid=1577282&group_id=10894&atid=360894]
+(which depends on committed [[Patch 1577278]]) provides an implementation,
+with tests and docs.
+
+~ Illustration
+
+   * Consider the following script (without FQ names) stored in /tmp/test:
+
+|   namespace eval a {
+|       proc check args {return YES}
+|   }
+|   namespace eval b {
+|       namespace path ::a
+|       namespace ensemble create \
+|           -command ::b \
+|           -map {go check}
+|   }
+|   namespace eval c {
+|       namespace path ::a
+|       namespace ensemble create \
+|           -command ::c \
+|           -map {go check} \
+|           -unknown u
+|       proc u args {return check}
+|   }
+|   namespace eval d {
+|       namespace unknown u
+|       namespace ensemble create \
+|           -command ::d \
+|           -map {go check}
+|       proc u args {::a::check}
+|   }
+|   array set res {}
+|   foreach cmd {b c d} {
+|       foreach scmd {foo go} {
+|           catch {$cmd $scmd} msg
+|           set res($cmd|$scmd) $msg
+|       }
+|   }
+|   parray res
+
+Currently the output is
+
+|   mig@ice:~$ tclsh /tmp/test
+|   res(b|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(b|go)  = invalid command name "::b::check"
+|   res(c|foo) = invalid command name "u"
+|   res(c|go)  = invalid command name "::c::check"
+|   res(d|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(d|go)  = invalid command name "::d::check"
+
+After this TIP, it should be
+
+|   mig@ice:~$ tclsh /tmp/test
+|   res(b|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(b|go)  = YES
+|   res(c|foo) = YES
+|   res(c|go)  = YES
+|   res(d|foo) = unknown or ambiguous subcommand "foo": must be go
+|   res(d|go)  = YES
+
+   * One commenter asked what the difference would be in the following code:
+
+|   namespace eval ens {
+|       proc foo {} {
+|           puts "Caller namespace is: [uplevel 1 namespace current]"
+|           puts "I am [namespace origin foo]"
+|           puts "I am called as: [lindex [info level 0] 0]"
+|       }
+|       namespace export ens
+|       namespace ensemble create -command ens -map {sub foo}
+|   }
+|   namespace eval caller {
+|       proc foo {} {
+|           puts "Caller namespace is: [uplevel 1 namespace current]"
+|           puts "I am [namespace origin foo]"
+|           puts "I am called as: [lindex [info level 0] 0]"
+|       }
+|       namespace import ::ens::ens
+|       ens sub
+|   }
+
+Today (*) and after the patch this returns:
+
+|   Caller namespace is: ::caller
+|   I am ::ens::foo
+|   I am called as: ens
+
+(*) Today==2006-24-10, after making '''info level''' aware of ensemble
+rewrites; prior to that date, only the last line would have changed from
+''::ens::foo'' to ''foo''.
+
+~ Remarks
+
+   * See also [[Bug 1436096]]
+
+~ Copyright
+
+This document has been placed in the public domain.

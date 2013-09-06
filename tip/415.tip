@@ -1,8 +1,7 @@
 TIP:            415
 Title:          Enable Easy Creation of Circular Arc Segments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Simon Geard <simon@whiteowl.co.uk>
-Author:         prada outlet online <megorsthy1943@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -19,5 +18,97 @@ support the creation of circular arc segments in a natural way. A similar
 extension to support the more general elliptical arc segments is outside the
 scope of this TIP.
 
-a straightforward pair of the puma corporation Ferrari situation that'll be the perfect match to you.
-﻿http://pradaoutlet.webmium.com/
+~ Rationale
+
+There is scope to enhance arc creation to make it much more useful as was
+shown by a recent discussion on news:comp.lang.tcl. The proposal here is the
+simplest enhancement to enable creation of circular arc segments from a single
+parameter.
+
+~ Proposal
+
+Enhance arc creation to support a new '''-height''' option
+
+ > ''canvas'' '''create arc''' ''x1 y1 x2 y2'' '''-height''' ''h'' ?''options''?
+
+The new option '''-height''' ''h'' causes the specified coordinates ''x1 y1'' and '' x2 y2'' to be interpreted as the
+start and end points of the arc's chord. The value of ''h'' is the (canvas) distance of the arc's
+mid-point from the chord with the sign of ''h'' determining the direction of the arc:
+
+''h'' > 0 => clockwise
+''h'' < 0 => anticlockwise
+
+If ''h'' != 0 then the options ''-start'' and ''-extent'' are ignored (because they are calculated internally for a given ''h'').
+
+Any non-zero value of ''h'' defines a unique arc.
+
+If ''h'' = 0 (exactly) the option is ignored and the command is processed as if it wasn't present. In addition
+
+ > ''canvas'' '''itemcget''' ''tagOrId'' ''--height'''
+
+will always return 0. This behaviour enables introspection without complications. A consequence is that
+
+ > ''canvas'' '''itemconfigure''' ''tagOrId'' ''--height''' ''0''
+
+ is a no-op.
+
+~ Example
+
+The following code shows the creation of arcs using the new method, copying them onto another canvas
+and using a '''scale''' widget to dynamically control the arcs
+
+|# Callback for modifying the arcs' h value
+|proc deltaHeight {h} {
+|	global c
+|	global arcList
+|	foreach {i hp hm} $arcList {
+|		$c itemconfigure a_$i -height [expr {$h*$hp}]
+|		$c itemconfigure b_$i -height [expr {$h*$hm}]
+|	}
+|}
+|
+|# Create the canvas and its duplicate
+|set c [canvas .c -width 700 -height 700 -bg grey]
+|set cc [canvas .cc -width 700 -height 700 -bg grey]
+|pack $c $cc -fill both -expand 1 -side left
+|
+|# Pretty colours
+|array set colours {0 red 1 yellow 2 green 3 cyan 4 blue 5 magenta}
+|
+|# A slider with which to adjust h
+|set lh 1; # Initial setting for scale
+|set s [scale .s -from 0.1 -to 15 -resolution 0.1 -variable lh -orient vertical -length 700 -command deltaHeight]
+|pack $s -side right -fill y
+|
+|# Create the arcs
+|for {set i 1} {$i <= 24} {incr i} {
+|	set col [expr {$i % 6}]
+|	set hp [expr {$i*10}]
+|	set hm [expr {-$i*10}]
+|	lappend arcList $i $hp $hm
+|	$c create arc 300 200 400 400 -height [expr {$i*10}] -outline $colours($col) -style arc -tags [list aa a_$i]
+|	$c create arc 300 200 400 400 -height [expr {-$i*10}] -outline $colours($col) -style arc -tags [list aa b_$i]
+|}
+|
+|# Serialize
+|set fh [open "ccopy.tcl" w]
+|foreach id [$c find withtag aa] {
+|    puts $fh "\$cc create arc [$c coords $id] \
+|		-height [$c itemcget $id -height]\
+|		-start [$c itemcget $id -start] \
+|		-extent [$c itemcget $id -extent] \
+|		-outline [$c itemcget $id -outline] \
+|		-style [$c itemcget $id -style]"
+|}
+|close $fh
+|
+|# Create copy from serialization
+|source "ccopy.tcl"
+
+~ Reference Implementation
+
+A reference implementation for the functionality is available.
+
+~ Copyright
+
+This document has been placed in the public domain.
