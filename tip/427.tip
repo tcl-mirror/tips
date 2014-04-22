@@ -1,0 +1,149 @@
+TIP:		427
+Title:		Introspection of Asynchronous Socket Connection
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Reinhard Max <max@suse.com>
+Author:		Harald Oehlmann <oehhar@users.sourceforge.net>
+Created:	16-Mar-2014
+Keywords:	async socket connect, introspection, IPV6
+
+~ Abstract
+
+This TIP describes a method to introspect the asynchronous connection
+process by an extension of the '''fconfigure''' interface in addition
+to '''fconfigure -error'''. This will enable better control over the
+asynchronous connection process, even in cases where the event loop is
+not in use.
+
+~ Rationale
+
+Sockets in Tcl may connect synchronously or asynchronously. With a
+synchronous connection, the '''socket''' command does not produce a
+result until the socket is connected. Because this may take some time,
+callers of the interface may also pass the '''-async''' option to
+'''socket''' to make the connection be ''asynchronous'', in which case
+the token returned would not be readable or writeable until later.
+Classically, the socket would indicate that it had connected (or
+failed to connect) by becoming writeable, which '''fileevent
+writable''' can be used to detect.
+
+A DNS name may have multiple IP addresses associated; IPV6 enabled
+machines have, at least, one IPV6 and one IPV4 IP address.  A typical
+example is ''localhost'', which resolves to 127.0.0.1 and ::1. This
+may also happen to IPV4 only targets, especially when they are
+multi-homed for performance or as a security measure.
+
+In Tcl 8.6, the socket command tries to connect to all IP addresses of
+a destination.  This caused the following changes to the '''socket
+-async''' command compared to Tcl 8.5:
+
+   * The socket introspection options to '''fconfigure''' (i.e.,
+     '''-error''', '''-sockname''' and '''-peername''') show the
+     connection process, and changed to show the values of the current
+     trial connection.
+
+   * The event loop must run in order to allow looping over the
+     various possible IP addresses of a host. In Tcl 8.5, the trial
+     connection happened in the background without requiring the event
+     loop.
+
+The usage of '''socket -async''' is seen as helpful even without event
+loop.  An example is an application, which checks a list of hosts for
+a connection.  The application may start many background socket
+connects, do something else, and then collect the results.  Without
+the event loop (i.e., a '''fileevent writable'''), there is no
+non-blocking way to discover if the asynchronous connect terminated.
+
+In addition, the following future points may be considered:
+
+   * The connection process may be internally delegated to its own
+     thread; this would allow the connection process to be
+     asynchronous without requiring the event loop.
+
+   * A future Windows implementation may use the Vista+ API
+     ''WSAConnectByList'' (once we do not support Windows XP any
+     more). Using this, no own looping over the addresses is
+     necessary.  It allows the connection process to be a single OS
+     call, but does not allow inspection of the different connection
+     steps.
+
+~ Proposed Change
+
+~~ Current Introspection Change
+
+The introspection functions should act as follows during an
+asynchronous connection process:
+
+   * '''fconfigure -error''' will return the empty string (no error)
+
+   * '''fconfigure -sockname''' will return the empty string
+
+   * '''fconfigure -peername''' will return the empty string
+
+~~ Introspection Command to Inspect a Running Asynchronous Connect
+
+An additional introspection function should inform if the asynchronous
+connect is running or if it has terminated:
+
+ > '''fconfigure''' ''channel'' '''-connecting'''
+
+This option returns '''1''' if an async connection is running, and
+'''0''' if there is no async connection running on the socket.
+
+It is expected that an error would be raised if ''channel'' is not a
+socket handle returned by the '''socket''' command (this is normal
+behavior with options defined by a channel driver).
+
+~~ Non-Event Loop Operation
+
+Each command which touches the socket ('''puts''', '''gets''',
+'''fconfigure''') will implicitly advance the connecting process (at
+least) one step further through its internal state machine, e.g., try
+the next IP of the list if the last try failed.
+
+These operations will not block if the channel is configured to be
+non-blocking; using '''fconfigure''' to retrieve or set the basic
+channel options or the socket options will ''never'' block. (Options
+supported by stacked channel transforms ''may'' trigger blocking if
+their use causes a read from or write to the underlying socket while
+it is blocking, even if this state of affairs is not exposed to the
+Tcl script layer.)
+
+If a blocking operation is done on an asynchronously-connecting socket
+(e.g., '''gets''' or '''puts''' when the socket is configured to use
+blocking I/O), the connection is established synchronously prior to
+processing the remainder of the operation. The thread will not do
+anything else (including running the event loop) until the connection succeeds.
+
+~~ Transfer Channels
+
+A socket channel may not be transferred to another thread while it is
+undergoing asynchronous connection.  Trying so will raise an error.
+
+~ Alternatives
+
+Two alternatives for the behavior of '''fconfigure -sockname''' and
+'''fconfigure -peername''' are:
+
+   * If there is only one destination IP address, return this before
+     the connection is really established. This may also happen if the
+     socket has processed its ''bind()'' system call in such a way
+     that it knows it will not attempt another, and is currently
+     processing its ''connect()'' to the remote host.
+
+   * If an asynchronous connect is running, raise an error.
+
+These are open to discussion.
+
+~ Implementation
+
+The fossil branch ''bug-13d3af3ad5'' contains an implementation of
+these extensions.
+
+~ Copyright
+
+This document has been placed in the public domain.
