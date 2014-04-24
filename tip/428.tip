@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -73,7 +73,7 @@ Here are the fconfigure options with similar functionality:
 
    * '''fconfigure -error''' - socket, all platforms
 
-   * Returns an error message.
+   > * Returns an error message.
 
    > * channel must be closed, no way to recover (with tcp).
 
