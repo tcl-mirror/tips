@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -52,9 +52,7 @@ It checks for an error, closes the channel on error and propages the error to th
 |if {[catch {fconfigure $h -throwerror} e d]} {
 |    catch {close $h}
 |    puts "$h:$d"
-|    # -> returns "connection refused:-code 1 -level 0 -errorcode {POSIX
-ECONNREFUSED {connection refused}} -errorinfo {couldn't open socket:
-connection refused"
+|    # -> returns "connection refused:-code 1 -level 0 -errorcode {POSIX ECONNREFUSED {connection refused}} -errorinfo {couldn't open socket: connection refused"
 |    # fail with the error
 |    unset d -level
 |    return -options $d $e
@@ -73,16 +71,16 @@ This approach had the following issues:
 
 Here are the fconfigure options with similar functionality:
 
- * '''fconfigure -lasterror''': serial, win only: returns something like the
+   * '''fconfigure -lasterror''': serial, win only: returns something like the
 second component of an errorCode list: '''lindex $::errorCode 1'''
 
- > * channel must not be closed, serial errors may be temporary.
+   > * channel must not be closed, serial errors may be temporary.
 
- * '''fconfigure -error''': socket, all platforms: returns an error message
+   * '''fconfigure -error''': socket, all platforms: returns an error message
 
- > * channel must be closed, no way to recover (with tcp).
+   > * channel must be closed, no way to recover (with tcp).
 
- > * '''fconfigure -throwerror''' may also be implemented for the windows serial driver.
+   > * '''fconfigure -throwerror''' may also be implemented for the windows serial driver.
 
 ~ Implementation
 
