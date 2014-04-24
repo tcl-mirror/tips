@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -71,13 +71,17 @@ This approach had the following issues:
 
 Here are the fconfigure options with similar functionality:
 
-   *   '''fconfigure -lasterror''': serial, win only: returns something like the second component of an errorCode list: '''lindex $::errorCode 1'''
+   * '''fconfigure -error''': socket, all platforms:
 
-   > * channel must not be closed, serial errors may be temporary.
-
-   *   '''fconfigure -error''': socket, all platforms: returns an error message
+   * Returns an error message.
 
    > * channel must be closed, no way to recover (with tcp).
+
+   * '''fconfigure -lasterror''': serial, win only:
+
+   > * Returns something like the second component of an errorCode list: '''lindex $::errorCode 1'''
+
+   > * Channel must not be closed, serial errors may be temporary.
 
    > * '''fconfigure -throwerror''' may also be implemented for the windows serial driver.
 
