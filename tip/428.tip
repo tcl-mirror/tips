@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -44,6 +44,22 @@ The error should be cleared.
 
 This is a companion function to '''fconfigure -error''' and could be implemented in any driver, where '''fconfigure -error''' exists.
 
+~ Example
+
+The following example demonstrates the use.
+It checks for an error, closes the channel on error and propages the error to the caller:
+
+|if {[catch {fconfigure $h -throwerror} e d]} {
+|    catch {close $h}
+|    puts "$h:$d"
+|    # -> returns "connection refused:-code 1 -level 0 -errorcode {POSIX
+ECONNREFUSED {connection refused}} -errorinfo {couldn't open socket:
+connection refused"
+|    # fail with the error
+|    unset d -level
+|    return -options $d $e
+|}
+
 ~ Alternatives
 
 Revision 1.2 of this TIP proposed to return an error dict like '''d''' in '''catch {code} e d'''.
@@ -52,6 +68,21 @@ This approach had the following issues:
    * A new member must be invented to include the error message
 
    * The standard error mechanisms like '''catch''' may not be used to detect the error occurence. Instead, a comparison of a dict member must be done.
+
+~ Further perspectives
+
+Here are the fconfigure options with similar functionality:
+
+ * '''fconfigure -lasterror''': serial, win only: returns something like the
+second component of an errorCode list: '''lindex $::errorCode 1'''
+
+ > * channel must not be closed, serial errors may be temporary.
+
+ * '''fconfigure -error''': socket, all platforms: returns an error message
+
+ > * channel must be closed, no way to recover (with tcp).
+
+ > * '''fconfigure -throwerror''' may also be implemented for the windows serial driver.
 
 ~ Implementation
 
