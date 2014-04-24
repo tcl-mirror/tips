@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -48,7 +48,9 @@ This is a companion function to '''fconfigure -error''' and could be implemented
 
 Revision 1.2 of this TIP proposed to return an error dict like '''d''' in '''catch {code} e d'''.
 This approach had the following issues:
+
    * A new member must be invented to include the error message
+
    * The standard error mechanisms like '''catch''' may not be used to detect the error occurence. Instead, a comparison of a dict member must be done.
 
 ~ Implementation
