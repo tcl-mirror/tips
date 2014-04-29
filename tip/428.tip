@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -25,7 +25,7 @@ In addition, the error may not be handled in the TCL-like way using '''catch''' 
 Specially the new '''try''' syntax (see example in the man page) is well suited to handle socket errors.
 Example:
 
-|try {set h [socket $host $port}\
+|try {set h [socket $host $port]}\
 |trap {POSIX ECONNREFUSED} {} {
 |    # handle not open port
 |}
