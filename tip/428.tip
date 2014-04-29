@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -44,9 +44,9 @@ This is not part of this TIP.
 
 ~ Proposed Change
 
-The new option
+The new '''fconfigure''' option
 
- > '''fconfigure''' ''channel'' '''-erroroptions'''
+ > '''fconfigure''' ''channel'' '''-options'''
 
 should return a dict like the command '''catch cmd err dict''':
 
@@ -54,7 +54,24 @@ should return a dict like the command '''catch cmd err dict''':
 
    *   if there is an error, it should return '''-code 1 -errorcode errorCode -message errorMessage'''
 
+In all other aspects it works like '''fconfigure channel -error''':
+
+   *   Implemented for socket drivers
+
+   *   Reports background errors (ex: async connect errors)
+
+   *   Clears the error
+
 ~ Example
+
+Usage example with failing async connect:
+|% set h [connect -async localhost 30001]
+|d00000af
+|% fileevent $h writable {set x 1}
+|% vwait x
+|% fconfigure $h -options
+-code 1 -errorcode {POSIX ECONNREFUSED {connection refused}} -message {connection refused}
+|% close $h
 
 The following example demonstrates the implementation of '''chan throwerror''' eg to throw the error from the provided dict.
 
@@ -67,6 +84,8 @@ The following example demonstrates the implementation of '''chan throwerror''' e
    *   Revision 1.11 of this TIP proposed to really throw the error.
 
    *   The dict member '''-message''' is non-standard and should eventually be changed.
+
+   *   The name of the option '''-options''' is not intuitive. Any intuitive name like '''-erroroptions''' would make abreviations of the exiting option '''-error''' invalid which raises incompatibility. '''-options''' is taken from the '''return''' command. 
 
 ~ Copyright
 
