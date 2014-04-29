@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -76,7 +76,8 @@ Usage example with failing async connect:
 
 The following example demonstrates the implementation of '''chan throwerror''' eg to throw the error from the provided dict.
 
-|proc throwerror {d} {
+|proc throwerror {h} {
+|    set d [fconfigure $h -options]
 |    return -options $d [dict get $d -message]
 |}
 
