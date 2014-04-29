@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -58,7 +58,7 @@ In all other aspects it works like '''fconfigure channel -error''':
 
    *   Implemented for socket drivers
 
-   *   Reports background errors (ex: async connect errors)
+   *   Reports background errors (ex:: async connect errors)
 
    *   Clears the error
 
