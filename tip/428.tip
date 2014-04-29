@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -27,7 +27,7 @@ Example:
 
 |try {set h [socket $host $port}\
 |trap {POSIX ECONNREFUSED} {} {
-|	# handle not open port
+|    # handle not open port
 |}
 
 Drivers mostly use POSIX errors to report issues where the error code is more portable than the error message (AFAIK).
@@ -65,6 +65,7 @@ In all other aspects it works like '''fconfigure channel -error''':
 ~ Example
 
 Usage example with failing async connect:
+
 |% set h [connect -async localhost 30001]
 |d00000af
 |% fileevent $h writable {set x 1}
