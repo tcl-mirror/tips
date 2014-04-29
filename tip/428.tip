@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -13,81 +13,60 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposes to throw an error message of a non-blocking socket I/O by a command.
-This allows to not only access the error message as by '''fconfigure -error''' but also the other error information fields like the error code and to handle the background error in similar ways as other errors.
+This TIP proposes a new method which allows to return the error message and the error code of a background socket error (as reported by '''fconfigure -error'''), similar to the option dictionaries produced by catch and try and consumed by return.
 
 ~ Rationale
 
-The error message of a non-blocking channel command may be retrieved and
+The error message of a background channel error may be retrieved and
 cleared by '''fconfigure -error''', but there is no access to the error code.
 
-In addition, the error may not be handled in the TCL-like way using '''catch''' or '''try''' (or just let fail the program), but must be detected by a string comparison.
+In addition, the error may not be handled in the TCL-like way using '''catch''' or '''try''' (or just let fail the program).
 
-The '''errorCode''' returned in the option dictionary of '''catch''' gains access to more detailed and machine-readable information about the
-nature of the error.
-In particular, there are two key aims for having access
-to the error code:
+Specially the new '''try''' syntax (see example in the man page) is well suited to handle socket errors.
+Example:
 
-   * Returning it together with the error message by a '''return'''. 
+|try {set h [socket $host $port}\
+|trap {POSIX ECONNREFUSED} {} {
+|	# handle not open port
+|}
 
-   * Use it in a '''switch''' command
+Drivers mostly use POSIX errors to report issues where the error code is more portable than the error message (AFAIK).
+
+To handle an error by '''try''', the error must be thrown.
+
+We are limited to an option to the command '''fconfigure''', as this is implemented within the driver interface.
+
+Throwing the error would change the semantics of '''fconfigure''' and thus should not happen.
+Instead, the new '''fconfigure''' operation should return an error dict containing error message and error code.
+
+To finally throw the error, an utility function ('''chan throwerror $h''') may be defined in TCL.
+This is not part of this TIP.
 
 ~ Proposed Change
 
 The new option
 
- > '''fconfigure''' ''channel'' '''-throwerror'''
+ > '''fconfigure''' ''channel'' '''-erroroptions'''
 
-should throw the error which appeared in a non blocking io operation.
-It should do nothing, if there was no error.
-The error should be cleared.
+should return a dict like the command '''catch cmd err dict''':
 
-This is a companion function to '''fconfigure -error''' and could be implemented in any driver, where '''fconfigure -error''' exists.
+   *   if there is no error, it should return '''-code 0 -message ""'''
+
+   *   if there is an error, it should return '''-code 1 -errorcode errorCode -message errorMessage'''
 
 ~ Example
 
-The following example demonstrates the use.
-It checks for an error, closes the channel on error and propages the error to the caller:
+The following example demonstrates the implementation of '''chan throwerror''' eg to throw the error from the provided dict.
 
-|if {[catch {fconfigure $h -throwerror} e d]} {
-|    catch {close $h}
-|    puts "$h:$d"
-|    # -> returns "connection refused:-code 1 -level 0 -errorcode {POSIX ECONNREFUSED {connection refused}} -errorinfo {couldn't open socket: connection refused"
-|    # fail with the error
-|    unset d -level
-|    return -options $d $e
+|proc throwerror {d} {
+|    return -options $d [dict get $d -message]
 |}
 
 ~ Alternatives
 
-Revision 1.2 of this TIP proposed to return an error dict like '''d''' in '''catch {code} e d'''.
-This approach had the following issues:
+   *   Revision 1.11 of this TIP proposed to really throw the error.
 
-   * A new member must be invented to include the error message
-
-   * The standard error mechanisms like '''catch''' may not be used to detect the error occurence. Instead, a comparison of a dict member must be done.
-
-~ Further perspectives
-
-Here are the fconfigure options with similar functionality:
-
-   * '''fconfigure -error''' - socket, all platforms
-
-   > * Returns an error message.
-
-   > * channel must be closed, no way to recover (with tcp).
-
-   * '''fconfigure -lasterror''' - serial, win only
-
-   > * Returns something like the second component of an errorCode list '''lindex $::errorCode 1'''
-
-   > * Channel must not be closed, serial errors may be temporary.
-
-   > * '''fconfigure -throwerror''' may also be implemented for the windows serial driver.
-
-~ Implementation
-
-Implementation might be available soon.
+   *   The dict member '''-message''' is non-standard and should eventually be changed.
 
 ~ Copyright
 
