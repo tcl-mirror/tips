@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -89,6 +89,9 @@ The following example demonstrates the implementation of '''chan throwerror''' e
 
    *   The name of the option '''-options''' is not intuitive. Any intuitive name like '''-erroroptions''' would make abreviations of the exiting option '''-error''' invalid which raises incompatibility. '''-options''' is taken from the '''return''' command. 
 
+~ Implementation
+
+The tip is implemented in fossil branch '''tip-428'''.
 ~ Copyright
 
 This document has been placed in the public domain.
