@@ -1,15 +1,15 @@
-TIP:		427
-Title:		Introspection of Asynchronous Socket Connection
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		Reinhard Max <max@suse.com>
-Author:		Harald Oehlmann <oehhar@users.sourceforge.net>
-Created:	16-Mar-2014
-Keywords:	async socket connect, introspection, IPV6
+TIP:            427
+Title:          Introspection of Asynchronous Socket Connection
+Version:        $Revision: 1.2 $
+Author:         Reinhard Max <max@suse.com>
+Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        16-Mar-2014
+Post-History:   
+Keywords:       async socket connect,introspection,IPV6
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -141,7 +141,7 @@ These are open to discussion.
 
 ~ Implementation
 
-The fossil branch ''bug-13d3af3ad5'' contains an implementation of
+The fossil branch ''tip-427'' contains an implementation of
 these extensions.
 
 ~ Copyright
