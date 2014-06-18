@@ -1,6 +1,6 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -121,7 +121,7 @@ anything else (including running the event loop) until the connection succeeds.
 
 ~~ Transfer Channels
 
-A socket channel may not be transferred to another thread while it is
+On windows, a socket channel may not be transferred to another thread while it is
 undergoing asynchronous connection.  Trying so will raise an error.
 
 ~ Alternatives
