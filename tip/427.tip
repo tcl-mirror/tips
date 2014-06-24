@@ -1,6 +1,6 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Reinhard Max <max@tclers.tk>
@@ -27,10 +27,10 @@ client socket, ''synchronous'' and ''asynchronous''. In synchronous
 mode (which is the default) the command does not return until the
 connection attempt has completed (established or failed).
 
-In asynchronous mode ('''-async option''') the command returns immediately and the connection is established in the background.
+In asynchronous mode ('''-async option''') the command returns after DNS lookup and the connection is established in the background.
 This is useful in situations where it is undesirable that a
-process or thread blocks as long as it takes to complete a
-synchronous connection attempt.
+process or thread blocks for completing a synchronous connection
+attempt.
 Classically, an asyncronously connecting socket would indicate that it
 had connected (or failed to connect) by becoming writeable, which
 '''fileevent writable''' can be used to detect.
