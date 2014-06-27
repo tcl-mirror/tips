@@ -1,6 +1,6 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Reinhard Max <max@tclers.tk>
@@ -102,8 +102,9 @@ If the event loop runs, the state machine of a (possibly multiple-address try) a
 
 In addition to that (for the case the event loop does currently not run), it proceeds whenever a channel operation is attempted on the socket_
 
-   *   nonblocking I/O and [fconfigure] will advance it by one step (i.e. do whatever is doable without waiting).
-   *   blocking I/O will advance it to completion, in essence meaning "switch back to synchronous connect, and in case of success, do the blocking I/O I asked for".
+   * nonblocking I/O and [fconfigure] will advance it by one step (i.e. do whatever is doable without waiting).
+
+   * blocking I/O will advance it to completion, in essence meaning "switch back to synchronous connect, and in case of success, do the blocking I/O I asked for".
 
 ~ Alternatives
 
