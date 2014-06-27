@@ -1,6 +1,6 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Reinhard Max <max@tclers.tk>
@@ -98,23 +98,12 @@ This option returns '''1''' as long as a socket is still in the process of conne
 
 ~~ Non-Event Loop Operation
 
-Each command which touches the socket (i.e. '''puts''', '''gets''', '''read''' and '''fconfigure''') will implicitly advance the
-connecting process (at least) one step further through its
-internal state machine, i.e., try the next IP address in the
-list if the previous attempt failed.
+If the event loop runs, the state machine of a (possibly multiple-address try) async connection proceeds within an internal callback.
 
-The read/write operations will not block if the channel is configured
-to be non-blocking; using '''fconfigure''' will ''never''
-block. (Options supported by stacked channel transforms ''may''
-trigger blocking if their use causes a read from or write to the
-underlying socket while it is blocking, even if this state of affairs
-is not exposed to the Tcl script layer.)
+In addition to that (for the case the event loop does currently not run), it proceeds whenever a channel operation is attempted on the socket_
 
-If a blocking operation is done on an asynchronously-connecting socket
-(e.g., '''gets''' or '''puts''' when the socket is configured to use
-blocking I/O), the connection is established synchronously prior to
-processing the remainder of the operation. The thread will not do
-anything else (including running the event loop) until the connection completes (succeeds or fails).
+   *   nonblocking I/O and [fconfigure] will advance it by one step (i.e. do whatever is doable without waiting).
+   *   blocking I/O will advance it to completion, in essence meaning "switch back to synchronous connect, and in case of success, do the blocking I/O I asked for".
 
 ~ Alternatives
 
