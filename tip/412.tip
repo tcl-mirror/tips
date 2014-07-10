@@ -1,15 +1,16 @@
 TIP:            412
 Title:          Dynamic Locale Changing for msgcat with On-Demand File Load
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
+Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        27-Mar-2012
 Post-History:   
 Keywords:       Tcl,localization,msgcat
+Obsoletes:      399
 Tcl-Version:    8.6
-Obsoletes:	399
 
 ~ Abstract
 
@@ -65,6 +66,34 @@ and may trigger expensive operations like a rebuild of the GUI.
 In consequence, each package may define a package locale which is independent
 of the default locale.
 
+~ Overview of the proposed solution
+
+Proposed changes in bref:
+
+~~ Dynamically load nessage catalog files
+
+if the locale is changed by '''mclocale''' ''newlocale'', the message file load process is executed for all loaded packages.
+
+~~ Package locale
+
+A package may install a package local ''locale'' which is independent to the global ''locale''.
+
+~~ Locale change callback
+
+A callback may be registered to get informed about the change of the global ''locale''.
+A use case is to refresh a GUI if the locale changed.
+
+~~ Non message file operation
+
+A program may use message files to issue '''mcset''' commands or may issue them by other means, if the message catalogs are, for example, stored in a data base.
+
+Each package may register a callback to get informed that a certain '''locale''' should be loaded and may issue the corresponding '''mcset''' commands.
+
+~~ Package local mcunknown
+
+A package may have a certain way to provide translations for message keys not included in the message catalog.
+Thus, it may register a package locale message unknown callback to provide a translation.
+
 ~ Specification
 
 ~~ Package Equals Client Namespace
@@ -85,61 +114,77 @@ A package locale may be used by a package instead the default locale
 
 ~~ Default and Package State
 
-All State values (like the current locale) are available, once as default and
-once per package, if a package sets a '''package locale'''.
+Some state values (like the ''locale'') are available as default (global) values.
+In addition, each package may choose to use a package locale state.
 
 The used naming is:
 
    * default
-     state: valid for all packages which do not set a package locale.
+     state: valid for all packages which do not set a package state.
 
    * package
-     state: only valid for one package if it has set a package locale.
+     state: only valid for one package if it has set a package state.
 
 The following state values are present as default state and may be set
 individually per package.
 
    * The '''locale''' state value is the value from '''mclocale'''.
 
-   * The '''preferences''' state value is the value from '''mcpreferences'''.
+   * The '''preferences''' state value is the value of '''mcpreferences''', derived from '''locale''' (locale = de_ch -> preferences = de_ch de {}).
 
    * The '''loadedlocales''' state value is a list of currently loaded
      locales. In particular, an '''mcload''' was issued for those locales and
      they were not cleared in-between.
 
-~~~ Default State
+~~ Default State
 
-A new command supports operations on the default state:
+The following standard methods exist to get or set the default state:
 
- > '''msgcat::mcloadedlocales''' ''subcommand''
+   * msgcat::mclocale
 
-The default configuration may be get set by:
+Set default locale may be get using '''msgcat::mclocale'''.
 
- locale: set by the command '''mclocale'''
+The default locale may be set using '''msgcat::mclocale''' ''locale''.
 
- preferences: set by the command '''mcpreferences'''
+This command is extended, that the message catalogs of all missing locales for all packages not having set a package state are loaded.
 
- loadedlocales: set through the action of the new command
-     '''msgcat::mcloadedlocales load'''
+   * msgcat::mcpreferences
 
-The default configuration may be set by:
+Get the default ''preferences'' (derived from the default locale).
 
-All those state values are set by a change of the default locale by
-'''mclocale locale'''.  This command does the following operations:
+The following new command may be used to deal with the ''default state'':
 
-   * Build and set the preferences.
+ > '''msgcat::mcloadedlocales''' ''subcommand'' ''?locale?''
 
-   * Load all message catalog files for all packages without a package locale
-     for all locales, which are in the new preferences but not in
-     '''loadedlocales'''.
+The parameter ''locale'' is mandatory for the subcommands '''present''', '''add''' and '''remove'''.
 
-   * Invoke the callbacks of all packages which have registered for a locale
-     change callback.
+The following ''subcommands'' are available:
 
-After a change of the default locale, the user may decide to clear all now
-unneeded loaded locales.  This is possible using the new command:
+~~~ Subcommand "get"
 
- > '''msgcat::mcloadedlocales clear'''
+Get the list of current loaded locales
+
+~~~ Subcommand "present"
+
+Returns true, if the given locale is loaded
+
+~~~ Subcommand "add"
+
+Add the specified locale and all its sublocales to the loaded locale list.
+The locales are loaded for all packages not having a package locale list.
+Returns the list of added locales.
+
+The effect of this operation is like changing temporarily the locale, but without calling the locale change callback.
+
+This command returns the list of added locales.
+
+~~~ Subcommand "remove"
+
+Remove the given ''locale'' from the default loaded locale list.
+
+It is an error to remove a locale contained in the preferences of any other loaded locale or a locale in mcpreferences.
+
+~~~ Subcommand "clear"
 
 The list of currently loaded locales is set to '''mcpreferences''' and all
 message catalog keys of packages without a package locale set and with locales
@@ -188,13 +233,28 @@ Unset the package locale and use the default state for the package.  Load all
 message catalog files of the package for locales, which were not present in
 the package '''loadedlocales''' list and are present in the default list.
 
+~~~ Subcommand "present"
+
+Returns true, if the given locale is loaded
+
+~~~ Subcommand "add"
+
+Add the specified locale and all its sublocales to the package loaded locale list.
+The locales are loaded for the package if not present.
+
+This command returns the list of added locales.
+
+~~~ Subcommand "remove"
+
+Remove the given ''locale'' from the package loaded locale list.
+
+It is an error to remove a locale contained in the preferences of the package.
+
 ~~~ Subcommand "clear"
 
-Set the current loaded locales list of the package to '''mcpreferences''' and
+Set the current loaded locales list of the package to '''preferences''' and
 unset all message catalog keys of the package with locales not included in the
 package '''preferences'''.
-
-It is an error to call this subcommand without a package locale set.
 
 ~~ Package Configuration Options
 
@@ -320,20 +380,20 @@ preferences, as the preferences are treated as follows:
 
    * remove any multiple "_" and any "_" at the beginning or at the end of the
      locale.
-   
+
 It is proposed, that:
 
     * the locale and the first preferences element is always identical to the
       lowercase passed locale,
 
     * any multiple "_" are seen as one separator.
- 
+
 Example: preferences of locale "sy__cyrl_win"
 
     * current preferences: "sy_cyrl_win sy_cyrl sy"
 
     * proposed preferences: "sy__cyrl_win sy__cyrl sy".
- 
+
 Alternatively, all locales may normalized using the upper algorithm, which
 felt heavy in computation with little gain.
 
@@ -509,7 +569,7 @@ Known issues:
 
    * Access message catalog with specified namespace, locale and search
      behavior.
-   
+
 ~ Alternatives
 
 The alternative is the former [399], but that is problematic because the list
