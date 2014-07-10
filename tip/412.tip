@@ -1,6 +1,6 @@
 TIP:            412
 Title:          Dynamic Locale Changing for msgcat with On-Demand File Load
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -130,7 +130,7 @@ individually per package:
 
    * The ''locale'' like "de_ch".
 
-   * The ''preferences'' property is a list of locales in their preference order and is automatically computed from ''locale''. Example: ''locale'' = "de_ch" -> ''preferences'' = "de_ch de {}".
+   * The ''preferences'' property is a list of locales in their preference order and is automatically computed from ''locale''. Example ''locale'' = "de_ch" -> ''preferences'' = "de_ch de {}".
 
    * The ''loadedlocales'' state value is the list of currently loaded locales.
 
