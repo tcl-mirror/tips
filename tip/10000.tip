@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.203 $
+Version:        $Revision: 1.204 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -103,8 +103,8 @@ specific cases:
 commands, the last one of which returns a value. To have the scriptlet
 return a concatenated string or even just a single string literal,
 one currently needs to abuse some corner-case of a non-trivial command,
-like "return -level 0 $x$y" or "string map {} "$x$y" just to have the
-scriptlet produce the string as its result.
+like '''return -level 0 $x$y''' or '''string map {} "$x$y"''' just to
+have the scriptlet produce the string as its result.
 
 I propose a new subcommand '''string cat''', that will take an
 arbitrary number of arguments (even 0), and concatenate them into
