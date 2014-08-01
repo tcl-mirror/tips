@@ -1,6 +1,6 @@
 TIP:            429
 Title:          A 'string' Subcommand for Concatenation
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -53,7 +53,7 @@ The following equality will hold for any arbitrary contents of the variables
 
 ~ Rejected Alternatives
 
-Lars has mailed on tclcore that TclX has a command ''cconcat''' that does essentially what my proposed '''string cat''' is supposed to do (not sure though whether that is compiled). This proposal sticks to the '''cat''' subcommand, as that is generally the preferred way over new toplevel commands.
+Lars has mailed on tclcore that TclX has a command '''cconcat''' that does essentially what my proposed '''string cat''' is supposed to do (not sure though whether that is compiled). This proposal sticks to the '''cat''' subcommand, as that is generally the preferred way over new toplevel commands.
 
 Also, '''string concat''' is added to this section, for it is a bit longer than '''string cat''', and (as Lars put it) '''string cat''' is less likely to be misinterpreted as "concat, just moved into the string ensemble."
 
