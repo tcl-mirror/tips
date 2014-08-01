@@ -1,14 +1,14 @@
-TIP:		429
-Title:		A 'string' Subcommand for Concatenation
-Version:	$Revision: 1.1 $
-Author:		Andreas Leitgeb <avl@logic.at>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	27-Jul-2014
-Post-History:
-Keywords:	Tcl, cat, scriptlet result
+TIP:            429
+Title:          A 'string' Subcommand for Concatenation
+Version:        $Revision: 1.2 $
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        27-Jul-2014
+Post-History:   
+Keywords:       Tcl,cat,scriptlet result
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -50,6 +50,12 @@ The following equality will hold for any arbitrary contents of the variables
 '''a''' and '''b''':
 
 | string equals $a$b [string cat $a $b]
+
+~ Rejected Alternatives
+
+Lars has mailed on tclcore that TclX has a command ''cconcat''' that does essentially what my proposed '''string cat''' is supposed to do (not sure though whether that is compiled). This proposal sticks to the '''cat''' subcommand, as that is generally the preferred way over new toplevel commands.
+
+Also, '''string concat''' is added to this section, for it is a bit longer than '''string cat''', and (as Lars put it) '''string cat''' is less likely to be misinterpreted as "concat, just moved into the string ensemble."
 
 ~ Copyright
 
