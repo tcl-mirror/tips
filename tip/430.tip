@@ -1,0 +1,98 @@
+TIP:		430
+Title:		Add basic ZIP archive support to the Tcl
+Version:	$Revision: 1.1 $
+Author:		Sean Woods <yoda@etoyoc.com>
+Author:		Donal Fellows <donal.k.fellows@manchester.ac.uk>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6.3
+Vote:		Pending
+Created:	03-Sep-2014
+Post-History: 
+Keywords: virtual filesystem, zip, tclkit, boot, bootstrap
+
+~ Abstract
+
+This proposal will add basic support for mounting zip archive files as virtual
+filesystems to the Tcl core.
+
+~ Rationale
+
+Tcl/Tk relies on the presence of a file system containing Tcl scripts for
+bootstrapping the interpreter.  When dealing with code packed in a
+self-contained executable, a chicken-and-egg problem arrises when developers
+try to provide this bootstrap from their attached VFS with extensions like
+TclVfs.  TclVfs runs in the Tcl interpreter.  The interpreter needs
+''init.tcl'', which would mean that the filesystem containing ''init.tcl'' is
+not present until after TclVfs mounts it yet that mount cannot happen until
+after ''init.tcl'' has been loaded. Bootstrap filesystem mounts require
+built-in support for the filesystem that they use.
+
+With the inclusion of Zlib in the core (starting with 8.6, [244]), all that is
+required to implement a zip file system based VFS is to add a C-level VFS
+implementation to decode the zip archive format. Thus: this project.
+
+Note that we are prioritizing the zip archive format also because it is
+practical to generate the files without a Tcl installation being present; it
+is a format with widespread OS support. This makes it much easier to bootstrap
+a build of Tcl that uses it without requiring a native build of tclsh to be
+present.
+
+~ Specification
+
+There shall be new commands added to Tcl, all of which shall be in the
+'''::zvfs''' namespace. These commands shall include:
+
+ * '''zvfs::mount''' ?''archive''? ?''mountpoint''?
+
+ > Mounts the ZIP file ''archive'' at the location given by ''mountpoint'',
+   which will default to ''archive'' if absent. If ''archive'' is absent,
+   describes all current mounts, returning a list of pairs.
+
+ * '''zfs::unmount''' ''archive''
+
+ > Unmounts the ZIP file ''archive'', which must have been previously mounted.
+
+In addition, during the startup of the Tcl library, if the executable is
+detected as being a ZIP archive, it shall be mounted using the same name as
+the executable. (This is dependent on having a valid value passed to
+'''Tcl_FindExecutable'''; if no such value is available, it shall not be
+processed that way.) If the mount is done, the mount shall be added to the
+'''auto_path''' of trusted interpreters created in the process.
+
+The detection and mounting of the ZIP archive (if present) described in the
+paragraph above shall be done prior to the search for encodings or timezones.
+
+~ Implementation
+
+I have adapted Richard Hipp's work on Tcl As One Big Executable (TOBE) to
+operate inside of a modern Tcl. That implementation consists of one C file
+(''tclZipVfs.c'').  I have also prepared new behaviors for inside of
+Tcl_AppInit() to detect if a zip filesystem is attached to the current
+executable, and how to extract a "''main.tcl''" as well as the initial file
+systems for both Tcl and Tk.
+
+This work is checked in as the "''core_zip_vfs''" branch on both Tcl and Tk.
+
+~~ Still to be done
+
+ * Determine what other parts of the zvfs implementation are necessary; the
+   key use cases only actually require mounting and unmounting of a read-only
+   filesystem
+
+ * Determine what C API should be exposed, if any.
+
+ * Determine what should happen with safe interpreters. The '''mount''' and
+   '''unmount''' commands are obviously unsafe, but what about the filesystem
+   that has been mounted? Is there an interpreter context present that can
+   reliably allow us to answer this question?
+
+ * There are two real places that might be mounted as ZIPs; the executable and
+   the Tcl library (variously '''libtcl.so''', '''tcl.dll'', etc.) While the
+   executable is a reasonable place for application code, it is less well
+   suited for Tcl's bootstrap sequence, which is better off attached to the
+   Tcl library itself. This needs to be sorted out.
+
+~ Copyright
+
+This document has been placed in the public domain.
