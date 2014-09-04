@@ -1,15 +1,16 @@
-TIP:		430
-Title:		Add basic ZIP archive support to Tcl
-Version:	$Revision: 1.2 $
-Author:		Sean Woods <yoda@etoyoc.com>
-Author:		Donal Fellows <donal.k.fellows@manchester.ac.uk>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6.3
-Vote:		Pending
-Created:	03-Sep-2014
-Post-History: 
-Keywords: virtual filesystem, zip, tclkit, boot, bootstrap
+TIP:            430
+Title:          Add basic ZIP archive support to Tcl
+Version:        $Revision: 1.3 $
+Author:         Sean Woods <yoda@etoyoc.com>
+Author:         Donal Fellows <donal.k.fellows@manchester.ac.uk>
+Author:         Poor Yorick <tk.tcl.tip@pooryorick.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        03-Sep-2014
+Post-History:   
+Keywords:       virtual filesystem,zip,tclkit,boot,bootstrap
+Tcl-Version:    8.6.3
 
 ~ Abstract
 
@@ -20,7 +21,7 @@ filesystems to the Tcl core.
 
 Tcl/Tk relies on the presence of a file system containing Tcl scripts for
 bootstrapping the interpreter.  When dealing with code packed in a
-self-contained executable, a chicken-and-egg problem arrises when developers
+self-contained executable, a chicken-and-egg problem arises when developers
 try to provide this bootstrap from their attached VFS with extensions like
 TclVfs.  TclVfs runs in the Tcl interpreter.  The interpreter needs
 ''init.tcl'', which would mean that the filesystem containing ''init.tcl'' is
@@ -49,15 +50,15 @@ There shall be new commands added to Tcl, all of which shall be in the
    which will default to ''archive'' if absent. If ''archive'' is absent,
    describes all current mounts, returning a list of pairs.
 
- * '''zfs::unmount''' ''archive''
+ * '''zvfs::unmount''' ''archive''
 
  > Unmounts the ZIP file ''archive'', which must have been previously mounted.
 
 In addition, during the startup of the Tcl library, if the executable is
 detected as being a ZIP archive, it shall be mounted using the same name as
-the executable. (This is dependent on having a valid value passed to
+the executable. This is dependent on having a valid value passed to
 '''Tcl_FindExecutable'''; if no such value is available, it shall not be
-processed that way.) If the mount is done, the mount shall be added to the
+processed that way.  If the mount is done, the mount shall be added to the
 '''auto_path''' of trusted interpreters created in the process.
 
 The detection and mounting of the ZIP archive (if present) described in the
@@ -76,11 +77,11 @@ This work is checked in as the "''core_zip_vfs''" branch on both Tcl and Tk.
 
 ~~ Still to be done
 
- * Determine what other parts of the zvfs implementation are necessary; the
+ * Determine what other parts of the zvfs implementation are necessary. The
    key use cases only actually require mounting and unmounting of a read-only
-   filesystem
+   filesystem.
 
- * Determine what C API should be exposed, if any.
+ * Determine what C API, if any, should be exposed.
 
  * Determine what should happen with safe interpreters. The '''mount''' and
    '''unmount''' commands are obviously unsafe, but what about the filesystem
@@ -88,10 +89,10 @@ This work is checked in as the "''core_zip_vfs''" branch on both Tcl and Tk.
    reliably allow us to answer this question?
 
  * There are two real places that might be mounted as ZIPs; the executable and
-   the Tcl library (variously '''libtcl.so''', '''tcl.dll'', etc.) While the
-   executable is a reasonable place for application code, it is less well
-   suited for Tcl's bootstrap sequence, which is better off attached to the
-   Tcl library itself. This needs to be sorted out.
+   the Tcl library (variously '''libtcl.so''', '''tcl.dll''', etc.). While the
+   executable is a reasonable place for application code, it is less
+   well-suited for Tcl's bootstrap sequence, which is better-off attached to
+   the Tcl library itself. This needs to be sorted out.
 
 ~ Copyright
 
