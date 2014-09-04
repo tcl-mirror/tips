@@ -1,6 +1,6 @@
 TIP:		430
-Title:		Add basic ZIP archive support to the Tcl
-Version:	$Revision: 1.1 $
+Title:		Add basic ZIP archive support to Tcl
+Version:	$Revision: 1.2 $
 Author:		Sean Woods <yoda@etoyoc.com>
 Author:		Donal Fellows <donal.k.fellows@manchester.ac.uk>
 State:		Draft
