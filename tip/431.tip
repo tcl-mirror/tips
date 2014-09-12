@@ -1,0 +1,69 @@
+TIP:		431
+Title:		Add 'tempdir' Subcommand to 'file'
+Version:	$Revision: 1.1 $
+Author:		Kevin Pasko <kevin.a.pasko@gmail.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6.3
+Vote:		Pending
+Created:		10-Sep-2014
+Keywords:	Tcl, directory, file
+Post-History:
+
+~ Abstract
+
+This TIP proposes adding a new '''tempdir''' subcommand to the '''file'''
+command, simplifying the effort required in creating uniquely named temporary
+directories at the scripting level.
+
+~ Rationale
+
+Due to the non-atomic nature of the '''file mkdir''' command it is currently
+impossible to create uniquely named temporary directories at the script level
+without the possibility of race conditions.
+
+~ Specification
+
+The '''file tempdir''' command shall implement the functionality of the POSIX
+standard mkdtemp() function. With no arguments '''file tempdir''' shall create
+a uniquely named temporary directory in the native operating system's
+temporary directory, with naming convention "'''tcl_'''''XXXXXX''" where each
+''X'' is a randomly selected character (following the '''file tempfile'''
+naming convention). Successful completion of '''file tempdir''' shall return
+the absolute path of the created directory, otherwise an error shall be
+thrown.
+
+'''file tempdir''' shall have an optional argument, ''template'', to modify
+the created directory's path and name. The ''template'' shall be decomposed
+into (up to) two parts: the directory's path and rootname. If either part is
+absent, relevant defaults (e.g., according to the native operating system)
+shall be used. The entire temporary name shall then be formed from the path,
+the root, and a generated unique string of (typically) six characters.
+
+The command syntax should be defined as:
+
+ > '''file tempdir''' ?''template''?
+
+~ Considerations
+
+ * The subcommand '''tempdir''' could be a candidate, later, for returning the
+   native file system's temporary directory. Naming the subcommand something
+   else such as '''mktempdir''' is another option, though strays from the '''file
+   tempfile''' naming convention.
+
+ * For future extensibility the '''template''' argument to '''file tempdir'''
+   (since it is optional) could be specified in the key / value format,
+   '''-template''', changing the command syntax to:
+
+ > > '''file tempdir''' ?''options...''?
+
+~ Reference Implementation
+
+An example of temporary directory creation has already been developed into the
+Tcl core, at the C level, within the platform specific layers of the
+'''load''' command. The principal work remaining is to expose this via a Tcl
+command.
+
+~ Copyright
+
+This document has been placed in the public domain.
