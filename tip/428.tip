@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -94,6 +94,7 @@ The following example demonstrates the implementation of '''chan throwerror''' e
 ~ Implementation
 
 The tip is implemented in fossil branch '''tip-428'''.
+
 ~ Copyright
 
 This document has been placed in the public domain.
