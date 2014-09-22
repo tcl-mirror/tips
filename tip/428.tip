@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -88,6 +88,8 @@ The following example demonstrates the implementation of '''chan throwerror''' e
    *   The dict member '''-message''' is non-standard and should eventually be changed.
 
    *   The name of the option '''-options''' is not intuitive. Any intuitive name like '''-erroroptions''' would make abreviations of the exiting option '''-error''' invalid which raises incompatibility. '''-options''' is taken from the '''return''' command. 
+
+   *   Reinhard Max proposed, to use '''fconfigure $h -error ?variable name?. If '''variable name''' is given, the error dict is written into this variable while the error message is still returned. This is similar to '''catch {} err dict''' where '''err''' is returned and '''dict''' is set.
 
 ~ Implementation
 
