@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.22 $
+Version:        $Revision: 1.23 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -18,7 +18,7 @@ This TIP proposes a new method which allows to return the error message and the 
 ~ Rationale
 
 The error message of a background channel error may be retrieved and
-cleared by '''fconfigure -error''', but there is no access to the error code.
+cleared by '''fconfigure''' ''channel'' '''-error''', but there is no access to the error code.
 
 In addition, the error may not be handled in the TCL-like way using '''catch''' or '''try''' (or just let fail the program).
 
@@ -36,8 +36,8 @@ To handle an error by '''try''', the error must be thrown.
 
 We are limited to an option to the command '''fconfigure''', as this is implemented within the driver interface.
 
-Throwing the error would change the semantics of '''fconfigure''' and thus should not happen.
-Instead, the new '''fconfigure''' operation should return an error dict containing error message and error code.
+Throwing the error would change the semantics of '''fconfigure''' and thus should not happen (consensus on the core list).
+Instead, the new '''fconfigure''' operation should return the error message and the error code.
 
 To finally throw the error, an utility function ('''chan throwerror $h''') may be defined in TCL.
 This is not part of this TIP.
@@ -50,11 +50,11 @@ The option '''fconfigure channel -error''' should be extended to take an optiona
 
 If the optional argument ''otherVar'' is given, the following dict is written in the named variable of the caller environment:
 
-   *   if there is no error, it should return '''-code 0'''
+   *   if there is no error, it should be set to '''-code 0'''
 
-   *   if there is an error, it should return '''-code 1 -errorcode errorCode'''
+   *   if there is an error, it should be set to '''-code 1 -errorcode ''' ''errorCode''
 
-This is executed in addition to the standard action of '''fconfigure channel -error'''.
+This is executed in addition to the standard action of '''fconfigure''' ''channel'' '''-error'''.
 
 ~ Example
 
