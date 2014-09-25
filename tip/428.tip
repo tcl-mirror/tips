@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.23 $
+Version:        $Revision: 1.24 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -46,9 +46,9 @@ This is not part of this TIP.
 
 The option '''fconfigure channel -error''' should be extended to take an optional argument as follows:
 
- > '''fconfigure''' ''channel'' '''-error''' ''?otherVar?''
+ > '''fconfigure''' ''channel'' '''-error''' ''?errorDictVar?''
 
-If the optional argument ''otherVar'' is given, the following dict is written in the named variable of the caller environment:
+If the optional argument ''errorDictVar'' is given, the following dict is written in the named variable of the caller environment:
 
    *   if there is no error, it should be set to '''-code 0'''
 
