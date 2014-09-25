@@ -1,6 +1,6 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
@@ -44,23 +44,17 @@ This is not part of this TIP.
 
 ~ Proposed Change
 
-The new '''fconfigure''' option
+The option '''fconfigure channel -error''' should be extended to take an optional argument as follows:
 
- > '''fconfigure''' ''channel'' '''-options'''
+ > '''fconfigure''' ''channel'' '''-error''' ''?otherVar?''
 
-should return a dict like the command '''catch cmd err dict''':
+If the optional argument ''otherVar'' is given, the following dict is written in the named variable of the caller environment:
 
-   *   if there is no error, it should return '''-code 0 -message ""'''
+   *   if there is no error, it should return '''-code 0'''
 
-   *   if there is an error, it should return '''-code 1 -errorcode errorCode -message errorMessage'''
+   *   if there is an error, it should return '''-code 1 -errorcode errorCode'''
 
-In all other aspects it works like '''fconfigure channel -error''':
-
-   *   Implemented for socket drivers
-
-   *   Reports background errors (ex:: async connect errors)
-
-   *   Clears the error
+This is executed in addition to the standard action of '''fconfigure channel -error'''.
 
 ~ Example
 
@@ -70,30 +64,32 @@ Usage example with failing async connect:
 |d00000af
 |% fileevent $h writable {set x 1}
 |% vwait x
-|% fconfigure $h -options
--code 1 -errorcode {POSIX ECONNREFUSED {connection refused}} -message {connection refused}
+|% fconfigure $h -error errorDict
+|connection refused
+|% set errorDict
+|-code 1 -errorcode {POSIX ECONNREFUSED {connection refused}}
 |% close $h
 
 The following example demonstrates the implementation of '''chan throwerror''' eg to throw the error from the provided dict.
 
 |proc throwerror {h} {
-|    set d [fconfigure $h -options]
-|    return -options $d [dict get $d -message]
+|    set errorMessage [fconfigure $h -errorDict]
+|    return -options $errorDict $errorMessage
 |}
 
 ~ Alternatives
 
    *   Revision 1.11 of this TIP proposed to really throw the error.
 
-   *   The dict member '''-message''' is non-standard and should eventually be changed.
-
-   *   The name of the option '''-options''' is not intuitive. Any intuitive name like '''-erroroptions''' would make abreviations of the exiting option '''-error''' invalid which raises incompatibility. '''-options''' is taken from the '''return''' command. 
-
-   *   Reinhard Max proposed, to use '''fconfigure $h -error ?variable name?'''. If '''variable name''' is given, the error dict is written into this variable while the error message is still returned. This is similar to '''catch {} err dict''' where '''err''' is returned and '''dict''' is set.
+   *   Revision 1.21 of this TIP proposed a new option to return an error dict directly.
 
 ~ Implementation
 
 The tip is implemented in fossil branch '''tip-428'''.
+
+~ Remarks
+
+The idea of this semantics and a feasability study is from Reinhard Max.
 
 ~ Copyright
 
