@@ -1,10 +1,10 @@
 TIP:		432
 Title:		Support for New Windows File Dialogs in Vista and Later
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Ashok P. Nadkarni <apnmbx-wits@yahoo.com>
 State:		Draft
 Type:		Project
-Vote:		Pending
+Vote:		In progress
 Created:	20-Sep-2014
 Post-History:	
 Tcl-Version:	8.6.3
