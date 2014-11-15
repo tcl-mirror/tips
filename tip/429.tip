@@ -1,11 +1,11 @@
 TIP:            429
 Title:          A 'string' Subcommand for Concatenation
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        27-Jul-2014
 Post-History:   
 Keywords:       Tcl,cat,scriptlet result
