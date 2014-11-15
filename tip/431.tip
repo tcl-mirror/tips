@@ -1,10 +1,10 @@
 TIP:		431
 Title:		Add 'tempdir' Subcommand to 'file'
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin Pasko <kevin.a.pasko@gmail.com>
 State:		Draft
 Type:		Project
-Tcl-Version:	8.6.3
+Tcl-Version:	8.6.4
 Vote:		Pending
 Created:		10-Sep-2014
 Keywords:	Tcl, directory, file
