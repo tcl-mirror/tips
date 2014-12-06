@@ -1,6 +1,6 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Reinhard Max <max@tclers.tk>
@@ -109,31 +109,32 @@ In addition to that (for the case the event loop does currently not run), it pro
 ~ Use Case of the Connecting Option
 
 My own use case for the proposed option '''-connecting''' is as follows.
-
 A TCL script is started within Rivet to do two tasks:
 
-   * verify many URLs for existance (e.g. open a socket and do a head request)
+ * Verify many URLs for existance (e.g. open a socket and do a head request).
 
-   * do some data base work
+ * Do some data base work.
 
-I don't use the event loop to get a linear program with controled order.
+I don't use the event loop to get a linear program with controlled order.
 
 So the program flow is as follows:
 
-   * Open async sockets for all links to verify: ''foreach host $hosts;
-set h($host) [socket -async $host 23]''
+ * Open async sockets for all links to verify:
 
-   * Do some data base work which takes time
+ > ''foreach host $hosts; set h($host) [socket -async $host 23]''
 
-   * Check all open sockets and eventually advance the state machine by
-calling '''-connecting''': ''foreach host $hosts; if {[fconfigure
-$h($host) -connecting]} {Connected $host}''
+ * Do some data base work which takes time.
 
-   * Do some more data base work which takes time
+ * Check all open sockets and eventually advance the state machine by calling
+   '''-connecting''':
 
-   * Check '''-connecting''' and react until there are no open sockets any more
+ > ''foreach host $hosts; if {[fconfigure $h($host) -connecting]} {Connected $host}''
 
-I have cut the data base processing into two parts, as I assume there
+ * Do some more data base work which takes time.
+
+ * Check '''-connecting''' and react until there are no open sockets any more.
+
+I have cut the data base processing into two parts; I assume there
 are normally two IP's to try, one IPV6 and one IPV4.
 
 ~ Alternatives
