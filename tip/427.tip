@@ -1,12 +1,12 @@
 TIP:            427
 Title:          Introspection of Asynchronous Socket Connection
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Reinhard Max <max@suse.com>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Reinhard Max <max@tclers.tk>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        16-Mar-2014
 Post-History:   
 Keywords:       async socket connect,introspection,IPV6
