@@ -1,11 +1,11 @@
 TIP:            428
 Title:          Produce Error Dictionary from 'fconfigure -error'
-Version:        $Revision: 1.25 $
+Version:        $Revision: 1.26 $
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Harald Oehlmann <harald.oehlmann@users.sourceforge.net>
 State:          Draft
 Type:           Project
-Vote:           In progress
+Vote:           Pending
 Created:        16-Mar-2014
 Post-History:   
 Keywords:       socket,non-blocking,error reporting,option dictionary
