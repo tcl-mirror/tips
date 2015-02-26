@@ -1,6 +1,6 @@
 TIP:            433
 Title:          Add %M binding substitution
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 Author:		Brian Griffin <brian_griffin@mentor.com>
 Author:         Don Porter <dgp@users.sf.net>
@@ -13,13 +13,13 @@ Tcl-Version:    8.6.4
 
 ~ Abstract
 
-This TIP proposes one new binding substitution, %M, to access
+This TIP proposes one new binding substitution, '''%M''', to access
 the number of script-based binding patterns matched so far for the event.
 
 ~ Specification
 
-Add to the set of substitutions made in scripts passed to ''bind''
-the new one, ''%M''.  When the substring ''%M'' appears in a binding
+Add to the set of substitutions made in scripts passed to '''bind'''
+the new one, '''%M'''.  When the substring '''%M''' appears in a binding
 script, it will be replaced with a count of the number of binding
 script evaluations that have already been performed in the handling
 of the current event.
@@ -41,11 +41,11 @@ will produce the result:
 
 ~ Compatibility
 
-Any ''%M'' in an existing bind script will now stop reproducing
+Any '''%M''' in an existing bind script will now stop reproducing
 itself literally, and will result in the new substitution.  This
 has the potential to cause trouble with any bind scripts that
-themselves make use of ''clock scan'' or ''clock format'' or 
-any other command that invites the use of the literal string ''%M''.
+themselves make use of '''clock scan''' or '''clock format''' or 
+any other command that invites the use of the literal string '''%M'''.
 Dealing with such a situation is not difficult, but it is still
 a potential incompatibility.
 
