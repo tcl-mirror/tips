@@ -1,6 +1,6 @@
 TIP:            16
 Title:          Tcl Functional Areas for Maintainer Assignments
-Version:        $Revision: 1.47 $
+Version:        $Revision: 1.48 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Daniel Steffen <das@users.sourceforge.net>
 State:          Accepted
@@ -608,6 +608,7 @@ assigned one or more maintainers:
      tests/trace.test
 
  47. '''Bytecode Compiler''' - compat/float.h,
+     generic/tclAssembly.c,
      generic/tclCompCmds.c,
      generic/tclCompCmdsSZ.c,
      generic/tclCompExpr.c,
@@ -616,6 +617,7 @@ assigned one or more maintainers:
      generic/tclExecute.c,
      generic/tclLiteral.c,
      generic/tclMathOp.c,
+     generic/tclOptimize.c,
      tests/appendComp.test,
      tests/compExpr-old.test,
      tests/compExpr.test,
@@ -642,6 +644,8 @@ assigned one or more maintainers:
  49. doc/Thread.3,
      generic/tclThread.c,
      generic/tclThreadJoin.c,
+     generic/tclThreadStorage.c,
+     generic/tclThreadTest.c,
      tests/thread.test,
      unix/tclUnixThrd.c,
      unix/tclUnixThrd.h,
