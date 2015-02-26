@@ -1,0 +1,61 @@
+TIP:            433
+Title:          Add %M binding substitution
+Version:        $Revision: 1.1 $
+Author:		Joe Mistachkin <joe@mistachkin.com>
+Author:		Brian Griffin <brian_griffin@mentor.com>
+Author:         Don Porter <dgp@users.sf.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        25-Feb-2015
+Post-History:   
+Tcl-Version:    8.5.18, 8.6.4
+
+~ Abstract
+
+This TIP proposes one new binding substitution, %M, to access
+the number of script-based binding patterns matched so far for the event.
+
+~ Specification
+
+Add to the set of substitutions made in scripts passed to ''bind''
+the new one, ''%M''.  When the substring ''%M'' appears in a binding
+script, it will be replaced with a count of the number of binding
+script evaluations that have already been performed in the handling
+of the current event.
+
+~ Example
+
+The script...
+
+|   pack [entry .e]
+|   bind all <Key> {set z %M}
+|   bind Entry <Key> {set y %M}
+|   bind .e <Key> {set x %M}
+|   event generate .e <Key-a>
+|   list $x $y $z
+
+will produce the result:
+
+|   0 1 2
+
+~ Compatibility
+
+Any ''%M'' in an existing bind script will now stop reproducing
+itself literally, and will result in the new substitution.  This
+has the potential to cause trouble with any bind scripts that
+themselves make use of ''clock scan'' or ''clock format'' or 
+any other command that invites the use of the literal string ''%M''.
+Dealing with such a situation is not difficult, but it is still
+a potential incompatibility.
+
+~ Prototype
+
+This feature is already implemented and committed to both the
+core-8-5-branch and the trunk, and is poised to be released
+as part of Tk 8.5.18 and Tk 8.6.4.  Any objections to that
+should be raised in TIP discussion and voting.
+
+~ Copyright
+
+This document has been placed in the public domain.
