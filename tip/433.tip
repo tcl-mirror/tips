@@ -1,12 +1,12 @@
 TIP:            433
 Title:          Add %M binding substitution
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:		Joe Mistachkin <joe@mistachkin.com>
 Author:		Brian Griffin <brian_griffin@mentor.com>
 Author:         Don Porter <dgp@users.sf.net>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        25-Feb-2015
 Post-History:   
 Tcl-Version:    8.6.4
