@@ -1,13 +1,13 @@
 TIP:		435
 Title: 		Safe Mutex Disposal API
-Version: 	$Revision: 1.1 $
+Version: 	$Revision: 1.2 $
 Author:		Donal Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
 Type:		Project
 Tcl-Version:	8.6.5
 Vote:		Pending
-Created:	26-Feb-2015
+Created:	16-May-2015
 Post-History:	
 
 ~ Abstract
