@@ -1,6 +1,6 @@
 TIP:		435
 Title: 		Safe Mutex Disposal API
-Version: 	$Revision: 1.2 $
+Version: 	$Revision: 1.3 $
 Author:		Donal Fellows <donal.k.fellows@manchester.ac.uk>
 Author:		Joe Mistachkin <joe@mistachkin.com>
 State:		Draft
@@ -38,9 +38,10 @@ This TIP specifies a single new function:
  > void	'''Tcl_MutexUnlockAndFinalize'''(Tcl_Mutex *''mutex'');
 
 The '''Tcl_MutexUnlockAndFinalize''' function (which takes a single argument,
-the mutex to operate on) will correctly lock the global lock, unlock the mutex
-and dispose of it, remove the mutex from the list of global synchronization
-objects, and only then drop the global lock.
+the mutex to operate on) will atomically unlock the mutex and dispose of it
+without giving an opportunity for another thread to lock the mutex between
+unlocking and disposal.  The mutex must have previously been locked by
+'''Tcl_MutexLock'''.
 
 ~ Implementation
 
