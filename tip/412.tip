@@ -1,6 +1,6 @@
 TIP:            412
 Title:          Dynamic Locale Changing for msgcat with On-Demand File Load
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Harald Oehlmann <harald.oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -305,19 +305,24 @@ Alternatively, all locales may normalized using the upper algorithm, which felt 
 
 Imagine an application which supports the current user language and French, German and English. An external package tp is used. The package uses msgcat and installs itself during the package require tp call:
 
-|package require msgcat |msgcat::mcload [file join [file dirname [info script]] msgs]
+|package require msgcat
+|msgcat::mcload [file join [file dirname [info script]] msgs]
 
 An implementation of the application with the current msgcat 1.5.0 would require the following initialization sequence:
 
-|package require msgcat |package require np
+|package require msgcat
+|package require np
 
 and the following code to change the locale to French:
 
-|package forget np |msgcat::mclocale fr |package require np
+|package forget np
+|msgcat::mclocale fr
+|package require np
 
 Using the extension of this TIP, one may load as usual:
 
-|package require msgcat |package require np
+|package require msgcat
+|package require np
 
 and to change to french locale:
 
@@ -333,19 +338,42 @@ Without this TIP, it is computational expensive (if possible, as many packages a
 
 If it is certain that a locale is changed and the then obsolete data is of no use, one may clear unused message catalog items:
 
-|msgcat::mclocale fr |msgcat::mcloadedlocale clear
+|msgcat::mclocale fr
+|msgcat::mcloadedlocale clear
 
 ~~ Use a Callback to be Notified About a Locale Change
 
 Packages which display a GUI may update their widgets when the locale changes. To register to a callback, use:
 
-|namespace eval gui { | msgcat::mcpackageconfig changecmd updateGUI | | proc updateGui args { | puts "New locale is '[lindex $args 0]'." | } |} | |% msgcat::mclocale fr |fr |% New locale is 'fr'.
+|namespace eval gui {
+| msgcat::mcpackageconfig changecmd updateGUI
+|
+| proc updateGui args {
+| puts "New locale is '[lindex $args 0]'."
+| }
+|}
+|
+|% msgcat::mclocale fr
+|fr
+|% New locale is 'fr'.
 
 ~~ To Use Another Locale Source than Message Catalog Files
 
 If locales (or additional locales) are contained in another source like a data base, a package may use the load callback and not mcload:
 
-|namespace eval db { | msgcat::mcpackageconfig loadcmd loadMessages | msgcat::mcconfig loadedpackages\ | [concat [msgcat::mcconfig loadedpackages] namespace current] | | proc loadMessages args { | foreach locale $args { | if {[LocaleInDB $locale]} { | msgcat::mcmset $locale [GetLocaleList $locale] | } | } | } |}
+|namespace eval db {
+| msgcat::mcpackageconfig loadcmd loadMessages
+| msgcat::mcconfig loadedpackages\
+| [concat [msgcat::mcconfig loadedpackages] namespace current]
+|
+| proc loadMessages args {
+| foreach locale $args {
+| if {[LocaleInDB $locale]} {
+| msgcat::mcmset $locale [GetLocaleList $locale]
+| }
+| }
+| }
+|}
 
 ~~ Use a package locale
 
@@ -353,7 +381,8 @@ The reference implementation also contains a changed clock command which uses a 
 
 First, a package locale is initialized and the generic unknown function is activated:
 
-|msgcat::mcpackagelocale set |msgcat::mcpackageconfig unknowncmd ""
+|msgcat::mcpackagelocale set
+|msgcat::mcpackageconfig unknowncmd ""
 
 If the user requires the week day in a certain locale, it is changed:
 
@@ -361,11 +390,21 @@ If the user requires the week day in a certain locale, it is changed:
 
 and the code:
 
-|msgcat::mcpackagelocale set $locale |return [lindex [msgcat::mc DAYS_OF_WEEK_FULL] $day] |### Returns "mercredi"
+|msgcat::mcpackagelocale set $locale
+|return [lindex [msgcat::mc DAYS_OF_WEEK_FULL] $day]
+|### Returns "mercredi"
 
 Some message-catalog items are heavy in computation and thus are dynamically cached using:
 
-|proc ::tcl::clock::LocalizeFormat { locale format } { | set key FORMAT_$format | if { [::msgcat::mcexists -exactlocale -exactnamespace $key] } { | return [mc $key] | } | #...expensive computation of format clipped... | mcset $locale $key $format | return $format |}
+|proc ::tcl::clock::LocalizeFormat { locale format } {
+| set key FORMAT_$format
+| if { [::msgcat::mcexists -exactlocale -exactnamespace $key] } {
+| return [mc $key]
+| }
+| #...expensive computation of format clipped...
+| mcset $locale $key $format
+| return $format
+|}
 
 ~ Reference Implementation
 
