@@ -3,9 +3,9 @@ Title:		Tk panedwindow options for proxy window
 State:		Draft
 Type:		Project
 Tcl-Version:	8.5.18
-Vote:		Done
+Vote:		Pending
 Post-History:	
-Version:	$Id: 437.tip,v 1.1 2015-09-21 20:24:25 dkf Exp $
+Version:	$Id: 437.tip,v 1.2 2015-09-23 13:10:55 dgp Exp $
 Author:		Eric Boudaillier <beric@users.sf.net>
 Author:		François Vogel <fvogelnew1@users.sf.net>
 Created:	14-Jul-2015
