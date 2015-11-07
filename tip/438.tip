@@ -1,0 +1,138 @@
+TIP:            438
+Title:          Ensure Line Metrics are Up-to-Date
+Version:        $Revision: 1.1 $
+Author:         François Vogel <fvogelnew1@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        01-Nov-2015
+Post-History:   
+Tcl-Version:    8.5.18
+Keywords:	Tk, text
+
+~ Abstract
+
+The text widget calculates line metrics asynchronously, for performance
+reasons.  Because of this, some commands of the text widget may return wrong
+results if the asynchronous calculations are not over.  This TIP is about
+providing the user with a way to ensure that line metrics are up-to-date.
+
+~ Rationale
+
+The text widget features asynchronous calculation of the display height of
+logical lines. The reasons for this and the details of the implementation are
+explained at the beginning of tkTextDisp.c.
+
+This approach has definite advantages among which responsivity of the text
+widget is important. Yet, there are drawbacks in the fact the calculation is
+asynchronous. Some commands of the text widget may return wrong results if the
+asynchronous calculations are not finished at the time these commands are
+called. For example this is the case of '''.text count -ypixels''', which was
+solved by adding a modifier '''-update''' allowing the user to be sure any
+possible out of date line height information is recalculated.
+
+It appears that aside of '''.text count -ypixels''' there are several other
+cases where wrong results can be produced by text widget sub-commands. These
+cases are illustrated in several bug reports:
+
+ * [http://core.tcl.tk/tk/tktview/1566949]  (text yview moveto)
+
+ * [http://core.tcl.tk/tk/tktview/e51941c]  (text yview)
+
+ * [http://core.tcl.tk/tk/tktview/2949648]  (text see)
+
+ * [http://core.tcl.tk/tk/tktview/1739605]  (text see)
+
+ * [http://core.tcl.tk/tk/tktview/1499165]  (text see, scrollbar dance)
+
+In all these cases, forcing the update by calling '''.text count -update
+-ypixels 1.0 end''' before calling '''text see''', '''text yview''', or
+'''text yview moveto''' solves the issue presented in the ticket. This has
+however a performance cost, of course, but the above tickets show that there
+are cases where the programmer needs accurate results, be it at the cost of
+the time needed to get the line heights calculations up-to-date.
+
+This TIP is about providing the user/programmer with a (better) way to ensure
+that line metrics are up-to-date.
+
+It has to be noted that the '''update''' command is of no help here since the
+line metrics calculation is disconnected from the event loop (and from the
+display refresh as well).
+
+~ Proposed Change
+
+It is proposed to add a new sub-command to the text widget:
+
+ > ''pathName'' '''yupdate''' ?''index1''? ?''index2''?
+
+This command will ensure that the line heights calculation is up-to date
+between ''index1'' and ''index2'' by executing:
+
+|    TkTextUpdateLineMetrics(textPtr,
+|	    TkBTreeLinesTo(textPtr, index1->linePtr),
+|	    TkBTreeLinesTo(textPtr, index2->linePtr), -1);
+
+If no index is provided then ''index1'' defaults to ''1.0'' and ''index2'' to
+''end''.  If only ''index1'' is provided then ''index2'' defaults to ''end''.
+
+Featuring ?''index1''? ?''index2''? in '''pathName yupdate''' provides the
+programmer with fine control to what needs to be updated. (''Note: I still
+need to figure out if these indices are useful or not - maybe only the case
+'''1.0 end''' is relevant'').
+
+With this new sub-command, the '''-update''' modifier switch of '''text
+count''' would become obsolete. It would be declared as such in the text
+widget man page while being still supported for backwards compatibility
+reasons.
+
+~ Alternatives (''that I rejected but can of course still be discussed'')
+
+ * Don't change the source code and better document the '''.text count -update
+   -ypixels''' trick. This is believed to be suboptimal considering that
+   '''text count''' indeed performs counting (which has a cost). This
+   performance drawback could however be very much alleviated by counting
+   between the two same indices: there would be no cost at all if this case
+   was detected and was a short-cut in function TextWidgetObjCmd.
+ 
+ * Instead of a new text widget sub-command, follow the lines of the existing
+   example of '''text count''' and provide a new modifier switch '''-update'''
+   to all sub-commands that may need it. The list of such sub-commands include
+   '''text see''', '''text yview''', '''text yview moveto''', and '''text
+   yview scroll'''. Not a big fan of this. Implementation is more complex than
+   the proposal, and the update granularity would not be fine (i.e. always
+   ''1.0 end''), which has again performance impact.
+ 
+ * '''update idletasks''' could force line metrics calculation update (in
+   addition to what this command already does). This is certainly not the
+   right thing to do since it is not very flexible. It would impact the
+   performance of all text widgets whereas perhaps only one of them needs
+   up-to-date line heights. Also, one could want to update idletasks (in the
+   current sense: idle tasks) but not the line heights calculation, or the
+   opposite. All in all, linking the event loop and the line heights
+   calculation seems bad.
+
+ * For each sub-command that needs up-to-date line heights to provide fully
+   correct results, detect whether it is the case or not at the time they are
+   called. If so, fine. If not, there could be two ways forward:
+
+ > 1. Force the update. This is not believed to be desirable, again for
+   performance reasons. While there are cases where accurate results are
+   mandatory (see the tickets above), most of the time one can live with
+   approximate results. Any mismatch is temporary, since the asynchronous line
+   height calculations will always catch up eventually. It is preferred to let
+   the programmer decide if this update is needed or not.
+
+ > 2. Decide that the line height of not yet up-to-date lines is equal to some
+   reasonable value, for instance the height of the first displayed line
+   (which is likely up-to-date). For text widgets using only a single font,
+   this would be OK since all line heights are then the same. However this
+   would not solve all cases, for instance in '''text yview''' where the total
+   number of pixels used by the text widget contents is needed, because this
+   total pixel height calculation involves the total number of display (not
+   logical) lines. Assessing the total number of display lines has a
+   performance cost similar to proper line heights calculation, which voids
+   that path.
+
+~ Copyright
+
+This document has been placed in the public domain.
