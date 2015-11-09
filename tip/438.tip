@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -18,7 +18,7 @@ results if the asynchronous calculations are not over.  This TIP is about
 providing the user with a way to ensure that line metrics are up-to-date.
 
 ~ Rationale
-
+TEST
 The text widget features asynchronous calculation of the display height of
 logical lines. The reasons for this and the details of the implementation are
 explained at the beginning of tkTextDisp.c.
