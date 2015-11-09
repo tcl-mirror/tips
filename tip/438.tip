@@ -1,14 +1,14 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
 Vote:           Pending
 Created:        01-Nov-2015
 Post-History:   
+Keywords:       Tk,text
 Tcl-Version:    8.5.18
-Keywords:	Tk, text
 
 ~ Abstract
 
@@ -55,17 +55,45 @@ the time needed to get the line heights calculations up-to-date.
 This TIP is about providing the user/programmer with a (better) way to ensure
 that line metrics are up-to-date.
 
-It has to be noted that the '''update''' command is of no help here since the
-line metrics calculation is disconnected from the event loop (and from the
-display refresh as well).
+Indeed it is not appropriate to let the concerned commands always update line metrics or wait for the end of the update calculation each time they are called: performance impact would be way too large.
+
+Also, it has to be noted that the '''update''' command is of no help here since the
+line metrics calculation is done within the event loop in a chained
+sequence of [after 1] handlers.
 
 ~ Proposed Change
 
-It is proposed to add a new sub-command to the text widget:
+It is proposed to... <TBD> !  Pick your choice among the alternatives below! :-)
+
+~ Alternatives
+
+ * Since what is really needed is a way to know when the information
+   wanted is available, in other words when the line metrics are
+   up-to-date, one could create a script-visible variable such as
+   '''::tk::metricsDone''' allowing the user to know whether the line
+   metrics are up-to-date or not.
+   Then, use '''vwait'' on this variable.
+   For example, say '''::tk::metricsDone''' holds an integer counter,
+   incremented whenever the line metrics are up-to-date (i.e. set at
+   the end of function AsyncUpdateLineMetrics).
+   This would allow for both styles:
+       - synchronous with [vwait ::tk::metricsdone; compare $::tk::metricsdone with earlier value]
+       - asynchronous with [update ; compare $::tk::metricsdone with earlier value]
+   while still servicing all other event handlers normally (fileevents,
+   other timers, display).
+
+   However, how to conciliate this approach with the fact the user needs
+   control over line metrics update for each text widget separately?
+
+   Alternatively, a (virtual) event could be used, that could be bound
+   to the concerned text widget, allowing the user code that needs line
+   metrics data to set a variable on which he could then [vwait] on.
+
+ * Add a new sub-command to the text widget:
 
  > ''pathName'' '''yupdate''' ?''index1''? ?''index2''?
 
-This command will ensure that the line heights calculation is up-to date
+This command would ensure that the line heights calculation is up-to date
 between ''index1'' and ''index2'' by executing:
 
 |    TkTextUpdateLineMetrics(textPtr,
@@ -75,17 +103,37 @@ between ''index1'' and ''index2'' by executing:
 If no index is provided then ''index1'' defaults to ''1.0'' and ''index2'' to
 ''end''.  If only ''index1'' is provided then ''index2'' defaults to ''end''.
 
-Featuring ?''index1''? ?''index2''? in '''pathName yupdate''' provides the
-programmer with fine control to what needs to be updated. (''Note: I still
+Featuring ?''index1''? ?''index2''? in '''pathName yupdate''' would provide the
+programmer with fine control to what needs to be updated. (Note: I still
 need to figure out if these indices are useful or not - maybe only the case
-'''1.0 end''' is relevant'').
+'''1.0 end''' is relevant).
 
 With this new sub-command, the '''-update''' modifier switch of '''text
 count''' would become obsolete. It would be declared as such in the text
 widget man page while being still supported for backwards compatibility
 reasons.
 
-~ Alternatives (''that I rejected but can of course still be discussed'')
+The problem with this is the possibility of having the metrics go
+out-of-date between the '''yupdate''' operation and a subsequent
+'''see''' or '''yview''' operation. Using a '''-update''' option on
+effected commands would eliminate this small vulnerability.  To assure
+accuracy, the forced '''yupdate''' has to be atomic with the ('''see''',
+'''yview''', etc.) request.
+
+Other than having an '''-update''' option to '''see'''/'''yview'''/'''count''',
+possible alternatives to get atomicity between '''yupdate''' and
+'''see'''/'''yview'''/'''count''' could be:
+    '''pathName yupdate''' sets a flag so that line metrics are updated
+    at next call to '''see'''/'''yview'''/'''count'''. And when
+    returning from '''see'''/'''yview'''/'''count''' , yupdate is
+    automatically reset to off.
+    Implement '''pathname yupdate on/off''', which switches on or off
+    line metrics update for all upcoming
+    '''see'''/'''yview'''/'''count''' commands.
+
+Another issue with the '''yupdate''' approach is that this would be yet
+another way (beside '''update''' and '''vwait''') to poll the event
+loop, which is not desirable.
 
  * Don't change the source code and better document the '''.text count -update
    -ypixels''' trick. This is believed to be suboptimal considering that
@@ -93,7 +141,7 @@ reasons.
    performance drawback could however be very much alleviated by counting
    between the two same indices: there would be no cost at all if this case
    was detected and was a short-cut in function TextWidgetObjCmd.
- 
+
  * Instead of a new text widget sub-command, follow the lines of the existing
    example of '''text count''' and provide a new modifier switch '''-update'''
    to all sub-commands that may need it. The list of such sub-commands include
@@ -101,7 +149,7 @@ reasons.
    yview scroll'''. Not a big fan of this. Implementation is more complex than
    the proposal, and the update granularity would not be fine (i.e. always
    ''1.0 end''), which has again performance impact.
- 
+
  * '''update idletasks''' could force line metrics calculation update (in
    addition to what this command already does). This is certainly not the
    right thing to do since it is not very flexible. It would impact the
