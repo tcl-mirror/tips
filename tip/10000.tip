@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.205 $
+Version:        $Revision: 1.206 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -32,6 +32,8 @@ file system to the Tcl core.
 like ''scan %*'', writing "current position" to a parameter 
 
 ~ Rationale
+
+derp!
 
 Most if not all platforms supported by Tcl today allow user space
 processes to monitor the file system for certain changes such as the
