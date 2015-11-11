@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.207 $
+Version:        $Revision: 1.208 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -70,24 +70,6 @@ path.
 
 The calling conventions for ''callback'' and the syntax of ''filter''
 are yet to be determined.
-
-Immediately brings the line metrics up-to-date by forcing computation of any outdated line pixel heights. Indeed, to maintain a responsive user-experience, the text widget caches line heights and re-calculates them in the background. The command returns immediately if there is no such outdated line heights, otherwise it returns only at the end of the computation. In the latter case, a '''<<LineHeightsValid>>''' virtual event is fired. The command returns an empty string.
-
-Immediately brings the line metrics up-to-date by forcing computation of any
-outdated line pixel heights. Indeed, to maintain a responsive user-experience,
-the text widget caches line heights and re-calculates them in the background.
-The command returns immediately if there is no such outdated line heights,
-otherwise it returns only at the end of the computation. In the latter case, a
-'''<<LineHeightsValid>>''' virtual event is fired. The command returns an empty
-string.
-
-    Immediately brings the line metrics up-to-date by forcing computation of
-    any outdated line pixel heights. Indeed, to maintain a responsive
-    user-experience, the text widget caches line heights and re-calculates them
-    in the background. The command returns immediately if there is no such
-    outdated line heights, otherwise it returns only at the end of the
-    computation. In the latter case, a '''<<LineHeightsValid>>''' virtual event
-    is fired. The command returns an empty string.
 
 ~ Rejected alternatives
 
