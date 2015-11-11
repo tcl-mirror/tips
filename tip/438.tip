@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -32,22 +32,22 @@ solved by adding a modifier '''-update''' allowing the user to be sure any
 possible out of date line height information is recalculated.
 
 It appears that aside of '''.text count -ypixels''' there are several other
-cases where wrong results can be produced by text widget sub-commands. These
-cases are illustrated in several bug reports:
+cases where wrong results can be produced by text widget commands. These cases
+are illustrated in several bug reports:
 
- * [http://core.tcl.tk/tk/tktview/1566949]  (text yview moveto)
+ * [http://core.tcl.tk/tk/tktview/1566949]  (.text yview moveto)
 
- * [http://core.tcl.tk/tk/tktview/e51941c]  (text yview)
+ * [http://core.tcl.tk/tk/tktview/e51941c]  (.text yview)
 
- * [http://core.tcl.tk/tk/tktview/2949648]  (text see)
+ * [http://core.tcl.tk/tk/tktview/2949648]  (.text see)
 
- * [http://core.tcl.tk/tk/tktview/1739605]  (text see)
+ * [http://core.tcl.tk/tk/tktview/1739605]  (.text see)
 
- * [http://core.tcl.tk/tk/tktview/1499165]  (text see, scrollbar dance)
+ * [http://core.tcl.tk/tk/tktview/1499165]  (.text see, scrollbar dance)
 
 In all these cases, forcing the update by calling '''.text count -update
--ypixels 1.0 end''' before calling '''text see''', '''text yview''', or
-'''text yview moveto''' solves the issue presented in the ticket. This has
+-ypixels 1.0 end''' before calling '''.text see''', '''.text yview''', or
+'''.text yview moveto''' solves the issue presented in the ticket. This has
 however a performance cost, of course, but the above tickets show that there
 are cases where the programmer needs accurate results, be it at the cost of
 the time needed to get the line heights calculations up-to-date.
@@ -55,89 +55,90 @@ the time needed to get the line heights calculations up-to-date.
 This TIP is about providing the user/programmer with a (better) way to ensure
 that line metrics are up-to-date.
 
-Indeed it is not appropriate to let the concerned commands always update line metrics or wait for the end of the update calculation each time they are called: performance impact would be way too large.
+Indeed it is not appropriate to let the concerned commands always force update
+of the line metrics or wait for the end of the update calculation each time
+they are called: performance impact would be way too large.
 
-Also, it has to be noted that the '''update''' command is of no help here since the
-line metrics calculation is done within the event loop in a chained
+Also, it has to be noted that the '''update''' command is of no help here since
+the line metrics calculation is done within the event loop in a chained
 sequence of [after 1] handlers.
 
 ~ Proposed Change
 
-It is proposed to... <TBD> !  Pick your choice among the alternatives below! :-)
+It is proposed to add two new commands to the text widget:
 
-~ Alternatives
+ > ''pathName'' '''yupdate'''
 
- * Since what is really needed is a way to know when the information
-   wanted is available, in other words when the line metrics are
-   up-to-date, one could create a script-visible variable such as
-   '''::tk::metricsDone''' allowing the user to know whether the line
-   metrics are up-to-date or not.
-   Then, use '''vwait'' on this variable.
-   For example, say '''::tk::metricsDone''' holds an integer counter,
-   incremented whenever the line metrics are up-to-date (i.e. set at
-   the end of function AsyncUpdateLineMetrics).
-   This would allow for both styles:
-       - synchronous with [vwait ::tk::metricsdone; compare $::tk::metricsdone with earlier value]
-       - asynchronous with [update ; compare $::tk::metricsdone with earlier value]
-   while still servicing all other event handlers normally (fileevents,
-   other timers, display).
+ > ''pathName'' '''pendingyupdate'''
 
-   However, how to conciliate this approach with the fact the user needs
-   control over line metrics update for each text widget separately?
+Also a new virtual event '''<<LineHeightsValid>>''' will be added.
 
-   Alternatively, a (virtual) event could be used, that could be bound
-   to the concerned text widget, allowing the user code that needs line
-   metrics data to set a variable on which he could then [vwait] on.
+Description (and documentation draft):
 
- * Add a new sub-command to the text widget:
+''pathName'' '''yupdate'''
 
- > ''pathName'' '''yupdate''' ?''index1''? ?''index2''?
+    Immediately brings the line metrics up-to-date by forcing computation of
+    any outdated line pixel heights. Indeed, to maintain a responsive
+    user-experience, the text widget caches line heights and re-calculates them
+    in the background. The command returns immediately if there is no such
+    outdated line heights, otherwise it returns only at the end of the
+    computation. In the latter case, a '''<<LineHeightsValid>>''' virtual event
+    is fired. The command returns an empty string.
 
-This command would ensure that the line heights calculation is up-to date
-between ''index1'' and ''index2'' by executing:
+Implementation details: The command executes:
 
-|    TkTextUpdateLineMetrics(textPtr,
-|	    TkBTreeLinesTo(textPtr, index1->linePtr),
-|	    TkBTreeLinesTo(textPtr, index2->linePtr), -1);
+|    TkTextUpdateLineMetrics(textPtr, 1;
+|	      TkBTreeNumLines(textPtr->sharedTextPtr->tree, textPtr), -1);
 
-If no index is provided then ''index1'' defaults to ''1.0'' and ''index2'' to
-''end''.  If only ''index1'' is provided then ''index2'' defaults to ''end''.
+''pathName'' '''pendingyupdate'''
 
-Featuring ?''index1''? ?''index2''? in '''pathName yupdate''' would provide the
-programmer with fine control to what needs to be updated. (Note: I still
-need to figure out if these indices are useful or not - maybe only the case
-'''1.0 end''' is relevant).
+    Returns a positive integer corresponding to the number of lines for which
+    the height is outdated. Indeed, to maintain a responsive user-experience,
+    the text widget caches line heights and re-calculates them in the
+    background.
 
-With this new sub-command, the '''-update''' modifier switch of '''text
-count''' would become obsolete. It would be declared as such in the text
-widget man page while being still supported for backwards compatibility
-reasons.
+Implementation details: The command returns:
 
-The problem with this is the possibility of having the metrics go
-out-of-date between the '''yupdate''' operation and a subsequent
-'''see''' or '''yview''' operation. Using a '''-update''' option on
-effected commands would eliminate this small vulnerability.  To assure
-accuracy, the forced '''yupdate''' has to be atomic with the ('''see''',
-'''yview''', etc.) request.
+|    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
 
-Other than having an '''-update''' option to '''see'''/'''yview'''/'''count''',
-possible alternatives to get atomicity between '''yupdate''' and
-'''see'''/'''yview'''/'''count''' could be:
-    '''pathName yupdate''' sets a flag so that line metrics are updated
-    at next call to '''see'''/'''yview'''/'''count'''. And when
-    returning from '''see'''/'''yview'''/'''count''' , yupdate is
-    automatically reset to off.
-    Implement '''pathname yupdate on/off''', which switches on or off
-    line metrics update for all upcoming
-    '''see'''/'''yview'''/'''count''' commands.
+The existing '''-update''' modifier switch of '''text count''' will become
+obsolete. It will be declared as such in the text widget documentation page
+while being still supported for backwards compatibility reasons.
 
-Another issue with the '''yupdate''' approach is that this would be yet
-another way (beside '''update''' and '''vwait''') to poll the event
-loop, which is not desirable.
+The text widget documentation will be augmented by a short section describing
+the asynchronous update of line metrics, the reasons for that background
+update, the drawbacks regarding possibly wrong results in '''.text see''',
+'''.text yview''', or '''.text yview moveto''', and the way to solve these
+issues by using the new commands. Example code as below will be provided in the
+documentation, since this code will not be included in the library (i.e. in
+''text.tcl'')).
+
+Using these commands, ways to ensure accurate results in '''.text see''',
+'''.text yview''', or '''.text yview moveto''' are as in the following example:
+
+|    # init code
+|    bind $w <<LineHeightsValid>> { set yud($w) 1 }
+|
+|    # runtime, immediately complete line metrics at any cost (GUI unresponsive)
+|    $w yupdate
+|    $w yview moveto $fraction
+|
+|    # runtime, synchronously wait for up-to-date line metrics (GUI responsive)
+|    if {[$w pendingyupdate]} { vwait yud($w) }
+|    $w yview moveto $fraction
+|
+|    # runtime, asynchronously wait for up-to-date line metrics (GUI responsive)
+|    while {[$w pendingyupdate]} { ... ; update }
+|    $w yview moveto $fraction
+
+~ Rejected alternatives
+
+ * Use a script-visible array variable such as '''::tk::metricsDone($w)'''
+   instead of an event.
 
  * Don't change the source code and better document the '''.text count -update
    -ypixels''' trick. This is believed to be suboptimal considering that
-   '''text count''' indeed performs counting (which has a cost). This
+   '''.text count''' indeed performs counting (which has a cost). This
    performance drawback could however be very much alleviated by counting
    between the two same indices: there would be no cost at all if this case
    was detected and was a short-cut in function TextWidgetObjCmd.
@@ -146,9 +147,7 @@ loop, which is not desirable.
    example of '''text count''' and provide a new modifier switch '''-update'''
    to all sub-commands that may need it. The list of such sub-commands include
    '''text see''', '''text yview''', '''text yview moveto''', and '''text
-   yview scroll'''. Not a big fan of this. Implementation is more complex than
-   the proposal, and the update granularity would not be fine (i.e. always
-   ''1.0 end''), which has again performance impact.
+   yview scroll'''.
 
  * '''update idletasks''' could force line metrics calculation update (in
    addition to what this command already does). This is certainly not the
