@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -82,8 +82,7 @@ Description (and documentation draft):
     user-experience, the text widget caches line heights and re-calculates them
     in the background. The command returns immediately if there is no such
     outdated line heights, otherwise it returns only at the end of the
-    computation. In the latter case, a '''<<LineHeightsValid>>''' virtual event
-    is fired. The command returns an empty string.
+    computation. The command returns an empty string.
 
 Implementation details: The command executes:
 
@@ -101,7 +100,13 @@ Implementation details: The command returns:
 
 |    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
 
-The existing '''-update''' modifier switch of '''text count''' will become
+'''<<LineHeightsValid>>'''
+
+    The '''<<LineHeightsValid>>''' virtual event fires each time the normal
+    background update of line metrics is finished. It does not fire when
+    ''pathName'' '''yupdate''' returns.
+
+The existing '''-update''' modifier switch of '''.text count''' will become
 obsolete. It will be declared as such in the text widget documentation page
 while being still supported for backwards compatibility reasons.
 
