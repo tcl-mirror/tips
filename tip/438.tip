@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -100,11 +100,13 @@ Implementation details: The command returns:
 
 |    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
 
-'''<<LineHeightsValid>>'''
+'''<<LineHeightsInvalid>>'''
 
-    The '''<<LineHeightsValid>>''' virtual event fires each time the normal
-    background update of line metrics is finished. It does not fire when
-    ''pathName'' '''yupdate''' returns.
+    The '''<<LineHeightsInvalid>>''' virtual event fires each time a partial
+    background update of line metrics is finished. It also fires when
+    ''pathName'' '''yupdate''' returns. The detail field (%d substitution)
+    contains the number of lines for which the height is still outdated. When
+    this field is 0, then all line heigths are up-to-date.
 
 The existing '''-update''' modifier switch of '''.text count''' will become
 obsolete. It will be declared as such in the text widget documentation page
@@ -121,8 +123,10 @@ documentation, since this code will not be included in the library (i.e. in
 Using these commands, ways to ensure accurate results in '''.text see''',
 '''.text yview''', or '''.text yview moveto''' are as in the following example:
 
-|    # init code
-|    bind $w <<LineHeightsValid>> { set yud($w) 1 }
+|    ## Example 1:
+|
+|    # init
+|    bind $w <<LineHeightsInvalid>> { if {%d == 0} {set yud(%W) 1} }
 |
 |    # runtime, immediately complete line metrics at any cost (GUI unresponsive)
 |    $w yupdate
@@ -135,6 +139,24 @@ Using these commands, ways to ensure accurate results in '''.text see''',
 |    # runtime, asynchronously wait for up-to-date line metrics (GUI responsive)
 |    while {[$w pendingyupdate]} { ... ; update }
 |    $w yview moveto $fraction
+|
+|    ## Example 2:
+|
+|    # init
+|    set todo($w) {}
+|    bind $w <<LineHeightsInvalid>> {
+|        if {%d == 0} {
+|            foreach cmd $todo($w) {eval $cmd}
+|            set todo($w) {}
+|        }
+|    }
+|
+|    # runtime
+|    if {![$w pendingyupdate]} {
+|        $w yview moveto $fraction
+|    } else {
+|        lappend todo($w) [list $w yview moveto $fraction]
+|    }
 
 ~ Rejected alternatives
 
