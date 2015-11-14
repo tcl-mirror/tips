@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -71,7 +71,7 @@ It is proposed to add two new commands to the text widget:
 
  > ''pathName'' '''pendingyupdate'''
 
-Also a new virtual event '''<<LineHeightsInvalid>>''' will be added.
+Also a new virtual event '''<<TextLineHeightsInvalid>>''' will be added.
 
 Description (and documentation draft):
 
@@ -100,10 +100,10 @@ Implementation details: The command returns:
 
 |    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
 
-'''<<LineHeightsInvalid>>'''
+'''<<TextLineHeightsInvalid>>'''
 
-    The '''<<LineHeightsInvalid>>''' virtual event fires each time a partial
-    background update of line metrics is finished. It also fires when
+    The '''<<TextLineHeightsInvalid>>''' virtual event fires each time a
+    partial background update of line metrics is finished. It also fires when
     ''pathName'' '''yupdate''' returns. The detail field (%d substitution)
     contains the number of lines for which the height is still outdated. When
     this field is 0, then all line heigths are up-to-date.
@@ -126,7 +126,7 @@ Using these commands, ways to ensure accurate results in '''.text see''',
 |    ## Example 1:
 |
 |    # init
-|    bind $w <<LineHeightsInvalid>> { if {%d == 0} {set yud(%W) 1} }
+|    bind $w <<TextLineHeightsInvalid>> { if {%d == 0} {set yud(%W) 1} }
 |
 |    # runtime, immediately complete line metrics at any cost (GUI unresponsive)
 |    $w yupdate
@@ -144,7 +144,7 @@ Using these commands, ways to ensure accurate results in '''.text see''',
 |
 |    # init
 |    set todo($w) {}
-|    bind $w <<LineHeightsInvalid>> {
+|    bind $w <<TextLineHeightsInvalid>> {
 |        if {%d == 0} {
 |            foreach cmd $todo($w) {eval $cmd}
 |            set todo($w) {}
