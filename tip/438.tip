@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -67,15 +67,15 @@ sequence of [after 1] handlers.
 
 It is proposed to add two new commands to the text widget:
 
- > ''pathName'' '''yupdate'''
+ > ''pathName'' '''sync''' ''?-command command?''
 
- > ''pathName'' '''pendingyupdate'''
+ > ''pathName'' '''pendingsync'''
 
-Also a new virtual event '''<<TextLineHeightsInvalid>>''' will be added.
+Also a new virtual event '''<<WidgetViewSync>>''' will be added.
 
 Description (and documentation draft):
 
-''pathName'' '''yupdate'''
+''pathName'' '''sync'''
 
     Immediately brings the line metrics up-to-date by forcing computation of
     any outdated line pixel heights. Indeed, to maintain a responsive
@@ -86,10 +86,15 @@ Description (and documentation draft):
 
 Implementation details: The command executes:
 
-|    TkTextUpdateLineMetrics(textPtr, 1;
+|    TkTextUpdateLineMetrics(textPtr, 1,
 |	      TkBTreeNumLines(textPtr->sharedTextPtr->tree, textPtr), -1);
 
-''pathName'' '''pendingyupdate'''
+''pathName'' '''sync''' '''-command''' ''command''
+    Schedule ''command'' to be executed exactly once as soon as all line
+    calculations are up-to-date. If there are no pending line metrics
+    calculations, command is executed immediately.
+
+''pathName'' '''pendingsync'''
 
     Returns a positive integer corresponding to the number of lines for which
     the height is outdated. Indeed, to maintain a responsive user-experience,
@@ -100,17 +105,27 @@ Implementation details: The command returns:
 
 |    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
 
-'''<<TextLineHeightsInvalid>>'''
+'''<<WidgetViewSync>>'''
 
-    The '''<<TextLineHeightsInvalid>>''' virtual event fires each time a
-    partial background update of line metrics is finished. It also fires when
-    ''pathName'' '''yupdate''' returns. The detail field (%d substitution)
-    contains the number of lines for which the height is still outdated. When
-    this field is 0, then all line heigths are up-to-date.
+    A widget can have a period of timeduring which the internal data model is
+    not in sync with the view.  The '''sync'''' method forces the view to be in
+    sync with the data. The '''<<WidgetViewSync>>''' virtual event fires when
+    the internal data model starts to be out of sync with the widget view, and
+    when it becomes again in sync with the widget view. For the text widget, it
+    fires when line metrics become outdated, and when they are up-to-date
+    again. Note that this means it fires in particular when ''pathName''
+    '''sync''' returns. The detail field (%d substitution) is either true (when
+    the widget is in sync) or false (when it is not).
+
+All '''sync''', '''pendingsync''' and '''<<WidgetViewSync>>''' apply to
+each text widget independently of its peers.
+
+The names '''sync''', '''pendingsync''' and '''<<WidgetViewSync>>''' are chosen
+beacuse of the potential for generalization to other widgets they have.
 
 The existing '''-update''' modifier switch of '''.text count''' will become
-obsolete. It will be declared as such in the text widget documentation page
-while being still supported for backwards compatibility reasons.
+obsolete. It will be declared as deprecated in the text widget documentation
+page while being still supported for backwards compatibility reasons.
 
 The text widget documentation will be augmented by a short section describing
 the asynchronous update of line metrics, the reasons for that background
@@ -125,34 +140,56 @@ Using these commands, ways to ensure accurate results in '''.text see''',
 
 |    ## Example 1:
 |
-|    # init
-|    bind $w <<TextLineHeightsInvalid>> { if {%d == 0} {set yud(%W) 1} }
-|
 |    # runtime, immediately complete line metrics at any cost (GUI unresponsive)
-|    $w yupdate
-|    $w yview moveto $fraction
-|
-|    # runtime, synchronously wait for up-to-date line metrics (GUI responsive)
-|    if {[$w pendingyupdate]} { vwait yud($w) }
-|    $w yview moveto $fraction
-|
-|    # runtime, asynchronously wait for up-to-date line metrics (GUI responsive)
-|    while {[$w pendingyupdate]} { ... ; update }
+|    $w sync
 |    $w yview moveto $fraction
 |
 |    ## Example 2:
 |
+|    # runtime, synchronously wait for up-to-date line metrics (GUI responsive)
+|    $w sync -command [list $w yview moveto $fraction]
+|
+|    ## Example 3:
+|
+|    # init
+|    set yud($w) 0
+|    proc updateaction w {
+|        set ::yud($w) 1
+|        # any other update action here...
+|    }
+|
+|    # runtime, synchronously wait for up-to-date line metrics (GUI responsive)
+|    $w sync -command [list updateaction $w]
+|    vwait yud($w)
+|    $w yview moveto $fraction
+|
+|    ## Example 4:
+|
 |    # init
 |    set todo($w) {}
-|    bind $w <<TextLineHeightsInvalid>> {
-|        if {%d == 0} {
-|            foreach cmd $todo($w) {eval $cmd}
-|            set todo($w) {}
+|    proc updateaction w {
+|        foreach cmd $::todo($w) {uplevel #0 $cmd}
+|        set todo($w) {}
+|    }
+|
+|    # runtime
+|    lappend todo($w) [list $w yview moveto $fraction]
+|    $w sync -command [list updateaction $w]
+|
+|    ## Example 5:
+|
+|    # init
+|    set todo($w) {}
+|
+|    bind $w <<WidgetViewSync>> {
+|        if {%d} {
+|            foreach cmd $todo(%W) {eval $cmd}
+|            set todo(%W) {}
 |        }
 |    }
 |
 |    # runtime
-|    if {![$w pendingyupdate]} {
+|    if {![$w pendingsync]} {
 |        $w yview moveto $fraction
 |    } else {
 |        lappend todo($w) [list $w yview moveto $fraction]
