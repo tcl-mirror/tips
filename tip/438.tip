@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -15,7 +15,7 @@ Tcl-Version:    8.5.18
 The text widget calculates line metrics asynchronously, for performance
 reasons.  Because of this, some commands of the text widget may return wrong
 results if the asynchronous calculations are not over.  This TIP is about
-providing the user with a way to ensure that line metrics are up-to-date.
+providing the user with ways to ensure that line metrics are up-to-date.
 
 ~ Rationale
 
@@ -52,7 +52,7 @@ however a performance cost, of course, but the above tickets show that there
 are cases where the programmer needs accurate results, be it at the cost of
 the time needed to get the line heights calculations up-to-date.
 
-This TIP is about providing the user/programmer with a (better) way to ensure
+This TIP is about providing the user/programmer with (better) ways to ensure
 that line metrics are up-to-date.
 
 Indeed it is not appropriate to let the concerned commands always force update
@@ -90,16 +90,16 @@ Implementation details: The command executes:
 |	      TkBTreeNumLines(textPtr->sharedTextPtr->tree, textPtr), -1);
 
 ''pathName'' '''sync''' '''-command''' ''command''
+
     Schedule ''command'' to be executed exactly once as soon as all line
-    calculations are up-to-date. If there are no pending line metrics
-    calculations, command is executed immediately.
+    calculations are up-to-date. If there are no pending line metrics calculations,
+    command is executed immediately. The command returns the return value of
+    ''command''.
 
 ''pathName'' '''pendingsync'''
 
     Returns a positive integer corresponding to the number of lines for which
-    the height is outdated. Indeed, to maintain a responsive user-experience,
-    the text widget caches line heights and re-calculates them in the
-    background.
+    the height is outdated.
 
 Implementation details: The command returns:
 
@@ -107,25 +107,21 @@ Implementation details: The command returns:
 
 '''<<WidgetViewSync>>'''
 
-    A widget can have a period of timeduring which the internal data model is
-    not in sync with the view.  The '''sync'''' method forces the view to be in
+    A widget can have a period of time during which the internal data model is
+    not in sync with the view. The '''sync''' method forces the view to be in
     sync with the data. The '''<<WidgetViewSync>>''' virtual event fires when
     the internal data model starts to be out of sync with the widget view, and
-    when it becomes again in sync with the widget view. For the text widget, it
-    fires when line metrics become outdated, and when they are up-to-date
-    again. Note that this means it fires in particular when ''pathName''
-    '''sync''' returns. The detail field (%d substitution) is either true (when
-    the widget is in sync) or false (when it is not).
+    also when it becomes again in sync with the widget view. For the text
+    widget, it fires when line metrics become outdated, and when they are
+    up-to-date again. Note that this means it fires in particular when
+    ''pathName'' '''sync''' returns. The detail field (%d substitution) is
+    either true (when the widget is in sync) or false (when it is not).
 
 All '''sync''', '''pendingsync''' and '''<<WidgetViewSync>>''' apply to
 each text widget independently of its peers.
 
 The names '''sync''', '''pendingsync''' and '''<<WidgetViewSync>>''' are chosen
-beacuse of the potential for generalization to other widgets they have.
-
-The existing '''-update''' modifier switch of '''.text count''' will become
-obsolete. It will be declared as deprecated in the text widget documentation
-page while being still supported for backwards compatibility reasons.
+because of the potential for generalization to other widgets they have.
 
 The text widget documentation will be augmented by a short section describing
 the asynchronous update of line metrics, the reasons for that background
@@ -135,7 +131,11 @@ issues by using the new commands. Example code as below will be provided in the
 documentation, since this code will not be included in the library (i.e. in
 ''text.tcl'')).
 
-Using these commands, ways to ensure accurate results in '''.text see''',
+The existing '''-update''' modifier switch of '''.text count''' will become
+obsolete. It will be declared as deprecated in the text widget documentation
+page while being still supported for backwards compatibility reasons.
+
+Using the new commands, ways to ensure accurate results in '''.text see''',
 '''.text yview''', or '''.text yview moveto''' are as in the following example:
 
 |    ## Example 1:
@@ -243,6 +243,13 @@ Using these commands, ways to ensure accurate results in '''.text see''',
    logical) lines. Assessing the total number of display lines has a
    performance cost similar to proper line heights calculation, which voids
    that path.
+
+ * It has been proposed that the detail field %d for the
+   '''<<WidgetViewSync>>''' event contain the number of outdated lines, whicle
+   this event would fire t each [after 1] partial update of the line metrics.
+   This was rejected since no use case of this value could be exhibited, and it
+   was believed that firing the ecent twice (when out of sync and when again in
+   sync) was sufficient.
 
 ~ Copyright
 
