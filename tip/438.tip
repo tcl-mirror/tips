@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.11 $
+Version:        $Revision: 1.12 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -42,8 +42,6 @@ are illustrated in several bug reports:
  * [http://core.tcl.tk/tk/tktview/2949648]  (.text see)
 
  * [http://core.tcl.tk/tk/tktview/1739605]  (.text see)
-
- * [http://core.tcl.tk/tk/tktview/1499165]  (.text see, scrollbar dance)
 
 In all these cases, forcing the update by calling '''.text count -update
 -ypixels 1.0 end''' before calling '''.text see''', '''.text yview''', or
@@ -245,10 +243,10 @@ Using the new commands, ways to ensure accurate results in '''.text see''',
    that path.
 
  * It has been proposed that the detail field %d for the
-   '''<<WidgetViewSync>>''' event contain the number of outdated lines, whicle
-   this event would fire t each [after 1] partial update of the line metrics.
+   '''<<WidgetViewSync>>''' event contain the number of outdated lines, while
+   this event would fire at each [after 1] partial update of the line metrics.
    This was rejected since no use case of this value could be exhibited, and it
-   was believed that firing the ecent twice (when out of sync and when again in
+   was believed that firing the event twice (when out of sync and when again in
    sync) was sufficient.
 
 ~ Copyright
