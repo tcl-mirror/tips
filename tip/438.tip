@@ -1,7 +1,8 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         François Vogel <fvogelnew1@free.fr>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -96,12 +97,7 @@ Implementation details: The command executes:
 
 ''pathName'' '''pendingsync'''
 
-    Returns a positive integer corresponding to the number of lines for which
-    the height is outdated.
-
-Implementation details: The command returns:
-
-|    dInfoPtr->lastMetricUpdateLine - dInfoPtr->currentMetricUpdateLine
+    Returns 1 if the line calculations are not up-to-date, 0 otherwise
 
 '''<<WidgetViewSync>>'''
 
