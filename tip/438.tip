@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -40,16 +40,12 @@ are illustrated in several bug reports:
 
  * [http://core.tcl.tk/tk/tktview/e51941c]  (.text yview)
 
- * [http://core.tcl.tk/tk/tktview/2949648]  (.text see)
-
- * [http://core.tcl.tk/tk/tktview/1739605]  (.text see)
-
 In all these cases, forcing the update by calling '''.text count -update
--ypixels 1.0 end''' before calling '''.text see''', '''.text yview''', or
-'''.text yview moveto''' solves the issue presented in the ticket. This has
-however a performance cost, of course, but the above tickets show that there
-are cases where the programmer needs accurate results, be it at the cost of
-the time needed to get the line heights calculations up-to-date.
+-ypixels 1.0 end''' before calling '''.text yview''', or '''.text yview
+moveto''' solves the issue presented in the ticket. This has however a
+performance cost, of course, but the above tickets show that there are cases
+where the programmer needs accurate results, be it at the cost of the time
+needed to get the line heights calculations up-to-date.
 
 This TIP is about providing the user/programmer with (better) ways to ensure
 that line metrics are up-to-date.
@@ -72,7 +68,7 @@ It is proposed to add two new commands to the text widget:
 
 Also a new virtual event '''<<WidgetViewSync>>''' will be added.
 
-Description (and documentation draft):
+Description:
 
 ''pathName'' '''sync'''
 
@@ -97,7 +93,7 @@ Implementation details: The command executes:
 
 ''pathName'' '''pendingsync'''
 
-    Returns 1 if the line calculations are not up-to-date, 0 otherwise
+    Returns 1 if the line calculations are not up-to-date, 0 otherwise.
 
 '''<<WidgetViewSync>>'''
 
@@ -108,8 +104,9 @@ Implementation details: The command executes:
     also when it becomes again in sync with the widget view. For the text
     widget, it fires when line metrics become outdated, and when they are
     up-to-date again. Note that this means it fires in particular when
-    ''pathName'' '''sync''' returns. The detail field (%d substitution) is
-    either true (when the widget is in sync) or false (when it is not).
+    ''pathName'' '''sync''' returns (if there was pending updates). The detail
+    field (%d substitution) is either true (when the widget is in sync) or
+    false (when it is not).
 
 All '''sync''', '''pendingsync''' and '''<<WidgetViewSync>>''' apply to
 each text widget independently of its peers.
@@ -119,18 +116,17 @@ because of the potential for generalization to other widgets they have.
 
 The text widget documentation will be augmented by a short section describing
 the asynchronous update of line metrics, the reasons for that background
-update, the drawbacks regarding possibly wrong results in '''.text see''',
-'''.text yview''', or '''.text yview moveto''', and the way to solve these
-issues by using the new commands. Example code as below will be provided in the
-documentation, since this code will not be included in the library (i.e. in
-''text.tcl'')).
+update, the drawbacks regarding possibly wrong results in '''.text yview''' or
+'''.text yview moveto''', and the way to solve these issues by using the new
+commands. Example code as below will be provided in the documentation, since
+this code will not be included in the library (i.e. in ''text.tcl'')).
 
 The existing '''-update''' modifier switch of '''.text count''' will become
 obsolete. It will be declared as deprecated in the text widget documentation
 page while being still supported for backwards compatibility reasons.
 
-Using the new commands, ways to ensure accurate results in '''.text see''',
-'''.text yview''', or '''.text yview moveto''' are as in the following example:
+Using the new commands, ways to ensure accurate results in '''.text yview''',
+or '''.text yview moveto''' are as in the following example:
 
 |    ## Example 1:
 |
@@ -204,8 +200,7 @@ Using the new commands, ways to ensure accurate results in '''.text see''',
  * Instead of a new text widget sub-command, follow the lines of the existing
    example of '''text count''' and provide a new modifier switch '''-update'''
    to all sub-commands that may need it. The list of such sub-commands include
-   '''text see''', '''text yview''', '''text yview moveto''', and '''text
-   yview scroll'''.
+   '''text yview''', '''text yview moveto''', and '''text yview scroll'''.
 
  * '''update idletasks''' could force line metrics calculation update (in
    addition to what this command already does). This is certainly not the
@@ -244,6 +239,14 @@ Using the new commands, ways to ensure accurate results in '''.text see''',
    This was rejected since no use case of this value could be exhibited, and it
    was believed that firing the event twice (when out of sync and when again in
    sync) was sufficient.
+
+ * It has been proposed that the '''text pendingsync''' command return the
+   number of currently outdated lines. This was rejected because no use case
+   could be found, and because this TIP aims at generalization and it might be
+   hard to define the equivalent of "number of lines to do" for other widgets.
+   Anyway, using a boolean now (noted as "1" and "0", rather than "true" and
+   "false") leaves room to change our minds later with minimal incompatibility,
+   since [if {[.t pendingsync]}] will keep its semantics with an integer.
 
 ~ Copyright
 
