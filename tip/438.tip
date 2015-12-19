@@ -1,6 +1,6 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -87,9 +87,9 @@ Implementation details: The command executes:
 ''pathName'' '''sync''' '''-command''' ''command''
 
     Schedule ''command'' to be executed exactly once as soon as all line
-    calculations are up-to-date. If there are no pending line metrics calculations,
-    command is executed immediately. The command returns the return value of
-    ''command''.
+    calculations are up-to-date. If there are no pending line metrics
+    calculations, the scheduling is immediate. The command returns the empty
+    string. '''bgerror''' is called on ''command'' failure.
 
 ''pathName'' '''pendingsync'''
 
