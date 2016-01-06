@@ -1,0 +1,143 @@
+TIP:		439
+Title:		Semantic Versioning
+Created:	08-Dec-2015
+Version:	$Revision: 1.1 $
+Author:		Jan Nijtmans <jan.nijtmans@gmail.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Post-History:
+
+~ Abstract
+
+The version schema used by Tcl and Tk has the form MAJOR.MINOR.PATCH, which is
+the same schema used by "Semantic Versioning" [http://semver.org/]. For alpha
+and beta releases the schema is MAJOR.MINORaPATCH resp MAJOR.MINORbPATCH,
+which is not following the "Semantic Versioning" rules, but it's close.
+This TIP proposes to start using "Semantic Versioning" for Tcl and Tk,
+starting with Tcl/Tk 8.7, without making it mandatory for extensions and
+Tcl modules: existing extensions and modules written for Tcl/Tk 8.6
+or lower must cooperate unmodified with later 8.x versions as well.
+
+~ Rationale
+
+Semantic Versioning is an attempt to assign meaning to a software
+version number. It has a very simple rule:
+
+ * Given a version number MAJOR.MINOR.PATCH, increment the:
+
+ > * MAJOR version when you make incompatible API changes,
+
+ > * MINOR version when you add functionality in a backwards-compatible
+     manner, and
+
+ > * PATCH version when you make backwards-compatible bug fixes.
+
+ * Additional labels for pre-release and build metadata are available as
+   extensions to the MAJOR.MINOR.PATCH format.
+
+As the version number of Tcl has the same form MAJOR.MINOR.PATCH, nothing
+needs to be done here: future Tcl releases can be done following the Semantic
+Versioning rules. Tcl/Tk alpha/beta releases have the form
+MAJOR.MINOR[ab]PATCH, while Semantic Versioning dictates a form siminar to
+MAJOR.MINOR(-alpha.|-beta.)PATCH: numeric and non-numeric parts must be
+preceded by a dash, and separated by additional dots.
+
+So, it is just a small step to adopt the Semantic Versioning idea. This TIP
+proposes to do just that, and describes the implications it has on Tcl and
+Tk. Alpha releases allow two forms of the version number, the semantic form
+MAJOR.MINOR-alpha.PATCH or the legacy form MAJOR.MINORaPATCH.  For beta
+releases this will be MAJOR.MINOR-beta.PATCH resp MAJOR.MINORbPATCH.  In Tcl
+9.0, the legacy form might be removed and possibly enhanced to support all
+semantic versioning forms, but this is outside the scope of this TIP.
+
+Semantic Versioning will only be adopted for Tcl 8.7 and higher, so Tcl 8.5.x
+and 8.6.x will not be affected. This means that it is possible to introduce a
+minor new feature in 8.6.6, which would mandate a MINOR increment under the
+Semantic Versioning rules. This TIP doesn't apply to Tcl extensions either,
+each extension writer is free in whatever version strategy they choose.
+
+~ Proposed Change
+
+This TIP proposes to adopt Semantic Versioning for Tcl and Tk 8.7 and higher.
+An exception will be made for Tcl extensions and Tcl modules, each extension
+and module author will be free to choose whether or not to adopt Semantic
+Versioning. Existing extensions/modules will continue to cooperate unchanged
+with future Tcl and Tk 8.x releases.
+
+TODO: describe other concequences of this.
+
+Semantic Versioning requires that any API which is removed in Tcl 9.0 must be
+made deprecated in Tcl 8.7 (or 8.8). A new macro TCL_DEPRECATED will be
+introduced for that in the *Decls.h files. If Tcl 8.7 is compiled with the
+flag TCL_NO_DEPRECATED, all deprecated API is removed, by making those entries
+MODULE_SCOPE, and putting 0 in the corresponding stub entries.  This can be
+used by extensions to see whether they are compatible with the next major Tcl
+release or not.
+
+The following API's are declared deprecated in Tcl 8.7 and will be
+removed in Tcl 9.0. They are already removed in the "novem" branch:
+
+ * Tcl_AddObjErrorInfo
+
+ * Tcl_CreateMathFunc
+
+ * Tcl_Eval
+
+ * Tcl_EvalFile
+
+ * Tcl_EvalObj
+
+ * Tcl_GetVar
+
+ * Tcl_GlobalEval
+
+ * Tcl_GlobalEvalObj
+
+ * Tcl_SeekOld
+
+ * Tcl_SetVar
+
+ * Tcl_TellOld
+
+ * Tcl_TraceVar
+
+ * Tcl_UnsetVar
+
+ * Tcl_UntraceVar
+
+ * Tcl_UpVar
+
+ * Tcl_VarEval
+
+ * Tcl_VarTraceInfo
+
+ * Tcl_VarEvalVA
+
+ * Tcl_DiscardResult
+
+ * Tcl_RestoreResult
+
+ * Tcl_SaveResult
+
+ * Tcl_GetDefaultEncodingDir
+
+ * Tcl_SetDefaultEncodingDir
+
+ * Tcl_EvalTokens
+
+ * Tcl_GetMathFuncInfo
+
+ * Tcl_ListMathFuncs
+
+An implementation of this TIP can be found at [http://core.tcl.tk/tcl]; branch
+"semver".
+
+~ Rejected Alternatives
+
+TODO
+
+~ Copyright
+
+This document has been placed in the public domain.
