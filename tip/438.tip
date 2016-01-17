@@ -1,15 +1,15 @@
 TIP:            438
 Title:          Ensure Line Metrics are Up-to-Date
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        01-Nov-2015
 Post-History:   
 Keywords:       Tk,text
-Tcl-Version:    8.5.18
+Tcl-Version:    8.6.5
 
 ~ Abstract
 
