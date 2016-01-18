@@ -1,6 +1,6 @@
 TIP:            439
 Title:          Semantic Versioning
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -69,7 +69,7 @@ with future Tcl and Tk 8.x releases.
 One of the implications of this change is that there - most likely -
 will be future Tcl 8.7/8.8/8.9/8.10 releases. Since all Tcl minor
 releases can be installed next to each other, this would be a
-maintenance burden since all of those versions need to be maitained
+maintenance burden since all of those versions need to be maintained
 during serveral years in the future. Solution: drop the minor number
 from all Tcl and Tk filenames and installation directories. This way,
 Tcl 8.7 and 8.8 cannot be installed next to each other any more,
