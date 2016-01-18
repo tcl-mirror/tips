@@ -1,8 +1,8 @@
 TIP:            340
 Title:          Const Qualification of Tcl_SetResult's Argument
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Jan Nijtmans <nijtmans@users.sourceforge.net>
-State:          Draft
+State:          Withdrawn
 Type:           Project
 Vote:           Pending
 Created:        14-Nov-2008
