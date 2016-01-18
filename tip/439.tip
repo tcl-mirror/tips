@@ -1,6 +1,6 @@
 TIP:            439
 Title:          Semantic Versioning
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -92,10 +92,11 @@ Tcl Modules, which still need to support existing extensions.
 This TIP therefore proposes to change TCL_LIBRARY to
 '<prefix>/share/tcl8', that won't conflict with anything used thus far.
 
-Since Tcl now starts using TCL_LIBRARY being "<prefix>/share", it seems
-logical to start using this directory for man-pages as well. Therefore,
-it is proposed to upgrade "autoconf" to the latest version (2.69),
-which brings the man-page change without further hurdle.
+Since Tcl now starts using TCL_LIBRARY being a subdirectory of
+"<prefix>/share", it seems logical to start using this directory
+for man-pages as well. Therefore, it is proposed to upgrade
+"autoconf" to the latest version (2.69), which brings the
+man-page change without further hurdle.
 
 All together, the proposed directory structure (UNIX)
 
@@ -123,7 +124,7 @@ integrated. It might be that a new major version of a dependancy
 will have to wait for a new major Tcl and Tk release, in the
 same way that matching Tcl and Tk releases must always have the
 same major release. Any Tk 8.x release will work with any Tcl 8.y
-release as long as either x and y are equal, either both x and y > 6.
+release as long as either x and y are equal or both x and y > 6.
 
 Regarding backporting, any change done in Tcl 8.7 could in principle
 be backported to Tcl 8.6 and further to 8.5, if desired. This TIP
