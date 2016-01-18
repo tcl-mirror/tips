@@ -1,13 +1,13 @@
-TIP:		439
-Title:		Semantic Versioning
-Created:	08-Dec-2015
-Version:	$Revision: 1.1 $
-Author:		Jan Nijtmans <jan.nijtmans@gmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Post-History:
+TIP:            439
+Title:          Semantic Versioning
+Version:        $Revision: 1.2 $
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Dec-2015
+Post-History:   
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -41,14 +41,14 @@ As the version number of Tcl has the same form MAJOR.MINOR.PATCH, nothing
 needs to be done here: future Tcl releases can be done following the Semantic
 Versioning rules. Tcl/Tk alpha/beta releases have the form
 MAJOR.MINOR[ab]PATCH, while Semantic Versioning dictates a form siminar to
-MAJOR.MINOR(-alpha.|-beta.)PATCH: numeric and non-numeric parts must be
+MAJOR.MINOR.0(-alpha.|-beta.)PATCH: numeric and non-numeric parts must be
 preceded by a dash, and separated by additional dots.
 
 So, it is just a small step to adopt the Semantic Versioning idea. This TIP
 proposes to do just that, and describes the implications it has on Tcl and
 Tk. Alpha releases allow two forms of the version number, the semantic form
-MAJOR.MINOR-alpha.PATCH or the legacy form MAJOR.MINORaPATCH.  For beta
-releases this will be MAJOR.MINOR-beta.PATCH resp MAJOR.MINORbPATCH.  In Tcl
+MAJOR.MINOR.0-alpha.PATCH or the legacy form MAJOR.MINORaPATCH.  For beta
+releases this will be MAJOR.MINOR.0-beta.PATCH resp MAJOR.MINORbPATCH.  In Tcl
 9.0, the legacy form might be removed and possibly enhanced to support all
 semantic versioning forms, but this is outside the scope of this TIP.
 
@@ -66,7 +66,70 @@ and module author will be free to choose whether or not to adopt Semantic
 Versioning. Existing extensions/modules will continue to cooperate unchanged
 with future Tcl and Tk 8.x releases.
 
-TODO: describe other concequences of this.
+One of the implications of this change is that there - most likely -
+will be future Tcl 8.7/8.8/8.9/8.10 releases. Since all Tcl minor
+releases can be installed next to each other, this would be a
+maintenance burden since all of those versions need to be maitained
+during serveral years in the future. Solution: drop the minor number
+from all Tcl and Tk filenames and installation directories. This way,
+Tcl 8.7 and 8.8 cannot be installed next to each other any more,
+they share the same installation directory if the installation
+''prefix'' is the same. Does that matter? No, because you always
+can choose a different prefix. Actually, there is no need for 
+Tcl 8.7 any more when Tcl 8.8 is available, as they are 100%
+upwards compatible: the Semantic Versioning rules assure this.
+As soon as Tcl 8.8 is released, no new Tcl 8.7 releases will
+come out any more. Any incompatible change will have to wait
+for Tcl 9 (or 10 or 11...). Tcl 8.5 and 8.6 releases will
+continue to be supported as long as there is sufficient interest,
+this TIP doesn't change anything on that.
+
+An important implication of dropping the minor number in
+the Tcl installation script directory is that it would
+become "<prefix>/lib/tcl8" in stead of "<prefix>/lib/tcl8.7".
+This is a problem, because this is the same directory used for
+Tcl Modules, which still need to support existing extensions.
+This TIP therefore proposes to change TCL_LIBRARY to
+'<prefix>/share/tcl8', that won't conflict with anything used thus far.
+
+Since Tcl now starts using TCL_LIBRARY being "<prefix>/share", it seems
+logical to start using this directory for man-pages as well. Therefore,
+it is proposed to upgrade "autoconf" to the latest version (2.69),
+which brings the man-page change without further hurdle.
+
+All together, the proposed directory structure (UNIX)
+
+ > ''<prefix>/bin/tclsh8'' '''Tcl executable'''
+
+ > ''<prefix>/lib/libtcl8.so'' '''Tcl shared library'''
+
+ > ''<prefix>/lib/tcl8'' '''Tcl Modules'''
+
+ > ''<prefix>/lib/tcl8/8.6''
+
+ > ''<prefix>/lib/tcl8/8.7''
+
+ > ''<prefix>/lib/tcl8.6'' '''TCL_LIBRARY for Tcl 8.6'''
+
+ > ''<prefix>/share/tcl8'' '''TCL_LIBRARY for Tcl 8.x (x>=7)'''
+
+ > ''<prefix>/share/man'' '''Tcl manual pages'''
+
+Tcl has various external dependancies, such as zlib, time zone
+information and Unicode, each of them might have its own versioning
+conforming to Semantic Versioning or not. Whether this affects Tcl/Tk's
+Semantic Versioning depends on how the extenal dependancy is
+integrated. It might be that a new major version of a dependancy
+will have to wait for a new major Tcl and Tk release, in the
+same way that matching Tcl and Tk releases must always have the
+same major release. Any Tk 8.x release will work with any Tcl 8.y
+release as long as either x and y are equal, either both x and y > 6.
+
+Regarding backporting, any change done in Tcl 8.7 could in principle
+be backported to Tcl 8.6 and further to 8.5, if desired. This TIP
+doesn't put a restriction to that, as Semantic Versioning only starts
+with version 8.7. Still it would be desirable for the TCT to describe a
+procedure for that, this is outside the scope of this TIP.
 
 Semantic Versioning requires that any API which is removed in Tcl 9.0 must be
 made deprecated in Tcl 8.7 (or 8.8). A new macro TCL_DEPRECATED will be
