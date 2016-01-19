@@ -1,6 +1,6 @@
 TIP:            439
 Title:          Semantic Versioning
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -142,8 +142,6 @@ release or not.
 
 The following API's are declared deprecated in Tcl 8.7 and will be
 removed in Tcl 9.0. They are already removed in the "novem" branch:
-
- * Tcl_AddObjErrorInfo
 
  * Tcl_CreateMathFunc
 
