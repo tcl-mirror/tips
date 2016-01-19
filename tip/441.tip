@@ -1,14 +1,15 @@
-TIP:		441
-Title:		Add -justify Configuration Option to the listbox Widget
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6.6
-Vote:		Pending
-Post-History:
-Version:	$Revision: 1.1 $
-Author:		François Vogel <fvogelnew1@users.sf.net>
-Created:	18-Jan-2016
-Keywords:	Tk, listbox
+TIP:            441
+Title:          Add -justify Configuration Option to the listbox Widget
+Version:        $Revision: 1.2 $
+Author:         François Vogel <fvogelnew1@users.sf.net>
+Author:         François Vogel <fvogelnew1@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        18-Jan-2016
+Post-History:   
+Keywords:       Tk,listbox
+Tcl-Version:    8.6.6
 
 ~ Abstract
 
@@ -41,7 +42,7 @@ Default value is '''left''' on all platforms, for backwards compatibility reason
 
 ~ Reference Implementation
 
-A reference implementation is available in branch rfe-3f456a5bb9 of the fossil
+A reference implementation is available in branch tip-441 of the fossil
 repository.
 
 ~ Copyright
