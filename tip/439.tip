@@ -1,6 +1,6 @@
 TIP:            439
 Title:          Semantic Versioning
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -116,16 +116,6 @@ All together, the proposed directory structure (UNIX)
 
  > ''<prefix>/share/man'' '''Tcl manual pages'''
 
-Tcl has various external dependancies, such as zlib, time zone
-information and Unicode, each of them might have its own versioning
-conforming to Semantic Versioning or not. Whether this affects Tcl/Tk's
-Semantic Versioning depends on how the extenal dependancy is
-integrated. It might be that a new major version of a dependancy
-will have to wait for a new major Tcl and Tk release, in the
-same way that matching Tcl and Tk releases must always have the
-same major release. Any Tk 8.x release will work with any Tcl 8.y
-release as long as either x and y are equal or both x and y > 6.
-
 Regarding backporting, any change done in Tcl 8.7 could in principle
 be backported to Tcl 8.6 and further to 8.5, if desired. This TIP
 doesn't put a restriction to that, as Semantic Versioning only starts
@@ -142,8 +132,6 @@ release or not.
 
 The following API's are declared deprecated in Tcl 8.7 and will be
 removed in Tcl 9.0. They are already removed in the "novem" branch:
-
- * Tcl_CreateMathFunc
 
  * Tcl_Eval
 
@@ -188,6 +176,8 @@ removed in Tcl 9.0. They are already removed in the "novem" branch:
  * Tcl_SetDefaultEncodingDir
 
  * Tcl_EvalTokens
+
+ * Tcl_CreateMathFunc
 
  * Tcl_GetMathFuncInfo
 
