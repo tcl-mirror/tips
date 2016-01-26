@@ -1,6 +1,6 @@
 TIP:            440
 Title:          Add engine to tcl_platform Array
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -10,11 +10,6 @@ Created:        14-Jan-2016
 Post-History:   
 Keywords:       language implementation,platform
 Tcl-Version:    8.5
-
-~ Abstract
-
-This TIP proposes a mechanism for determining the implementation of the Tcl
-language currently in use.
 
 ~ Abstract
 
