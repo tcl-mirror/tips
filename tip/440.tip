@@ -1,14 +1,15 @@
-TIP:		440
-Title:		Add engine to tcl_platform Array
-Version:	$Revision: 1.2 $
-Author:		Joe Mistachkin <joe@mistachkin.com>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	14-Jan-2016
-Tcl-Version:	8.5
-Post-History:
-Keywords:	language implementation, platform
+TIP:            440
+Title:          Add engine to tcl_platform Array
+Version:        $Revision: 1.3 $
+Author:         Joe Mistachkin <joe@mistachkin.com>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        14-Jan-2016
+Post-History:   
+Keywords:       language implementation,platform
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -25,13 +26,53 @@ language is being used.
 
 ~ Specification
 
-The '''engine''' element will be added to the global '''tcl_platform''' array.
-Its value will be set to "'''Tcl'''".
+The '''FOO''' element will be added as key to the global '''::tcl::pkgconfig get''' command.
+Its value will be set to "'''BAR'''". TODO: The exact value of FOO and BAR is
+currently being discussed on the TCLCORE mailing list (this TIP will be modified accordingly).
+
+A minimal example for other implementers (e.g. TH1) which satisfies this TIP:
+
+  proc ::tcl::pkgconfig {sub key args} {
+    if {$sub ne {get} || $key ne {FOO}} {
+      error "not supported"
+    }
+    return TH1
+  }
+
+Of course, implementers are free to implement more parts of TIP #59, but
+they are not required to in order to satisfy this TIP.
+
+This TIP is even possible on Tcl implementations which don't support
+array variables, or don't support the "array" command. Even if the
+implementation doesn't support namespaces, it will still work because
+the the ':' will be part of the normal command.
+
+Like any Tcl command, the information can easily be spoofed by
+renaming the ::tcl::pkgconfig command and putting your own
+command at its place.
 
 ~ Reference Implementation
 
 A reference implementation of this TIP is available
-[https://core.tcl.tk/tcl/timeline?r=tclPlatformEngine].
+[https://core.tcl.tk/tcl/timeline?r=tip-440-alt].
+
+An example implementation of this TIP for TH1 is available
+[https://www.fossil-scm.org/index.html/timeline?r=tip-440-alt].
+
+~ Rejected alternatives
+
+ * Add element "engine" to the tcl_platform variable: Not all Tcl implementations
+   support namespaces and/or array variables, so the syntax $::tcl_platform(engine)
+   might not be available everywhere. And if the platform doesn't have the "array"
+   command, things even become more difficult.
+   See: [http://fossil-scm.org/index.html/info/ea7813da5680dafa].
+ * Add the "info tcl_version" to Tcl, "info th1_version" to TH1 ......
+   Experience shows that it's better to have that information available in a single
+   command and/or variable.
+ * Depend on the already existing $::tcl_version, expecting other engines to
+   implement $::th1_version, $eagle_version .....
+ * Allow "package require Tcl" to return something else than only a version number. This
+   can be done in Tcl 8.7 or later, but not backported to 8.5 and 8.6 where it is needed too.
 
 ~ Copyright
 
