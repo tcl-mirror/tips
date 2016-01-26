@@ -1,6 +1,6 @@
 TIP:            440
 Title:          Add engine to tcl_platform Array
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -26,29 +26,24 @@ language is being used.
 
 ~ Specification
 
-The '''FOO''' element will be added as key to the global '''::tcl::pkgconfig get''' command.
-Its return value will be set to "'''BAR'''". TODO: The exact value of FOO and BAR is
-currently being discussed on the TCLCORE mailing list (this TIP will be modified accordingly).
+The '''runtime''' element will be added as key to the global '''info''' command ensemble.
+Its return value will be set to "'''core'''". Other runtimes than the Tcl
+Core implementation will return a different string.
 
 A minimal example for other implementers (e.g. TH1) which satisfies this TIP:
 
-|  proc ::tcl::pkgconfig {sub key} {
-|    if {$sub ne {get} || $key ne {FOO}} {
+|  proc info {sub} {
+|    if {$sub ne {runtime}} {
 |      error "not supported"
 |    }
 |    return TH1
 |  }
 
-Of course, implementers are free to implement more parts of TIP #59, but
-they are not required to in order to satisfy this TIP.
-
 This TIP is even possible on Tcl implementations which don't support
-array variables, or don't support the "array" command. Even if the
-implementation doesn't support namespaces, it will still work because
-the the ':' will be part of the normal command.
+array variables, or don't support namespaces.
 
 Like any Tcl command, the information can easily be spoofed by
-renaming the ::tcl::pkgconfig command and putting your own
+renaming the '''info''' command and putting your own
 command at its place.
 
 ~ Reference Implementation
@@ -61,10 +56,12 @@ An example implementation of this TIP for TH1 is available
 
 ~ Rejected alternatives
 
- * Add element "engine" to the tcl_platform variable. Not all Tcl implementations
-   support namespaces and/or array variables, so the syntax $::tcl_platform(engine)
-   might not be available everywhere. And if the platform doesn't have the "array"
-   command, things even become more difficult.
+ * Use a subset of TIP #59 ("::tcl::pkgconfig get runtime") as basis in stead.
+
+ * Add element "engine" (or "runtime") to the tcl_platform variable. Not all Tcl
+   implementations support namespaces and/or array variables, so the syntax
+   $::tcl_platform(engine) might not be available everywhere. And if the
+   platform doesn't have the "array" command, things even become more difficult.
    See: [http://fossil-scm.org/index.html/info/ea7813da5680dafa].
 
  * Add the "info tcl_version" to Tcl, "info th1_version" to TH1 ......
