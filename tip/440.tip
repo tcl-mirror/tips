@@ -1,6 +1,6 @@
 TIP:            440
 Title:          Add engine to tcl_platform Array
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -32,7 +32,7 @@ currently being discussed on the TCLCORE mailing list (this TIP will be modified
 
 A minimal example for other implementers (e.g. TH1) which satisfies this TIP:
 
-|  proc ::tcl::pkgconfig {sub key args} {
+|  proc ::tcl::pkgconfig {sub key} {
 |    if {$sub ne {get} || $key ne {FOO}} {
 |      error "not supported"
 |    }
