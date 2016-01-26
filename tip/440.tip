@@ -1,6 +1,6 @@
 TIP:            440
 Title:          Add engine to tcl_platform Array
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -34,7 +34,7 @@ value will be set to '''"Tcl"'''.
 A reference implementation of this TIP is available
 [https://core.tcl.tk/tcl/timeline?r=tclPlatformEngine].
 
-The TH1, Jim, JTcl, and Eagle implementations of the Tcl language already
+The TH1, Jim, Picol, JTcl, and Eagle implementations of the Tcl language already
 implement this feature, each using the name of the project as the value of
 the '''tcl_platform(engine)''' element.
 
