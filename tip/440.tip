@@ -1,6 +1,6 @@
 TIP:            440
 Title:          Add engine to tcl_platform Array
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Joe Mistachkin <joe@mistachkin.com>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -32,17 +32,12 @@ currently being discussed on the TCLCORE mailing list (this TIP will be modified
 
 A minimal example for other implementers (e.g. TH1) which satisfies this TIP:
 
-  proc ::tcl::pkgconfig {sub key args} {
-
-    if {$sub ne {get} || $key ne {FOO}} {
-
-      error "not supported"
-
-    }
-
-    return TH1
-
-  }
+|  proc ::tcl::pkgconfig {sub key args} {
+|    if {$sub ne {get} || $key ne {FOO}} {
+|      error "not supported"
+|    }
+|    return TH1
+|  }
 
 Of course, implementers are free to implement more parts of TIP #59, but
 they are not required to in order to satisfy this TIP.
@@ -66,7 +61,7 @@ An example implementation of this TIP for TH1 is available
 
 ~ Rejected alternatives
 
- * Add element "engine" to the tcl_platform variable: Not all Tcl implementations
+ * Add element "engine" to the tcl_platform variable. Not all Tcl implementations
    support namespaces and/or array variables, so the syntax $::tcl_platform(engine)
    might not be available everywhere. And if the platform doesn't have the "array"
    command, things even become more difficult.
