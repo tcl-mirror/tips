@@ -1,15 +1,15 @@
 TIP:            441
 Title:          Add -justify Configuration Option to the listbox Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         François Vogel <fvogelnew1@users.sf.net>
 Author:         François Vogel <fvogelnew1@free.fr>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        18-Jan-2016
 Post-History:   
 Keywords:       Tk,listbox
-Tcl-Version:    8.6.6
+Tcl-Version:    8.6.5
 
 ~ Abstract
 
