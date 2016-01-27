@@ -1,14 +1,15 @@
 TIP:		368
 Title:		Listbox Justification Option
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Russell Davidson <russelld@actarg.com>
-State:		Draft
+State:		Withdrawn
 Type:		Project
 Tcl-Version:	8.7
 Vote:		Pending
 Created:	10-May-2010
 Post-History:
 Keywords:	Tk
+Obsoleted-By: 441
 
 ~ Abstract
 
