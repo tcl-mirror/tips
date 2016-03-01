@@ -1,14 +1,14 @@
-TIP:		443
-Title:		More Tag Configuration Options for the Text Widget
-State:		Draft
-Type:		Project
-Tcl-Version:	8.6.6
-Vote:		Pending
-Post-History:	
-Version:	$Revision: 1.1 $
-Author:		François Vogel <fvogelnew1@free.fr>
-Created:	09-Feb-2016
-Keywords:	Tk
+TIP:            443
+Title:          More Tag Configuration Options for the Text Widget
+Version:        $Revision: 1.2 $
+Author:         François Vogel <fvogelnew1@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        09-Feb-2016
+Post-History:   
+Keywords:       Tk
+Tcl-Version:    8.6.6
 
 ~ Abstract
 
@@ -86,7 +86,7 @@ It is proposed to add the following tag configuration options to the Tk
 
 ~ Reference Implementation
 
-A reference implementation is available in branch tip-xxx of the fossil
+A reference implementation is available in branch tip-443 of the fossil
 repository.
 
 ~ Copyright
