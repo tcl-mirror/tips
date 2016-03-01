@@ -1,0 +1,39 @@
+TIP:		444
+Title:		Add "weekdays" unit in clock add
+Author:		Pietro Cerutti <gahr@gahr.ch>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Created:	23-Feb-2016
+Post-History: 
+
+~ Abstract
+
+This TIP proposes an enhancement to the '''clock add''' command to support
+performing days arithmetic using week-days only.
+
+~ Rationale
+
+The '''clock add''' command allows to perform time arithmetic using a variety
+of time units, including days. However, it offers no easy way to skip
+week-ends. It is often desired to perform week-days arithmetic that involves
+adding or subtracting a number of non-weekend days to a certain date. This is
+useful in example when computing delivery dates.
+
+~ Proposal
+
+The '''weekdays''' time-unit is added to the list accepted by the '''clock
+add''' command. The '''count''' argument represents week-days (Mon-Fri) to be
+added (or subtracted in case of a negative value) to the date. The result of
+adding weekdays to a date is never a weekend day, unless the starting day is
+itself a weekend day and '''count''' is 0.
+
+~ Reference Implementation
+
+Available at http://core.tcl.tk/tcl/timeline?t=gahr-bug-5f71353740
+
+~ Copyright
+
+This document has been placed in the public domain. 
