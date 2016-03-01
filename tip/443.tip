@@ -1,0 +1,94 @@
+TIP:		443
+Title:		More Tag Configuration Options for the Text Widget
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6.6
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		François Vogel <fvogelnew1@free.fr>
+Created:	09-Feb-2016
+Keywords:	Tk
+
+~ Abstract
+
+Despite the '''text''' widget already has numerous configuration options, some
+users need more refinements and have requested new tag configuration options.
+This TIP proposes to add these options, when deemed relevant.
+
+~ Rationale
+
+Several users have reported they miss different tag configuration options in
+the '''text''' widget, stating they cannot achieve the rendering they target.
+Such RFE include:
+
+ * [Bug: 1759972, https://core.tcl.tk/tk/tktview/1759972], with [Patch
+   3469780, https://core.tcl.tk/tk/tktview/3469780]
+
+ * [Bug: 220889, https://core.tcl.tk/tk/tktview/220889]
+
+~ Proposed Change
+
+It is proposed to add the following tag configuration options to the Tk
+'''text''' widget:
+
+ * '''-selectbackground''' ''color'': Specifies the background color to use
+   when displaying selected items. It may have any of the forms accepted by
+   '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
+   specified as an empty string, then the color specified by the
+   '''-background''' tag option is used.
+
+ > Note regarding the particular case of the "sel"
+ tag: Currently, the "sel" tag '''-background''' tag option is mirrored with
+ the '''-selectbackground''' text widget option. This makes sense. It does not
+ make real sense to have '''-selectbackground''' applied to the "sel" tag (it
+ is more intuitive to use '''-background''' for the "sel" tag). However, if the
+ "sel" tag receives non-empty '''-selectbackground''', then this tag option
+ prevails on the '''-background''' tag option for mirroring, i.e. the
+ '''-selectbackground''' tag option is mirrored with the
+ '''-selectbackground''' widget option.
+
+ * '''-selectforeground''' ''color'': Specifies the foreground color to use
+   when displaying selected items. It may have any of the forms accepted by
+   '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
+   specified as an empty string, then the color specified by the
+   '''-foreground''' tag option is used.
+
+ > Note regarding the particular case of the "sel"
+ tag: same principle as above for '''-selectbackground'''.
+
+ * '''-selectbgstipple''' ''bitmap'': ''Bitmap'' specifies a bitmap that is
+   used as a stipple pattern for the selected background. It may have any of
+   the forms accepted by '''Tk_GetBitmap'''. If ''bitmap'' has not been
+   specified, or if it is specified as an empty string, then the ''bitmap''
+   specified by '''-bgstipple''' will be used for the background.
+
+ * '''-selectfgstipple''' ''bitmap'': ''Bitmap'' specifies a bitmap that is
+   used as a stipple pattern when drawing selected text and other foreground
+   selected information such as underlines. It may have any of the forms
+   accepted by '''Tk_GetBitmap'''. If ''bitmap'' has not been specified, or if
+   it is specified as an empty string, then then the ''bitmap'' specified by
+   '''-fgstipple''' will be used.
+
+ * '''-underlinefg''' ''color'': Specifies the color to use when displaying
+   the underline. It may have any of the forms accepted by '''Tk_GetColor'''.
+   If ''color'' has not been specified, or if it is specified as an empty
+   string, then the color specified by the '''-foreground''' tag option is
+   used (if there is one, otherwise the the color specified by the
+   '''-foreground''' widget option is used).
+
+ * '''-overstrikefg''' ''color'': Specifies the color to use when
+   displaying the overstrike. It may have any of the forms accepted by
+   '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
+   specified as an empty string, then the color specified by the
+   '''-foreground''' tag option is used (if there is one, otherwise the the
+   color specified by the '''-foreground''' widget option is used).
+
+~ Reference Implementation
+
+A reference implementation is available in branch tip-xxx of the fossil
+repository.
+
+~ Copyright
+
+This document has been placed in the public domain.
