@@ -1,6 +1,6 @@
 TIP:            444
 Title:          Add "weekdays" unit in clock add
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pietro Cerutti <gahr@gahr.ch>
 State:          Draft
 Type:           Project
@@ -32,7 +32,7 @@ itself a weekend day and '''count''' is 0.
 
 ~ Reference Implementation
 
-Available at http://core.tcl.tk/tcl/timeline?t=gahr-bug-5f71353740
+Available at http://core.tcl.tk/tcl/timeline?t=tip-444
 
 ~ Discussion
 
