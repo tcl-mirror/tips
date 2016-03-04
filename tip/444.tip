@@ -1,6 +1,6 @@
 TIP:            444
 Title:          Add "weekdays" unit in clock add
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Pietro Cerutti <gahr@gahr.ch>
 State:          Draft
 Type:           Project
@@ -36,9 +36,9 @@ Available at http://core.tcl.tk/tcl/timeline?t=gahr-bug-5f71353740
 
 ~ Discussion
 
-A point has been raised as to whether ‘’weekday’’ is unambiguous enough. For instance, in Sweden there seems to be some disagreement on whether the translation ‘’vardag’’ includes Saturdays. As an alternative, the term ‘’workday’’ has been mentioned. This, however, has the downside of introducing the concept of working days vs. public holiday. Also, the working week is not Mon-Fri in all countries, see [https://en.wikipedia.org/wiki/Workweek_and_weekend#Around_the_world].
+A point has been raised as to whether ''weekday'' is unambiguous enough. For instance, in Sweden there seems to be some disagreement on whether the translation ''vardag'' includes Saturdays. As an alternative, the term ''workday'' has been mentioned. This, however, has the downside of introducing the concept of working days vs. public holiday. Also, the working week is not Mon-Fri in all countries, see [https://en.wikipedia.org/wiki/Workweek_and_weekend#Around_the_world].
 
-TIP does not try to accomodate locale-specific features and characteristics. For this reason, it seems best to stick to ‘’weekday’’ as the name of the unit and specifically mention that (Mon-Fri) is intended in the documentation.
+TIP does not try to accomodate locale-specific features and characteristics. For this reason, it seems best to stick to ''weekday'' as the name of the unit and specifically mention that (Mon-Fri) is intended in the documentation.
 
 ~ Copyright
 
