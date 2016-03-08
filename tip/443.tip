@@ -1,6 +1,6 @@
 TIP:            443
 Title:          More Tag Configuration Options for the Text Widget
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -98,6 +98,24 @@ It is proposed to add the following tag configuration options to the Tk
    '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
    specified as an empty string, then the color specified by the
    '''-background''' widget option is used.
+
+~ Rejected additional tag configuration options
+
+Bug 1759972 [https://core.tcl.tk/tk/tktview/1759972] requested stippling
+('''-selectbgstipple''', '''-selectfgstipple''') for selected text, but
+this was rejected during the discussion about this TIP. Reasons were as
+follows:
+
+ * "Stippling and anything related to Tk Bitmaps should be considered
+   obsolete. Their use should be phased out, not expanded. (Bitmaps have
+   very limited support in Tk, and stippling is virtually never used in
+   modern user interfaces. In fact, AFAIK current graphics stacks --
+   cairo, Quartz, Direct3D, &c -- don't even support this operation."
+
+ * "Stippling is something that is an artefact of a prior time, and it
+   looks pretty bad now. These days, a way to specify an alpha value for
+   the tag would be far more relevant, since then it would end up with a
+   blend of the text foreground and background."
 
 ~ Reference Implementation
 
