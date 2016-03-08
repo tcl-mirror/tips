@@ -1,6 +1,6 @@
 TIP:            443
 Title:          More Tag Configuration Options for the Text Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -53,6 +53,7 @@ It is proposed to add the following tag configuration options to the Tk
  '''-selectbackground''' widget option.
 
 '''-selectforeground''' ''color'':
+
  > Specifies the foreground color to use
    when displaying selected items. It may have any of the forms accepted by
    '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
@@ -63,6 +64,7 @@ It is proposed to add the following tag configuration options to the Tk
  tag: same principle as above for '''-selectbackground'''.
 
 '''-underlinefg''' ''color'':
+
  > Specifies the color to use when displaying
    the underline. It may have any of the forms accepted by '''Tk_GetColor'''.
    If ''color'' has not been specified, or if it is specified as an empty
@@ -71,6 +73,7 @@ It is proposed to add the following tag configuration options to the Tk
    '''-foreground''' widget option is used).
 
 '''-overstrikefg''' ''color'':
+
  > Specifies the color to use when
    displaying the overstrike. It may have any of the forms accepted by
    '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
@@ -79,6 +82,7 @@ It is proposed to add the following tag configuration options to the Tk
    color specified by the '''-foreground''' widget option is used).
 
 '''-lmargincolor''' ''color'':
+
  > ''Color'' specifies the background color
    to use in regions that do not contain characters because they are
    indented by '''-lmargin1''' or '''-lmargin2'''. It may have any of the
@@ -87,6 +91,7 @@ It is proposed to add the following tag configuration options to the Tk
    '''-background''' widget option is used.
 
 '''-rmargincolor''' ''color'':
+
  > ''Color'' specifies the background color
    to use in regions that do not contain characters because they are
    indented by '''-rmargin'''. It may have any of the forms accepted by
