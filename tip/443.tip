@@ -1,6 +1,6 @@
 TIP:            443
 Title:          More Tag Configuration Options for the Text Widget
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -102,9 +102,10 @@ It is proposed to add the following tag configuration options to the Tk
 ~ Rejected additional tag configuration options
 
 RFE 1759972 [https://core.tcl.tk/tk/tktview/1759972] requested stippling
-('''-selectbgstipple''', '''-selectfgstipple''') for selected text, but
-this was rejected during the discussion about this TIP. Reasons were as
-follows:
+('''-selectbgstipple''', '''-selectfgstipple''') for selected text. Also RFE 1754048 [https://core.tcl.tk/tk/tktview/1754048] requested stippling in left and right margins of the text widget ('''-lmargin1stipple''', '''-lmargin2stipple''', '''rmarginstipple''').
+
+Any new stippling options was rejected during the discussion about this
+TIP. Reasons were as follows:
 
  * "Stippling and anything related to Tk Bitmaps should be considered
    obsolete. Their use should be phased out, not expanded. (Bitmaps have
