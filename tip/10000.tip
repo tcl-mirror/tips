@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.209 $
+Version:        $Revision: 1.210 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -125,12 +125,12 @@ promoting the resulting stack-item to the result of the command/
 scriptlet. (This simple compileability is also believed to be
 a main advantage against '''join [list ...] ""''')
 
- '''-selectbackground''' ''color'':
- Specifies the background color to use
-   when displaying selected items. It may have any of the forms accepted by
-   '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
-   specified as an empty string, then the color specified by the
-   '''-background''' tag option is used.
+'''-selectbackground''' ''color'':
+Specifies the background color to use
+when displaying selected items. It may have any of the forms accepted by
+'''Tk_GetColor'''. If ''color'' has not been specified, or if it is
+specified as an empty string, then the color specified by the
+'''-background''' tag option is used.
 
 ~ Further ideas
 
