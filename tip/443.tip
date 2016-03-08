@@ -1,6 +1,6 @@
 TIP:            443
 Title:          More Tag Configuration Options for the Text Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -22,12 +22,12 @@ Several users have reported they miss different tag configuration options in
 the '''text''' widget, stating they cannot achieve the rendering they target.
 Such RFE include:
 
- * Bug 1759972 [https://core.tcl.tk/tk/tktview/1759972], with Patch
+ * RFE 1759972 [https://core.tcl.tk/tk/tktview/1759972], with Patch
    3469780 [https://core.tcl.tk/tk/tktview/3469780]
 
- * Bug 220889 [https://core.tcl.tk/tk/tktview/220889]
+ * RFE 220889 [https://core.tcl.tk/tk/tktview/220889]
 
- * Bug 1754048 [https://core.tcl.tk/tk/tktview/1754048]
+ * RFE 1754048 [https://core.tcl.tk/tk/tktview/1754048]
 
 ~ Proposed Change
 
@@ -101,7 +101,7 @@ It is proposed to add the following tag configuration options to the Tk
 
 ~ Rejected additional tag configuration options
 
-Bug 1759972 [https://core.tcl.tk/tk/tktview/1759972] requested stippling
+RFE 1759972 [https://core.tcl.tk/tk/tktview/1759972] requested stippling
 ('''-selectbgstipple''', '''-selectfgstipple''') for selected text, but
 this was rejected during the discussion about this TIP. Reasons were as
 follows:
