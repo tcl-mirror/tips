@@ -1,6 +1,6 @@
 TIP:            389
 Title:          Full support for Unicode 6.0
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
@@ -14,7 +14,7 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposes to add full support for all characters in Unicode 8.0,
+This TIP proposes to add full support for all characters in Unicode 8.0+,
 inclusive the characters >= '''U+010000'''.
 
 ~ Summary
