@@ -1,7 +1,8 @@
 TIP:            389
 Title:          Full support for Unicode 6.0
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Jan Nijtmans <jan.nijtmans@users.sf.net>
+Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -13,7 +14,7 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposes to add full support for all characters in Unicode 6.0,
+This TIP proposes to add full support for all characters in Unicode 8.0,
 inclusive the characters >= '''U+010000'''.
 
 ~ Summary
@@ -38,7 +39,7 @@ as before. There are few functions which currently return a value of type
 
 ~ Rationale
 
-As Unicode 6.0, and future Unicode versions, will supply more and more
+As Unicode 8.0, and future Unicode versions, will supply more and more
 characters outside the 16-bit range, it would be useful if Tcl supports
 that as well.
 
@@ -68,7 +69,7 @@ This document proposes:
 
  > * ''Tcl_GetUniChar''
 
- * Extend tclUniData.c to include all Unicode 6.0 characters up to
+ * Extend tclUniData.c to include all Unicode 8.0 characters up to
    '''U+02FA20'''.  A special case will be made for the functions
    ''Tcl_UniCharIsGraph'' and ''Tcl_UniCharIsPrint'' for the characters in the
    range '''U+0E0100''' - '''U+0E01EF''', otherwise it would almost double the
