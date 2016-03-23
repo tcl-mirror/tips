@@ -1,6 +1,6 @@
 TIP:            445
 Title:          Tcl_ObjType Utility Routines
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -34,9 +34,9 @@ that performs precisely the same task as the existing internal macro '''TclFreeI
 
 Add to Tcl's stub table of public C routines a new routine 
 
- > char * '''Tcl_InitStringRep'''(Tcl_Obj* ''objPtr'', const char* ''bytes'', int ''numBytes'')
+ > char * '''Tcl_InitStringRep'''(Tcl_Obj* ''objPtr'', const char* ''bytes'', unsigned int ''numBytes'')
 
-that performs the function of the existing internal macro '''TclInitStringRep''', but is extended to return a pointer to the string rep, and to accept NULL as a value for ''bytes''.  When ''bytes'' is NULL and ''objPtr'' has no string rep, an uninitialzed buffer of ''numBytes'' bytes is created for filling by the caller.  When ''bytes'' is NULL and ''objPtr'' has a string rep, the string rep will be resized (extended or truncated) to a length of ''numBytes'' bytes.
+that performs the function of the existing internal macro '''TclInitStringRep''', but is extended to return a pointer to the string rep, and to accept NULL as a value for ''bytes''.  When ''bytes'' is NULL and ''objPtr'' has no string rep, an uninitialzed buffer of ''numBytes'' bytes is created for filling by the caller.  When ''bytes'' is NULL and ''objPtr'' has a string rep, the string rep will be truncated to a length of ''numBytes'' bytes.
 
 Add to Tcl's stub table of public C routines a new routine 
 
