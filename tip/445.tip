@@ -1,6 +1,6 @@
 TIP:            445
 Title:          Tcl_ObjType Utility Routines
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -58,7 +58,7 @@ They do help set up an improved compatibility scenario for the future however.  
 
 ~ Implementation
 
-Will appear on a branch before voting on the proposal is called.
+Taking shape on the tip-445 branch.
 
 ~ Copyright
 
