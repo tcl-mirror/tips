@@ -1,6 +1,6 @@
 TIP:            445
 Title:          Tcl_ObjType Utility Routines
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -49,7 +49,7 @@ arguments and results in public routines.
 
 Add to Tcl's stub table of public C routines a new routine 
 
- > void '''Tcl_StoreIntRep'''(Tcl_Obj* ''objPtr'', const Tcl_ObjType* ''typePtr'', Tcl_ObjIntRep* ''irPtr'')
+ > void '''Tcl_StoreIntRep'''(Tcl_Obj* ''objPtr'', const Tcl_ObjType* ''typePtr'', const Tcl_ObjIntRep* ''irPtr'')
 
 which stores in ''objPtr'' a copy of the internal representation pointed
 to by ''irPtr'' and sets its type to ''typePtr''.
