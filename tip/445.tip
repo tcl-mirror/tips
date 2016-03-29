@@ -1,6 +1,6 @@
 TIP:            445
 Title:          Tcl_ObjType Utility Routines
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 State:          Draft
 Type:           Project
@@ -30,13 +30,23 @@ Add to Tcl's stub table of public C routines a new routine
 
  > void '''Tcl_FreeIntRep'''(Tcl_Obj* ''objPtr'')
 
-that performs precisely the same task as the existing internal macro '''TclFreeIntRep'''.
+that performs precisely the same task as the existing internal
+macro '''TclFreeIntRep'''.
 
 Add to Tcl's stub table of public C routines a new routine 
 
  > char * '''Tcl_InitStringRep'''(Tcl_Obj* ''objPtr'', const char* ''bytes'', unsigned int ''numBytes'')
 
-that performs the function of the existing internal macro '''TclInitStringRep''', but is extended to return a pointer to the string rep, and to accept NULL as a value for ''bytes''.  When ''bytes'' is NULL and ''objPtr'' has no string rep, an uninitialzed buffer of ''numBytes'' bytes is created for filling by the caller.  When ''bytes'' is NULL and ''objPtr'' has a string rep, the string rep will be truncated to a length of ''numBytes'' bytes.
+that performs the function of the existing internal
+macro '''TclInitStringRep''', but is extended to return a pointer to the
+string rep, and to accept NULL as a value for ''bytes''.  When ''bytes'' is
+NULL and ''objPtr'' has no string rep, an uninitialzed buffer
+of ''numBytes'' bytes is created for filling by the caller.
+When ''bytes'' is NULL and ''objPtr'' has a string rep, the string rep will
+be truncated to a length of ''numBytes'' bytes.  When ''numBytes'' is 
+greater than zero, and the returned pointer is NULL, that indicates a
+failure to allocate memory for the string representation.  The caller
+may then choose whether to raise an error or panic.
 
 Define a new public type
 
@@ -52,13 +62,14 @@ Add to Tcl's stub table of public C routines a new routine
  > void '''Tcl_StoreIntRep'''(Tcl_Obj* ''objPtr'', const Tcl_ObjType* ''typePtr'', const Tcl_ObjIntRep* ''irPtr'')
 
 which stores in ''objPtr'' a copy of the internal representation pointed
-to by ''irPtr'' and sets its type to ''typePtr''.
+to by ''irPtr'' and sets its type to ''typePtr''.  When ''irPtr'' is NULL,
+this leaves ''objPtr'' without a representation for type ''typePtr''.
 
 Add to Tcl's stub table of public C routines a new routine 
 
- > const Tcl_ObjIntRep* '''Tcl_FetchIntRep'''(Tcl_Obj* ''objPtr'', const Tcl_ObjType* ''typePtr'')
+ > Tcl_ObjIntRep* '''Tcl_FetchIntRep'''(Tcl_Obj* ''objPtr'', const Tcl_ObjType* ''typePtr'')
 
-which returns a read-only pointer to the internal representation stored
+which returns a pointer to the internal representation stored
 in ''objPtr'' that matches the requested type ''typePtr''.
 
 ~ Compatibility
@@ -70,6 +81,8 @@ They do help set up an improved compatibility scenario for the future however.  
 ~ Implementation
 
 Taking shape on the tip-445 branch.
+
+~ Rejected Alternatives
 
 ~ Copyright
 
