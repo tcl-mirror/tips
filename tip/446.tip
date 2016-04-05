@@ -1,6 +1,6 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -13,8 +13,8 @@ Tcl-Version:    8.6.6
 ~ Abstract
 
 Tk features a generic undo/redo mechanism (see [104]). This is used in
-practice by the '''text''' widget, within the ''edit'' command. The present
-TIP proposes to add two new subcommands to the ''edit'' command allowing the
+practice by the '''text''' widget, within the '''edit''' command. The present
+TIP proposes to add two new subcommands to the '''edit''' command allowing the
 user to get the depth of the undo and redo stacks of a '''text''' widget.
 
 ~ Rationale
@@ -58,6 +58,11 @@ This new capability will be implemented in the generic code for undo
 can make use of it. Currently, only the '''text''' widget is concerned since
 no other Tk widget is featuring undo/redo.
 
+Despite this is a new feature, this TIP targets Tk 8.6.6 since no change of
+any existing behavior is proposed: only new, additonal, features are proposed.
+It is therefore believed there is no risk regarding backwards compatibility
+in the 8.6.x series.
+
 ~ Example
 
 |  package require Tk
@@ -86,10 +91,9 @@ no other Tk widget is featuring undo/redo.
 |  .t edit undodepth    ; # 1
 |  .t edit redodepth    ; # 1
 
-
 ~ Reference Implementation
 
-A reference implementation is available in branch tip-xxx of the fossil
+A reference implementation is available in branch tip-446 of the fossil
 repository.
 
 ~ Copyright
