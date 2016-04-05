@@ -1,0 +1,97 @@
+TIP:            446
+Title:          Introspect Undo/Redo Stack Depths
+Version:        $Revision: 1.1 $
+Author:         François Vogel <fvogelnew1@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        05-Apr-2016
+Post-History:   
+Keywords:       Tk
+Tcl-Version:    8.6.6
+
+~ Abstract
+
+Tk features a generic undo/redo mechanism (see [104]). This is used in
+practice by the '''text''' widget, within the ''edit'' command. The present
+TIP proposes to add two new subcommands to the ''edit'' command allowing the
+user to get the depth of the undo and redo stacks of a '''text''' widget.
+
+~ Rationale
+
+The undo/redo feature of Tk is handy and works very well. In modern GUIs,
+there is usually a button in a menubar to call the "Undo" command, and
+likewise for "Redo". It is good practice to enhance the user experience by
+greying out or otherwise changing the button aspect when there is nothing to
+undo (or redo). This cannot be achieved currently with the curent Tk
+implementation because there is no way to get the depth of the undo and redo
+stacks.
+
+By "depth" we mean here: the number of actions in the stack that can be undone
+(or redone). This count does not include separator entries inserted in the
+stack either manually (i.e., programmatically) or automatically (with
+'''-autoseparators 1''') by Tk.
+
+This feature was requested for the text widget in RFE 1273358
+[https://core.tcl.tk/tk/tktview/1273358]
+
+~ Proposed Change
+
+It is proposed to add the following subcommands to the '''text''' widget's
+'''edit''' command:
+
+'''undodepth''':
+
+ > Returns the depth (number of undoable actions) of the undo stack. It takes
+   no further arguments.
+
+'''redodepth''':
+
+ > Returns the depth (number of redoable actions) of the redo stack. It takes
+   no further arguments.
+
+When the '''-undo''' option of the text widget is false, both subcommands
+always return 0.
+
+This new capability will be implemented in the generic code for undo
+(''generic/tkUndo.c''), so that any client of the generic undo/redo mechanism
+can make use of it. Currently, only the '''text''' widget is concerned since
+no other Tk widget is featuring undo/redo.
+
+~ Example
+
+|  package require Tk
+|
+|  pack [text .t -undo false -autoseparators false]
+|
+|  .t edit undodepth    ; # 0
+|  .t edit redodepth    ; # 0
+|
+|  .t configure -undo true
+|
+|  .t edit undodepth    ; # 0
+|  .t edit redodepth    ; # 0
+|
+|  .t insert end "ABC\n"
+|  .t edit separator
+|  .t insert end "DEF\n"
+|  .t insert end "DEF again\n"
+|  .t edit separator
+|
+|  .t edit undodepth    ; # 2
+|  .t edit redodepth    ; # 0
+|
+|  .t edit undo
+|
+|  .t edit undodepth    ; # 1
+|  .t edit redodepth    ; # 1
+
+
+~ Reference Implementation
+
+A reference implementation is available in branch tip-xxx of the fossil
+repository.
+
+~ Copyright
+
+This document has been placed in the public domain.
