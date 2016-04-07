@@ -1,6 +1,6 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -50,8 +50,7 @@ It is proposed to add the following subcommands to the '''text''' widget's
  > Returns the depth (number of redoable actions) of the redo stack. It takes
    no further arguments.
 
-The value of the '''-undo''' option of the text widget has no impact on the
-returned value.
+When the '''-undo''' option of the text widget is false both subcommands return zero since indeed no undo nor redo action is possible in this case. The undo/redo stacks are however not cleared, so that when -undo becomes eventually true again they are preserved (this is current behavior of the undo/redo feature - the TIP does not change this).
 
 This new capability will be implemented in the generic code for undo
 (''generic/tkUndo.c''), so that any client of the generic undo/redo mechanism
