@@ -1,14 +1,14 @@
-TIP:		447
-Title:		Execution Time Verbosity Levels in tcltest::configure
-Author:		Pietro Cerutti <gahr@gahr.ch>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	20-Apr-2016
-Version:	$Revision: 1.1 $
-Post-History:
-Keywords:	Tcl, tcltest
+TIP:            447
+Title:          Execution Time Verbosity Levels in tcltest::configure
+Version:        $Revision: 1.2 $
+Author:         Pietro Cerutti <gahr@gahr.ch>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        20-Apr-2016
+Post-History:   
+Keywords:       Tcl,tcltest
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -96,10 +96,22 @@ should anybody have any counter-proposal.
 The current implementation decision to print "<testname> took <amount> <unit>"
 is arbitrary. Again, the author has no strong opinion on the subject.
 
+~~ On the goodness of the times reported
+
+FV, DGP, and and DKF have raised concerns on the mailing lists on the goodness
+of the time values reported by the *msec* and *usec* verbosity levels.
+In particular, the problem of repeatibility of the results has been mentioned,
+and it has been noted that while the idea is good, this might not be the right
+tool for (the|every) job.
+
+My opinion is that the tool can be useful, given that its scope is made clear.
+I followed DGP's suggestion and added [checkin 2b96ef] an explicit note in the
+documentation about the "modest ambitions" of this enhancement.
+
 ~ Reference Implementation
 
 In the gahr-tip-447 branch.
 
 ~ Copyright
 
-This document has been placed in the public domain. 
+This document has been placed in the public domain.
