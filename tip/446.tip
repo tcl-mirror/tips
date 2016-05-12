@@ -1,6 +1,6 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -15,7 +15,7 @@ Tcl-Version:    8.6.6
 Tk features a generic undo/redo mechanism (see [104]). This is used in
 practice by the '''text''' widget, within the '''edit''' command. The present
 TIP proposes to add two new subcommands to the '''edit''' command allowing the
-user to get the depth of the undo and redo stacks of a '''text''' widget.
+user to know whether undo and redo is possible for a '''text''' widget.
 
 ~ Rationale
 
@@ -24,13 +24,8 @@ there is usually a button in a menubar to call the "Undo" command, and
 likewise for "Redo". It is good practice to enhance the user experience by
 greying out or otherwise changing the button aspect when there is nothing to
 undo (or redo). This cannot be achieved currently with the curent Tk
-implementation because there is no way to get the depth of the undo and redo
-stacks.
-
-By "depth" we mean here: the number of actions in the stack that can be undone
-(or redone). This count does not include separator entries inserted in the
-stack either manually (i.e., programmatically) or automatically (with
-'''-autoseparators 1''') by Tk.
+implementation because there is no way to know whether the undo and redo
+stacks are empty or not.
 
 This feature was requested for the text widget in RFE 1273358
 [https://core.tcl.tk/tk/tktview/1273358]
@@ -40,22 +35,32 @@ This feature was requested for the text widget in RFE 1273358
 It is proposed to add the following subcommands to the '''text''' widget's
 '''edit''' command:
 
-'''undodepth''':
+'''canundo''':
 
- > Returns the depth (number of undoable actions) of the undo stack. It takes
-   no further arguments.
+ > Returns a boolean true if undo is possible, i.e. when the undo stack is
+   not empty. Otherwise returns false.
 
-'''redodepth''':
+'''canredo''':
 
- > Returns the depth (number of redoable actions) of the redo stack. It takes
-   no further arguments.
+ > Returns a boolean true if redo is possible, i.e. when the undo stack is
+   not empty. Otherwise returns false.
 
-When the '''-undo''' option of the text widget is false both subcommands return zero since indeed no undo nor redo action is possible in this case. The undo/redo stacks are however not cleared, so that when -undo becomes eventually true again they are preserved (this is current behavior of the undo/redo feature - the TIP does not change this).
+When the '''-undo''' option of the text widget is false both subcommands return
+false since indeed no undo nor redo action is possible in this case. The undo/redo
+stacks are however not cleared, so that when -undo becomes eventually true again
+the two new subcommands will return their value in accordance with the contents
+of the stacks (this is current behavior of the undo/redo feature - the TIP does
+not intend to change this).
 
 This new capability will be implemented in the generic code for undo
 (''generic/tkUndo.c''), so that any client of the generic undo/redo mechanism
 can make use of it. Currently, only the '''text''' widget is concerned since
 no other Tk widget is featuring undo/redo.
+
+Besides the two new subcommands, it is also proposed to add a new virtual event
+'''<<UndoStack>>''', that will trigger each time the undo or redo stack becomes
+empty or unempty. When this condition is met, the event will trigger once for
+each peer widget.
 
 Despite this is a new feature, this TIP targets Tk 8.6.6 since no change of
 any existing behavior is proposed: only new, additonal, features are proposed.
@@ -67,6 +72,9 @@ in the 8.6.x series.
 |  package require Tk
 |
 |  pack [text .t -undo false -autoseparators false]
+|
+|  set nbUS 0
+|  bind .t <<UndoStack>> {incr nbUS}
 |
 |  .t edit undodepth    ; # 0
 |  .t edit redodepth    ; # 0
@@ -82,13 +90,55 @@ in the 8.6.x series.
 |  .t insert end "DEF again\n"
 |  .t edit separator
 |
-|  .t edit undodepth    ; # 2
+|  .t edit undodepth    ; # 1
 |  .t edit redodepth    ; # 0
 |
 |  .t edit undo
 |
 |  .t edit undodepth    ; # 1
 |  .t edit redodepth    ; # 1
+|
+|  # A quick interactive testing environment...:
+|  
+|  pack [label .l]
+|  
+|  proc showit {} {
+|    global nbUS
+|    .l configure -text "Can undo: [.t edit canundo]\t\t\t \
+|                        Can redo: [.t edit canredo]\t\t\t \
+|                        <<UndoStack>> triggered: $nbUS"
+|    after 200 showit
+|  }
+|  showit
+|  
+|  proc toggleautosep {} {
+|    global autosepset
+|    set autosepset [.t cget -autoseparators]
+|    if {$autosepset} {
+|      .t configure -autoseparators false
+|    } else {
+|      .t configure -autoseparators true
+|    }
+|    set autosepset [.t cget -autoseparators]
+|  }
+|  proc toggleundo {} {
+|    global undoset
+|    set undoset [.t cget -undo]
+|    if {$undoset} {
+|      .t configure -undo false
+|    } else {
+|      .t configure -undo true
+|    }
+|    set undoset [.t cget -undo]
+|  }
+|  button .b1 -text "Insert separator" -command {.t edit separator}
+|  button .b2 -text "Undo" -command {.t edit undo}
+|  button .b3 -text "Redo" -command {.t edit redo}
+|  button .b32 -text "Reset" -command {.t edit reset}
+|  checkbutton .b4 -text "-autoseparators" -command toggleautosep -variable autosepset
+|  checkbutton .b5 -text "-undo" -command toggleundo -variable undoset ; .b5 select
+|  
+|  pack .b1 .b2 .b3 .b32 .b4 .b5 -side left -padx 10
 
 ~ Reference Implementation
 
