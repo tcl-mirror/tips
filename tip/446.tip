@@ -1,6 +1,6 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -143,7 +143,7 @@ in the 8.6.x series.
 ~ Reference Implementation
 
 A reference implementation is available in branch tip-446 of the fossil
-repository.
+repository. Credits for this implementation largely go to Neil Hodgson, the author of TkTextPlus (for canundo/canredo) and to Koen Danckaert (for <<UndoStack>>).
 
 ~ Copyright
 
