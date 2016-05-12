@@ -1,6 +1,6 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -76,13 +76,13 @@ in the 8.6.x series.
 |  set nbUS 0
 |  bind .t <<UndoStack>> {incr nbUS}
 |
-|  .t edit undodepth    ; # 0
-|  .t edit redodepth    ; # 0
+|  .t edit canundo    ; # 0
+|  .t edit canredo    ; # 0
 |
 |  .t configure -undo true
 |
-|  .t edit undodepth    ; # 0
-|  .t edit redodepth    ; # 0
+|  .t edit canundo    ; # 0
+|  .t edit canredo    ; # 0
 |
 |  .t insert end "ABC\n"
 |  .t edit separator
@@ -90,13 +90,13 @@ in the 8.6.x series.
 |  .t insert end "DEF again\n"
 |  .t edit separator
 |
-|  .t edit undodepth    ; # 1
-|  .t edit redodepth    ; # 0
+|  .t edit canundo    ; # 1
+|  .t edit canredo    ; # 0
 |
 |  .t edit undo
 |
-|  .t edit undodepth    ; # 1
-|  .t edit redodepth    ; # 1
+|  .t edit canundo    ; # 1
+|  .t edit canredo    ; # 1
 |
 |  # A quick interactive testing environment...:
 |  
