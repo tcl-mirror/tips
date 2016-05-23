@@ -1,6 +1,6 @@
 TIP:            447
 Title:          Execution Time Verbosity Levels in tcltest::configure
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Pietro Cerutti <gahr@gahr.ch>
 State:          Draft
 Type:           Project
@@ -51,10 +51,10 @@ verbosity level '''usec''' ('''u'''):
 |$ make TESTFLAGS="-verbose u -match lsearch-1.*" test
 |...
 |lsearch.test
-|++++ lsearch-1.1 took 521 μs
-|++++ lsearch-1.2 took 156 μs
-|++++ lsearch-1.3 took 187 μs
-|++++ lsearch-1.4 took 120 μs
+|++++ lsearch-1.1 took 521 us
+|++++ lsearch-1.2 took 156 us
+|++++ lsearch-1.3 took 187 us
+|++++ lsearch-1.4 took 120 us
 
 ~ Discussion
 
@@ -76,7 +76,7 @@ The current implementation dumps timing information before any reports of
 success / failure. Example:
 
 |---- tsv-lmdb-1.5 start
-|++++ tsv-lmdb-1.5 took 828 μs
+|++++ tsv-lmdb-1.5 took 828 us
 |
 |
 |==== tsv-lmdb-1.5 tsv::exists - previously set exists FAILED
