@@ -1,10 +1,10 @@
 TIP:            446
 Title:          Introspect Undo/Redo Stack Depths
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        05-Apr-2016
 Post-History:   
 Keywords:       Tk
