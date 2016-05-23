@@ -1,10 +1,10 @@
 TIP:            447
 Title:          Execution Time Verbosity Levels in tcltest::configure
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Pietro Cerutti <gahr@gahr.ch>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        20-Apr-2016
 Post-History:   
 Keywords:       Tcl,tcltest
