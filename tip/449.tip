@@ -1,0 +1,74 @@
+TIP:		xxx
+Title:		[text] undo/redo to Return Range of Characters
+Version:	$Revision: 1.1 $
+Author:		François Vogel <fvogelnew1@free.fr>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	07-Jun-2016
+Post-History:   
+Keywords:	Tk
+Tcl-Version:	8.6.6
+
+~ Abstract
+
+Tk features an undo/redo mechanism for the '''text''' widget. This TIP
+proposes that the '''edit undo''' and '''edit redo''' commands of the text
+widget return the range of characters impacted by the undo or redo operation.
+
+~ Rationale
+
+In some applications using the '''text''' widget, say a text editor, modern
+practice is to show the text with highlighting, colorization, or any other
+ways of improving readablity for the human user. When undoing/redoing changes
+in the text, these applications need to know which characters were impacted by
+the undo or redo operation. This can be done by comparing the ''''text'''
+widget contents before the change with its contents after the change, but this
+is very far from optimal especially with large texts.
+
+Therefore a better way to get this information is proposed in the present TIP.
+
+This feature was requested for the text widget in RFE 1217222
+[https://core.tcl.tk/tk/tktview/1217222]
+
+~ Proposed Change
+
+Currently, '''edit undo''' and '''edit redo'' commands return the empty
+string.
+
+It is proposed to change this return value and make these commands return the
+range of indices that were impacted by the undo or redo operation.
+
+As of current state of undo/redo implementation in the text widget, this
+return value will always be a list of two indices. Indeed, only insertion and
+deletions are part of the undo/redo mechanism of the text widget.
+
+This new capability can be implemented entirely in the code of the text
+widget. The undo/redo generic code (in ''generic/tkUndo.c'') is untouched.
+
+Despite this is a new feature, this TIP targets Tk 8.6.6 since only new,
+additonal, features are proposed.  It is therefore believed there is no risk
+regarding backwards compatibility in the 8.6.x series.
+
+~ Example
+
+|  package require Tk
+|
+|  pack [text .t -undo true]
+|  .t insert end "Hello World.\n"
+|  .t edit separator
+|  .t insert end "Again hello.\n"
+|
+|  .t edit undo  ; # will now return {2.0 3.0}
+|  .t edit redo  ; # will now return {2.0 3.0}
+
+|
+
+~ Reference Implementation
+
+A reference implementation is available in branch bug-1217222 of the Tk fossil
+repository.
+
+~ Copyright
+
+This document has been placed in the public domain.
