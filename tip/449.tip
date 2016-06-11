@@ -1,20 +1,20 @@
-TIP:		449
-Title:		[text] undo/redo to Return Range of Characters
-Version:	$Revision: 1.2 $
-Author:		François Vogel <fvogelnew1@free.fr>
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	07-Jun-2016
+TIP:            449
+Title:          [text] undo/redo to Return Range of Characters
+Version:        $Revision: 1.3 $
+Author:         François Vogel <fvogelnew1@free.fr>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        07-Jun-2016
 Post-History:   
-Keywords:	Tk
-Tcl-Version:	8.6.6
+Keywords:       Tk
+Tcl-Version:    8.6.6
 
 ~ Abstract
 
 Tk features an undo/redo mechanism for the '''text''' widget. This TIP
 proposes that the '''edit undo''' and '''edit redo''' commands of the text
-widget return the range of characters impacted by the undo or redo operation.
+widget return the ranges of characters impacted by the undo or redo operation.
 
 ~ Rationale
 
@@ -37,17 +37,15 @@ Currently, '''edit undo''' and '''edit redo'' commands return the empty
 string.
 
 It is proposed to change this return value and make these commands return the
-range of indices that were impacted by the undo or redo operation.
+ranges of indices that were impacted by the undo or redo operation.
 
-As of current state of undo/redo implementation in the text widget, this
-return value will always be a list of two indices. Indeed, only insertion and
-deletions are part of the undo/redo mechanism of the text widget.
-
-This new capability can be implemented entirely in the code of the text
-widget. The undo/redo generic code (in ''generic/tkUndo.c'') is untouched.
+This return value is a list of indices, with an even number of elements.
+Indeed, there can be several edits (insertions and deletions) between two
+separators in the undo stack and all such edits have to report which range of
+text they changed.
 
 Despite this is a new feature, this TIP targets Tk 8.6.6 since only new,
-additonal, features are proposed.  It is therefore believed there is no risk
+additional, features are proposed. It is therefore believed there is no risk
 regarding backwards compatibility in the 8.6.x series.
 
 ~ Example
@@ -66,7 +64,7 @@ regarding backwards compatibility in the 8.6.x series.
 
 ~ Reference Implementation
 
-A reference implementation is available in branch bug-1217222 of the Tk fossil
+A reference implementation is available in branch tip-449 of the Tk fossil
 repository.
 
 ~ Copyright
