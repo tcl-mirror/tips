@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -46,7 +46,7 @@ text they changed.
 
 The returned ranges are made of indices making sense at undo/redo return
 time, i.e. they refer to the text widget content at the time '''edit undo'''
-and '''edit redo'' return. Moreover, the returned list of indices is optimal,
+and '''edit redo''' return. Moreover, the returned list of indices is optimal,
 in the sense that the ranges contained in that list are all disjoint
 (overlapping ranges are merged, and ranges already contained in another range
 are not returned).
@@ -58,9 +58,9 @@ The proposed implementation makes use of temporary marks, that only exist
 operations). This could be seen as a concern regarding backwards
 compatibility, however it is believed that the names of these marks has been
 chosen such that this should not be an issue. The chosen name is
-'''tk::undoMark<g><ID>''', where <g> is either '''L''' or '''R''', and
+'''tk::undoMark<g><ID>''', where '''<g>''' is either '''L''' or '''R''', and
 '''<ID>''' is an integer identifier. The risk of name collision is therefore
-deemed very low due to prefixing by '''tk::''. This naming convention follows
+deemed very low due to prefixing by '''tk::'''. This naming convention follows
 what is already existing in the text widget (internal anchors).
 
 Despite what is proposed in the present TIP is a new feature, the targeted
