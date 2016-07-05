@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -88,6 +88,8 @@ tip-449 hosting the development.
 
 A reference implementation is available in branch tip-449 of the Tk fossil
 repository.
+
+This new capability is implemented entirely in the code of the text widget. The undo/redo generic code (in ''generic/tkUndo.c'') is untouched.
 
 ~ Copyright
 
