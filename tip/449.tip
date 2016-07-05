@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -33,7 +33,7 @@ This feature was requested for the text widget in RFE 1217222
 
 ~ Proposed Change
 
-Currently, '''edit undo''' and '''edit redo'' commands return the empty
+Currently, '''edit undo''' and '''edit redo''' commands return the empty
 string.
 
 It is proposed to change this return value and make these commands return the
