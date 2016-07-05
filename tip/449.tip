@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -44,9 +44,29 @@ Indeed, there can be several edits (insertions and deletions) between two
 separators in the undo stack and all such edits have to report which range of
 text they changed.
 
-Despite this is a new feature, this TIP targets Tk 8.6.6 since only new,
-additional, features are proposed. It is therefore believed there is no risk
-regarding backwards compatibility in the 8.6.x series.
+The returned ranges are made of indices making sense at undo/redo return
+time, i.e. they refer to the text widget content at the time '''edit undo'''
+and '''edit redo'' return. Moreover, the returned list of indices is optimal,
+in the sense that the ranges contained in that list are all disjoint
+(overlapping ranges are merged, and ranges already contained in another range
+are not returned).
+
+~ Backwards Compatibility
+
+The proposed implementation makes use of temporary marks, that only exist
+''during'' an undo or redo operation (and never before or after these
+operations). This could be seen as a concern regarding backwards
+compatibility, however it is believed that the names of these marks has been
+chosen such that this should not be an issue. The chosen name is
+'''tk::undoMark<g><ID>''', where <g> is either '''L''' or '''R''', and
+'''<ID>''' is an integer identifier. The risk of name collision is therefore
+deemed very low due to prefixing by '''tk::''. This naming convention follows
+what is already existing in the text widget (internal anchors).
+
+Despite what is proposed in the present TIP is a new feature, the targeted
+version is Tk 8.6.6 since only new, additional, features are proposed. It is
+therefore believed there is no risk regarding backwards compatibility in the
+8.6.x series.
 
 ~ Example
 
@@ -59,8 +79,10 @@ regarding backwards compatibility in the 8.6.x series.
 |
 |  .t edit undo  ; # will now return {2.0 3.0}
 |  .t edit redo  ; # will now return {2.0 3.0}
-
 |
+
+More examples can be found by studying the new tests in the feature branch
+tip-449 hosting the development.
 
 ~ Reference Implementation
 
