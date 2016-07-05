@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -22,7 +22,7 @@ In some applications using the '''text''' widget, say a text editor, modern
 practice is to show the text with highlighting, colorization, or any other
 ways of improving readablity for the human user. When undoing/redoing changes
 in the text, these applications need to know which characters were impacted by
-the undo or redo operation. This can be done by comparing the ''''text'''
+the undo or redo operation. This can be done by comparing the '''text'''
 widget contents before the change with its contents after the change, but this
 is very far from optimal especially with large texts.
 
