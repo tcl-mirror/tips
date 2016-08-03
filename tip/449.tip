@@ -1,6 +1,6 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
@@ -64,7 +64,7 @@ deemed very low due to prefixing by '''tk::'''. This naming convention follows
 what is already existing in the text widget (internal anchors).
 
 Despite what is proposed in the present TIP is a new feature, the targeted
-version is Tk 8.6.6 since only new, additional, features are proposed. It is
+version is Tk 8.6.7 since only new, additional, features are proposed. It is
 therefore believed there is no risk regarding backwards compatibility in the
 8.6.x series.
 
