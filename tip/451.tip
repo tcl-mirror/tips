@@ -1,0 +1,75 @@
+TIP:		451
+Title:		Modify [update] to Give Full Script Access to Tcl_DoOneEvent
+Version:	$Revision: 1.1 $
+Author:		Colin McCormack <mcccol@gmail.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Tcl-Version:	8.7
+Created:	10-Aug-2016
+Post-History: 
+Keywords:	Tcl, event loop
+
+~ Abstract
+
+This TIP add flags to '''update''' to represent all the flag values available
+to the underlying API, ''Tcl_DoOneEvent()'', exposing them to script access.
+
+~ Rationale
+
+The '''update''' command provides a way into the event loop in addition to
+'''vwait'''.  Because the Tcl event system derived historically from Tk,
+'''update''' was written specifically to support Tk's window and idle events.
+When Tcl adopted the event system for timers and file events, the '''update'''
+command was anomalously not updated to cater for these new event types.
+
+The reason this anomaly worth correcting is that Tcl_DoOneEvent is the actual
+entry into the event loop and there is no good or sufficient reason for
+'''update''' to limit the flags to those specific to Tk only.
+
+While '''vwait''' provides a reasonable way into and out of the event loop,
+there's no good reason to impose that communication mechanism on the
+application when there are other approaches possible, arguably more useful,
+and amply provided for by the underlying C implementation.
+
+~ Proposal
+
+The '''update''' command should have the following flags added to it:
+
+ * '''idletasks''' - process any pending window events or idle events, do not
+   wait (this is as currently supported)
+
+ * '''window''' - process window events
+
+ * '''file''' - process file events
+
+ * '''timer''' - process timer events
+
+ * '''onlyidle''' - process only idle events
+
+ * '''all''' - process all events
+
+ * '''wait''' - wait until at least one event has been processed
+
+ * '''nowait''' - return immediately if no events are pending.
+
+ and they should be painted Pantone 13-1520
+
+The somewhat klunky and denormalised logical form of these flags is imposed by
+the requirement to minimally disrupt existing '''update''' functionality.
+
+~ Reference Implementation
+
+A reference implementation is available in Tcl core fossil under tag
+''updateextended''.
+
+~ Rejected Alternatives
+
+One could create a new command for this functionality, but the minimal impact
+on most Tcl users doesn't seem to me to warrant additional population of the
+:: command namespace.
+
+~ Copyright
+
+This document has been placed in the public domain. In legislations where this
+concept does not exist the CC0 license applies.
