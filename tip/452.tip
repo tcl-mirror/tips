@@ -1,0 +1,46 @@
+TIP:            452
+Title:          Add "stubs" Package to or Along Side of TclTest
+Version:        $Revision: 1.1 $
+Author:         Gerald Lester <Gerald.Lester@SAP.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        10-Aug-2016
+Post-History:   
+Tcl-Version:    8.6
+
+~ Abstract
+
+This TIP proposes an enhancement to the '''tcltest''' package to add support
+for easy creation of test stubs and test seams.
+
+~ Rationale
+
+The '''tcltest''' package allows for automated testing of Tcl code.  To do
+proper automated unit test requires that the unit under test (i.e., the method
+or procedure) not invoke the actual implmentation of other units, but rather
+should invoke stub or mock units that are under the control of the test being
+performed as to the results they return and any exceptions they raise.
+
+~ Proposal
+
+That a package implementing the framework to easily create test stubs/mocks of
+Tcl commands be added to the '''tcltest'' package.  Additionaly, to facilitate
+creation of automated test for legacy Tcl code, commands supporting ''test
+seam'' creation and specification would also be included proposed package.
+
+''Detailed description to follow.''
+
+~ Reference Implementation
+
+''In process of acceptance into Tcl source tree.''
+
+~ Discussion
+
+~ Copyright
+
+This document has been placed in the public domain.
+
+The code has been approved to be placed in the public domain under a BSD
+license, in particular as part of the '''tcltest''', '''TclLib''' or (if need
+be) a separate standalone package.
