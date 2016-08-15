@@ -1,14 +1,14 @@
 TIP:            449
 Title:          [text] undo/redo to Return Range of Characters
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         François Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
-Vote:           Pending
+Vote:           In progress
 Created:        07-Jun-2016
 Post-History:   
 Keywords:       Tk
-Tcl-Version:    8.6.6
+Tcl-Version:    8.7
 
 ~ Abstract
 
