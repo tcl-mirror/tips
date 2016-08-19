@@ -2,10 +2,10 @@ TIP:		442
 Title:		Display text in progressbars
 State:		Draft
 Type:		Project
-Tcl-Version:	8.6.6
+Tcl-Version:	8.6.7
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		René Zaumseil <rzaumseil@kkg.ch>
 Created:	17-Feb-2016
 Keywords:	Tk
