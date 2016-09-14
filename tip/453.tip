@@ -1,0 +1,168 @@
+TIP:		453
+Title:		Tcl Based Automation for tcl/pkgs
+Author:		Sean Woods <yoda@etoyoc.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Version:	$Revision: 1.1 $
+Vote:		Pending
+Created:	13-Sep-2016
+Post-History:
+Keywords:	Build tooling
+
+~ Abstract
+
+This TIP proposes replacing the '''make package''' process currently employed
+by the core with a Tcl-based build automation tool.
+
+~ Background
+
+[376] provides for the distribution of third party packages in the Tcl/Tk core
+distributions. To support that TIP currently requires three separate build
+automations: a Makefile based automation in Unix, and both an nmake and
+Makefile based automation for Windows. These automation systems can get out of
+sync and they assume that their job is to build dynamic libraries for local
+installation.
+
+~ The Pitch
+
+By the time '''make packages''' has run, the local Tcl interpreter has been
+built already. Rather than rely on delicate hacks and makefile tricks, core
+distributed packages could be built and installed via exec commands inside a
+Tcl script. In addition, this same automation could handle functions like
+injecting a core distributed package into a virtual file system, as well as
+bundling the Tcl/Tk library file system for [430].
+
+~ The Implementation
+
+For the ''practcl'' branch of tclconfig, I put together a 4000 line
+self-contained package and kit building library of tools. This library is
+TclOO based, and provides a rudimentary (but functional) system for templating
+C code in Tcl, as well as a build system that is capable of nesting
+sub-projects. It also steals the useful bits from the '''fileutil''' module of
+tcllib, providing implementations for concatenating files, performing file
+searches, and building a global package index from a soup of modules. The
+library also has a wrapper to download external sources from fossil. It also
+contains procs that can compile a static library, dynamic library, or self
+contained shell directly from exec calls.
+
+I would propose that this tool system (or a new creation by the community in a
+similar spirit) be included in the library/ section of the tcl core. The
+provisional name for this tool set would be '''practcl'''. A version of this
+tool could also be provided in tcllib to allow 8.5 and 8.6 based cores to
+continue to build extensions.
+
+In the new scheme, '''make packages''' (in all its forms) would be replaced
+with a call to "''$(TCLSH) ${srcdir}/pkgs/make.tcl build''". '''make
+packages-install''' would be replaced by a call to "''$(TCLSH)
+${srcdir}/pkgs/make.tcl install''". For advanced users, these toplevel commands
+'''build''' and '''install''' will accept additional arguments. For instance,
+to install the core distributed packages into the VFS of a kit: "''$(TCLSH)
+${srcdir}/make.tcl install -destdir ${MyVFS}/lib''".
+
+~ pkgs/make.tcl
+
+'''make.tcl''' would be maintained as part of the core, and provide the
+top-level control system to build, install, or repackage the core distributed
+extensions. That script will also provide mechanisms to populate the pkgs file
+system for developers who build the tcl core from fossil checkouts.
+
+Commands:
+
+ * '''basekit'''
+
+ > Compile a ZipFs style basekit suitable for the '''wrap''' command.
+
+ * '''build''' ?'''all'''? ?''package''? ?''package...''?
+
+ > Compile the source code for core distributed packages into binary products
+   (as applicable.) If '''all''' is given, an attempt is made to compile all
+   packages under ''pkgs/''. Any other argument is interpreted to be the name
+   of an individual package to be compiled.
+
+ * '''install''' ?'''-destdir''' ''destinationpath''?
+
+ > Install all core distributed packages locally. If '''-destdir''' is given,
+   install the packages relative to ''destinationpath'' in the same way that
+   "'''make DESTDIR=''' ''destdir''" would. If '''-destdir''' is not given, or
+   is an empty string, perform an install relative to the '''exec_prefix''' in
+   '''tclConfig.sh'''
+
+ * '''wrap''' ''exename'' ''vfspath'' ?''dir...''?
+
+ > Generate a self contained executable constructed from the virtual file
+    system amalgamated from ''vfspath'' and any other directories given as
+    arguments. This VFS will automatically be populated with the
+    '''library/''' file system from Tcl.
+
+~ Tk
+
+This same mechanism will be adapted for Tk. Tk will be also provide a
+'''pkgs/''' directory. It’s base kits will be based on a modified ''wish''
+instead of a modified ''tclsh''.
+
+~ Maintaining the Package List
+
+Each '''pkgs/''' file system for both Tcl and Tk will also contain a file
+'''packages.tcl'''. This file will be human and machine readable. It contains
+a description of every core distributed package, where the sources can be
+found, as well as which fossil tags can be utilized as either development or
+release with this particular version of the core.
+
+'''packages.tcl''' contains a series of commands that are designed to be run
+from a practcl object:
+
+A simple example would by the tclconfig templates from TEA:
+
+|my add_project tclconfig {
+|   profile {
+|      release: 3dfb97da548fae506374ac0015352ac0921d0cc9
+|      devel:   practcl  
+|   }
+|   class subproject
+|   preload 1
+|   vfsinstall 0
+|}
+
+In a more complex example, we are building a Tk extension that needs a
+modified vfs-install method:
+
+|my add_project tkimg {
+|   profile {
+|      release: c2fcb74d748b268483ed055492a956d89dc0bbd7
+|      devel: trunk
+|   }
+|   autoload 0
+|   static 0
+|   class subproject.binary
+|   vfsinstall 1
+|   tk 1
+|} {
+|   method vfs-install {} {
+|      set PWD [pwd]
+|      ###
+|      # Handle teapot installs
+|      ###
+|      set pkg [my define get pkg_name [my define get name]]
+|      my compile
+|      set localsrcdir [my define get localsrcdir]
+|      cd $localsrcdir
+|      set DEST [my <project> define get installdir]
+|      set prefix [string trimleft [my <project> define get prefix] /]
+|
+|      domake $PWD collate
+|      ::practcl::copyDir [file join $localsrcdir Img exec_prefix] [file join $DEST $prefix]
+|      cd $PWD
+|   }
+|}
+
+The general form for the '''add_project''' method is:
+
+ > ''name'' ''key/value-configuration-dict'' ?''script-to-pass-to-oodefine''?
+
+The list is kept separate from the actual '''make.tcl''' so that users can simply
+steal the list for making "batteries included" distributions.
+
+~ Copyright
+
+This document has been placed in the public domain.
