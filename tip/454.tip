@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -30,13 +30,13 @@ And there is nothing, a programmer can do, as the Configure event does not fire 
 A typical workaround is to configure the width/height manually after the last children was unmapped.
 Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firering.
 
-~ Proposal: Change request size automatically if the last children is unpacked/gridded
+~ Proposal 1: Change request size automatically if the last children is unpacked/gridded
 
 Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492: [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200].
 
 It has the caveat to not be backward compatible.
 
-~ Other Proposal
+~ Proposal 2: Invoke a virtual event
 
 Emiliano has proposed the following including a patch in ticket 2863003fff [https://core.tcl.tk/tk/info/2863003fff] with the implementation in branch bug-d6b95ce492 [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200]:
 
