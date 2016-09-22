@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -57,11 +57,11 @@ Discussion:
 
 ~ Additional information and examples
 
+Examples:
+
    *   frame wiki page: http://wiki.tcl.tk/frame
 
    *   Tk bug ticket: [https://core.tcl.tk/tk/info/d6b95ce49207c823]
-
-   *   Tk patch ticket: [https://core.tcl.tk/tk/info/2863003fff]
 
    *   Discussion on the core list: [http://code.activestate.com/lists/tcl-core/16363/]
 
