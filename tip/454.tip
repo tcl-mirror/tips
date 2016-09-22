@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -33,7 +33,7 @@ It has the caveat to not be backward compatible.
 
 ~ Other Proposal
 
-Emiliano has proposed the following including a patch in [https://core.tcl.tk/tk/info/2863003fff]:
+Emiliano has proposed the following including a patch in ticket 2863003fff [https://core.tcl.tk/tk/info/2863003fff] with the implementation in branch bug-d6b95ce492 [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200]:
 
 Define a virtual event '''<<GeometryManager>>''' which informs the master (a frame-like widget) that it has no child widget any more and that its size is not managed any more by grid/pack.
 
