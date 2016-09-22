@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -22,8 +22,13 @@ It should automatically or under control resize to the initial requested size of
 
 A '''frame''' keeping a size without reason just feels like a bug and mostly lead to unwanted results.
 
+Mostly, it looks just ugly, but there are critical use-cases, specially in scrolled frames.
+
+When the BWidget autoscroll package is used, which displays scrollbars on demand, the scrollbars do not disappear if the contents is gone.
+And there is nothing, a programmer can do, as the Configure event does not fire on the scrolled frame widget.
+
 A typical workaround is to configure the width/height manually after the last children was unmapped.
-Unfortunately, theis fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firering.
+Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firering.
 
 ~ Proposal: Change request size automatically if the last children is unpacked/gridded
 
@@ -54,6 +59,8 @@ Discussion:
    *   Other sizes may be set on this event
 
    *   May be combined with the first solution, maybe in another TIP.
+
+   *   A Configure event may be used to get informed by this event, if the first solution is used.
 
 ~ Additional information and examples
 
