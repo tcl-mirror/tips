@@ -1,0 +1,53 @@
+TIP:		454
+Title:		Automatically Resize Frames After Last Child Removed
+Author:		Harald Oehlmann <Harald.Oehlmann@elmicron.de>
+State:		Draft
+Vote:		Pending
+Created:		21-Sep-2016
+Version:	$Revision: 1.1 $
+Type:		Project
+Keywords:	Tk
+Tcl-Version:	8.6.6
+Post-History:
+
+~ Abstract
+
+A '''frame'''-like widget has 0x0 (client) size if created.
+If children are added by pack/grid and the last children is unpacked/grid, the frame-like widget does not return to the 0x0 (client) size.
+Instead, it keeps the size of the last packed item.
+This TIP describes a technical way to avoid this property which feels like a bug.
+
+~ Rationale
+
+A '''frame''' keeping a size without reason just feels like a bug and mostly lead to unwanted results.
+There are no workarounds without issues ([http://wiki.tcl.tk/frame]) and thus, a clear solution would be great.
+
+~ Proposed Change
+
+Emiliano has proposed the following including a patch in [https://core.tcl.tk/tk/info/2863003fff]:
+
+Define a virtual event '''<<GeometryManager>>''' which informs the master (a frame-like widget) that it has no child widget any more and that its size is not managed any more by grid/pack.
+
+In consequence, the frame-like widget should resize to the initial size.
+
+~ Additional information and examples
+
+   *   frame wiki page: [http://wiki.tcl.tk/frame]
+
+   *   Tk bug ticket: [https://core.tcl.tk/tk/info/d6b95ce49207c823]
+
+   *   Tk patch ticket: [https://core.tcl.tk/tk/info/2863003fff]
+
+   *   Discussion on the core list: [http://code.activestate.com/lists/tcl-core/16363/]
+
+~ Compatibility
+
+Fixing the issue breaks visual compatibility.  Nevertheless, as it is seen as a bug, this is OK.
+
+~ Reference Implementation
+
+A reference implementation is available in Tk ticket [2863003fff].
+
+~ Copyright
+
+This document has been placed in the public domain.
