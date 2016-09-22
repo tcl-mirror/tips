@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -51,6 +51,8 @@ The program may bind to this event and resize to size 1x1:
 |   }
 
 Discussion:
+
+   *   Backward compatible, no visal change to present code
 
    *   Requires additional code
 
