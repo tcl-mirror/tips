@@ -1,34 +1,55 @@
-TIP:		454
-Title:		Automatically Resize Frames After Last Child Removed
-Author:		Harald Oehlmann <Harald.Oehlmann@elmicron.de>
-State:		Draft
-Vote:		Pending
-Created:		21-Sep-2016
-Version:	$Revision: 1.1 $
-Type:		Project
-Keywords:	Tk
-Tcl-Version:	8.6.6
-Post-History:
+TIP:            454
+Title:          Automatically Resize Frames After Last Child Removed
+Version:        $Revision: 1.2 $
+Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
+Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Sep-2016
+Post-History:   
+Keywords:       Tk
+Tcl-Version:    8.6.6
 
 ~ Abstract
 
-A '''frame'''-like widget has 0x0 (client) size if created.
-If children are added by pack/grid and the last children is unpacked/grid, the frame-like widget does not return to the 0x0 (client) size.
+A '''frame'''-like widget has 1x1 required size if created.
+If children are added by pack/grid and the last children is unpacked/grid, the frame-like widget does not return to the 1x1 required size.
 Instead, it keeps the size of the last packed item.
-This TIP describes a technical way to avoid this property which feels like a bug.
+It should automatically or under control resize to the initial requested size of 1x1.
 
 ~ Rationale
 
 A '''frame''' keeping a size without reason just feels like a bug and mostly lead to unwanted results.
-There are no workarounds without issues ([http://wiki.tcl.tk/frame]) and thus, a clear solution would be great.
 
-~ Proposed Change
+A typical workaround is to configure the width/height manually after the last children was unmapped.
+Unfortunately, theis fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firering.
+
+~ Proposal: Change request size automatically if the last children is unpacked/gridded
+
+Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492: [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200].
+
+It has the caveat to not be backward compatible.
+
+~ Other Proposal
 
 Emiliano has proposed the following including a patch in [https://core.tcl.tk/tk/info/2863003fff]:
 
 Define a virtual event '''<<GeometryManager>>''' which informs the master (a frame-like widget) that it has no child widget any more and that its size is not managed any more by grid/pack.
 
-In consequence, the frame-like widget should resize to the initial size.
+The program may bind to this event and resize to size 1x1:
+
+   bind .c <<GeometryManager>> "Resize %W"
+   proc Resize w {
+      $w configure -height 1 -width 1
+      $w configure -height 0 -width 0
+   }
+
+Discussion:
+   *   Requires additional code
+   *   The information of the last size is preserved and may be queried by the script
+   *   Other sizes may be set on this event
+   *   May be combined with the first solution, maybe in another TIP.
 
 ~ Additional information and examples
 
@@ -46,7 +67,7 @@ Fixing the issue breaks visual compatibility.  Nevertheless, as it is seen as a 
 
 ~ Reference Implementation
 
-A reference implementation is available in Tk ticket [2863003fff].
+Reference implementations are mentioned in the solution sections.
 
 ~ Copyright
 
