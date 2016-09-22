@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
@@ -39,16 +39,20 @@ Define a virtual event '''<<GeometryManager>>''' which informs the master (a fra
 
 The program may bind to this event and resize to size 1x1:
 
-   bind .c <<GeometryManager>> "Resize %W"
-   proc Resize w {
-      $w configure -height 1 -width 1
-      $w configure -height 0 -width 0
-   }
+|   bind .c <<GeometryManager>> "Resize %W"
+|   proc Resize w {
+|      $w configure -height 1 -width 1
+|      $w configure -height 0 -width 0
+|   }
 
 Discussion:
+
    *   Requires additional code
+
    *   The information of the last size is preserved and may be queried by the script
+
    *   Other sizes may be set on this event
+
    *   May be combined with the first solution, maybe in another TIP.
 
 ~ Additional information and examples
