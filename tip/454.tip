@@ -1,8 +1,9 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
+Author:         Francois Vogel <fvogelnew1@free.fr>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -20,7 +21,7 @@ It should automatically or under control resize to the initial requested size of
 
 ~ Rationale
 
-A '''frame''' keeping a size without reason just feels like a bug and mostly lead to unwanted results.
+A '''frame''' keeping a size without reason just feels like a bug and mostly leads to unwanted results.
 
 Mostly, it looks just ugly, but there are critical use-cases, specially in scrolled frames.
 
@@ -30,15 +31,15 @@ And there is nothing, a programmer can do, as the Configure event does not fire 
 Another example is the scrolledwindow example by Emiliano in ticket 2863003fff [https://core.tcl.tk/tk/info/12006979562649c9], where the solution 2 specific part may be removed (or is ignored).
 
 A typical workaround is to configure the width/height manually after the last children was unmapped.
-Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firering.
+Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firing.
 
 ~ Proposal 1: Change request size automatically to 1x1 if the last children is unpacked/gridded
 
-Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492: [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200].
+Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492-alt: [http://core.tcl.tk/tk/timeline?r=bug-d6b95ce492-alt&nd&c=2016-09-22+09%3A16%3A21&n=200].
 
 It just solves the issue by restoring initial size if the last children is unpacked/ungridded.
 
-It is not clear to me to jugde the backward compatibility.
+It is not clear to me to judge the backward compatibility.
 
 ~ Proposal 2: Invoke a virtual event
 
@@ -56,7 +57,7 @@ The program may bind to this event and resize to size 1x1:
 
 Discussion:
 
-   *   Backward compatible, no visal change to present code
+   *   Backward compatible, no visual change to present code
 
    *   Requires additional code to fix the bug (auto-resizing to 1x1)
 
