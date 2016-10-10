@@ -1,6 +1,6 @@
 TIP:	455
-Title:	 Extensions to [vwait] to wait on zero or more variable changes and file events and to give full script access to Tcl_DoOneEvent
-Version:	$Revision: 1.1 $
+Title:	 Extensions to [vwait]: Variable Sets and Scripted Access to Tcl_DoOneEvent
+Version:	$Revision: 1.2 $
 Author:	Christian Werner <chw@ch-werner.de>
 State:	Draft
 Type:	Project
