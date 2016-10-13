@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.14 $
+Version:        $Revision: 1.15 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Francois Vogel <fvogelnew1@free.fr>
@@ -33,15 +33,74 @@ Another example is the scrolledwindow example by Emiliano in ticket 2863003fff [
 A typical workaround is to configure the width/height manually after the last children was unmapped.
 Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firing.
 
-~ Proposal 1: Change request size automatically to 1x1 if the last children is unpacked/gridded
+~ Example
+Here is an example to ilustrate the issue.
+It consisting of a simple scrolling megawidget.
+The megawidget exposes a frame where a user may pack or grid other widgets and the scrollbar is adjusted following the changing content.
+This works well when widgets are added or removed. Only removing the last client will not update the scrollbar. With the proposed patch applied, it will update the scrollbar also when the last user widget is removed.
+
+Please paste the code below to a wish console or execute it.
+On startup it shows on the console:
+|requested frame height: 1
+
+Then press the "+" button to add a user widget. The console output is:
+|+
+|requested frame height: 100
+Technically, the frame ".c.f.i1" was packed into the client frame ".c.f".
+The client frame ".c.f" changes its requested size to hold the new child, which invokes the Convigure event and adjustes the scrolling region of the canvas.
+The new scrolling region is shown graphically by the scrollbar.
+
+Then press the "-" button to remove the user widget. The console output is:
+|-
+So, the child widget ".c.f.i1" is destroyed, but the frame ".c.f" does not rechange its requested size to 1x1 (initial value) but stays at 100x100 showing an empty plane.
+The scrollbar is not updated and the megawidget has no possibility to adjust that (expect additional user action to inform that the last child was removed).
+
+One may also try to add two childs and to remove them. It gets clear, that the widget is resized on removel if it is not the last widget.
+
+With the proposed patch applied, the removal of the last widget would restore the initial frame size of 1x1 which would invoke the Configure event and the scrollbar would be adjusted.
+
+|wm geometry . 90x90
+|# Button to add box on scrolling canvas
+|set itemNo 0
+|pack [button .b1 -command newBox -text +] -side left -fill y
+|proc newBox {} {
+|	puts +
+|	incr ::itemNo
+|	pack  [frame .c.f.i$::itemNo -borderwidth 4 -relief raised -bg red -width 100 -height 100] -side top
+|}
+|# Button to remove box on scrolling canvas
+|pack [button .b2 -command removeBox -text -] -side left -fill y
+|proc removeBox {} {
+|	puts -
+|	if {$::itemNo == 0} {return}
+|	destroy .c.f.i$::itemNo
+|	incr ::itemNo -1
+|}
+|
+|# This is the scrolling megawidget which exposes frame .c.f for users to pack or grid clients
+|# It has no knowledge, when the user adds or removes clients, e.g. when +/- is pressed
+|pack [scrollbar .s -command {.c yview}] -side right -fill y
+|pack [canvas .c -borderwidth 0 -yscrollcommand {.s set}] -side left -fill both
+|frame .c.f
+|.c create window 0 0 -window .c.f -anchor nw -tags win
+|proc frameConfigure {} {
+|	set y [winfo reqheight .c.f]
+|	puts "requested frame height: $y"
+|	.c configure -scrollregion [list 0 0 100 $y]
+|}
+|frameConfigure
+|bind .c.f <Configure> frameConfigure
+
+~ Proposal : Change request size automatically to 1x1 if the last children is unpacked/gridded
 
 Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492-alt: [http://core.tcl.tk/tk/timeline?r=bug-d6b95ce492-alt&nd&c=2016-09-22+09%3A16%3A21&n=200].
 
 It just solves the issue by restoring initial size if the last children is unpacked/ungridded.
 
-It is not clear to me to judge the backward compatibility.
+This is not backward compatible.
+But that is a side effect of fixing this bug.
 
-~ Proposal 2: Invoke a virtual event
+~ Rejected Proposal: Invoke a virtual event
 
 Emiliano has proposed the following including a patch in ticket 2863003fff [https://core.tcl.tk/tk/info/2863003fff] with the implementation in branch bug-d6b95ce492 [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200]:
 
@@ -68,6 +127,8 @@ Discussion:
    *   May extend the first solution, maybe in another TIP.
 
    *   May be emulated by a Configure event and some code, if the first solution is used.
+
+   *   Feels like a workaround to me.
 
 ~ Additional information and examples
 
