@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Francois Vogel <fvogelnew1@free.fr>
@@ -34,6 +34,7 @@ A typical workaround is to configure the width/height manually after the last ch
 Unfortunately, this fact may not be determined for example by scrolling widgets etc. An eventual Configure binding is not firing.
 
 ~ Example
+
 Here is an example to ilustrate the issue.
 It consisting of a simple scrolling megawidget.
 The megawidget exposes a frame where a user may pack or grid other widgets and the scrollbar is adjusted following the changing content.
