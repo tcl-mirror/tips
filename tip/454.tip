@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Francois Vogel <fvogelnew1@free.fr>
@@ -92,25 +92,30 @@ With the proposed patch applied, the removal of the last widget would restore th
 |frameConfigure
 |bind .c.f <Configure> frameConfigure
 
-~ Proposal : Change request size automatically to 1x1 if the last children is unpacked/gridded
+~ Proposal
 
-Koen Dankart has passed a patch for this solution containing 3 additional lines of C code. It is available in branch bug-d6b95ce492-alt: [http://core.tcl.tk/tk/timeline?r=bug-d6b95ce492-alt&nd&c=2016-09-22+09%3A16%3A21&n=200].
+The proposal is to change request size of the frame automatically to 1x1 if the last children is unpacked/ungridded/destroyed.
+
+Koen Dankart has passed a patch for this solution containing 3 additional lines of C code.
+It is available in branch bug-d6b95ce492-alt: [http://core.tcl.tk/tk/timeline?r=bug-d6b95ce492-alt&nd&c=2016-09-22+09%3A16%3A21&n=200].
 
 It just solves the issue by restoring initial size if the last children is unpacked/ungridded.
 
 This is not backward compatible.
 But that is a side effect of fixing this bug.
 
-~ Rejected Proposal: Invoke a virtual event
+~ Rejected Proposal
 
-Emiliano has proposed the following including a patch in ticket 2863003fff [https://core.tcl.tk/tk/info/2863003fff] with the implementation in branch bug-d6b95ce492 [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200]:
+Another proposal is to invoke the virtual event <<GeometryManager>> when the last children is unpacked/ungridded/destroyed.
 
-Define a virtual event '''<<GeometryManager>>''' which informs the master (a frame-like widget) that it has no child widget any more and that its size is not managed any more by grid/pack.
+Emiliano has provided a ticket 2863003fff [https://core.tcl.tk/tk/info/2863003fff] with the implementation in branch bug-d6b95ce492 [https://core.tcl.tk/tk/timeline?r=bug-d6b95ce492&nd&c=2016-09-21+06%3A32%3A55&n=200]:
+
+The virtual event '''<<GeometryManager>>''' is defined which informs the master (a frame-like widget) that it has no child widget any more and that its size is not managed any more by grid/pack.
 
 The program may bind to this event and resize to size 1x1:
 
-|   bind .c <<GeometryManager>> "Resize %W"
-|   proc Resize w {
+|   bind .c <<GeometryManager>> "resizeFrame %W"
+|   proc resizeFrame w {
 |      $w configure -height 1 -width 1
 |      $w configure -height 0 -width 0
 |   }
