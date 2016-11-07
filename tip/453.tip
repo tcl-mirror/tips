@@ -1,14 +1,14 @@
-TIP:		453
-Title:		Tcl Based Automation for tcl/pkgs
-Author:		Sean Woods <yoda@etoyoc.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Version:	$Revision: 1.1 $
-Vote:		Pending
-Created:	13-Sep-2016
-Post-History:
-Keywords:	Build tooling
+TIP:            453
+Title:          Tcl Based Automation for tcl/pkgs
+Version:        $Revision: 1.2 $
+Author:         Sean Woods <yoda@etoyoc.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        13-Sep-2016
+Post-History:   
+Keywords:       Build tooling
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -95,11 +95,56 @@ Commands:
     arguments. This VFS will automatically be populated with the
     '''library/''' file system from Tcl.
 
+ * '''distribution'''
+
+> Download packages listed in the "packages.tcl" file, unpack their source 
+    code in the /pkgs folder, and perform any steps required to prepare those
+    extensions for inclusion in a core snapshot for distribution.
+
+ * '''developer'''
+
+> Download packages listed in the "packages.tcl" file, unpack their source 
+    code in the parent folder to the one the core has been unpacked from,
+    and perform any steps required to prepare those extensions to be compiled
+    locally as part of a developer build. This is intended for developers who work
+    from fossil checkouts of the Tcl core.
+
+ * '''package-list'''
+
+> Stream to stdout a list of all of the packages in the packages.tcl file, in a flat
+    machine readable format.
+
 ~ Tk
 
 This same mechanism will be adapted for Tk. Tk will be also provide a
-'''pkgs/''' directory. It’s base kits will be based on a modified ''wish''
+'''pkgs/''' directory. Its base kits will be based on a modified ''wish''
 instead of a modified ''tclsh''.
+
+~ Normal Operation
+
+During the build/install/etc phase each directory will be scanned for either
+a "configure" file or a "prac.tcl" file. Standard TEA extensions will be detected
+by the presence of a "configure" file. The prac.tcl file is a hint to the build
+system that the package needs either additional instructions and guidance.
+The contents of the file are interpreted by the object which is implementing the
+extension's ambassador to the build system.
+
+If one were to decide to bundle tcllib, and wished to exercise its SAK based installer
+the prac.tcl file would read:
+
+|# Implement the install routine for tcllib
+|#
+|oo::objdefine [self] {
+|  method install DEST {
+|    set pkg [my define get pkg_name [my define get name]]
+|    my unpack
+|    set prefix [string trimleft [my <project> define get prefix] /] 
+|    set srcdir [my define get srcdir]
+|    ::practcl::dotclexec [file join $srcdir installer.tcl] \
+|      -pkg-path [file join $DEST $prefix lib $pkg] \ -no-examples -no-html -no-nroff \
+|      -no-wait -no-gui -no-apps
+|  }
+|}
 
 ~ Maintaining the Package List
 
@@ -109,59 +154,37 @@ a description of every core distributed package, where the sources can be
 found, as well as which fossil tags can be utilized as either development or
 release with this particular version of the core.
 
-'''packages.tcl''' contains a series of commands that are designed to be run
-from a practcl object:
+'''packages.txt''' contains a series of keywords populating a data structure.
 
 A simple example would by the tclconfig templates from TEA:
 
-|my add_project tclconfig {
-|   profile {
-|      release: 3dfb97da548fae506374ac0015352ac0921d0cc9
-|      devel:   practcl  
-|   }
-|   class subproject
-|   preload 1
-|   vfsinstall 0
+|EXTENSION tclconfig {
+|   tag  trunk
+|   fossil_url http://core.tcl.tk/tclconfig
 |}
 
-In a more complex example, we are building a Tk extension that needs a
-modified vfs-install method:
+The EXTENSION keyword is intended to take the following arguments:
 
-|my add_project tkimg {
-|   profile {
-|      release: c2fcb74d748b268483ed055492a956d89dc0bbd7
-|      devel: trunk
-|   }
-|   autoload 0
-|   static 0
-|   class subproject.binary
-|   vfsinstall 1
-|   tk 1
-|} {
-|   method vfs-install {} {
-|      set PWD [pwd]
-|      ###
-|      # Handle teapot installs
-|      ###
-|      set pkg [my define get pkg_name [my define get name]]
-|      my compile
-|      set localsrcdir [my define get localsrcdir]
-|      cd $localsrcdir
-|      set DEST [my <project> define get installdir]
-|      set prefix [string trimleft [my <project> define get prefix] /]
-|
-|      domake $PWD collate
-|      ::practcl::copyDir [file join $localsrcdir Img exec_prefix] [file join $DEST $prefix]
-|      cd $PWD
-|   }
-|}
+ > ''name'' ''key/value-configuration-dict''
 
-The general form for the '''add_project''' method is:
+~~Reserved keys
 
- > ''name'' ''key/value-configuration-dict'' ?''script-to-pass-to-oodefine''?
+~~~tag
+Source code management tag for the release bundled with this edition of the core
+
+~~~fossil_url
+If the extension is managed via fossil, a url that can be fed to "fossil clone". If no tag is specified "trunk" is assumed.
+
+~~~git_url
+If the extension is managed via git, a url that can be fed to "git clone". If no tag is specified "HEAD" is assumed
+
+~~~file_url
+If the extension is only available via source snapshot, a url where the file can be downloaded. 
+Supported formats are .tar.gz and .zip.
 
 The list is kept separate from the actual '''make.tcl''' so that users can simply
-steal the list for making "batteries included" distributions.
+steal the list for making "batteries included" distributions. It also allows the package list
+to remain distinct for each branch of the core.
 
 ~ Copyright
 
