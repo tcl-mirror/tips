@@ -1,6 +1,6 @@
 TIP:            454
 Title:          Automatically Resize Frames After Last Child Removed
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Harald Oehlmann <Harald.Oehlmann@elmicron.de>
 Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 Author:         Francois Vogel <fvogelnew1@free.fr>
@@ -135,6 +135,47 @@ Discussion:
    *   May be emulated by a Configure event and some code, if the first solution is used.
 
    *   Feels like a workaround to me.
+
+~ Voted as yes and withdrawn due to implementation and compatibility issues
+
+The TIP was voted yes. (only this section was added after voting)
+
+Nevertheless, it was withdrawn due to the following compatibility issues:
+
+   *   flickering
+
+Moen wrote on the core list on 2016-10-26 18:53:
+
+I have to say though that I'm getting less sure about this TIP. I found some comments in the code indicating that the old behaviour was not so much a design choice, but rather an implementation issue. Specifically, this comment in tkGrid.c:1735.
+
+|    /*
+|     * If the master has no slaves anymore, then don't do anything at all:
+|     * just leave the master's size as-is. Otherwise there is no way to
+|     * "relinquish" control over the master so another geometry manager can
+|     * take over.
+|     */
+
+The current patch for TIP 454 bypasses this by doing the Tk_GeometryRequest() immediately instead of at idle time. The result is that another geometry manager can still take over, but it introduces some flickering (collapse + expand):
+
+|  pack [text .t]
+|  pack forget .t; grid .t
+|  grid forget .t; pack .t
+
+   *   Additional Configure
+
+The patch introduces an additional Configure event where applications may not be aware of.
+Brian worte on 2016-10-26 19:46:
+
+It turns out that this "flicker" is also what is causing our tests to hang.  Our UI is a complex set of nested and tabbed panes where the implementation that manages the panes relies on a complex dance of <Configure>, <Map> and <Unmap> events to make the right things happen.  The consequence of adding one more <Configure> event is causing a hang at a [tkwait visibility $win] where $win never appears.  $win is a single child in a frame that is unmanaged and (re)managed based on various conditions.
+
+The hang is easily solved, but that means that the behavior is different.  (the difference is not right or wrong, just different*)  This difference is also demonstrated in the textWind failures.  It could be asserted that these tk tests are confirming that the comment in the tkGrid.c has been faithfully implemented.
+
+I cannot write just one piece of code that works in both 8.6.6 and 8.6.7.  I contend that this sort of thing is forbidden in a minor patch release, and questionable in a major patch relase (e.g. 8.7).  I'm struggling with this, but I think this kind of change might have to be deferred to 9.0.
+
+*: the change in our code means removing some code.  From a perspective of "less is more", the patch is "better".
+
+Due to those issues, the TIP is withdrawn.
+A way to solve the issue in a compatible and working way is to use Emilianos additional virtual event, as described in the section 'rejected alternatives'.
 
 ~ Additional information and examples
 
