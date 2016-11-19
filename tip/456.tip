@@ -1,0 +1,74 @@
+TIP:		456
+Title:		Extend the C API to Support Passing Options to TCP Server Creation
+Version:	$Revision: 1.1 $
+Author:		LemonBoy <that.lemon@gmail.com>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	18-Nov-2016
+Post-History:
+Keywords:	Tcl, socket, SO_REUSEPORT, SO_REUSEADDR
+
+~ Abstract
+
+The '''Tcl_OpenTcpServer''' interface doesn't provide enough flexibility as
+experienced during the implementation of the scaffolding necessary to support
+the '''SO_REUSEPORT''' flag for sockets. This TIP adds that capability through
+a new API function, '''Tcl_OpenTcpServerEx''', that takes extra options.
+
+~ Rationale
+
+Currently there's no way to pass extra informations to '''Tcl_OpenTcpServer'''
+which is the function that does the heavy lifting by wrapping the socket
+creation and connection phase.
+
+For example, during the implementation of a '''-reuseport''' option for the
+'''socket''' command, a roadblock was hit since informing
+'''Tcl_OpenTcpServer''' about the presence of the new flag was only possible
+via hacks such as exploiting the upper unused bits of the port parameter or
+its sign bit.
+
+A clean solution that also paves the way to the implementation of other
+switches (such as one for the SO_REUSEADDR flag) is to introduce another
+function named '''Tcl_OpenTcpServerEx''' whose signature closely matches the
+'''Tcl_OpenTcpServer''' but allows passing a set of flags to customize its
+behaviour.
+
+~ Specification
+
+A '''Tcl_OpenTcpServerEx''' function is introduced with the following
+signature:
+
+ > Tcl_Channel '''Tcl_OpenTcpServerEx'''(Tcl_Interp *''interp'', int ''port'',
+    const char *''myHost'', unsigned int ''flags'', Tcl_TcpAcceptProc
+    *''acceptProc'', ClientData ''acceptProcData'')
+
+Most arguments are identical to '''Tcl_OpenTcpServer'''.  Two entries for the
+''flags'' bitset are defined by this TIP:
+
+ * '''TCP_FLAGS_REUSEADDR''' - indicate that the socket flag SO_REUSEADDR (or
+   equivalent) should be set.
+
+ * '''TCP_FLAGS_REUSEPORT''' - indicate that the socket flag SO_REUSEPORT (or
+   equivalent) should be set.
+
+The '''Tcl_OpenTcpServer''' function is then rewritten to be an alias of
+'''Tcl_OpenTcpServerEx''' with the '''flags''' parameter set by default to
+TCP_FLAGS_REUSEADDR so that we keep the API and behaviour compatible with the
+previous Tcl versions.
+
+~ Reference Implementation
+
+A reference implementation is available as a versioned gist at GitHub,
+available here
+[https://gist.github.com/LemonBoy/412cd56a314e0abd15afcba3679054fb]
+
+~ Backwards Compatibility
+
+Since '''Tcl_OpenTcpServer''' can be easily re-implemented on top of
+'''Tcl_OpenTcpServerEx''', the old behaviour can be retained.
+
+~ Copyright
+
+This document has been placed in the public domain.
