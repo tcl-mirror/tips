@@ -1,9 +1,10 @@
 TIP:            430
 Title:          Add basic ZIP archive support to Tcl
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Sean Woods <yoda@etoyoc.com>
 Author:         Donal Fellows <donal.k.fellows@manchester.ac.uk>
 Author:         Poor Yorick <tk.tcl.tip@pooryorick.com>
+Author:         Harald Oehlmann <oehhar@users.sourceforge.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -16,6 +17,9 @@ Tcl-Version:    8.6.3
 
 This proposal will add basic support for mounting zip archive files as virtual
 filesystems to the Tcl core.
+
+~ Target Tcl-Version
+This TIP targets TCL Version 8.7 or 9.0, whatever comes first.
 
 ~ Rationale
 
