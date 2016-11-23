@@ -1,6 +1,6 @@
 TIP:		457
 Title:		Add Support for Named Arguments
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Mathieu Lafon <mlafon@gmail.com>
 State:		Draft
 Type:		Project
@@ -17,57 +17,58 @@ arguments when calling a procedure.
 
 ~ Rationale
 
-Named arguments is a computer language feature which allow developers
-to specify the name of an argument when calling a function. This is
-especially useful when dealing with arguments with default values, as
-this does not require to specify all previous arguments when only one
-argument is required to be specified.
+The naming of arguments to procedures is a computer language feature which
+allow developers to specify the name of an argument when calling a function.
+This is especially useful when dealing with arguments with default values, as
+this does not require to specify all previous arguments when only one argument
+is required to be specified.
 
-As such, this is a commonly requested feature by Tcl developers, who
-have created various code snippets [http://wiki.tcl.tk/10702] to simulate
-it. These snippets have drawbacks: not intuitive for new users,
-require to add extra code at the start of each procedure, no standard on
-the format to use, few errors handling, ...
+As such, this is a commonly requested feature by Tcl developers, who have
+created various code snippets [http://wiki.tcl.tk/10702] to simulate it. These
+snippets have drawbacks: not intuitive for new users, require to add extra
+code at the start of each procedure, no standard on the format to use, few
+errors handling, etc.
 
 The current proposal defines a new format to specify named arguments when
 calling a procedure and does not require any modification in the procedure
 definition.
 
-~~ Format
+Two possible formats were investigated (see below) of which the second
+proposition is prefered, as it is secured against unexpected use.
 
-Two possible formats were investigated:
+~~ Format Option 1
 
- * Using a convention to specify named arguments without requiring
-   any change in the existing Tcl parser.
+Using a convention to specify named arguments without requiring any change in
+the existing Tcl parser.
 
 |% myproc "some pos arg" { @color -> green } { @pos -> { 5 5 } }
 
- > * ''Pros:'' Does not require any change in the Tcl parser. All modifications
-     can be limited to the InitArgsAndLocals() function in generic/tclProc.c.
+ Pro: Does not require any change in the Tcl parser. All modifications can be
+      limited to the ''InitArgsAndLocals()'' function in generic/tclProc.c.
 
- > * ''Cons:'' There is a possibility that a similar convention is used for an
-     other usage in existing programs, leading to unexpected results.
+ Con: There is a possibility that a similar convention is used for an other
+      usage in existing programs, leading to unexpected results.
 
- > * ''Cons:'' It is not possible to detect and prevent its usage in builtin
-     procedures or other commands which do not handle this convention.
+ Con: It is not possible to detect and prevent its usage in builtin procedures
+      or other commands which do not handle this convention.
 
- * Defining a specific format specification which is currently not accepted
-   by the Tcl parser.
+~~ Format Option 2
+
+Defining a specific format specification which is currently not accepted by
+the Tcl parser.
 
 |% myproc "some pos arg" {color}=green {pos}={5 5}
 
- > * ''Pros:'' It is not possible that this format is currently used by an
-     existing program. The Tcl8.6 parser currently reject this format with
-     the " ''extra characters after close-brace'' " error.
+ Pro: It is not possible that this format is currently used by an existing
+      program. The Tcl8.6 parser currently reject this format with the
+      "''extra characters after close-brace''" error.
 
- > * ''Pros:'' It is possible to only allow this format for commands which can
-     handle the named arguments.
+ Pro: It is possible to only allow this format for commands which can handle
+      the named arguments.
 
- > * ''Cons:'' Require more modifications in the code.
+ Con: Require more modifications in the code.
 
-The second proposition is prefered, as it is secured against unexpected use.
-
-~~ Rules
+~~ General Rules
 
 The following rules are defined on how named arguments are handled:
 
@@ -96,8 +97,8 @@ This document proposes the following changes to the Tcl core:
  1. Parser modification to handle the new proposed format for named argument
     specification.
 
- 2. CallFrame modification to also store the names associated with each argument
-    (when specified).
+ 2. CallFrame modification to also store the names associated with each
+    argument (when specified).
 
  3. Proc handler modification to initialize the local variables using the
     unnamed or named arguments.
@@ -116,4 +117,3 @@ No reference implementation is currently available.
 ~ Copyright
 
 This document has been placed in the public domain.
-
