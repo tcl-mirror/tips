@@ -1,0 +1,107 @@
+TIP:		458
+Title:		Add Support for epoll() and kqueue() in the Notifier
+Version:	$Revision: 1.1 $
+Author:		Lucio Andrés Illanes Albornoz <l.illanes@gmx.de>
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Created:	24-Nov-2016
+Post-History:
+Keywords:	event loop, scalability
+
+~ Abstract
+
+This TIP proposes to replace ''select''(2) in the notifier implementation with
+''epoll''(7) and ''kqueue''(2) on Linux and FreeBSD respectively. This is to
+remove a major bottleneck in the ability of Tcl to scale up to thousands and
+tens of thousands of sockets (aka "C10K"). Furthermore, this should also
+provide sufficient infrastructure in order to permit adding support for other
+platform-specific event mechanisms in the future, such as IOCPs on Solaris and
+Windows.
+
+~ Rationale
+
+The drawbacks associated with ''poll''(2) and ''select''(2) and the
+tremendously improved ability to scale of ''epoll''(2) and ''kqueue''(2) are
+well-known [https://en.wikipedia.org/wiki/C10k_problem]; a previous attempt at
+implementing this feature elaborates on this subject and can be found at
+[https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200909&viewday=10]
+
+Whilst the original ''select''(2)-based event loop is forced to operate in
+level-triggered mode, edge-triggered mode is used instead on Linux and
+FreeBSD. This design decision was made as ''NotifierThreadProc''() may
+otherwise continue to receive events that have been queued to a waiting thread
+but not yet processed until a context switch occurs; non-SMP hosts
+particularly exacerbate this.
+
+The majority of Tcl code should be unable to observe any difference at the
+script level.
+
+~ Specification
+
+The new code associates the newly introduced (but private)
+'''PlatformEventData''' structure with each file descriptor to wait on and its
+corresponding ''FileHandler'' struct. ''PlatformEventData'' contains:
+
+ 1. A pointer to the ''FileHandler'' that the file descriptor belongs to. This
+    specifically facilitates updating the platform-specific mask of new events
+    for the file descriptor of a ''FileHandler'' after returning from
+    ''epoll_wait''(2)/''kevent''(2) in ''NotifierThreadProc''().
+
+ 2. A pointer to the ''ThreadSpecificData'' of the thread to whom the
+    ''FileHandler'' belongs. This specifically facilitates alerting threads
+    waiting on one or more ''FileHandlers'' in ''NotifierThreadProc''().
+
+At present, the code changes are entirely constrained to
+''unix/tclUnixNotfy.c''. The core implementation is found in a set of six
+newly introduced static subroutines in that same file:
+
+ 1. '''PlatformEventsControl'''() - abstracts ''epoll_ctl''(2)/''kevent''(2).
+    Called by ''Tcl_{Create,Delete}FileHandler''() to add/update event masks
+    for a new or an old ''FileHandler'' and ''NotifierThreadProc''() in order
+    to include the ''receivePipe'' fd when waiting for and processing events.
+
+ 2. '''PlatformEventsFinalize'''() - abstracts ''close''(2) and ''ckfree''().
+    Called by ''Tcl_FinalizeNotifier''().
+
+ 3. '''PlatformEventsGet'''() - abstracts iterating over an array of events.
+    Called by ''NotifierThreadProc''().
+
+ 4. '''PlatformEventsInit'''() - abstracts ''epoll_create''(2)/''kqueue''(2).
+    Called by ''Tcl_InitNotifier''().
+
+ 5. '''PlatformEventsTranslate'''() - translates platform-specific event masks
+    to TCL_{READABLE,WRITABLE,EXCEPTION} bits. Called by
+    ''Tcl_WaitForEvent''().
+
+ 6. '''PlatformEventsWait'''() - abstracts ''epoll_wait''(2)/''kevent''(2).
+    Called by ''Tcl_WaitForEvent''() and ''NotifierThreadProc''().
+
+One additional subroutine is used in all three code paths (epoll, kqueue,
+select) to reduce code redundancy:
+
+ 1. '''AlertSingleThread'''() - notify a single thread that is waiting on I/O.
+    Called by ''NotifierThreadProc''().
+
+'''PlatformEventsInit'''() currently defaults to allocating space for 128
+array members of ''struct epoll_event''/''struct kevent''. This could
+preferably be handled through, e.g., '''fconfigure'''. Originally, a mutex
+used to protect the ''epoll''(7)/''kqueue''(2) file descriptor and the
+mentioned array. This proved to be redundant as ''epoll_ctl''(2) can be called
+whilst blocking on ''epoll_wait''(2) on Linux, and as ''kevent''(2) can be
+called whilst blocking on ''kevent''(2) on FreeBSD.
+
+Lastly, the ''configure'' script is updated to define '''HAVE_EPOLL''' or
+'''HAVE_KQUEUE''' as appropriate.
+
+~ Reference Implementation
+
+Please refer to the ''tip-458'' branch or
+[https://github.com/lalbornoz/tcl].  The code is licensed under the
+BSD license.
+
+~ Copyright
+
+This document has been placed in the public domain. In jurisdictions where
+this concept does not exist, the BSD license applies.
