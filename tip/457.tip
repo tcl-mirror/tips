@@ -1,14 +1,14 @@
-TIP:		457
-Title:		Add Support for Named Arguments
-Version:	$Revision: 1.2 $
-Author:		Mathieu Lafon <mlafon@gmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	21-Nov-2016
-Post-History:
-Keywords:	Tcl, procedure, argument handling
+TIP:            457
+Title:          Add Support for Named Arguments
+Version:        $Revision: 1.3 $
+Author:         Mathieu Lafon <mlafon@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        21-Nov-2016
+Post-History:   
+Keywords:       Tcl,procedure,argument handling
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -29,64 +29,76 @@ snippets have drawbacks: not intuitive for new users, require to add extra
 code at the start of each procedure, no standard on the format to use, few
 errors handling, etc.
 
-The current proposal defines a new format to specify named arguments when
-calling a procedure and does not require any modification in the procedure
-definition.
+The following requirements have been taken into consideration for this
+proposed feature:
 
-Two possible formats were investigated (see below) of which the second
-proposition is prefered, as it is secured against unexpected use.
+ * must not break any existing program or package;
 
-~~ Format Option 1
+ * should work with existing procedures for this feature to be easily used
+   with external packages;
 
-Using a convention to specify named arguments without requiring any change in
-the existing Tcl parser.
+ * should be consistent with the current syntax and usage of the Tcl
+   language.
 
-|% myproc "some pos arg" { @color -> green } { @pos -> { 5 5 } }
+The others possibilities discussed with the community are detailed in the
+''Discussion'' section at the end of the document.
 
- Pro: Does not require any change in the Tcl parser. All modifications can be
-      limited to the ''InitArgsAndLocals()'' function in generic/tclProc.c.
-
- Con: There is a possibility that a similar convention is used for an other
-      usage in existing programs, leading to unexpected results.
-
- Con: It is not possible to detect and prevent its usage in builtin procedures
-      or other commands which do not handle this convention.
-
-~~ Format Option 2
-
-Defining a specific format specification which is currently not accepted by
-the Tcl parser.
-
-|% myproc "some pos arg" {color}=green {pos}={5 5}
-
- Pro: It is not possible that this format is currently used by an existing
-      program. The Tcl8.6 parser currently reject this format with the
-      "''extra characters after close-brace''" error.
-
- Pro: It is possible to only allow this format for commands which can handle
-      the named arguments.
-
- Con: Require more modifications in the code.
+The current proposal defines a new builtin command, named '''callwithargs''',
+which can be used to call a Tcl-pure procedure with arguments specified with 
+an ''-option value'' syntax.
 
 ~~ General Rules
 
-The following rules are defined on how named arguments are handled:
+The following rules define how the '''callwithargs''' command is expected to
+work:
 
- * Named arguments are not required to be specified in the same order than
-   declared in the procedure.
+ * The first argument is the name of the (Tcl-pure) procedure to call;
 
- * It is invalid to specify unnamed arguments after named arguments, unless
-   there is an ''args'' argument.
+ * The following arguments are a list of ''-option value'' pairs, where
+   ''option'' is the name of an argument with default of the target procedure
+   and ''value'' is the value which will be assigned to this argument;
 
- * Unnamed arguments specified after named arguments will be stored in the
-   ''args'' variable only if all required arguments have been provided.
+ * The order of ''-option value'' pairs is not important, they are not
+   required to be declared in the same order than in the procedure;
 
- * It is invalid to specify a named argument which does not exist.
+ * An argument with default must only be declared once, doing otherwise will
+   raise an error;
 
- * It is invalid to specify a named argument more than one time.
+ * The list of ''-option value'' pairs stop as soon as the next argument does
+   not start with a dash or when the ''--'' keyword is encountered;
 
- * It is invalid to specify a argument as a named argument if it has already
-   been specified as a positional argument.
+ * All other arguments following the end of ''-option value'' list are
+   affected to positional arguments '''without defaults'''.
+
+~~ Examples
+
+|% proc myproc { varA { optB defB } { optC defC } { optD defD } args } {
+|  set len [llength $args]
+|  puts "A:$varA,B:$optB,C:$optC,D:$optD,args($len):$args"
+|}
+|
+|% callwithargs myproc -optD myD firstA 1 2 3
+|A:firstA,B:defB,C:defC,D:myD,args(3):1 2 3
+|
+|% callwithargs myproc -optC myC -- -optA
+|A:-optA,B:defB,C:myC,D:defD,args(0):
+|
+|% callwithargs myproc -optC -C -- A 0
+|A:A,B:defB,C:-C,D:defD,args(1):0
+|
+|% callwithargs myproc -- A -optB B
+|A:A,B:defB,C:defC,D:defD,args(2):-optB B
+|
+|% dict set args -optB "valB B"
+|% dict set args -optD valD
+|% callwithargs myproc {*}$args -- A
+|A:A,B:valB B,C:defC,D:valD,args(0):
+|
+|% callwithargs myproc -optZ Z A
+|wrong args: unknown argument optZ in myproc
+|
+|% callwithargs myproc -optB B1 -optB B2 A
+|wrong args: option -optB defined more than once
 
 ~ Specification
 
@@ -94,25 +106,92 @@ The following rules are defined on how named arguments are handled:
 
 This document proposes the following changes to the Tcl core:
 
- 1. Parser modification to handle the new proposed format for named argument
-    specification.
+ 1. Implementation of the new '''callwithargs''' builtin command;
 
- 2. CallFrame modification to also store the names associated with each
-    argument (when specified).
+ 2. Add command documentation in doc/callwithargs.n;
 
- 3. Proc handler modification to initialize the local variables using the
-    unnamed or named arguments.
-
- 4. When using named arguments, prevent the execution of any command which is
-    not able to handle them.
-
- 5. Update proc documentation in doc/proc.n.
-
- 6. Add dedicated tests for parser and proc in tests/.
+ 3. Add dedicated tests for the command in tests/callwithargs.test.
 
 ~ Reference Implementation
 
 No reference implementation is currently available.
+
+~ Discussion
+
+This section detail the envisioned solutions for this feature, which can be
+divided in four groups.
+
+~~ Calling convention
+
+Named arguments can be defined using a convention to specify them, without
+requiring any change in the existing Tcl parser.
+
+The convention can be to use the well-known ''-option value'' syntax:
+
+|% myproc A -optB BB 
+
+Or a more specific one to lessen the risk of collision with an existing
+usage:
+
+|% myproc A { @optB -> BB }
+
+The drawbacks of this solution is that it may break existing code which
+share a similar convention and that it is not possible to detect and
+prevent its usage in non Tcl-pure procedures.
+
+~~ Specific format
+
+To avoid the drawbacks of the calling convention, it is possible to define
+and use a specific format which is currently not accepted by the Tcl parser.
+
+|% myproc "some pos arg" {optC}=foo {optB}={5 5}
+
+This solution was the first proposal and has received mitigated feelings
+from the Tcl community.
+
+An other variation of this solution has also be proposed and can be used
+with argument expansion:
+
+|% myproc "some pos arg" {**}{optC foo optB {5 5}}
+
+|% set args [dict create optC foo optB {5 5}]
+|% myproc "some pos arg" {**}$args
+
+The drawbacks of this solution is that it is too far from the common
+usage of the Tcl language and Tcl community and that it require important
+changes in various parts of Tcl core.
+
+~~ Modification in how proc are defined
+
+Tcl-pure procedures can be defined in a way wich state that the procedure
+will automaticaly handle ''-option value'' arguments.
+
+|% proc -np myproc { varA { optB defB } { optC defC } { optD defD } args } {
+|  ..
+|}
+|% myproc -optC foo -optB {5 5} -- "some pos arg"
+
+This is also how NSF handle parameters
+[https://next-scripting.org/2.0.0/doc/nx/tutorial/index1#_parameters], as
+proposed by the community:
+
+|% nsf::proc myproc { varA {-optB defB} {-optC defC} } {
+|  ..
+|}
+
+The drawbacks of this solution is that it does not meet the requirements
+of not modifying the procedure. This does not allow to used named parameters
+for procedure which can't be modified, for example from external packages.
+
+~~ Dedicated builtin command
+
+A dedicated command can be used to handle the named arguments, using an
+''-option value'' syntax, before calling the target procedures with all
+arguments correctly prepared.
+
+|% callwithargs myproc -optC foo -optB {5 5} -- "some pos arg"
+
+This is the proposed solution in this TIP.
 
 ~ Copyright
 
