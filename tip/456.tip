@@ -1,14 +1,14 @@
-TIP:		456
-Title:		Extend the C API to Support Passing Options to TCP Server Creation
-Version:	$Revision: 1.1 $
-Author:		LemonBoy <that.lemon@gmail.com>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	18-Nov-2016
-Post-History:
-Keywords:	Tcl, socket, SO_REUSEPORT, SO_REUSEADDR
+TIP:            456
+Title:          Extend the C API to Support Passing Options to TCP Server Creation
+Version:        $Revision: 1.2 $
+Author:         LemonBoy <that.lemon@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        18-Nov-2016
+Post-History:   
+Keywords:       Tcl,socket,SO_REUSEPORT,SO_REUSEADDR
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -35,6 +35,10 @@ function named '''Tcl_OpenTcpServerEx''' whose signature closely matches the
 '''Tcl_OpenTcpServer''' but allows passing a set of flags to customize its
 behaviour.
 
+Following the aforementioned changes to the C API the '''socket''' command is
+enhanced with two new options allowing the user to take advantage of the newly
+introduced flags.
+
 ~ Specification
 
 A '''Tcl_OpenTcpServerEx''' function is introduced with the following
@@ -58,16 +62,23 @@ The '''Tcl_OpenTcpServer''' function is then rewritten to be an alias of
 TCP_FLAGS_REUSEADDR so that we keep the API and behaviour compatible with the
 previous Tcl versions.
 
+As for the Tcl side, the '''socket''' command gains two new optional switches
+that are only valid for server sockets: '''?-reuseaddr boolean?''' and
+'''?-reuseport boolean?''', both accepting a boolean argument to either turn off
+or on the selected behaviour.
+
 ~ Reference Implementation
 
-A reference implementation is available as a versioned gist at GitHub,
-available here
-[https://gist.github.com/LemonBoy/412cd56a314e0abd15afcba3679054fb]
+Please refer to the ''tip-456'' branch of the core Tcl repository.
 
 ~ Backwards Compatibility
 
-Since '''Tcl_OpenTcpServer''' can be easily re-implemented on top of
-'''Tcl_OpenTcpServerEx''', the old behaviour can be retained.
+Since '''Tcl_OpenTcpServer''' can be easily re-implemented in terms of 
+'''Tcl_OpenTcpServerEx''' the old behaviour is retained.
+
+The '''socket''' command defaults to '''-reuseaddr''' set to ''yes'' as it was
+already doing before, the user is now able to turn off this behaviour by using
+'''-reuseaddr no'''.
 
 ~ Copyright
 
