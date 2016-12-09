@@ -1,0 +1,220 @@
+TIP:		460
+Title:		An Alternative to Upvar
+Author:		Don Hathway <dunnie@gmail.com>
+Version:	$Revision: 1.1 $
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	08-Dec-2016
+Post-History: 
+Tcl-Version:	9.0
+Keywords:	Tcl, variable, link, upvar
+
+~Abstract
+
+Variable linking with the ''upvar'' command is not as intuitive or effecient
+as it should be. This TIP proposes an alternative through automatic variable
+linking.
+
+~Rationale
+
+The current strategy used to link a variable in a called procedure to the
+caller, is to pass the name of the variable to the procedure, and use the
+''upvar'' command to create a new variable, which is then linked to the
+original. Thus linking to a variable requires two components; the variable
+name and a newly created variable.
+
+It is possible to instruct Tcl to do this linking automatically and dispense
+with the ''upvar'' command call along with the additional variable it creates
+to construct it.
+
+Also, the requirement (by ''upvar'') to pass the variable name to the
+procedure instead of the variable itself is counter-intuitive and can be
+confusing. The confusion is compounded by the requirement that the name of the
+new variable be different from the original.
+
+Benefits to this TIP as proposed:
+
+ 1. '''Creates no bytecodes.''' The fact there is no bytecodes makes this
+    strategy extremely fast.  Note that as of this TIP, ''upvar 1'' is
+    significantly faster than ''upvar'', but because this method has no
+    bytecodes, and because it is much simpler than ''upvar'', it is inherently
+    faster than any form of ''upvar''.
+
+ 2. '''No unnecessary variable creation.''' What isn't needed by the
+    procedure, shouldn't be created. This TIP will trim the linking process to
+    just what is needed.
+
+ 3. '''No code to perform explicit linking within the procedure's body.'''
+    Unlike ''upvar'', this method requires no additional code to be entered in
+    the body of the procedure. Less code, less bugs, easier to use! It has
+    been said that Tcl'ers should make more use of variable linking in their
+    code. Making it easier for them should have an encouraging effect, similar
+    to how most Tcl'ers prefer ''$var'' over ''set var''.
+
+ 4. '''Clearly defines links in the procedure's parameter list.''' Readers
+    should instantly know what the links are.  Clarity is important,
+    especially for people that read code all day. There are no special project
+    naming conventions to follow. A reader doesn't have to rely on docs or
+    assume that a parameter name of "varName", "_var", or "varLnk" is to be
+    linked by an upvar call, of which may be pushed down in the procedure's
+    body by comments or other code.
+
+ 5. '''Eliminates arguably messy ''upvar'' chain linking.'''
+
+~~ Upvar Chaining Example
+
+Below are three ''upvar''s with the same arguments. As you can see, there is
+quite a bit of arguably unnecessary code duplication, and that is bug prone.
+
+| proc foo {a} {
+|    upvar a la
+|    maybe do something with la
+|    bar la
+| }
+| proc bar {a} {
+|    upvar a la
+|    maybe do something with la
+|    baz la
+| }
+| proc baz {a} {
+|    upvar a la
+|    maybe do something with la
+| }
+| foo begin
+
+This could be written more succinctly:
+
+| proc foo {*a} {
+|    maybe do something with a
+|    bar a
+| }
+| proc bar {*a} {
+|    maybe do something with a
+|    baz a
+| }
+| proc baz {*a} {
+|    maybe do something with a
+| }
+| foo begin
+
+~ Specification
+
+Add support to procedure handling to allow for a parametric hint to procedure
+definitions with respect to the intent to link variables accordingly. We use
+the asterisk character "'''*'''" as the symbol to declare this intent; which
+shall prefix the parameter's name and be consumed upon procedure creation.
+Consequently, the "'''*'''" character becomes special, but only for procedure
+parameters. A procedure definition using this facility would have the
+signature:
+
+| proc foo {*a *b} {...}
+
+Where '''*a''' and '''*b''' are the procedure's parameters to be linked to the
+caller's arguments. Note that the variable names become '''a''' and '''b''',
+without the asterisk. The "'''*'''" character was chosen primarily because it
+resembles a star or a snowflake and has a pleasantry to it. It is also
+familiar to users of other languages where the same symbol exhibits similar
+semantics.
+
+It is an error for a link to have a default value because it doesn't make
+semantic sense (i.e., ''proc foo {{*a bar}} {...}'' would result in a Tcl
+error at procedure creation time).
+
+'''*args''' is a valid parameter name. For example, '''args''' is simply a
+link in:
+
+| proc foo {a *args} {
+|     incr args
+| }
+
+Note that as of this TIP ''proc foo {args args} {...}'' is legal Tcl. In this
+instance only the first ''scalar'' '''args''' is usable by the procedure. The
+rest of the arguments are inaccessible by the script. They're not internally
+lost, but Tcl's variable lookup mechanics will choose whichever is found first
+when a script references it. This behavior is inherited for ''proc foo {*args
+args} {...}''. Where '''args''' will be a link.
+
+To further illustrate this proposal with an example:
+
+| proc foo {*a *b} {
+|   bar a b
+| }
+
+| proc bar {*a *b} {
+|   incr a
+|   incr b
+| }
+
+| set v1 0
+| set v2 1
+| foo v1 v2
+| puts $v1
+| # prints 1
+| puts $v2
+| # prints 2
+
+| # Version of foo using upvar:
+| proc foo {a b} {
+|    # Note, upvar $a a would be an error.
+|    upvar $a la $b lb
+|    bar la lb
+| }
+| proc bar {a b} {
+|    upvar $a la $b lb
+|    incr la
+|    incr lb
+| }
+
+~~ Consequences
+
+There are two known issues with this approach; the first raises a
+compatibility problem:
+
+ 1. Breaks scripts using the special "'''*'''" as the first character in their
+    procedure's parameters (i.e. '''*var''').
+
+  > The impact of this should be minimal because these variable names require
+    the user to wrap it in curly braces (i.e. '''${*var}''') to fetch their
+    values, unless they're using the less common form of '''set varname'''.
+
+ 2. The variable names of the linked to variables are not known by the called
+    procedures.
+
+  > Since it is not common for variable names to be known by the called
+    procedures, this issue would only be relevant when a variable name is
+    expected to be known. In that case, the user could simply pass in the
+    variable names or use '''upvar''' when needed.
+
+~Reference Implementation
+
+See branch ''dah-proc-arg-upvar''
+
+~~Implementation Notes
+
+ tclInt.h: Add a new command flag ''CMD_HAS_ARG_LINKS'' to indicate it has
+  parameter(s) to be linked.
+
+ tclProc.c: Modify ''InitArgsAndLocals'' to do the automatic linking. Note
+  that this is a ''very hot'' function and that was kept in mind while making
+  the necessary adjustments. There are two additional branches in the function
+  (the second only visited when an error happens). The first to check if the
+  command has any parameters that need linking and if so, process them with
+  link support handling code. The second branch is to simply check if the link
+  handling code set an error when an error occurs, so this branch should not
+  be a concern as to performance impact. Due to branch prediction and this
+  function being so hot, there should be virtually nil of a negative
+  performance impact on any code which doesn't make use of the new automatic
+  linking facility.
+
+ tclProc.c: Modify ''InitLocalCache'' to add the ''CMD_HAS_ARG_LINKS'' flag to
+  the command's flags. This is done here because cmdPtr is not yet initialized
+  when ''TclCreateProc'' is called.
+
+ tclProc.c: Modify ''TclCreateProc'' to handle and add the ''VAR_LINK'' flag
+  to the formal parameters which are to be links to their corresponding
+  arguments.
+
+~Copyright
+
+This document has been placed in the public domain.
