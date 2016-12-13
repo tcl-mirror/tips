@@ -1,6 +1,6 @@
 TIP:            459
 Title:          Tcl Package Introspection Improvements
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -72,8 +72,7 @@ This is available in the ''package_files'' branch
 |% info loaded {} Tk
 |/usr/lib/libtk8.7.so
 
-Note that '''package require Tk''' loads the ''msgcat'' package as part of
-the Tk package.
+Note that '''package require Tk''' has the side-effect of loading the ''msgcat'' package, as it is required by Tk.
 
 ~ Copyright
 
