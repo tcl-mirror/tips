@@ -1,7 +1,7 @@
 TIP:		460
 Title:		An Alternative to Upvar
 Author:		Don Hathway <dunnie@gmail.com>
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 State:		Draft
 Type:		Project
 Vote:		Pending
@@ -68,17 +68,17 @@ Below are three ''upvar''s with the same arguments. As you can see, there is
 quite a bit of arguably unnecessary code duplication, and that is bug prone.
 
 | proc foo {a} {
-|    upvar a la
+|    upvar 1 $a la
 |    maybe do something with la
 |    bar la
 | }
 | proc bar {a} {
-|    upvar a la
+|    upvar 1 $a la
 |    maybe do something with la
 |    baz la
 | }
 | proc baz {a} {
-|    upvar a la
+|    upvar 1 $a la
 |    maybe do something with la
 | }
 | foo begin
@@ -157,11 +157,11 @@ To further illustrate this proposal with an example:
 | # Version of foo using upvar:
 | proc foo {a b} {
 |    # Note, upvar $a a would be an error.
-|    upvar $a la $b lb
+|    upvar 1 $a la $b lb
 |    bar la lb
 | }
 | proc bar {a b} {
-|    upvar $a la $b lb
+|    upvar 1 $a la $b lb
 |    incr la
 |    incr lb
 | }
