@@ -1,22 +1,24 @@
-TIP:		460
-Title:		An Alternative to Upvar
-Author:		Don Hathway <dunnie@gmail.com>
-Version:	$Revision: 1.2 $
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	08-Dec-2016
-Post-History: 
-Tcl-Version:	9.0
-Keywords:	Tcl, variable, link, upvar
+TIP:            460
+Title:          An Alternative to Upvar
+Version:        $Revision: 1.3 $
+Author:         Don Hathway <dunnie@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        08-Dec-2016
+Post-History:   
+Keywords:       Tcl,variable,link,upvar
+Tcl-Version:    9.0
 
-~Abstract
+~ Abstract
 
 Variable linking with the ''upvar'' command is not as intuitive or effecient
 as it should be. This TIP proposes an alternative through automatic variable
 linking.
 
 ~Rationale
+
+We're in the process of addressing some flaws in this TIP's proposal. When a new implementation is ready, this TIP will be updated to reflect it.
 
 The current strategy used to link a variable in a called procedure to the
 caller, is to pass the name of the variable to the procedure, and use the
