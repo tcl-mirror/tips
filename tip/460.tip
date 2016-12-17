@@ -1,6 +1,6 @@
 TIP:            460
 Title:          An Alternative to Upvar
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Don Hathway <dunnie@gmail.com>
 State:          Draft
 Type:           Project
@@ -37,24 +37,14 @@ new variable be different from the original.
 
 Benefits to this TIP as proposed:
 
- 1. '''Creates no bytecodes.''' The fact there is no bytecodes makes this
-    strategy extremely fast.  Note that as of this TIP, ''upvar 1'' is
-    significantly faster than ''upvar'', but because this method has no
-    bytecodes, and because it is much simpler than ''upvar'', it is inherently
-    faster than any form of ''upvar''.
-
- 2. '''No unnecessary variable creation.''' What isn't needed by the
-    procedure, shouldn't be created. This TIP will trim the linking process to
-    just what is needed.
-
- 3. '''No code to perform explicit linking within the procedure's body.'''
+ 1. '''No code to perform explicit linking within the procedure's body.'''
     Unlike ''upvar'', this method requires no additional code to be entered in
     the body of the procedure. Less code, less bugs, easier to use! It has
     been said that Tcl'ers should make more use of variable linking in their
     code. Making it easier for them should have an encouraging effect, similar
     to how most Tcl'ers prefer ''$var'' over ''set var''.
 
- 4. '''Clearly defines links in the procedure's parameter list.''' Readers
+ 2. '''Clearly defines links in the procedure's parameter list.''' Readers
     should instantly know what the links are.  Clarity is important,
     especially for people that read code all day. There are no special project
     naming conventions to follow. A reader doesn't have to rely on docs or
@@ -62,7 +52,7 @@ Benefits to this TIP as proposed:
     linked by an upvar call, of which may be pushed down in the procedure's
     body by comments or other code.
 
- 5. '''Eliminates arguably messy ''upvar'' chain linking.'''
+ 3. '''Eliminates arguably messy ''upvar'' chain linking.'''
 
 ~~ Upvar Chaining Example
 
