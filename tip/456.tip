@@ -1,6 +1,6 @@
 TIP:            456
 Title:          Extend the C API to Support Passing Options to TCP Server Creation
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         LemonBoy <that.lemon@gmail.com>
 Author:         lime boy <thatlemon@gmail.com>
 State:          Draft
@@ -45,12 +45,14 @@ introduced flags.
 A '''Tcl_OpenTcpServerEx''' function is introduced with the following
 signature:
 
- > Tcl_Channel '''Tcl_OpenTcpServerEx'''(Tcl_Interp *''interp'', int ''port'',
-    const char *''myHost'', unsigned int ''flags'', Tcl_TcpAcceptProc
-    *''acceptProc'', ClientData ''acceptProcData'')
+ > Tcl_Channel '''Tcl_OpenTcpServerEx'''(Tcl_Interp *''interp'', const char *
+    ''service'', const char *''myHost'', unsigned int ''flags'', 
+    Tcl_TcpAcceptProc *''acceptProc'', ClientData ''acceptProcData'')
 
-Most arguments are identical to '''Tcl_OpenTcpServer'''.  Two entries for the
-''flags'' bitset are defined by this TIP:
+Most arguments are identical to '''Tcl_OpenTcpServer''' with the exception of
+the ''port'' parameter being replaced by the ''service'' one taking a string
+instead of an integer.  Two entries for the ''flags'' bitset are defined by this 
+TIP:
 
  * '''TCP_TCPSERVER_REUSEADDR''' - indicate that the socket flag SO_REUSEADDR (or
    equivalent) should be set.
