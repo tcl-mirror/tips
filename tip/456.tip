@@ -1,6 +1,6 @@
 TIP:            456
 Title:          Extend the C API to Support Passing Options to TCP Server Creation
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         LemonBoy <that.lemon@gmail.com>
 Author:         lime boy <thatlemon@gmail.com>
 State:          Draft
@@ -54,15 +54,15 @@ the ''port'' parameter being replaced by the ''service'' one taking a string
 instead of an integer.  Two entries for the ''flags'' bitset are defined by this 
 TIP:
 
- * '''TCP_TCPSERVER_REUSEADDR''' - indicate that the socket flag SO_REUSEADDR (or
+ * '''TCL_TCPSERVER_REUSEADDR''' - indicate that the socket flag SO_REUSEADDR (or
    equivalent) should be set.
 
- * '''TCP_TCPSERVER_REUSEPORT''' - indicate that the socket flag SO_REUSEPORT (or
+ * '''TCL_TCPSERVER_REUSEPORT''' - indicate that the socket flag SO_REUSEPORT (or
    equivalent) should be set.
 
 The '''Tcl_OpenTcpServer''' function is then rewritten to be an alias of
 '''Tcl_OpenTcpServerEx''' with the '''flags''' parameter set by default to
-TCP_TCPSERVER_REUSEADDR so that we keep the API and behaviour compatible with the
+TCL_TCPSERVER_REUSEADDR so that we keep the API and behaviour compatible with the
 previous Tcl versions.
 
 As for the Tcl side, the '''socket''' command gains two new optional switches
