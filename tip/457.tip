@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -45,7 +45,7 @@ The others possibilities discussed with the community are detailed in the
 
 The current proposal defines a new builtin command, named '''call''',
 which can be used to call a Tcl-pure procedure with arguments specified with 
-an ''-option value'' syntax, with or without starting position arguments.
+an ''-option value'' syntax, with or without starting positional arguments.
 
 The name of the command has been chosen to be generic, so that it could
 be later extended for other uses.
@@ -93,6 +93,9 @@ work:
 |% call -opts -npos 1 myproc valA -c valC -- -xyz
 |a:valA, b:B, c:valC, args:-xyz
 |
+|%call -npos 2 myproc valA valB -- -xyz
+|a:valA, b:valB, c:C, args:-xyz
+|
 |% dict set myargs -b "valB B"
 |% dict set myargs -c C2
 |% call -opts myproc {*}$myargs -- AA
@@ -111,11 +114,11 @@ This document proposes the following changes to the Tcl core:
  1. Implementation of the new '''call''' builtin command; The command
     will mainly create a new arguments list based on input arguments
     and arguments of the proc command. The new arguments list will then
-    be used to call the command.
+    be used to call the command;
 
  2. The TclProcGetCachedArgs helper function is added to provide a direct
     access to local cache (variable names and default values) to the
-    '''call''' command implementation.
+    '''call''' command implementation;
 
  3. Add command documentation in doc/call.n;
 
