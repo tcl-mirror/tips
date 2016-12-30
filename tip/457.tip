@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -43,16 +43,27 @@ proposed feature:
 The others possibilities discussed with the community are detailed in the
 ''Discussion'' section at the end of the document.
 
-The current proposal defines a new builtin command, named '''callwithargs''',
+The current proposal defines a new builtin command, named '''call''',
 which can be used to call a Tcl-pure procedure with arguments specified with 
-an ''-option value'' syntax.
+an ''-option value'' syntax, with or without starting position arguments.
+
+The name of the command has been chosen to be generic, so that it could
+be later extended for other uses.
 
 ~~ General Rules
 
-The following rules define how the '''callwithargs''' command is expected to
+The following rules define how the '''call''' command is expected to
 work:
 
- * The first argument is the name of the (Tcl-pure) procedure to call;
+ * The command accept ''-opts'' and ''-npos pos'' options.
+
+ * The first argument after the options is the name of the command to call;
+
+ * If ''-opts'' or ''-npos pos'' has been used, the command must be a
+   Tcl-pure procedure.
+
+ * If ''-npos pos'' option has been used, the following ''pos'' arguments
+   are positional arguments for the command to call.
 
  * The following arguments are a list of ''-option value'' pairs, where
    ''option'' is the name of an argument with default of the target procedure
@@ -72,49 +83,49 @@ work:
 
 ~~ Examples
 
-|% proc myproc { varA { optB defB } { optC defC } { optD defD } args } {
-|  set len [llength $args]
-|  puts "A:$varA,B:$optB,C:$optC,D:$optD,args($len):$args"
+|% proc myproc { a { b B } { c C } args } {
+|  puts "a:$a, b:$b, c:$c, args:$args"
 |}
 |
-|% callwithargs myproc -optD myD firstA 1 2 3
-|A:firstA,B:defB,C:defC,D:myD,args(3):1 2 3
+|% call -opts myproc -c valC A xyz
+|a:A, b:B, c:valC, args:xyz
 |
-|% callwithargs myproc -optC myC -- -optA
-|A:-optA,B:defB,C:myC,D:defD,args(0):
+|% call -opts -npos 1 myproc valA -c valC -- -xyz
+|a:valA, b:B, c:valC, args:-xyz
 |
-|% callwithargs myproc -optC -C -- A 0
-|A:A,B:defB,C:-C,D:defD,args(1):0
+|% dict set myargs -b "valB B"
+|% dict set myargs -c C2
+|% call -opts myproc {*}$myargs -- AA
+|a:AA, b:valB B, c:C2, args:
 |
-|% callwithargs myproc -- A -optB B
-|A:A,B:defB,C:defC,D:defD,args(2):-optB B
+|% call -opts myproc -optZ Z A
+|unknown argument "optZ" in "myproc"
 |
-|% dict set args -optB "valB B"
-|% dict set args -optD valD
-|% callwithargs myproc {*}$args -- A
-|A:A,B:valB B,C:defC,D:valD,args(0):
-|
-|% callwithargs myproc -optZ Z A
-|wrong args: unknown argument optZ in myproc
-|
-|% callwithargs myproc -optB B1 -optB B2 A
-|wrong args: option -optB defined more than once
+|% call -opts myproc -c c1 -c c2
+|argument "c" is set more than once
 
 ~ Specification
 
-''Note:'' The specification is currently being worked on.
-
 This document proposes the following changes to the Tcl core:
 
- 1. Implementation of the new '''callwithargs''' builtin command;
+ 1. Implementation of the new '''call''' builtin command; The command
+    will mainly create a new arguments list based on input arguments
+    and arguments of the proc command. The new arguments list will then
+    be used to call the command.
 
- 2. Add command documentation in doc/callwithargs.n;
+ 2. The TclProcGetCachedArgs helper function is added to provide a direct
+    access to local cache (variable names and default values) to the
+    '''call''' command implementation.
 
- 3. Add dedicated tests for the command in tests/callwithargs.test.
+ 3. Add command documentation in doc/call.n;
+
+ 4. Add dedicated tests for the command in tests/call.test.
 
 ~ Reference Implementation
 
-No reference implementation is currently available.
+The reference implementation is available in the 457-CALL-CMD branch
+[https://github.com/tcltk/tcl/compare/master...mlafon:457-CALL-CMD].
+The code is licensed under the BSD license.
 
 ~ Discussion
 
@@ -149,17 +160,18 @@ and use a specific format which is currently not accepted by the Tcl parser.
 This solution was the first proposal and has received mitigated feelings
 from the Tcl community.
 
-An other variation of this solution has also be proposed and can be used
-with argument expansion:
+The drawbacks of this solution is that it is too far from the common
+usage of the Tcl language and Tcl community and that it require important
+changes in various parts of Tcl core.
+
+An other variation of this solution, with a syntax more common to the usage
+of the Tcl community, has also be proposed and can be used with argument
+expansion:
 
 |% myproc "some pos arg" {**}{optC foo optB {5 5}}
 
 |% set args [dict create optC foo optB {5 5}]
 |% myproc "some pos arg" {**}$args
-
-The drawbacks of this solution is that it is too far from the common
-usage of the Tcl language and Tcl community and that it require important
-changes in various parts of Tcl core.
 
 ~~ Modification in how proc are defined
 
@@ -189,7 +201,7 @@ A dedicated command can be used to handle the named arguments, using an
 ''-option value'' syntax, before calling the target procedures with all
 arguments correctly prepared.
 
-|% callwithargs myproc -optC foo -optB {5 5} -- "some pos arg"
+|% call -opts myproc -optC foo -optB {5 5} -- "some pos arg"
 
 This is the proposed solution in this TIP.
 
