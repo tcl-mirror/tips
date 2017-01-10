@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -93,7 +93,7 @@ work:
 |% call -opts -npos 1 myproc valA -c valC -- -xyz
 |a:valA, b:B, c:valC, args:-xyz
 |
-|%call -npos 2 myproc valA valB -- -xyz
+|% call -npos 2 myproc valA valB -xyz
 |a:valA, b:valB, c:C, args:-xyz
 |
 |% dict set myargs -b "valB B"
