@@ -1,6 +1,6 @@
 TIP:            459
 Title:          Tcl Package Introspection Improvements
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -24,14 +24,14 @@ library contained in a package more easily than searching a list.
 
 ~ Specification of the proposed Change
 
-Two new addtions are proposed, to the '''package''' and '''info''' commands.
+Two new additions are proposed, to the '''package''' and '''info''' commands.
 
  1. '''package files''' ''name''
 
   > This command returns a list of filenames which were sourced during the
     initialization of package ''name''. More specific, the files that were
     sourced during running the script registered using '''package ifneeded'''.
-    Left out are tclIndex and pkgIndex.tcl files, which might have been
+    Left out are Tcl's own tclIndex and pkgIndex.tcl files, which might have been
     accessed due to dependancy searches, otherwise this would give very
     misleading results.
 
@@ -42,16 +42,32 @@ Two new addtions are proposed, to the '''package''' and '''info''' commands.
     in the give interpreter. The additional ''name'' argument restricts the
     result to the filename of the loaded library only.
 
-A third change had to be done internally, in order to make it possible to
-exclude the tclIndex and pkgIndex.tcl files
+Tcl packages don't have to do anything special in order to be introspected
+correctly, just note that files containing auto_loaded commands cannot be
+introspected because they are not sourced during package initialization.
 
- 1. '''source''' ''-nopkg'' ''filename''
+~ Rejected alternatives
 
-  > This command sources a file, but without registering the file for the
-    '''package files''' results. This new option is NOT documented, because it
-    is meant exclusively for leaving out the tclIndex and pkgIndex files from
-    the '''package files''' result. No-one outside of Tcl itself should ever
-    use that.
+  > Use of ''source -nopkg'' in tclIndex files. Even though this addition in the
+  earlier TIP was explicitly undocumented, it lead to the misunderstanding
+  that other Tcl extensions should do the same.
+
+  > Earlier implementation of this TIP didn't handle the second argument of
+  '''info loaded''' correctly in all cases, and the handling in safe
+  interpreters was not complete. This is all corrected in the current implementation.
+
+  > All filenames should be converted to absolute. This is rejected for performance
+  and for practical reasons. It could be quite expensive to calculate because
+  the disk has to be accessed for possible hyper-links. Second, the package
+  mechanism is already designed such that all sourced paths are absolute (see
+  below example). Extensions using the '''source''' command with relative
+  paths are in danger already, this should be fixed in the extension in
+  stead of being masked in the '''package files''' command.
+
+  > Additional information about the sourced files (like mtime or checksum) was
+  suggested to be part of the introspection information, but this has been
+  rejected as overkill. It is much more than requested in the Tcl-bounty, and
+  it is difficult to imagine what actual use this would bring.
 
 ~ Reference Implementation
 
@@ -72,7 +88,7 @@ This is available in the ''package_files'' branch
 |% info loaded {} Tk
 |/usr/lib/libtk8.7.so
 
-Note that '''package require Tk''' has the side-effect of loading the ''msgcat'' package, as it is required by Tk.
+Note that '''package require Tk''' has the side-effect of loading the ''msgcat'' package, which is required by Tk.
 
 ~ Copyright
 
