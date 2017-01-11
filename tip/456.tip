@@ -1,11 +1,11 @@
 TIP:            456
 Title:          Extend the C API to Support Passing Options to TCP Server Creation
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         LemonBoy <that.lemon@gmail.com>
 Author:         lime boy <thatlemon@gmail.com>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        18-Nov-2016
 Post-History:   
 Keywords:       Tcl,socket,SO_REUSEPORT,SO_REUSEADDR
