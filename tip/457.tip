@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -46,6 +46,8 @@ The others possibilities discussed with the community are detailed in the
 The current proposal defines a new builtin command, named '''call''',
 which can be used to call a Tcl-pure procedure with arguments specified with 
 an ''-option value'' syntax, with or without starting positional arguments.
+This command must not be confused with the '''eval''' command which has
+other uses.
 
 The name of the command has been chosen to be generic, so that it could
 be later extended for other uses.
@@ -178,7 +180,7 @@ expansion:
 
 ~~ Modification in how proc are defined
 
-Tcl-pure procedures can be defined in a way wich state that the procedure
+Tcl-pure procedures can be defined in a way which state that the procedure
 will automaticaly handle ''-option value'' arguments.
 
 |% proc -np myproc { varA { optB defB } { optC defC } { optD defD } args } {
