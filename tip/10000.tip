@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.211 $
+Version:        $Revision: 1.212 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -23,122 +23,86 @@ Post-History:
 
 ~ Abstract
 
-This proposal has no content.  It exists only to provide a document
-on which testing of and practice using of the TIP editing interfaces
-can take place.
-
-This TIP proposes to add capabilities for monitoring changes in the
-file system to the Tcl core.
-
-like ''scan %*'', writing "current position" to a parameter 
+This TIP proposes to complete the separation between string and
+numeric comparison operations in [[expr]] and related commands
+([[for]], [[if]], [[while]], etc.). It introduces new comparison
+operators '''ge''', '''gt''', '''le''', and '''lt''', (along with the
+corresponding commands in the '''::tcl::mathop''' namespace), and to
+restrict the six operators '''==''', '''>=''', '''>''', '''<=''',
+'''<''' and '''!=''' to comparisons of numeric values.
 
 ~ Rationale
 
-derp!
+Tcl throughout its history has had comparison operators that freely
+compare numeric and string values. These operators behave as expected
+if both their arguments are numeric: they compare values on the real
+number line. Hence, 15 < 0x10 < 0b10001. Similarly, if presented with
+non-numeric strings, they compare the strings in lexicographic order,
+as a programmer might expect: "bambam" < "barney" < "betty" < "fred".
 
-Most if not all platforms supported by Tcl today allow user space
-processes to monitor the file system for certain changes such as the
-creation, deletion, alteration or renaming of files.
+Trouble arises, however, when numeric and non-numeric strings are
+compared. The rule for comparison is that mixed-type comparisons like
+this are treated as string comparisons. The result is that '''<'''
+does not induce an order. There are inconsistent comparison results,
+rendering '''<''' and friends worthless for sorting. 0x10 < 0y < 1 < 0x10.
 
-Unfortunately there is no unique cross-platform API for this, so a Tcl
-core feature will have to be backed by a series of platform-dependent
-implementations and possibly a fallback for platforms that don't have
-these monitoring capabilities or instances on which they have been
-disabled.
+The problems with this inconsistency prompted changes in May of 2000,
+introducing '''eq''' and '''ne''' operators that always perform string
+comparison. For whatever reason, the four inequality operations never
+followed. This leads to pitfalls for the unwary. It's fairly well
+entrenched in the Tcl folklore that comparisons other than '''eq'''
+and '''ne''' should be reserved for numeric arguments only, and
+experienced Tcl programmers know to write:
 
-Platform-speciffic APIs which should be supported by the final implementation (list to be extended):
+| if {[string compare $x $y] < 0} { ... }
 
- * inotify[http://en.wikipedia.org/wiki/Inotify] (Linux)
+in place of 
 
- * kqueue[http://en.wikipedia.org/wiki/Kqueue] (BSD)
-
- * FSEvents[http://en.wikipedia.org/wiki/FSEvents] (Mac OS X)
-
- * (Windows?)
+| if {$x < $y} { ... }
 
 ~ Proposal
 
-A new subcommand should get added to the '''file''' command with the following syntax:
+Two things are proposed.
 
- > '''file monitor''' ''path'' ''callback'' ?''filter''?
+   1. [[8.x]] Four new bareword operators, '''ge''', '''gt''', '''le''' and '''lt''' shall be added to the expression parser and to the '''::tcl::mathop''' command set. They will have precedence identical to the existing operators '''>=''', '''>''', '''<=''' and '''<'''. They will accept string values, and return 0 or 1 according to lexicographic string comparison of their operators. This change is entirely backward compatible (it uses syntax that would previously have been erroneous), and should go in as soon as possible - no later than the next point release, but ideally even in a patchlevel - so that programmers can begin conversion as soon as possible. Use of the  '''==''', '''>=''', '''>''', '''<=''', '''<''', and '''!=''' for comparing non-numeric values shall immediately be deprecated.
 
-This will register ''callback'' to be called from the event loop when
-one of the events specified by ''filter'' occurs to the file or
-directory specified by ''path''. Calling '''file monitor''' with an
-empty callback argument removes an existing callback from the given
-path.
+   2. [[9.0]] Passing of non-numeric values to the '''==''', '''>=''', '''>''', '''<=''', '''<''', and '''!=''' operators (or to their '''tcl::mathop''' equivalents) shall be forbidden and result in an error being thrown.
 
-The calling conventions for ''callback'' and the syntax of ''filter''
-are yet to be determined.
+~ Discussion
 
-~ Rejected alternatives
+~~ Forcing numeric comparisons in today's Tcl
 
-The '''file''' command was chosen over '''fileevent''' and '''chan
-event''', because the object to be monitored is passed by name and not
-as an open channel.
+Programmers who wish to prepare for the change, once the four new operators are in place, can adapt places in their code where they wish to force numeric comparisons by replacing expressions of the form:
 
-As an API, FAM[http://en.wikipedia.org/wiki/File_alteration_monitor]
-would have been a more portable alternative, but it requres a daemon
-to be running on the local machine and it requires linking against a
-lib that is licensed under the LGPL. It might be possible to support
-FAM as a compile time alternative to the system's native notification
-method. There exists a serverless implementation of a subset of the
-FAM API, called
-Gamin[http://people.gnome.org/~veillard/gamin/index.html], but that's
-also licensed under the LGPL.
+| if {$x < $y} { ... }
 
-There exists a Tcl extension for
-inotify[https://sourceforge.net/projects/tcl-inotify/], but it is
-licensed under the GPL and it's script level API is too close to the
-inotify primitives to serve as the basis of a cross-platform
-abstraction for such notifications. But it might be a good base for a
-scripted prototype to sort out the remaining details of the proposed
-script level API.
+with
 
-This TIP describes a new (sub)command '''string cat''' to concatenate
-an arbitrary number of strings.
+| if {+$x < +$y} { ... }
 
-Tcl has string concatenation built-in. But this is lacking in two
-specific cases:
+The second comparison will have the effect of forcing both operands to be numeric, and the existing comparison code will then provide the correct semantics.
 
-   * one cannot directly concat a braced string with anything else
+~~ Deprecation and compatibility
 
-   * scriptlets such as used for [[lmap]] are expected to contain
-commands, the last one of which returns a value. To have the scriptlet
-return a concatenated string or even just a single string literal,
-one currently needs to abuse some corner-case of a non-trivial command,
-like '''return -level 0 $x$y''' or '''string map {} "$x$y"''' just to
-have the scriptlet produce the string as its result.
+It may be possible to introduce some sort of per-interpreter or
+per-namespace option to control the behaviour of numeric comparisons
+when evaluated in the given interpreter or namespace. The author of
+this TIP has not investigated how such an option might be implemented,
+and encourages those who propose it to do so. Until and unless a
+concrete implementation plan emerges from their investigation, the
+plan is to leave a "backward compatibility" setting out of scope.
 
-I propose a new subcommand '''string cat''', that will take an
-arbitrary number of arguments (even 0), and concatenate them into
-a single string that becomes the result of the command.
+In addition, at least one reader of this TIP has requested a setting
+whereby a warning can be delivered that functionality is
+deprecated. Since in the past, we have not been able to identify and
+standardize a mechanism whereby such warnings could be delivered, this
+functionality is also considered to be out of scope.
 
-It would be equivalent to creating a '''list''' of the separate
-arguments and use '''join''' on that list with an empty string
-as second argument.
+~~ Rejected alternatives
 
-Compiling that new command to bytecode should be trivial, as
-concatenation of strings is already compileable. The added value
-would be allowing braced string literals to be involved, and
-promoting the resulting stack-item to the result of the command/
-scriptlet. (This simple compileability is also believed to be
-a main advantage against '''join [list ...] ""''')
-
-'''-selectbackground''' ''color'':
-
- > Specifies the background color to use
-    when displaying selected items. It may have any of the forms accepted by
-    '''Tk_GetColor'''. If ''color'' has not been specified, or if it is
-    specified as an empty string, then the color specified by the
-    '''-background''' tag option is used.
-
-~ Further ideas
-
-It might be an option to release the C code that unifies the various
-OS speciffic mechanisms under a single API as a separate library, so
-that projects other than Tcl can use it as well.
-
-~ Copyright
-
-This document has been placed in the public domain. In legislations where this concept does not exist the CC0 license applies.
+One possible alternative to excluding non-numeric arguments from the
+comparison operators is to change their semantics so that all
+non-numeric strings are greater than all numbers. This change would at
+least yield a consistent ordering. The ordering that it yields would,
+however, be somewhat surprising, and not terribly useful. (It would at
+least be compatible with today's scheme for numeric comparisons.)
