@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.215 $
+Version:        $Revision: 1.216 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -129,11 +129,17 @@ attempts to address them.
 
    2. ''There is some concern that using barewords for operators was a
       bad idea in the first place.'' The fact that
+
 |               expr {"foo"}
+
       and
+
 |               set x foo; expr {$x}
+
       both work, while
+
 |               expr {foo}
+
       is an invalid bareword is arguably surprising.
 
       Nevertheless, we have committed to the approach with the 'eq',
@@ -157,11 +163,13 @@ attempts to address them.
       '''eq''', '''ne''', '''in''' and '''ni''' operations were introduced.
       It is true that the use of numeric conversions in [[expr]]
       is incoherent, as seen in:
+
 |               % proc tcl::mathfunc::cat {args} { join $args {} }
 |               % expr {cat(0x1,0x2,"a")}
 |               0x10x2a
 |               % expr {cat(0x1)}
 |               1
+
       (Bug [[e7c21ed678]] is another manifestation of this general
       problem.) Once again, adding additional string operations
       that behave, with respect to data types, exactly the same
@@ -178,7 +186,9 @@ attempts to address them.
       bytecoded. There are no new operations required, merely a compiler
       that is smart enough to emit a short codeburst rather than a
       single bytecode. As an example, the code for the expression
+
 |               {$x lt $y}
+
       could be:
 
 |    (0) loadScalar1 %v0        # var "x"
