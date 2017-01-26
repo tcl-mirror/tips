@@ -1,6 +1,6 @@
 TIP:            10000
 Title:          Dummy Proposal for Testing Editing Interfaces
-Version:        $Revision: 1.212 $
+Version:        $Revision: 1.213 $
 Author:         Don Porter <dgp@users.sourceforge.net>
 Author:         Andreas Kupries <a.kupries@westend.com>
 Author:         Richard Suchenwirth <richard.suchenwirth@kst.siemens.de>
@@ -15,6 +15,7 @@ Author:         Reinhard Max <max@tclers.tk>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Andreas Kupries <akupries@shaw.ca>
 Author:         Francois Vogel <fvogelnew1@free.fr>
+Author:         KEVIN KENNY <kevin.b.kenny@gmail.com>
 State:          Draft
 Type:           Informative
 Vote:           Pending
@@ -31,78 +32,6 @@ corresponding commands in the '''::tcl::mathop''' namespace), and to
 restrict the six operators '''==''', '''>=''', '''>''', '''<=''',
 '''<''' and '''!=''' to comparisons of numeric values.
 
-~ Rationale
-
-Tcl throughout its history has had comparison operators that freely
-compare numeric and string values. These operators behave as expected
-if both their arguments are numeric: they compare values on the real
-number line. Hence, 15 < 0x10 < 0b10001. Similarly, if presented with
-non-numeric strings, they compare the strings in lexicographic order,
-as a programmer might expect: "bambam" < "barney" < "betty" < "fred".
-
-Trouble arises, however, when numeric and non-numeric strings are
-compared. The rule for comparison is that mixed-type comparisons like
-this are treated as string comparisons. The result is that '''<'''
-does not induce an order. There are inconsistent comparison results,
-rendering '''<''' and friends worthless for sorting. 0x10 < 0y < 1 < 0x10.
-
-The problems with this inconsistency prompted changes in May of 2000,
-introducing '''eq''' and '''ne''' operators that always perform string
-comparison. For whatever reason, the four inequality operations never
-followed. This leads to pitfalls for the unwary. It's fairly well
-entrenched in the Tcl folklore that comparisons other than '''eq'''
-and '''ne''' should be reserved for numeric arguments only, and
-experienced Tcl programmers know to write:
-
-| if {[string compare $x $y] < 0} { ... }
-
-in place of 
-
-| if {$x < $y} { ... }
-
-~ Proposal
-
-Two things are proposed.
-
-   1. [[8.x]] Four new bareword operators, '''ge''', '''gt''', '''le''' and '''lt''' shall be added to the expression parser and to the '''::tcl::mathop''' command set. They will have precedence identical to the existing operators '''>=''', '''>''', '''<=''' and '''<'''. They will accept string values, and return 0 or 1 according to lexicographic string comparison of their operators. This change is entirely backward compatible (it uses syntax that would previously have been erroneous), and should go in as soon as possible - no later than the next point release, but ideally even in a patchlevel - so that programmers can begin conversion as soon as possible. Use of the  '''==''', '''>=''', '''>''', '''<=''', '''<''', and '''!=''' for comparing non-numeric values shall immediately be deprecated.
-
-   2. [[9.0]] Passing of non-numeric values to the '''==''', '''>=''', '''>''', '''<=''', '''<''', and '''!=''' operators (or to their '''tcl::mathop''' equivalents) shall be forbidden and result in an error being thrown.
-
-~ Discussion
-
-~~ Forcing numeric comparisons in today's Tcl
-
-Programmers who wish to prepare for the change, once the four new operators are in place, can adapt places in their code where they wish to force numeric comparisons by replacing expressions of the form:
-
-| if {$x < $y} { ... }
-
-with
-
-| if {+$x < +$y} { ... }
-
-The second comparison will have the effect of forcing both operands to be numeric, and the existing comparison code will then provide the correct semantics.
-
-~~ Deprecation and compatibility
-
-It may be possible to introduce some sort of per-interpreter or
-per-namespace option to control the behaviour of numeric comparisons
-when evaluated in the given interpreter or namespace. The author of
-this TIP has not investigated how such an option might be implemented,
-and encourages those who propose it to do so. Until and unless a
-concrete implementation plan emerges from their investigation, the
-plan is to leave a "backward compatibility" setting out of scope.
-
-In addition, at least one reader of this TIP has requested a setting
-whereby a warning can be delivered that functionality is
-deprecated. Since in the past, we have not been able to identify and
-standardize a mechanism whereby such warnings could be delivered, this
-functionality is also considered to be out of scope.
-
-~~ Rejected alternatives
-
-One possible alternative to excluding non-numeric arguments from the
-comparison operators is to change their semantics so that all
-non-numeric strings are greater than all numbers. This change would at
-least yield a consistent ordering. The ordering that it yields would,
-however, be somewhat surprising, and not terribly useful. (It would at
-least be compatible with today's scheme for numeric comparisons.)
+TIP: nnn
+Title: Separate Numeric and String Comparison Operators
+Version: $Revision: 1.213 $y] < 0}
