@@ -1,6 +1,6 @@
 TIP:		461
 Title:		Separate Numeric and String Comparison Operators
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Kevin B Kenny <kennyb@acm.org>
 State:		Draft
 Type:		Project
@@ -133,18 +133,29 @@ attempts to address them.
       In any case, we still have nearly half the operators left.
 
    2. ''There is some concern that using barewords for operators was a bad
-      idea in the first place.'' The fact that '''expr {"foo"}''' and '''set x
-      foo; expr {$x}''' both work, while '''expr {foo}''' is an invalid
-      bareword is arguably surprising.
+      idea in the first place.'' The fact that
 
-    > Nevertheless, we have committed to the approach with the 'eq', 'ne',
-      'in' and 'ni' operators. These are unlikely to go away. Adding 'lt',
-      'le', 'gt' and 'ge' will make this problem no better nor worse.
+| expr {"foo"}
+
+    > and
+
+| set x foo; expr {$x}
+
+     > both work, while
+
+| expr {foo}
+
+     > is an invalid bareword is arguably surprising.
+
+    > Nevertheless, we have committed to the approach with the '''eq''',
+      '''ne''', '''in''' and '''ni''' operators. These are unlikely to go
+      away. Adding '''lt''', '''le''', '''gt''' and '''ge''' will make this
+      problem no better nor worse.
 
     > Moreover, the language of [[expr]] is not the same as Tcl. It does not
       strip comments, parse into words, and apply Tcl's precise substitution
-      rules - and it would be surprising if it did!  There are other 'little
-      languages' throughout Tcl - regular expressions, glob patterns, assembly
+      rules - and it would be surprising if it did!  There are other "little
+      languages" throughout Tcl - regular expressions, glob patterns, assembly
       code, and so on. [[expr]] is one among many.
 
    3. ''There is concern that [[expr]], which was originally intended almost
@@ -157,11 +168,11 @@ attempts to address them.
       that the use of numeric conversions in [[expr]] is incoherent, as seen
       in:
       
-|       % proc tcl::mathfunc::cat {args} { join $args {} }
-|       % expr {cat(0x1,0x2,"a")}
-|       0x10x2a
-|       % expr {cat(0x1)}
-|       1
+|   % proc tcl::mathfunc::cat {args} { join $args {} }
+|   % expr {cat(0x1,0x2,"a")}
+|   0x10x2a
+|   % expr {cat(0x1)}
+|   1
 
     > (Bug [[e7c21ed678]] is another manifestation of this general
       problem.) Once again, adding additional string operations
@@ -173,24 +184,29 @@ attempts to address them.
       bytecode representations. The space of available bytecodes is under even
       more pressure than the space of available operators, and must not be
       squandered on operations that are duplicative of already-available
-      functionality such as [[string compare]]''
+      functionality such as [[string compare]].''
 
     > The obvious rebuttal is that [[string compare]] is already bytecoded.
       There are no new operations required, merely a compiler that is smart
       enough to emit a short codeburst rather than a single bytecode. As an
-      example, the code for the expression '''{$x lt $y}''' could be:
+      example, the code for the expression
 
-|    (0) loadScalar1 %v0        # var "x"
-|    (2) loadScalar1 %v1        # var "y"
-|    (4) strcmp 
-|    (5) push1 0        # "0"
-|    (7) lt 
+|   {$x lt $y}
+
+    > could
+      be:
+
+|   (0) loadScalar1 %v0        # var "x"
+|   (2) loadScalar1 %v1        # var "y"
+|   (4) strcmp 
+|   (5) push1 0        # "0"
+|   (7) lt 
 
     > For the other string operators, only the last bytecode in the burst
       would change.  No new bytecode operations are needed. In fact, this
-      codeburst is identical code to that generated for
+      codeburst is identical code to that generated for the expression
 
-|       {[string compare $x $y] < 0}
+|   {[string compare $x $y] < 0}
 
 ~ Copyright
 
