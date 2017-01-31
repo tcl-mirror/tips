@@ -1,14 +1,15 @@
-TIP:		461
-Title:		Separate Numeric and String Comparison Operators
-Version:	$Revision: 1.2 $
-Author:		Kevin B Kenny <kennyb@acm.org>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.7
-Vote:		Pending
-Created:	24-Jan-2017
-Post-History:
-Keywords:	Tcl, expression
+TIP:            461
+Title:          Separate Numeric and String Comparison Operators
+Version:        $Revision: 1.3 $
+Author:         Kevin B Kenny <kennyb@acm.org>
+Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        24-Jan-2017
+Post-History:   
+Keywords:       Tcl,expression
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -51,61 +52,55 @@ in place of
 
 ~ Proposal
 
-Two things are proposed.
+Four new bareword operators, '''ge''', '''gt''', '''le''' and
+'''lt''' shall be added to the expression parser and to the
+'''::tcl::mathop''' command set. They will have precedence identical to
+the existing operators '''>=''', '''>''', '''<=''' and '''<'''. They
+will accept string values, and return 0 or 1 according to lexicographic
+string comparison of their operators. This change is entirely backward
+compatible (it uses syntax that would previously have been erroneous),
+and should go in as soon as possible - no later than the next point
+release, but ideally even in a patchlevel - so that programmers can
+begin conversion as soon as possible. Use of the '''==''', '''>=''',
+'''>''', '''<=''', '''<''', and '''!=''' for comparing non-numeric
+values shall immediately be deprecated.
 
-   1. [[8.x]] Four new bareword operators, '''ge''', '''gt''', '''le''' and
-      '''lt''' shall be added to the expression parser and to the
-      '''::tcl::mathop''' command set. They will have precedence identical to
-      the existing operators '''>=''', '''>''', '''<=''' and '''<'''. They
-      will accept string values, and return 0 or 1 according to lexicographic
-      string comparison of their operators. This change is entirely backward
-      compatible (it uses syntax that would previously have been erroneous),
-      and should go in as soon as possible - no later than the next point
-      release, but ideally even in a patchlevel - so that programmers can
-      begin conversion as soon as possible. Use of the '''==''', '''>=''',
-      '''>''', '''<=''', '''<''', and '''!=''' for comparing non-numeric
-      values shall immediately be deprecated.
-
-   2. [[9.0]] Passing of non-numeric values to the '''==''', '''>=''',
-      '''>''', '''<=''', '''<''', and '''!=''' operators (or to their
-      '''tcl::mathop''' equivalents) shall be forbidden and result in an error
-      being thrown.
+Unlike what was specified in an earlier version of this TIP, no
+changes are to  be made to the semantics of the comparison operators
+ '''==''', '''>=''', '''>''', '''<=''', '''<''', and '''!='''.
 
 ~ Discussion
 
-~~ Forcing numeric comparisons in today's Tcl
+~~ Forcing typed comparisons in Tcl
 
-Programmers who wish to prepare for the change, once the four new operators
-are in place, can adapt places in their code where they wish to force numeric
-comparisons by replacing expressions of the form:
+Programmers who wish to insure string semantics should restrict their
+comparisons to the '''lt''', '''le''', '''eq''', '''ne''', '''gt'''
+and '''ge''' operators.
+
+Use of the '''<''', '''<=''', '''==''', '''!=''', '''>''' and '''>='''
+operators with operands that might be non-numeric shall be regarded
+as poor programming style. Unless operands are constant, unary '''+'''
+should be used to force them to be numeric. Thus,
 
 | if {$x < $y} { ... }
 
-with
+should be relaced with
 
 | if {+$x < +$y} { ... }
 
 The second comparison will have the effect of forcing both operands to be
-numeric, and the existing comparison code will then provide the correct
-semantics.
-
-~~ Deprecation and compatibility
-
-It may be possible to introduce some sort of per-interpreter or per-namespace
-option to control the behaviour of numeric comparisons when evaluated in the
-given interpreter or namespace. The author of this TIP has not investigated
-how such an option might be implemented, and encourages those who propose it
-to do so. Until and unless a concrete implementation plan emerges from their
-investigation, the plan is to leave a "backward compatibility" setting out of
-scope.
-
-In addition, at least one reader of this TIP has requested a setting whereby a
-warning can be delivered that functionality is deprecated. Since in the past,
-we have not been able to identify and standardize a mechanism whereby such
-warnings could be delivered, this functionality is also considered to be out
-of scope.
+numeric.
 
 ~~ Rejected alternatives
+
+Earlier, the radical suggestion of ''requiring'' the '''<''',
+'''<=''', '''==''', '''!=''', '''>''' and '''>=''' operators to have
+numeric arguments had been read into this TIP. It appears that there
+is far too much outstanding code that is written like:
+
+    if {$x == "somestring"} { ... }
+
+to have the more radical option be viable.
 
 One possible alternative to excluding non-numeric arguments from the
 comparison operators is to change their semantics so that all non-numeric
@@ -167,7 +162,7 @@ attempts to address them.
       '''ne''', '''in''' and '''ni''' operations were introduced.  It is true
       that the use of numeric conversions in [[expr]] is incoherent, as seen
       in:
-      
+
 |   % proc tcl::mathfunc::cat {args} { join $args {} }
 |   % expr {cat(0x1,0x2,"a")}
 |   0x10x2a
