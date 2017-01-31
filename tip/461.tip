@@ -1,6 +1,6 @@
 TIP:            461
 Title:          Separate Numeric and String Comparison Operators
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Kevin B Kenny <kennyb@acm.org>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Kevin Kenny <kennykb@acm.org>
@@ -68,12 +68,12 @@ values shall immediately be deprecated.
 The six string compare operators shall be declared to function so that
 their results are the same as the results of [[string compare]]:
 
-    {$a lt $b}  <=> {[string compare $a $b] <  0}
-    {$a le $b}  <=> {[string compare $a $b] <= 0}
-    {$a eq $b}  <=> {[string compare $a $b] == 0}
-    {$a ne $b}  <=> {[string compare $a $b] != 0}
-    {$a gt $b}  <=> {[string compare $a $b] >  0}
-    {$a ge $b}  <=> {[string compare $a $b] >= 0}
+|    {$a lt $b}  <=> {[string compare $a $b] <  0}
+|    {$a le $b}  <=> {[string compare $a $b] <= 0}
+|    {$a eq $b}  <=> {[string compare $a $b] == 0}
+|    {$a ne $b}  <=> {[string compare $a $b] != 0}
+|    {$a gt $b}  <=> {[string compare $a $b] >  0}
+|    {$a ge $b}  <=> {[string compare $a $b] >= 0}
 
 Unlike what was specified in an earlier version of this TIP, no
 changes are to  be made to the semantics of the comparison operators
