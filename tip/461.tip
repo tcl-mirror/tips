@@ -1,6 +1,6 @@
 TIP:            461
 Title:          Separate Numeric and String Comparison Operators
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Kevin B Kenny <kennyb@acm.org>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Kevin Kenny <kennykb@acm.org>
@@ -74,6 +74,10 @@ their results are the same as the results of [[string compare]]:
 |    {$a ne $b}  <=> {[string compare $a $b] != 0}
 |    {$a gt $b}  <=> {[string compare $a $b] >  0}
 |    {$a ge $b}  <=> {[string compare $a $b] >= 0}
+
+It is also intended that any future changes to [[string compare]]
+(for example, a hypothetical change to make it follow Unicode collation
+semantics) will have the corresponding effect on these six operators.
 
 Unlike what was specified in an earlier version of this TIP, no
 changes are to  be made to the semantics of the comparison operators
