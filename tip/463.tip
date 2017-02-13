@@ -5,7 +5,7 @@ Type:		Project
 Tcl-Version:	8.7
 Vote:		Pending
 Post-History:	
-Version:	$Revision: 1.2 $
+Version:	$Revision: 1.3 $
 Author:		Donal Fellows <dkf@users.sf.net>
 Created:	11-Feb-2017
 Keywords:	Tcl, regular expression
@@ -86,7 +86,7 @@ The command:
 
 will produce this result:
 
-| ab cd%7b,} ij
+| ab cd%7bef gh,} ij
 
 ~ Implementation
 
