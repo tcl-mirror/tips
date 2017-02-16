@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -45,15 +45,15 @@ may be added after the name of the argument and its default value.
 This third field is a list, possibly empty, containing options for
 that argument. The following options are currently defined:
 
- * '''-name <argname>''': specify how the argument can be specified
+ * '''-name <argname>''' specify how the argument can be specified
    as a named argument when calling the procedure.
 
- * '''-flag <value>''': specify that the argument's value can be either
+ * '''-flag <value>''' specify that the argument's value can be either
    its default value or the specified value. The '''-name <argname>'''
    option is required, and ''<argname>'' is used, without additional
    value, to set the specified value to the argument.
 
- * '''-upvar''': specify that the argument will refer to a variable in
+ * '''-upvar''' specify that the argument will refer to a variable in
    the parent context. This is used to pass a variable by name, similar
    to what is done when using the '''upvar''' command.
 
