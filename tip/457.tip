@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 State:          Draft
 Type:           Project
@@ -29,112 +29,140 @@ snippets have drawbacks: not intuitive for new users, require to add extra
 code at the start of each procedure, no standard on the format to use, few
 errors handling, etc.
 
-The following requirements have been taken into consideration for this
-proposed feature:
+After discussing various possibilities with the community, it has been
+decided to extend the argument specification of the '''proc''' command
+and allow users to define options on arguments. This can be used to
+support named arguments but also allow additional enhancements:
+flag arguments and pass-by-name (''upvar'').
 
- * must not break any existing program or package;
-
- * should work with existing procedures for this feature to be easily used
-   with external packages;
-
- * should be consistent with the current syntax and usage of the Tcl
-   language.
-
-The others possibilities discussed with the community are detailed in the
-''Discussion'' section at the end of the document.
-
-The current proposal defines a new builtin command, named '''call''',
-which can be used to call a Tcl-pure procedure with arguments specified with 
-an ''-option value'' syntax, with or without starting positional arguments.
-This command must not be confused with the '''eval''' command which has
-other uses.
-
-The name of the command has been chosen to be generic, so that it could
-be later extended for other uses.
-
-~~ General Rules
-
-The following rules define how the '''call''' command is expected to
-work:
-
- * The command accept ''-opts'' and ''-npos pos'' options.
-
- * The first argument after the options is the name of the command to call;
-
- * If ''-opts'' or ''-npos pos'' has been used, the command must be a
-   Tcl-pure procedure.
-
- * If ''-npos pos'' option has been used, the following ''pos'' arguments
-   are positional arguments for the command to call.
-
- * The following arguments are a list of ''-option value'' pairs, where
-   ''option'' is the name of an argument with default of the target procedure
-   and ''value'' is the value which will be assigned to this argument;
-
- * The order of ''-option value'' pairs is not important, they are not
-   required to be declared in the same order than in the procedure;
-
- * An argument with default must only be declared once, doing otherwise will
-   raise an error;
-
- * The list of ''-option value'' pairs stop as soon as the next argument does
-   not start with a dash or when the ''--'' keyword is encountered;
-
- * All other arguments following the end of ''-option value'' list are
-   affected to positional arguments '''without defaults'''.
-
-~~ Examples
-
-|% proc myproc { a { b B } { c C } args } {
-|  puts "a:$a, b:$b, c:$c, args:$args"
-|}
-|
-|% call -opts myproc -c valC A xyz
-|a:A, b:B, c:valC, args:xyz
-|
-|% call -opts -npos 1 myproc valA -c valC -- -xyz
-|a:valA, b:B, c:valC, args:-xyz
-|
-|% call -npos 2 myproc valA valB -xyz
-|a:valA, b:valB, c:C, args:-xyz
-|
-|% dict set myargs -b "valB B"
-|% dict set myargs -c C2
-|% call -opts myproc {*}$myargs -- AA
-|a:AA, b:valB B, c:C2, args:
-|
-|% call -opts myproc -optZ Z A
-|unknown argument "optZ" in "myproc"
-|
-|% call -opts myproc -c c1 -c c2
-|argument "c" is set more than once
+The others possibilities discussed are detailed in the ''Discussion''
+section at the end of the document.
 
 ~ Specification
 
+The argument specification is modified so that a third optional field
+may be added after the name of the argument and its default value.
+This third field is a list, possibly empty, containing options for
+that argument. The following options are currently defined:
+
+ * '''-name <argname>''': specify how the argument can be specified
+   as a named argument when calling the procedure.
+
+ * '''-flag <value>''': specify that the argument's value can be either
+   its default value or the specified value. The '''-name <argname>'''
+   option is required, and ''<argname>'' is used, without additional
+   value, to set the specified value to the argument.
+
+ * '''-upvar''': specify that the argument will refer to a variable in
+   the parent context. This is used to pass a variable by name, similar
+   to what is done when using the '''upvar''' command.
+
+~~ Examples
+
+|% proc myproc { a { b B { -name /b } { c C { -name /c } } args } {
+|  puts "a:$a, b:$b, c:$c, args:$args"
+|}
+|
+|% myproc A /c valC xyz
+|a:A, b:B, c:valC, args:xyz
+|
+|% dict set myargs /b {0 1}
+|% dict set myargs /c C2
+|% myproc AA {*}$myargs
+|a:AA, b:0 1, c:C2, args:
+|
+|% proc myproc { { ena 0 { -name -enable -flag 1 } } } [
+|  puts "enable: $ena"
+|}
+|
+|% myproc
+|enable: 0
+|% myproc -enable
+|enable: 1
+|
+|% proc add3 { x {} {-upvar} } { set x [expr {$x + 3}] }
+|% set a 1
+|1
+|% add3 a
+|3
+
+~~ Rules
+
+The following rules define how the options on arguments specification are
+expected to work:
+
+ * The options are defined, as a list, in the third field of the argument.
+   The list can be empty and must only contains known and valid options.
+   Specifying an unknown option will raise an error.
+
+ * If named arguments are defined (using the '''-name <argname>''' option),
+   all arguments with default value must be declared as named arguments.
+   Doing otherwise will raise an error. This is required as it is not
+   possible to distinguish an argument name from an argument value. 
+
+ * It is not possible to specify named arguments as positional arguments,
+   the '''-argname <value>''' or '''-flagname''' must always be used.
+
+ * It is possible to have non-default positional arguments before named
+   arguments. When calling the procedure, these positional arguments must
+   be declared first.
+
+ * It is possible to have non-default positional arguments (or the special
+   ''args'' argument) after named arguments. The first value which does not
+   match the name of a named argument, ends the named arguments handling and
+   will be affected to the next non-default positional argument. It should
+   be noted that affecting the name of a named argument to this argument is
+   not possible.
+
+ * The order of '''--argname <value>''' pairs or '''-flagname''' is not
+   important, they are not required to be declared in the same order than
+   in the procedure.
+
+ * A named argument must only be declared once, doing otherwise will raise
+   an error.
+
+ * When using the '''-flag <value>''' option, the '''-name <argname>''' is
+   required, doing otherwise will raise an error.
+
+ * It is not possible to define a default value with the '''-upvar''' option.
+   The second field of the argument definition must still be present and must
+   be defined as an empty list by specification. Doing otherwise will raise
+   an error.
+
+ * It is possible to use the '''-upvar''' option with the '''-name <argname>'''
+   option but the argument must always be defined when calling the procedure.
+
+ * It is not possible to use the '''-upvar''' option with the '''-flag
+   <value>''' option.
+
+ * The value specified for an upvar argument must be the name of an existing
+   variable in the caller's procedure frame. If this is not the case, an
+   error will be raised.
+
+~ Implementation
+
 This document proposes the following changes to the Tcl core:
 
- 1. Implementation of the new '''call''' builtin command; The command
-    will mainly create a new arguments list based on input arguments
-    and arguments of the proc command. The new arguments list will then
-    be used to call the command;
+ 1. Modification of the '''proc''' command to handle the new arguments
+    specification format.
 
- 2. The TclProcGetCachedArgs helper function is added to provide a direct
-    access to local cache (variable names and default values) to the
-    '''call''' command implementation;
+ 2. Modification of how arguments are initialized, mostly in
+    ''InitArgsAndLocals''.
 
- 3. Add command documentation in doc/call.n;
+ 3. Update documentation in doc/proc.n;
 
- 4. Add dedicated tests for the command in tests/call.test.
+ 4. Add dedicated tests in tests/proc.test or an other dedicated file.
 
-~ Reference Implementation
+~~ Reference Implementation
 
-The reference implementation is available in the 457-CALL-CMD branch
-[https://github.com/tcltk/tcl/compare/master...mlafon:457-CALL-CMD].
+The reference implementation is in progress and not yet publicly
+available.
+
 The code is licensed under the BSD license.
 
 ~ Discussion
 
-This section detail the envisioned solutions for this feature, which can be
+This section details the envisioned solutions for this feature, which can be
 divided in four groups.
 
 ~~ Calling convention
@@ -178,28 +206,6 @@ expansion:
 |% set args [dict create optC foo optB {5 5}]
 |% myproc "some pos arg" {**}$args
 
-~~ Modification in how proc are defined
-
-Tcl-pure procedures can be defined in a way which state that the procedure
-will automaticaly handle ''-option value'' arguments.
-
-|% proc -np myproc { varA { optB defB } { optC defC } { optD defD } args } {
-|  ..
-|}
-|% myproc -optC foo -optB {5 5} -- "some pos arg"
-
-This is also how NSF handle parameters
-[https://next-scripting.org/2.0.0/doc/nx/tutorial/index1#_parameters], as
-proposed by the community:
-
-|% nsf::proc myproc { varA {-optB defB} {-optC defC} } {
-|  ..
-|}
-
-The drawbacks of this solution is that it does not meet the requirements
-of not modifying the procedure. This does not allow to used named parameters
-for procedure which can't be modified, for example from external packages.
-
 ~~ Dedicated builtin command
 
 A dedicated command can be used to handle the named arguments, using an
@@ -208,7 +214,29 @@ arguments correctly prepared.
 
 |% call -opts myproc -optC foo -optB {5 5} -- "some pos arg"
 
-This is the proposed solution in this TIP.
+This solution was the second solution proposed and an implementation
+is available at [https://github.com/mlafon/tcl/tree/457-CALL-CMD].
+
+~~ Modification in how proc are defined
+
+Tcl-pure procedures can be defined in a way which state that the procedure
+will automatically handle ''-option value'' arguments.
+
+|% proc -np myproc { varA { optB defB } { optC defC } { optD defD } args } {
+|  ..
+|}
+|% myproc -optC foo -optB {5 5} -- "some pos arg"
+
+An other possibility is to support options on arguments and allow name
+specification:
+
+|% proc myproc { varA { optB defB {-name -B} } args } {
+|   ..
+|} 
+|% myproc a -B b zz
+
+This is the currently proposed solution in this TIP. It requires the
+procedures to be modified but allow additional features.
 
 ~ Copyright
 
