@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -60,7 +60,7 @@ that argument. The following options are currently defined:
 
 ~~ Examples
 
-|% proc myproc { a { b B { -name /b } { c C { -name /c } } args } {
+|% proc myproc { a { b B { -name /b } } { c C { -name /c } } args } {
 |  puts "a:$a, b:$b, c:$c, args:$args"
 |}
 |
