@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.12 $
+Version:        $Revision: 1.13 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -41,104 +41,117 @@ section at the end of the document.
 
 ~ Specification
 
-The argument specification is modified so that a third optional field
-may be added after the name of the argument and its default value.
-This third field is a list, possibly empty, containing options for
-that argument. The following options are currently defined:
+The ''proc'' documentation currently define argument specifiers as a list
+of one or two fields where the first field is the name of the argument and
+the optional second field is its default value.
 
- * '''-name <argname>''' specify how the argument can be specified
-   as a named argument when calling the procedure.
+The proposed modification is to support an alternate specifier format using
+an odd size list where the first field is also the name of the argument,
+followed by a paired list of options and their values.
 
- * '''-flag <value>''' specify that the argument's value can be either
-   its default value or the specified value. The '''-name <argname>'''
-   option is required, and ''<argname>'' is used, without additional
-   value, to set the specified value to the argument.
+~~ Available options
 
- * '''-upvar''' specify that the argument will refer to a variable in
-   the parent context. This is used to pass a variable by name, similar
-   to what is done when using the '''upvar''' command.
+The following options are currently defined:
 
-~~ Examples
+ * '''-default <val>''' defines the default value of the argument.
 
-|% proc myproc { a { b B { -name /b } } { c C { -name /c } } args } {
-|  puts "a:$a, b:$b, c:$c, args:$args"
-|}
-|
-|% myproc A /c valC xyz
-|a:A, b:B, c:valC, args:xyz
-|
-|% dict set myargs /b {0 1}
-|% dict set myargs /c C2
-|% myproc AA {*}$myargs
-|a:AA, b:0 1, c:C2, args:
-|
-|% proc myproc { { ena 0 { -name -enable -flag 1 } } } [
-|  puts "enable: $ena"
-|}
-|
-|% myproc
-|enable: 0
-|% myproc -enable
-|enable: 1
-|
-|% proc add3 { { x {} {-upvar} } } { set x [expr {$x + 3}] }
-|% set a 1
-|1
-|% add3 a
-|4
+|% proc p { { a -default {} } } { puts [list a $a ] }
+|% p
+|a {}
+|% p foo
+|a foo
 
-~~ Rules
+ * '''-name <trunk>''' defines the argument to be a named argument.
+   To provide a name for this argument, a call must use the <trunk>
+   word prefixed by a single dash, followed by the value (unless the
+   '''-value''' option has also be used, see below).
 
-The following rules define how the options on arguments specification are
-expected to work:
+|% proc p { { v -name var } } { puts [list v $v] }
+|% p -var 1
+|v 1
 
- * The options are defined, as a list, in the third field of the argument.
-   The list can be empty and must only contains known and valid options.
-   Specifying an unknown option will raise an error.
+ * '''-value <preset>''' defines that the variable is to be asigned
+   the <preset> value when defined. This option can only be used with
+   both the '''-default''' and '''-name''' options. In that case, the
+   call must only use the <trunk> word prefixed by a single dash.
 
- * If named arguments are defined (using the '''-name <argname>''' option),
-   all arguments with default value must be declared as named arguments.
-   Doing otherwise will raise an error. This is required as it is not
-   possible to distinguish an argument name from an argument value. 
+|% proc p { { dbg -default 0 -name debug -value 1 } } { puts [list dbg $dbg] }
+|% p
+|dbg 0
+|% p -debug
+|dbg 1
 
- * It is not possible to specify named arguments as positional arguments,
-   the '''-argname <value>''' or '''-flagname''' must always be used.
+ * '''-upvar <outername''' defines that the local argument will refer
+   to a variable defined in the parent context. This is used to pass a
+   variable by name, similar to what is done when using the ''upvar''
+   command. If <outername> is not an empty string, a new local variable,
+   named <outername>, will be created with the name of the variable given
+   in the call.
 
- * It is possible to have non-default positional arguments before named
-   arguments. When calling the procedure, these positional arguments must
-   be declared first.
+|% proc p { { v -upvar name } } { incr v; puts [list $name "incremented"] }
+|% set a 2
+|2
+|% p a
+|a incremented
+|% set a
+|3
 
- * It is possible to have non-default positional arguments (or the special
-   ''args'' argument) after named arguments. The first value which does not
-   match the name of a named argument, ends the named arguments handling and
-   will be affected to the next non-default positional argument. It should
-   be noted that affecting the name of a named argument to this argument is
-   not possible.
+ * '''-names <names-list>''' defines the argument to be a named argument
+   which can be called using different names. In that case, <names-list>
+   is a list where each element is also a list containing the previously
+   defined options amongst '''-name''' (which is required), '''-value'''
+   and '''-upvar'''.
 
- * The order of '''--argname <value>''' pairs or '''-flagname''' is not
-   important, they are not required to be declared in the same order than
-   in the procedure.
+|% proc p \
+|    { { l -default 3 -names {{ -name level } { -name high -value 9 }} } } \
+|    { puts [list l $l] }
+|% p
+|l 3
+|% p -level 6
+|l 6
+|% p -high
+|l 9
+
+Further options may be added in future TIPs.
+
+~~ Named arguments
+
+The following rules define how named arguments are expected to be specified
+when calling a procedure:
+
+ * Named arguments must always be specified using their name, they can't be
+   specified as positional arguments.
+
+|% proc p { {a -name A} } { puts [list a] }
+|% p aa
+|wrong args: "aa" is not an known named argument
+|% p -A aa
+|a aa
+
+ * A group of contiguous named arguments are handled together and are not
+   required to be specified in the same order as defined.
+
+|% proc p { {a -name A} {b -name B} } { puts [list a $a b $b] }
+|% p -B bb -A aa
+|% a aa b bb
+
+ * The special ''--'' (double dash) end-of-options marker can be used to
+   end the handling of a group of contigous named arguments. Remaining
+   option will then be assigned to following positional arguments.
+
+|% proc p { {o -name opt} args } { puts [list o $o args $args] }
+|% p -opt O -- 1 2
+|o O args {1 2}
 
  * A named argument must only be declared once, doing otherwise will raise
-   an error.
+   an error. This is especially true for arguments with alternate names defined
+   with the '''-names''' option.
 
- * When using the '''-flag <value>''' option, the '''-name <argname>''' is
-   required, doing otherwise will raise an error.
-
- * It is not possible to define a default value with the '''-upvar''' option.
-   The second field of the argument definition must still be present and must
-   be defined as an empty list by specification. Doing otherwise will raise
-   an error.
-
- * It is possible to use the '''-upvar''' option with the '''-name <argname>'''
-   option but the argument must always be defined when calling the procedure.
-
- * It is not possible to use the '''-upvar''' option with the '''-flag
-   <value>''' option.
-
- * The value specified for an upvar argument must be the name of an existing
-   variable in the caller's procedure frame. If this is not the case, an
-   error will be raised.
+|% proc p \
+|    { { l -default 3 -names {{ -name level } { -name high -value 9 }} } } \
+|    { puts [list l $l] }
+|% p -level 6 -high
+|wrong args: "-level" and "-high" can't be used together
 
 ~ Implementation
 
@@ -156,8 +169,7 @@ This document proposes the following changes to the Tcl core:
 
 ~~ Reference Implementation
 
-The reference implementation is in progress and not yet publicly
-available.
+The reference implementation is in progress and not yet publicly available.
 
 The code is licensed under the BSD license.
 
