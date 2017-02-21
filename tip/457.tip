@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.13 $
+Version:        $Revision: 1.14 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -70,7 +70,7 @@ The following options are currently defined:
 |% p -var 1
 |v 1
 
- * '''-value <preset>''' defines that the variable is to be asigned
+ * '''-value <preset>''' defines that the variable is to be assigned
    the <preset> value when defined. This option can only be used with
    both the '''-default''' and '''-name''' options. In that case, the
    call must only use the <trunk> word prefixed by a single dash.
@@ -81,7 +81,7 @@ The following options are currently defined:
 |% p -debug
 |dbg 1
 
- * '''-upvar <outername''' defines that the local argument will refer
+ * '''-upvar <outername>''' defines that the local argument will refer
    to a variable defined in the parent context. This is used to pass a
    variable by name, similar to what is done when using the ''upvar''
    command. If <outername> is not an empty string, a new local variable,
