@@ -1,14 +1,15 @@
-TIP:		464
-Title:		Support for Multimedia Keys on Windows
-Version:	$Revision: 1.1 $
-Author:		Ralf Fassel <ralfixx@gmx.de>
-State:		Draft
-Type:		Project
-Tcl-Version:	8.5
-Vote:		Pending
-Created:	28-Jan-2017
-Post-History:
-Keywords:	Tk, keyboard, keycode
+TIP:            464
+Title:          Support for Multimedia Keys on Windows
+Version:        $Revision: 1.2 $
+Author:         Ralf Fassel <ralfixx@gmx.de>
+Author:         Andreas Leitgeb <avl@logic.at>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        28-Jan-2017
+Post-History:   
+Keywords:       Tk,keyboard,keycode
+Tcl-Version:    8.5
 
 ~ Abstract
 
@@ -63,8 +64,7 @@ The support can be added by extending some keymapping lookup tables in Tk.
 A Ticket already exists with a proposed patch
 [http://core.tcl.tk/tk/tktview/499526180d6cd5ca7c02eed96c10e9d3630a807c] and
 fvogel has also created a branch
-[http://core.tcl.tk/tk/timeline?r=rfe-499526180d].
-
+[http://core.tcl.tk/tk/timeline?r=tip-464].
 ~ Copyright
 
 This document has been placed in the public domain.
