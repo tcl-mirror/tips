@@ -1,6 +1,6 @@
 TIP:            465
 Title:          Change Rule 8 of the Dodekalogue to Cut Some Corner Cases
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
@@ -69,22 +69,7 @@ feasible.
 
 ~ Implementation
 
-A partial implementation that addresses '''${{{{}''' and '''$arr(((()'''
-exists as a single commit ''3bcf97f766'' in branch ''avl-tip-282'' and will be
-cherry picked to a new branch, as soon as this TIP has a number.
-
-The commit addresses '''${...}''' by counting open braces and only terminates
-the tokens when nested braces are balanced. It doesn't yet handle backslash,
-but for ensuring proper blending into Tcl, it will need to do it. In the end,
-a '''${...}''' block will be fully consistent with '''{...}''' blocks
-according to rule 6 of Tcl.n. (see Alternatives)
-
-The commit also addresses '''$arr(...)''' by terminating the index not only on
-close paren, but on any paren, brace or quote. If the terminating char is
-anything else than a close paren, then an error is thrown just like in the
-case where no close paren is found till end of input. Of course, the error
-thrown for illegal index characters does ''not'' set the interpreter's
-"incomplete" flag.
+A full implementation of this TIP is now checked in on branch ''tip-465''.
 
 ~ Alternatives
 
