@@ -1,6 +1,6 @@
 TIP:            442
 Title:          Display text in progressbars
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         René Zaumseil <rzaumseil@kkg.ch>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -14,15 +14,7 @@ Tcl-Version:    8.6.7
 
 ~ Abstract
 
-Horizontal progress bars should support the ability to display text inside the
-progress bar.
-
-~ Abstract
-
-Horizontal progress bars should support the ability to display text inside
-the
-progress bar.
-
+Horizontal progress bars should support the ability to display text inside the progress bar.
 Buttons should allow justification of multiline texts.
 
 ~ Rationale
