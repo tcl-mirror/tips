@@ -1,8 +1,9 @@
 TIP:            442
 Title:          Display text in progressbars
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         René Zaumseil <rzaumseil@kkg.ch>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
+Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -16,6 +17,14 @@ Tcl-Version:    8.6.7
 Horizontal progress bars should support the ability to display text inside the
 progress bar.
 
+~ Abstract
+
+Horizontal progress bars should support the ability to display text inside
+the
+progress bar.
+
+Buttons should allow justification of multiline texts.
+
 ~ Rationale
 
 It is often useful to be able to display text directly on top of a progress
@@ -24,9 +33,14 @@ currently being done, or even just a label giving the overall task that is
 progressing.
 
 The '''ttk::progressbar''' command can easily enhanced to provide this
-support, and there is no interference with existing code as this functionality
+support, and there is no interference with existing code as this
+functionality
 can be done by just introducing new options.  The options required are from
 the list of usual Tk well-known option names.
+
+The '''ttk::button''' command can easily enhanced to provide justifiaction
+of
+multiline text.
 
 ~ Specification
 
@@ -45,6 +59,10 @@ To control the text appearance the following new options will be added:
 
  -wraplength: The length at which the string will be automatically wrapped.
 
+To justify multiline text in '''ttk::button''' a new option will be added:
+
+ -justify: The justification of the string.
+
 ~ To Consider
 
 The underlying Tk text rendering engine supports rotated text, which would
@@ -57,6 +75,12 @@ it is placed. This is not an effect that is simply reproduced with the Tk
 script level, but is easy to apply during rendering.
 
 How much of the styling of the text ought to be in the theme?
+
+~ Implementation
+
+A patch of these changes is available on the wiki at
+http://wiki.tcl.tk/20059
+under "TIP 442: text label"
 
 ~ Copyright
 
