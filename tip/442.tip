@@ -1,6 +1,6 @@
 TIP:            442
 Title:          Display text in progressbars
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         René Zaumseil <rzaumseil@kkg.ch>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
@@ -30,9 +30,7 @@ functionality
 can be done by just introducing new options.  The options required are from
 the list of usual Tk well-known option names.
 
-The '''ttk::button''' command can easily enhanced to provide justifiaction
-of
-multiline text.
+The '''ttk::button''' command can easily be enhanced to provide justification of multiline text.
 
 ~ Specification
 
