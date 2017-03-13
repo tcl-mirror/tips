@@ -1,9 +1,10 @@
 TIP:            442
 Title:          Display text in progressbars
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         René Zaumseil <rzaumseil@kkg.ch>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
+Author:         Kevin Kenny <Kevin.B.Kenny@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -30,11 +31,11 @@ functionality
 can be done by just introducing new options.  The options required are from
 the list of usual Tk well-known option names.
 
-The '''ttk::button''' command can easily be enhanced to provide justification of multiline text.
+Also the '''ttk::button''' command can easily be enhanced to provide justification of multiline text.
 
 ~ Specification
 
-Text will be displayed only on horizontal progress bars.
+Text will be displayed only on horizontal '''ttk::progressbar'''.
 To control the text appearance the following new options will be added:
 
  -text: The string to display.
@@ -53,7 +54,7 @@ To justify multiline text in '''ttk::button''' a new option will be added:
 
  -justify: The justification of the string.
 
-~ To Consider
+~ Notes for future improvements
 
 The underlying Tk text rendering engine supports rotated text, which would
 make support on vertical progress bars possible. But control of the rotation
@@ -64,13 +65,38 @@ The most contrasting color of the text will depend where on the progress bar
 it is placed. This is not an effect that is simply reproduced with the Tk
 script level, but is easy to apply during rendering.
 
-How much of the styling of the text ought to be in the theme?
-
 ~ Implementation
 
-A patch of these changes is available on the wiki at
-http://wiki.tcl.tk/20059
-under "TIP 442: text label"
+A patch implementing these changes and updating the documentation is available
+in the fossil repository in the tip-442 branch.
+
+Implementation is heavily borrowed from the '''ttk::label''' widget featuring
+these same options. The names, meanings, and default values of the options are
+the same as for '''ttk::label'''. The rendering and processing is the same as
+for this latter widget.
+
+~ Example of use
+
+|    package require Tk
+|    proc moveit {} {
+|      for {set i 0} {$i < 100} {incr i} {
+|        .p step ; update ; after 100
+|      }
+|    }
+|    pack [ttk::progressbar .p -value 0 -maximum 50 -orient horizontal -length 500]
+|    .p configure -anchor c -foreground blue -justify right \
+|            -text "-anchor c -foreground blue -justify right -wraplength 100" \
+|            -wraplength 100
+|    moveit
+|    .p configure -anchor e -font {Arial 10 bold} -foreground green -justify center \
+|            -text "-anchor e -font {Arial 10 bold} -foreground green -justify center -wraplength 250" \
+|            -wraplength 250
+|    moveit
+|    .p configure -text "-anchor w -foreground red -justify left -wraplength 50" \
+|            -anchor w -foreground red -justify left -wraplength 50
+|    moveit
+|    .p configure -orient vertical -text "Cannot be seen"
+|    moveit
 
 ~ Copyright
 
