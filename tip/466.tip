@@ -1,0 +1,421 @@
+TIP:		466
+Title:		Revised Implementation of the Text Widget
+Author:		François Vogel <fvogelnew1@free.fr>
+Version:	$Revision: 1.1 $
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	10-Mar-2017
+Post-History:   
+Keywords:	Tk, text widget
+Tcl-Version:	8.7
+
+~ Abstract
+
+This TIP proposes the replacement of the current implementation of the text
+widget (the "legacy" text widget) by a revised implementation offering a large
+number of advantages.
+
+~ Rationale
+
+The Tk text widget has become increasingly complex as long as incremental
+improvements and features have been added from time to time. In that process,
+some known long-standing issues have become very difficult to tackle, for
+instance the long line problem regarding lack of performance.
+
+Gregor Cramer, in the process of using the text widget in one of his
+applications, has analyzed the issues the current text widget is suffering
+from, and has come up with a new implementation having the following main
+advantages:
+
+ * Big performance improvement
+ 
+ * Better implementation of some existing features
+ 
+ * A large number of new features
+ 
+ * Numerous bug fixes
+ 
+ * Very few incompatibilities with the legacy text widget
+
+~ Proposal
+
+The proposal is to replace the legacy code with the new implementation.
+
+The author of the revised implementation has written a well documented website
+[http://scidb.sourceforge.net/tk/revised-text-widget.html]
+describing in details the issues with the legacy code, how he fixed these
+issues, and what features he has changed or improved.
+
+It was not deemed feasible nor necessary to copy/paste/reformat all the
+information of the above website into the present TIP. Only the new features
+and incompatibilities are highlighted here, as opposed to detailed rationales
+about each change.
+
+~~ Performance Improvements
+
+Detailed performance comparison between legacy code and revised code can be
+found at [http://scidb.sourceforge.net/tk/comparison.html] but these are the
+key points:
+
+ * Long line problem, especially with many tags, is eliminated: in general
+   only O(N log N) in revised version, was a higher order polynomial time in
+   legacy code.
+ 
+ * Display is faster: smoother scrolling, faster response time.
+   [http://scidb.sourceforge.net/tk/display.html]
+
+ * Undo/redo is much faster: a completely new implementation has been worked
+   out, directly working on the text segments.
+   [http://scidb.sourceforge.net/tk/undo.html]
+ 
+~~ New Features
+
+Detailed explanations and rationales for each of the items below can be found
+at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
+
+ * Undo/redo is handling tags (this was requesteed in Issue #1561991 and
+   Issue #1027741, embedded images, and embedded windows
+
+ * Bindings to embedded images are supported
+
+ * Additional widget state '''readonly'''
+ 
+ * Hyphenation and full-justification support
+
+ > * Support of hyphenation (Issue #1096580 is fixed), with new helper
+      functions '''tk_textinsert''' and '''tk_textReplace''', and with new
+      switches to ''pathName'' '''count''', ''pathName'' '''get''', and
+      ''pathName'' '''search'''
+
+ > * Additional justification mode 'full'
+
+ > * Additional wrap mode '''codepoint''', and new widget option
+   '''-useunibreak'''. New subcommand ''pathName'' '''brks'''
+
+ > * Additional option '''-lang''' used to guide hyphenation engines.
+
+ * Additional subcommands:
+
+ > * ''pathName'' '''checksum'''
+
+ > * ''pathName'' '''clear'''
+
+ > * ''pathName'' '''edit info'''
+
+ > * ''pathName'' '''edit inspect'''
+ 
+ > * ''pathName'' '''edit recover'''
+
+ > * ''pathName'' '''inspect'''
+
+ > * ''pathName'' '''isclean'''
+
+ > * ''pathName'' '''isdead'''
+
+ > * ''pathName'' '''isempty'''
+
+ > * ''pathName'' '''lineno'''
+
+ > * ''pathName'' '''load'''
+
+ > * ''pathName'' '''mark compare'''
+
+ > * ''pathName'' '''mark exists'''
+
+ > * ''pathName'' '''mark generate'''
+
+ > * ''pathName'' '''tag clear'''
+
+ > * ''pathName'' '''tag findnext'''
+
+ > * ''pathName'' '''tag findprev'''
+
+ > * ''pathName'' '''tag getrange'''
+
+ > * ''pathName'' '''watch'''
+
+ * Additional tag attributes:
+
+ > * '''-eolcolor'''
+
+ > * '''-indentbackground'''
+
+ * Additional widget options:
+
+ > * '''-endindex'''
+
+ > * '''-eolchar'''
+
+ > * '''-eolcolor'''
+
+ > * '''-inactiveselectforeground'''
+
+ > * '''-insertforeground'''
+
+ > * '''-maxundosize'''
+
+ > * '''-maxredo'''
+
+ > * '''-responsiveness'''
+
+ > * '''-showendofline'''
+
+ > * '''-showinsertforeground'''
+
+ > * '''-spacemode'''
+
+ > * '''-startindex'''
+
+ > * '''-steadymarks'''
+
+ > * '''-synctime'''
+
+ > * '''-tagging'''
+
+ * Extensions to the syntax for indices:
+
+ > * new specifier '''begin'''
+
+ > * new syntax '''@first,last'''
+
+ * Additional features of existing subcommands:
+
+ > * Additional option '''-marks''' for ''pathName'' ''''delete''' command
+
+ > * Additional states for ''pathName'' '''edit''': '''altered''' and
+     '''irreversible''', plus new virtual event '''<<Altered>>''' to support
+     them.
+
+ > * Extensions to commands ''pathName'' '''edit reset''' and ''pathName''
+     '''edit separator'''
+ 
+ * Extended command ''pathName'' '''tag names'''
+ 
+ * Additional switch for ''pathName'' '''dump'''
+
+ * New helper commands:
+
+ > * '''tk_mergeRange'''
+
+ > * '''tk_textinsert'''
+
+ > * '''tk_textReplace'''
+
+ * Additional option '''-owner''' for embedded window
+
+~~ Bug Fixes
+ 
+ * Bug fixed in TkTextGetIndex
+
+ * Bug fixed in TkTextGetIndexFromObj
+
+ * Bug fixed in DeleteIndexRange
+
+ * Problems fixed with '''-startline'''/'''-endline'''
+ 
+ * Several bug fixes with '''undo''
+ 
+ * '''Edit modified''' confusing results fixed
+
+ * Severe problems with command '''sync''' fixed
+ 
+ * Invalid changes in disabled widget are no longer possible
+
+ * Inaccurate wrapping algorithm fixed
+
+ * Bugs in display logic fixed
+
+ * Insert cursor is now fully visible in all conditions
+
+ * Trimming spaces: Issue #1082213 is invalid, the fix put in trunk (8.7) has
+   been reverted (but there is now the new option '''-spacemode''' that can be
+   set to '''trim''')
+
+ * Issues with display of selections fixed
+
+ * '''Update''' is no longer wasting the processor time since superfluous
+   update computations are not done anymore
+
+ * Bugs in context drawing support (OS X) fixed
+
+ * Bugs fixed in tkUnixRFont.c
+
+Details on each of these bugs can be found in the "Bugs/Issues in Original
+Implementation" section at
+http://scidb.sourceforge.net/tk/revised-text-widget.html
+ 
+~~ Incompatibilities with Legacy Version
+
+Based on the author's website, the following incompatibilities are currently
+known:
+
+ * [449] (undo/redo to Return Range of Characters) was not adapted into the
+   revised implementation, because Issue #1217222 - the basis for [449] -
+   is now featured by:
+
+ > 1. The new undo implementation, because also the tag associations will be
+      restored, and
+
+ > 2. The powerful '''watch''' command, which also provides the affected
+      ranges (with constant runtime behavior).
+
+ > Moreover, the '''tk_mergeRange''' function convenience function has been
+   implemented in the revised version.
+ 
+ * The special selection tag '''sel''' can no longer be elided (would be
+   useless anyway).
+ 
+ * Tag options (introduced in 8.6.6) -overstrikefg and -underlinefg were
+   renamed to '''-overstrikecolor''' and '''-underlinecolor'''
+ 
+ * The new index syntax '''@first,last''' is incompatible with the legacy
+   version but it is not expected that any existing application will break,
+   certainly nobody is using such a form for the name of a mark or image
+ 
+ * The default value of 50 ms for the new '''-responsiveness''' option is
+   incompatible to prior releases, but it shouldn't matter here, because
+   nobody wants flickering, and nobody is using special tricks with a short
+   mouse hovering. Setting the responsiveness to zero restores the old
+   behavior of the text widget.
+ 
+ * <<UndoStack>> is generated with any change on the undo stack, not only when
+   the undo stack or the redo stack becomes empty or non-empty
+ 
+ * '''-startline'''/'''-endline''' behavior was subtly changed in some corner cases
+ 
+ * In revised implementation "+N chars" and "-N chars" refer to characters,
+   and no longer to indices (which was the case in legacy code for backwards
+   compatibility reasons).
+ 
+~~ Deprecated Commands and Options
+ 
+ * Tag options (introduced in 8.6.6) '''-overstrikefg''' and
+   '''-underlinefg''' were renamed to -overstrikecolor and -underlinecolor
+ 
+ * edit '''undodepth'''|'''redodepth'''|'''canundo'''|'''canredo''' are
+   replaced by more general '''edit info'''
+ 
+ * Widget options '''-startline'''/'''-endline'''' are replaced by
+   -startindex/-endindex
+ 
+~~ Drawbacks
+ 
+ * The increase in memory usage is not very high (but a bit high), and despite
+   this, in many cases, especially if many tags are used, and/or undo is
+   enabled, the revised version is even decreasing the memory usage.
+
+Detailed memory comparison between legacy code and revised code can be found
+at http://scidb.sourceforge.net/tk/comparison.html
+
+~~ Known Issues in the Revised Implementation
+ 
+Based on the author's website, currently only these issues are known: 
+
+ * The code for the implementation has increased by more than 100%, and about
+   70% of the old code has been changed. The revised implementation needs more
+   testing, the text widget is very complex, and bugs are expected. And a few
+   additions are not yet well tested.
+
+ * Function '''tk_textCopy''' is copying hidden (elided) text. This seems to
+   be unexpected, but it's the behavior of the original implementation.
+   Probably this is a bug and should be corrected.
+
+ * Adding/deleting tags covering a large range of text is still quite time
+   consuming.
+
+ * The display line with the insert cursor is redrawn each time the cursor
+   blinks, which causes a steady stream of graphics traffic. It would be
+   desirable if the cursor update will be performed with a specialized and
+   efficient redraw function.
+
+ * If option '''-spacemode''' is set to trim, then '''get -displaychars'''
+   should probably return trimmed spaces. Currently this command is not
+   trimming spaces, so the result may not coincide with the visible text.
+
+ * The '''search -regexp''' sub-command is still not yet fully implemented,
+   see Tk documentation.
+
+ * The revised widget still ignores modifying commands silently if state is
+   not normal; this behavior is unreasonable, but conforms to the original
+   version.
+
+ * Currently the special index specifier '''begin''' has the lowest
+   precedence, although it should have the same precedence as the special
+   index special '''end''' (see section INDICES). In a future release this
+   should be corrected.  The current behavior is a workaround, avoiding that
+   existing applications will break with the introduction of '''begin'''.
+
+ * The implementation still contains some TODO's of minor issues. 
+
+Also, the following should be noted:
+
+ * With the revised version there are failing tests on all platforms, they
+   need to be fixed (by fixing the expected result in the test, or by fixing
+   the text widget code).
+
+ * More tests should be written to exercise the new or changed features.
+ 
+ * The OS X case should be more tested on a real Mac, because it's the only
+   platform using context drawing.
+
+~~ Miscellaneous
+ 
+ * No function signature pertaining to a public interface was changed. Also
+   public data structures haven't been touched.
+ 
+ * All recent new features brought in trunk in the legacy version have their
+   counterpart in the revised version, have been improved in performance and
+   have no known drawbacks. Minor incompatibilities are however identified
+   here and there.
+
+~ Target Release
+
+Given the amount of changes, also because of our usual precautions regarding
+backwards compatibility, and despite the very high quality of the code and the
+fact it passes (almost all) the previously existing test suite, it is deemed
+reasonable to target Tcl/Tk 8.7 (or 9.0), but neither the 8.6 nor the 8.5
+streams of releases, which will continue to implement the legacy text widget
+code.
+
+Support of versions back to 8.5 is currently included in the revised code, but
+will be removed (because it's useless for use in trunk only) at the time the
+new code will get merged into trunk.
+
+~ Implementation
+
+Implementation of the revised text widget code has been placed in branch
+[http://core.tcl.tk/tk/timeline?r=revised_text] of the fossil repository.
+
+This implementation compiles on Linux, Windows, and OS X. It respects the
+standards of Tk (C99 standard, and also the Tcl source code formatting
+described in [247]).
+
+The man page for the text widget has been contributed by jima and is included
+in the revised_text branch.
+
+The expected results of many tests were adjusted to take into account that the
+revised implementation is better optimizing, so some trace results of display
+line computation are different. Other adjustments were required because of bug
+fixes.
+
+~ Open Questions
+
+ * tkTextUndo.c implements a specialized undo/redo, not using the legacy
+   tkUndo.c. Reasons for this are stated at the top of tkTextUndo.c. It is
+   interesting to note that, in the revised_text branch, tkUndo.c is not even
+   compiled anymore, except on Linux (for no apparent reason). This is dead
+   code waiting for use case by a widget. At least, compilation on Linux
+   should be removed, but couldn't we even rename tkTextUndo.c to tkUndo.c and
+   forget about the old implementation? tkTextUndo.c is also a shareable
+   implementation (in the spirit of [104]).
+
+ * Actual removal of deprecated features or keep them (some are marked as
+   deprecated, but actually still supported)?
+
+~ Copyright
+
+This document has been placed in the public domain.
+
+The author of the revised text widget code has explicitly placed his code of
+the text widget under the same license as Tcl.
