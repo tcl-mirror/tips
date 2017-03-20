@@ -1,0 +1,82 @@
+TIP:		467
+Title:		Move TIP Collection to Fossil
+Version:	$Revision: 1.1 $
+Author:		Mark Janssen <mpc.janssen@gmail.com>
+State:		Draft
+Type:		Process
+Vote:		Pending
+Created:	14-Mar-2017
+Post-History:
+Keywords:	migration
+
+~ Abstract
+
+The Tcl TIP collection shall be moved to Fossil and the process of managing
+TIPs shall use Fossil as much as possible. The TIP format will be changed from
+a TIP-specific form to Markdown.
+
+~ Rationale
+
+Triggered by some people having issues with changing content on current TIP
+website and discussion on the #tcl chat, I have experimented with fossil as a
+medium to host the Tcl TIP collection.
+
+The current TIP storage and handling requires a lot of scripts that need to be
+maintained by the TCT and it is less open than it could be.
+There are also advantages to switching to Fossil in place of CVS.
+
+ * Fossil has embedded Markdown rendering
+
+ * Fossil is already used to manage the Tcl and Tk sources.
+
+ * TIP discussion and CFVs can be done and tracked using fossil tickets.
+
+ * Fossil events one could also track CFV's and Vote results
+
+ * CVS is extremely vulnerable to problems with system administration on a
+   single host. With a fossil-based system, it is much simpler to have
+   multiple repositories.
+
+Besides Fossil supporting Markdown out of the box, markdown is also better
+option for the future than the current format because the value of making up
+your own plain text format in this age is debatable (especially for the TIP
+requirements). Markdown has widely available options to convert to other
+formats without any need for the community to maintain the converters, and
+supports key extra features such as embedded images (which are important for
+some Tk TIPs, and never worked particularly well with the old TIP format).
+
+~ Specification
+
+~~ Process
+
+TBD
+
+~~ TIP Format
+
+The markdown tip format has one extension to standard markdown:
+
+Any TIP.md file will have a mandatory preamble starting with the title (for
+fossil rendering) and ending with a `------` on a single line. Between these
+parts there is tab indented meta information about the tip. (Tab indented so
+it renders nicer in fossil, 4 spaces would also work)
+
+Example from [0]:
+
+|# TIP 0: Tcl Core Team Basic Rules
+|    State:          Final
+|    Type:           Process
+|    Vote:           Done
+|    Post-History:
+|------
+
+~ Implementation
+
+ * There is a proof of concept conversion (with CVS history) at
+   https://fossil.mpcjanssen.nl/tips
+
+ * The scripts for the automatic conversion are at
+   https://fossil.mpcjanssen.nl/tip-migration
+
+~ Copyright
+
+This document has been placed in the public domain.
