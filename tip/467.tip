@@ -1,13 +1,13 @@
-TIP:		467
-Title:		Move TIP Collection to Fossil
-Version:	$Revision: 1.1 $
-Author:		Mark Janssen <mpc.janssen@gmail.com>
-State:		Draft
-Type:		Process
-Vote:		Pending
-Created:	14-Mar-2017
-Post-History:
-Keywords:	migration
+TIP:            467
+Title:          Move TIP Collection to Fossil
+Version:        $Revision: 1.2 $
+Author:         Mark Janssen <mpc.janssen@gmail.com>
+State:          Draft
+Type:           Process
+Vote:           Pending
+Created:        14-Mar-2017
+Post-History:   
+Keywords:       migration
 
 ~ Abstract
 
@@ -46,6 +46,18 @@ supports key extra features such as embedded images (which are important for
 some Tk TIPs, and never worked particularly well with the old TIP format).
 
 ~ Specification
+
+Proposed URL for the new repository will be http://core.tcl.tk/tips
+
+~~ Backwards compatibility
+
+- ''tip.tcl.tk/<NUM>.html'' should still show a rendered result. This could be redirected to ''core.tcl.tk/tips/doc/trunk/tip/<NUM>.md''
+- ''tip.tcl.tk'' offers several converted formats (XML, *roff, ...). The fossil option will be to use the ''core.tcl.tk/tips/file/tip/<NUM>.md?download'' URL to get the raw Markdown downloads. For getting the other options one could convert the markdown source file using something like pandoc.
+- E-mail address are not hidden in the source and in the rendered result.  If e-mail addresses need to be hidden there are two options
+    1. Remove mails from source.
+    2. Hide e-mails in fossil.
+
+  Option 2. doesn't help much as the mails are still online in the raw markdown files. Option 1. loses information. Suggested is to leave the addresses untouched. 
 
 ~~ Process
 
