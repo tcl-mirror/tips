@@ -1,14 +1,15 @@
-TIP:		466
-Title:		Revised Implementation of the Text Widget
-Author:		François Vogel <fvogelnew1@free.fr>
-Version:	$Revision: 1.1 $
-State:		Draft
-Type:		Project
-Vote:		Pending
-Created:	10-Mar-2017
+TIP:            466
+Title:          Revised Implementation of the Text Widget
+Version:        $Revision: 1.2 $
+Author:         François Vogel <fvogelnew1@free.fr>
+Author:         Gregor Cramer <remarcg@gmx.net>
+State:          Draft
+Type:           Project
+Vote:           Pending
+Created:        10-Mar-2017
 Post-History:   
-Keywords:	Tk, text widget
-Tcl-Version:	8.7
+Keywords:       Tk,text widget
+Tcl-Version:    8.7
 
 ~ Abstract
 
@@ -29,13 +30,13 @@ from, and has come up with a new implementation having the following main
 advantages:
 
  * Big performance improvement
- 
+
  * Better implementation of some existing features
- 
+
  * A large number of new features
- 
+
  * Numerous bug fixes
- 
+
  * Very few incompatibilities with the legacy text widget
 
 ~ Proposal
@@ -61,26 +62,27 @@ key points:
  * Long line problem, especially with many tags, is eliminated: in general
    only O(N log N) in revised version, was a higher order polynomial time in
    legacy code.
- 
+
  * Display is faster: smoother scrolling, faster response time.
    [http://scidb.sourceforge.net/tk/display.html]
 
  * Undo/redo is much faster: a completely new implementation has been worked
    out, directly working on the text segments.
    [http://scidb.sourceforge.net/tk/undo.html]
- 
+
 ~~ New Features
 
 Detailed explanations and rationales for each of the items below can be found
 at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Undo/redo is handling tags (this was requesteed in Issue #1561991 and
-   Issue #1027741, embedded images, and embedded windows
+   Issue #1027741, embedded images, embedded windows, and also marks if option
+   ''-steadymarks'' is enabled
 
  * Bindings to embedded images are supported
 
  * Additional widget state '''readonly'''
- 
+
  * Hyphenation and full-justification support
 
  > * Support of hyphenation (Issue #1096580 is fixed), with new helper
@@ -88,7 +90,7 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
       switches to ''pathName'' '''count''', ''pathName'' '''get''', and
       ''pathName'' '''search'''
 
- > * Additional justification mode 'full'
+ > * Additional justification mode '''full'''
 
  > * Additional wrap mode '''codepoint''', and new widget option
    '''-useunibreak'''. New subcommand ''pathName'' '''brks'''
@@ -101,11 +103,17 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * ''pathName'' '''clear'''
 
+ > * ''pathName'' '''edit altered'''
+
  > * ''pathName'' '''edit info'''
 
  > * ''pathName'' '''edit inspect'''
- 
+
+ > * ''pathName'' '''edit irreversible'''
+
  > * ''pathName'' '''edit recover'''
+
+ > * ''pathName'' '''image bind'''
 
  > * ''pathName'' '''inspect'''
 
@@ -139,7 +147,13 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * '''-eolcolor'''
 
+ > * '''-hyphencolor'''
+
+ > * '''-hyphenrules'''
+
  > * '''-indentbackground'''
+
+ > * '''-undo'''
 
  * Additional widget options:
 
@@ -149,13 +163,19 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * '''-eolcolor'''
 
+ > * '''-hyphencolor'''
+
+ > * '''-hyphenrules'''
+
+ > * '''-hyphens'''
+
  > * '''-inactiveselectforeground'''
 
  > * '''-insertforeground'''
 
- > * '''-maxundosize'''
-
  > * '''-maxredo'''
+
+ > * '''-maxundosize'''
 
  > * '''-responsiveness'''
 
@@ -181,31 +201,35 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Additional features of existing subcommands:
 
- > * Additional option '''-marks''' for ''pathName'' ''''delete''' command
+ > * Additional option '''-marks''' for ''pathName'' '''delete''' command
 
- > * Additional states for ''pathName'' '''edit''': '''altered''' and
-     '''irreversible''', plus new virtual event '''<<Altered>>''' to support
-     them.
+ > * New virtual event '''<<Altered>>''' to support new sub-command
+     ''pathName'' '''edit altered'''
 
  > * Extensions to commands ''pathName'' '''edit reset''' and ''pathName''
      '''edit separator'''
- 
+
  * Extended command ''pathName'' '''tag names'''
- 
+
  * Additional switch for ''pathName'' '''dump'''
+
+ * Additional option '''-extents''' for ''pathName'' '''bbox'''
+     and ''pathName'' '''dlineinfo'''
 
  * New helper commands:
 
  > * '''tk_mergeRange'''
 
- > * '''tk_textinsert'''
+ > * '''tk_textInsert'''
 
  > * '''tk_textReplace'''
+
+ > * '''tk_textRebindMouseWheel'''
 
  * Additional option '''-owner''' for embedded window
 
 ~~ Bug Fixes
- 
+
  * Bug fixed in TkTextGetIndex
 
  * Bug fixed in TkTextGetIndexFromObj
@@ -213,13 +237,14 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  * Bug fixed in DeleteIndexRange
 
  * Problems fixed with '''-startline'''/'''-endline'''
- 
+
  * Several bug fixes with '''undo''
- 
- * '''Edit modified''' confusing results fixed
+
+ * '''Edit modified''' confusing results fixed with new command
+   '''edit altered'''
 
  * Severe problems with command '''sync''' fixed
- 
+
  * Invalid changes in disabled widget are no longer possible
 
  * Inaccurate wrapping algorithm fixed
@@ -241,10 +266,12 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Bugs fixed in tkUnixRFont.c
 
+ * Several bug fixes related to handling/positioning of the insertion cursor
+
 Details on each of these bugs can be found in the "Bugs/Issues in Original
 Implementation" section at
 http://scidb.sourceforge.net/tk/revised-text-widget.html
- 
+
 ~~ Incompatibilities with Legacy Version
 
 Based on the author's website, the following incompatibilities are currently
@@ -262,45 +289,45 @@ known:
 
  > Moreover, the '''tk_mergeRange''' function convenience function has been
    implemented in the revised version.
- 
+
  * The special selection tag '''sel''' can no longer be elided (would be
    useless anyway).
- 
+
  * Tag options (introduced in 8.6.6) -overstrikefg and -underlinefg were
    renamed to '''-overstrikecolor''' and '''-underlinecolor'''
- 
+
  * The new index syntax '''@first,last''' is incompatible with the legacy
    version but it is not expected that any existing application will break,
    certainly nobody is using such a form for the name of a mark or image
- 
+
  * The default value of 50 ms for the new '''-responsiveness''' option is
    incompatible to prior releases, but it shouldn't matter here, because
    nobody wants flickering, and nobody is using special tricks with a short
-   mouse hovering. Setting the responsiveness to zero restores the old
+   mouse hovering while the widget is scrolling. Setting the responsiveness to zero restores the old
    behavior of the text widget.
- 
+
  * <<UndoStack>> is generated with any change on the undo stack, not only when
    the undo stack or the redo stack becomes empty or non-empty
- 
+
  * '''-startline'''/'''-endline''' behavior was subtly changed in some corner cases
- 
+
  * In revised implementation "+N chars" and "-N chars" refer to characters,
    and no longer to indices (which was the case in legacy code for backwards
    compatibility reasons).
- 
+
 ~~ Deprecated Commands and Options
- 
+
  * Tag options (introduced in 8.6.6) '''-overstrikefg''' and
    '''-underlinefg''' were renamed to -overstrikecolor and -underlinecolor
- 
+
  * edit '''undodepth'''|'''redodepth'''|'''canundo'''|'''canredo''' are
    replaced by more general '''edit info'''
- 
+
  * Widget options '''-startline'''/'''-endline'''' are replaced by
    -startindex/-endindex
- 
+
 ~~ Drawbacks
- 
+
  * The increase in memory usage is not very high (but a bit high), and despite
    this, in many cases, especially if many tags are used, and/or undo is
    enabled, the revised version is even decreasing the memory usage.
@@ -309,7 +336,7 @@ Detailed memory comparison between legacy code and revised code can be found
 at http://scidb.sourceforge.net/tk/comparison.html
 
 ~~ Known Issues in the Revised Implementation
- 
+
 Based on the author's website, currently only these issues are known: 
 
  * The code for the implementation has increased by more than 100%, and about
@@ -355,15 +382,15 @@ Also, the following should be noted:
    the text widget code).
 
  * More tests should be written to exercise the new or changed features.
- 
+
  * The OS X case should be more tested on a real Mac, because it's the only
    platform using context drawing.
 
 ~~ Miscellaneous
- 
+
  * No function signature pertaining to a public interface was changed. Also
    public data structures haven't been touched.
- 
+
  * All recent new features brought in trunk in the legacy version have their
    counterpart in the revised version, have been improved in performance and
    have no known drawbacks. Minor incompatibilities are however identified
