@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.17 $
+Version:        $Revision: 1.18 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -54,7 +54,7 @@ odd size list with a minimal size of three fields.
 
 The following argument specifiers are defined in this TIP:
 
- * '''-default <val>''' defines the default value for the argument.
+ * '''-default VALUE''' defines the default value for the argument.
 
 |% proc p { { a -default {} } } { list a $a }
 |% p
