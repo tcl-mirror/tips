@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.15 $
+Version:        $Revision: 1.16 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -14,7 +14,7 @@ Tcl-Version:    8.7
 ~ Abstract
 
 This TIP proposes an enhancement of the Tcl language to support named
-arguments when calling a procedure.
+arguments and additional features when calling a procedure.
 
 ~ Rationale
 
@@ -34,7 +34,8 @@ After discussing various possibilities with the community, it has been
 decided to extend the argument specification of the '''proc''' command
 and allow users to define options on arguments. This can be used to
 support named arguments but also add additional enhancements:
-flag arguments and pass-by-name (''upvar'') arguments.
+flag arguments, pass-by-name (''upvar'') arguments, non-required
+arguments, ...
 
 The others possibilities discussed are detailed in the ''Discussion''
 section at the end of the document.
@@ -51,12 +52,11 @@ of options and their values. This format does not prevent the original format
 to be used as they can be easily distinguished: the new format uses an
 odd size list with a minimal size of three fields.
 
-~~ Available options
+~~ Available argument specifiers
 
-The following options are currently defined:
+The following argument specifiers are defined in this TIP:
 
- * '''-default <val>''' defines the default value of the argument.
-   When used, it must be specified before any '''-name''' option.
+ * '''-default <val>''' defines the default value for the argument.
 
 |% proc p { { a -default {} } } { list a $a }
 |% p
@@ -64,56 +64,92 @@ The following options are currently defined:
 |% p foo
 |a foo
 
- * '''-name <trunk>''' defines the argument to be a named argument.
-   To provide a name for this argument, a call must use the <trunk>
-   word prefixed by a single dash, followed by the value (unless the
-   '''-value''' option has also be used, see below). Several '''-name'''
-   options can be specified for the same argument.
+ * '''-name NAME''' defines the argument to be a named argument.
+   NAME defines the name of the argument when it is  defined as a
+   single string. If NAME is a list of strings, it is the list of
+   names that can be used to refer to the argument (i.e. aliases).
+   On the call-site, the name of the argument is prefixed by a single dash
+   and followed by the value.
 
-|% proc p { { v -name var } } { list v $v }
-|% p -var 1
+|% proc p1 { { v -name val } } { list v $v }
+|% p1 -val 1
 |v 1
 
- * '''-value <preset>''' defines that the variable is to be assigned
-   the <preset> value when defined. This option can only be used with
-   the '''-name''' options. In that case, the call must only use the
-   <trunk> word of the previously specified '''-name''' option prefixed
-   by a single dash.
+|% proc p2 { { v -name {v val value} } } { list v $v }
+|% p2 -value 2
+|v 2
+|% p2 -v 2
+|v 2
 
-|% proc p { { dbg -default 0 -name debug -value 1 } } { list dbg $dbg }
+ * '''-switch SWITCHES''' defines that the argument is defined on the
+   call-site as a flag-only/switch parameter. SWITCHES is a list of
+   possible switches. Each switch is defined either as a single string
+   (switch name) or as a list of two entries (switch name and related
+   value). On the call-site, the name of the switch is prefixed by a
+   single dash and is not followed by any value. The value assigned to
+   the argument is either the switch name or the related value depending
+   on how it was defined.
+
+|% proc p { { dbg -default 0 -switch debug } } { list dbg $dbg }
 |% p
 |dbg 0
 |% p -debug
-|dbg 1
+|dbg debug
 
- * '''-upvar <outername>''' defines that the local argument will refer
-   to a variable defined in the parent frame. This is used to pass a
-   variable by name, similar to what is done when using the ''upvar''
-   command. If <outername> is not an empty string, a new local variable,
-   named <outername>, will be created with the name of the variable given
-   in the call. The '''-upvar''' option can be used with or without
-   a '''-name''' option. When used with a '''-name''' option, it must
-   be specified after and is then related to that name.
+|% proc p { { level -switch {{quiet 0} {verbose 9}} } { list level $level }
+|% p -quiet
+|level 0
+|% p -verbose
+|level 9
 
-|% proc p { { v -upvar name } } { incr v; list $name "incremented" }
+ * '''-required BOOLEAN''' defines that the value is required to be set.
+   If not set (i.e. default behaviour) or set to true, an error will be
+   raised if the argument is not set and has no default value. If set to
+   false and if the parameter has no default value and has not been set,
+   no error will be raised and the argument will be left unset.
+
+|% proc p { { v -name val -required 0 }  } {
+|    if {[info exist v]} {list v $v} {return "v is unset"}
+|  }
+|% p -val 5
+|v 5
+|% p
+|v is unset
+
+ * '''-upvar BOOLEAN''' defines, when set to true, that the local
+   argument will be linked to the variable in caller's scope. This is
+   similar to what is achieved when using the ''upvar'' command.
+
+|% proc p { { v -upvar 1 } } { incr v }
 |% set a 2
 |2
 |% p a
-|a incremented
-|% set a
 |3
-|% proc p { { v -name var -upvar name } } { incr v; list $name "incremented" }
-|% p -var a
+
+ * '''-varname VARNAME''' defines the name of a variable which will be
+   created with the original value of the parameter. When used with
+   '''-upvar true''', the variable's value will be the name of the
+   linked variable in the caller's scope.
+
+|% proc p { { v -upvar 1 -varname nm } } { incr v; list $nm "incremented" }
+|% set a 4
+|4
+|% p a
 |a incremented
 |% set a
-|4
+|5
 
-Further options may be added in future TIPs.
+Further argument specifiers may be added in future TIP. Examples of
+new argument specifiers which may be added in the future:
+
+ * type assertion ('''-assume TYPE''')
+ * argument documentation ('''-docstring DOC''')
+ * ...
 
 ~~ Named arguments
 
 The following rules define how named arguments are expected to be specified
-when calling a procedure:
+on the call-site:
 
  * Named arguments must always be specified using their name, they can't be
    specified as positional arguments.
@@ -124,15 +160,25 @@ when calling a procedure:
 |% p -A aa
 |a aa
 
- * When several '''-name''' options are specified for the same argument,
-   only one is required to be used in the proc call, unless a default
-   value is also specified.
+ * When several names (using '''-name''' or '''-switch''' options) are
+   specified for the same argument, only one is required to be used on
+   the call-site, unless a default value is also specified. If more than
+   one is used, the latest value/switch is kept.
 
-|% proc p { { l -name level -name high -value 9 } } { list l $l }
-|% p -level 6
-|l 6
-|% p -high
-|l 9
+|% proc p { { v -name {v val} } } { list v $v }
+|% p -v 6 -val 8
+|v 8
+
+ * Both '''-name''' and '''-switch''' specifiers can be used on the same
+   argument.
+
+|% proc p { { level -name level -switch {{quiet 0} {verbose 9}} } {
+|    list level $level
+|  }
+|% p -level 4
+|level 4
+|% p -verbose
+|level 9
 
  * A group of contiguous named arguments are handled together and are not
    required to be specified in the same order as defined.
@@ -159,23 +205,23 @@ when calling a procedure:
 The error message, automatically generated when the input arguments are
 invalid, is updated regarding new options:
 
- * Pass-by-name arguments (specified using '''-upvar''' option) are
+ * Pass-by-name arguments (specified using '''-upvar true''' option) are
    surrounded by the '&' character.
 
-|% proc p { { v -upvar {} } } { }
+|% proc p { { v -upvar 1 } } { }
 |% p
 |wrong # args: should be "p &v&"
 
  * Named arguments are showed how they should be called and surounded
-   by the '|' character. If several '''-name''' options have been specified,
+   by the '|' character. If several names have been specified,
    they are grouped together.
 
-|% proc p { { l -name level -name high -value 9 -name byvar -upvar {} } } {}
+|% proc p { { l -name level -switch {high low}} } {}
 |% p
-|wrong # args: should be "p |-level l|-high|-byvar &l&|"
+|wrong # args: should be "p |-level l|-high|-low|"
 
- * When a default value has been specified, the previously used '&'
-   character is also used.
+ * When a default value has been specified or if '''-required false'''
+   has been set, the '?' is used.
 
 |% proc p { { v -default 0 -name var } a } {}
 |% p
@@ -183,16 +229,47 @@ invalid, is updated regarding new options:
 
 ~~ Introspection
 
-The ''info argspec'' command is added to get an argument specification
-similar to the used one on proc creation.
+The ''info argspec'' command is added to get the argument specification
+of all arguments or of a specific argument.
 
-|% proc p { a { b 1 } { c -name c -name C -value 1 } } {}
-|% info argspec p a
-|
-|% info argspec p b
-|-default 1
+|% proc p { a { b 1 } { c -name c } } {}
+|% info argspec p
+|a { b -default 1 } { c -name c }
 |% info argspec p c
-|-name c -name C -value 1
+|-name c
+
+~~ Performance
+
+The handling of the new argument specifiers during a ''proc'' call has
+a minimal, but non-null impact on performance. Initial testing on a
+*non-optimized* implementation has shown a speed decrease of only 10%-20%,
+which must be compared to a decrease of nearly 900% when using a Tcl-pure
+implementation
+
+|proc p1 {a b {c 0} {d 0} {e 0} {f 0} {g 0} {h 0}} {
+|  list $a $b $c $d $e $f $g $h
+|}
+|proc p2 {a b args} {
+|  array set opt [concat {-C 0 -D 0 -E 0 -F 0 -G 0 -H 0} $args]
+|  list $a $b $opt(-C) $opt(-D) $opt(-E) $opt(-F) $opt(-G) $opt(-H)
+|}
+|proc p3 {a b {c -default 0 -name C} {d -default 0 -name D} {e -default 0 -name E} {f -default 0 -name F} {g -default 0 -name G} {h -default 0 -name H}} {
+|  list $a $b $c $d $e $f $g $h
+|}
+|puts "default:  [time {p1 A B 0 0 0 8 0 42} 1000000]"
+|puts "Tcl-pure: [time {p2 A B -F 8 -H 42}   1000000]"
+|puts "TIP-457:  [time {p3 A B -F 8 -H 42}   1000000]"
+
+|default:  0.604988 microseconds per iteration
+|Tcl-pure: 5.378907 microseconds per iteration  (+889%)
+|TIP-457:  0.698328 microseconds per iteration  (+ 15%)
+
+Users with critical requirements on speed should be warned and may
+prefer not using extended argument specifiers.
+
+The performance of a Tcl-pure procedure defined without any extended
+argument specifiers is not affected by the modification because the
+original initialization code is still used in that case.
 
 ~ Implementation
 
@@ -265,6 +342,13 @@ specification:
 
 This is the currently proposed solution in this TIP. It requires the
 procedures to be modified but allow additional features.
+
+~~ Argument Parsing extension
+
+Cyan Ogilvie's paper from Tcl2016 [https://www.tcl.tk/community/tcl2016/assets/talk33/parse_args-paper.pdf]
+describes a C extension to provide core-like argument parsing at speed
+comparable to ''proc'' argument handling, in a terse and self-documenting
+way.
 
 ~ Copyright
 
