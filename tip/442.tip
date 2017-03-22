@@ -1,13 +1,13 @@
 TIP:            442
 Title:          Display text in progressbars
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         René Zaumseil <rzaumseil@kkg.ch>
 Author:         Kevin B Kenny <kevin.b.kenny@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 Author:         Kevin Kenny <Kevin.B.Kenny@gmail.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        17-Feb-2016
 Post-History:   
 Keywords:       Tk
