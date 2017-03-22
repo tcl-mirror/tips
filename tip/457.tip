@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.16 $
+Version:        $Revision: 1.17 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -16,8 +16,6 @@ Tcl-Version:    8.7
 This TIP proposes an enhancement of the Tcl language to support named
 arguments and additional features when calling a procedure.
 
-~ Rationale
-
 The naming of arguments to procedures is a computer language feature which
 allow developers to specify the name of an argument when calling a function.
 This is especially useful when dealing with arguments with default values, as
@@ -31,7 +29,7 @@ code at the start of each procedure, no standard on the format to use, few
 errors handling, etc.
 
 After discussing various possibilities with the community, it has been
-decided to extend the argument specification of the '''proc''' command
+decided to extend the argument specification of the ''proc'' command
 and allow users to define options on arguments. This can be used to
 support named arguments but also add additional enhancements:
 flag arguments, pass-by-name (''upvar'') arguments, non-required
@@ -128,7 +126,7 @@ The following argument specifiers are defined in this TIP:
 
  * '''-varname VARNAME''' defines the name of a variable which will be
    created with the original value of the parameter. When used with
-   '''-upvar true''', the variable's value will be the name of the
+   ''-upvar true'', the variable's value will be the name of the
    linked variable in the caller's scope.
 
 |% proc p { { v -upvar 1 -varname nm } } { incr v; list $nm "incremented" }
@@ -143,7 +141,9 @@ Further argument specifiers may be added in future TIP. Examples of
 new argument specifiers which may be added in the future:
 
  * type assertion ('''-assume TYPE''')
+
  * argument documentation ('''-docstring DOC''')
+
  * ...
 
 ~~ Named arguments
@@ -160,7 +160,7 @@ on the call-site:
 |% p -A aa
 |a aa
 
- * When several names (using '''-name''' or '''-switch''' options) are
+ * When several names (using ''-name'' or ''-switch'' options) are
    specified for the same argument, only one is required to be used on
    the call-site, unless a default value is also specified. If more than
    one is used, the latest value/switch is kept.
@@ -169,7 +169,7 @@ on the call-site:
 |% p -v 6 -val 8
 |v 8
 
- * Both '''-name''' and '''-switch''' specifiers can be used on the same
+ * Both ''-name'' and ''-switch'' specifiers can be used on the same
    argument.
 
 |% proc p { { level -name level -switch {{quiet 0} {verbose 9}} } {
@@ -205,7 +205,7 @@ on the call-site:
 The error message, automatically generated when the input arguments are
 invalid, is updated regarding new options:
 
- * Pass-by-name arguments (specified using '''-upvar true''' option) are
+ * Pass-by-name arguments (specified using ''-upvar true'' option) are
    surrounded by the '&' character.
 
 |% proc p { { v -upvar 1 } } { }
@@ -220,7 +220,7 @@ invalid, is updated regarding new options:
 |% p
 |wrong # args: should be "p |-level l|-high|-low|"
 
- * When a default value has been specified or if '''-required false'''
+ * When a default value has been specified or if ''-required false''
    has been set, the '?' is used.
 
 |% proc p { { v -default 0 -name var } a } {}
@@ -242,7 +242,7 @@ of all arguments or of a specific argument.
 
 The handling of the new argument specifiers during a ''proc'' call has
 a minimal, but non-null impact on performance. Initial testing on a
-*non-optimized* implementation has shown a speed decrease of only 10%-20%,
+''non-optimized'' implementation has shown a speed decrease of only 10%-20%,
 which must be compared to a decrease of nearly 900% when using a Tcl-pure
 implementation
 
