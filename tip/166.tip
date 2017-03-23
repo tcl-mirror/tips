@@ -1,7 +1,8 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
+Author:         Simon Bachmann <simonbachmann@bluewin.ch>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -31,8 +32,11 @@ that people can read and write the full alpha data from scripts.
 ~Proposal
 
 I propose to update the ''photoImageInstance'' '''get''' subcommand so
-that it returns four values instead of three, with the fourth being the
-contents of the alpha channel for the pixel.
+that it takes an extra option '''-withalpha''' (to be placed after the
+coordinates). If that option is specified, the subcommand will return
+four values instead of three, with the fourth being the contents of
+the alpha channel for the pixel. Without this new option, the
+subcommand will return three values as before.
 
 I also propose to update the ''photoImageInstance'' '''put''' subcommand
 so that alpha channel information may be specified in the following ways
@@ -44,19 +48,19 @@ format will be up to the particular image format code, as always.)
    interpretation of the empty string as transparency elsewhere within
    the core (notably in [[canvas]] items.)
 
- * Any pixel colour format that is not the empty string (e.g.
-   ''bisque2'' or ''#abcdef'') may have the following suffix added -
-   '''@A''' - where A is a fractional alpha value in the range 0.0
-   to 1.0 (which values correspond to fully transparent and fully opaque
-   respectively.)
+ * Any standard Tk colour format (those accepted by
+   '''Tk_GetColor()''' - e.g.  ''bisque2'' or ''#abcdef'') may have
+   the following suffix added - '''@A''' - where A is a fractional
+   alpha value in the range 0.0 to 1.0 (which values correspond to
+   fully transparent and fully opaque respectively.)
 
- * Any pixel colour format that is not the empty string and which does
-   not have a '''@A''' suffix may have a '''#XX''' suffix, where XX is a
-   pair of hex digits that specify an integer alpha value in the range
-   0 (fully transparent) to 255 (fully opaque).
+ * Any standard Tk colour format which does not have a '''@A''' suffix
+   may have a '''#XX''' suffix, where XX is a pair of hex digits that
+   specify an integer alpha value in the range 0 (fully transparent)
+   to 255 (fully opaque).
 
- * Any pixel colour format that is not the empty string and which does
-   not have a '''@A''' suffix may have a '''#X''' suffix, where X is a
+ * Any standard Tk colour format which does not have a '''@A''' suffix
+   nor a '''#XX''' suffix may have a '''#X''' suffix, where X is a
    single hex digit that specifies an integer alpha value in the range
    0 (fully transparent) to 255 (fully opaque).  This is expanded in
    range from 4 bits wide to 8 bits wide by multiplication by 0x11.
@@ -85,7 +89,32 @@ format will be up to the particular image format code, as always.)
    round can be written with the addition of an extra '''#''' (i.e. as
    '''#RGB#A''').
 
-Additionally, the ''photoImageInstance'' '''transparency''' command's
+It should also be possible to include alpha information in the data
+retrieved with the ''photoImageInstance'' '''data''' subcommand.
+For this, I propose to make the list-of-lists-of-pixel-data format a
+regular photo image format (like PNG, GIF, PPM, etc.) with the name
+'''default'''. This format will have no file read/write capabilities.
+As before, the list-of-lists format will be the default choice for
+''photoImageInstance'' '''data''', and the last one to be tried for
+''photoImageInstance'' '''put'''. The main benefit of this
+change is that it will be possible to request the '''default'''
+format explicitly with the '''-format''' option and - most important -
+to pass suboptions to the format handler. 
+The '''default''' image data format shall accept the suboption
+'''-colorformat''' ''type'' which specifies the format to be used to
+encode the color and alpha data for each pixel. Accepted values shall
+be '''rgb''' for the #RRGGBB format (the current format and default
+for the suboption), '''argb''' for the #AARRGGBB format, and
+'''list''' for the list format with four elements.
+This change will have two side effects:
+
+ * The '''-data''' option to photo images will accept image data in the
+   list-of-lists form as well. Currently only data in one of the
+   registered file formats is accepted.
+
+ * The underlying implementation will become simpler and cleaner.
+
+Finally, the ''photoImageInstance'' '''transparency''' command's
 subcommands will be updated in the following way:
 
  * The '''get''' subcommand will be modified to take an extra option,
@@ -98,11 +127,11 @@ subcommands will be updated in the following way:
    of the two options will be allowed.
 
  * The '''set''' subcommand will be modified to take an extra option,
-   '''-alpha''' (to be placed after the coordinates), that modifies the
-   interpretation of the following value so that it is the integral
+   '''-alpha''' (to be placed after the new value), that modifies the
+   interpretation of the new value so that it is the integral
    alpha value to be set for the pixel.  Similarly to the '''get'''
    command, there will also be a '''-boolean''' option to indicate the
-   current behaviour, and which will mutually exclusive with the
+   current behaviour, and which will be mutually exclusive with the
    '''-alpha''' option.
 
 ~Examples
@@ -130,9 +159,19 @@ Create a green box with a simple shadow effect
 |# Put a solid green rectangle on top
 |foo put #080 -to 0 0 30 30
 
+Retrieve image data with alpha information in the list-of-lists form
+and create a new image with it. 
+
+|image create photo bar -file imageWithTransparency.png
+|set imageData [bar data -format {default -colorformat argb}
+|
+|# Inspect / modify / save data
+|
+|image create photo baz -data $imageData
+
 ~Reference Implementation
 
-Nothing yet.
+Branch tip-166 on fossil.
 
 ~Copyright
 
