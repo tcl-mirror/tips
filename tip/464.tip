@@ -1,11 +1,11 @@
 TIP:            464
 Title:          Support for Multimedia Keys on Windows
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Ralf Fassel <ralfixx@gmx.de>
 Author:         Andreas Leitgeb <avl@logic.at>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        28-Jan-2017
 Post-History:   
 Keywords:       Tk,keyboard,keycode
