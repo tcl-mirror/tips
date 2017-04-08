@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -112,8 +112,6 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  > * ''pathName'' '''edit irreversible'''
 
  > * ''pathName'' '''edit recover'''
-
- > * ''pathName'' '''image bind'''
 
  > * ''pathName'' '''inspect'''
 
