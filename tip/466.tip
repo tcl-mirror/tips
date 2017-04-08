@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -78,8 +78,6 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  * Undo/redo is handling tags (this was requesteed in Issue #1561991 and
    Issue #1027741, embedded images, embedded windows, and also marks if option
    ''-steadymarks'' is enabled
-
- * Bindings to embedded images are supported
 
  * Additional widget state '''readonly'''
 
@@ -195,6 +193,8 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * new specifier '''begin'''
 
+ > * new syntax ''tag''.'''current.first''', ''tag''.'''current.last'''
+
  > * new syntax '''@first,last'''
 
  * Additional features of existing subcommands:
@@ -226,6 +226,8 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Additional option '''-owner''' for embedded window
 
+ * Additional option '''-tags''' for embedded images
+
 ~~ Bug Fixes
 
  * Bug fixed in TkTextGetIndex
@@ -234,7 +236,11 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Bug fixed in DeleteIndexRange
 
+ * Bug fixed in TkTextDeleteTag/TagBindEvent
+
  * Problems fixed with '''-startline'''/'''-endline'''
+
+ * Problems fixed with tag event handling
 
  * Several bug fixes with '''undo''
 
@@ -243,7 +249,7 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Severe problems with command '''sync''' fixed
 
- * Invalid changes in disabled widget are no longer possible
+ * Invalid changes in disabled widget are marked as deprecated
 
  * Inaccurate wrapping algorithm fixed
 
