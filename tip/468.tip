@@ -1,0 +1,71 @@
+TIP:		468
+Title:		Support Passing TCP listen Backlog Size Option to TCP Socket Creation
+Version:	$Revision: 1.1 $
+Author:		Shannon Noe <shannon.noe@flightaware.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	03-Apr-2017
+Post-History:  
+Keywords:	Tcl, socket, SOMAXCONN
+Tcl-Version:	8.7
+
+~ Abstract
+
+This TIP adds the ability to control the TCP backlog depth used by the
+''listen'' system call within the '''socket''' Command. The API function,
+'''Tcl_OpenTcpServerEx''', will be extended to allow the passing of the
+backlog value. Currently, the SOMAXCONN macro is used as the default. Backlog
+values are hard coded to a minimum of 100. The backlog values of 1 and 0 are
+useful on the Linux platform.
+
+~ Rationale
+
+Modern Linux TCP supports the kernel managing the listen queue for TCP
+sockets. Multiple processes open the same socket address and ports with
+SOREUSEADDR and SOREUSEPORT. Each process then uses a backlog value of 1 to
+process a single connection at a time. This is explained in detail on this
+website
+http://veithen.github.io/2014/01/01/how-tcp-backlog-works-in-linux.html
+
+Tighter control over this would allow Tcl scripts to have tighter control over
+whether to support a large backlog of sockets waiting to be opened. (Exceeding
+the limit would cause the OS to automatically reject the socket connection,
+which might be preferable in some high-availability situations to being
+blocked for an unknown amount of time.)
+
+~ Specification
+
+A '''Tcl_OpenTcpServerEx''' function will be changed to add a ''backlog''
+parameter with this signature:
+
+ > Tcl_Channel '''Tcl_OpenTcpServerEx'''(Tcl_Interp *''interp'', const char *
+    ''service'', const char *''myHost'', unsigned int ''flags'',  int ''backlog'',
+    Tcl_TcpAcceptProc *''acceptProc'', ClientData ''acceptProcData'')
+
+As for the Tcl side, the '''socket''' command gains a new optional switch that
+are only valid for server sockets: ?'''-backlog''' ''int''?. Omitting the
+parameter will cause the default value to be used.
+
+Tcl code includes local macro’s for SOMAXCONN which override all platforms
+values for SOMAXCONN. This makes backwards compatibility easier. We only need
+to preserve the macro value in the default code path.
+
+~ Reference Implementation
+
+Please refer to the ''tip-???'' branch of the core Tcl repository.
+
+~ Backwards Compatibility
+
+The '''Tcl_OpenTcpServerEx''' will retain the old behavior by default as
+SOMAXCONN. The SOMAXCONN is defined by macros in the Tcl source. All Tcl code
+paths with a listen() system call pass a backlog value. No new code paths are
+introduced, only new values for the listen backlog parameter.
+
+The '''socket''' command will be backwards compatible. The default
+'''-backlog''' parameter is set to ''SOMAXCONN''. Omission of the new
+parameter provides the current behavior.
+
+~ Copyright
+
+This document has been placed in the public domain.
