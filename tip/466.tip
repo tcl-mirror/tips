@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -226,7 +226,7 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Additional option '''-owner''' for embedded window
 
- * Additional option '''-tags''' for embedded images
+ * Additional option '''-tags''' for embedded images and embedded windows
 
 ~~ Bug Fixes
 
