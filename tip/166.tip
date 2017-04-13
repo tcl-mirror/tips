@@ -1,6 +1,6 @@
 TIP:            166
 Title:          Reading and Writing the Photo Image Alpha Channel
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         Donal K. Fellows <donal.k.fellows@man.ac.uk>
 Author:         Simon Bachmann <simonbachmann@bluewin.ch>
 State:          Draft
@@ -122,17 +122,12 @@ subcommands will be updated in the following way:
    result to be the integral alpha value (in the range 0 to 255) for the
    specified pixel. Without the option, the result shall continue to be
    a boolean that is true exactly when the pixel is wholly transparent.
-   Also supported will be a '''-boolean''' option (in the same position)
-   which will be interpreted as meaning the current behaviour.  Only one
-   of the two options will be allowed.
 
  * The '''set''' subcommand will be modified to take an extra option,
    '''-alpha''' (to be placed after the new value), that modifies the
    interpretation of the new value so that it is the integral
-   alpha value to be set for the pixel.  Similarly to the '''get'''
-   command, there will also be a '''-boolean''' option to indicate the
-   current behaviour, and which will be mutually exclusive with the
-   '''-alpha''' option.
+   alpha value to be set for the pixel.  Without the option, the value 
+   will be interpreted as a boolean as before.
 
 ~Examples
 
