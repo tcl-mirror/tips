@@ -1,38 +1,40 @@
 TIP:		469
-Title: 		Allow to register callback for channel-exception condition.
-Version: 	$Revision: 1.1 $
+Title:		A Callback for Channel-Exception Conditions
+Version:	$Revision: 1.2 $
 Author:		Andreas Leitgeb <avl@logic.at>
 State:		Draft
 Type:		Project
+Tcl-Version:	8.7
 Vote:		Pending
 Created:	16-Apr-2017
 Post-History:	
-Tcl-Version:	8.7
+Keywords:	Tcl, event handling
 
 ~ Abstract
 
-This TIP proposes to extend the '''fileevent''' Tcl command to also accept 
-the keyword '''exception''' for its second argument. This will allow to register
-a callback for the specific event that the OS reports an exception on the
+This TIP proposes to extend the '''fileevent''' Tcl command to also accept the
+keyword '''exception''' for its second argument. This will allow to register a
+callback for the specific event that the OS reports an exception on the
 channel, while ignoring read- or writability.
 
 ~ Rationale
 
 Tcl already allows registering for exceptions in its C-API function
-Tcl_CreateChannelHandler(). This TIP merely enables the command '''fileevent'''
-to pass TCL_EXCEPTION for the mask in the call to Tcl_CreateChannelHandler().
+Tcl_CreateChannelHandler(). This TIP merely enables the command
+'''fileevent''' to pass TCL_EXCEPTION for the mask in the call to
+Tcl_CreateChannelHandler().
 
-On Linux OS there exist special "files" that are always readable or writable
-without blocking, but certain (hardware-related) events are reported as 
+On Linux, there exist special "files" that are always readable or writable
+without blocking, but certain (hardware-related) events are reported as
 exceptions on the channel.  The example at hand is the "sysfs"-API for GPIO
 (general purpose input output) where level-changes on GPIO pins are reported
-as exceptions on the channel. For details see 
-   https://www.kernel.org/doc/Documentation/gpio/sysfs.txt
-and the paragraphs about "value".
+as exceptions on the channel. For details see
+[https://www.kernel.org/doc/Documentation/gpio/sysfs.txt] and the paragraphs
+about "value".
 
-Listening for readable plus exceptions (as Tcl automatically does when asking 
-for readable event) doesn't help here, because then the event would continuously
-fire, as reading the current level on a pin never blocks.
+Listening for readable plus exceptions (as Tcl automatically does when asking
+for readable event) doesn't help here, because then the event would
+continuously fire, as reading the current level on a pin never blocks.
 
 The only way to react to level-changes (short of busy-looping) is to have the
 internal select/poll call specify exclusively the exception notification for
@@ -40,26 +42,29 @@ that channel.
 
 ~ Specification
 
-This document proposes to add the keyword '''exception''' to the '''fileevent'''
-command, where so far only '''readable''' and '''writable''' are allowed.
+This document proposes to add the keyword '''exception''' to the
+'''fileevent''' command, where so far only '''readable''' and '''writable'''
+are allowed.
 
-If '''exception''' is given as event specifier, then a handler script is 
-registered, cleared or queried just like with '''readable''' or '''writable'''.
+If '''exception''' is given as event specifier, then a handler script is
+registered, cleared or queried just like with '''readable''' or
+'''writable'''.
 
 Since '''readable''' or '''writable''' already check for exception as well,
 registering an exception event for a channel that already has readable and/or
-writable handlers registered makes little sense, but allowing it does not raise
-any issues that having both readable and writable handlers wouldn't already have,
-so being fussy about it would confuse more than it could help to avoid confusion.
+writable handlers registered makes little sense, but allowing it does not
+raise any issues that having both readable and writable handlers wouldn't
+already have, so being fussy about it would confuse more than it could help to
+avoid confusion.
 
 ~ Alternatives
 
-The piio extension provides event registration on its own, but its support for
-certain IO-chipsets lags behind the sysfs-API.
+The ''piio'' extension provides event registration on its own, but its support
+for certain IO-chipsets lags behind the sysfs-API.
 
-With exception becoming its own event type, then readable and writable would
-no longer need to also fire on exceptions, but compatibility forbids this
-particular follow-up change.
+With '''exception''' becoming its own event type, then '''readable''' and
+'''writable''' would no longer need to also fire on exceptions, but
+compatibility forbids this particular follow-up change.
 
 ~ Compatibility
 
@@ -67,10 +72,10 @@ No incompatibilities are introduced.
 
 ~ Reference Implementation
 
-A really bare-bones reference implementation is available as a patch on
-http://paste.tclers.tk/4231    A thus-patched tclsh can successfully
-wait for input-level changes on TIP-author's "nano-pi" raspberryPI-like
-platform with a chipset not yet supported by piio.
+A really bare-bones reference implementation is available as a patch
+[http://paste.tclers.tk/4231].  A thus-patched tclsh can successfully wait for
+input-level changes on TIP-author's "nano-pi" raspberryPI-like platform with a
+chipset not yet supported by piio.
 
 Documentation and test updates yet to be done.
 
