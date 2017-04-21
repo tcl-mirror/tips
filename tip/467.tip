@@ -1,6 +1,6 @@
 TIP:            467
 Title:          Move TIP Collection to Fossil
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Mark Janssen <mpc.janssen@gmail.com>
 State:          Draft
 Type:           Process
@@ -25,20 +25,20 @@ The current TIP storage and handling requires a lot of scripts that need to be
 maintained by the TCT and it is less open than it could be.
 There are also advantages to switching to Fossil in place of CVS.
 
- * Fossil has embedded Markdown rendering
+ * Fossil has embedded Markdown rendering.
 
  * Fossil is already used to manage the Tcl and Tk sources.
 
  * TIP discussion and CFVs can be done and tracked using fossil tickets.
 
- * Fossil events one could also track CFV's and Vote results
+ * Fossil events could also track CFV's and Vote results
 
  * CVS is extremely vulnerable to problems with system administration on a
    single host. With a fossil-based system, it is much simpler to have
    multiple repositories.
 
 Besides Fossil supporting Markdown out of the box, markdown is also better
-option for the future than the current format because the value of making up
+option for the future than the current format. The value of making up
 your own plain text format in this age is debatable (especially for the TIP
 requirements). Markdown has widely available options to convert to other
 formats without any need for the community to maintain the converters, and
@@ -61,6 +61,8 @@ Proposed URL for the new repository will be http://core.tcl.tk/tips
 
     2. Hide e-mails in fossil.
 
+    3. Hide e-mails in the webhost.
+
   Option 2. doesn't help much as the mails are still online in the raw markdown files. Option 1. loses information. Suggested is to leave the addresses untouched. 
 
 ~~ Process
@@ -69,7 +71,7 @@ TBD
 
 ~~ TIP Format
 
-The markdown tip format has one extension to standard markdown:
+The Markdown tip format has one extension to standard Markdown:
 
 Any TIP.md file will have a mandatory preamble starting with the title (for
 fossil rendering) and ending with a `------` on a single line. Between these
