@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -200,6 +200,8 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  * Additional features of existing subcommands:
 
  > * Additional option '''-marks''' for ''pathName'' '''delete''' command
+
+ > * Additional optional parameter ''direction'' for ''pathName'' '''mark set''' sub-command
 
  > * New virtual event '''<<Altered>>''' to support new sub-command
      ''pathName'' '''edit altered'''
