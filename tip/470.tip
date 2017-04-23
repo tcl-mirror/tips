@@ -1,0 +1,63 @@
+TIP:		470
+Title:		Reliable Access to OO Definition Context Object
+State:		Draft
+Type:		Project
+Tcl-Version:	8.7
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal Fellows <dkf@users.sf.net>
+Created:	23-Apr-2017
+Keywords:	TclOO, metaprogramming
+
+~ Abstract
+
+This TIP makes it easier for people to write procedures to extend TclOO's
+definition sublanguage.
+
+~ Rationale
+
+One of the fundamental features of Tcl is that you can extend it with more
+capabilities by writing your own procedures (and other commands, if you prefer
+the C API). However, it is somewhat awkward to do so when using TclOO, as the
+'''oo::define''' and '''oo::objdefine''' commands don't make it easy to find
+out what the context class or object is.
+
+For example, in the ''oo::util'' package of Tcllib, the code for discovering
+what the context class is includes this
+[http://core.tcl-lang.org/tcllib/artifact/51d71f560ceb7d63?ln=77]:
+
+|    # Get the name of the current class or class delegate 
+|    set cls [namespace which [lindex [info level -1] 1]]
+
+That is ugly, and won't even work reliably for getting the context object in
+'''oo::objdefine''' as that can be entered into by multiple paths (i.e.,
+there's a shortcut from '''oo::define''').
+
+~ Proposed Change
+
+I propose to make the existing '''self''' command in '''oo::define''', when
+invoked without arguments, return the context class (provided it is evaluated
+in the correct stack frame, as usual with definition commands).  Similarly, I
+also propose to add a '''self''' command to the '''oo::objdefine''' system
+that takes no arguments and returns the context object.
+
+This will enable to code listed above in the ''Rationale'' to become:
+
+|    # Get the name of the current class or class delegate 
+|    set cls [uplevel 1 self]
+
+In the C API, I propose adding a function:
+
+ > Tcl_Object '''Tcl_GetDefineContextObject'''(Tcl_Interp *''interp'')
+
+which will get the context object, or return NULL and put an error in the
+interpreter if there is no context object in the frame or the context object
+has been deleted. The functionality is that of '''TclOOGetDefineCmdContext'''
+in ''tclOODefineCmds.c''
+[http://core.tcl-lang.org/tcl/artifact/7d58f1a701168168?ln=682], but the text
+of the error messages might be changed.
+
+~ Copyright
+
+This document has been placed in the public domain.
