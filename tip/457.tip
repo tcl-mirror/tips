@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.18 $
+Version:        $Revision: 1.19 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -15,6 +15,8 @@ Tcl-Version:    8.7
 
 This TIP proposes an enhancement of the Tcl language to support named
 arguments and additional features when calling a procedure.
+
+~ Rationale
 
 The naming of arguments to procedures is a computer language feature which
 allow developers to specify the name of an argument when calling a function.
@@ -55,6 +57,7 @@ odd size list with a minimal size of three fields.
 The following argument specifiers are defined in this TIP:
 
  * '''-default VALUE''' defines the default value for the argument.
+   It is ignored if ''-required 1'' is also used.
 
 |% proc p { { a -default {} } } { list a $a }
 |% p
@@ -101,22 +104,25 @@ The following argument specifiers are defined in this TIP:
 |level 9
 
  * '''-required BOOLEAN''' defines that the value is required to be set.
-   If not set (i.e. default behaviour) or set to true, an error will be
-   raised if the argument is not set and has no default value. If set to
-   false and if the parameter has no default value and has not been set,
-   no error will be raised and the argument will be left unset.
+   If set to true, the argument is required and any default  value is
+   ignored. It is the default handling for non-named argument without a
+   default value. If set to false, the argument is not required to be set
+   and the related argument will be left unset if there is no default value.
+   It is the default  handling for named argument.  
 
-|% proc p { { v -name val -required 0 }  } {
+|% proc p { { v -required 0 }  } {
 |    if {[info exist v]} {list v $v} {return "v is unset"}
 |  }
-|% p -val 5
+|% p 5
 |v 5
 |% p
 |v is unset
 
  * '''-upvar BOOLEAN''' defines, when set to true, that the local
-   argument will be linked to the variable in caller's scope. This is
-   similar to what is achieved when using the ''upvar'' command.
+   argument will become an alias to the variable in caller's scope
+   corresponding to the parameter value. This is similar to what is
+   achieved when using the ''upvar'' command. This  specifier is
+   incompatible with the ''-switch'' specifier.
 
 |% proc p { { v -upvar 1 } } { incr v }
 |% set a 2
@@ -188,8 +194,9 @@ on the call-site:
 |% a aa b bb
 
  * The handling of a group of contiguous named arguments (which can be
-   only one argument) is ended on the first argument not starting with
-   a dash or by using the special ''--'' end-of-options marker. Remaining
+   only one argument) is ended on the first argument which is either
+   a multi-elements list, a parameter not starting with a dash or the
+   special ''--'' end-of-options marker. Remaining
    arguments will then be assigned to following positional arguments.
 
 |% proc p { {o -name opt} args } { list o $o args $args }
@@ -216,60 +223,52 @@ invalid, is updated regarding new options:
    by the '|' character. If several names have been specified,
    they are grouped together.
 
-|% proc p { { l -name level -switch {high low}} } {}
+|% proc p { { l -name level -switch {high low} -required 1} } {}
 |% p
 |wrong # args: should be "p |-level l|-high|-low|"
 
- * When a default value has been specified or if ''-required false''
-   has been set, the '?' is used.
+ * When an argument is optional, '?' is used.
 
-|% proc p { { v -default 0 -name var } a } {}
+|% proc p { { v -name var } a } {}
 |% p
 |wrong # args: should be "p ?|-var v|? a"
 
 ~~ Introspection
 
-The ''info argspec'' command is added to get the argument specification
+The ''info argspec proc'' command is added to get the argument specification
 of all arguments or of a specific argument.
 
 |% proc p { a { b 1 } { c -name c } } {}
-|% info argspec p
+|% info argspec proc p
 |a { b -default 1 } { c -name c }
-|% info argspec p c
+|% info argspec proc p c
 |-name c
+
+Similar ''info argspec'' subcommands are also added for lambda, object
+method and object constructor.
+
+The ''info argspec specifiers'' command is added to get the specifiers 
+supported by the current interpreter.
+
+|% info argspec specifiers
+|-default -name -required -switch -upvar -varname
 
 ~~ Performance
 
-The handling of the new argument specifiers during a ''proc'' call has
-a minimal, but non-null impact on performance. Initial testing on a
-''non-optimized'' implementation has shown a speed decrease of only 10%-20%,
-which must be compared to a decrease of nearly 900% when using a Tcl-pure
-implementation
+The performance of the call of a Tcl-pure procedure defined without
+any extended argument specifiers is not affected by the proposed
+modification because the original initialization code is still used
+in that case.
 
-|proc p1 {a b {c 0} {d 0} {e 0} {f 0} {g 0} {h 0}} {
-|  list $a $b $c $d $e $f $g $h
-|}
-|proc p2 {a b args} {
-|  array set opt [concat {-C 0 -D 0 -E 0 -F 0 -G 0 -H 0} $args]
-|  list $a $b $opt(-C) $opt(-D) $opt(-E) $opt(-F) $opt(-G) $opt(-H)
-|}
-|proc p3 {a b {c -default 0 -name C} {d -default 0 -name D} {e -default 0 -name E} {f -default 0 -name F} {g -default 0 -name G} {h -default 0 -name H}} {
-|  list $a $b $c $d $e $f $g $h
-|}
-|puts "default:  [time {p1 A B 0 0 0 8 0 42} 1000000]"
-|puts "Tcl-pure: [time {p2 A B -F 8 -H 42}   1000000]"
-|puts "TIP-457:  [time {p3 A B -F 8 -H 42}   1000000]"
-
-|default:  0.604988 microseconds per iteration
-|Tcl-pure: 5.378907 microseconds per iteration  (+889%)
-|TIP-457:  0.698328 microseconds per iteration  (+ 15%)
+The call of a Tcl-pure procedure defined with extended argument specifiers 
+uses a different initialization code which may slightly affect performance.
+Initial testing only show a slowdown between 0% and 4%.
+See [https://gist.github.com/mlafon/70480877a28f3571e0377eabc0cee7be]
+for details.
 
 Users with critical requirements on speed should be warned and may
-prefer not using extended argument specifiers.
-
-The performance of a Tcl-pure procedure defined without any extended
-argument specifiers is not affected by the modification because the
-original initialization code is still used in that case.
+prefer not using extended argument specifiers or may want to test
+the performance on their specific usage first.
 
 ~ Implementation
 
@@ -296,7 +295,7 @@ This document proposes the following changes to the Tcl core:
 
  6. Add ''info argspec'' command;
 
- 7. Update documentation in doc/proc.n;
+ 7. Update documentation in doc/proc.n and doc/info.n;
 
  8. Update impacted tests and add dedicated tests in tests/proc-enh.test.
 
