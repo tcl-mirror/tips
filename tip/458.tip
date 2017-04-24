@@ -1,6 +1,6 @@
 TIP:            458
 Title:          Add Support for epoll() and kqueue() in the Notifier
-Version:        $Revision: 1.3 $
+Version:        $Revision: 1.4 $
 Author:         Lucio Andrés Illanes Albornoz <l.illanes@gmx.de>
 Author:         Lucio Andrés Illanes Albornoz <lucio@lucioillanes.de>
 State:          Draft
@@ -50,23 +50,23 @@ The new code associates the newly introduced (but private) ''PlatformEventData''
 
 The core implementation is found in a set of six (6) newly introduced static subroutines in ''unix/tcl{Epoll,Kqueue}Notfy.c'':
 
- 1. ''PlatformEventsControl''(): abstracts ''epoll_ctl''(2)/''kevent''(2). Called by ''Tcl_{Create,Delete}FileHandler''() to add/update event masks for a new or an old ''FileHandler'' and ''NotifierThreadProc''() in order to include the ''receivePipe'' fd when waiting for and processing events.
+ 1. ''PlatformEventsControl''() - abstracts ''epoll_ctl''(2)/''kevent''(2). Called by ''Tcl_{Create,Delete}FileHandler''() to add/update event masks for a new or an old ''FileHandler'' and ''NotifierThreadProc''() in order to include the ''receivePipe'' fd when waiting for and processing events.
 
- 2. ''PlatformEventsFinalize''(): abstracts ''close''(2) and ''ckfree''(). Called by ''Tcl_FinalizeNotifier''().
+ 2. ''PlatformEventsFinalize''() - abstracts ''close''(2) and ''ckfree''(). Called by ''Tcl_FinalizeNotifier''().
 
- 3. ''PlatformEventsGet''(): abstracts iterating over an array of events. Called by ''NotifierThreadProc''().
+ 3. ''PlatformEventsGet''() - abstracts iterating over an array of events. Called by ''NotifierThreadProc''().
 
- 4. ''PlatformEventsInit''(): abstracts ''epoll_create''(2)/''kqueue''(2). Called by ''PlatformEvents{Control,Wait}''() and ''Tcl_WaitForEvent''().
+ 4. ''PlatformEventsInit''() - abstracts ''epoll_create''(2)/''kqueue''(2). Called by ''PlatformEvents{Control,Wait}''() and ''Tcl_WaitForEvent''().
 
- 5. ''PlatformEventsTranslate''(): translates platform-specific event masks to '''TCL_{READABLE,WRITABLE,EXCEPTION}''' bits. Called by ''Tcl_WaitForEvent''().
+ 5. ''PlatformEventsTranslate''() - translates platform-specific event masks to '''TCL_{READABLE,WRITABLE,EXCEPTION}''' bits. Called by ''Tcl_WaitForEvent''().
 
- 6. ''PlatformEventsWait''(): abstracts ''epoll_wait''(2)/''kevent''(2). Called by ''Tcl_WaitForEvent''() and ''NotifierThreadProc''(). 
+ 6. ''PlatformEventsWait''() - abstracts ''epoll_wait''(2)/''kevent''(2). Called by ''Tcl_WaitForEvent''() and ''NotifierThreadProc''(). 
 
 Two additional subroutine are used in all three code paths (''epoll'', ''kqueue'', ''select'') to reduce code redundancy:
 
- 1. ''AlertSingleThread''(): notify a single thread that is waiting on I/O. Called by ''NotifierThreadProc''().
+ 1. ''AlertSingleThread''() - notify a single thread that is waiting on I/O. Called by ''NotifierThreadProc''().
 
- 2. ''TclUnixWaitForFile(): reimplemented via ''poll''(2) instead of ''select''(2). ''poll''(2) does not suffer the '''FD_SETSIZE''' limit on file descriptors that can be passed to ''select''(2) and is available on a sufficiently large number of platforms. Most importantly, this code would not benefit from using ''epoll''(7) or ''kqueue''(2) as this subroutine only waits on one single file descriptor at a time.
+ 2. ''TclUnixWaitForFile() - reimplemented via ''poll''(2) instead of ''select''(2). ''poll''(2) does not suffer the '''FD_SETSIZE''' limit on file descriptors that can be passed to ''select''(2) and is available on a sufficiently large number of platforms. Most importantly, this code would not benefit from using ''epoll''(7) or ''kqueue''(2) as this subroutine only waits on one single file descriptor at a time.
 
 ''PlatformEventsInit''() currently defaults to allocating space for 128 array members of ''struct epoll_event/kevent''. This could preferably be handled through e.g. ''fconfigure''.
 
