@@ -1,6 +1,6 @@
 TIP:            458
 Title:          Add Support for epoll() and kqueue() in the Notifier
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Lucio Andrés Illanes Albornoz <l.illanes@gmx.de>
 Author:         Lucio Andrés Illanes Albornoz <lucio@lucioillanes.de>
 State:          Draft
@@ -13,7 +13,7 @@ Tcl-Version:    8.7
 
 ~ Abstract
 
-This TIP proposes to replace select(2) in the notifier implementation with ''epoll''(7) and ''kqueue''(2) on Linux and DragonFly-, Free-, Net-, and OpenBSD respectively. This is to remove a major bottleneck in the ability of Tcl to scale up to thousands and tens of thousands of sockets (aka '''C10K''').
+This TIP proposes to replace ''select''(2) in the notifier implementation with ''epoll''(7) and ''kqueue''(2) on Linux and DragonFly-, Free-, Net-, and OpenBSD respectively. This is to remove a major bottleneck in the ability of Tcl to scale up to thousands and tens of thousands of sockets (aka '''C10K''').
 Furthermore, this should also provide sufficient infrastructure in order to permit adding support for other platform-specific event mechanisms in the future, such as IOCPs on Solaris and Windows.
 
 ~ Rationale
@@ -38,7 +38,7 @@ The majority of Tcl code should be unable to observe any difference at the scrip
 
 ~ Specification
 
-At present, code changes are almost entirely constrained to either ''unix/tclEpollNotfy.c'' wherever ''epoll''(7) is supported or ''unix/tclKqueueNotfy.c'' wherever ''kqueue'' is supported. The original ''select''(2)-based notifier implementation now lives in ''unix/tclSelectNotfy.c''.
+At present, code changes are almost entirely constrained to either ''unix/tclEpollNotfy.c'' wherever ''epoll''(7) is supported or ''unix/tclKqueueNotfy.c'' wherever ''kqueue''(2) is supported. The original ''select''(2)-based notifier implementation now lives in ''unix/tclSelectNotfy.c''.
 
 Subroutines shared between ''unix/tcl{Epoll,Kqueue}Notfy.c'' have been moved to ''unix/tclUnixNotfy.c'', which is '''#include'''d by the former. As explained in the last section of this document, the previously static mutex in ''generic/tclNotify.c'' has become a per-thread mutex.
 
@@ -66,7 +66,7 @@ Two additional subroutine are used in all three code paths (''epoll'', ''kqueue'
 
  1. ''AlertSingleThread''() - notify a single thread that is waiting on I/O. Called by ''NotifierThreadProc''().
 
- 2. ''TclUnixWaitForFile() - reimplemented via ''poll''(2) instead of ''select''(2). ''poll''(2) does not suffer the '''FD_SETSIZE''' limit on file descriptors that can be passed to ''select''(2) and is available on a sufficiently large number of platforms. Most importantly, this code would not benefit from using ''epoll''(7) or ''kqueue''(2) as this subroutine only waits on one single file descriptor at a time.
+ 2. ''TclUnixWaitForFile() - reimplemented via ''poll''(2) instead of ''select''(2), as ''poll''(2) does not suffer the '''FD_SETSIZE''' limit on file descriptors that can be passed to ''select''(2) and is available on a sufficiently large number of platforms. Most importantly, this code would not benefit from using ''epoll''(7) or ''kqueue''(2) as this subroutine only waits on one single file descriptor at a time.
 
 ''PlatformEventsInit''() currently defaults to allocating space for 128 array members of ''struct epoll_event/kevent''. This could preferably be handled through e.g. ''fconfigure''.
 
