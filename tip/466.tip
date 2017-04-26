@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.6 $
+Version:        $Revision: 1.7 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -236,7 +236,7 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Bug fixed in TkTextGetIndexFromObj
 
- * Bug fixed in DeleteIndexRange
+ * Bug fixed in DeleteIndexRange (note that this bugfix implies that deletion at the end of the text handles the last newline now differently - slight incompatibility with the legacy text widget)
 
  * Bug fixed in TkTextDeleteTag/TagBindEvent
 
