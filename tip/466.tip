@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -137,6 +137,8 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * ''pathName'' '''tag getrange'''
 
+ > * ''pathName'' '''tag priority'''
+
  > * ''pathName'' '''watch'''
 
  * Additional tag attributes:
@@ -159,6 +161,10 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  > * '''-eolcolor'''
 
+ > * '''-eotchar'''
+
+ > * '''-eotcolor'''
+
  > * '''-hyphencolor'''
 
  > * '''-hyphenrules'''
@@ -176,6 +182,8 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  > * '''-responsiveness'''
 
  > * '''-showendofline'''
+
+ > * '''-showendoftext'''
 
  > * '''-showinsertforeground'''
 
@@ -369,7 +377,7 @@ Based on the author's website, currently only these issues are known:
  * The '''search -regexp''' sub-command is still not yet fully implemented,
    see Tk documentation.
 
- * The revised widget still ignores modifying commands silently if state is
+ * The revised widget still ignores modifying commands if state is
    not normal; this behavior is unreasonable, but conforms to the original
    version.
 
