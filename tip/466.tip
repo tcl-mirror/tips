@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.8 $
+Version:        $Revision: 1.9 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -52,6 +52,10 @@ It was not deemed feasible nor necessary to copy/paste/reformat all the
 information of the above website into the present TIP. Only the new features
 and incompatibilities are highlighted here, as opposed to detailed rationales
 about each change.
+
+A version of the '''text''' man page, consistent with the changes and improvements proposed by the present TIP, can be seen at 
+http://scidb.sourceforge.net/tk/text.html
+This version of the man page is colorized, with blue meaning "changed", and green meaning "new", so that it is easier to spot what's different from the legacy text widget.
 
 ~~ Performance Improvements
 
