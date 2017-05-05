@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.19 $
+Version:        $Revision: 1.20 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -118,30 +118,17 @@ The following argument specifiers are defined in this TIP:
 |% p
 |v is unset
 
- * '''-upvar BOOLEAN''' defines, when set to true, that the local
-   argument will become an alias to the variable in caller's scope
-   corresponding to the parameter value. This is similar to what is
-   achieved when using the ''upvar'' command. This  specifier is
-   incompatible with the ''-switch'' specifier.
+ * '''-upvar LEVEL''' defines, that the local argument will become an
+   alias to the variable in the frame at level LEVEL corresponding to
+   the parameter value. This is similar to what is achieved when using
+   the ''upvar'' command.
+   This  specifier is incompatible with the ''-switch'' specifier.
 
 |% proc p { { v -upvar 1 } } { incr v }
 |% set a 2
 |2
 |% p a
 |3
-
- * '''-varname VARNAME''' defines the name of a variable which will be
-   created with the original value of the parameter. When used with
-   ''-upvar true'', the variable's value will be the name of the
-   linked variable in the caller's scope.
-
-|% proc p { { v -upvar 1 -varname nm } } { incr v; list $nm "incremented" }
-|% set a 4
-|4
-|% p a
-|a incremented
-|% set a
-|5
 
 Further argument specifiers may be added in future TIP. Examples of
 new argument specifiers which may be added in the future:
@@ -212,7 +199,7 @@ on the call-site:
 The error message, automatically generated when the input arguments are
 invalid, is updated regarding new options:
 
- * Pass-by-name arguments (specified using ''-upvar true'' option) are
+ * Pass-by-name arguments (specified using ''-upvar level'' option) are
    surrounded by the '&' character.
 
 |% proc p { { v -upvar 1 } } { }
@@ -251,7 +238,7 @@ The ''info argspec specifiers'' command is added to get the specifiers
 supported by the current interpreter.
 
 |% info argspec specifiers
-|-default -name -required -switch -upvar -varname
+|-default -name -required -switch -upvar
 
 ~~ Performance
 
