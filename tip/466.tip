@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.9 $
+Version:        $Revision: 1.10 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -227,6 +227,10 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
 
  * Additional option '''-extents''' for ''pathName'' '''bbox'''
      and ''pathName'' '''dlineinfo'''
+
+ * Additional option '''-discardspecial''' for ''pathName'' '''mark names''', ''pathName'' '''mark next''', and ''pathName'' '''mark previous'''.
+
+ * Additional optional parameter ''pattern'' for ''pathName'' '''mark names''', ''pathName'' '''mark next''', and ''pathName'' '''mark previous'''.
 
  * New helper commands:
 
