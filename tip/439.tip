@@ -1,6 +1,6 @@
 TIP:            439
 Title:          Semantic Versioning
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Jan Nijtmans <jan.nijtmans@gmail.com>
 State:          Draft
 Type:           Project
@@ -133,11 +133,9 @@ release or not.
 The following API's are declared deprecated in Tcl 8.7 and will be
 removed in Tcl 9.0. They are already removed in the "novem" branch:
 
+ * Tcl_Backslash
+
  * Tcl_EvalFile
-
- * Tcl_SeekOld
-
- * Tcl_TellOld
 
  * Tcl_GetDefaultEncodingDir
 
@@ -150,41 +148,6 @@ removed in Tcl 9.0. They are already removed in the "novem" branch:
  * Tcl_GetMathFuncInfo
 
  * Tcl_ListMathFuncs
-
-The following API's will be removed from the stub table in Tcl 9.0, but
-in stead they will be available as macro.
-
- * Tcl_Eval
-
- * Tcl_EvalObj
-
- * Tcl_GetVar
-
- * Tcl_GlobalEval
-
- * Tcl_GlobalEvalObj
-
- * Tcl_SetVar
-
- * Tcl_TraceVar
-
- * Tcl_UnsetVar
-
- * Tcl_UntraceVar
-
- * Tcl_UpVar
-
- * Tcl_VarEval
-
- * Tcl_VarTraceInfo
-
- * Tcl_VarEvalVA
-
- * Tcl_DiscardResult
-
- * Tcl_RestoreResult
-
- * Tcl_SaveResult
 
 An implementation of this TIP can be found at [http://core.tcl.tk/tcl]; branch
 "semver".
