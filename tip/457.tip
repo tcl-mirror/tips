@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.20 $
+Version:        $Revision: 1.21 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -129,6 +129,8 @@ The following argument specifiers are defined in this TIP:
 |2
 |% p a
 |3
+|% set a
+|3
 
 Further argument specifiers may be added in future TIP. Examples of
 new argument specifiers which may be added in the future:
@@ -240,22 +242,33 @@ supported by the current interpreter.
 |% info argspec specifiers
 |-default -name -required -switch -upvar
 
+~~ Other use cases
+
+Extended argument specifiers can also be used with other ''proc''-like
+functions. The following functions are supported and can use extended
+argument specifiers:
+
+ * anonymous functions (lambda), used with ''apply'' command ;
+
+ * TclOO constructor or methods.
+
 ~~ Performance
 
-The performance of the call of a Tcl-pure procedure defined without
-any extended argument specifiers is not affected by the proposed
-modification because the original initialization code is still used
-in that case.
+The proposed modification has no significant performance issue:
 
-The call of a Tcl-pure procedure defined with extended argument specifiers 
-uses a different initialization code which may slightly affect performance.
-Initial testing only show a slowdown between 0% and 4%.
+ * existing code (and code not using extended argspec) is not impacted
+   by the change as the current initialisation code is still available
+   and used ;
+
+ * code using extended argspec ''may'' be impacted because the
+   initialisation code is different and is required to loop on each
+   argument, but initial testing does not show a significant slowdown.
+
+When using named arguments specifiers to replace a similar handling done
+in Tcl-pure code, there is however a significant increase in performance.
+
 See [https://gist.github.com/mlafon/70480877a28f3571e0377eabc0cee7be]
-for details.
-
-Users with critical requirements on speed should be warned and may
-prefer not using extended argument specifiers or may want to test
-the performance on their specific usage first.
+for details on performance testing done on the proposed implementation.
 
 ~ Implementation
 
