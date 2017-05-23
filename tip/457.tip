@@ -1,6 +1,6 @@
 TIP:            457
 Title:          Add Support for Named Arguments
-Version:        $Revision: 1.21 $
+Version:        $Revision: 1.22 $
 Author:         Mathieu Lafon <mlafon@gmail.com>
 Author:         Andreas Leitgeb <avl@logic.at>
 State:          Draft
@@ -184,9 +184,9 @@ on the call-site:
 
  * The handling of a group of contiguous named arguments (which can be
    only one argument) is ended on the first argument which is either
-   a multi-elements list, a parameter not starting with a dash or the
-   special ''--'' end-of-options marker. Remaining
-   arguments will then be assigned to following positional arguments.
+   a parameter not starting with a dash or the special ''--'' end-of-options
+   marker. Remaining arguments will then be assigned to following positional
+   arguments.
 
 |% proc p { {o -name opt} args } { list o $o args $args }
 |% p -opt O 5
@@ -195,6 +195,15 @@ on the call-site:
 |wrong # args: should be "p |-opt o| ?arg ...?"
 |% p -opt O -- -1 0
 |o O args {-1 0}
+
+ * If there is a fixed number of non-optional positional arguments and no
+   special ''args'' variable after the named group, the handling of a named
+   group will also be ended when the remaining arguments to assign
+   will be equal to the number of positional arguments after the group.
+
+|% proc p { {o -name opt} posarg } { list o $o posarg $posarg }
+|% p -opt O -1
+|o O posarg -1
 
 ~~ Generated usage description
 
@@ -254,7 +263,7 @@ argument specifiers:
 
 ~~ Performance
 
-The proposed modification has no significant performance issue:
+The proposed modification has no significant performance impact:
 
  * existing code (and code not using extended argspec) is not impacted
    by the change as the current initialisation code is still available
@@ -308,7 +317,8 @@ The code is licensed under the BSD license.
 
 ~ Discussion
 
-This section details some of the envisioned solutions for this feature.
+This section details some of the alternate solutions for this feature or
+specific comments about it.
 
 Initial approaches that tried to work with unmodified procedures are
 not detailed here for clarity.
@@ -342,12 +352,44 @@ specification:
 This is the currently proposed solution in this TIP. It requires the
 procedures to be modified but allow additional features.
 
-~~ Argument Parsing extension
+Some people have expressed concern about the modification of the ''proc''
+command, which is a core command of Tcl. A particular attention has been paid
+to ensure that existing code will not be impacted and that future usage could
+be later added by adding new specifiers.
 
-Cyan Ogilvie's paper from Tcl2016 [https://www.tcl.tk/community/tcl2016/assets/talk33/parse_args-paper.pdf]
+~~ Argument Parsing command
+
+Cyan Ogilvie's paper from Tcl2016
+[https://www.tcl.tk/community/tcl2016/assets/talk33/parse_args-paper.pdf]
 describes a C extension to provide core-like argument parsing at speed
 comparable to ''proc'' argument handling, in a terse and self-documenting
 way.
+
+Alexandre Ferrieux has proposed
+[http://code.activestate.com/lists/tcl-core/18447/] to use the same
+argument specifiers than this proposal, but with a dedicated command which
+can be called from the proc body. This has the advantage to not alter the
+''proc'' command and could be located in an extension.
+
+Although the ''proc'' usage will not be modified, this new command will
+probably have to access or modify internal proc structures, for example
+to support introspection.
+
+Having to declare final local variables in the body, also seems confusing
+for users.
+
+~~ Preventing Data-dependent bugs
+
+It has been proposed by Christian Gollwitzer
+[http://code.activestate.com/lists/tcl-core/18457/] to make the special '--'
+end-of-options marker mandatory when the number of positional arguments after
+the named group is not fixed. This would suppress any potential Data-Dependent
+bugs related to the search of the initial dash and remove any unwanted object
+stringification, at the expense of forcing the user to explicitely use
+the end-of-option marker.
+
+This proposal is currently not implemented but the documentation has been
+modified to list the cases for which '--' should be use.
 
 ~ Copyright
 
