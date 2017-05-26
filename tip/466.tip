@@ -1,6 +1,6 @@
 TIP:            466
 Title:          Revised Implementation of the Text Widget
-Version:        $Revision: 1.10 $
+Version:        $Revision: 1.11 $
 Author:         François Vogel <fvogelnew1@free.fr>
 Author:         Gregor Cramer <remarcg@gmx.net>
 State:          Draft
@@ -152,6 +152,14 @@ at [http://scidb.sourceforge.net/tk/revised-text-widget.html]
  > * '''-hyphencolor'''
 
  > * '''-hyphenrules'''
+
+ > * '''-inactivebackground'''
+
+ > * '''-inactiveforeground'''
+
+ > * '''-inactiveselectbackground'''
+
+ > * '''-inactiveselectforeground'''
 
  > * '''-indentbackground'''
 
