@@ -1,0 +1,101 @@
+TIP:		472
+Title:		Add Support for 0d Radix Prefix to Integer Literals
+Version:	$Revision: 1.1 $
+Author:		Venks Izod <venksi@gmail.com>
+Author:		Brian Griffin <brian_griffin@mentor.com>
+State:		Draft
+Type:		Project
+Vote:		Pending
+Created:	25-May-2017
+Post-History:	
+Tcl-Version:	8.6.x, 8.7.x
+
+~ Abstract
+
+This TIP proposes adding support for a '''0d''' decimal radix prefix to
+complement the existing '''0x''' hexidecimal, '''0o''' octal and '''0b'''
+binary radix prefixes.
+
+~ Rationale
+
+Verilog (and other Hardware Description Languages) always (or at least since
+the 1995 LRM) had a way to specify a decimal number explicitly.  Verilog uses
+''''d343534''' to mean decimal, VHDL actually allows any radix from 2 to 16
+using syntax, so you could explicitly force a decimal interpretation using
+'''10#343534#'''.
+
+Tcl now allows '''0b''' for binary in '''expr''' and '''format''', which is
+similar to ''''b''' in Verilog.  And of course the '''0x''' prefix has always
+been around.  Another use case would be to prevent false parsing of leading
+zeroes in '''clock format'''s as octal, without having to go through a
+'''scan'''.
+
+But a more elegant reason is that it makes the radix definition consistent, so
+
+ 1. all valid input radixes have a consistent unambiguous input literal
+    format, and
+
+ 2. the '''d''' in '''format %d''' finally finds its complement in '''scan'''.
+
+~ Specification
+
+Extend the '''TclParseNumber''' function to recognize the prefixes '''0d'''
+and '''0D''' as decimal integers.  It will have the same semantics as
+'''0x''', but base 10 instead of base 16.
+
+~ Examples
+
+It's an integer:
+
+|   % expr {0d12 + 0d15}
+|   27
+|   % format "%x" 0d1024
+|   400
+
+Errors same as other radix prefixes:
+
+|   % expr { 0d317g }
+|   invalid bareword "0d317g"
+|   in expression " 0d317g ";
+|   should be "$0d317g" or "{0d317g}" or "0d317g(...)" or ...
+|   % expr { 0x1.53 }
+|   missing operator at _@_
+|   in expression " 0x1_@_.53 "
+|   % expr {0d7.23}
+|   missing operator at _@_
+|   in expression "0d7_@_.23"
+
+~ Compatibility
+
+Currently, literals beginning with '''0d''' and parsed as a number will
+produce an error.  Any code expecting such an error would fail to produce an
+error an thus have a change in behavior.  I would expect this situation to be
+uncommon.
+
+~ Prototype
+
+|$ fossil diff generic/tclStrToD.c
+|Index: generic/tclStrToD.c
+|==================================================================
+|--- generic/tclStrToD.c
+|+++ generic/tclStrToD.c
+|@@ -661,10 +661,15 @@
+|           }
+|           if (c == 'o' || c == 'O') {
+|               explicitOctal = 1;
+|               state = ZERO_O;
+|               break;
+|+           }
+|+           if (c == 'd' || c == 'D') {
+|+               flags |= TCL_PARSE_INTEGER_ONLY;
+|+               state = DECIMAL;
+|+               break;
+|           }
+|#ifdef TCL_NO_DEPRECATED
+|           goto decimal;
+|#endif
+|           /* FALLTHROUGH */
+
+~ Copyright
+
+This document has been placed in the public domain.
