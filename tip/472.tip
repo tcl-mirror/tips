@@ -1,7 +1,7 @@
 TIP:            472
 Title:          Add Support for 0d Radix Prefix to Integer Literals
-Version:        $Revision: 1.3 $
-Author:         Venks Izod <venksi@gmail.com>
+Version:        $Revision: 1.4 $
+Author:         Venkat Iyer <venksi@gmail.com>
 Author:         Brian Griffin <brian_griffin@mentor.com>
 State:          Draft
 Type:           Project
