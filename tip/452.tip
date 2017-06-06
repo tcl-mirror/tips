@@ -1,6 +1,6 @@
 TIP:            452
 Title:          Add "stubs" Package to or Along Side of TclTest
-Version:        $Revision: 1.2 $
+Version:        $Revision: 1.3 $
 Author:         Gerald Lester <Gerald.Lester@SAP.com>
 Author:         Gerald W. Lester <gerald.lester@KnG-Consulting.net>
 State:          Draft
@@ -13,15 +13,19 @@ Tcl-Version:    8.6
 ~ Abstract
 
 This TIP proposes an enhancement to the '''tcltest''' package to add support
-for easy creation of test stubs and test seams.
+for easy creation of test stubs, mocks and seams.
 
 ~ Rationale
 
-The '''tcltest''' package allows for automated testing of Tcl code.  To do
-proper automated unit test requires that the unit under test (i.e., the method
-or procedure) not invoke the actual implmentation of other units, but rather
-should invoke stub or mock units that are under the control of the test being
-performed as to the results they return and any exceptions they raise.
+The '''tcltest''' package allows for automated testing of Tcl code. Howver,
+doing proper automated unit testing requires that the unit under test (i.e.,
+the method or procedure) not invoke the actual implmentation of other units,
+but rather should invoke stub or mock units that are under the control of the
+test being performed as to the results they return and any exceptions they
+raise.
+
+This TIP adds support for building these mechanisms, making it significantly
+easier to create isolated unit tests of Tcl code.
 
 ~ Proposal
 
@@ -30,18 +34,56 @@ Tcl commands be added to the '''tcltest'' package.  Additionaly, to facilitate
 creation of automated test for legacy Tcl code, commands supporting ''test
 seam'' creation and specification would also be included proposed package.
 
-See: http://chiselapp.com/user/gwlester/repository/TclTestUtility/index
+~~ Description
+
+To use Test Seams, the contents of the '''TestSeam.tcl''' file should be
+placed early in your initialization prior to any Test Seams being defined, or
+the '''ttu''' package loaded, or the contents of the '''TclTestUtilties.tcl''
+file being sourced in.
+
+The file '''TestSeam.tcl''' provides a "stub" implementation of the
+'''::ttu::Seam'' command.
+
+The file '''TclTestUtilties.tcl''' should only be sourced in when executing
+actual Tcl Test. It provides a fully functional implementation of the
+following commands:
+
+ * '''::ttu::TestSetup''' - Defines which procedures/commands are stubbed out
+   and how they should behave for each invocation. This should only be called
+   once per test.
+
+ * '''::ttu::AddStub''' - Adds a procedures/commands to the list that are
+   stubbed out.
+
+ * '''::ttu::SaveVars''' - Saves the values of variables to be restored later.
+   This should only be called once per test.
+
+ * '''::ttu::AddVars''' - Add a variable to the list of variables to be
+   restored later
+
+ * '''::ttu::CallCount''' - Returns a dictionary sorted list of the stubbed
+   out procedures and how many times they were called.
+
+ * '''::ttu::TestCleanup''' - Restores saved variables and stubbed out
+   procedures.
+
+ * '''::ttu::SortedArrayData''' - Return the values of an array as a list of
+   key-value pairs sorted by the keys.
+
+ * '''::ttu::CallProc''' - Call the real implementation of a stubbed out
+   procedure.
+
+ * '''::ttu::Seam''' - Test seam definition and injection (aka enabling)
 
 ~ Reference Implementation
 
 See: http://chiselapp.com/user/gwlester/repository/TclTestUtility/index
 
-~ Discussion
+~~ Origins of Reference Implementation
+
+The reference implementation was done at SAP Labs, LLC (a subsidiary of SAP
+Americal, Inc.) and approved for release as Open Source under a BSD licence.
 
 ~ Copyright
 
 This document has been placed in the public domain.
-
-The code has been approved to be placed in the public domain under a BSD
-license, in particular as part of the '''tcltest''', '''TclLib''' or (if need
-be) a separate standalone package.
