@@ -1,7 +1,8 @@
 TIP:            452
 Title:          Add "stubs" Package to or Along Side of TclTest
-Version:        $Revision: 1.1 $
+Version:        $Revision: 1.2 $
 Author:         Gerald Lester <Gerald.Lester@SAP.com>
+Author:         Gerald W. Lester <gerald.lester@KnG-Consulting.net>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -29,11 +30,11 @@ Tcl commands be added to the '''tcltest'' package.  Additionaly, to facilitate
 creation of automated test for legacy Tcl code, commands supporting ''test
 seam'' creation and specification would also be included proposed package.
 
-''Detailed description to follow.''
+See: http://chiselapp.com/user/gwlester/repository/TclTestUtility/index
 
 ~ Reference Implementation
 
-''In process of acceptance into Tcl source tree.''
+See: http://chiselapp.com/user/gwlester/repository/TclTestUtility/index
 
 ~ Discussion
 
