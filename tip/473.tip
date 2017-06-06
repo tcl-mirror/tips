@@ -1,0 +1,53 @@
+TIP:		473
+Title:		Allow a Defined Target Namespace in oo::copy
+State:		Draft
+Type:		Project
+Tcl-Version:	8.6.7
+Vote:		Pending
+Post-History:	
+Version:	$Revision: 1.1 $
+Author:		Donal Fellows <dkf@users.sf.net>
+Created:	06-Jun-2017
+Keywords:	Tcl, missing functionality, bugfix
+
+~ Abstract
+
+This TIP adds functionality to '''oo::copy''' to allow the created copy to
+have a defined namespace, much as '''oo::class''''s '''createWithNamespace'''
+method allows such a namespace to be given on normal object creation.
+
+~ Rationale
+
+Due to an oversight, the '''oo::copy''' command is missing the ability to have
+an explicit namespace name specified to use as the instance namespace of the
+target object. It was always intended to have this (and the functionality is
+there in the C API), but it was omitted from the Tcl-level interface.
+
+Having this capability allows objects to be used as factories for namespaces,
+which is in many ways an inversion of the way that TclOO was designed (with
+namespaces as the basis for objects). It was requested by Nathan Coulter as a
+way to enable more complex behaviour in Rivet and NaviServer. See Tcl Issue
+dd3b844fda [http://core.tcl.tk/tcl/tktview/dd3b844fdabdeae5fcb0] for more
+information.
+
+~ Proposed Change
+
+I propose to add one more optional argument to '''oo::copy''',
+''targetNamespace'', that if provided and non-empty will be the name of a
+namespace (resolved relative to the current namespace if not an absolute name)
+that will be the name of the newly created target object's instance namespace.
+The named namespace must not already exist. Note that specifying the
+''targetObject'' as the empty string will cause the object's command to be
+automatically chosen.
+
+ > '''oo::copy''' ''sourceObject'' ?''targetObject''? ?''targetNamespace''?
+
+The meaning of the result of the command is unchanged.
+
+~ Implementation
+
+See the oo-copy-ns branch. [http://core.tcl.tk/tcl/timeline?r=oo-copy-ns]
+
+~ Copyright
+
+This document has been placed in the public domain.
