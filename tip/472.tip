@@ -1,6 +1,6 @@
 TIP:            472
 Title:          Add Support for 0d Radix Prefix to Integer Literals
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Venkat Iyer <venksi@gmail.com>
 Author:         Brian Griffin <brian_griffin@mentor.com>
 State:          Draft
@@ -41,7 +41,10 @@ But a more elegant reason is that it makes the radix definition consistent, so
 
 Extend the '''TclParseNumber''' function to recognize the prefixes '''0d'''
 and '''0D''' as decimal integers.  It will have the same semantics as
-'''0x''', but base 10 instead of base 16.
+'''0x''', but base 10 instead of base 16.  
+
+Also extend format command '#' flag to produce the appropriate "0d" for 
+the "%#d" conversion.  
 
 ~ Examples
 
@@ -49,8 +52,10 @@ It's an integer:
 
 |   % expr {0d12 + 0d15}
 |   27
-|   % format "%x" 0d1024
-|   400
+|   % format "%#x" 0d1024
+|   0x400
+|  % format "%#d" 128
+|  0d128
 
 Errors same as other radix prefixes:
 
@@ -72,29 +77,10 @@ produce an error.  Any code expecting such an error would fail to produce an
 error an thus have a change in behavior.  I would expect this situation to be
 uncommon.
 
-~ Prototype
+~ Implementation
 
-|$ fossil diff generic/tclStrToD.c
-|Index: generic/tclStrToD.c
-|==================================================================
-|--- generic/tclStrToD.c
-|+++ generic/tclStrToD.c
-|@@ -661,10 +661,15 @@
-|           }
-|           if (c == 'o' || c == 'O') {
-|               explicitOctal = 1;
-|               state = ZERO_O;
-|               break;
-|+           }
-|+           if (c == 'd' || c == 'D') {
-|+               flags |= TCL_PARSE_INTEGER_ONLY;
-|+               state = DECIMAL;
-|+               break;
-|           }
-|#ifdef TCL_NO_DEPRECATED
-|           goto decimal;
-|#endif
-|           /* FALLTHROUGH */
+An implementation can be found the fossil on the "bsg-0d-radix-prefix" branch.
+As of this writing the format "#" conversion has not been implemented.
 
 ~ Copyright
 
