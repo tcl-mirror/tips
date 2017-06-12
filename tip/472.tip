@@ -1,6 +1,6 @@
 TIP:            472
 Title:          Add Support for 0d Radix Prefix to Integer Literals
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Venkat Iyer <venksi@gmail.com>
 Author:         Brian Griffin <brian_griffin@mentor.com>
 State:          Draft
@@ -54,8 +54,8 @@ It's an integer:
 |   27
 |   % format "%#x" 0d1024
 |   0x400
-|  % format "%#d" 128
-|  0d128
+|   % format "%#d" 128
+|   0d128
 
 Errors same as other radix prefixes:
 
@@ -79,8 +79,7 @@ uncommon.
 
 ~ Implementation
 
-An implementation can be found the fossil on the "bsg-0d-radix-prefix" branch.
-As of this writing the format "#" conversion has not been implemented.
+An implementation can be found the fossil on the "bsg-0d-radix-prefix" branch, including %#d conversion support.
 
 ~ Copyright
 
