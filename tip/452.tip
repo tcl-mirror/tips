@@ -1,6 +1,6 @@
 TIP:            452
 Title:          Add "stubs" Package to or Along Side of TclTest
-Version:        $Revision: 1.4 $
+Version:        $Revision: 1.5 $
 Author:         Gerald Lester <Gerald.Lester@SAP.com>
 Author:         Gerald W. Lester <gerald.lester@KnG-Consulting.net>
 State:          Draft
@@ -43,28 +43,28 @@ following commands:
    and how they should behave for each invocation. This should only be called
    once per test.
 
- * ''':: tcltest::AddStub''' - Adds a procedures/commands to the list that are
+ * '''::tcltest::AddStub''' - Adds a procedures/commands to the list that are
    stubbed out.
 
- * ''':: tcltest::SaveVars''' - Saves the values of variables to be restored later.
+ * '''::tcltest::SaveVars''' - Saves the values of variables to be restored later.
    This should only be called once per test.
 
- * ''':: tcltest::AddVars''' - Add a variable to the list of variables to be
+ * '''::tcltest::AddVars''' - Add a variable to the list of variables to be
    restored later
 
- * ''':: tcltest::CallCount''' - Returns a dictionary sorted list of the stubbed
+ * '''::tcltest::CallCount''' - Returns a dictionary sorted list of the stubbed
    out procedures and how many times they were called.
 
- * ''':: tcltest::TestCleanup''' - Restores saved variables and stubbed out
+ * '''::tcltest::TestCleanup''' - Restores saved variables and stubbed out
    procedures.
 
- * '''::ttu::SortedArrayData''' - Return the values of an array as a list of
+ * '''::tcltest::SortedArrayData''' - Return the values of an array as a list of
    key-value pairs sorted by the keys.
 
- * '''::ttu::CallProc''' - Call the real implementation of a stubbed out
+ * '''::tcltest::CallProc''' - Call the real implementation of a stubbed out
    procedure.
 
- * ''':: tcltest::Seam''' - Test seam definition and injection (aka enabling).  This command is available without requiring the tcltest package. 
+ * '''::tcltest::Seam''' - Test seam definition and injection (aka enabling).  This command is available without requiring the tcltest package. 
 
 ~ Reference Implementation
 
