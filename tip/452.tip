@@ -1,6 +1,6 @@
 TIP:            452
 Title:          Add "stubs" Package to or Along Side of TclTest
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Gerald Lester <Gerald.Lester@SAP.com>
 Author:         Gerald W. Lester <gerald.lester@KnG-Consulting.net>
 State:          Draft
@@ -68,7 +68,7 @@ following commands:
 
 ~ Reference Implementation
 
-See the tip-452 branch.
+See the [http://core.tcl.tk/tcl/timeline?n=100&r=tip-452|tip-452] branch.
 
 ~~ Origins of Reference Implementation
 
