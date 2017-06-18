@@ -3,9 +3,9 @@ Title:		Reliable Access to OO Definition Context Object
 State:		Draft
 Type:		Project
 Tcl-Version:	8.7
-Vote:		Pending
+Vote:		In progress
 Post-History:	
-Version:	$Revision: 1.1 $
+Version:	$Revision: 1.2 $
 Author:		Donal Fellows <dkf@users.sf.net>
 Created:	23-Apr-2017
 Keywords:	TclOO, metaprogramming
