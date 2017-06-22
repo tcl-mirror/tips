@@ -1,14 +1,14 @@
 TIP:            472
 Title:          Add Support for 0d Radix Prefix to Integer Literals
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Venkat Iyer <venksi@gmail.com>
 Author:         Brian Griffin <brian_griffin@mentor.com>
-State:          Draft
+State:          Accepted
 Type:           Project
-Vote:           In progress
+Vote:           Done
 Created:        25-May-2017
 Post-History:   
-Tcl-Version:    8.6.7
+Tcl-Version:    8.7
 
 ~ Abstract
 
