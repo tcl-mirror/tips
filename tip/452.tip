@@ -1,8 +1,9 @@
 TIP:            452
 Title:          Add "stubs" Package to or Along Side of TclTest
-Version:        $Revision: 1.7 $
+Version:        $Revision: 1.8 $
 Author:         Gerald Lester <Gerald.Lester@SAP.com>
 Author:         Gerald W. Lester <gerald.lester@KnG-Consulting.net>
+Author:         Gerald W. Lester <Gerald.Lester@gmail.com>
 State:          Draft
 Type:           Project
 Vote:           Pending
@@ -17,9 +18,9 @@ for easy creation of test stubs, mocks and seams.
 
 ~ Rationale
 
-The '''tcltest''' package allows for automated testing of Tcl code. Howver,
+The '''tcltest''' package allows for automated testing of Tcl code. However,
 doing proper automated unit testing requires that the unit under test (i.e.,
-the method or procedure) not invoke the actual implmentation of other units,
+the method or procedure) not invoke the actual implementation of other units,
 but rather should invoke stub or mock units that are under the control of the
 test being performed as to the results they return and any exceptions they
 raise.
@@ -29,9 +30,8 @@ easier to create isolated unit tests of Tcl code.
 
 ~ Proposal
 
-That a package implementing the framework to easily create test stubs/mocks of
-Tcl commands be added to the '''tcltest'' package.  Additionaly, to facilitate
-creation of automated test for legacy Tcl code, commands supporting ''test
+That a framework to easily create test stubs/mocks of
+Tcl commands be added to the '''tcltest'' package.  Additionally, to facilitate the creation of automated test for legacy Tcl code.  Commands supporting ''test
 seam'' creation and specification would also be included proposed package.
 
 ~~ Description
@@ -68,12 +68,12 @@ following commands:
 
 ~ Reference Implementation
 
-See the tip-452 branch (http://core.tcl.tk/tcl/timeline?n=100&r=tip-452).
+See the tip-452 branch (http://core.tcl.tk/tcl/timeline?n=100&r=tip-452), in particular, see http-tip-452.test for an example of using the procedures added by this package.
 
 ~~ Origins of Reference Implementation
 
 The reference implementation was done at SAP Labs, LLC (a subsidiary of SAP
-Americal, Inc.) and approved for release as Open Source under a BSD licence.
+Americal, Inc.) and approved for release as Open Source under a BSD license.
 
 ~ Copyright
 
