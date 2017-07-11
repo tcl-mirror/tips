@@ -1,11 +1,11 @@
 TIP:            458
 Title:          Add Support for epoll() and kqueue() in the Notifier
-Version:        $Revision: 1.5 $
+Version:        $Revision: 1.6 $
 Author:         Lucio Andrés Illanes Albornoz <l.illanes@gmx.de>
 Author:         Lucio Andrés Illanes Albornoz <lucio@lucioillanes.de>
-State:          Draft
+State:          Final
 Type:           Project
-Vote:           Pending
+Vote:           Done
 Created:        24-Nov-2016
 Post-History:   
 Keywords:       event loop,scalability
