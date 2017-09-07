@@ -71,7 +71,7 @@
 <td valign='top'><a href='./tip/467.md'>467</a></td>
 <td valign='top'>Process</td>
 <td valign='top'>-</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Final</td>
 <td valign='top'> Move TIP Collection to Fossil</td>
 </tr>
 <tr>
