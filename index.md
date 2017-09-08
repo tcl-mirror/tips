@@ -1,5 +1,10 @@
 # TIP Index
 
+
+<div>
+Welcome to the Tcl Improvement Proposals repository. For information on how to raise a new TIP see <a href="./doc/help.md">Help</a>
+<p>
+</div>
 <form method='GET' action='../../search'>
 <div class='searchForm'>
 <input type="text" name="s" size="40" value="" autofocus>
@@ -11,7 +16,8 @@
 </select>
 <input type="submit" value="Search">
 </div></form>
-</div>
+<p>
+
 
 
 <div class="index">

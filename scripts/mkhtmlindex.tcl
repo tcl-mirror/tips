@@ -3,7 +3,13 @@ set index [open ../index.md w+]
 fconfigure $index -translation lf -encoding utf-8
 puts $index "# TIP Index"
 
+puts $index ""
+
 puts $index {
+<div>
+Welcome to the Tcl Improvement Proposals repository. For information on how to raise a new TIP see <a href="./doc/help.md">Help</a>
+<p>
+</div>
 <form method='GET' action='../../search'>
 <div class='searchForm'>
 <input type="text" name="s" size="40" value="" autofocus>
@@ -15,10 +21,11 @@ puts $index {
 </select>
 <input type="submit" value="Search">
 </div></form>
-</div>
+<p>
 }
 
 puts $index {
+
 <div class="index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable"
  id="tipTable">
