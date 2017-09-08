@@ -26,13 +26,6 @@
 </tr></thead><tbody>
 
 <tr>
-<td valign='top'><a href='./tip/tip_mousewheel.md'>tip_mousewheel</a></td>
-<td valign='top'>Project</td>
-<td valign='top'>8.6/8.7</td>
-<td valign='top'>Draft</td>
-<td valign='top'> Treat the mouse wheel events in a uniform way</td>
-</tr>
-<tr>
 <td valign='top'><a href='./tip/474.md'>474</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6/8.7</td>
@@ -3357,4 +3350,4 @@
 <td valign='top'>Final</td>
 <td valign='top'> Tcl Core Team Basic Rules</td>
 </tr>
-</tbody></table> </div> 
+</tbody></table> </div>
