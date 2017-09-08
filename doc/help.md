@@ -24,7 +24,7 @@ For adding a new TIP the following steps are currently needed:
    enforced by the system, so pick it via the table at the Home page.
 
  * Write up the text, using Markdown mark-up (plenty of examples are
-   available - pay attention to the header!
+   available - pay attention to the header as described below)
 
  * Add it to the fossil repository
 
@@ -33,6 +33,19 @@ For adding a new TIP the following steps are currently needed:
 
  * Submit the changes via fossil.
 
+
+# TIP Header
+
+The index script requires a special format for meta-data in the TIP header. For example:
+
+	# TIP 0: Tcl Core Team Basic Rules
+	    State:          Final
+	    Type:           Process
+	    Vote:           Done
+	    Post-History:
+	------
+
+The meta-data is terminated by `------` and indented with tabs (for nicer display in fossil)
 
 
 Optional:
