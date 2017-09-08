@@ -39,4 +39,4 @@ Optional:
 Addtion to step 2:
 (Should you have a TIP in the old format, you can use Mark's
 tip2md.tcl script in the subdirectory
-"scripts" (? not there yet) to convert it.)
+"scripts" to convert it.)
