@@ -1,5 +1,6 @@
 package require http
 set index [open ../index.md w+]
+fconfigure $index -translation lf -encoding utf-8
 puts $index "# TIP Index"
 
 puts $index {
@@ -33,6 +34,7 @@ puts $index {
 foreach tip [lsort -decreasing -dictionary [glob ../tip/*.md]] {
   set number [file tail [file rootname $tip]]
   set source [open ../tip/$number.md]
+  fconfigure $source -encoding utf-8
   set data [read $source]
   close $source
   unset -nocomplain fields
@@ -40,7 +42,7 @@ foreach tip [lsort -decreasing -dictionary [glob ../tip/*.md]] {
   puts "Adding TIP $number to index"
   set lines [split $preamble "\n"]
   set lines [lmap line $lines {string trim $line}]
-  set fields(title) [join [lrange [split [lindex $lines 0] :] 1 end] :]
+  set fields(title) [string trim [join [lrange [split [lindex $lines 0] :] 1 end] :]]
   foreach line $lines {
     set valueList [lassign [split $line :] key]
     set fields([string tolower $key]) [string trim [join $valueList]]
@@ -58,5 +60,6 @@ foreach tip [lsort -decreasing -dictionary [glob ../tip/*.md]] {
   puts $index </tr>
 }
 
-puts $index {</tbody></table> </div> }
+puts $index {</tbody></table>}
+puts $index {</div>}
 close $index
