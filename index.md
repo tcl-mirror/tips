@@ -2191,7 +2191,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/166.md'>166</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Final</td>
 <td valign='top'>Reading and Writing the Photo Image Alpha Channel</td>
 </tr>
 <tr>
