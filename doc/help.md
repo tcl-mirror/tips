@@ -26,7 +26,7 @@ For adding a new TIP the following steps are currently needed:
  * Write up the text, using Markdown mark-up (plenty of examples are
    available - pay attention to the header as described below)
 
- * To check the tip .md file before checking in you can use `fossil ui` and then go to <http://localhost:8080/doc/ckout/tip/###.md>.
+ * To preview the tip .md file before checking in, you can use `fossil ui` and then go to <http://localhost:8080/doc/ckout/tip/###.md>.
 
  * Add it to the fossil repository
 
