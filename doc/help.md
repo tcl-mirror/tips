@@ -23,8 +23,8 @@ For adding a new TIP the following steps are currently needed:
  * Choose a name like 467.md - the TIP numbering is currently not
    enforced by the system, so pick it via the table at the Home page.
 
- * Write up the text, using Markdown mark-up (plenty of examples are
-   available - pay attention to the header as described below)
+ * Write up the text, using [Markdown mark-up](/md_rules) (plenty of examples
+   are available - pay attention to the header as described below)
 
  * To preview the tip .md file before checking in, you can use `fossil ui` and then go to <http://localhost:8080/doc/ckout/tip/###.md>.
 
