@@ -32,6 +32,13 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr></thead><tbody>
 
 <tr>
+<td valign='top'><a href='./tip/475.md'>475</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'>Add [string insert] Command and C API</td>
+</tr>
+<tr>
 <td valign='top'><a href='./tip/474.md'>474</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6/8.7</td>
