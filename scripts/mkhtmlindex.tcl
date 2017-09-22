@@ -1,5 +1,8 @@
+#!/usr/bin/env tclsh
+
 package require http
-set index [open ../index.md w+]
+set dir [file join [file dirname [info script]] ..]
+set index [open [file join $dir index.md] w+]
 fconfigure $index -translation lf -encoding utf-8
 puts $index "# TIP Index"
 
@@ -38,7 +41,7 @@ puts $index {
 </tr></thead><tbody>
 }
 
-foreach tip [lsort -decreasing -dictionary [glob ../tip/*.md]] {
+foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
   set number [file tail [file rootname $tip]]
   set source [open ../tip/$number.md]
   fconfigure $source -encoding utf-8
@@ -59,7 +62,7 @@ foreach tip [lsort -decreasing -dictionary [glob ../tip/*.md]] {
   if {![info exists fields(tcl-version)]} {
     set fields(tcl-version) -
   }
-  puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>" 
+  puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
   puts $index "<td valign='top'>$fields(type)</td>"
   puts $index "<td valign='top'>$fields(tcl-version)</td>"
   puts $index "<td valign='top'>$fields(state)</td>"

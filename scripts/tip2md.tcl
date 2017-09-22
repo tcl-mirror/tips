@@ -1,3 +1,5 @@
+#!/usr/bin/env tclsh
+
 if {$argc != 2} {
   puts "Usage: tip2md tip-file md-file"
   exit 1
@@ -14,7 +16,7 @@ proc rewrite_line {line} {
     if {$fname eq {}} {
       puts stderr "Couldn't find asset $name"
     }
-    set line "!\[$caption\](../$fname)" 
+    set line "!\[$caption\](../$fname)"
   } else {
     set line [escape_chars $line]
   }
@@ -22,14 +24,14 @@ proc rewrite_line {line} {
   return $line
 }
 
-set markdown_escape_map [list _ \\_ * \\* ` \\` \\ \\\\ \{ \\\{ \} \\\} ( \\( ) \\) + \\+ \# \\\# ] 
+set markdown_escape_map [list _ \\_ * \\* ` \\` \\ \\\\ \{ \\\{ \} \\\} ( \\( ) \\) + \\+ \# \\\# ]
 
 proc escape_chars {line} {
   set line [string map $::markdown_escape_map $line]
   # undo escaping in URLs
   foreach url [regexp -inline -all {\[.+?\]} $line] {
     set good_url [string map [lreverse $::markdown_escape_map] $url]
-    set line [string map [list $url $good_url] $line] 
+    set line [string map [list $url $good_url] $line]
   }
   return $line
 }
@@ -117,10 +119,10 @@ proc tip2md {file number tip_text} {
         continue
       }
       if {[string first "TIP:" $line] == 0} {
-        continue 
+        continue
       }
       if {[string first "Version:" $line] == 0} {
-        continue 
+        continue
       }
       set line "\t$line"
       lappend header $line
