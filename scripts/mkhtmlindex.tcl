@@ -43,7 +43,7 @@ puts $index {
 
 foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
   set number [file tail [file rootname $tip]]
-  set source [open ../tip/$number.md]
+  set source [open [file join $dir tip/$number.md]]
   fconfigure $source -encoding utf-8
   set data [read $source]
   close $source
