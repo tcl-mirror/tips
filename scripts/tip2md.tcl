@@ -24,7 +24,7 @@ proc rewrite_line {line} {
   return $line
 }
 
-set markdown_escape_map [list _ \\_ * \\* ` \\` \\ \\\\ \{ \\\{ \} \\\} ( \\( ) \\) + \\+ \# \\\# ]
+set markdown_escape_map [list _ \\_ * \\* ` \\` \\ \\\\ \{ \\\{ \} \\\} ( \\( ) \\) + \\+ \# \\\# < \\< > \\>]
 
 proc escape_chars {line} {
   set line [string map $::markdown_escape_map $line]
