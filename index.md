@@ -182,7 +182,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/454.md'>454</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.6</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Accepted</td>
 <td valign='top'>Automatically Resize Frames After Last Child Removed</td>
 </tr>
 <tr>
@@ -349,7 +349,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <tr>
 <td valign='top'><a href='./tip/430.md'>430</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6.3</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Add basic ZIP archive support to Tcl</td>
 </tr>
