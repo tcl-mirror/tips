@@ -1,12 +1,21 @@
 proc usage {} {
-    puts stderr "\nUsage: [file tail [info nameofexecutable]] $::argv0 TIPFILE ..."
-    puts stderr "Each specified file is backed up and then overwritten with an updated Table of Contents."
+    puts stderr "\nUsage: [file tail [info nameofexecutable]] $::argv0 COMMAND TIPFILE ..."
+    puts stderr "COMMAND may be add or remove."
+    puts stderr "add - A Table of Contents is added/updated for each file"
+    puts stderr "remove - All Table of Contents markup is removed from each file"
+    puts stderr "\nIn both cases, a backup is made of the file"
     exit 1
 }
 
-proc insert_toc {tipfile} {
-    file copy -force -- $tipfile $tipfile.bak
-    puts stderr "$tipfile backed up to $tipfile.bak"
+proc insert_toc {command tipfile} {
+    if {$command ni {add remove}} {
+        puts stderr "Error: Unknown command '$command'"
+        usage
+    }
+    
+    set bak "[file rootname $tipfile]-[clock format [clock seconds] -format %a,%H%M%S].bak"
+    file copy -force -- $tipfile $bak
+    puts stderr "$tipfile backed up to $bak"
     
     # Open in binary mode so we preserve existing line ending style
     set fd [open $tipfile rb]
@@ -40,7 +49,11 @@ proc insert_toc {tipfile} {
                     # Section heading
                     incr anchor_id
                     lappend toc $anchor_id [string length $level] $text
-                    lappend content "$level <a id='toc-$anchor_id'></a>$text"
+                    if {$command eq "toc"} {
+                        lappend content "$level <a id='toc-$anchor_id'></a>$text"
+                    } else {
+                        lappend content "$level $text"
+                    }
                 } else {
                     # Regular line
                     lappend content $line
@@ -52,20 +65,22 @@ proc insert_toc {tipfile} {
     # Output the header
     set fd [open $tipfile wb]
     puts $fd [join $header \n]
-    # Output ToC as a nested list
-    puts $fd "<!-- TOC BEGIN -->"
-    foreach {anchor_id level text} $toc {
-        set indent [string repeat "    " [incr level -1]]
-        puts $fd "${indent}* <a href='#toc-$anchor_id'>$text</a>"
+    if {$command eq "add"} {
+        # Output ToC as a nested list
+        puts $fd "<!-- TOC BEGIN -->"
+        foreach {anchor_id level text} $toc {
+            set indent [string repeat "    " [incr level -1]]
+            puts $fd "${indent}* <a href='#toc-$anchor_id'>$text</a>"
+        }
+        puts $fd "\n<!-- TOC END -->"
     }
-    puts $fd "\n<!-- TOC END -->"
     puts $fd [join $content \n]
     close $fd
 
-    puts stderr "$tipfile ToC updated"
+    puts stderr "$tipfile updated"
 }
 
-if {[llength $argv] < 1} usage
-foreach arg $argv {
-    insert_toc $arg
+if {[llength $argv] < 2} usage
+foreach arg [lrange $argv 1 end] {
+    insert_toc [lindex $argv 0] $arg
 }
