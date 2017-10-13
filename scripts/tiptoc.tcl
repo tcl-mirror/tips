@@ -49,7 +49,7 @@ proc insert_toc {command tipfile} {
                     # Section heading
                     incr anchor_id
                     lappend toc $anchor_id [string length $level] $text
-                    if {$command eq "toc"} {
+                    if {$command eq "add"} {
                         lappend content "$level <a id='toc-$anchor_id'></a>$text"
                     } else {
                         lappend content "$level $text"
