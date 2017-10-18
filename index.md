@@ -32,6 +32,13 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr></thead><tbody>
 
 <tr>
+<td valign='top'><a href='./tip/478.md'>478</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'>Add expected class level behaviors to oo::class</td>
+</tr>
+<tr>
 <td valign='top'><a href='./tip/477.md'>477</a></td>
 <td valign='top'>Process</td>
 <td valign='top'>-</td>
