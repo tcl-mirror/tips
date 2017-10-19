@@ -42,8 +42,8 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/477.md'>477</a></td>
 <td valign='top'>Process</td>
 <td valign='top'>-</td>
-<td valign='top'>Draft</td>
-<td valign='top'>Modernize the nmake-based build system</td>
+<td valign='top'>WIP</td>
+<td valign='top'>Modernize the nmake build system</td>
 </tr>
 <tr>
 <td valign='top'><a href='./tip/476.md'>476</a></td>
