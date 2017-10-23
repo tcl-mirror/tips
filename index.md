@@ -528,7 +528,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/407.md'>407</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>The String Representation of Tcl Lists: the Gory Details</td>
 </tr>
@@ -581,11 +581,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Final</td>
 <td valign='top'>Setting the Compression Dictionary and Other 'zlib' Updates</td>
 </tr>
-<tr class="projectaccepted">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/399.md'>399</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Dynamic Locale Changing for msgcat</td>
 </tr>
 <tr class="projectfinal">
@@ -665,16 +665,16 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Final</td>
 <td valign='top'>Extending Unicode literals past the BMP</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/387.md'>387</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Unified Yield Command Syntax</td>
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/386.md'>386</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Relocation of Tcl/Tk Source Control Repositories</td>
 </tr>
@@ -762,11 +762,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'>Stackless Vwait</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/373.md'>373</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Improved Yielding Support for Coroutines</td>
 </tr>
 <tr class="obsoleted">
@@ -797,11 +797,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'>Widget cargo command</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/368.md'>368</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Listbox Justification Option</td>
 </tr>
 <tr class="projectdraft">
@@ -911,7 +911,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/352.md'>352</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tcl Style Guide</td>
 </tr>
@@ -924,7 +924,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/350.md'>350</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tcl Database Connectivity - Corrigenda</td>
 </tr>
@@ -1196,7 +1196,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/311.md'>311</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tcl/Tk 8.6 Release Calendar</td>
 </tr>
@@ -1216,7 +1216,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/308.md'>308</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Final</td>
 <td valign='top'>Tcl Database Connectivity (TDBC)</td>
 </tr>
@@ -1262,11 +1262,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'>Fix "after"'s Sensitivity To Adjustments Of System Clock</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/301.md'>301</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Split Bidirectional Channels For Half-Close</td>
 </tr>
 <tr class="projectfinal">
@@ -1628,7 +1628,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/249.md'>249</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Unification of Tcl's Parsing of Numbers</td>
 </tr>
@@ -2032,13 +2032,13 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/191.md'>191</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Managing Tcl Packages and Modules in a Multi-Version Environment</td>
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/190.md'>190</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Implementation Choices for Tcl Modules</td>
 </tr>
@@ -2611,7 +2611,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/108.md'>108</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Final</td>
 <td valign='top'>Summary of Changes to Generic Tcl/Tk Code to Enable Mac OS X Port</td>
 </tr>
@@ -2629,11 +2629,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Final</td>
 <td valign='top'>Add Encoding Abilities to the [dde] Command</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/105.md'>105</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Add Prefix Matching for Switch</td>
 </tr>
 <tr class="projectfinal">
@@ -2741,11 +2741,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Final</td>
 <td valign='top'>Enable [return -code] in Control Structure Procs</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/89.md'>89</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Try/Catch Exception Handling in the Core</td>
 </tr>
 <tr class="rejected">
@@ -2819,15 +2819,15 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/78.md'>78</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>TEA 2.0 Definitions</td>
 </tr>
-<tr class="withdrawn">
+<tr class="obsoleted">
 <td valign='top'><a href='./tip/77.md'>77</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
-<td valign='top'>Withdrawn</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'>Support for Nested Paired Item Lists</td>
 </tr>
 <tr class="projectfinal">
@@ -2902,7 +2902,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/66.md'>66</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Stand-alone and Embedded Tcl/Tk Applications</td>
 </tr>
@@ -2978,7 +2978,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/55.md'>55</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Package Format for Tcl Extensions</td>
 </tr>
@@ -3011,7 +3011,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/50.md'>50</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Final</td>
 <td valign='top'>Bundle [incr Tcl] with the Core Tcl distribution</td>
 </tr>
@@ -3059,7 +3059,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/43.md'>43</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>How to be a TIP Editor</td>
 </tr>
@@ -3142,13 +3142,13 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/31.md'>31</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>CVS tags in the Tcl and Tk repositories</td>
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/30.md'>30</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tk Toolkit Maintainer Assignments</td>
 </tr>
@@ -3161,7 +3161,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/28.md'>28</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>How to be a good maintainer for Tcl/Tk</td>
 </tr>
@@ -3188,7 +3188,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/24.md'>24</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tcl Maintainer Assignments</td>
 </tr>
@@ -3268,7 +3268,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/12.md'>12</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>The "Batteries Included" Distribution</td>
 </tr>
@@ -3323,7 +3323,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr>
 <tr class="informational">
 <td valign='top'><a href='./tip/4.md'>4</a></td>
-<td valign='top' colspan=2>Informative</td>
+<td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
 <td valign='top'>Tcl Release and Distribution Philosophy</td>
 </tr>
