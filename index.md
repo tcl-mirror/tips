@@ -65,7 +65,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <tr class='project projectdraft projectdraft86'>
 <td valign='top'><a href='./tip/474.md'>474</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6/8.7</td>
+<td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 474: Treat the mouse wheel events in a uniform way</td>
 </tr>
