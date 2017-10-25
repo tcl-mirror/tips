@@ -29,6 +29,13 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87'>
+<td valign='top'><a href='./tip/480.md'>480</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 480: Type and Alias Assertions for Tcl</td>
+</tr>
+<tr class='project projectdraft projectdraft87'>
 <td valign='top'><a href='./tip/479.md'>479</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
