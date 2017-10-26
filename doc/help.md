@@ -17,7 +17,7 @@ distributed as a single file executable so installation consists of
 simply placing it in some suitable directory in your `PATH` environment
 variable.
 
-1. Create a user account on the [TIP repository](core.tcl.tk/tips) if
+1. Create a user account on the [TIP repository](https://core.tcl.tk/tips) if
 you do not have one already.
 You can create one yourself, but the administrator needs to
 assign you commit privileges.
