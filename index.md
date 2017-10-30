@@ -47,7 +47,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (@proc)</td>
+<td valign='top'># TIP 479: Dict-Based Named Procedures in Tcl</td>
 </tr>
 <tr class='project projectdraft projectdraft86'>
 <td valign='top'><a href='./tip/478.md'>478</a></td>
