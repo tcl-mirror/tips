@@ -978,7 +978,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/345.md'>345</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 345: Kill the &apos;identity&apos; Encoding</td>
 </tr>
 <tr class='project projectdraft projectdraft87'>
@@ -1445,7 +1445,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/278.md'>278</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 278: Fix Variable Name Resolution Quirks</td>
 </tr>
 <tr class='project projectdraft projectdraft87'>
@@ -2589,7 +2589,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'><a href='./tip/114.md'>114</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 114: Eliminate Octal Parsing of Leading Zero Integer Strings</td>
 </tr>
 <tr class='project projectfinal projectfinal85'>

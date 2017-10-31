@@ -62,6 +62,7 @@ proc writeRow {number varName} {
     }
     if {[info exists fields(vote)] && $fields(vote) eq "In progress"} {
 	set class "invote"
+	set state "Voting"
     } elseif {$number in $jests} {
 	set class "jest"
     } elseif {[string tolower $state] in {obsoleted withdrawn rejected deferred}} {
