@@ -22,7 +22,7 @@ Toggles:
 <script>
 var sheet = (function(){
     for (var i=0; i<document.styleSheets.length; i++) {
-	var s = documents.styleSheets[i];
+	var s = document.styleSheets[i];
 	if (s.title == "filtering") {
 	    return s;
 	}
