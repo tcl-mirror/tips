@@ -18,9 +18,16 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <p>
 
 Toggles:
+<style title="filtering"></style>
 <script>
-var sheet = document.createElement('style')
-document.body.appendChild(sheet)
+var sheet = (function(){
+    for (var i=0; i<document.styleSheets.length; i++) {
+	var s = documents.styleSheets[i];
+	if (s.title == "filtering") {
+	    return s;
+	}
+    }
+})();
 function toggleClass(cls) {
     r = sheet.cssRules;
     if (r) {
