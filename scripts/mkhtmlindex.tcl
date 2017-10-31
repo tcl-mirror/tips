@@ -25,15 +25,43 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
+Toggles:
+<script>
+var sheet = document.createElement('style')
+document.body.appendChild(sheet)
+function toggleClass(cls) {
+    r = sheet.cssRules;
+    if (r) {
+	var i = r.length;
+	while (i--) {
+	    if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
+		sheet.deleteRule(i);
+		return;
+	    }
+	}
+    }
+    sheet.insertRule(cls + " {display:none;}", 0);
+}
+</script>
+<button onclick="toggleClass('.projectdraft')">Drafts</button>
+<button onclick="toggleClass('.projectfinal')">Finals</button>
+<button onclick="toggleClass('.project')">Projects</button>
+(<button onclick="toggleClass('.project84')">8.4</button>
+ <button onclick="toggleClass('.project85')">8.5</button>
+ <button onclick="toggleClass('.project86')">8.6</button>
+ <button onclick="toggleClass('.project87')">8.7</button>
+ <button onclick="toggleClass('.project90')">9.0</button>)
+<p>
+
 <div class="index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable"
  id="tipTable">
 <thead><tr>
 <th>#</th>
-<th>type</th>
-<th>tcl version</th>
-<th>status</th>
-<th>title</th>
+<th>Type</th>
+<th>Tcl Version</th>
+<th>Status</th>
+<th>Title</th>
 </tr></thead><tbody>
 }
 }
@@ -75,6 +103,7 @@ proc writeRow {number varName} {
 		regexp {(\d+)(?:\.(\d+))?} $fields(tcl-version) -> v1 v2
 		set version $v1$v2
 		append class " [string tolower $type$state$version]"
+		append class "project$version"
 	    }
 	}
     }
