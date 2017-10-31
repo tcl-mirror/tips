@@ -110,7 +110,7 @@ proc writeRow {number varName} {
 		regexp {(\d+)(?:\.(\d+))?} $fields(tcl-version) -> v1 v2
 		set version $v1$v2
 		append class " [string tolower $type$state$version]"
-		append class "project$version"
+		append class " project$version"
 	    }
 	}
     }
