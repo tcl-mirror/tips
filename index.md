@@ -974,7 +974,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 346: Error on Failed String Encodings</td>
 </tr>
-<tr class='project projectdraft projectdraft87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/345.md'>345</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
@@ -1441,7 +1441,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 279: Adding an Extensible Object System to the Core</td>
 </tr>
-<tr class='project projectdraft projectdraft90'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/278.md'>278</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
@@ -2585,7 +2585,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 115: Making Tcl Truly 64-Bit Ready</td>
 </tr>
-<tr class='project projectdraft projectdraft90'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/114.md'>114</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
