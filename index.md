@@ -82,7 +82,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 479: Dict-Based Named Parameters in Tcl</td>
+<td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (procx)</td>
 </tr>
 <tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/478.md'>478</a></td>
@@ -1009,11 +1009,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 346: Error on Failed String Encodings</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/345.md'>345</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 345: Kill the &apos;identity&apos; Encoding</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -1476,11 +1476,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 279: Adding an Extensible Object System to the Core</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted90 project90'>
 <td valign='top'><a href='./tip/278.md'>278</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 278: Fix Variable Name Resolution Quirks</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -2620,11 +2620,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 115: Making Tcl Truly 64-Bit Ready</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted90 project90'>
 <td valign='top'><a href='./tip/114.md'>114</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 114: Eliminate Octal Parsing of Leading Zero Integer Strings</td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
