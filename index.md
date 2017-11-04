@@ -64,6 +64,20 @@ function toggleClass(cls) {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/483.md'>483</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 482: Improved TIP #59 implementation for Tk</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/482.md'>482</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 482: Record Tk demo directory information</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/481.md'>481</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
