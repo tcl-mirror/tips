@@ -1490,11 +1490,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 279: Adding an Extensible Object System to the Core</td>
 </tr>
-<tr class='project projectaccepted projectaccepted90 project90'>
+<tr class='project projectfinal projectfinal90 project90'>
 <td valign='top'><a href='./tip/278.md'>278</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 278: Fix Variable Name Resolution Quirks</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -2634,11 +2634,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 115: Making Tcl Truly 64-Bit Ready</td>
 </tr>
-<tr class='project projectaccepted projectaccepted90 project90'>
+<tr class='project projectfinal projectfinal90 project90'>
 <td valign='top'><a href='./tip/114.md'>114</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 114: Eliminate Octal Parsing of Leading Zero Integer Strings</td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
