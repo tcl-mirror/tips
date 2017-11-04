@@ -68,7 +68,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 482: Improved TIP #59 implementation for Tk</td>
+<td valign='top'># TIP 483: Improved TIP #59 implementation for Tk</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/482.md'>482</a></td>
