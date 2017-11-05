@@ -213,7 +213,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 462: Add New [info ps] Ensemble for Subprocess Management</td>
+<td valign='top'># TIP 462: Add New [::tcl::process] Ensemble for Subprocess Management</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/461.md'>461</a></td>
