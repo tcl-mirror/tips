@@ -64,6 +64,13 @@ function toggleClass(cls) {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/484.md'>484</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 484: Get rid of the &quot;wideInt&quot; type</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/483.md'>483</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>

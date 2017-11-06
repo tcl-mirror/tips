@@ -22,7 +22,7 @@ you do not have one already.
 You can create one yourself, but the administrator needs to
 assign you commit privileges.
 
-1. [Clone](http://fossil-scm.org/index.html/help?cmd=clone) the 
+1. [Clone](http://fossil-scm.org/index.html/help?cmd=clone) the
 repository into a suitable directory. For example,
 
         cd ~/repos
