@@ -110,7 +110,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.6.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 478: Add expected class level behaviors to oo::class</td>
+<td valign='top'># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
 </tr>
 <tr class='process'>
 <td valign='top'><a href='./tip/477.md'>477</a></td>
