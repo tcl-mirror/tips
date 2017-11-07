@@ -146,11 +146,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 473: Allow a Defined Target Namespace in oo::copy</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/472.md'>472</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 472: Add Support for 0d Radix Prefix to Integer Literals</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
