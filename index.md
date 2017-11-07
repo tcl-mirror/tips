@@ -606,10 +606,10 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 407: The String Representation of Tcl Lists: the Gory Details</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/406.md'>406</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 406: &quot;C&quot; is for Cookie</td>
 </tr>
@@ -704,10 +704,10 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 393: Add -command Option to lsearch</td>
 </tr>
-<tr class='project projectdraft projectdraft85 project85'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/392.md'>392</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.5</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 392: Allow Bignums to be Disabled at Runtime on a Per-Interp Basis</td>
 </tr>
@@ -892,7 +892,7 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 366: Variable Sized Indicators for Menubuttons</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='jest'>
 <td valign='top'><a href='./tip/365.md'>365</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>

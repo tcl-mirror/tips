@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 
 # Some TIPs are jokes
-set jests {131 263}
+set jests {131 263 365}
 
 proc writeHeader {} {
     global index
