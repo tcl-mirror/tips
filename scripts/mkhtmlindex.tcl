@@ -82,10 +82,10 @@ function toggleClass(cls) {
 }
 
 proc writeFooter {} {
-    global index json number
+    global index json max
     puts $index {</tbody></table>}
     puts $index {</div>}
-    puts $json "\"@min\": 0, \"@max\": $number\}, \"@timestamp\": [clock seconds]\}"
+    puts $json "\"@min\": 0, \"@max\": $max\}, \"@timestamp\": [clock seconds]\}"
 }
 
 proc encodeHTML {string} {
@@ -185,12 +185,14 @@ fconfigure $index -translation lf -encoding utf-8
 
 writeHeader
 
+set max 0
 foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
     set number [file tail [file rootname $tip]]
     if {![string is integer -strict $number]} {
 	puts stderr "WARNING: skipping non-standard filename: $tip"
 	continue
     }
+    set max [expr {max($max,$number)}]
     unset -nocomplain fields
     set lines [loadTIPPreamble $number]
 
