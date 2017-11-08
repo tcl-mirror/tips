@@ -63,6 +63,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/485.md'>485</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 485: Remove Deprecated API</td>
+</tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/484.md'>484</a></td>
 <td valign='top'>Project</td>
@@ -731,7 +738,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 389: Full support for Unicode 8.0 and later</td>
+<td valign='top'># TIP 389: Full support for Unicode 10.0 and later</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/388.md'>388</a></td>
