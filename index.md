@@ -75,7 +75,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 484: Get rid of the &quot;wideInt&quot; type</td>
+<td valign='top'># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/483.md'>483</a></td>
