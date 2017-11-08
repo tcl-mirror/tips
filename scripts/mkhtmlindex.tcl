@@ -26,7 +26,11 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <p>
 
 Filter Toggles:
-<style title="filtering"></style>
+<style title="filtering">
+.jest {
+    display: none;
+}
+</style>
 <script>
 var sheet = (function(){
     for (var i=0; i<document.styleSheets.length; i++) {
