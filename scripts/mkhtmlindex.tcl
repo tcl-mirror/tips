@@ -50,14 +50,14 @@ function toggleClass(cls) {
     sheet.insertRule(cls + " {display:none;}", 0);
 }
 </script>
-<button onclick="toggleClass('.projectdraft')">Drafts</button>
-<button onclick="toggleClass('.projectfinal')">Finals</button>
-<button onclick="toggleClass('.project')">Projects</button>
-(<button onclick="toggleClass('.project84')">8.4</button>
- <button onclick="toggleClass('.project85')">8.5</button>
- <button onclick="toggleClass('.project86')">8.6</button>
- <button onclick="toggleClass('.project87')">8.7</button>
- <button onclick="toggleClass('.project90')">9.0</button>)
+<input type="checkbox" onclick="toggleClass('.projectdraft')">Drafts</button>
+<input type="checkbox" onclick="toggleClass('.projectfinal')">Finals</button>
+<input type="checkbox" onclick="toggleClass('.project')">Projects</button>
+(<input type="checkbox" onclick="toggleClass('.project84')">8.4</button>
+ <input type="checkbox" onclick="toggleClass('.project85')">8.5</button>
+ <input type="checkbox" onclick="toggleClass('.project86')">8.6</button>
+ <input type="checkbox" onclick="toggleClass('.project87')">8.7</button>
+ <input type="checkbox" onclick="toggleClass('.project90')">9.0</button>)
 <p>
 
 <div class="index">
