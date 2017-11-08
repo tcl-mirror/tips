@@ -4,7 +4,7 @@
 set jests {131 263 365}
 
 proc writeHeader {} {
-    global index
+    global index json
     puts $index \
 {# TIP Index
 
@@ -78,20 +78,26 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 }
+    puts -nonewline $json "\{\"tip\": \{"
 }
 
 proc writeFooter {} {
-    global index
+    global index json number
     puts $index {</tbody></table>}
     puts $index {</div>}
+    puts $json "\"@min\": 0, \"@max\": $number\}, \"@timestamp\": [clock seconds]\}"
 }
 
 proc encodeHTML {string} {
     return [string map {< &lt; > &gt; \" &quot; & &amp; ' &apos;} $string]
 }
 
+proc encodeJSON {string} {
+    return [string cat \" [string map {\" \\\" \\ {\\}} $string] \"]
+}
+
 proc writeRow {number varName} {
-    global index jests
+    global index json jests
     upvar 1 $varName fields
 
     set state $fields(state)
@@ -132,6 +138,19 @@ proc writeRow {number varName} {
     puts $index "<td valign='top'>[encodeHTML $state]</td>"
     puts $index "<td valign='top'>[encodeHTML $fields(title)]</td>"
     puts $index "</tr>"
+
+    puts -nonewline $json "\"$number\": \{\"url\": [encodeJSON ./tip/$number.md],"
+    foreach f [array names fields] {
+	if {$f eq "author"} {
+	    puts -nonewline $json "[encodeJSON $f]: \[[join [lmap a $fields($f) {encodeJSON $a}] ,]\],"
+	} else {
+	    puts -nonewline $json \
+		"[encodeJSON $f]: [encodeJSON $fields($f)],"
+	}
+    }
+    puts -nonewline $json \
+	"\"is-jest\": [expr {$number in $jests ? {true} : {false}}]"
+    puts -nonewline $json "\},"
 }
 
 proc loadTIPPreamble {number} {
@@ -151,12 +170,17 @@ proc parsePreamble {lines varName} {
     set fields(title) [string trim [regsub {^[^:]:} $title ""]]
     foreach line $lines {
 	set valueList [lassign [split $line :] key]
-	set fields([string tolower $key]) [string trim [join $valueList]]
+	if {[string equal -nocase $key author]} {
+	    lappend fields([string tolower $key]) [string trim [join $valueList]]
+	} else {
+	    set fields([string tolower $key]) [string trim [join $valueList]]
+	}
     }
 }
 
 set dir [file join [file dirname [info script]] ..]
 set index [open [file join $dir index.md] w+]
+set json [open [file join $dir index.json] w+]
 fconfigure $index -translation lf -encoding utf-8
 
 writeHeader
@@ -170,7 +194,6 @@ foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
     unset -nocomplain fields
     set lines [loadTIPPreamble $number]
 
-    puts "Adding TIP $number to index"
     parsePreamble $lines fields
     writeRow $number fields
 }
@@ -178,3 +201,4 @@ foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
 writeFooter
 
 close $index
+close $json
