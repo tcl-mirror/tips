@@ -25,7 +25,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-Toggles:
+Filter Toggles:
 <style title="filtering"></style>
 <script>
 var sheet = (function(){
@@ -58,6 +58,9 @@ function toggleClass(cls) {
  <input type="checkbox" onclick="toggleClass('.project86')">8.6</button>
  <input type="checkbox" onclick="toggleClass('.project87')">8.7</button>
  <input type="checkbox" onclick="toggleClass('.project90')">9.0</button>)
+<input type="checkbox" onclick="toggleClass('.informational')">Informationals</button>
+<input type="checkbox" onclick="toggleClass('.process')">Processes</button>
+<input type="checkbox" onclick="toggleClass('.jest')" checked>Jokes</button>
 <p>
 
 <div class="index">
