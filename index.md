@@ -71,6 +71,13 @@ function toggleClass(cls) {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/486.md'>486</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 486: Thread 3.0 is for Tcl 9</td>
+</tr>
+<tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/485.md'>485</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
