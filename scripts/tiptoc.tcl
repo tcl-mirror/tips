@@ -42,7 +42,7 @@ proc insert_toc {command tipfile} {
                 }
             }
             PARSE_CONTENT {
-                if {[regexp {^\s*<!-- TOC BEGIN -->} $line]} {
+                if {[regexp {^\s*<!-- TOC BEGIN .*-->} $line]} {
                     # Start of old existing ToC. Throw it away
                     set state SKIP_TOC
                 } elseif {[regexp {^(#+)\s*(<a id='toc-\d+'></a>)?(.*)$} $line -> level anchor text]} {
@@ -67,7 +67,7 @@ proc insert_toc {command tipfile} {
     puts $fd [join $header \n]
     if {$command eq "add"} {
         # Output ToC as a nested list
-        puts $fd "<!-- TOC BEGIN -->"
+        puts $fd "<!-- TOC BEGIN (auto generated with tiptoc) -->"
         foreach {anchor_id level text} $toc {
             set indent [string repeat "    " [incr level -1]]
             puts $fd "${indent}* <a href='#toc-$anchor_id'>$text</a>"
