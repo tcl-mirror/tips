@@ -517,11 +517,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 423: Formatting Timestamps with Milliseconds</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal90 project90'>
 <td valign='top'><a href='./tip/422.md'>422</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 422: Don&apos;t Use stdarg.h/va_list in Public API</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
