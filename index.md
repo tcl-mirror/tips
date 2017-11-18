@@ -2334,11 +2334,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 162: IPv6 Sockets for Tcl</td>
 </tr>
-<tr class='project projectdraft projectdraft90 project90'>
+<tr class='project projectvoting projectvoting87 project87'>
 <td valign='top'><a href='./tip/161.md'>161</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 161: Change Default for Menu&apos;s -tearoff Option to False</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
