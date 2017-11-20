@@ -70,6 +70,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/487.md'>487</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 487: Stop support for Windows XP and Windows CE</td>
+</tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/486.md'>486</a></td>
 <td valign='top'>Project</td>
