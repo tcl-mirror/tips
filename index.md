@@ -133,10 +133,10 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/477.md'>477</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.7</td>
+<td valign='top'>8.6.8</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 477: Modernize the nmake build system</td>
 </tr>
