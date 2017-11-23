@@ -70,11 +70,11 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/487.md'>487</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 487: Stop support for Pre-XP Windows</td>
 </tr>
 <tr class='project projectdraft projectdraft90 project90'>
@@ -140,11 +140,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/477.md'>477</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.8</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 477: Modernize the nmake build system</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
