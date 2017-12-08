@@ -71,6 +71,13 @@ function toggleClass(cls) {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/490.md'>490</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 490: msgcat for tcloo</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/489.md'>489</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
