@@ -1,5 +1,7 @@
 #!/usr/bin/env tclsh
 
+package require Tcl 8.6.2;	# Uses [string cat]
+
 # Some TIPs are jokes
 set jests {131 263 365}
 
