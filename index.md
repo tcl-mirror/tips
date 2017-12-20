@@ -98,11 +98,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 489: Add image widget command to the Tk canvas</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal90 project90'>
 <td valign='top'><a href='./tip/488.md'>488</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 488: Remove tcl_precision</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
