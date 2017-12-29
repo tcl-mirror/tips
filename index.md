@@ -70,6 +70,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/494.md'>494</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 494: More use of size_t in Tcl 9</td>
+</tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/493.md'>493</a></td>
 <td valign='top'>Project</td>
