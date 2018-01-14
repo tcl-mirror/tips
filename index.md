@@ -70,6 +70,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/495.md'>495</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 495: Tcl Based Build System for TEA projects</td>
+</tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/494.md'>494</a></td>
 <td valign='top'>Project</td>
