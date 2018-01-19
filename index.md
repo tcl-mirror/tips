@@ -70,12 +70,19 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/497.md'>497</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 497: Full support for Unicode 10.0 and later (part 2)</td>
+</tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/496.md'>496</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP xxx: Display hints in ::ttk::entry</td>
+<td valign='top'># TIP 496: Display hints in ::ttk::entry</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/495.md'>495</a></td>
@@ -822,7 +829,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 389: Full support for Unicode 10.0 and later</td>
+<td valign='top'># TIP 389: Full support for Unicode 10.0 and later (part 1)</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/388.md'>388</a></td>
