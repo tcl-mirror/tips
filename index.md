@@ -70,6 +70,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/498.md'>498</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 498: Simplify Tcl_DeleteNamespace</td>
+</tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/497.md'>497</a></td>
 <td valign='top'>Project</td>
