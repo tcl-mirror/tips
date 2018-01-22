@@ -105,11 +105,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 494: More use of size_t in Tcl 9</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/493.md'>493</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 493: Cease Distribution of http 1.0</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -168,11 +168,11 @@ function toggleClass(cls) {
 <td valign='top'>Voting</td>
 <td valign='top'># TIP 485: Remove Deprecated API</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/484.md'>484</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
