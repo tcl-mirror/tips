@@ -161,11 +161,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 486: Thread 3.0 is for Tcl 9</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal90 project90'>
 <td valign='top'><a href='./tip/485.md'>485</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 485: Remove Deprecated API</td>
 </tr>
 <tr class='invote'>
