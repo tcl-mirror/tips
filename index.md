@@ -89,7 +89,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 496: Display hints in ::ttk::entry</td>
+<td valign='top'># TIP 496: Display hints in ::entry ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/495.md'>495</a></td>
@@ -224,11 +224,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 477: Modernize the nmake build system</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/476.md'>476</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 476: Scan/Printf format consistency</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
