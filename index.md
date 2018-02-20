@@ -245,11 +245,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 477: Modernize the nmake build system</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/476.md'>476</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 476: Scan/Printf format consistency</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
