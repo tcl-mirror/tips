@@ -259,7 +259,7 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 476: Scan/Printf format consistency</td>
 </tr>
-<tr class='project projectvoting projectvoting87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/475.md'>475</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
@@ -1123,7 +1123,7 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 352: Tcl Style Guide</td>
 </tr>
-<tr class='project projectvoting projectvoting87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/351.md'>351</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
