@@ -91,11 +91,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 500: Private Methods and Variables in TclOO</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/499.md'>499</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 499: Custom locale search list for msgcat</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -154,11 +154,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 491: Threading Support: phasing out non-threaded builds</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/490.md'>490</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 490: msgcat for tcloo</td>
 </tr>
 <tr class='invote'>
@@ -203,18 +203,18 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/483.md'>483</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 483: Improved TIP #59 implementation for Tk</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/482.md'>482</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 482: Record Tk demo directory information</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -349,11 +349,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 463: Command-Driven Substitutions for regsub</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/462.md'>462</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 462: Add New [::tcl::process] Ensemble for Subprocess Management</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -2189,11 +2189,11 @@ function toggleClass(cls) {
 <td valign='top'>Rejected</td>
 <td valign='top'># TIP 199: Specification of Alternatives to .wishrc/.tclshrc</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/198.md'>198</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 198: Image Command XPM Extension</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
