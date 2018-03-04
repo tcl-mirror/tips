@@ -259,11 +259,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 476: Scan/Printf format consistency</td>
 </tr>
-<tr class='invote'>
+<tr class='rejected'>
 <td valign='top'><a href='./tip/475.md'>475</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Rejected</td>
 <td valign='top'># TIP 475: Add [string insert] Command and C API</td>
 </tr>
 <tr class='project projectdraft projectdraft86 project86'>
@@ -1123,11 +1123,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 352: Tcl Style Guide</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/351.md'>351</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 351: Add Striding Support to lsearch</td>
 </tr>
 <tr class='informational'>
