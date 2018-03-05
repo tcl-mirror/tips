@@ -124,7 +124,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 496: Display hints in ::entry ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
+<td valign='top'># TIP 496: Display hints in ::entry ::spinbox ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/495.md'>495</a></td>
