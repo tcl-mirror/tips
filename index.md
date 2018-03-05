@@ -1123,11 +1123,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 352: Tcl Style Guide</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/351.md'>351</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 351: Add Striding Support to lsearch</td>
 </tr>
 <tr class='informational'>
