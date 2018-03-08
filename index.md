@@ -166,7 +166,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
-<td valign='top'># TIP 490: msgcat for tcloo</td>
+<td valign='top'># TIP 490: msgcat for TclOO</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/489.md'>489</a></td>
