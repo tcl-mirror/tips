@@ -27,7 +27,10 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
+<div><div>
 Filter Toggles:
+</div>
+<div>
 <style title="filtering">
 .rejected {
     display: none;
@@ -78,11 +81,13 @@ function toggleClass(cls) {
  <input type="checkbox" onclick="toggleClass('.project90')">9.0</button>)
 <input type="checkbox" onclick="toggleClass('.informational')">Informationals</button>
 <input type="checkbox" onclick="toggleClass('.process')">Processes</button>
+<br>
 <input type="checkbox" onclick="toggleClass('.rejected')" checked>Rejected</button>
 <input type="checkbox" onclick="toggleClass('.widthdrawn')" checked>Withdrawn</button>
 <input type="checkbox" onclick="toggleClass('.obsoleted')" checked>Obsoleted</button>
 <input type="checkbox" onclick="toggleClass('.deferred')" checked>Deferred</button>
 <input type="checkbox" onclick="toggleClass('.jest')" checked>Jokes</button>
+</div></div>
 <p>
 
 <div class="index">
