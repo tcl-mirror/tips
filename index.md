@@ -119,11 +119,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 500: Private Methods and Variables in TclOO</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/499.md'>499</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 499: Custom locale search list for msgcat</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -182,11 +182,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 491: Threading Support: phasing out non-threaded builds</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/490.md'>490</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 490: msgcat for TclOO</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
@@ -377,11 +377,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 463: Command-Driven Substitutions for regsub</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/462.md'>462</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 462: Add New [::tcl::process] Ensemble for Subprocess Management</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
