@@ -91,11 +91,11 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/503.md'>503</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 503: End Tcl 8.3 Source Compatibility Support</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
