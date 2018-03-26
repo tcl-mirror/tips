@@ -91,6 +91,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft86 project86'>
+<td valign='top'><a href='./tip/505.md'>505</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6.9</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
+</tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/504.md'>504</a></td>
 <td valign='top'>Project</td>
