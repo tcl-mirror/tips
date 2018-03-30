@@ -91,6 +91,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/506.md'>506</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 506: Purge RefCount Macros</td>
+</tr>
 <tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/505.md'>505</a></td>
 <td valign='top'>Project</td>
