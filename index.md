@@ -657,11 +657,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 426: Determining the &quot;Type&quot; of Commands</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/425.md'>425</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 425: Correct use of UTF-8 in Panic Callback (Windows only)</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
