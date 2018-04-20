@@ -908,11 +908,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 390: A Logging API for Tcl</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/389.md'>389</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 389: Full support for Unicode 10.0 and later (part 1)</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
