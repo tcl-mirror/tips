@@ -196,11 +196,11 @@ function toggleClass(cls) {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 492: Introspection for &apos;tk busy&apos;</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/491.md'>491</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 491: Threading Support: phasing out non-threaded builds</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
