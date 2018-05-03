@@ -159,7 +159,7 @@ function toggleClass(cls) {
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 497: Full support for Unicode 10.0 and later (part 2)</td>
+<td valign='top'># TIP 497: Full support for Unicode 11.0 and later (part 2)</td>
 </tr>
 <tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/496.md'>496</a></td>
