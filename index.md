@@ -91,6 +91,13 @@ function toggleClass(cls) {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/507.md'>507</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 507: Include simple svg support with nanosvg</td>
+</tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/506.md'>506</a></td>
 <td valign='top'>Project</td>
