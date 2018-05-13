@@ -175,11 +175,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 497: Full support for Unicode 11.0 and later (part 2)</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/496.md'>496</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 496: Display hints in ::entry ::spinbox ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
