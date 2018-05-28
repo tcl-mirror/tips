@@ -721,11 +721,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 422: Don&apos;t Use stdarg.h/va_list in Public API</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/421.md'>421</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 421: A Command for Iterating Over Arrays</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
