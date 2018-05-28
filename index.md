@@ -169,11 +169,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 501: string is dict</td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/500.md'>500</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 500: Private Methods and Variables in TclOO</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
