@@ -31,68 +31,78 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 Filter Toggles:
 </div>
 <div>
+<input type="checkbox" id="click_projectdraft">Drafts</button>
+<input type="checkbox" id="click_projectfinal">Finals</button>
+<input type="checkbox" id="click_project">Projects</button>
+(<input type="checkbox" id="click_project84">8.4</button>
+ <input type="checkbox" id="click_project85">8.5</button>
+ <input type="checkbox" id="click_project86">8.6</button>
+ <input type="checkbox" id="click_project87">8.7</button>
+ <input type="checkbox" id="click_project90">9.0</button>)
+<input type="checkbox" id="click_informational">Informationals</button>
+<input type="checkbox" id="click_process">Processes</button>
+<br>
+<input type="checkbox" id="click_rejected">Rejected</button>
+<input type="checkbox" id="click_withdrawn">Withdrawn</button>
+<input type="checkbox" id="click_obsoleted">Obsoleted</button>
+<input type="checkbox" id="click_deferred">Deferred</button>
+<input type="checkbox" id="click_jest">Jokes</button>
+</div></div>
 <style title="filtering">
-.rejected {
-    display: none;
-}
-.withdrawn {
-    display: none;
-}
-.obsoleted {
-    display: none;
-}
-.deferred {
-    display: none;
-}
-.jest {
-    display: none;
-}
+/*
+ * DO NOT MANUALLY PUT ANY STYLES IN HERE!
+ *
+ * This is manipulated by JS and it makes a lot of assumptions about the
+ * structure of this stylesheet. Use a different stylesheet instead!
+ */
 </style>
 <script>
 var sheet = (function(){
     for (var i=0; i<document.styleSheets.length; i++) {
-	var s = document.styleSheets[i];
-	if (s.title == "filtering") {
-	    return s;
-	}
+        var s = document.styleSheets[i];
+        if (s.title == "filtering") {
+            return s;
+        }
     }
 })();
 function toggleClass(cls) {
     r = sheet.cssRules;
     if (r) {
-	var i = r.length;
-	while (i--) {
-	    if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
-		sheet.deleteRule(i);
-		return;
-	    }
-	}
+        var i = r.length;
+        while (i--) {
+            if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
+                sheet.deleteRule(i);
+                return;
+            }
+        }
     }
     sheet.insertRule(cls + " {display:none;}", 0);
 }
+document.addEventListener("DOMContentLoaded", function() {
+    var TAGS = {
+        "informational": 0, "process": 0,
+        "projectdraft": 0, "projectfinal": 0, "project": 0,
+        "project84": 0, "project85": 0, "project86": 0, "project87": 0,
+        "project90": 0,
+        "rejected": 1, "withdrawn": 1, "obsoleted": 1, "deferred": 1, "jest": 1
+    };
+    for (var tag of Object.keys(TAGS)) {
+        var id = "click_" + tag;
+        var selector = "." + tag;
+        document.getElementById(id).addEventListener("click", function() {
+            toggleClass(selector);
+        });
+        if (TAGS[tag]) {
+            document.getElementById(id).checked = true;
+            toggleClass(selector);
+        }
+    }
+}
 </script>
-<input type="checkbox" onclick="toggleClass('.projectdraft')">Drafts</button>
-<input type="checkbox" onclick="toggleClass('.projectfinal')">Finals</button>
-<input type="checkbox" onclick="toggleClass('.project')">Projects</button>
-(<input type="checkbox" onclick="toggleClass('.project84')">8.4</button>
- <input type="checkbox" onclick="toggleClass('.project85')">8.5</button>
- <input type="checkbox" onclick="toggleClass('.project86')">8.6</button>
- <input type="checkbox" onclick="toggleClass('.project87')">8.7</button>
- <input type="checkbox" onclick="toggleClass('.project90')">9.0</button>)
-<input type="checkbox" onclick="toggleClass('.informational')">Informationals</button>
-<input type="checkbox" onclick="toggleClass('.process')">Processes</button>
-<br>
-<input type="checkbox" onclick="toggleClass('.rejected')" checked>Rejected</button>
-<input type="checkbox" onclick="toggleClass('.widthdrawn')" checked>Withdrawn</button>
-<input type="checkbox" onclick="toggleClass('.obsoleted')" checked>Obsoleted</button>
-<input type="checkbox" onclick="toggleClass('.deferred')" checked>Deferred</button>
-<input type="checkbox" onclick="toggleClass('.jest')" checked>Jokes</button>
-</div></div>
 <p>
 
 <div class="index">
-<table border="1" cellpadding="2" cellspacing="0" class="sortable"
- id="tipTable">
+<table border="1" cellpadding="2" cellspacing="0" class="sortable" id="tipTable">
 <thead><tr>
 <th>#</th>
 <th>Type</th>
