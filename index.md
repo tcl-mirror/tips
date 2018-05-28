@@ -475,11 +475,11 @@ function toggleClass(cls) {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 455: Extensions to [vwait]: Variable Sets and Scripted Access to Tcl_DoOneEvent</td>
 </tr>
-<tr class='project projectaccepted projectaccepted86 project86'>
+<tr class='withdrawn'>
 <td valign='top'><a href='./tip/454.md'>454</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Withdrawn</td>
 <td valign='top'># TIP 454: Automatically Resize Frames After Last Child Removed</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
