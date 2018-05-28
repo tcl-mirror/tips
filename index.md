@@ -61,11 +61,13 @@ function toggleClass(cls) {
         var i = r.length;
         while (i--) {
             if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
+		console.log("removing hide rule for " + cls);
                 sheet.deleteRule(i);
                 return;
             }
         }
     }
+    console.log("adding hide rule for " + cls);
     sheet.insertRule(cls + " {display:none;}", 0);
 }
 document.addEventListener("DOMContentLoaded", function() {
@@ -76,12 +78,15 @@ document.addEventListener("DOMContentLoaded", function() {
         "project90": 0,
         "rejected": 1, "withdrawn": 1, "obsoleted": 1, "deferred": 1, "jest": 1
     };
+    function toggler(selector) {
+	return function() {
+	    toggleClass(selector);
+	}
+    }
     for (var tag of Object.keys(TAGS)) {
         var id = "click_" + tag;
         var selector = "." + tag;
-        document.getElementById(id).addEventListener("click", function() {
-            toggleClass(selector);
-        });
+        document.getElementById(id).addEventListener("click", toggler(selector));
         if (TAGS[tag]) {
             document.getElementById(id).checked = true;
             toggleClass(selector);
