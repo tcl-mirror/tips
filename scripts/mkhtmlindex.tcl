@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
             toggleClass(selector);
         }
     }
-}
+});
 </script>
 <p>
 
