@@ -323,10 +323,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (procx)</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/478.md'>478</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6.7</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
 </tr>
