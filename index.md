@@ -651,10 +651,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 432: Support for New Windows File Dialogs in Vista and Later</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/431.md'>431</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6.4</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 431: Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</td>
 </tr>
