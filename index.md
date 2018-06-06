@@ -107,6 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/510.md'>510</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 510: Add Rbc to Tk</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/509.md'>509</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
@@ -630,11 +637,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Rejected</td>
 <td valign='top'># TIP 435: Safe Mutex Disposal API</td>
 </tr>
-<tr class='project projectdraft projectdraft86 project86'>
+<tr class='withdrawn'>
 <td valign='top'><a href='./tip/434.md'>434</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Withdrawn</td>
 <td valign='top'># TIP 434: Specify Event Sources for &apos;vwait&apos;</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
