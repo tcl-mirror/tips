@@ -27,9 +27,9 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<div><div float="right">
-Key:<br>
+<div><div style="float:right">
 <table>
+<tr><th>Key</th</tr>
 <tr class="projectdraft"><td>Draft Project</td></tr>
 <tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
 <tr class="invote"><td>In Current Vote</td></tr>
