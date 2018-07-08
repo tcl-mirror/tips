@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <table border="1" cellpadding="2" cellspacing="0">
 <thead><tr><th>Key</th</tr></thead><tbody>
 <tr class="projectdraft"><td>Draft Project</td></tr>
-<tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
+<tr class="projectdraft project86"><td>Draft Project (8.6)</td></tr>
 <tr class="invote"><td>In Current Vote</td></tr>
 <tr class="projectaccepted"><td>Accepted Project</td></tr>
 <tr class="rejected"><td>Rejected Project</td></tr>
