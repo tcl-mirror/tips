@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div style="float:right; font-size:10pt" class="key">
 <table border="1" cellpadding="2" cellspacing="0">
-<tr><th>Key</th</tr>
+<thead><tr><th>Key</th</tr></thead><tbody>
 <tr class="projectdraft"><td>Draft Project</td></tr>
 <tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
 <tr class="invote"><td>In Current Vote</td></tr>
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <tr class="projectfinal"><td>Final Project</td></tr>
 <tr class="process"><td>Process TIP</td></tr>
 <tr class="informational"><td>Informational TIP</td></tr>
-</table></div>
+</tbody></table></div>
 <div class="index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable" id="tipTable">
 <thead><tr>
