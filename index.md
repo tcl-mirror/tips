@@ -17,8 +17,8 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<div><div style="float:right">
-<table border="1">
+<div><div style="float:right; font-size:10pt">
+<table border="1" cellpadding="2" cellspacing="0" class="key">
 <tr><th>Key</th</tr>
 <tr class="projectdraft"><td>Draft Project</td></tr>
 <tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
