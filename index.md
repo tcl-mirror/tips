@@ -17,21 +17,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<div><div style="float:right; font-size:10pt">
-<table border="1" cellpadding="2" cellspacing="0" class="key">
-<tr><th>Key</th</tr>
-<tr class="projectdraft"><td>Draft Project</td></tr>
-<tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
-<tr class="invote"><td>In Current Vote</td></tr>
-<tr class="projectaccepted"><td>Accepted Project</td></tr>
-<tr class="rejected"><td>Rejected Project</td></tr>
-<tr class="withdrawn"><td>Withdrawn Project</td></tr>
-<tr class="projectfinal"><td>Final Project</td></tr>
-<tr class="process"><td>Process TIP</td></tr>
-<tr class="informational"><td>Informational TIP</td></tr>
-</table>
-</div>
-<div>
+<div><div>
 Filter Toggles:
 </div>
 <div>
@@ -110,6 +96,19 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 <p>
 
+<div style="float:right; font-size:10pt" class="key">
+<table border="1" cellpadding="2" cellspacing="0">
+<tr><th>Key</th</tr>
+<tr class="projectdraft"><td>Draft Project</td></tr>
+<tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
+<tr class="invote"><td>In Current Vote</td></tr>
+<tr class="projectaccepted"><td>Accepted Project</td></tr>
+<tr class="rejected"><td>Rejected Project</td></tr>
+<tr class="withdrawn"><td>Withdrawn Project</td></tr>
+<tr class="projectfinal"><td>Final Project</td></tr>
+<tr class="process"><td>Process TIP</td></tr>
+<tr class="informational"><td>Informational TIP</td></tr>
+</table></div>
 <div class="index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable" id="tipTable">
 <thead><tr>
