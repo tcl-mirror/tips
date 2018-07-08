@@ -27,7 +27,21 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<div><div>
+<div><div float="right">
+Key:<br>
+<table>
+<tr class="projectdraft"><td>Draft Project</td></tr>
+<tr class="projectdraft projectdraft86"><td>Draft Project (8.6)</td></tr>
+<tr class="invote"><td>In Current Vote</td></tr>
+<tr class="projectaccepted"><td>Accepted Project</td></tr>
+<tr class="rejected"><td>Rejected Project</td></tr>
+<tr class="withdrawn"><td>Withdrawn Project</td></tr>
+<tr class="projectfinal"><td>Final Project</td></tr>
+<tr class="process"><td>Process TIP</td></tr>
+<tr class="informational"><td>Informational TIP</td></tr>
+</table>
+</div>
+<div>
 Filter Toggles:
 </div>
 <div>
