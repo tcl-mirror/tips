@@ -136,7 +136,7 @@ proc writeFooter {} {
     global index json max
     puts $index {</tbody></table>}
     puts $index {</div>}
-    puts $json "\"@min\": 0, \"@max\": $max\}, \"@timestamp\": [clock seconds]\}"
+    puts $json "\n\t\"@min\": 0,\n\t\"@max\": $max\n\}, \"@timestamp\": [clock seconds]\}"
 }
 
 proc encodeHTML {string} {
@@ -190,17 +190,17 @@ proc writeRow {number varName} {
     puts $index "<td valign='top'>[encodeHTML $fields(title)]</td>"
     puts $index "</tr>"
 
-    puts -nonewline $json "\"$number\": \{\"url\": [encodeJSON ./tip/$number.md],"
+    puts -nonewline $json "\n\t\"$number\":\{\"url\":[encodeJSON ./tip/$number.md],"
     foreach f [array names fields] {
 	if {$f eq "author"} {
-	    puts -nonewline $json "[encodeJSON $f]: \[[join [lmap a $fields($f) {encodeJSON $a}] ,]\],"
+	    puts -nonewline $json "[encodeJSON $f]:\[[join [lmap a $fields($f) {encodeJSON $a}] ,]\],"
 	} else {
 	    puts -nonewline $json \
-		"[encodeJSON $f]: [encodeJSON $fields($f)],"
+		"[encodeJSON $f]:[encodeJSON $fields($f)],"
 	}
     }
     puts -nonewline $json \
-	"\"is-jest\": [expr {$number in $jests ? {true} : {false}}]"
+	"\"is-jest\":[expr {$number in $jests ? {true} : {false}}]"
     puts -nonewline $json "\},"
 }
 
@@ -233,6 +233,7 @@ set dir [file join [file dirname [info script]] ..]
 set index [open [file join $dir index.md] w+]
 set json [open [file join $dir index.json] w+]
 fconfigure $index -translation lf -encoding utf-8
+fconfigure $json -translation lf -encoding utf-8
 
 writeHeader
 
