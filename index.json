@@ -35,7 +35,7 @@
 	"481":{"url":"./tip/481.md","keywords":"Tcl","created":"27-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 481: Extend size range of various Tcl_Get*() functions","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"480":{"url":"./tip/480.md","keywords":"assertion, pragma, type, alias, compilation","created":"25-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 480: Type and Alias Assertions for Tcl","author":["Kevin B. Kenny <kevin.b.kenny@gmail.com>"],"is-jest":false},
 	"479":{"url":"./tip/479.md","keywords":"Tcl,procedure,argument handling","created":"23-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 479: Add Named Procedures as a New Command in Tcl (procx)","author":["Sean Woods <yoda@etoyoc.com>"],"is-jest":false},
-	"478":{"url":"./tip/478.md","keywords":"Tcl","created":"18-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 478: Add Expected Class Level Behaviors to oo::class","author":["Gerald Lester <Gerald.Lester@gmail.com>","Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
+	"478":{"url":"./tip/478.md","vote-closes":"2018-09-02T12 00 00+0100","keywords":"Tcl","created":"18-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 478: Add Expected Class Level Behaviors to oo::class","author":["Gerald Lester <Gerald.Lester@gmail.com>","Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"477":{"url":"./tip/477.md","keywords":"Windows nmake build","created":"30-Sep-2017","post-history":"","state":"Final","tcl-version":"8.6.8","vote":"Done","type":"Project","title":"# TIP 477: Modernize the nmake build system","author":["Ashok P. Nadkarni <apnmbx-wits@yahoo.com>"],"is-jest":false},
 	"476":{"url":"./tip/476.md","keywords":"scan printf","created":"27-Sep-2017","post-history":"PM","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 476: Scan/Printf format consistency","author":["Jan Nijtmans (jan.nijtmans@gmail.com)"],"is-jest":false},
 	"475":{"url":"./tip/475.md","keywords":"Tcl,string,insert","created":"22-Sep-2017","post-history":"","state":"Rejected","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 475: Add [string insert] Command and C API","author":["Andy Goth (andrew.m.goth@gmail.com)"],"is-jest":false},
@@ -516,4 +516,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 514
-}, "@timestamp": 1534836281}
+}, "@timestamp": 1535295083}
