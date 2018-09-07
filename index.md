@@ -120,6 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/516.md'>516</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 516: More OO Slot Operations</td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/515.md'>515</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
