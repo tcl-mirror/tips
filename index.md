@@ -727,11 +727,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 431: Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/430.md'>430</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 430: Add basic ZIP archive support to Tcl</td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
