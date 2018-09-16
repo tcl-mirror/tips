@@ -119,11 +119,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Title</th>
 </tr></thead><tbody>
 
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/517.md'>517</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>

@@ -1,5 +1,5 @@
 {"tip": {
-	"517":{"url":"./tip/517.md","keywords":"tk menu","created":"13-Sept-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 517: Add -activerelief Configuration Option to the menu widget","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
+	"517":{"url":"./tip/517.md","keywords":"tk menu","created":"13-Sept-2018","post-history":"","state":"Voting","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 517: Add -activerelief Configuration Option to the menu widget","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"516":{"url":"./tip/516.md","keywords":"Tcl, TclOO","created":"7-Sept-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 516: More OO Slot Operations","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"515":{"url":"./tip/515.md","created":"7-Sept-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 515: Level Value Reform","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"514":{"url":"./tip/514.md","keywords":"Tcl","created":"20-Aug-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 514: Platform differences in handling int/wide","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -519,4 +519,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 517
-}, "@timestamp": 1537003546}
+}, "@timestamp": 1537114974}
