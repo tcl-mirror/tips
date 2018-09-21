@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <tr class='invote'>
 <td valign='top'><a href='./tip/452.md'>452</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
 <td valign='top'># TIP 452: Add &quot;stubs&quot; Package to or Along Side of TclTest</td>
 </tr>
