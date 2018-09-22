@@ -119,6 +119,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Title</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/518.md'>518</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 518: Virtual Event when Last Child is not Managed any more</td>
+</tr>
 <tr class='invote'>
 <td valign='top'><a href='./tip/517.md'>517</a></td>
 <td valign='top'>Project</td>
