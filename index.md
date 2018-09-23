@@ -126,11 +126,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 518: Virtual Event when Last Child is not Managed any more</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/517.md'>517</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
 </tr>
 <tr class='invote'>
