@@ -189,11 +189,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Accepted</td>
 <td valign='top'># TIP 509: Implement reentrant mutexes on all platforms</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/508.md'>508</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 508: New subcommand [array default]</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
