@@ -133,18 +133,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/516.md'>516</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 516: More OO Slot Operations</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/515.md'>515</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 515: Level Value Reform</td>
 </tr>
 <tr class='invote'>
@@ -168,11 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 512: No stub for Tcl_SetExitProc()</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/511.md'>511</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 511: Implement Tcl_AsyncMarkFromSignal()</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -182,18 +182,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 510: Add Rbc to Tk</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/509.md'>509</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 509: Implement reentrant mutexes on all platforms</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/508.md'>508</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 508: New subcommand [array default]</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -210,11 +210,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 506: Purge RefCount Macros</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted86 project86'>
 <td valign='top'><a href='./tip/505.md'>505</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.9</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -580,11 +580,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 453: Tcl Based Automation for tcl/pkgs</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/452.md'>452</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 452: Add &quot;stubs&quot; Package to or Along Side of TclTest</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
@@ -762,11 +762,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 427: Introspection of Asynchronous Socket Connection</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/426.md'>426</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 426: Determining the &quot;Type&quot; of Commands</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
