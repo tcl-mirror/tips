@@ -133,18 +133,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/516.md'>516</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 516: More OO Slot Operations</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/515.md'>515</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 515: Level Value Reform</td>
 </tr>
 <tr class='invote'>
