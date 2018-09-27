@@ -12,7 +12,7 @@
 	"508":{"url":"./tip/508.md","keywords":"Tcl,array","state":"Final","type":"Project","author":["Frédéric Bonnet <fredericbonnet@free.fr>"],"vote-results":"9/0/0 accepted","votes-for":"DKF, BG, KBK, JN, JD, DGP, FV, SL, AK","votes-against":"none","created":"13-May-2018","title":"# TIP 508: New subcommand [array default]","post-history":"","vote":"Done","tcl-version":"8.7","votes-present":"none","is-jest":false},
 	"507":{"url":"./tip/507.md","keywords":"Tk","created":"9-May-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"","type":"Project","title":"# TIP 507: Include simple svg support with nanosvg","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
 	"506":{"url":"./tip/506.md","created":"30-Mar-2018","post-history":"","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 506: Purge RefCount Macros","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
-	"505":{"url":"./tip/505.md","state":"Accepted","type":"Project","author":["Don Porter <dgp@users.sourceforge.net>"],"vote-results":"8/0/1 accepted","votes-for":"DKF, KBK, JN, JD, DGP, FV, SL, AK","votes-against":"none","created":"26-Mar-2018","title":"# TIP 505: Make [lreplace] Accept All Out-of-Range Index Values","post-history":"","vote":"Done","tcl-version":"8.6.9","votes-present":"BG","is-jest":false},
+	"505":{"url":"./tip/505.md","state":"Final","type":"Project","author":["Don Porter <dgp@users.sourceforge.net>"],"vote-results":"8/0/1 accepted","votes-for":"DKF, KBK, JN, JD, DGP, FV, SL, AK","votes-against":"none","created":"26-Mar-2018","title":"# TIP 505: Make [lreplace] Accept All Out-of-Range Index Values","post-history":"","vote":"Done","tcl-version":"8.6.9","votes-present":"BG","is-jest":false},
 	"504":{"url":"./tip/504.md","keywords":"Tcl,string,insert","obsoletes":"475","created":"21-Mar-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 504: New subcommand [string insert]","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"503":{"url":"./tip/503.md","created":"05-Feb-2018","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 503: End Tcl 8.3 Source Compatibility Support","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"502":{"url":"./tip/502.md","created":"26-Feb-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 502: Index Value Reform","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
@@ -520,4 +520,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 518
-}, "@timestamp": 1538033226}
+}, "@timestamp": 1538036576}

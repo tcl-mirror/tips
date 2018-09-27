@@ -210,11 +210,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 506: Purge RefCount Macros</td>
 </tr>
-<tr class='project projectaccepted projectaccepted86 project86'>
+<tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/505.md'>505</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.9</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
