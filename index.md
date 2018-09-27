@@ -762,11 +762,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Final</td>
 <td valign='top'># TIP 427: Introspection of Asynchronous Socket Connection</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/426.md'>426</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 426: Determining the &quot;Type&quot; of Commands</td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
