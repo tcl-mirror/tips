@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 481: Extend size range of various Tcl_Get*() functions</td>
+<td valign='top'># TIP 481: Tcl\_GetStringFromObj() with size\_t length parameter</td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/480.md'>480</a></td>

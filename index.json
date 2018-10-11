@@ -36,7 +36,7 @@
 	"484":{"url":"./tip/484.md","keywords":"Tcl","created":"06-Nov-2017","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 484: Merge 'int' and 'wideInt' Obj-type to a single 'int'","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"483":{"url":"./tip/483.md","keywords":"Tk, configuration","created":"03-Nov-2017","post-history":"","state":"Accepted","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 483: Improved TIP #59 implementation for Tk","author":["Stuart Cassoff <stwo@users.sourceforge.net>"],"is-jest":false},
 	"482":{"url":"./tip/482.md","keywords":"Tk, demos, configuration","created":"03-Nov-2017","post-history":"","state":"Accepted","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 482: Record Tk demo directory information","author":["Stuart Cassoff <stwo@users.sourceforge.net>"],"is-jest":false},
-	"481":{"url":"./tip/481.md","keywords":"Tcl","created":"27-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 481: Extend size range of various Tcl_Get*() functions","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"481":{"url":"./tip/481.md","keywords":"Tcl","created":"27-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 481: Tcl\\_GetStringFromObj() with size\\_t length parameter","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"480":{"url":"./tip/480.md","keywords":"assertion, pragma, type, alias, compilation","created":"25-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 480: Type and Alias Assertions for Tcl","author":["Kevin B. Kenny <kevin.b.kenny@gmail.com>"],"is-jest":false},
 	"479":{"url":"./tip/479.md","keywords":"Tcl,procedure,argument handling","created":"23-Oct-2017","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 479: Add Named Procedures as a New Command in Tcl (procx)","author":["Sean Woods <yoda@etoyoc.com>"],"is-jest":false},
 	"478":{"url":"./tip/478.md","keywords":"Tcl","created":"18-Oct-2017","votes-against":"none","votes-for":"DKF, AK, JD, SL, JN","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 478: Add Expected Class Level Behaviors to oo::class","author":["Gerald Lester <Gerald.Lester@gmail.com>","Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
@@ -520,4 +520,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 518
-}, "@timestamp": 1539027622}
+}, "@timestamp": 1539285237}
