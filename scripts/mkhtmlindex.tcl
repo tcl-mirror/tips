@@ -151,6 +151,7 @@ proc encodeJSON {string} {
 proc writeRow {number varName} {
     global index json jests
     upvar 1 $varName fields
+    set titlecolumnspan ""
 
     set state $fields(state)
     if {[info exists fields(obsoleted-by)]} {
@@ -169,6 +170,9 @@ proc writeRow {number varName} {
 	set class [string tolower $state]
     } else {
 	set class [string tolower $type]
+	if {$class in {process informational}} {
+	    set titlecolumnspan " colspan=2"
+	}
 	if {$class eq "project"} {
 	    append class " [string tolower $type$state]"
 	    if {[info exists fields(tcl-version)]} {
@@ -200,10 +204,10 @@ proc writeRow {number varName} {
 	puts $index "<td valign='top' colspan=2>[encodeHTML $type]</td>"
     }
     puts $index "<td valign='top'>[encodeHTML $state]</td>"
-    puts $index "<td valign='top'>[encodeHTML $fields(title)]</td>"
+    puts $index "<td valign='top'$titlecolumnspan>[encodeHTML $fields(title)]</td>"
     if {[info exist link]} {
 	puts $index "<td valign='top'><a href='$link'>Link</a></td>"
-    } else {
+    } elseif {$titlecolumnspan ne ""} {
 	puts $index "<td></td>"
     }
     puts $index "</tr>"
