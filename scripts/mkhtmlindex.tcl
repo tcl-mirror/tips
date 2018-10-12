@@ -207,7 +207,7 @@ proc writeRow {number varName} {
     puts $index "<td valign='top'$titlecolumnspan>[encodeHTML $fields(title)]</td>"
     if {[info exist link]} {
 	puts $index "<td valign='top'><a href='$link'>Link</a></td>"
-    } elseif {$titlecolumnspan ne ""} {
+    } elseif {$titlecolumnspan eq ""} {
 	puts $index "<td></td>"
     }
     puts $index "</tr>"
