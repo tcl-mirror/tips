@@ -15,7 +15,7 @@
 	"505":{"url":"./tip/505.md","state":"Final","type":"Project","author":["Don Porter <dgp@users.sourceforge.net>"],"vote-results":"8/0/1 accepted","votes-for":"DKF, KBK, JN, JD, DGP, FV, SL, AK","votes-against":"none","created":"26-Mar-2018","title":"# TIP 505: Make [lreplace] Accept All Out-of-Range Index Values","post-history":"","vote":"Done","tcl-version":"8.6.9","votes-present":"BG","is-jest":false},
 	"504":{"url":"./tip/504.md","keywords":"Tcl,string,insert","obsoletes":"475","created":"21-Mar-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 504: New subcommand [string insert]","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"503":{"url":"./tip/503.md","created":"05-Feb-2018","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 503: End Tcl 8.3 Source Compatibility Support","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
-	"502":{"url":"./tip/502.md","created":"26-Feb-2018","post-history":"","state":"Accepted","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 502: Index Value Reform","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
+	"502":{"url":"./tip/502.md","created":"26-Feb-2018","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 502: Index Value Reform","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"501":{"url":"./tip/501.md","keywords":"Tcl,string","created":"12-Feb-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 501: string is dict","author":["Sean Woods <yoda@etoyoc.com>"],"is-jest":false},
 	"500":{"url":"./tip/500.md","keywords":"Tcl, object orientation, visibility","created":"10-Feb-2018","votes-against":"none","votes-for":"DKF, JN, AF, JD, SL, AK, KBK","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 500: Private Methods and Variables in TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"499":{"url":"./tip/499.md","keywords":"msgcat, oo","created":"07-Dec-2017","post-history":"","state":"Final","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 499: Custom locale search list for msgcat","author":["Harald Oehlmann <oehhar@sourceforge.com>"],"is-jest":false},
@@ -520,4 +520,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 518
-}, "@timestamp": 1539285237}
+}, "@timestamp": 1539371117}
