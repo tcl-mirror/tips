@@ -179,11 +179,18 @@ proc writeRow {number varName} {
 	    }
 	}
     }
+
+    # Decode links to branches and tickets with implementations
     if {[info exists fields(tcl-branch)] && [regexp {^[-\w]+$} $fields(tcl-branch)]} {
 	set link [format "/tcl/timeline?r=%s" $fields(tcl-branch)]
     } elseif {[info exists fields(tk-branch)] && [regexp {^[-\w]+$} $fields(tk-branch)]} {
 	set link [format "/tk/timeline?r=%s" $fields(tk-branch)]
+    } elseif {[info exists fields(tcl-ticket)] && [regexp {^[a-f0-9]+$} $fields(tcl-ticket)]} {
+	set link [format "/tcl/tktview/%s" $fields(tcl-ticket)]
+    } elseif {[info exists fields(tk-ticket)] && [regexp {^[a-f0-9]+$} $fields(tk-ticket)]} {
+	set link [format "/tk/tktview/%s" $fields(tk-ticket)]
     }
+
     puts $index "<tr class='$class'>"
     puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
     if {[info exists fields(tcl-version)]} {
