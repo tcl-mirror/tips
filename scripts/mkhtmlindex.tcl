@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Tcl Version</th>
 <th>Status</th>
 <th>Title</th>
+<th>Impl.</th>
 </tr></thead><tbody>
 }
     puts -nonewline $json "\{\"tip\": \{"
@@ -178,6 +179,11 @@ proc writeRow {number varName} {
 	    }
 	}
     }
+    if {[info exists fields(tcl-branch)] && [regexp {^[-\w]+$} $fields(tcl-branch)]} {
+	set link [format "/tcl/timeline?r=%s" $fields(tcl-branch)]
+    } elseif {[info exists fields(tk-branch)] && [regexp {^[-\w]+$} $fields(tk-branch)]} {
+	set link [format "/tk/timeline?r=%s" $fields(tk-branch)]
+    }
     puts $index "<tr class='$class'>"
     puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
     if {[info exists fields(tcl-version)]} {
@@ -188,6 +194,11 @@ proc writeRow {number varName} {
     }
     puts $index "<td valign='top'>[encodeHTML $state]</td>"
     puts $index "<td valign='top'>[encodeHTML $fields(title)]</td>"
+    if {[info exist link]} {
+	puts $index "<td valign='top'><a href='$link'>Link</a></td>"
+    } else {
+	puts $index "<td></td>"
+    }
     puts $index "</tr>"
 
     puts -nonewline $json "\n\t\"$number\":\{\"url\":[encodeJSON ./tip/$number.md],"
