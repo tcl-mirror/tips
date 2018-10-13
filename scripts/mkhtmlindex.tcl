@@ -2,6 +2,13 @@
 
 package require Tcl 8.6.2-;	# Uses [string cat]
 
+# Validation URLs
+array set RE {
+    BR {^[-\w]+$}
+    TKT {^[a-f0-9]+$}
+    URL {^(?:https?|ftp)://[-\w.]+/[^\s""`']*$}
+}
+
 # Some TIPs are jokes
 set jests {131 263 365}
 
@@ -127,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Tcl Version</th>
 <th>Status</th>
 <th>Title</th>
+<th>Impl.</th>
 </tr></thead><tbody>
 }
     puts -nonewline $json "\{\"tip\": \{"
@@ -148,8 +156,9 @@ proc encodeJSON {string} {
 }
 
 proc writeRow {number varName} {
-    global index json jests
+    global index json jests RE
     upvar 1 $varName fields
+    set titlecolumnspan ""
 
     set state $fields(state)
     if {[info exists fields(obsoleted-by)]} {
@@ -168,6 +177,9 @@ proc writeRow {number varName} {
 	set class [string tolower $state]
     } else {
 	set class [string tolower $type]
+	if {$class in {process informational}} {
+	    set titlecolumnspan " colspan=2"
+	}
 	if {$class eq "project"} {
 	    append class " [string tolower $type$state]"
 	    if {[info exists fields(tcl-version)]} {
@@ -178,6 +190,40 @@ proc writeRow {number varName} {
 	    }
 	}
     }
+
+    # Decode links to branches and tickets with implementations
+    if {[info exists fields(tcl-branch)]} {
+	if {[regexp $RE(BR) $fields(tcl-branch)]} {
+	    set link [format "/tcl/timeline?r=%s" $fields(tcl-branch)]
+	} else {
+	    puts stderr "WARNING: $number has invalid Tcl-Branch field"
+	}
+    } elseif {[info exists fields(tk-branch)]} {
+	if {[regexp $RE(BR) $fields(tk-branch)]} {
+	    set link [format "/tk/timeline?r=%s" $fields(tk-branch)]
+	} else {
+	    puts stderr "WARNING: $number has invalid Tk-Branch field"
+	}
+    } elseif {[info exists fields(tcl-ticket)]} {
+	if {[regexp $RE(TKT) $fields(tcl-ticket)]} {
+	    set link [format "/tcl/tktview/%s" $fields(tcl-ticket)]
+	} else {
+	    puts stderr "WARNING: $number has invalid Tcl-Ticket field"
+	}
+    } elseif {[info exists fields(tk-ticket)]} {
+	if {[regexp $RE(TKT) $fields(tk-ticket)]} {
+	    set link [format "/tk/tktview/%s" $fields(tk-ticket)]
+	} else {
+	    puts stderr "WARNING: $number has invalid Tk-Ticket field"
+	}
+    } elseif {[info exists fields(implementation-url)]} {
+	if {[regexp $RE(URL) $fields(implementation-url)]} {
+	    set link $fields(implementation-url)
+	} else {
+	    puts stderr "WARNING: $number has invalid Implementation-URL field"
+	}
+    }
+
     puts $index "<tr class='$class'>"
     puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
     if {[info exists fields(tcl-version)]} {
@@ -187,7 +233,12 @@ proc writeRow {number varName} {
 	puts $index "<td valign='top' colspan=2>[encodeHTML $type]</td>"
     }
     puts $index "<td valign='top'>[encodeHTML $state]</td>"
-    puts $index "<td valign='top'>[encodeHTML $fields(title)]</td>"
+    puts $index "<td valign='top'$titlecolumnspan>[encodeHTML $fields(title)]</td>"
+    if {[info exist link]} {
+	puts $index "<td valign='top'><a href='$link'>Link</a></td>"
+    } elseif {$titlecolumnspan eq ""} {
+	puts $index "<td></td>"
+    }
     puts $index "</tr>"
 
     puts -nonewline $json "\n\t\"$number\":\{\"url\":[encodeJSON ./tip/$number.md],"
@@ -220,11 +271,11 @@ proc parsePreamble {lines varName} {
     set lines [lassign [lmap line $lines {string trim $line}] title]
     set fields(title) [string trim [regsub {^[^:]:} $title ""]]
     foreach line $lines {
-	set valueList [lassign [split $line :] key]
+	regexp {^(?:([^:]+):\s*)?(.*)?$} $line -> key value
 	if {[string equal -nocase $key author]} {
-	    lappend fields([string tolower $key]) [string trim [join $valueList]]
+	    lappend fields([string tolower $key]) [string trim $value]
 	} else {
-	    set fields([string tolower $key]) [string trim [join $valueList]]
+	    set fields([string tolower $key]) [string trim $value]
 	}
     }
 }
