@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.9</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-505'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/504.md'>504</a></td>
@@ -454,7 +454,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.8</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 477: Modernize the nmake build system</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=vc-reform'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/476.md'>476</a></td>
@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 474: Treat the mouse wheel events in a uniform way</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip474-uniform-mouse-wheel'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/473.md'>473</a></td>
@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.7</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 473: Allow a Defined Target Namespace in oo::copy</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=oo-copy-ns'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/472.md'>472</a></td>
@@ -700,7 +700,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 446: Introspect Undo/Redo Stack Depths</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-446'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/445.md'>445</a></td>
@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 443: More Tag Configuration Options for the Text Widget</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-443'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/442.md'>442</a></td>
@@ -740,7 +740,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 441: Add -justify Configuration Option to the listbox Widget</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-441'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/440.md'>440</a></td>
@@ -764,7 +764,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 438: Ensure Line Metrics are Up-to-Date</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-438'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/437.md'>437</a></td>
@@ -812,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.3</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 432: Support for New Windows File Dialogs in Vista and Later</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=apn-win-filedialogs'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/431.md'>431</a></td>
@@ -836,7 +836,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.2</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 429: A &apos;string&apos; Subcommand for Concatenation</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-429'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/428.md'>428</a></td>
@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 427: Introspection of Asynchronous Socket Connection</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-427'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/426.md'>426</a></td>
@@ -940,7 +940,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 416: New Options for &apos;load&apos;: -global and -lazy</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=frq-3579001'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/415.md'>415</a></td>
@@ -964,7 +964,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 413: Unicode Support for &apos;string is space&apos; and &apos;string trim&apos;</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-318-update'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/412.md'>412</a></td>
@@ -1026,7 +1026,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 405: Add Collecting Loops, the &apos;lmap&apos; and &apos;dict map&apos; Commands</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/3163961'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/404.md'>404</a></td>
@@ -1034,7 +1034,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 404: Let Message Catalogs get the Locale from their File Name</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/3544988'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/403.md'>403</a></td>
@@ -1042,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 403: Web Colors for Tk</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=jn-web-colors'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/402.md'>402</a></td>
@@ -1066,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 400: Setting the Compression Dictionary and Other &apos;zlib&apos; Updates</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-400-impl'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/399.md'>399</a></td>
@@ -1082,7 +1082,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 398: Quickly Exit with Non-Blocking Blocked Channels</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-398-impl'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/397.md'>397</a></td>
@@ -1162,7 +1162,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 388: Extending Unicode literals past the BMP</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-388-impl'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/387.md'>387</a></td>
@@ -1224,7 +1224,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 380: TclOO Slots for Flexible Declarations</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/3084339'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/379.md'>379</a></td>
@@ -1240,7 +1240,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 378: Fixing the Performance of TIP 280</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/3081184'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/377.md'>377</a></td>
@@ -1368,7 +1368,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 362: Simple 32 and 64 bit Registry Support</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2960976'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/361.md'>361</a></td>
@@ -1384,7 +1384,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 360: Modernize X11 Menus</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/2920409'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/359.md'>359</a></td>
@@ -1392,7 +1392,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 359: Extended Window Manager Hint Support</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/2918731'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/358.md'>358</a></td>
@@ -1408,7 +1408,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 357: Export TclLoadFile</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2891616'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/356.md'>356</a></td>
@@ -1440,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 353: NR-enabled Expressions for Extensions</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2823282'>Link</a></td>
 </tr>
 <tr class='informational'>
 <td valign='top'><a href='./tip/352.md'>352</a></td>
@@ -1476,7 +1476,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 348: Substituted &apos;errorstack&apos; / &apos;traceback&apos;</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2868499'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/347.md'>347</a></td>
@@ -1516,7 +1516,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 343: A Binary Specifier for [format/scan]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2368084'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/342.md'>342</a></td>
@@ -1532,7 +1532,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 341: Multiple &apos;dict filter&apos; Patterns</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/340.md'>340</a></td>
@@ -1572,7 +1572,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 336: Supported Access To interp-&gt;errorline</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-330-336'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/335.md'>335</a></td>
@@ -1604,7 +1604,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 332: Half-Close for Bidirectional Channels</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/219159'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/331.md'>331</a></td>
@@ -1620,7 +1620,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 330: Eliminate interp-&gt;result from the Public Headers</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-330-336'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/329.md'>329</a></td>
@@ -1652,7 +1652,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 326: Add -stride Option to lsort</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2082681'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/325.md'>325</a></td>
@@ -1668,7 +1668,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 324: A Standard Dialog For Font Selection</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1477426'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/323.md'>323</a></td>
@@ -1692,7 +1692,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 321: Add a [tk busy] Command</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1997907'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/320.md'>320</a></td>
@@ -1700,7 +1700,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 320: Improved Variable Handling in the Core Object System</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/2005460'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/319.md'>319</a></td>
@@ -1724,7 +1724,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 317: Extend binary Ensemble with Binary Encodings</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1956530'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/316.md'>316</a></td>
@@ -1748,7 +1748,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 314: Ensembles with Parameters</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1901783'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/313.md'>313</a></td>
@@ -1756,7 +1756,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 313: Inexact Searching in Sorted List</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1894241'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/312.md'>312</a></td>
@@ -1801,7 +1801,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 307: Make TclTransferResult() Public</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1723738'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/306.md'>306</a></td>
@@ -1825,7 +1825,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 304: A Standalone [chan pipe] Primitive for Advanced Child IPC</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1978495'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/303.md'>303</a></td>
@@ -1977,7 +1977,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 285: Script Cancellation with [interp cancel] and Tcl_CancelEval</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1499394'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/284.md'>284</a></td>
@@ -2137,7 +2137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 265: A Convenient C-side Command Option Parser for Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1446696'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/264.md'>264</a></td>
@@ -2201,7 +2201,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 257: Object Orientation for Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-257-implementation-branch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/256.md'>256</a></td>
@@ -2413,7 +2413,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 230: Tcl Channel Transformation Reflection API</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1163274'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/229.md'>229</a></td>
@@ -2573,7 +2573,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 210: Add &apos;tempfile&apos; Subcommand to &apos;file&apos;</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/999162'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/209.md'>209</a></td>
@@ -2693,7 +2693,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 195: A Unique Prefix Handling Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1040206'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/194.md'>194</a></td>
@@ -2953,7 +2953,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 162: IPv6 Sockets for Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=rmax-ipv6-branch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/161.md'>161</a></td>
@@ -3297,7 +3297,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 119: Angled Text on a Canvas</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1611359'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/118.md'>118</a></td>
@@ -3399,7 +3399,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 106: Add Encoding Abilities to the [dde] Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-106-impl'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/105.md'>105</a></td>
@@ -3471,7 +3471,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 97: Moving Vertices of Canvas Items</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/2157629'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/96.md'>96</a></td>
