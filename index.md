@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 513: Better support for &apos;agendas&apos; as arrays, dictionaries or lists</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/512.md'>512</a></td>
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Accepted</td>
 <td valign='top'># TIP 511: Implement Tcl_AsyncMarkFromSignal()</td>
-<td></td>
+<td valign='top'><a href='https://www.androwish.org/index.html/info/40790af1e8e4ec9f'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/510.md'>510</a></td>
@@ -644,7 +644,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 453: Tcl Based Automation for tcl/pkgs</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tclconfig/timeline?r=practcl'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/452.md'>452</a></td>
@@ -684,7 +684,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 448: Update Tcl_SetNotifier to Reinitialize Event Loop</td>
-<td></td>
+<td valign='top'><a href='http://fossil.etoyoc.com/sandbox/tcllib/artifact/b2b272a285811272'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/447.md'>447</a></td>
@@ -780,7 +780,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 436: Improve TclOO isa Introspection</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tcloo/info/5fa1374aa026d4c7'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/435.md'>435</a></td>
@@ -804,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 433: Add %M binding substitution</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=bindScriptCount'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/432.md'>432</a></td>
@@ -908,7 +908,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 420: &apos;vexpr&apos;, a Vector Expression Command</td>
-<td></td>
+<td valign='top'><a href='http://www.etoyoc.com/tclmatrix3d'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/419.md'>419</a></td>
@@ -916,7 +916,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 419: A New Command for Binding to Tk Events</td>
-<td></td>
+<td valign='top'><a href='http://wiki.tcl.tk/tkevent'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/418.md'>418</a></td>
@@ -972,7 +972,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 412: Dynamic Locale Changing for msgcat with On-Demand File Load</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=msgcat_dyn_locale'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/411.md'>411</a></td>
@@ -980,7 +980,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 411: Improved Channel Introspection via &quot;chan info&quot;</td>
-<td></td>
+<td valign='top'><a href='http://sqlitestudio.pl/tcl/patches/tip-411-chan_info.patch'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/410.md'>410</a></td>
@@ -1090,7 +1090,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 397: Extensible Object Copying</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-rfe3485060'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/396.md'>396</a></td>
@@ -1106,7 +1106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 395: New &apos;string is entier&apos; Command</td>
-<td></td>
+<td valign='top'><a href='http://sites.google.com/site/josdecoster/Home/tip_string_is_entier.diff'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/394.md'>394</a></td>
@@ -1122,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 393: Add -command Option to lsearch</td>
-<td></td>
+<td valign='top'><a href='http://sqlitestudio.pl/tcl/patches/tip-393-lsearch-command.patch'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/392.md'>392</a></td>
@@ -1216,7 +1216,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 381: Call Chain Introspection and Control</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-next2'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/380.md'>380</a></td>
@@ -1232,7 +1232,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 379: Add a Command for Delivering Events Without Tk</td>
-<td></td>
+<td valign='top'><a href='http://www.wjduquette.com/notifier/hook-0.1.zip'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/378.md'>378</a></td>
@@ -1256,7 +1256,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 376: Bundle sqlite3 and tdbc::sqlite3 Packages</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tdbc/'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/375.md'>375</a></td>
@@ -1628,7 +1628,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 329: Try/Catch/Finally syntax</td>
-<td></td>
+<td valign='top'><a href='http://www.crypt.co.za/pub/try-1.tcl'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/328.md'>328</a></td>
@@ -1716,7 +1716,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 318: Extend Default Whitespace in &apos;string trim&apos; Beyond ASCII</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-318-update'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/317.md'>317</a></td>
@@ -2009,7 +2009,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 281: Improvements in System Error Handling</td>
-<td></td>
+<td valign='top'><a href='http://iocpsock.cvs.sourceforge.net/iocpsock/iocpsock/tclWinError.c?revision=HEAD&view=markup'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/280.md'>280</a></td>
@@ -2365,7 +2365,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 236: Absolute Positioning of Canvas Items</td>
-<td></td>
+<td valign='top'><a href='http://www.eecs.umich.edu/~mckay/canvmoveto.patch.gz'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/235.md'>235</a></td>
@@ -2381,7 +2381,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 234: Add Support For Zlib Compression</td>
-<td></td>
+<td valign='top'><a href='http://svn.scheffers.net/zlib'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/233.md'>233</a></td>
@@ -2429,7 +2429,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 228: Tcl Filesystem Reflection API</td>
-<td></td>
+<td valign='top'><a href='http://sourceforge.net/projects/tclvfs/'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/227.md'>227</a></td>
@@ -2761,7 +2761,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 186: Expose the Type and Modified-State of Widget Options</td>
-<td></td>
+<td valign='top'><a href='http://pdqi.com/configure.diff.gz'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/185.md'>185</a></td>
@@ -2889,7 +2889,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 170: Better Support for Nested Lists</td>
-<td></td>
+<td valign='top'><a href='http://nac.sf.net/'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/169.md'>169</a></td>
@@ -3559,7 +3559,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 86: Improved Debugger Support</td>
-<td></td>
+<td valign='top'><a href='http://pdqi.com/download/tclline-8.4.9.diff.gz'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/85.md'>85</a></td>
