@@ -556,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 464: Support for Multimedia Keys on Windows</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-464'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/463.md'>463</a></td>
@@ -748,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 440: Add engine to tcl_platform Array</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tclPlatformEngine'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/439.md'>439</a></td>
@@ -772,7 +772,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5.18</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 437: Tk panedwindow options for proxy window</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-437'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/436.md'>436</a></td>
@@ -1208,7 +1208,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5.11</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 382: Let tk_getSaveFile ignore file overwrites</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-382'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/381.md'>381</a></td>
@@ -1857,7 +1857,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 300: Examine Glyph Substitution in the &apos;font actual&apos; Command</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1602955'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/299.md'>299</a></td>
@@ -1865,7 +1865,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 299: Add isqrt() Math Function</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1602534'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/298.md'>298</a></td>
@@ -1873,7 +1873,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 298: Revise Shared Value Rules for Tcl_GetBignumAndClearObj</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1601243'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/297.md'>297</a></td>
@@ -1929,7 +1929,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 291: Add the &apos;platform&apos; Package to Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1600701'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/290.md'>290</a></td>
@@ -1961,7 +1961,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 287: Add a Commands for Determining Size of Buffered Data</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1586860'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/286.md'>286</a></td>
@@ -1969,7 +1969,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 286: Add &apos;xposition&apos; Command to Menu Widgets</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1152376'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/285.md'>285</a></td>
@@ -2017,7 +2017,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 280: Add Full Stack Trace Capability With Location Introspection</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1571568'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/279.md'>279</a></td>
