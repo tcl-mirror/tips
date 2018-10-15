@@ -2057,7 +2057,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 275: Support Unsigned Values in binary Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1565751'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/274.md'>274</a></td>
@@ -2065,7 +2065,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 274: Right-Associativity for the Exponentiation Operator</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1556802'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/273.md'>273</a></td>
@@ -2081,7 +2081,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 272: String and List Reversal Operations</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1545151'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/271.md'>271</a></td>
@@ -2105,7 +2105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 269: Add &apos;string is list&apos; to the &apos;string is&apos; Subcommand</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1491459'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/268.md'>268</a></td>
@@ -2113,7 +2113,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 268: Enhance &apos;package&apos; Version Handling</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1520767'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/267.md'>267</a></td>
@@ -2121,7 +2121,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 267: Allow &apos;exec&apos; to Ignore Stderr</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1476191'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/266.md'>266</a></td>
@@ -2169,7 +2169,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 261: Return Imported Commands from [namespace import]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1437008'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/260.md'>260</a></td>
@@ -2193,7 +2193,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 258: Enhanced Interface for Encodings</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1413934'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/257.md'>257</a></td>
@@ -2209,7 +2209,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 256: Implement Tabular and Wordprocessor Style Tabbing</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1247835'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/255.md'>255</a></td>
@@ -2217,7 +2217,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 255: Add &apos;min&apos; and &apos;max&apos; [expr] Functions</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1309020'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/254.md'>254</a></td>
