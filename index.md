@@ -3145,7 +3145,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 138: New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/731356'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/137.md'>137</a></td>
@@ -3153,7 +3153,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 137: Specifying Script Encodings for [source] and tclsh</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/742683'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/136.md'>136</a></td>
@@ -3161,7 +3161,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 136: Large List Initialisation</td>
-<td></td>
+<td valign='top'><a href='http://homepage.ntlworld.com/whiteowl/tcl/tcl843-lrepeat.patch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/135.md'>135</a></td>
@@ -3193,7 +3193,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 132: Revised Floating-Point Conversions in Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=kennykb-numerics-branch'>Link</a></td>
 </tr>
 <tr class='jest'>
 <td valign='top'><a href='./tip/131.md'>131</a></td>
@@ -3209,7 +3209,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 130: Unique DDE server names.</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/690354'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/129.md'>129</a></td>
@@ -3217,7 +3217,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 129: New Format Codes for the [binary] Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/858211'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/128.md'>128</a></td>
@@ -3233,7 +3233,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 127: Add an -index Option to [lsearch]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/693836'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/126.md'>126</a></td>
@@ -3249,7 +3249,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 125: Converting between Frame and Toplevel Windows</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/998125'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/124.md'>124</a></td>
@@ -3257,7 +3257,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 124: High-Resolution Absolute Time Values From [clock]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/656997'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/123.md'>123</a></td>
@@ -3265,7 +3265,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 123: Adding an Exponentiation Operator to the [expr] Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/655176'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/122.md'>122</a></td>
@@ -3281,7 +3281,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 121: Controlled Application Shutdown via Tcl_Exit</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/649313'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/120.md'>120</a></td>
@@ -3289,7 +3289,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 120: Restricted DDE Services</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/649859'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/119.md'>119</a></td>
