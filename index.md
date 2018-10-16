@@ -3305,7 +3305,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 118: Enhance [file attributes] and [file copy] on Mac OS X &amp; BSD</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/626360'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/117.md'>117</a></td>
@@ -3321,7 +3321,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 116: More Safety for Large Images</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/646382'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/115.md'>115</a></td>
@@ -3353,7 +3353,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 112: Ensembles are Namespaces are Commands</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/786509'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/111.md'>111</a></td>
@@ -3361,7 +3361,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 111: Dictionary Values and Manipulators</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/654893'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/110.md'>110</a></td>
@@ -3369,7 +3369,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 110: Add a Tristate Mode to the Checkbutton and Radiobutton</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/863271'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/109.md'>109</a></td>
@@ -3377,7 +3377,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 109: New Look for Checkbutton and Radiobutton on Unix</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/776545'>Link</a></td>
 </tr>
 <tr class='informational'>
 <td valign='top'><a href='./tip/108.md'>108</a></td>
@@ -3447,7 +3447,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 100: Add Support for Unloading Dynamic Libraries Loaded with [load]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/823486'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/99.md'>99</a></td>
@@ -3527,7 +3527,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 90: Enable [return -code] in Control Structure Procs</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/531640'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/89.md'>89</a></td>
@@ -3644,7 +3644,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 75: Refer to Sub-RegExps Inside &apos;switch -regexp&apos; Bodies</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/848578'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/74.md'>74</a></td>
@@ -3770,7 +3770,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 59: Embed Build Information in Tcl Binary Library</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/507083'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/58.md'>58</a></td>
