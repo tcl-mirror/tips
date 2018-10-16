@@ -2225,7 +2225,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 254: New Types for Tcl_LinkVar</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1242844'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/253.md'>253</a></td>
@@ -2257,7 +2257,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 250: Efficient Access to Namespace Variables</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1275435'>Link</a></td>
 </tr>
 <tr class='informational'>
 <td valign='top'><a href='./tip/249.md'>249</a></td>
@@ -2293,7 +2293,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 245: Discover User Inactivity Time</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1185731'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/244.md'>244</a></td>
@@ -2317,7 +2317,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 242: Preselect Filter on tk_get*File Dialogs</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1156388'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/241.md'>241</a></td>
@@ -2325,7 +2325,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 241: Case-Insensitive Switches and List Searching and Sorting</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1152746'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/240.md'>240</a></td>
@@ -2357,7 +2357,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 237: Arbitrary-Precision Integers for Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=kennykb-numerics-branch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/236.md'>236</a></td>
@@ -2389,7 +2389,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 233: Virtualization of Tcl&apos;s Sense of Time</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1073863'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/232.md'>232</a></td>
@@ -2405,7 +2405,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 231: Support for [wm attributes] on X11</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1062022'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/230.md'>230</a></td>
@@ -2421,7 +2421,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 229: Scripted Control of Name Resolution in Namespaces</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1159942'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/228.md'>228</a></td>
@@ -2437,7 +2437,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 227: Interface to Get and Set the Return Options of an Interpreter</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/226.md'>226</a></td>
@@ -2445,7 +2445,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 226: Interface to Save and Restore Interpreter State</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/225.md'>225</a></td>
@@ -2469,7 +2469,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 223: Full-Screen Toplevel Support for Tk</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1032982'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/222.md'>222</a></td>
@@ -2477,7 +2477,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 222: Add [wm attributes -alpha] Attribute on Windows</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/892194'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/221.md'>221</a></td>
@@ -2485,7 +2485,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 221: Allow Background Error Handlers to Accept Return Options</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/220.md'>220</a></td>
