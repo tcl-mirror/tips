@@ -2817,7 +2817,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 179: Add -hide Option to panedwindow Widget</td>
-<td></td>
+<td valign='top'><a href='ftp://ftp.model.com/pub/tcl/pw_hide_TIP.tgz'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/178.md'>178</a></td>
@@ -2833,7 +2833,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 177: Add -stretch Option to panedwindow Widget</td>
-<td></td>
+<td valign='top'><a href='ftp://ftp.model.com/pub/tcl/pw_stretch_TIP.tgz'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/176.md'>176</a></td>
@@ -2841,7 +2841,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 176: Add String Index Values</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1165695'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/175.md'>175</a></td>
@@ -2857,7 +2857,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 174: Math Operators as Commands</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1578137'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/173.md'>173</a></td>
@@ -2897,7 +2897,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 169: Add Peer Text Widgets</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/994629'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/168.md'>168</a></td>
@@ -2905,7 +2905,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 168: Cubic Bezier Curves on the Canvas</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/886240'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/167.md'>167</a></td>
@@ -2929,7 +2929,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 165: A User-Data Field for Virtual Events</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/1008975'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/164.md'>164</a></td>
@@ -2945,7 +2945,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 163: A [dict merge] Subcommand</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/745851'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/162.md'>162</a></td>
@@ -2977,7 +2977,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 159: Extending Tk &apos;wm&apos; Command to Support Coloured Icons</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/815751'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/158.md'>158</a></td>
@@ -2985,7 +2985,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 158: Distinguish the two &apos;Enter&apos; keys on Windows</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/797404'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/157.md'>157</a></td>
@@ -3001,7 +3001,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 156: Language-Neutral Root Locale for Msgcat</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/809825'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/155.md'>155</a></td>
@@ -3009,7 +3009,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 155: Fix Some of the Text Widget&apos;s Limitations</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/791292'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/154.md'>154</a></td>
@@ -3025,7 +3025,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 153: Enhancing the [winfo toplevel] Command</td>
-<td></td>
+<td valign='top'><a href='http://www.eecs.umich.edu/~mckay/computer/winfotop.patch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/152.md'>152</a></td>
@@ -3033,7 +3033,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 152: New -detail Option for tk_messageBox</td>
-<td></td>
+<td valign='top'><a href='http://hem.fyristorg.com/matben/download/MovableAlerts.dmg'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/151.md'>151</a></td>
@@ -3065,7 +3065,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 148: Correct [list]-Quoting of the &apos;#&apos; Character</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/489537'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/147.md'>147</a></td>
@@ -3073,7 +3073,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 147: Make Grid&apos;s Column/Row Configure Easier</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/659218'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/146.md'>146</a></td>
@@ -3089,7 +3089,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 145: Enhanced Tk Font Handling</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/780617'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/144.md'>144</a></td>
@@ -3105,7 +3105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 143: An Interpreter Resource Limiting Framework</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/926771'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/142.md'>142</a></td>
@@ -3121,7 +3121,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 141: Multiple Initial-Files in [tk_getOpenFile]</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/657656'>Link</a></td>
 </tr>
 <tr class='deferred'>
 <td valign='top'><a href='./tip/140.md'>140</a></td>
