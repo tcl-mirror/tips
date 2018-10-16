@@ -3391,7 +3391,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 107: Fix the 2-second &quot;raise delay&quot; in Tk</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/601518'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/106.md'>106</a></td>
@@ -3415,7 +3415,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 104: Generalization of the Tk Undo Subsystem</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/554763'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/103.md'>103</a></td>
@@ -3455,7 +3455,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 99: Add &apos;file link&apos; to Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/562970'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/98.md'>98</a></td>
@@ -3463,7 +3463,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 98: Adding Transparency Compositing Rules to Photo Images</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/566765'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/97.md'>97</a></td>
@@ -3487,7 +3487,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 95: Add [wm attributes] Command</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/553926'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/94.md'>94</a></td>
@@ -3503,7 +3503,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 93: Get/Delete Enhancement for the Tk Text Widget</td>
-<td></td>
+<td valign='top'><a href='http://faqchest.dynhost.com/prgm/ptk-l/ptk-01/ptk-0112/ptk-011201/ptk01122716_24437.html'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/92.md'>92</a></td>
@@ -3551,7 +3551,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 87: Allow Tcl Access to the Recursion Limit</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/522849'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/86.md'>86</a></td>
@@ -3567,7 +3567,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 85: Custom Comparisons in Tcltest</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/521362'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/84.md'>84</a></td>
@@ -3575,7 +3575,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 84: Add control for mouse movement filtering</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/564642'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/83.md'>83</a></td>
@@ -3652,7 +3652,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 74: wm stackorder command</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/481148'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/73.md'>73</a></td>
@@ -3738,7 +3738,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 63: Add -compound Option to Menu Entries</td>
-<td></td>
+<td valign='top'><a href='ftp://ftp.ucsd.edu/pub/alpha/tcl/compoundmenu.diff'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/62.md'>62</a></td>
@@ -3746,7 +3746,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 62: Add Support for Command Tracing</td>
-<td></td>
+<td valign='top'><a href='http://www.employees.org/~hlavana/tcl/'>Link</a></td>
 </tr>
 <tr class='deferred'>
 <td valign='top'><a href='./tip/61.md'>61</a></td>
