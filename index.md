@@ -3794,7 +3794,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 56: Standardize Call Interface to Tcl_Eval* Functions</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/455151'>Link</a></td>
 </tr>
 <tr class='informational'>
 <td valign='top'><a href='./tip/55.md'>55</a></td>
@@ -3853,7 +3853,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 48: Tk Widget Styling Support</td>
-<td></td>
+<td valign='top'><a href='http://www.purl.org/NET/bonnet/pub/style.patch'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/47.md'>47</a></td>
@@ -3861,7 +3861,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 47: Modifying Tk to Allow Writing X Window managers</td>
-<td></td>
+<td valign='top'><a href='http://www.eecs.umich.edu/~mckay/computer/wmenablers.84a3.patch.gz'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/46.md'>46</a></td>
@@ -3885,7 +3885,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 44: Move Tk&apos;s Private Commands and Variables into ::tk Namespace</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/220936'>Link</a></td>
 </tr>
 <tr class='informational'>
 <td valign='top'><a href='./tip/43.md'>43</a></td>
@@ -3955,7 +3955,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 35: Enhanced Support for Serial Communications</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/438509'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/34.md'>34</a></td>
@@ -4021,7 +4021,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 26: Enhancements for the Tk Text Widget</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/26.patch'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/25.md'>25</a></td>
@@ -4057,7 +4057,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 21: Asymmetric Padding in the Pack and Grid Geometry Managers</td>
-<td></td>
+<td valign='top'><a href='http://www.hwaci.com/sw/asym_pad_patch_2.txt'>Link</a></td>
 </tr>
 <tr class='deferred'>
 <td valign='top'><a href='./tip/20.md'>20</a></td>
@@ -4111,7 +4111,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 14: Access to Tk Photo Image Transparency</td>
-<td></td>
+<td valign='top'><a href='http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch'>Link</a></td>
 </tr>
 <tr class='process'>
 <td valign='top'><a href='./tip/13.md'>13</a></td>
@@ -4139,7 +4139,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 10: Tcl I/O Enhancement: Thread-Aware Channels</td>
-<td></td>
+<td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/10.patch'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/9.md'>9</a></td>
@@ -4155,7 +4155,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 8: Add Winico support to the wm command on windows</td>
-<td></td>
+<td valign='top'><a href='ftp://ftp.ucsd.edu/pub/alpha/tcl/tkWinWm.diff'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal84 project84'>
 <td valign='top'><a href='./tip/7.md'>7</a></td>
