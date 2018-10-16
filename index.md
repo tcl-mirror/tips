@@ -2501,7 +2501,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 219: Tcl Channel Reflection API</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1025294'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/218.md'>218</a></td>
@@ -2509,7 +2509,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 218: Tcl Channel Driver Thread State Actions</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/875701'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/217.md'>217</a></td>
@@ -2517,7 +2517,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 217: Getting Sorted Indices out of Lsort</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1017532'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/216.md'>216</a></td>
@@ -2533,7 +2533,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 215: Make [incr] Auto-Initialize Undefined Variables</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1413115'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/214.md'>214</a></td>
@@ -2557,7 +2557,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 212: Temporarily Opening out a Dictionary</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1008768'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/211.md'>211</a></td>
@@ -2581,7 +2581,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 209: Add [clock milliseconds], and [clock microseconds]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/991742'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/208.md'>208</a></td>
@@ -2597,7 +2597,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 207: Add a -namespace Option to [interp invokehidden]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/981841'>Link</a></td>
 </tr>
 <tr class='obsoleted'>
 <td valign='top'><a href='./tip/206.md'>206</a></td>
@@ -2613,7 +2613,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 205: Use pkgconfig Database to Register Xft Support</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/976520'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/204.md'>204</a></td>
@@ -2621,7 +2621,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 204: Virtual Events for Keyboard Traversal</td>
-<td></td>
+<td valign='top'><a href='/tk/tktview/976928'>Link</a></td>
 </tr>
 <tr class='withdrawn'>
 <td valign='top'><a href='./tip/203.md'>203</a></td>
@@ -2637,7 +2637,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 202: Add 2&gt;@1 Special Case to [open] and [exec]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/957132'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/201.md'>201</a></td>
@@ -2645,7 +2645,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 201: Add &apos;in&apos; Operator to [expr]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1031507'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/200.md'>200</a></td>
@@ -2701,7 +2701,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 194: Procedures as Values via &apos;&apos;&apos;apply&apos;&apos;&apos;</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/944803'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/193.md'>193</a></td>
@@ -2737,7 +2737,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 189: Tcl Modules</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/942881'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/188.md'>188</a></td>
@@ -2745,7 +2745,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 188: Add &apos;string is wideinteger&apos; to the &apos;string is&apos; Subcommand</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/940915'>Link</a></td>
 </tr>
 <tr class='rejected'>
 <td valign='top'><a href='./tip/187.md'>187</a></td>
@@ -2777,7 +2777,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 184: Avoid Creating Unusable Variables</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/600812'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/183.md'>183</a></td>
@@ -2785,7 +2785,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 183: Add a Binary Flag to [open]</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/577093'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/182.md'>182</a></td>
@@ -2793,7 +2793,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 182: Add [expr bool] Math Function</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/1165062'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/181.md'>181</a></td>
@@ -2801,7 +2801,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
 <td valign='top'># TIP 181: Add a [namespace unknown] Command</td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/958222'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/180.md'>180</a></td>
