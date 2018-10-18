@@ -121,6 +121,14 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/519.md'>519</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 519: Inline export/unexport option to TclOO method definition</td>
+<td valign='top'><a href='/tcl/timeline?r=tip-519'>Link</a></td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/518.md'>518</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
