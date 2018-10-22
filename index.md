@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 522: Test error codes with Tcltest</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/521.md'>521</a></td>
