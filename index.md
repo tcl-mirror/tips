@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 523: New lpop command</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/522.md'>522</a></td>
