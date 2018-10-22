@@ -1,5 +1,5 @@
 {"tip": {
-	"521":{"url":"./tip/521.md","keywords":"Tcl, floating point, NaN, not a number","created":"21 October 2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 520: Floating Point Classification Functions","author":["Kevin B. Kenny <kevin.b.kenny@gmail.com>"],"is-jest":false},
+	"521":{"url":"./tip/521.md","keywords":"Tcl, floating point, NaN, not a number","created":"21 October 2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 521: Floating Point Classification Functions","author":["Kevin B. Kenny <kevin.b.kenny@gmail.com>"],"is-jest":false},
 	"520":{"url":"./tip/520.md","keywords":"Tcl, floating point, NaN, not a number","created":"18 October 2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 520: Make NaN Quiet","author":["Kevin B. Kenny <kevin.b.kenny@gmail.com>"],"is-jest":false},
 	"519":{"url":"./tip/519.md","keywords":"TclOO","":"","state":"Draft","this tip proposes to extend the `method` subcommand of the `oo":":define` command","type":"Project","author":["Pietro Cerutti <gahr@gahr.ch>"],"follows":"","oo":":define RPCClient {","created":"18-Oct-2018","title":"# TIP 519: Inline export/unexport option to TclOO method definition","the class definition in the previous example would then be as follows":"","post-history":"","vote":"Pending","tcl-version":"8.7","tcl-branch":"tip-519","is-jest":false},
 	"518":{"url":"./tip/518.md","keywords":"Tk","created":"22-Sep-2018","post-history":"","state":"Draft","tk-branch":"tip518-event-last-child-unmanaged","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 518: Virtual Event when Last Child is not Managed any more","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
@@ -523,4 +523,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 521
-}, "@timestamp": 1540169919}
+}, "@timestamp": 1540169980}
