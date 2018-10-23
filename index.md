@@ -121,6 +121,14 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/524.md'>524</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 524: Custom Definition Dialects for TclOO</td>
+<td></td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/523.md'>523</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
