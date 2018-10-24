@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='project projectdraft projectdraft85 project85'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/525.md'>525</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
 <td></td>
 </tr>
