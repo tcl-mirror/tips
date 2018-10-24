@@ -1,5 +1,5 @@
 {"tip": {
-	"525":{"url":"./tip/525.md","keywords":"Tcl, testing, continuous integration","created":"24-Oct-2018","post-history":"","state":"Draft","tcl-version":"8.5","vote":"Pending","type":"Project","title":"# TIP 524: Make Tcltest Report Overall Success in a Machine-Readable Way","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
+	"525":{"url":"./tip/525.md","keywords":"Tcl, testing, continuous integration","created":"24-Oct-2018","post-history":"","state":"Draft","tcl-version":"8.5","vote":"Pending","type":"Project","title":"# TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"524":{"url":"./tip/524.md","keywords":"Tcl, object orientation, customization","created":"23-Oct-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 524: Custom Definition Dialects for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"523":{"url":"./tip/523.md","keywords":"queue, stack, pop","created":"22-Oct-2018","post-history":"","state":"Draft","tcl-branch":"tip-523","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 523: New lpop command","author":["Peter Spjuth <peter.spjuth@gmail.com>"],"is-jest":false},
 	"522":{"url":"./tip/522.md","keywords":"tcltest, error codes","created":"22-Oct-2018","post-history":"","state":"Draft","tcl-branch":"tip-522","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 522: Test error codes with Tcltest","author":["Peter Spjuth <peter.spjuth@gmail.com>"],"is-jest":false},
@@ -527,4 +527,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 525
-}, "@timestamp": 1540385393}
+}, "@timestamp": 1540385525}

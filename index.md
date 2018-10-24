@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 524: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
+<td valign='top'># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
 <td></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
