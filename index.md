@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 520: Make NaN Quiet</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-520'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/519.md'>519</a></td>
