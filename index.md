@@ -144,11 +144,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 523: New lpop command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/522.md'>522</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 522: Test error codes with Tcltest</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
@@ -272,10 +272,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 507: Include simple svg support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft90 project90'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/506.md'>506</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>9.0</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 506: Purge RefCount Macros</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-506'>Link</a></td>
