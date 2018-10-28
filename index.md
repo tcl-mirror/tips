@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 524: Custom Definition Dialects for TclOO</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-524'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/523.md'>523</a></td>
@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (procx)</td>
+<td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (dictargs::proc)</td>
 <td valign='top'><a href='/tcl/timeline?r=tip479'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
