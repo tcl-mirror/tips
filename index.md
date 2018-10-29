@@ -144,11 +144,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 523: New lpop command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/522.md'>522</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 522: Test error codes with Tcltest</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
