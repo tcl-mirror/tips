@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 507: Include simple svg support with nanosvg</td>
+<td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
 <tr class='invote'>
