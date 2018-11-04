@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 480: Type and Alias Assertions for Tcl</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-480'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/479.md'>479</a></td>
