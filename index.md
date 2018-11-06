@@ -176,11 +176,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 519: Inline export/unexport option to TclOO method definition</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-519'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/518.md'>518</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 518: Virtual Event when Last Child is not Managed any more</td>
 <td valign='top'><a href='/tk/timeline?r=tip518-event-last-child-unmanaged'>Link</a></td>
 </tr>
@@ -998,11 +998,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 416: New Options for &apos;load&apos;: -global and -lazy</td>
 <td valign='top'><a href='/tcl/timeline?r=frq-3579001'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/415.md'>415</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 415: Enable Easy Creation of Circular Arc Segments</td>
 <td valign='top'><a href='/tk/timeline?r=tip-415'>Link</a></td>
 </tr>
