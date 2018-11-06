@@ -272,11 +272,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/506.md'>506</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 506: Purge RefCount Macros</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-506'>Link</a></td>
 </tr>
