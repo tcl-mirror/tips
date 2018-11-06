@@ -128,19 +128,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
 <td></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/524.md'>524</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 524: Custom Definition Dialects for TclOO</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-524'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/523.md'>523</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 523: New lpop command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
@@ -168,19 +168,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 520: Make NaN Quiet</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-520'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/519.md'>519</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 519: Inline export/unexport option to TclOO method definition</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-519'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/518.md'>518</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 518: Virtual Event when Last Child is not Managed any more</td>
 <td valign='top'><a href='/tk/timeline?r=tip518-event-last-child-unmanaged'>Link</a></td>
 </tr>
@@ -240,11 +240,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 511: Implement Tcl_AsyncMarkFromSignal()</td>
 <td valign='top'><a href='https://www.androwish.org/index.html/info/40790af1e8e4ec9f'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/510.md'>510</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 510: Add Rbc to Tk</td>
 <td valign='top'><a href='/tk/timeline?r=tip-510'>Link</a></td>
 </tr>
@@ -272,11 +272,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/506.md'>506</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 506: Purge RefCount Macros</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-506'>Link</a></td>
 </tr>
@@ -312,11 +312,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 502: Index Value Reform</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-502'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/501.md'>501</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 501: string is dict</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-501'>Link</a></td>
 </tr>
@@ -552,11 +552,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 472: Add Support for 0d Radix Prefix to Integer Literals</td>
 <td valign='top'><a href='/tcl/timeline?r=bsg-0d-radix-prefix'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/471.md'>471</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 471: Add [info linkedname] Introspection Command</td>
 <td valign='top'><a href='/tcl/timeline?r=info-linkedname'>Link</a></td>
 </tr>
@@ -758,11 +758,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 446: Introspect Undo/Redo Stack Depths</td>
 <td valign='top'><a href='/tk/timeline?r=tip-446'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/445.md'>445</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 445: Tcl_ObjType Utility Routines</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-445'>Link</a></td>
 </tr>
@@ -998,11 +998,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 416: New Options for &apos;load&apos;: -global and -lazy</td>
 <td valign='top'><a href='/tcl/timeline?r=frq-3579001'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/415.md'>415</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 415: Enable Easy Creation of Circular Arc Segments</td>
 <td valign='top'><a href='/tk/timeline?r=tip-415'>Link</a></td>
 </tr>
@@ -1068,11 +1068,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top' colspan=2># TIP 407: The String Representation of Tcl Lists: the Gory Details</td>
 </tr>
-<tr class='invote'>
+<tr class='project projectaccepted projectaccepted87 project87'>
 <td valign='top'><a href='./tip/406.md'>406</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top'># TIP 406: &quot;C&quot; is for Cookie</td>
 <td valign='top'><a href='/tcl/timeline?r=dkf-http-cookies'>Link</a></td>
 </tr>
