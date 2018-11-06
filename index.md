@@ -128,19 +128,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
 <td></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/524.md'>524</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 524: Custom Definition Dialects for TclOO</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-524'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/523.md'>523</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 523: New lpop command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
@@ -168,11 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 520: Make NaN Quiet</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-520'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/519.md'>519</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 519: Inline export/unexport option to TclOO method definition</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-519'>Link</a></td>
 </tr>
@@ -312,11 +312,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 502: Index Value Reform</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-502'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/501.md'>501</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 501: string is dict</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-501'>Link</a></td>
 </tr>
@@ -758,11 +758,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 446: Introspect Undo/Redo Stack Depths</td>
 <td valign='top'><a href='/tk/timeline?r=tip-446'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/445.md'>445</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 445: Tcl_ObjType Utility Routines</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-445'>Link</a></td>
 </tr>
@@ -1068,11 +1068,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Draft</td>
 <td valign='top' colspan=2># TIP 407: The String Representation of Tcl Lists: the Gory Details</td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/406.md'>406</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 406: &quot;C&quot; is for Cookie</td>
 <td valign='top'><a href='/tcl/timeline?r=dkf-http-cookies'>Link</a></td>
 </tr>
