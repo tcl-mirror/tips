@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/526.md'>526</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 526: Make [expr] Only Accept One Argument</td>
+<td></td>
+</tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/525.md'>525</a></td>
 <td valign='top'>Project</td>
