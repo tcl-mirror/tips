@@ -232,11 +232,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 513: Better support for &apos;agendas&apos; as arrays, dictionaries or lists</td>
 <td valign='top'><a href='https://core.tcl.tk/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/512.md'>512</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 512: No stub for Tcl_SetExitProc()</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-512'>Link</a></td>
 </tr>
@@ -480,11 +480,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 482: Record Tk demo directory information</td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/481.md'>481</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 481: `Tcl_GetStringFromObj()` with `size_t` length parameter</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-481'>Link</a></td>
 </tr>
@@ -1014,11 +1014,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 415: Enable Easy Creation of Circular Arc Segments</td>
 <td valign='top'><a href='/tk/timeline?r=tip-415'>Link</a></td>
 </tr>
-<tr class='invote'>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/414.md'>414</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 414: Add (back) Tcl_InitSubsystems as Public API</td>
 <td valign='top'><a href='/tcl/timeline?r=initsubsystems'>Link</a></td>
 </tr>
