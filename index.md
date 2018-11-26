@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft85 project85'>
+<td valign='top'><a href='./tip/527.md'>527</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.5</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 527: New measurement facilities in TCL: New command timerate.</td>
+<td></td>
+</tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/526.md'>526</a></td>
 <td valign='top'>Project</td>
