@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.5</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 527: New measurement facilities in TCL: New command timerate.</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=sebres-8-6-timerate'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft90 project90'>
 <td valign='top'><a href='./tip/526.md'>526</a></td>
