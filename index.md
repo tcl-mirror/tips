@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 510: Add Rbc to Tk</td>
+<td valign='top'># TIP 510: Add Rbc and Tkpath widgets to Tk</td>
 <td valign='top'><a href='/tk/timeline?r=tip-510'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal87 project87'>
