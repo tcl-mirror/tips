@@ -1,5 +1,5 @@
 {"tip": {
-	"528":{"url":"./tip/528.md","created":"05-Dec-2018","post-history":"","state":"Draft","tk-branch":"offsetof","tk-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 528: Deprecate Tk_Offset()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"528":{"url":"./tip/528.md","created":"05-Dec-2018","post-history":"","state":"Draft","tk-branch":"offsetof","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 528: Deprecate Tk_Offset()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"527":{"url":"./tip/527.md","created":"26-Nov-2018","post-history":"","state":"Draft","tcl-branch":"sebres-8-6-timerate","tcl-version":"8.5","vote":"Pending","type":"Project","title":"# TIP 527: New measurement facilities in TCL: New command timerate.","discussions-to":"news:comp.lang.tcl","author":["Sergey G. Brester <sebres@users.sourceforge.net>"],"is-jest":false},
 	"526":{"url":"./tip/526.md","created":"08-Nov-2018","post-history":"","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 526: Make [expr] Only Accept One Argument","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"525":{"url":"./tip/525.md","keywords":"Tcl, testing, continuous integration","state":"Final","type":"Project","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"vote-results":"8/0/0 accepted","votes-for":"KBK, SL, AF, DGP, FV, DKF, AK, JN","votes-against":"none","created":"24-Oct-2018","title":"# TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way","post-history":"","vote":"Done","tcl-version":"8.5","votes-present":"none","is-jest":false},
@@ -530,4 +530,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 528
-}, "@timestamp": 1544006145}
+}, "@timestamp": 1544104622}
