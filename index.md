@@ -120,6 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft'>
+<td valign='top'><a href='./tip/528.md'>528</a></td>
+<td valign='top' colspan=2>Project</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 528: Deprecate Tk_Offset()</td>
+<td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
+</tr>
 <tr class='project projectdraft projectdraft85 project85'>
 <td valign='top'><a href='./tip/527.md'>527</a></td>
 <td valign='top'>Project</td>
