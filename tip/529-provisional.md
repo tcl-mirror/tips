@@ -86,12 +86,25 @@ Dependencies between (Tcl) packages are handled by the OPM.
 The OPM may or may not allow the installation of multiple versions of
 the Tcl core and/or Tcl packages.
 
-Packages can be added and removed at will, under the control of a
-system administrator. (Which may be the developer itself).
+Packages can be added and removed at will, any time, under the control
+of a system administrator. (Which may be the developer itself). Over
+short timespans however the entire set can be considered static.
 
 For users installing Tcl packages outside of system-directories the
 OPM may or may not be able to integrate them with the OS Tcl core and
-setup.
+setup. (I as the author am not aware of any OS distribution which
+can/does do that, however I cannot exclude the possibility either, at
+the moment. Examples are sought.)
+
+All packages exist in a single namespace. All Tcl packages further
+exist in a Tcl-related single namespace. In other words, the name a
+Tcl package is known under to the Tcl core is not necessariliy the
+same name it is seen under by the OPM.
+
+The OPM may or may not use different installation locations to
+separate packages for Tcl 8.4 from packages for Tcl 8.5, etc. The
+systems I am aware of do not do that. Examples for system which do
+such a separation are sought.
 
 Examples:
 
@@ -103,19 +116,111 @@ Examples:
 
 Irrelevant from a technical perspective, but important to users, the
 selection of available Tcl packages is often limited as the OS
-vendors/distributors have limited dev bandwidth to wrap their package
-management around Tcl packages.  Especially when a Tcl package has a
-... gnarly ... build system.
+vendors/distributors have limited development bandwidth to wrap their
+package management around Tcl packages.  Especially when a Tcl package
+has a ... gnarly ... build system.
 
-# Semi-system
+# Semi-system Installation
 
-# Pseudo-system
+Like a system installation, except that the tools used, i.e. the
+package manager, comes from a third party instead of the OS
+distributor.
 
-# Self-made
+The tools may or may not handle package dependencies.
 
-# Starpack/kit
+The tools may or may not have hooks for package-specific pre/post
+installation tasks.
 
-# Starpack/kit with plugin system
+The previous notes about installation and removal at will, and the
+package namespace still apply.
+
+Examples:
+
+|OS		|Package Manager|
+|---		|---		|
+|OS X / Darwin	|macports	|
+|OS X / Darwin	|homebrew	|
+
+# Pseudo-system Installation
+
+Another step away from the OS a pseudo system installation is similar
+to a semi-system installation, except it and its tools are now focused
+on Tcl and Tcl packages, and does not concern itself with any other
+type of package the user may wish to install.
+
+The associated PM usually installs into user-controlled areas, not
+system directories, and thus does not need root/admin permissions.
+
+The PM may or may not (try to) organize the installed Tcl packages
+into some form of (binary) repository. Discussion about if each
+succeeds in this or not is out of scope.
+
+The previous notes about installation and removal at will, and the
+package namespace still apply.
+
+Multiple independent installations (into different directories) may or
+may not be supported, possibly platform dependent.
+
+Examples:
+
+|Name		|Vendor			|
+|---		|---			|
+|ActiveTcl	|ActiveState		|
+|Teaparty	|Roy Keene		|
+|IronTcl	|Joe Mistachkin		|
+|MagicSplat	|Ashok P. Nadkarni	|
+
+# Self-made Installation
+
+A user builds and installs Tcl and any Tcl packages she needs by
+herself.
+
+User- or system directories may be used.
+
+There are usually no tools for package management.
+
+The user does all the dependency tracking.
+
+The previous notes about installation and removal at will, and the
+package namespace still apply.
+
+# Starpacks/kits
+
+While most people will see these as applications, from a technical
+perspective these are installations as well, just limited to the
+packages needed by the particular application, and conjoined with that
+application into a single file.
+
+Packs and kits effectively differ only in if the Tcl core needed for
+application execution is part of the file (pack) or not (kit).
+
+From the package perspective this kind of installation is static.
+
+Packages are are "installed" when the pack/kit is generated, and are
+never removed. Future installation and removal at will is not
+supported.
+
+The package still exist in a single namespace.
+
+# Starpacks/kits with plugin system
+
+An application deployed in pack or kit form may allow extension by the
+user in the form of some kind of plugin system. A possible
+implementation would have the application reach out to an external
+installation to find more packages, specifically the packages
+implementing plugins for it.
+
+Here we have a split physical space for packages. Those installed in
+the application, and those outside.
+
+While a unified namespace crossing the physical split is possible this
+is actually not a good thing, as changes in the environment can then
+break the application, i.e. when packages installed inside the
+application are ignored favor of packagtes installed outside and
+having the same name. This can be used to attack such applications.
+
+A better model is to consider the namespace split as well, and search
+the outside namespace if and only if a package i not found inside.
 
 # Testing
 
