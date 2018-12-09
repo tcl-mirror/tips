@@ -69,7 +69,7 @@ their topics as well, based on the new foundation.
 
 The following sections expand on each of these.
 
-# System
+## System
 
 This kind of installation is provided by an operating system (OS)
 through its (OS) package manager (OPM). Both Tcl core and packages are
@@ -120,7 +120,7 @@ vendors/distributors have limited development bandwidth to wrap their
 package management around Tcl packages.  Especially when a Tcl package
 has a ... gnarly ... build system.
 
-# Semi-system Installation
+## Semi-system Installation
 
 Like a system installation, except that the tools used, i.e. the
 package manager, comes from a third party instead of the OS
@@ -141,7 +141,7 @@ Examples:
 |OS X / Darwin	|macports	|
 |OS X / Darwin	|homebrew	|
 
-# Pseudo-system Installation
+## Pseudo-system Installation
 
 Another step away from the OS a pseudo system installation is similar
 to a semi-system installation, except it and its tools are now focused
@@ -170,7 +170,7 @@ Examples:
 |IronTcl	|Joe Mistachkin		|
 |MagicSplat	|Ashok P. Nadkarni	|
 
-# Self-made Installation
+## Self-made Installation
 
 A user builds and installs Tcl and any Tcl packages she needs by
 herself.
@@ -184,7 +184,7 @@ The user does all the dependency tracking.
 The previous notes about installation and removal at will, and the
 package namespace still apply.
 
-# Starpacks/kits
+## Starpacks/kits
 
 While most people will see these as applications, from a technical
 perspective these are installations as well, just limited to the
@@ -202,7 +202,7 @@ supported.
 
 The package still exist in a single namespace.
 
-# Starpacks/kits with plugin system
+## Starpacks/kits with plugin system
 
 An application deployed in pack or kit form may allow extension by the
 user in the form of some kind of plugin system. A possible
@@ -213,20 +213,55 @@ implementing plugins for it.
 Here we have a split physical space for packages. Those installed in
 the application, and those outside.
 
-While a unified namespace crossing the physical split is possible this
-is actually not a good thing, as changes in the environment can then
-break the application, i.e. when packages installed inside the
-application are ignored favor of packagtes installed outside and
-having the same name. This can be used to attack such applications.
+As for the logical space, there are two ways of going about, both
+equally valid. Which is chosen is very much dependent on the
+application and its environment.
 
-A better model is to consider the namespace split as well, and search
-the outside namespace if and only if a package i not found inside.
+The first option is to simply have a unified namespace, like in all
+the other installations coming before.
 
-# Testing
+The main consequence of going this route is that packages installed
+outside of the application may be able replace packages installed
+inside. This may or may not be what is wanted for the application.
 
+A reason for not wanting this is that such replacements may not be
+compatible with the packages inside, and break the application. for
+the more attack-minded this would be a way to alter the application,
+i.e. change, remove, or inject functionality, or just spy on the
+internals.
 
+Thus the second option, keep the package namespace split as well, and
+have packages found in the inside namespace be prefered over packages
+in the outside namespace, regardless of relative version.
 
+This this package replacement and attacks based on it are not possible
+anymore. In counterpoint it is not possible (anymore) to fix bugs in
+the application by providing fixed packages outside either. A newly
+made application will be needed.
 
+Both point and counterpoint hopefully demonstrate that both forms of
+an extensible starpack/kit are sensible and useful, depending on
+circumstances.
+
+## Testing
+
+When it comes to testing a (set of) package(s) during development what
+we want is pretty much like an extensible starkit geared for
+security. I.e. a package space split both physical and logical, with
+the packages under test prefered over any in the environment,
+regardless of version. The difference is of course that the prefered
+space is not placed into a single file, like starpacks/kits.
+
+# Miscellanea
+
+Tcl's existing package system already offers a way of splitting a
+package space, through `package prefer stable`. Note however that this
+is a split along version lines, where stable versions of packages are
+prefered over alpha or beta versions of the same.
+
+The splits discussed above on the other hand are all very much not
+about giving different weights to classes of versions, but about
+giving different weight to classes of locations of installed packages.
 
 # Copyright
 
