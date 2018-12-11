@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 529: Add metadata dict property to tk photo image</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-529-image-metadata'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/528.md'>528</a></td>
