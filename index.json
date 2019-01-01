@@ -1,4 +1,6 @@
 {"tip": {
+	"531":{"url":"./tip/531.md","":"","keywords":"Tcl, stubs","created":"14-Dec-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 531: Static Tcl Interpreter Creation Function","/usr/local/include/tcl8.6/tcldecls.h":"#define Tcl_CreateInterp \\","author":["Shannon Noe <shannon.noe@flightaware.com>"],"is-jest":false},
+	"530":{"url":"./tip/530.md","tcl-ticket":"a09031e288","created":"13-Dec-2018","post-history":"","state":"Draft","tcl-version":"8.6, 8.7","vote":"Pending","type":"Project","title":"# TIP 530: Control over performance impact of TIP 280","author":["Leon Manukyan <leon.manukyan@gmail.com>"],"is-jest":false},
 	"529":{"url":"./tip/529.md","keywords":"Tk, image","created":"07-Dec-2018","state":"Draft","tk-branch":"tip-529-image-metadata","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 529: Add metadata dict property to tk photo image","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
 	"528":{"url":"./tip/528.md","created":"05-Dec-2018","post-history":"","state":"Draft","tk-branch":"offsetof","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 528: Deprecate Tk_Offset()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"527":{"url":"./tip/527.md","created":"26-Nov-2018","post-history":"","state":"Draft","tcl-branch":"sebres-8-6-timerate","tcl-version":"8.5","vote":"Pending","type":"Project","title":"# TIP 527: New measurement facilities in TCL: New command timerate.","discussions-to":"news:comp.lang.tcl","author":["Sergey G. Brester <sebres@users.sourceforge.net>"],"is-jest":false},
@@ -530,5 +532,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","post-history":"","state":"Active","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 529
-}, "@timestamp": 1544524939}
+	"@max": 531
+}, "@timestamp": 1546362270}

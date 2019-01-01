@@ -121,12 +121,20 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/531.md'>531</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 531: Static Tcl Interpreter Creation Function</td>
+<td></td>
+</tr>
+<tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/530.md'>530</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6, 8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 530: Control over performance impact of TIP 280</td>
-<td valign='top'></td>
+<td valign='top'><a href='/tcl/tktview/a09031e288'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/529.md'>529</a></td>
