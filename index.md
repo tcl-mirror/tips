@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='project projectfinal projectfinal86 project86'>
+<tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Final</td>
+<td valign='top'>Draft</td>
 <td valign='top'># TIP 532: Re-implementation of event loop processing.</td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
