@@ -1,4 +1,5 @@
 {"tip": {
+	"532":{"url":"./tip/532.md","":"","keywords":"Tk, bind, event, event loop","created":"09-Jan-2019","post-history":"","state":"Project","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 532: Re-implementation of event loop processing","author":["Gregor Cramer <gcramer@sourceforge.net>"],"is-jest":false},
 	"531":{"url":"./tip/531.md","":"","keywords":"Tcl, stubs","created":"14-Dec-2018","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 531: Static Tcl Interpreter Creation Function","/usr/local/include/tcl8.6/tcldecls.h":"#define Tcl_CreateInterp \\","author":["Shannon Noe <shannon.noe@flightaware.com>"],"is-jest":false},
 	"530":{"url":"./tip/530.md","tcl-ticket":"a09031e288","created":"13-Dec-2018","post-history":"","state":"Draft","tcl-version":"8.6, 8.7","vote":"Pending","type":"Project","title":"# TIP 530: Control over performance impact of TIP 280","author":["Leon Manukyan <leon.manukyan@gmail.com>"],"is-jest":false},
 	"529":{"url":"./tip/529.md","keywords":"Tk, image","created":"07-Dec-2018","state":"Draft","tk-branch":"tip-529-image-metadata","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 529: Add metadata dict property to tk photo image","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
@@ -533,4 +534,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 531
-}, "@timestamp": 1546362270}
+}, "@timestamp": 1547388872}

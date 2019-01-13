@@ -6,7 +6,7 @@
 	Created:        09-Jan-2019
 	Post-History:  
 	Keywords:       Tk, bind, event, event loop
-	Tcl-Version:    8.7
+	Tcl-Version:    8.6
 	Tk-Branch:      bug6e8afe516d
 ----
 
