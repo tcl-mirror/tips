@@ -1,0 +1,181 @@
+# TIP 532: Re-implementation of event loop processing.
+	Author:         Gregor Cramer <gcramer@sourceforge.net>
+	State:          Final
+	Type:           Project
+	Vote:           Pending
+	Created:        09-Jan-2019
+	Post-History:  
+	Keywords:       Tk, bind, event, event loop
+	Tcl-Version:    8.7
+	Tk-Branch:      bug6e8afe516d
+----
+
+# Abstract
+
+Current implementation of event loop processing suffers from a limited event ring.
+This limitation is causing unexpected behavior. Moreover some issues in event loop
+handling are known.
+
+Increasing the event size of the event ring can solve the problems caused by event
+queue overflow locally, but not in general. Therefore the author decided to re-implement
+the event processing, the revised implementation is working as if the event ring is
+unlimited. Moreover new implementation is more efficient (in time), and all known
+issues in event handling have been eliminated.
+
+This project (re-implementing the event loop handling) has been started with error report
+[Severe bugs in binding (tkBind.c)](https://core.tcl-lang.org/tk/tktview/6e8afe516df85f6213f436ef7c2fab2ec2d11c76).
+
+# Rationale
+
+The following problems, caused by event ring overflow, have been solved:
+
+1. Sometimes double-clicks with mouse will not be detected, nothing happens although this
+event is bound (see test case
+[bind-32.2](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6123-6143)).
+This problem occurs often in applications[Scidb](http://scidb.sourceforge.net),
+because this application is using tooltips heavily, causing a lot of intervening
+expose events.
+
+2. Immediately after startup of application [Scidb](http://scidb.sourceforge.net)
+(same with applications [Scid](http://scid.sourceforge.net), and
+[Scid vs PC](http://scidvspc.sourceforge.net))
+it's not possible to open the menu via a shortcut like \<Alt-m\>. This event will be
+gobbled, because of many intervening events, causing an event ring overflow.
+
+3. After switching a tab pane in a notebook window the tab is losing the focus sometimes.
+This has been observed in applications [Scid](http://scid.sourceforge.net), and
+[Scid vs PC](http://scidvspc.sourceforge.net).
+
+Moreover the following issues have been solved:
+
+4. It's possible to bind an event like `\<Quadruple-1\>`, but it's nearly impossible to
+trigger this event (with mousepad). Even a triple-click is not so easy. This behavior is
+user-unfriendly, and it seems that it is caused by an erroneous implementation.
+
+5. If a statement like `event generate . \<1\>` is executed, and after some time
+(\> 500 ms) this statement is executed again, then it's likeky that a double-click event
+will be triggered, even if a single-click event is expected, because the triggering
+of double-click events has to fit time requirements (due to manual; see test case
+[bind-32.4](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6158-6171)).
+
+6. `event generate . \<FocusIn\> -sendevent 1` is not working, the argument of
+`sendevent` get lost (test case
+[bind-32.6](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6192-6204)).
+
+7. See following code:
+
+		bind . \<Double-1\> { lappend x "Double" }  
+		bind . \<1\>\<1\> { lappend x "11" }  
+		event generate . \<1\> -x 0 -y 0 -time 0  
+		event generate . \<1\> -x 0 -y 0 -time 0
+		set x
+
+	This gives the result `11`, but `Double` is expected, because the time (and space)
+	constraints for a double click are fulfilled. With other words, the legacy implementation
+	is not preferring the most specialized event. But it should, because the manual says
+	(`man bind`):
+
+	> If more than one binding matches a particular event and they have the
+	> same tag, then the most specific binding is chosen and its script is
+	> evaluated.
+
+	And the sequence `\<Double-1\>` is more specific than `\<1\>\<1\>` because of time and
+	space requirements (in `\<Double-1\>`). Note that constant `PREFER_MOST_SPECIALIZED_EVENT=1`
+	has to set when compiling to enable this new feature.
+
+8. Legacy implementation cannot handle homogeneous equal sequences properly, see this script:
+
+		bind . <1><Control-1> { lappend x "first" }
+		bind . <Control-1><1> { lappend x "last" }
+		event generate . <Control-1>
+		event generate . <Control-1>
+		set x
+	
+	Manual (`man bind`) says:
+
+	> If these tests fail to determine a winner, then the most recently registered
+	> sequence is the winner.
+
+	In this script there is no winner, so the latter defined one has to be chosen, and
+	revised implementation is doing this.
+
+Legacy code also suffers from causing memory holes, revised implementation is tested
+to be memory friendly.
+
+The revised implementation supports an additional syntax for binding motion events
+(if constant `SUPPORT_ADDITIONAL_MOTION_SYNTAX=1` is set when compiling). E.g.,
+the following bindings
+
+	bind . \<B2-Motion\> { ... }  
+	bind . \<B1-B2-Motion\> { ... }
+
+can be expressed in a different way:
+
+  	bind . \<Motion-2\> { ... }  
+  	bind . \<Motion-1-2\> { ... }
+
+The additional syntax is easier to remember, because button press/release events will also
+be expressed in the latter form, for example `bind . \<ButtonPress-1\>`. The former
+syntax (`\<B2-Motion\>`) form will still be supported.
+
+# Specification
+
+The whole handling in file `general/tkBind.c` has been re-implemented. This implementation
+is passing all test cases in `tests/bind.test`. Note that legacy implementation is failing
+in some (of the new) test cases.
+
+Case (4): Legacy implementation is computing the time difference of nth click with fst click,
+and tests whether it is less than 500 ms. But this seems to be an implementation bug. Revised
+implementation computes the difference of nth and (n+1)th click. This behavior also conforms
+better to the behavior of other toolkits. With new implementation the use of quadruple clicks
+(and triple clicks) is unproblematic. See also test case
+[bind-32.6](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6172-6191).
+
+Case (5) is only a minor bug, and there exists a work-around. But the author decided to
+eliminate this design bug, with revised implementation option **-time** is recognizing new
+special value **current**, and is using the current event time in this case. This extension
+is fully backward compatible. See also test case
+[bind-32.4](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6158-6171).
+
+For the fix of case (6) the author decided that non-zero values (given with option
+**-send_event**) will be converted to **1**. This is conform to the manual, see
+`man bind` (search for **Sendevent**), see also lines 3287ff in legacy file
+[generic/tkBind.c](http://core.tcl.tk/tk/artifact/e41f45f7f6ac3447?ln=4178-4203).
+
+The fix of (7) is not fully backwards compatible. But in the author's opinion this is not
+a real problem, nobody is using sequences like `\<1\>\<1\>`, it is not expected that
+applications have to be adjusted.
+
+Fix of (8) is correcting a major bug, see test case
+[bind-33.13](https://core.tcl-lang.org/tk/artifact/6377cb0d762b7261?ln=6550-6566).
+
+# Implementation
+
+Please refer to the
+[bug6e8afe516d](https://core.tcl-lang.org/tk/timeline?r=bug6e8afe516d)
+branch of the core Tcl repository.
+
+The event ring has been removed. Revised implementation is working with promoted
+event bindings, and remembers the latest event per event type. This technique works
+as if we have an inifinite event ring, so no overflow is possible.
+
+Based on tests the performance in time is better than with legacy implementation. This
+result is expected, because a triple-nested loop, executed for each incoming event, has
+been changed to a quasi-double-nested loop (only in very seldom cases it is still
+triple-nested). Furthermore the traversed lists are shorter than with legacy implementation,
+because the event ring, always containing 30 items, has been eliminated. Only unbinding
+a tag is a bit slower than before. Memory consumption did not change significantly.
+
+# Backwards Compatibility
+
+Fix of issue (7) is not fully backwards compatible (more details in section **Rationale**).
+
+Moreover fix of issue (8) is not backwards compatible, but here erroneous behavior has been
+corrected.
+
+Beside these two exceptions the revised implementation is fully backwards compatible, even
+if the additional syntax style for motion bindings is enabled.
+
+# Copyright
+
+This document has been placed in the public domain.
