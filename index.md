@@ -121,6 +121,14 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft86 project86'>
+<td valign='top'><a href='./tip/533.md'>533</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 533: Extension of the menu post command.</td>
+<td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
+</tr>
+<tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
