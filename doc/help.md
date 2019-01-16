@@ -68,9 +68,10 @@ number.
 1. Then, in the subdirectory `scripts`, run the `mkhtmlindex.tcl`
 script, as this updates the Home page.
 
-1. Submit the changes via fossil.
+1. Submit all changes via fossil (this includes `index.json`, `index.md`,
+and `tip/NNN.md`).
 
-        fossil commit -m "Added TIP NNN" NNN.md
+        fossil commit -m "Added TIP NNN"
 
 # TIP Header
 
