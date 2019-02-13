@@ -131,10 +131,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6</td>
+<td valign='top'>8.6 and 8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 532: Re-implementation of event loop processing.</td>
-<td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
+<td></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/531.md'>531</a></td>
@@ -168,11 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 528: Deprecate Tk_Offset()</td>
 <td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft85 project85'>
+<tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/527.md'>527</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 527: New measurement facilities in TCL: New command timerate.</td>
 <td valign='top'><a href='/tcl/timeline?r=sebres-8-6-timerate'>Link</a></td>
 </tr>
