@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.6 and 8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 532: Re-implementation of event loop processing.</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/531.md'>531</a></td>
