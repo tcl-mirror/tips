@@ -168,11 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 528: Deprecate Tk_Offset()</td>
 <td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft85 project85'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/527.md'>527</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.5</td>
-<td valign='top'>Draft</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 527: New measurement facilities in TCL: New command timerate.</td>
 <td valign='top'><a href='/tcl/timeline?r=sebres-8-6-timerate'>Link</a></td>
 </tr>
