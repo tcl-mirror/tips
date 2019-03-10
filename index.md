@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft86 project86'>
+<td valign='top'><a href='./tip/535.md'>535</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 535: Remove trailing zeroes in scale ticks</td>
+<td valign='top'><a href='/tcl/timeline?r=scale-tick-format'>Link</a></td>
+</tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/534.md'>534</a></td>
 <td valign='top'>Project</td>
