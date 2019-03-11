@@ -3073,7 +3073,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 164: Add Rotate Subcommand to the Canvas Widget</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-164'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/163.md'>163</a></td>
