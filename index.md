@@ -3105,7 +3105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 160: Improvements to Terminal and Serial Channel Handling</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-160'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/159.md'>159</a></td>
