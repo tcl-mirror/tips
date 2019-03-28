@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft86 project86'>
+<td valign='top'><a href='./tip/536.md'>536</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 507: Improvements to Mac-specific IPC in Tk</td>
+<td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
+</tr>
 <tr class='project projectaccepted projectaccepted86 project86'>
 <td valign='top'><a href='./tip/535.md'>535</a></td>
 <td valign='top'>Project</td>
