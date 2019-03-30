@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 507: Improvements to Mac-specific IPC in Tk</td>
+<td valign='top'># TIP 536: Improvements to Mac-specific IPC in Tk</td>
 <td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
 </tr>
 <tr class='project projectaccepted projectaccepted86 project86'>
@@ -1472,7 +1472,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 367: A Command to Remove Elements from a List</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-367'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/366.md'>366</a></td>
