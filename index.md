@@ -128,11 +128,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 536: Improvements to Mac-specific IPC in Tk</td>
 <td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted86 project86'>
+<tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/535.md'>535</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 535: Remove trailing zeroes in scale ticks</td>
 <td valign='top'><a href='/tcl/timeline?r=scale-tick-format'>Link</a></td>
 </tr>
