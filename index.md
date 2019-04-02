@@ -2605,7 +2605,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 224: Add New [array] Subcommand &apos;value&apos;</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-224'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/223.md'>223</a></td>
