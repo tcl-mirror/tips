@@ -1668,7 +1668,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 342: Dict Get With Default</td>
-<td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-342'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal86 project86'>
 <td valign='top'><a href='./tip/341.md'>341</a></td>
@@ -2604,7 +2604,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 224: Add New [array] Subcommands &apos;incr&apos; and &apos;value&apos;</td>
+<td valign='top'># TIP 224: Add New [array] Subcommand &apos;value&apos;</td>
 <td></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
