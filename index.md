@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 531: Static Tcl Interpreter Creation Function</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-531'>Link</a></td>
 </tr>
 <tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/530.md'>530</a></td>
