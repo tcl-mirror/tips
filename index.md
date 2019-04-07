@@ -352,11 +352,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 508: New subcommand [array default]</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-508'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/507.md'>507</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
@@ -376,11 +376,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-505'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/504.md'>504</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 504: New subcommand [string insert]</td>
 <td valign='top'><a href='/tcl/timeline?r=dgp-string-insert'>Link</a></td>
 </tr>
@@ -1466,11 +1466,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 368: Listbox Justification Option</td>
 <td></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/367.md'>367</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 367: A Command to Remove Elements from a List</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-367'>Link</a></td>
 </tr>
@@ -1662,11 +1662,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 343: A Binary Specifier for [format/scan]</td>
 <td valign='top'><a href='/tcl/tktview/2368084'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/342.md'>342</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 342: Dict Get With Default</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-342'>Link</a></td>
 </tr>
@@ -1902,11 +1902,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 313: Inexact Searching in Sorted List</td>
 <td valign='top'><a href='/tcl/tktview/1894241'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/312.md'>312</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 312: Add More Link Types</td>
 <td valign='top'><a href='/tcl/tktview/1992824'>Link</a></td>
 </tr>
@@ -2599,11 +2599,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 225: Arithmetic Series with Optimized Space Complexity</td>
 <td valign='top'><a href='/tcl/tktview/1052584'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/224.md'>224</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 224: Add New [array] Subcommand &apos;value&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-224'>Link</a></td>
 </tr>
@@ -3075,11 +3075,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 165: A User-Data Field for Virtual Events</td>
 <td valign='top'><a href='/tk/tktview/1008975'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/164.md'>164</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 164: Add Rotate Subcommand to the Canvas Widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-164'>Link</a></td>
 </tr>
@@ -3107,11 +3107,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 161: Change Default for Menu&apos;s -tearoff Option to False</td>
 <td valign='top'><a href='/tk/timeline?r=tip-161'>Link</a></td>
 </tr>
-<tr class='project projectdraft projectdraft87 project87'>
+<tr class='invote'>
 <td valign='top'><a href='./tip/160.md'>160</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top'># TIP 160: Improvements to Terminal and Serial Channel Handling</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-160'>Link</a></td>
 </tr>
