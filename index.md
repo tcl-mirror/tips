@@ -120,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='project projectdraft projectdraft90 project90'>
+<td valign='top'><a href='./tip/537.md'>537</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 537: Enable 64-bit indexes in regexp matching</td>
+<td valign='top'><a href='/tcl/timeline?r=regexp-api-64bit'>Link</a></td>
+</tr>
 <tr class='project projectdraft projectdraft86 project86'>
 <td valign='top'><a href='./tip/536.md'>536</a></td>
 <td valign='top'>Project</td>
