@@ -12,9 +12,14 @@ array set RE {
 # Some TIPs are jokes
 set jests {131 263 365}
 
+proc appendn {var str} {
+    upvar 1 $var vbuf
+    append vbuf $str\n
+}
+
 proc writeHeader {} {
-    global index json
-    puts $index \
+    global indexbuf json
+    appendn indexbuf \
 {# TIP Index
 
 <div>
@@ -34,27 +39,6 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<div><div>
-Filter Toggles:
-</div>
-<div>
-<input type="checkbox" id="click_projectdraft">Drafts</button>
-<input type="checkbox" id="click_projectfinal">Finals</button>
-<input type="checkbox" id="click_project">Projects</button>
-(<input type="checkbox" id="click_project84">8.4</button>
- <input type="checkbox" id="click_project85">8.5</button>
- <input type="checkbox" id="click_project86">8.6</button>
- <input type="checkbox" id="click_project87">8.7</button>
- <input type="checkbox" id="click_project90">9.0</button>)
-<input type="checkbox" id="click_informational">Informationals</button>
-<input type="checkbox" id="click_process">Processes</button>
-<br>
-<input type="checkbox" id="click_rejected">Rejected</button>
-<input type="checkbox" id="click_withdrawn">Withdrawn</button>
-<input type="checkbox" id="click_obsoleted">Obsoleted</button>
-<input type="checkbox" id="click_deferred">Deferred</button>
-<input type="checkbox" id="click_jest">Jokes</button>
-</div></div>
 <style title="filtering">
 /*
  * DO NOT MANUALLY PUT ANY STYLES IN HERE!
@@ -87,45 +71,54 @@ function toggleClass(cls) {
     console.log("adding hide rule for " + cls);
     sheet.insertRule(cls + " {display:none;}", 0);
 }
-document.addEventListener("DOMContentLoaded", function() {
-    var TAGS = {
-        "informational": 0, "process": 0,
-        "projectdraft": 0, "projectfinal": 0, "project": 0,
-        "project84": 0, "project85": 0, "project86": 0, "project87": 0,
-        "project90": 0,
-        "rejected": 1, "withdrawn": 1, "obsoleted": 1, "deferred": 1, "jest": 1
-    };
-    function toggler(selector) {
-	return function() {
-	    toggleClass(selector);
-	}
-    }
-    for (var tag of Object.keys(TAGS)) {
-        var id = "click_" + tag;
-        var selector = "." + tag;
-        document.getElementById(id).addEventListener("click", toggler(selector));
-        if (TAGS[tag]) {
-            document.getElementById(id).checked = true;
-            toggleClass(selector);
+function toggleFacet(f) {
+    r = sheet.cssRules;
+    if (!r) return
+    boxes = document.getElementsByClassName("toggler-"+f);
+    none = true;
+    for (i=0; i<boxes.length; i++) {
+        if (boxes[i].checked) {
+            none=false;
+            break;
         }
     }
-});
+    console.log("NONE:"+none);
+    var i = r.length;
+    while (i--) {
+        if (r[i].selectorText && r[i].selectorText.substr(1,f.length).toLowerCase() === f) {
+            sheet.deleteRule(i);
+        }
+    }
+    if (!none) {
+        for (i=0; i<boxes.length; i++) {
+            console.log(boxes[i]);
+            if (!boxes[i].checked) {
+                sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:none;}", 0);
+            }
+        }
+    }
+}
 </script>
+
+#TOGGLES#
+
+</div>
 <p>
 
 <div style="float:right; font-size:10pt" class="key">
 <table border="1" cellpadding="2" cellspacing="0">
 <thead><tr><th>Key</th</tr></thead><tbody>
-<tr class="projectdraft"><td>Draft Project</td></tr>
-<tr class="projectdraft project86 projectdraft86"><td>Draft Project (8.6)</td></tr>
-<tr class="invote"><td>In Current Vote</td></tr>
-<tr class="projectaccepted"><td>Accepted Project</td></tr>
-<tr class="rejected"><td>Rejected Project</td></tr>
-<tr class="withdrawn"><td>Withdrawn Project</td></tr>
-<tr class="projectfinal"><td>Final Project</td></tr>
-<tr class="process"><td>Process TIP</td></tr>
-<tr class="informational"><td>Informational TIP</td></tr>
+<tr class="state-draft"><td>Draft Project</td></tr>
+<tr class="state-draft version-86"><td>Draft Project (8.6)</td></tr>
+<tr class="state-voting"><td>In Current Vote</td></tr>
+<tr class="state-accepted"><td>Accepted Project</td></tr>
+<tr class="state-rejected"><td>Rejected Project</td></tr>
+<tr class="state-withdrawn"><td>Withdrawn Project</td></tr>
+<tr class="state-final"><td>Final Project</td></tr>
+<tr class="type-process"><td>Process TIP</td></tr>
+<tr class="type-informational"><td>Informational TIP</td></tr>
 </tbody></table></div>
+
 <div class="index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable" id="tipTable">
 <thead><tr>
@@ -155,10 +148,12 @@ proc encodeJSON {string} {
     return [string cat \" [string map {\" \\\" \\ {\\}} $string] \"]
 }
 
+set toggles {}
+
 proc writeRow {number varName} {
-    global index json jests RE
+    global indexbuf json jests RE
     upvar 1 $varName fields
-    set titlecolumnspan ""
+    set titlecolumnspan "" 
 
     set state $fields(state)
     if {[info exists fields(obsoleted-by)]} {
@@ -187,59 +182,69 @@ proc writeRow {number varName} {
 		set version $v1$v2
 		append class " [string tolower $type$state$version]"
 		append class " project$version"
-	    }
+            }
 	}
     }
 
     # Decode links to branches and tickets with implementations
     if {[info exists fields(tcl-branch)]} {
-	if {[regexp $RE(BR) $fields(tcl-branch)]} {
-	    set link [format "/tcl/timeline?r=%s" $fields(tcl-branch)]
-	} else {
-	    puts stderr "WARNING: $number has invalid Tcl-Branch field"
-	}
-    } elseif {[info exists fields(tk-branch)]} {
-	if {[regexp $RE(BR) $fields(tk-branch)]} {
-	    set link [format "/tk/timeline?r=%s" $fields(tk-branch)]
-	} else {
-	    puts stderr "WARNING: $number has invalid Tk-Branch field"
-	}
-    } elseif {[info exists fields(tcl-ticket)]} {
-	if {[regexp $RE(TKT) $fields(tcl-ticket)]} {
-	    set link [format "/tcl/tktview/%s" $fields(tcl-ticket)]
-	} else {
-	    puts stderr "WARNING: $number has invalid Tcl-Ticket field"
-	}
-    } elseif {[info exists fields(tk-ticket)]} {
-	if {[regexp $RE(TKT) $fields(tk-ticket)]} {
-	    set link [format "/tk/tktview/%s" $fields(tk-ticket)]
-	} else {
-	    puts stderr "WARNING: $number has invalid Tk-Ticket field"
-	}
-    } elseif {[info exists fields(implementation-url)]} {
-	if {[regexp $RE(URL) $fields(implementation-url)]} {
-	    set link $fields(implementation-url)
-	} else {
-	    puts stderr "WARNING: $number has invalid Implementation-URL field"
-	}
-    }
 
-    puts $index "<tr class='$class'>"
-    puts $index "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
+        if {[regexp $RE(BR) $fields(tcl-branch)]} {
+            set link [format "/tcl/timeline?r=%s" $fields(tcl-branch)]
+        } else {
+            puts stderr "WARNING: $number has invalid Tcl-Branch field"
+        }
+    } elseif {[info exists fields(tk-branch)]} {
+        if {[regexp $RE(BR) $fields(tk-branch)]} {
+            set link [format "/tk/timeline?r=%s" $fields(tk-branch)]
+        } else {
+            puts stderr "WARNING: $number has invalid Tk-Branch field"
+        }
+    } elseif {[info exists fields(tcl-ticket)]} {
+        if {[regexp $RE(TKT) $fields(tcl-ticket)]} {
+            set link [format "/tcl/tktview/%s" $fields(tcl-ticket)]
+        } else {
+            puts stderr "WARNING: $number has invalid Tcl-Ticket field"
+        }
+    } elseif {[info exists fields(tk-ticket)]} {
+        if {[regexp $RE(TKT) $fields(tk-ticket)]} {
+            set link [format "/tk/tktview/%s" $fields(tk-ticket)]
+        } else {
+            puts stderr "WARNING: $number has invalid Tk-Ticket field"
+        }
+    } elseif {[info exists fields(implementation-url)]} {
+        if {[regexp $RE(URL) $fields(implementation-url)]} {
+            set link $fields(implementation-url)
+        } else {
+            puts stderr "WARNING: $number has invalid Implementation-URL field"
+        }
+    } 
+
+    set class [join [lmap axis {state type version} {
+        if {![info exists $axis]} continue
+        dict set ::toggles $axis [set $axis] 1
+        string cat $axis-[string tolower [set $axis]]
+    }] " "]
+
+    appendn indexbuf "<tr class='$class'>"
+    appendn indexbuf "<td valign='top'><a href='./tip/$number.md'>$number</a></td>"
+
     if {[info exists fields(tcl-version)]} {
-	puts $index "<td valign='top'>[encodeHTML $type]</td>"
-	puts $index "<td valign='top'>[encodeHTML $fields(tcl-version)]</td>"
+	appendn indexbuf "<td valign='top'>[encodeHTML $type]</td>"
+	appendn indexbuf "<td valign='top'>[encodeHTML $fields(tcl-version)]</td>"
     } else {
-	puts $index "<td valign='top' colspan=2>[encodeHTML $type]</td>"
+	appendn indexbuf "<td valign='top' colspan=2>[encodeHTML $type]</td>"
     }
-    puts $index "<td valign='top'>[encodeHTML $state]</td>"
-    puts $index "<td valign='top'$titlecolumnspan>[encodeHTML $fields(title)]</td>"
+    appendn indexbuf "<td valign='top'>[encodeHTML $state]</td>"
+    appendn indexbuf "<td valign='top'>[encodeHTML $fields(title)]</td>"
+
     if {[info exist link]} {
-	puts $index "<td valign='top'><a href='$link'>Link</a></td>"
+        appendn indexbuf  "<td valign='top'><a href='$link'>Link</a></td>"
     } elseif {$titlecolumnspan eq ""} {
-	puts $index "<td></td>"
-    }
-    puts $index "</tr>"
+        appendn indexbuf "<td></td>"
+    } 
+
+    appendn indexbuf "</tr>"
 
     puts -nonewline $json "\n\t\"$number\":\{\"url\":[encodeJSON ./tip/$number.md],"
     foreach f [array names fields] {
@@ -286,6 +291,8 @@ set json [open [file join $dir index.json] w+]
 fconfigure $index -translation lf -encoding utf-8
 fconfigure $json -translation lf -encoding utf-8
 
+set indexbuf ""
+
 writeHeader
 
 set max 0
@@ -302,6 +309,29 @@ foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
     parsePreamble $lines fields
     writeRow $number fields
 }
+
+set button {
+    <input class="toggler-#FACET#"
+        data-value="#VALUE#"
+        type="checkbox"
+        onclick="toggleFacet('#FACET#')">#TITLE#</button>
+}
+set TOGGLES ""
+set STYLES ""
+dict for {axis values} $toggles {
+    appendn TOGGLES "[string totitle $axis]: "
+    foreach val [dict keys $values] {
+        set map [list]
+        lappend map #FACET# $axis
+        lappend map #VALUE# [string tolower $val]
+        lappend map #TITLE# [string totitle $val]
+        appendn TOGGLES [string map $map $button]
+        appendn STYLES ".$axis-[string tolower $val] {display: table-row }"
+    }
+    appendn TOGGLES "<br>"
+}
+
+puts $index [string map [list #TOGGLES# $TOGGLES #STYLES# "<style title=\"filtering\">$STYLES</style>"] $indexbuf]
 
 writeFooter
 
