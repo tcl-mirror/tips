@@ -2321,7 +2321,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 262: Background Images for Frames</td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tip-262'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/261.md'>261</a></td>
