@@ -392,11 +392,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-505'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/504.md'>504</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 504: New subcommand [string insert]</td>
 <td valign='top'><a href='/tcl/timeline?r=dgp-string-insert'>Link</a></td>
 </tr>
@@ -1482,11 +1482,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 368: Listbox Justification Option</td>
 <td></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/367.md'>367</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 367: A Command to Remove Elements from a List</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-367'>Link</a></td>
 </tr>
@@ -1918,11 +1918,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 313: Inexact Searching in Sorted List</td>
 <td valign='top'><a href='/tcl/tktview/1894241'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/312.md'>312</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 312: Add More Link Types</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-312-new'>Link</a></td>
 </tr>
@@ -3123,11 +3123,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 161: Change Default for Menu&apos;s -tearoff Option to False</td>
 <td valign='top'><a href='/tk/timeline?r=tip-161'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/160.md'>160</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 160: Improvements to Terminal and Serial Channel Handling</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-160'>Link</a></td>
 </tr>
