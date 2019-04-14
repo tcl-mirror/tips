@@ -121,6 +121,14 @@ document.addEventListener("DOMContentLoaded", function() {
 </tr></thead><tbody>
 
 <tr class='project projectdraft projectdraft87 project87'>
+<td valign='top'><a href='./tip/539.md'>539</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top'># TIP 539: Multiple dict filter patterns</td>
+<td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
+</tr>
+<tr class='project projectdraft projectdraft87 project87'>
 <td valign='top'><a href='./tip/538.md'>538</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
