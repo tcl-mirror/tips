@@ -368,11 +368,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 508: New subcommand [array default]</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-508'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/507.md'>507</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
@@ -560,19 +560,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=no-wideint'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/483.md'>483</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 483: Improved TIP #59 implementation for Tk</td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/482.md'>482</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 482: Record Tk demo directory information</td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
@@ -3091,11 +3091,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'># TIP 165: A User-Data Field for Virtual Events</td>
 <td valign='top'><a href='/tk/tktview/1008975'>Link</a></td>
 </tr>
-<tr class='project projectaccepted projectaccepted87 project87'>
+<tr class='project projectfinal projectfinal87 project87'>
 <td valign='top'><a href='./tip/164.md'>164</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top'># TIP 164: Add Rotate Subcommand to the Canvas Widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-164'>Link</a></td>
 </tr>
