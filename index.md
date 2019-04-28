@@ -1368,7 +1368,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top'># TIP 383: Injecting Code into Suspended Coroutines</td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-383'>Link</a></td>
 </tr>
 <tr class='project projectfinal projectfinal85 project85'>
 <td valign='top'><a href='./tip/382.md'>382</a></td>
