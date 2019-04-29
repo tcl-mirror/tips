@@ -218,7 +218,8 @@ proc writeRow {number varName} {
 	appendn indexbuf "<td valign='top' colspan=2>[encodeHTML $type]</td>"
     }
     appendn indexbuf "<td valign='top'>[encodeHTML $state]</td>"
-    appendn indexbuf "<td valign='top' $titlecolumnspan>[encodeHTML $fields(title)]</td>"
+    regsub {^#\s*TIP\s*\d+:\s*} $fields(title) "" title
+    appendn indexbuf "<td valign='top' $titlecolumnspan><a href='./tip/$number.md'>[encodeHTML $title]</a></td>"
 
     if {[info exist link]} {
         appendn indexbuf  "<td valign='top'><a href='$link'>Link</a></td>"
