@@ -307,7 +307,7 @@ dict for {axis values} $toggles {
         set map [list]
         lappend map #FACET# $axis
         lappend map #VALUE# [string tolower $val]
-        lappend map #TITLE# [string totitle $val]
+        lappend map #TITLE# [regsub {^(\d)(\d)$} [string totitle $val] {\1.\2}]
         appendn TOGGLES [string map $map $button]
         appendn STYLES ".$axis-[string tolower $val] {display: table-row }"
     }

@@ -144,43 +144,43 @@ Version:
     <input class="toggler-version"
         data-value="87"
         type="checkbox"
-        onclick="toggleFacet('version')">87</button>
+        onclick="toggleFacet('version')">8.7</button>
 
 
     <input class="toggler-version"
         data-value="90"
         type="checkbox"
-        onclick="toggleFacet('version')">90</button>
+        onclick="toggleFacet('version')">9.0</button>
 
 
     <input class="toggler-version"
         data-value="86"
         type="checkbox"
-        onclick="toggleFacet('version')">86</button>
+        onclick="toggleFacet('version')">8.6</button>
 
 
     <input class="toggler-version"
         data-value="85"
         type="checkbox"
-        onclick="toggleFacet('version')">85</button>
+        onclick="toggleFacet('version')">8.5</button>
 
 
     <input class="toggler-version"
         data-value="92"
         type="checkbox"
-        onclick="toggleFacet('version')">92</button>
+        onclick="toggleFacet('version')">9.2</button>
 
 
     <input class="toggler-version"
         data-value="84"
         type="checkbox"
-        onclick="toggleFacet('version')">84</button>
+        onclick="toggleFacet('version')">8.4</button>
 
 
     <input class="toggler-version"
         data-value="80"
         type="checkbox"
-        onclick="toggleFacet('version')">80</button>
+        onclick="toggleFacet('version')">8.0</button>
 
 <br>
 
