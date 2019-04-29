@@ -90,8 +90,8 @@ function toggleFacet(f) {
 </div>
 <p>
 
-<div style="float:right; font-size:10pt" class="key">
-<table border="1" cellpadding="2" cellspacing="0">
+<div style="float:right; font-size:10pt" class="tipindex key">
+<table border="1" cellpadding="2" cellspacing="0" class="key">
 <thead><tr><th>Key</th</tr></thead><tbody>
 <tr class="state-draft"><td>Draft Project</td></tr>
 <tr class="state-draft version-86"><td>Draft Project (8.6)</td></tr>
@@ -104,7 +104,7 @@ function toggleFacet(f) {
 <tr class="type-informational"><td>Informational TIP</td></tr>
 </tbody></table></div>
 
-<div class="index">
+<div class="tipindex index">
 <table border="1" cellpadding="2" cellspacing="0" class="sortable" id="tipTable">
 <thead><tr>
 <th>#</th>
