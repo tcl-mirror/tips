@@ -56,21 +56,6 @@ var sheet = (function(){
         }
     }
 })();
-function toggleClass(cls) {
-    r = sheet.cssRules;
-    if (r) {
-        var i = r.length;
-        while (i--) {
-            if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
-		console.log("removing hide rule for " + cls);
-                sheet.deleteRule(i);
-                return;
-            }
-        }
-    }
-    console.log("adding hide rule for " + cls);
-    sheet.insertRule(cls + " {display:none;}", 0);
-}
 function toggleFacet(f) {
     r = sheet.cssRules;
     if (!r) return
@@ -82,7 +67,6 @@ function toggleFacet(f) {
             break;
         }
     }
-    console.log("NONE:"+none);
     var i = r.length;
     while (i--) {
         if (r[i].selectorText && r[i].selectorText.substr(1,f.length).toLowerCase() === f) {
@@ -91,8 +75,9 @@ function toggleFacet(f) {
     }
     if (!none) {
         for (i=0; i<boxes.length; i++) {
-            console.log(boxes[i]);
-            if (!boxes[i].checked) {
+            if (boxes[i].checked) {
+                // sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:table-row;}", 0);
+	    } else {
                 sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:none;}", 0);
             }
         }
@@ -159,31 +144,26 @@ proc writeRow {number varName} {
     if {[info exists fields(obsoleted-by)]} {
 	set state "Obsoleted"
     }
+    if {[info exists fields(vote)] && $fields(vote) eq "In progress"} {
+	set state "Voting"
+    }
+
     set type $fields(type)
     if {[string match -nocase "info*" $type]} {
 	set type "Informational"
-    }
-    if {[info exists fields(vote)] && $fields(vote) eq "In progress"} {
-	set class "invote"
-	set state "Voting"
     } elseif {$number in $jests} {
-	set class "jest"
-    } elseif {[string tolower $state] in {obsoleted withdrawn rejected deferred}} {
-	set class [string tolower $state]
-    } else {
-	set class [string tolower $type]
-	if {$class in {process informational}} {
-	    set titlecolumnspan " colspan=2"
+	set type "humor"
+    }
+
+    if {[info exists fields(tcl-version)]} {
+	set vinfo [regexp -all -inline {(?:^|\s)(\d+)(?:\.(\d+))?} $fields(tcl-version)]
+	foreach {match v1 v2} $vinfo {
+	    lappend version $v1$v2
 	}
-	if {$class eq "project"} {
-	    append class " [string tolower $type$state]"
-	    if {[info exists fields(tcl-version)]} {
-		regexp {(\d+)(?:\.(\d+))?} $fields(tcl-version) -> v1 v2
-		set version $v1$v2
-		append class " [string tolower $type$state$version]"
-		append class " project$version"
-            }
-	}
+    }
+
+    if {[string tolower $type] in {process informational}} {
+	set titlecolumnspan " colspan=2"
     }
 
     # Decode links to branches and tickets with implementations
@@ -222,8 +202,10 @@ proc writeRow {number varName} {
 
     set class [join [lmap axis {state type version} {
         if {![info exists $axis]} continue
-        dict set ::toggles $axis [set $axis] 1
-        string cat $axis-[string tolower [set $axis]]
+        foreach av [set $axis] {
+	    dict set ::toggles $axis $av 1
+	}
+        lmap av [set $axis] {string cat $axis-[string tolower $av]}
     }] " "]
 
     appendn indexbuf "<tr class='$class'>"
@@ -236,7 +218,7 @@ proc writeRow {number varName} {
 	appendn indexbuf "<td valign='top' colspan=2>[encodeHTML $type]</td>"
     }
     appendn indexbuf "<td valign='top'>[encodeHTML $state]</td>"
-    appendn indexbuf "<td valign='top'>[encodeHTML $fields(title)]</td>"
+    appendn indexbuf "<td valign='top' $titlecolumnspan>[encodeHTML $fields(title)]</td>"
 
     if {[info exist link]} {
         appendn indexbuf  "<td valign='top'><a href='$link'>Link</a></td>"
