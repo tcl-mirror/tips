@@ -34,21 +34,6 @@ var sheet = (function(){
         }
     }
 })();
-function toggleClass(cls) {
-    r = sheet.cssRules;
-    if (r) {
-        var i = r.length;
-        while (i--) {
-            if (r[i].selectorText && r[i].selectorText.toLowerCase() === cls) {
-		console.log("removing hide rule for " + cls);
-                sheet.deleteRule(i);
-                return;
-            }
-        }
-    }
-    console.log("adding hide rule for " + cls);
-    sheet.insertRule(cls + " {display:none;}", 0);
-}
 function toggleFacet(f) {
     r = sheet.cssRules;
     if (!r) return
@@ -60,7 +45,6 @@ function toggleFacet(f) {
             break;
         }
     }
-    console.log("NONE:"+none);
     var i = r.length;
     while (i--) {
         if (r[i].selectorText && r[i].selectorText.substr(1,f.length).toLowerCase() === f) {
@@ -69,8 +53,9 @@ function toggleFacet(f) {
     }
     if (!none) {
         for (i=0; i<boxes.length; i++) {
-            console.log(boxes[i]);
-            if (!boxes[i].checked) {
+            if (boxes[i].checked) {
+                // sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:table-row;}", 0);
+	    } else {
                 sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:none;}", 0);
             }
         }
@@ -147,6 +132,12 @@ Type:
         type="checkbox"
         onclick="toggleFacet('type')">Informational</button>
 
+
+    <input class="toggler-type"
+        data-value="humor"
+        type="checkbox"
+        onclick="toggleFacet('type')">Humor</button>
+
 <br>
 Version: 
 
@@ -175,9 +166,21 @@ Version:
 
 
     <input class="toggler-version"
+        data-value="92"
+        type="checkbox"
+        onclick="toggleFacet('version')">92</button>
+
+
+    <input class="toggler-version"
         data-value="84"
         type="checkbox"
         onclick="toggleFacet('version')">84</button>
+
+
+    <input class="toggler-version"
+        data-value="80"
+        type="checkbox"
+        onclick="toggleFacet('version')">80</button>
 
 <br>
 
@@ -215,7 +218,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 539: Multiple dict filter patterns</td>
+<td valign='top' ># TIP 539: Multiple dict filter patterns</td>
 <td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -223,7 +226,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 538: Externalize libtommath</td>
+<td valign='top' ># TIP 538: Externalize libtommath</td>
 <td valign='top'><a href='/tcl/timeline?r=digit-bit-60'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -231,7 +234,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 537: Enable 64-bit indexes in regexp matching</td>
+<td valign='top' ># TIP 537: Enable 64-bit indexes in regexp matching</td>
 <td valign='top'><a href='/tcl/timeline?r=regexp-api-64bit'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-86'>
@@ -239,7 +242,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 536: Improvements to Mac-specific IPC in Tk</td>
+<td valign='top' ># TIP 536: Improvements to Mac-specific IPC in Tk</td>
 <td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -247,7 +250,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 535: Remove trailing zeroes in scale ticks</td>
+<td valign='top' ># TIP 535: Remove trailing zeroes in scale ticks</td>
 <td valign='top'><a href='/tcl/timeline?r=scale-tick-format'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -255,7 +258,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 534: Faster Hashing of Small Integers</td>
+<td valign='top' ># TIP 534: Faster Hashing of Small Integers</td>
 <td valign='top'><a href='/tcl/timeline?r=dkf-experimental-fast-number-hash'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -263,15 +266,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 533: Extension of the menu post command.</td>
+<td valign='top' ># TIP 533: Extension of the menu post command.</td>
 <td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-draft type-project version-86 version-87'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6 and 8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 532: Re-implementation of event loop processing.</td>
+<td valign='top' ># TIP 532: Re-implementation of event loop processing.</td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -279,15 +282,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 531: Static Tcl Interpreter Creation Function</td>
+<td valign='top' ># TIP 531: Static Tcl Interpreter Creation Function</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-531'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-draft type-project version-86 version-87'>
 <td valign='top'><a href='./tip/530.md'>530</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6, 8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 530: Control over performance impact of TIP 280</td>
+<td valign='top' ># TIP 530: Control over performance impact of TIP 280</td>
 <td valign='top'><a href='/tcl/tktview/a09031e288'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -295,7 +298,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 529: Add metadata dict property to tk photo image</td>
+<td valign='top' ># TIP 529: Add metadata dict property to tk photo image</td>
 <td valign='top'><a href='/tk/timeline?r=tip-529-image-metadata'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -303,7 +306,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 528: Deprecate Tk_Offset()</td>
+<td valign='top' ># TIP 528: Deprecate Tk_Offset()</td>
 <td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -311,7 +314,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 527: New measurement facilities in TCL: New command timerate.</td>
+<td valign='top' ># TIP 527: New measurement facilities in TCL: New command timerate.</td>
 <td valign='top'><a href='/tcl/timeline?r=sebres-8-6-timerate'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -319,7 +322,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 526: Make [expr] Only Accept One Argument</td>
+<td valign='top' ># TIP 526: Make [expr] Only Accept One Argument</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -327,7 +330,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
+<td valign='top' ># TIP 525: Make Tcltest Report Overall Success in a Machine-Readable Way</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -335,7 +338,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 524: Custom Definition Dialects for TclOO</td>
+<td valign='top' ># TIP 524: Custom Definition Dialects for TclOO</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-524'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -343,7 +346,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 523: New lpop command</td>
+<td valign='top' ># TIP 523: New lpop command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-523'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -351,7 +354,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 522: Test error codes with Tcltest</td>
+<td valign='top' ># TIP 522: Test error codes with Tcltest</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -359,7 +362,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 521: Floating Point Classification Functions</td>
+<td valign='top' ># TIP 521: Floating Point Classification Functions</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -367,7 +370,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 520: Make NaN Quiet</td>
+<td valign='top' ># TIP 520: Make NaN Quiet</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-520'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -375,7 +378,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 519: Inline export/unexport option to TclOO method definition</td>
+<td valign='top' ># TIP 519: Inline export/unexport option to TclOO method definition</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-519'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -383,7 +386,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 518: Virtual Event when Last Child is not Managed any more</td>
+<td valign='top' ># TIP 518: Virtual Event when Last Child is not Managed any more</td>
 <td valign='top'><a href='/tk/timeline?r=tip518-event-last-child-unmanaged'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -391,7 +394,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
+<td valign='top' ># TIP 517: Add -activerelief Configuration Option to the menu widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-517'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -399,7 +402,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 516: More OO Slot Operations</td>
+<td valign='top' ># TIP 516: More OO Slot Operations</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-516'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -407,7 +410,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 515: Level Value Reform</td>
+<td valign='top' ># TIP 515: Level Value Reform</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-515'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -415,7 +418,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 514: Platform differences in handling int/wide</td>
+<td valign='top' ># TIP 514: Platform differences in handling int/wide</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-514'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -423,7 +426,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 513: Better support for &apos;agendas&apos; as arrays, dictionaries or lists</td>
+<td valign='top' ># TIP 513: Better support for &apos;agendas&apos; as arrays, dictionaries or lists</td>
 <td valign='top'><a href='https://core.tcl.tk/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -431,7 +434,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 512: No stub for Tcl_SetExitProc()</td>
+<td valign='top' ># TIP 512: No stub for Tcl_SetExitProc()</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-512'>Link</a></td>
 </tr>
 <tr class='state-accepted type-project version-87'>
@@ -439,7 +442,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Accepted</td>
-<td valign='top'># TIP 511: Implement Tcl_AsyncMarkFromSignal()</td>
+<td valign='top' ># TIP 511: Implement Tcl_AsyncMarkFromSignal()</td>
 <td valign='top'><a href='https://www.androwish.org/index.html/info/40790af1e8e4ec9f'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -447,7 +450,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 510: Add Rbc and Tkpath widgets to Tk</td>
+<td valign='top' ># TIP 510: Add Rbc and Tkpath widgets to Tk</td>
 <td valign='top'><a href='/tk/timeline?r=tip-510'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -455,7 +458,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 509: Implement reentrant mutexes on all platforms</td>
+<td valign='top' ># TIP 509: Implement reentrant mutexes on all platforms</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-509'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -463,7 +466,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 508: New subcommand [array default]</td>
+<td valign='top' ># TIP 508: New subcommand [array default]</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-508'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -471,7 +474,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 507: Include simple SVG support with nanosvg</td>
+<td valign='top' ># TIP 507: Include simple SVG support with nanosvg</td>
 <td valign='top'><a href='/tk/timeline?r=tip-507'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -479,7 +482,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 506: Purge RefCount Macros</td>
+<td valign='top' ># TIP 506: Purge RefCount Macros</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-506'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -487,7 +490,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.9</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
+<td valign='top' ># TIP 505: Make [lreplace] Accept All Out-of-Range Index Values</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-505'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -495,7 +498,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 504: New subcommand [string insert]</td>
+<td valign='top' ># TIP 504: New subcommand [string insert]</td>
 <td valign='top'><a href='/tcl/timeline?r=dgp-string-insert'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -503,7 +506,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 503: End Tcl 8.3 Source Compatibility Support</td>
+<td valign='top' ># TIP 503: End Tcl 8.3 Source Compatibility Support</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-503'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -511,7 +514,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 502: Index Value Reform</td>
+<td valign='top' ># TIP 502: Index Value Reform</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-502'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -519,7 +522,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 501: string is dict</td>
+<td valign='top' ># TIP 501: string is dict</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-501'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -527,7 +530,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 500: Private Methods and Variables in TclOO</td>
+<td valign='top' ># TIP 500: Private Methods and Variables in TclOO</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-500'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -535,7 +538,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 499: Custom locale search list for msgcat</td>
+<td valign='top' ># TIP 499: Custom locale search list for msgcat</td>
 <td valign='top'><a href='/tcl/timeline?r=tip499-msgcat-custom-preferences'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -543,7 +546,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 498: Simplify Tcl_DeleteNamespace</td>
+<td valign='top' ># TIP 498: Simplify Tcl_DeleteNamespace</td>
 <td valign='top'><a href='/tcl/timeline?r=bug-e593adf103-core-8'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -551,7 +554,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 497: Full support for Unicode 11.0 and later (part 2)</td>
+<td valign='top' ># TIP 497: Full support for Unicode 11.0 and later (part 2)</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-497'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -559,7 +562,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 496: Display hints in ::entry ::spinbox ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
+<td valign='top' ># TIP 496: Display hints in ::entry ::spinbox ::ttk::entry ::ttk::spinbox and ::ttk::combobox</td>
 <td valign='top'><a href='/tk/timeline?r=tip-496'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -567,7 +570,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 495: Tcl Based Build System for TEA projects</td>
+<td valign='top' ># TIP 495: Tcl Based Build System for TEA projects</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -575,7 +578,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 494: More use of size_t in Tcl 9</td>
+<td valign='top' ># TIP 494: More use of size_t in Tcl 9</td>
 <td valign='top'><a href='/tcl/timeline?r=memory-API'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -583,7 +586,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 493: Cease Distribution of http 1.0</td>
+<td valign='top' ># TIP 493: Cease Distribution of http 1.0</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-493'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -591,7 +594,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 492: Introspection for &apos;tk busy&apos;</td>
+<td valign='top' ># TIP 492: Introspection for &apos;tk busy&apos;</td>
 <td valign='top'><a href='/tk/timeline?r=tip-492'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -599,7 +602,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 491: Threading Support: phasing out non-threaded builds</td>
+<td valign='top' ># TIP 491: Threading Support: phasing out non-threaded builds</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-491'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -607,7 +610,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 490: msgcat for TclOO</td>
+<td valign='top' ># TIP 490: msgcat for TclOO</td>
 <td valign='top'><a href='/tcl/timeline?r=tip490-msgcat-oo-2'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -615,7 +618,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 489: Add image widget command to the Tk canvas</td>
+<td valign='top' ># TIP 489: Add image widget command to the Tk canvas</td>
 <td valign='top'><a href='/tk/timeline?r=canvas_image'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -623,7 +626,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 488: Remove tcl_precision</td>
+<td valign='top' ># TIP 488: Remove tcl_precision</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-488'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -631,7 +634,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 487: Stop support for Pre-XP Windows</td>
+<td valign='top' ># TIP 487: Stop support for Pre-XP Windows</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-487'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -639,7 +642,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 486: Thread 3.0 is for Tcl 9</td>
+<td valign='top' ># TIP 486: Thread 3.0 is for Tcl 9</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -647,7 +650,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 485: Remove Deprecated API</td>
+<td valign='top' ># TIP 485: Remove Deprecated API</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-485'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -655,7 +658,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
+<td valign='top' ># TIP 484: Merge &apos;int&apos; and &apos;wideInt&apos; Obj-type to a single &apos;int&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=no-wideint'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -663,7 +666,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 483: Improved TIP #59 implementation for Tk</td>
+<td valign='top' ># TIP 483: Improved TIP #59 implementation for Tk</td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -671,7 +674,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 482: Record Tk demo directory information</td>
+<td valign='top' ># TIP 482: Record Tk demo directory information</td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -679,7 +682,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 481: `Tcl_GetStringFromObj()` with `size_t` length parameter</td>
+<td valign='top' ># TIP 481: `Tcl_GetStringFromObj()` with `size_t` length parameter</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-481'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -687,7 +690,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 480: Type and Alias Assertions for Tcl</td>
+<td valign='top' ># TIP 480: Type and Alias Assertions for Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-480'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -695,7 +698,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 479: Add Named Procedures as a New Command in Tcl (dictargs::proc)</td>
+<td valign='top' ># TIP 479: Add Named Procedures as a New Command in Tcl (dictargs::proc)</td>
 <td valign='top'><a href='/tcl/timeline?r=tip479'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -703,7 +706,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
+<td valign='top' ># TIP 478: Add Expected Class Level Behaviors to oo::class</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-478'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -711,7 +714,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.8</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 477: Modernize the nmake build system</td>
+<td valign='top' ># TIP 477: Modernize the nmake build system</td>
 <td valign='top'><a href='/tcl/timeline?r=vc-reform'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -719,15 +722,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 476: Scan/Printf format consistency</td>
+<td valign='top' ># TIP 476: Scan/Printf format consistency</td>
 <td valign='top'><a href='/tcl/timeline?r=z_modifier'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-87'>
 <td valign='top'><a href='./tip/475.md'>475</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 475: Add [string insert] Command and C API</td>
+<td valign='top' ># TIP 475: Add [string insert] Command and C API</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-86'>
@@ -735,7 +738,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 474: Treat the mouse wheel events in a uniform way</td>
+<td valign='top' ># TIP 474: Treat the mouse wheel events in a uniform way</td>
 <td valign='top'><a href='/tk/timeline?r=tip474-uniform-mouse-wheel'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -743,7 +746,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 473: Allow a Defined Target Namespace in oo::copy</td>
+<td valign='top' ># TIP 473: Allow a Defined Target Namespace in oo::copy</td>
 <td valign='top'><a href='/tcl/timeline?r=oo-copy-ns'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -751,7 +754,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 472: Add Support for 0d Radix Prefix to Integer Literals</td>
+<td valign='top' ># TIP 472: Add Support for 0d Radix Prefix to Integer Literals</td>
 <td valign='top'><a href='/tcl/timeline?r=bsg-0d-radix-prefix'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -759,7 +762,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 471: Add [info linkedname] Introspection Command</td>
+<td valign='top' ># TIP 471: Add [info linkedname] Introspection Command</td>
 <td valign='top'><a href='/tcl/timeline?r=info-linkedname'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -767,7 +770,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 470: Reliable Access to OO Definition Context Object</td>
+<td valign='top' ># TIP 470: Reliable Access to OO Definition Context Object</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-470'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -775,7 +778,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 469: A Callback for Channel-Exception Conditions</td>
+<td valign='top' ># TIP 469: A Callback for Channel-Exception Conditions</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-469'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -783,21 +786,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 468: Support Passing TCP listen Backlog Size Option to TCP Socket Creation</td>
+<td valign='top' ># TIP 468: Support Passing TCP listen Backlog Size Option to TCP Socket Creation</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-468-bis'>Link</a></td>
 </tr>
 <tr class='state-final type-process'>
 <td valign='top'><a href='./tip/467.md'>467</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 467: Move TIP Collection to Fossil</td>
+<td valign='top'  colspan=2># TIP 467: Move TIP Collection to Fossil</td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/466.md'>466</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 466: Revised Implementation of the Text Widget</td>
+<td valign='top' ># TIP 466: Revised Implementation of the Text Widget</td>
 <td valign='top'><a href='/tk/timeline?r=revised_text'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -805,7 +808,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 465: Change Rule 8 of the Dodekalogue to Cut Some Corner Cases</td>
+<td valign='top' ># TIP 465: Change Rule 8 of the Dodekalogue to Cut Some Corner Cases</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-465'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -813,7 +816,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 464: Support for Multimedia Keys on Windows</td>
+<td valign='top' ># TIP 464: Support for Multimedia Keys on Windows</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-464'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -821,7 +824,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 463: Command-Driven Substitutions for regsub</td>
+<td valign='top' ># TIP 463: Command-Driven Substitutions for regsub</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-463'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -829,7 +832,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 462: Add New [::tcl::process] Ensemble for Subprocess Management</td>
+<td valign='top' ># TIP 462: Add New [::tcl::process] Ensemble for Subprocess Management</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-462'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -837,7 +840,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 461: Separate Numeric and String Comparison Operators</td>
+<td valign='top' ># TIP 461: Separate Numeric and String Comparison Operators</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -845,7 +848,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 460: An Alternative to Upvar</td>
+<td valign='top' ># TIP 460: An Alternative to Upvar</td>
 <td valign='top'><a href='/tcl/timeline?r=dah-proc-arg-upvar'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -853,7 +856,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 459: Tcl Package Introspection Improvements</td>
+<td valign='top' ># TIP 459: Tcl Package Introspection Improvements</td>
 <td valign='top'><a href='/tcl/timeline?r=package_files'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -861,7 +864,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 458: Add Support for epoll() and kqueue() in the Notifier</td>
+<td valign='top' ># TIP 458: Add Support for epoll() and kqueue() in the Notifier</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-458'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -869,7 +872,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 457: Add Support for Named Arguments</td>
+<td valign='top' ># TIP 457: Add Support for Named Arguments</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-457'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -877,7 +880,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 456: Extend the C API to Support Passing Options to TCP Server Creation</td>
+<td valign='top' ># TIP 456: Extend the C API to Support Passing Options to TCP Server Creation</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-456'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -885,15 +888,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 455: Extensions to [vwait]: Variable Sets and Scripted Access to Tcl_DoOneEvent</td>
+<td valign='top' ># TIP 455: Extensions to [vwait]: Variable Sets and Scripted Access to Tcl_DoOneEvent</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-86'>
 <td valign='top'><a href='./tip/454.md'>454</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.6</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 454: Automatically Resize Frames After Last Child Removed</td>
+<td valign='top' ># TIP 454: Automatically Resize Frames After Last Child Removed</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -901,7 +904,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 453: Tcl Based Automation for tcl/pkgs</td>
+<td valign='top' ># TIP 453: Tcl Based Automation for tcl/pkgs</td>
 <td valign='top'><a href='https://core.tcl.tk/tclconfig/timeline?r=practcl'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -909,7 +912,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 452: Add &quot;stubs&quot; Package to or Along Side of TclTest</td>
+<td valign='top' ># TIP 452: Add &quot;stubs&quot; Package to or Along Side of TclTest</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-452'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -917,7 +920,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 451: Modify [update] to Give Full Script Access to Tcl_DoOneEvent</td>
+<td valign='top' ># TIP 451: Modify [update] to Give Full Script Access to Tcl_DoOneEvent</td>
 <td valign='top'><a href='/tcl/timeline?r=updateextended'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -925,7 +928,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 450: Add [binary] subcommand &quot;set&quot; for in-place modification</td>
+<td valign='top' ># TIP 450: Add [binary] subcommand &quot;set&quot; for in-place modification</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -933,7 +936,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 449: [text] undo/redo to Return Range of Characters</td>
+<td valign='top' ># TIP 449: [text] undo/redo to Return Range of Characters</td>
 <td valign='top'><a href='/tk/timeline?r=tip-449'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -941,7 +944,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 448: Update Tcl_SetNotifier to Reinitialize Event Loop</td>
+<td valign='top' ># TIP 448: Update Tcl_SetNotifier to Reinitialize Event Loop</td>
 <td valign='top'><a href='http://fossil.etoyoc.com/sandbox/tcllib/artifact/b2b272a285811272'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -949,7 +952,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 447: Execution Time Verbosity Levels in tcltest::configure</td>
+<td valign='top' ># TIP 447: Execution Time Verbosity Levels in tcltest::configure</td>
 <td valign='top'><a href='/tcl/timeline?r=gahr-tip-447'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -957,7 +960,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 446: Introspect Undo/Redo Stack Depths</td>
+<td valign='top' ># TIP 446: Introspect Undo/Redo Stack Depths</td>
 <td valign='top'><a href='/tk/timeline?r=tip-446'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -965,7 +968,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 445: Tcl_ObjType Utility Routines</td>
+<td valign='top' ># TIP 445: Tcl_ObjType Utility Routines</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-445'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -973,7 +976,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 444: Add &quot;weekdays&quot; unit in clock add</td>
+<td valign='top' ># TIP 444: Add &quot;weekdays&quot; unit in clock add</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-444'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -981,7 +984,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 443: More Tag Configuration Options for the Text Widget</td>
+<td valign='top' ># TIP 443: More Tag Configuration Options for the Text Widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-443'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -989,7 +992,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 442: Display text in progressbars</td>
+<td valign='top' ># TIP 442: Display text in progressbars</td>
 <td valign='top'><a href='/tk/timeline?r=tip-442'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -997,7 +1000,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 441: Add -justify Configuration Option to the listbox Widget</td>
+<td valign='top' ># TIP 441: Add -justify Configuration Option to the listbox Widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-441'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -1005,7 +1008,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 440: Add engine to tcl_platform Array</td>
+<td valign='top' ># TIP 440: Add engine to tcl_platform Array</td>
 <td valign='top'><a href='/tcl/timeline?r=tclPlatformEngine'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1013,7 +1016,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 439: Semantic Versioning</td>
+<td valign='top' ># TIP 439: Semantic Versioning</td>
 <td valign='top'><a href='/tcl/timeline?r=semver'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1021,7 +1024,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 438: Ensure Line Metrics are Up-to-Date</td>
+<td valign='top' ># TIP 438: Ensure Line Metrics are Up-to-Date</td>
 <td valign='top'><a href='/tk/timeline?r=tip-438'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -1029,7 +1032,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5.18</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 437: Tk panedwindow options for proxy window</td>
+<td valign='top' ># TIP 437: Tk panedwindow options for proxy window</td>
 <td valign='top'><a href='/tk/timeline?r=tip-437'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1037,23 +1040,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 436: Improve TclOO isa Introspection</td>
+<td valign='top' ># TIP 436: Improve TclOO isa Introspection</td>
 <td valign='top'><a href='https://core.tcl.tk/tcloo/info/5fa1374aa026d4c7'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/435.md'>435</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 435: Safe Mutex Disposal API</td>
+<td valign='top' ># TIP 435: Safe Mutex Disposal API</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-86'>
 <td valign='top'><a href='./tip/434.md'>434</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 434: Specify Event Sources for &apos;vwait&apos;</td>
+<td valign='top' ># TIP 434: Specify Event Sources for &apos;vwait&apos;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1061,7 +1064,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 433: Add %M binding substitution</td>
+<td valign='top' ># TIP 433: Add %M binding substitution</td>
 <td valign='top'><a href='/tk/timeline?r=bindScriptCount'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1069,7 +1072,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.3</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 432: Support for New Windows File Dialogs in Vista and Later</td>
+<td valign='top' ># TIP 432: Support for New Windows File Dialogs in Vista and Later</td>
 <td valign='top'><a href='/tk/timeline?r=apn-win-filedialogs'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1077,7 +1080,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 431: Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</td>
+<td valign='top' ># TIP 431: Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1085,7 +1088,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 430: Add basic ZIP archive support to Tcl</td>
+<td valign='top' ># TIP 430: Add basic ZIP archive support to Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=core_zip_vfs'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1093,7 +1096,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.2</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 429: A &apos;string&apos; Subcommand for Concatenation</td>
+<td valign='top' ># TIP 429: A &apos;string&apos; Subcommand for Concatenation</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-429'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1101,7 +1104,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 428: Produce Error Dictionary from &apos;fconfigure -error&apos;</td>
+<td valign='top' ># TIP 428: Produce Error Dictionary from &apos;fconfigure -error&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-428'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1109,7 +1112,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 427: Introspection of Asynchronous Socket Connection</td>
+<td valign='top' ># TIP 427: Introspection of Asynchronous Socket Connection</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-427'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1117,7 +1120,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 426: Determining the &quot;Type&quot; of Commands</td>
+<td valign='top' ># TIP 426: Determining the &quot;Type&quot; of Commands</td>
 <td valign='top'><a href='/tcl/timeline?r=dkf-command-type'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1125,7 +1128,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 425: Correct use of UTF-8 in Panic Callback (Windows only)</td>
+<td valign='top' ># TIP 425: Correct use of UTF-8 in Panic Callback (Windows only)</td>
 <td valign='top'><a href='/tcl/timeline?r=win-console-panic'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1133,7 +1136,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 424: Improving [exec]</td>
+<td valign='top' ># TIP 424: Improving [exec]</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-improve-exec'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1141,7 +1144,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 423: Formatting Timestamps with Milliseconds</td>
+<td valign='top' ># TIP 423: Formatting Timestamps with Milliseconds</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -1149,7 +1152,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 422: Don&apos;t Use stdarg.h/va_list in Public API</td>
+<td valign='top' ># TIP 422: Don&apos;t Use stdarg.h/va_list in Public API</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-422'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1157,7 +1160,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 421: A Command for Iterating Over Arrays</td>
+<td valign='top' ># TIP 421: A Command for Iterating Over Arrays</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-421'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1165,7 +1168,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 420: &apos;vexpr&apos;, a Vector Expression Command</td>
+<td valign='top' ># TIP 420: &apos;vexpr&apos;, a Vector Expression Command</td>
 <td valign='top'><a href='http://www.etoyoc.com/tclmatrix3d'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1173,7 +1176,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 419: A New Command for Binding to Tk Events</td>
+<td valign='top' ># TIP 419: A New Command for Binding to Tk Events</td>
 <td valign='top'><a href='http://wiki.tcl.tk/tkevent'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1181,7 +1184,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 418: Add [binary] Subcommands for In-Place Modification</td>
+<td valign='top' ># TIP 418: Add [binary] Subcommands for In-Place Modification</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1189,7 +1192,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 417: Use Explicit Option Names for &quot;file tempfile&quot;</td>
+<td valign='top' ># TIP 417: Use Explicit Option Names for &quot;file tempfile&quot;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1197,7 +1200,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 416: New Options for &apos;load&apos;: -global and -lazy</td>
+<td valign='top' ># TIP 416: New Options for &apos;load&apos;: -global and -lazy</td>
 <td valign='top'><a href='/tcl/timeline?r=frq-3579001'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1205,7 +1208,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 415: Enable Easy Creation of Circular Arc Segments</td>
+<td valign='top' ># TIP 415: Enable Easy Creation of Circular Arc Segments</td>
 <td valign='top'><a href='/tk/timeline?r=tip-415'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1213,7 +1216,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 414: Add (back) Tcl_InitSubsystems as Public API</td>
+<td valign='top' ># TIP 414: Add (back) Tcl_InitSubsystems as Public API</td>
 <td valign='top'><a href='/tcl/timeline?r=initsubsystems'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1221,7 +1224,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 413: Unicode Support for &apos;string is space&apos; and &apos;string trim&apos;</td>
+<td valign='top' ># TIP 413: Unicode Support for &apos;string is space&apos; and &apos;string trim&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-318-update'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1229,7 +1232,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 412: Dynamic Locale Changing for msgcat with On-Demand File Load</td>
+<td valign='top' ># TIP 412: Dynamic Locale Changing for msgcat with On-Demand File Load</td>
 <td valign='top'><a href='/tcl/timeline?r=msgcat_dyn_locale'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1237,7 +1240,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 411: Improved Channel Introspection via &quot;chan info&quot;</td>
+<td valign='top' ># TIP 411: Improved Channel Introspection via &quot;chan info&quot;</td>
 <td valign='top'><a href='http://sqlitestudio.pl/tcl/patches/tip-411-chan_info.patch'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1245,7 +1248,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 410: Three Features of scan Adapted for binary scan/format</td>
+<td valign='top' ># TIP 410: Three Features of scan Adapted for binary scan/format</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1253,7 +1256,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 409: UDP in Tcl</td>
+<td valign='top' ># TIP 409: UDP in Tcl</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1261,21 +1264,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 408: Allow Any Command for expr Functions</td>
+<td valign='top' ># TIP 408: Allow Any Command for expr Functions</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/407.md'>407</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 407: The String Representation of Tcl Lists: the Gory Details</td>
+<td valign='top'  colspan=2># TIP 407: The String Representation of Tcl Lists: the Gory Details</td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/406.md'>406</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 406: &quot;C&quot; is for Cookie</td>
+<td valign='top' ># TIP 406: &quot;C&quot; is for Cookie</td>
 <td valign='top'><a href='/tcl/timeline?r=dkf-http-cookies'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1283,7 +1286,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 405: Add Collecting Loops, the &apos;lmap&apos; and &apos;dict map&apos; Commands</td>
+<td valign='top' ># TIP 405: Add Collecting Loops, the &apos;lmap&apos; and &apos;dict map&apos; Commands</td>
 <td valign='top'><a href='/tcl/tktview/3163961'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1291,7 +1294,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 404: Let Message Catalogs get the Locale from their File Name</td>
+<td valign='top' ># TIP 404: Let Message Catalogs get the Locale from their File Name</td>
 <td valign='top'><a href='/tcl/tktview/3544988'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1299,7 +1302,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 403: Web Colors for Tk</td>
+<td valign='top' ># TIP 403: Web Colors for Tk</td>
 <td valign='top'><a href='/tk/timeline?r=jn-web-colors'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1307,7 +1310,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 402: General Platform UNC Support</td>
+<td valign='top' ># TIP 402: General Platform UNC Support</td>
 <td valign='top'><a href='/tcl/timeline?r=jn-unc-vfs'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1315,7 +1318,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 401: Comment Words with Leading {#}</td>
+<td valign='top' ># TIP 401: Comment Words with Leading {#}</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-401'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1323,15 +1326,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 400: Setting the Compression Dictionary and Other &apos;zlib&apos; Updates</td>
+<td valign='top' ># TIP 400: Setting the Compression Dictionary and Other &apos;zlib&apos; Updates</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-400-impl'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/399.md'>399</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 399: Dynamic Locale Changing for msgcat</td>
+<td valign='top' ># TIP 399: Dynamic Locale Changing for msgcat</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1339,7 +1342,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 398: Quickly Exit with Non-Blocking Blocked Channels</td>
+<td valign='top' ># TIP 398: Quickly Exit with Non-Blocking Blocked Channels</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-398-impl'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1347,7 +1350,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 397: Extensible Object Copying</td>
+<td valign='top' ># TIP 397: Extensible Object Copying</td>
 <td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-rfe3485060'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1355,7 +1358,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 396: Symmetric Coroutines, Multiple Args, and yieldto</td>
+<td valign='top' ># TIP 396: Symmetric Coroutines, Multiple Args, and yieldto</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1363,7 +1366,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 395: New &apos;string is entier&apos; Command</td>
+<td valign='top' ># TIP 395: New &apos;string is entier&apos; Command</td>
 <td valign='top'><a href='http://sites.google.com/site/josdecoster/Home/tip_string_is_entier.diff'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1371,7 +1374,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 394: Platform-Independent Handling of Contemporary Mice</td>
+<td valign='top' ># TIP 394: Platform-Independent Handling of Contemporary Mice</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1379,7 +1382,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 393: Add -command Option to lsearch</td>
+<td valign='top' ># TIP 393: Add -command Option to lsearch</td>
 <td valign='top'><a href='http://sqlitestudio.pl/tcl/patches/tip-393-lsearch-command.patch'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1387,15 +1390,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 392: Allow Bignums to be Disabled at Runtime on a Per-Interp Basis</td>
+<td valign='top' ># TIP 392: Allow Bignums to be Disabled at Runtime on a Per-Interp Basis</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-87'>
 <td valign='top'><a href='./tip/391.md'>391</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 391: Support for UDP Sockets in Tcl</td>
+<td valign='top' ># TIP 391: Support for UDP Sockets in Tcl</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1403,7 +1406,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 390: A Logging API for Tcl</td>
+<td valign='top' ># TIP 390: A Logging API for Tcl</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1411,7 +1414,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 389: Full support for Unicode 10.0 and later (part 1)</td>
+<td valign='top' ># TIP 389: Full support for Unicode 10.0 and later (part 1)</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-389'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1419,29 +1422,29 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 388: Extending Unicode literals past the BMP</td>
+<td valign='top' ># TIP 388: Extending Unicode literals past the BMP</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-388-impl'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/387.md'>387</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 387: Unified Yield Command Syntax</td>
+<td valign='top' ># TIP 387: Unified Yield Command Syntax</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/386.md'>386</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 386: Relocation of Tcl/Tk Source Control Repositories</td>
+<td valign='top'  colspan=2># TIP 386: Relocation of Tcl/Tk Source Control Repositories</td>
 </tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/385.md'>385</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 385: Functional Traces On Variables</td>
+<td valign='top' ># TIP 385: Functional Traces On Variables</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1449,7 +1452,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 384: Add File Alteration Monitoring to the Tcl Core</td>
+<td valign='top' ># TIP 384: Add File Alteration Monitoring to the Tcl Core</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1457,7 +1460,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 383: Injecting Code into Suspended Coroutines</td>
+<td valign='top' ># TIP 383: Injecting Code into Suspended Coroutines</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-383'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -1465,7 +1468,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5.11</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 382: Let tk_getSaveFile ignore file overwrites</td>
+<td valign='top' ># TIP 382: Let tk_getSaveFile ignore file overwrites</td>
 <td valign='top'><a href='/tk/timeline?r=tip-382'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1473,7 +1476,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 381: Call Chain Introspection and Control</td>
+<td valign='top' ># TIP 381: Call Chain Introspection and Control</td>
 <td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-next2'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1481,7 +1484,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 380: TclOO Slots for Flexible Declarations</td>
+<td valign='top' ># TIP 380: TclOO Slots for Flexible Declarations</td>
 <td valign='top'><a href='/tcl/tktview/3084339'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1489,7 +1492,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 379: Add a Command for Delivering Events Without Tk</td>
+<td valign='top' ># TIP 379: Add a Command for Delivering Events Without Tk</td>
 <td valign='top'><a href='http://www.wjduquette.com/notifier/hook-0.1.zip'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1497,15 +1500,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 378: Fixing the Performance of TIP 280</td>
+<td valign='top' ># TIP 378: Fixing the Performance of TIP 280</td>
 <td valign='top'><a href='/tcl/tktview/3081184'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-86'>
 <td valign='top'><a href='./tip/377.md'>377</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 377: Portably Determining the Number of Processors in the System</td>
+<td valign='top' ># TIP 377: Portably Determining the Number of Processors in the System</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1513,15 +1516,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 376: Bundle sqlite3 and tdbc::sqlite3 Packages</td>
+<td valign='top' ># TIP 376: Bundle sqlite3 and tdbc::sqlite3 Packages</td>
 <td valign='top'><a href='https://core.tcl.tk/tdbc/'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/375.md'>375</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 375: Symmetric Coroutines and Yieldto</td>
+<td valign='top' ># TIP 375: Symmetric Coroutines and Yieldto</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1529,23 +1532,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 374: Stackless Vwait</td>
+<td valign='top' ># TIP 374: Stackless Vwait</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/373.md'>373</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 373: Improved Yielding Support for Coroutines</td>
+<td valign='top' ># TIP 373: Improved Yielding Support for Coroutines</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/372.md'>372</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 372: Multi-argument Yield for Coroutines</td>
+<td valign='top' ># TIP 372: Multi-argument Yield for Coroutines</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1553,7 +1556,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 371: Improvements for the dict command</td>
+<td valign='top' ># TIP 371: Improvements for the dict command</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1561,7 +1564,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 370: Extend Tk&apos;s selection with a -time option</td>
+<td valign='top' ># TIP 370: Extend Tk&apos;s selection with a -time option</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1569,15 +1572,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 369: Widget cargo command</td>
+<td valign='top' ># TIP 369: Widget cargo command</td>
 <td valign='top'><a href='/tk/tktview/3023578'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-87'>
 <td valign='top'><a href='./tip/368.md'>368</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 368: Listbox Justification Option</td>
+<td valign='top' ># TIP 368: Listbox Justification Option</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1585,7 +1588,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 367: A Command to Remove Elements from a List</td>
+<td valign='top' ># TIP 367: A Command to Remove Elements from a List</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-367'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1593,15 +1596,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 366: Variable Sized Indicators for Menubuttons</td>
+<td valign='top' ># TIP 366: Variable Sized Indicators for Menubuttons</td>
 <td valign='top'><a href='/tk/tktview/2996760'>Link</a></td>
 </tr>
-<tr class='state-draft type-project'>
+<tr class='state-draft type-humor version-86'>
 <td valign='top'><a href='./tip/365.md'>365</a></td>
-<td valign='top'>Project</td>
+<td valign='top'>humor</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 365: Add Python Compatibility Mode</td>
+<td valign='top' ># TIP 365: Add Python Compatibility Mode</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1609,7 +1612,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 364: Threading Support: Configuration and Package</td>
+<td valign='top' ># TIP 364: Threading Support: Configuration and Package</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -1617,7 +1620,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 363: Vector Math in the Tcl Core</td>
+<td valign='top' ># TIP 363: Vector Math in the Tcl Core</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1625,7 +1628,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 362: Simple 32 and 64 bit Registry Support</td>
+<td valign='top' ># TIP 362: Simple 32 and 64 bit Registry Support</td>
 <td valign='top'><a href='/tcl/tktview/2960976'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1633,7 +1636,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 361: Releasing Channel Buffers</td>
+<td valign='top' ># TIP 361: Releasing Channel Buffers</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1641,7 +1644,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 360: Modernize X11 Menus</td>
+<td valign='top' ># TIP 360: Modernize X11 Menus</td>
 <td valign='top'><a href='/tk/tktview/2920409'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1649,7 +1652,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 359: Extended Window Manager Hint Support</td>
+<td valign='top' ># TIP 359: Extended Window Manager Hint Support</td>
 <td valign='top'><a href='/tk/tktview/2918731'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1657,7 +1660,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 358: Suppress Empty List Element Generation from the Split Command</td>
+<td valign='top' ># TIP 358: Suppress Empty List Element Generation from the Split Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1665,7 +1668,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 357: Export TclLoadFile</td>
+<td valign='top' ># TIP 357: Export TclLoadFile</td>
 <td valign='top'><a href='/tcl/tktview/2891616'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1673,7 +1676,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 356: NR-enabled Substitutions for Extensions</td>
+<td valign='top' ># TIP 356: NR-enabled Substitutions for Extensions</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1681,7 +1684,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 355: Stop Fast Recycling of Channel Names on Unix</td>
+<td valign='top' ># TIP 355: Stop Fast Recycling of Channel Names on Unix</td>
 <td valign='top'><a href='/tcl/tktview/2826430'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1689,7 +1692,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 354: Minor Production-Driven TclOO Revisions</td>
+<td valign='top' ># TIP 354: Minor Production-Driven TclOO Revisions</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1697,35 +1700,35 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 353: NR-enabled Expressions for Extensions</td>
+<td valign='top' ># TIP 353: NR-enabled Expressions for Extensions</td>
 <td valign='top'><a href='/tcl/tktview/2823282'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/352.md'>352</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 352: Tcl Style Guide</td>
+<td valign='top'  colspan=2># TIP 352: Tcl Style Guide</td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/351.md'>351</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 351: Add Striding Support to lsearch</td>
+<td valign='top' ># TIP 351: Add Striding Support to lsearch</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-351'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/350.md'>350</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 350: Tcl Database Connectivity - Corrigenda</td>
+<td valign='top'  colspan=2># TIP 350: Tcl Database Connectivity - Corrigenda</td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/349.md'>349</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 349: New &quot;-cargo&quot; option for every Tk widget</td>
+<td valign='top' ># TIP 349: New &quot;-cargo&quot; option for every Tk widget</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1733,15 +1736,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 348: Substituted &apos;errorstack&apos; / &apos;traceback&apos;</td>
+<td valign='top' ># TIP 348: Substituted &apos;errorstack&apos; / &apos;traceback&apos;</td>
 <td valign='top'><a href='/tcl/tktview/2868499'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-87'>
 <td valign='top'><a href='./tip/347.md'>347</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 347: Align &apos;string is ...&apos; to Type-Conversion Functions in &apos;expr&apos;</td>
+<td valign='top' ># TIP 347: Align &apos;string is ...&apos; to Type-Conversion Functions in &apos;expr&apos;</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1749,7 +1752,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 346: Error on Failed String Encodings</td>
+<td valign='top' ># TIP 346: Error on Failed String Encodings</td>
 <td valign='top'><a href='/tcl/tktview/1665628'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1757,7 +1760,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 345: Kill the &apos;identity&apos; Encoding</td>
+<td valign='top' ># TIP 345: Kill the &apos;identity&apos; Encoding</td>
 <td valign='top'><a href='/tcl/tktview/2564363'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1765,7 +1768,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 344: Bring TCP_NODELAY and SO_KEEPALIVE to socket options</td>
+<td valign='top' ># TIP 344: Bring TCP_NODELAY and SO_KEEPALIVE to socket options</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1773,7 +1776,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 343: A Binary Specifier for [format/scan]</td>
+<td valign='top' ># TIP 343: A Binary Specifier for [format/scan]</td>
 <td valign='top'><a href='/tcl/tktview/2368084'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -1781,7 +1784,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 342: Dict Get With Default</td>
+<td valign='top' ># TIP 342: Dict Get With Default</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-342'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1789,23 +1792,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 341: Multiple &apos;dict filter&apos; Patterns</td>
+<td valign='top' ># TIP 341: Multiple &apos;dict filter&apos; Patterns</td>
 <td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-87'>
 <td valign='top'><a href='./tip/340.md'>340</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 340: Const Qualification of Tcl_SetResult&apos;s Argument</td>
+<td valign='top' ># TIP 340: Const Qualification of Tcl_SetResult&apos;s Argument</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/339.md'>339</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 339: Case-Insensitive Package Names</td>
+<td valign='top' ># TIP 339: Case-Insensitive Package Names</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1813,7 +1816,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 338: Embedder Access to Startup Scripts of *_Main()</td>
+<td valign='top' ># TIP 338: Embedder Access to Startup Scripts of *_Main()</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1821,7 +1824,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 337: Make TclBackgroundException() Public</td>
+<td valign='top' ># TIP 337: Make TclBackgroundException() Public</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1829,7 +1832,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 336: Supported Access To interp-&gt;errorline</td>
+<td valign='top' ># TIP 336: Supported Access To interp-&gt;errorline</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-330-336'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1837,15 +1840,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 335: An API for Detecting Active Interpreters</td>
+<td valign='top' ># TIP 335: An API for Detecting Active Interpreters</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-86'>
 <td valign='top'><a href='./tip/334.md'>334</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 334: Make &apos;lrepeat&apos; Accept Zero as a Count</td>
+<td valign='top' ># TIP 334: Make &apos;lrepeat&apos; Accept Zero as a Count</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1853,7 +1856,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 333: New Variable and Namespace Resolving Interface</td>
+<td valign='top' ># TIP 333: New Variable and Namespace Resolving Interface</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1861,7 +1864,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 332: Half-Close for Bidirectional Channels</td>
+<td valign='top' ># TIP 332: Half-Close for Bidirectional Channels</td>
 <td valign='top'><a href='/tcl/tktview/219159'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1869,7 +1872,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 331: Allow [lset] to Extend Lists</td>
+<td valign='top' ># TIP 331: Allow [lset] to Extend Lists</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1877,7 +1880,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 330: Eliminate interp-&gt;result from the Public Headers</td>
+<td valign='top' ># TIP 330: Eliminate interp-&gt;result from the Public Headers</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-330-336'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1885,7 +1888,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 329: Try/Catch/Finally syntax</td>
+<td valign='top' ># TIP 329: Try/Catch/Finally syntax</td>
 <td valign='top'><a href='http://www.crypt.co.za/pub/try-1.tcl'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1893,7 +1896,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 328: Coroutines</td>
+<td valign='top' ># TIP 328: Coroutines</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1901,7 +1904,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 327: Proper Tailcalls</td>
+<td valign='top' ># TIP 327: Proper Tailcalls</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1909,7 +1912,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 326: Add -stride Option to lsort</td>
+<td valign='top' ># TIP 326: Add -stride Option to lsort</td>
 <td valign='top'><a href='/tcl/tktview/2082681'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1917,7 +1920,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 325: System Tray Access</td>
+<td valign='top' ># TIP 325: System Tray Access</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1925,7 +1928,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 324: A Standard Dialog For Font Selection</td>
+<td valign='top' ># TIP 324: A Standard Dialog For Font Selection</td>
 <td valign='top'><a href='/tk/tktview/1477426'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1933,7 +1936,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 323: Do Nothing Gracefully</td>
+<td valign='top' ># TIP 323: Do Nothing Gracefully</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1941,7 +1944,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 322: Publish the NRE API</td>
+<td valign='top' ># TIP 322: Publish the NRE API</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1949,7 +1952,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 321: Add a [tk busy] Command</td>
+<td valign='top' ># TIP 321: Add a [tk busy] Command</td>
 <td valign='top'><a href='/tk/tktview/1997907'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1957,7 +1960,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 320: Improved Variable Handling in the Core Object System</td>
+<td valign='top' ># TIP 320: Improved Variable Handling in the Core Object System</td>
 <td valign='top'><a href='/tcl/tktview/2005460'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -1965,7 +1968,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 319: Implement Backwards Compatibility for ttk Themed Widgets in tk Widgets</td>
+<td valign='top' ># TIP 319: Implement Backwards Compatibility for ttk Themed Widgets in tk Widgets</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1973,7 +1976,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 318: Extend Default Whitespace in &apos;string trim&apos; Beyond ASCII</td>
+<td valign='top' ># TIP 318: Extend Default Whitespace in &apos;string trim&apos; Beyond ASCII</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-318-update'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1981,7 +1984,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 317: Extend binary Ensemble with Binary Encodings</td>
+<td valign='top' ># TIP 317: Extend binary Ensemble with Binary Encodings</td>
 <td valign='top'><a href='/tcl/tktview/1956530'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1989,7 +1992,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 316: Portable Access Functions for Stat Buffers</td>
+<td valign='top' ># TIP 316: Portable Access Functions for Stat Buffers</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -1997,7 +2000,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 315: Add pathSeparator to tcl_platform Array</td>
+<td valign='top' ># TIP 315: Add pathSeparator to tcl_platform Array</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2005,7 +2008,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 314: Ensembles with Parameters</td>
+<td valign='top' ># TIP 314: Ensembles with Parameters</td>
 <td valign='top'><a href='/tcl/tktview/1901783'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2013,7 +2016,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 313: Inexact Searching in Sorted List</td>
+<td valign='top' ># TIP 313: Inexact Searching in Sorted List</td>
 <td valign='top'><a href='/tcl/tktview/1894241'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -2021,21 +2024,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 312: Add More Link Types</td>
+<td valign='top' ># TIP 312: Add More Link Types</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-312-new'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/311.md'>311</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 311: Tcl/Tk 8.6 Release Calendar</td>
+<td valign='top'  colspan=2># TIP 311: Tcl/Tk 8.6 Release Calendar</td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/310.md'>310</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 310: Add a New Pseudo-Random Number Generator</td>
+<td valign='top' ># TIP 310: Add a New Pseudo-Random Number Generator</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2043,38 +2046,37 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 309: Expose the Expression Parsing</td>
+<td valign='top' ># TIP 309: Expose the Expression Parsing</td>
 <td></td>
 </tr>
 <tr class='state-obsoleted type-informational'>
 <td valign='top'><a href='./tip/308.md'>308</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 308: Tcl Database Connectivity (TDBC)</td>
-<td></td>
+<td valign='top'  colspan=2># TIP 308: Tcl Database Connectivity (TDBC)</td>
 </tr>
 <tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/307.md'>307</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 307: Make TclTransferResult() Public</td>
+<td valign='top' ># TIP 307: Make TclTransferResult() Public</td>
 <td valign='top'><a href='/tcl/tktview/1723738'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/306.md'>306</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 306: Auto-Naming Widgets</td>
+<td valign='top' ># TIP 306: Auto-Naming Widgets</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/305.md'>305</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 305: ANSI Escape Sequence Support for Windows&apos;s Console Channel Driver</td>
+<td valign='top' ># TIP 305: ANSI Escape Sequence Support for Windows&apos;s Console Channel Driver</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2082,7 +2084,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 304: A Standalone [chan pipe] Primitive for Advanced Child IPC</td>
+<td valign='top' ># TIP 304: A Standalone [chan pipe] Primitive for Advanced Child IPC</td>
 <td valign='top'><a href='/tcl/tktview/1978495'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2090,7 +2092,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 303: Enhance &apos;llength&apos; Command to Support Nested Lists</td>
+<td valign='top' ># TIP 303: Enhance &apos;llength&apos; Command to Support Nested Lists</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2098,15 +2100,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 302: Fix &quot;after&quot;&apos;s Sensitivity To Adjustments Of System Clock</td>
+<td valign='top' ># TIP 302: Fix &quot;after&quot;&apos;s Sensitivity To Adjustments Of System Clock</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/301.md'>301</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 301: Split Bidirectional Channels For Half-Close</td>
+<td valign='top' ># TIP 301: Split Bidirectional Channels For Half-Close</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2114,7 +2116,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 300: Examine Glyph Substitution in the &apos;font actual&apos; Command</td>
+<td valign='top' ># TIP 300: Examine Glyph Substitution in the &apos;font actual&apos; Command</td>
 <td valign='top'><a href='/tk/tktview/1602955'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2122,7 +2124,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 299: Add isqrt() Math Function</td>
+<td valign='top' ># TIP 299: Add isqrt() Math Function</td>
 <td valign='top'><a href='/tk/tktview/1602534'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2130,7 +2132,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 298: Revise Shared Value Rules for Tcl_GetBignumAndClearObj</td>
+<td valign='top' ># TIP 298: Revise Shared Value Rules for Tcl_GetBignumAndClearObj</td>
 <td valign='top'><a href='/tcl/tktview/1601243'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2138,7 +2140,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 297: Integer Type Introspection and Conversion</td>
+<td valign='top' ># TIP 297: Integer Type Introspection and Conversion</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2146,7 +2148,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 296: Enhanced Syntax for Pair-Wise Indices</td>
+<td valign='top' ># TIP 296: Enhanced Syntax for Pair-Wise Indices</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2154,15 +2156,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 295: Enhance Arguments to lrange</td>
+<td valign='top' ># TIP 295: Enhance Arguments to lrange</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/294.md'>294</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 294: The &quot;entier&quot; Function: It&apos;s Spelt &quot;entire&quot;</td>
+<td valign='top' ># TIP 294: The &quot;entier&quot; Function: It&apos;s Spelt &quot;entire&quot;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2170,7 +2172,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 293: Argument Expansion with Leading {*}</td>
+<td valign='top' ># TIP 293: Argument Expansion with Leading {*}</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2178,7 +2180,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 292: Allow Unquoted Strings in Expressions</td>
+<td valign='top' ># TIP 292: Allow Unquoted Strings in Expressions</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2186,7 +2188,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 291: Add the &apos;platform&apos; Package to Tcl</td>
+<td valign='top' ># TIP 291: Add the &apos;platform&apos; Package to Tcl</td>
 <td valign='top'><a href='/tcl/tktview/1600701'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2194,15 +2196,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 290: Registration of Custom Error Handler Scripts</td>
+<td valign='top' ># TIP 290: Registration of Custom Error Handler Scripts</td>
 <td valign='top'><a href='/tcl/tktview/1587317'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/289.md'>289</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 289: Revision of [lrepeat] Argument Order</td>
+<td valign='top' ># TIP 289: Revision of [lrepeat] Argument Order</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2210,7 +2212,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 288: Allow &quot;args&quot; Anywhere in Procedure Formal Arguments</td>
+<td valign='top' ># TIP 288: Allow &quot;args&quot; Anywhere in Procedure Formal Arguments</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2218,7 +2220,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 287: Add a Commands for Determining Size of Buffered Data</td>
+<td valign='top' ># TIP 287: Add a Commands for Determining Size of Buffered Data</td>
 <td valign='top'><a href='/tcl/tktview/1586860'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2226,7 +2228,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 286: Add &apos;xposition&apos; Command to Menu Widgets</td>
+<td valign='top' ># TIP 286: Add &apos;xposition&apos; Command to Menu Widgets</td>
 <td valign='top'><a href='/tk/tktview/1152376'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2234,7 +2236,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 285: Script Cancellation with [interp cancel] and Tcl_CancelEval</td>
+<td valign='top' ># TIP 285: Script Cancellation with [interp cancel] and Tcl_CancelEval</td>
 <td valign='top'><a href='/tcl/tktview/1499394'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2242,7 +2244,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 284: New &apos;invoke&apos; and &apos;namespace invoke&apos; Commands</td>
+<td valign='top' ># TIP 284: New &apos;invoke&apos; and &apos;namespace invoke&apos; Commands</td>
 <td valign='top'><a href='/tcl/tktview/1577324'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2250,7 +2252,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 283: Modify Ensemble Command Resolution Behaviour</td>
+<td valign='top' ># TIP 283: Modify Ensemble Command Resolution Behaviour</td>
 <td valign='top'><a href='/tcl/tktview/1577282'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2258,7 +2260,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 282: Enhanced Expression Syntax</td>
+<td valign='top' ># TIP 282: Enhanced Expression Syntax</td>
 <td valign='top'><a href='/tcl/tktview/1969722'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2266,7 +2268,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 281: Improvements in System Error Handling</td>
+<td valign='top' ># TIP 281: Improvements in System Error Handling</td>
 <td valign='top'><a href='http://iocpsock.cvs.sourceforge.net/iocpsock/iocpsock/tclWinError.c?revision=HEAD&view=markup'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2274,7 +2276,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 280: Add Full Stack Trace Capability With Location Introspection</td>
+<td valign='top' ># TIP 280: Add Full Stack Trace Capability With Location Introspection</td>
 <td valign='top'><a href='/tcl/tktview/1571568'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2282,7 +2284,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 279: Adding an Extensible Object System to the Core</td>
+<td valign='top' ># TIP 279: Adding an Extensible Object System to the Core</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -2290,7 +2292,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 278: Fix Variable Name Resolution Quirks</td>
+<td valign='top' ># TIP 278: Fix Variable Name Resolution Quirks</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-278'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2298,7 +2300,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 277: Create Namespaces as Needed</td>
+<td valign='top' ># TIP 277: Create Namespaces as Needed</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2306,7 +2308,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 276: Specify and Unify Variable Linking Commands</td>
+<td valign='top' ># TIP 276: Specify and Unify Variable Linking Commands</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2314,7 +2316,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 275: Support Unsigned Values in binary Command</td>
+<td valign='top' ># TIP 275: Support Unsigned Values in binary Command</td>
 <td valign='top'><a href='/tcl/tktview/1565751'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2322,15 +2324,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 274: Right-Associativity for the Exponentiation Operator</td>
+<td valign='top' ># TIP 274: Right-Associativity for the Exponentiation Operator</td>
 <td valign='top'><a href='/tcl/tktview/1556802'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/273.md'>273</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 273: Add Tcl_Expr... Support to Tcl_Get... Functions</td>
+<td valign='top' ># TIP 273: Add Tcl_Expr... Support to Tcl_Get... Functions</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2338,7 +2340,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 272: String and List Reversal Operations</td>
+<td valign='top' ># TIP 272: String and List Reversal Operations</td>
 <td valign='top'><a href='/tcl/tktview/1545151'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2346,7 +2348,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 271: Windows-Style Open and Save File Dialog on Unix</td>
+<td valign='top' ># TIP 271: Windows-Style Open and Save File Dialog on Unix</td>
 <td valign='top'><a href='/tk/tktview/1520742'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2354,7 +2356,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 270: Utility C Routines for String Formatting</td>
+<td valign='top' ># TIP 270: Utility C Routines for String Formatting</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2362,7 +2364,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 269: Add &apos;string is list&apos; to the &apos;string is&apos; Subcommand</td>
+<td valign='top' ># TIP 269: Add &apos;string is list&apos; to the &apos;string is&apos; Subcommand</td>
 <td valign='top'><a href='/tcl/tktview/1491459'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2370,7 +2372,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 268: Enhance &apos;package&apos; Version Handling</td>
+<td valign='top' ># TIP 268: Enhance &apos;package&apos; Version Handling</td>
 <td valign='top'><a href='/tcl/tktview/1520767'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2378,15 +2380,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 267: Allow &apos;exec&apos; to Ignore Stderr</td>
+<td valign='top' ># TIP 267: Allow &apos;exec&apos; to Ignore Stderr</td>
 <td valign='top'><a href='/tcl/tktview/1476191'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/266.md'>266</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 266: Numbers are Commands</td>
+<td valign='top' ># TIP 266: Numbers are Commands</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2394,7 +2396,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 265: A Convenient C-side Command Option Parser for Tcl</td>
+<td valign='top' ># TIP 265: A Convenient C-side Command Option Parser for Tcl</td>
 <td valign='top'><a href='/tcl/tktview/1446696'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2402,15 +2404,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 264: Add Function to Retrieve the Interpreter of a Window</td>
+<td valign='top' ># TIP 264: Add Function to Retrieve the Interpreter of a Window</td>
 <td></td>
 </tr>
-<tr class='state-draft type-project'>
+<tr class='state-draft type-humor version-92'>
 <td valign='top'><a href='./tip/263.md'>263</a></td>
-<td valign='top'>Project</td>
+<td valign='top'>humor</td>
 <td valign='top'>9.2</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 263: Quantum Tcl</td>
+<td valign='top' ># TIP 263: Quantum Tcl</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2418,7 +2420,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 262: Background Images for Frames</td>
+<td valign='top' ># TIP 262: Background Images for Frames</td>
 <td valign='top'><a href='/tk/timeline?r=tip-262'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2426,7 +2428,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 261: Return Imported Commands from [namespace import]</td>
+<td valign='top' ># TIP 261: Return Imported Commands from [namespace import]</td>
 <td valign='top'><a href='/tcl/tktview/1437008'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2434,7 +2436,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 260: Add Underline Option to Canvas Text Items</td>
+<td valign='top' ># TIP 260: Add Underline Option to Canvas Text Items</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2442,7 +2444,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 259: Making &apos;exec&apos; Optionally Binary Safe</td>
+<td valign='top' ># TIP 259: Making &apos;exec&apos; Optionally Binary Safe</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2450,7 +2452,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 258: Enhanced Interface for Encodings</td>
+<td valign='top' ># TIP 258: Enhanced Interface for Encodings</td>
 <td valign='top'><a href='/tcl/tktview/1413934'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2458,7 +2460,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 257: Object Orientation for Tcl</td>
+<td valign='top' ># TIP 257: Object Orientation for Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-257-implementation-branch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2466,7 +2468,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 256: Implement Tabular and Wordprocessor Style Tabbing</td>
+<td valign='top' ># TIP 256: Implement Tabular and Wordprocessor Style Tabbing</td>
 <td valign='top'><a href='/tk/tktview/1247835'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2474,7 +2476,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 255: Add &apos;min&apos; and &apos;max&apos; [expr] Functions</td>
+<td valign='top' ># TIP 255: Add &apos;min&apos; and &apos;max&apos; [expr] Functions</td>
 <td valign='top'><a href='/tcl/tktview/1309020'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2482,7 +2484,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 254: New Types for Tcl_LinkVar</td>
+<td valign='top' ># TIP 254: New Types for Tcl_LinkVar</td>
 <td valign='top'><a href='/tcl/tktview/1242844'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2490,23 +2492,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 253: Consolidate Package-Related Commands</td>
+<td valign='top' ># TIP 253: Consolidate Package-Related Commands</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/252.md'>252</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 252: Add New &apos;string&apos; Command Options</td>
+<td valign='top' ># TIP 252: Add New &apos;string&apos; Command Options</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/251.md'>251</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 251: Enhance the &apos;list&apos; Command</td>
+<td valign='top' ># TIP 251: Enhance the &apos;list&apos; Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2514,35 +2516,35 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 250: Efficient Access to Namespace Variables</td>
+<td valign='top' ># TIP 250: Efficient Access to Namespace Variables</td>
 <td valign='top'><a href='/tcl/tktview/1275435'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/249.md'>249</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 249: Unification of Tcl&apos;s Parsing of Numbers</td>
+<td valign='top'  colspan=2># TIP 249: Unification of Tcl&apos;s Parsing of Numbers</td>
 </tr>
 <tr class='state-final type-project version-85'>
 <td valign='top'><a href='./tip/248.md'>248</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 248: Integrate Tile into Tk as Ttk</td>
+<td valign='top' ># TIP 248: Integrate Tile into Tk as Ttk</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/247.md'>247</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 247: Tcl/Tk Engineering Manual</td>
+<td valign='top'  colspan=2># TIP 247: Tcl/Tk Engineering Manual</td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/246.md'>246</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 246: Unify Pattern Matching</td>
+<td valign='top' ># TIP 246: Unify Pattern Matching</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2550,7 +2552,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 245: Discover User Inactivity Time</td>
+<td valign='top' ># TIP 245: Discover User Inactivity Time</td>
 <td valign='top'><a href='/tk/tktview/1185731'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2558,7 +2560,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 244: PNG Photo Image Support for Tk</td>
+<td valign='top' ># TIP 244: PNG Photo Image Support for Tk</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2566,7 +2568,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 243: Supply Find Dialog for the Text Widget</td>
+<td valign='top' ># TIP 243: Supply Find Dialog for the Text Widget</td>
 <td valign='top'><a href='/tk/tktview/1167420'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2574,7 +2576,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 242: Preselect Filter on tk_get*File Dialogs</td>
+<td valign='top' ># TIP 242: Preselect Filter on tk_get*File Dialogs</td>
 <td valign='top'><a href='/tk/tktview/1156388'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2582,7 +2584,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 241: Case-Insensitive Switches and List Searching and Sorting</td>
+<td valign='top' ># TIP 241: Case-Insensitive Switches and List Searching and Sorting</td>
 <td valign='top'><a href='/tcl/tktview/1152746'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2590,7 +2592,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 240: An Ensemble Command to Manage Processes</td>
+<td valign='top' ># TIP 240: An Ensemble Command to Manage Processes</td>
 <td valign='top'><a href='/tcl/tktview/1315115'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2598,7 +2600,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 239: Enhance the &apos;load&apos; Command</td>
+<td valign='top' ># TIP 239: Enhance the &apos;load&apos; Command</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2606,7 +2608,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 238: Fire Event when Widget Created</td>
+<td valign='top' ># TIP 238: Fire Event when Widget Created</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2614,7 +2616,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 237: Arbitrary-Precision Integers for Tcl</td>
+<td valign='top' ># TIP 237: Arbitrary-Precision Integers for Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=kennykb-numerics-branch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2622,7 +2624,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 236: Absolute Positioning of Canvas Items</td>
+<td valign='top' ># TIP 236: Absolute Positioning of Canvas Items</td>
 <td valign='top'><a href='http://www.eecs.umich.edu/~mckay/canvmoveto.patch.gz'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2630,7 +2632,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 235: Exposing a C API for Ensembles</td>
+<td valign='top' ># TIP 235: Exposing a C API for Ensembles</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2638,7 +2640,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 234: Add Support For Zlib Compression</td>
+<td valign='top' ># TIP 234: Add Support For Zlib Compression</td>
 <td valign='top'><a href='http://svn.scheffers.net/zlib'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2646,7 +2648,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 233: Virtualization of Tcl&apos;s Sense of Time</td>
+<td valign='top' ># TIP 233: Virtualization of Tcl&apos;s Sense of Time</td>
 <td valign='top'><a href='/tcl/tktview/1073863'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2654,7 +2656,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 232: Creating New Math Functions for the &apos;expr&apos; Command</td>
+<td valign='top' ># TIP 232: Creating New Math Functions for the &apos;expr&apos; Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2662,7 +2664,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 231: Support for [wm attributes] on X11</td>
+<td valign='top' ># TIP 231: Support for [wm attributes] on X11</td>
 <td valign='top'><a href='/tk/tktview/1062022'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2670,7 +2672,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 230: Tcl Channel Transformation Reflection API</td>
+<td valign='top' ># TIP 230: Tcl Channel Transformation Reflection API</td>
 <td valign='top'><a href='/tcl/tktview/1163274'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2678,7 +2680,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 229: Scripted Control of Name Resolution in Namespaces</td>
+<td valign='top' ># TIP 229: Scripted Control of Name Resolution in Namespaces</td>
 <td valign='top'><a href='/tcl/tktview/1159942'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2686,7 +2688,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 228: Tcl Filesystem Reflection API</td>
+<td valign='top' ># TIP 228: Tcl Filesystem Reflection API</td>
 <td valign='top'><a href='http://sourceforge.net/projects/tclvfs/'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2694,7 +2696,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 227: Interface to Get and Set the Return Options of an Interpreter</td>
+<td valign='top' ># TIP 227: Interface to Get and Set the Return Options of an Interpreter</td>
 <td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2702,7 +2704,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 226: Interface to Save and Restore Interpreter State</td>
+<td valign='top' ># TIP 226: Interface to Save and Restore Interpreter State</td>
 <td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2710,15 +2712,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 225: Arithmetic Series with Optimized Space Complexity</td>
+<td valign='top' ># TIP 225: Arithmetic Series with Optimized Space Complexity</td>
 <td valign='top'><a href='/tcl/tktview/1052584'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-87'>
 <td valign='top'><a href='./tip/224.md'>224</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 224: Add New [array] Subcommand &apos;value&apos;</td>
+<td valign='top' ># TIP 224: Add New [array] Subcommand &apos;value&apos;</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-224'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2726,7 +2728,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 223: Full-Screen Toplevel Support for Tk</td>
+<td valign='top' ># TIP 223: Full-Screen Toplevel Support for Tk</td>
 <td valign='top'><a href='/tk/tktview/1032982'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2734,7 +2736,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 222: Add [wm attributes -alpha] Attribute on Windows</td>
+<td valign='top' ># TIP 222: Add [wm attributes -alpha] Attribute on Windows</td>
 <td valign='top'><a href='/tk/tktview/892194'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2742,7 +2744,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 221: Allow Background Error Handlers to Accept Return Options</td>
+<td valign='top' ># TIP 221: Allow Background Error Handlers to Accept Return Options</td>
 <td valign='top'><a href='/tcl/tktview/1060579'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2750,7 +2752,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 220: Escalate Privileges in VFS Close Callback</td>
+<td valign='top' ># TIP 220: Escalate Privileges in VFS Close Callback</td>
 <td valign='top'><a href='/tcl/tktview/1057093'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2758,7 +2760,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 219: Tcl Channel Reflection API</td>
+<td valign='top' ># TIP 219: Tcl Channel Reflection API</td>
 <td valign='top'><a href='/tcl/tktview/1025294'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2766,7 +2768,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 218: Tcl Channel Driver Thread State Actions</td>
+<td valign='top' ># TIP 218: Tcl Channel Driver Thread State Actions</td>
 <td valign='top'><a href='/tcl/tktview/875701'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2774,7 +2776,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 217: Getting Sorted Indices out of Lsort</td>
+<td valign='top' ># TIP 217: Getting Sorted Indices out of Lsort</td>
 <td valign='top'><a href='/tcl/tktview/1017532'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2782,7 +2784,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 216: Handling Command-Line Options in Tclsh and Wish</td>
+<td valign='top' ># TIP 216: Handling Command-Line Options in Tclsh and Wish</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2790,23 +2792,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 215: Make [incr] Auto-Initialize Undefined Variables</td>
+<td valign='top' ># TIP 215: Make [incr] Auto-Initialize Undefined Variables</td>
 <td valign='top'><a href='/tcl/tktview/1413115'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-87'>
 <td valign='top'><a href='./tip/214.md'>214</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 214: Add New Object Introspection Command</td>
+<td valign='top' ># TIP 214: Add New Object Introspection Command</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/213.md'>213</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 213: A Standard Dialog for Font Selection</td>
+<td valign='top' ># TIP 213: A Standard Dialog for Font Selection</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2814,15 +2816,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 212: Temporarily Opening out a Dictionary</td>
+<td valign='top' ># TIP 212: Temporarily Opening out a Dictionary</td>
 <td valign='top'><a href='/tcl/tktview/1008768'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/211.md'>211</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 211: Add Full Stack Trace Capability</td>
+<td valign='top' ># TIP 211: Add Full Stack Trace Capability</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2830,7 +2832,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 210: Add &apos;tempfile&apos; Subcommand to &apos;file&apos;</td>
+<td valign='top' ># TIP 210: Add &apos;tempfile&apos; Subcommand to &apos;file&apos;</td>
 <td valign='top'><a href='/tcl/tktview/999162'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2838,7 +2840,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 209: Add [clock milliseconds], and [clock microseconds]</td>
+<td valign='top' ># TIP 209: Add [clock milliseconds], and [clock microseconds]</td>
 <td valign='top'><a href='/tcl/tktview/991742'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2846,7 +2848,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 208: Add a &apos;chan&apos; Command</td>
+<td valign='top' ># TIP 208: Add a &apos;chan&apos; Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2854,15 +2856,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 207: Add a -namespace Option to [interp invokehidden]</td>
+<td valign='top' ># TIP 207: Add a -namespace Option to [interp invokehidden]</td>
 <td valign='top'><a href='/tcl/tktview/981841'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/206.md'>206</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 206: Add an [ftruncate] Command</td>
+<td valign='top' ># TIP 206: Add an [ftruncate] Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2870,7 +2872,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 205: Use pkgconfig Database to Register Xft Support</td>
+<td valign='top' ># TIP 205: Use pkgconfig Database to Register Xft Support</td>
 <td valign='top'><a href='/tk/tktview/976520'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2878,15 +2880,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 204: Virtual Events for Keyboard Traversal</td>
+<td valign='top' ># TIP 204: Virtual Events for Keyboard Traversal</td>
 <td valign='top'><a href='/tk/tktview/976928'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/203.md'>203</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 203: Create tclConfig.sh-Equivalent in Tcl</td>
+<td valign='top' ># TIP 203: Create tclConfig.sh-Equivalent in Tcl</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2894,7 +2896,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 202: Add 2&gt;@1 Special Case to [open] and [exec]</td>
+<td valign='top' ># TIP 202: Add 2&gt;@1 Special Case to [open] and [exec]</td>
 <td valign='top'><a href='/tcl/tktview/957132'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2902,31 +2904,31 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 201: Add &apos;in&apos; Operator to [expr]</td>
+<td valign='top' ># TIP 201: Add &apos;in&apos; Operator to [expr]</td>
 <td valign='top'><a href='/tcl/tktview/1031507'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/200.md'>200</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 200: Listing the Values in an Array</td>
+<td valign='top' ># TIP 200: Listing the Values in an Array</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/199.md'>199</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 199: Specification of Alternatives to .wishrc/.tclshrc</td>
+<td valign='top' ># TIP 199: Specification of Alternatives to .wishrc/.tclshrc</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-87'>
 <td valign='top'><a href='./tip/198.md'>198</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 198: Image Command XPM Extension</td>
+<td valign='top' ># TIP 198: Image Command XPM Extension</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2934,15 +2936,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 197: Unfocussed Text Widget Cursor Control</td>
+<td valign='top' ># TIP 197: Unfocussed Text Widget Cursor Control</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/196.md'>196</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 196: Tcl Commands as Values</td>
+<td valign='top' ># TIP 196: Tcl Commands as Values</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -2950,7 +2952,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 195: A Unique Prefix Handling Command</td>
+<td valign='top' ># TIP 195: A Unique Prefix Handling Command</td>
 <td valign='top'><a href='/tcl/tktview/1040206'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -2958,7 +2960,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 194: Procedures as Values via &apos;&apos;&apos;apply&apos;&apos;&apos;</td>
+<td valign='top' ># TIP 194: Procedures as Values via &apos;&apos;&apos;apply&apos;&apos;&apos;</td>
 <td valign='top'><a href='/tcl/tktview/944803'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -2966,7 +2968,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 193: Simple Syntax Help System</td>
+<td valign='top' ># TIP 193: Simple Syntax Help System</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -2974,27 +2976,27 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 192: Lazy Lists</td>
+<td valign='top' ># TIP 192: Lazy Lists</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/191.md'>191</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 191: Managing Tcl Packages and Modules in a Multi-Version Environment</td>
+<td valign='top'  colspan=2># TIP 191: Managing Tcl Packages and Modules in a Multi-Version Environment</td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/190.md'>190</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 190: Implementation Choices for Tcl Modules</td>
+<td valign='top'  colspan=2># TIP 190: Implementation Choices for Tcl Modules</td>
 </tr>
 <tr class='state-final type-project version-85'>
 <td valign='top'><a href='./tip/189.md'>189</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 189: Tcl Modules</td>
+<td valign='top' ># TIP 189: Tcl Modules</td>
 <td valign='top'><a href='/tcl/tktview/942881'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3002,15 +3004,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 188: Add &apos;string is wideinteger&apos; to the &apos;string is&apos; Subcommand</td>
+<td valign='top' ># TIP 188: Add &apos;string is wideinteger&apos; to the &apos;string is&apos; Subcommand</td>
 <td valign='top'><a href='/tcl/tktview/940915'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/187.md'>187</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 187: Procedures as Values</td>
+<td valign='top' ># TIP 187: Procedures as Values</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3018,15 +3020,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 186: Expose the Type and Modified-State of Widget Options</td>
+<td valign='top' ># TIP 186: Expose the Type and Modified-State of Widget Options</td>
 <td valign='top'><a href='http://pdqi.com/configure.diff.gz'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/185.md'>185</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 185: Null Handling</td>
+<td valign='top' ># TIP 185: Null Handling</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3034,7 +3036,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 184: Avoid Creating Unusable Variables</td>
+<td valign='top' ># TIP 184: Avoid Creating Unusable Variables</td>
 <td valign='top'><a href='/tcl/tktview/600812'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3042,7 +3044,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 183: Add a Binary Flag to [open]</td>
+<td valign='top' ># TIP 183: Add a Binary Flag to [open]</td>
 <td valign='top'><a href='/tcl/tktview/577093'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3050,7 +3052,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 182: Add [expr bool] Math Function</td>
+<td valign='top' ># TIP 182: Add [expr bool] Math Function</td>
 <td valign='top'><a href='/tcl/tktview/1165062'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3058,7 +3060,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 181: Add a [namespace unknown] Command</td>
+<td valign='top' ># TIP 181: Add a [namespace unknown] Command</td>
 <td valign='top'><a href='/tcl/tktview/958222'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3066,7 +3068,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 180: Add a Megawidget Support Core Package</td>
+<td valign='top' ># TIP 180: Add a Megawidget Support Core Package</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3074,7 +3076,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 179: Add -hide Option to panedwindow Widget</td>
+<td valign='top' ># TIP 179: Add -hide Option to panedwindow Widget</td>
 <td valign='top'><a href='ftp://ftp.model.com/pub/tcl/pw_hide_TIP.tgz'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3082,7 +3084,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 178: [info pid] and [info tid] Subcommands</td>
+<td valign='top' ># TIP 178: [info pid] and [info tid] Subcommands</td>
 <td valign='top'><a href='/tcl/tktview/920731ffffffffffffff'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3090,7 +3092,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 177: Add -stretch Option to panedwindow Widget</td>
+<td valign='top' ># TIP 177: Add -stretch Option to panedwindow Widget</td>
 <td valign='top'><a href='ftp://ftp.model.com/pub/tcl/pw_stretch_TIP.tgz'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3098,15 +3100,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 176: Add String Index Values</td>
+<td valign='top' ># TIP 176: Add String Index Values</td>
 <td valign='top'><a href='/tcl/tktview/1165695'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-90'>
 <td valign='top'><a href='./tip/175.md'>175</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 175: Add an -async Option to [open]</td>
+<td valign='top' ># TIP 175: Add an -async Option to [open]</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3114,7 +3116,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 174: Math Operators as Commands</td>
+<td valign='top' ># TIP 174: Math Operators as Commands</td>
 <td valign='top'><a href='/tcl/tktview/1578137'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3122,15 +3124,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 173: Internationalisation and Refactoring of the &apos;clock&apos; Command</td>
+<td valign='top' ># TIP 173: Internationalisation and Refactoring of the &apos;clock&apos; Command</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/172.md'>172</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 172: Improve UNIX Tk Look and Feel</td>
+<td valign='top' ># TIP 172: Improve UNIX Tk Look and Feel</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -3138,7 +3140,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 171: Change Default &lt;MouseWheel&gt; Bindings Behavior</td>
+<td valign='top' ># TIP 171: Change Default &lt;MouseWheel&gt; Bindings Behavior</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3146,7 +3148,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 170: Better Support for Nested Lists</td>
+<td valign='top' ># TIP 170: Better Support for Nested Lists</td>
 <td valign='top'><a href='http://nac.sf.net/'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3154,7 +3156,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 169: Add Peer Text Widgets</td>
+<td valign='top' ># TIP 169: Add Peer Text Widgets</td>
 <td valign='top'><a href='/tk/tktview/994629'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3162,7 +3164,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 168: Cubic Bezier Curves on the Canvas</td>
+<td valign='top' ># TIP 168: Cubic Bezier Curves on the Canvas</td>
 <td valign='top'><a href='/tk/tktview/886240'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3170,7 +3172,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 167: Add a New Option for Context Help for Windows</td>
+<td valign='top' ># TIP 167: Add a New Option for Context Help for Windows</td>
 <td valign='top'><a href='/tk/tktview/845248ffffffffffffff'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -3178,7 +3180,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 166: Reading and Writing the Photo Image Alpha Channel</td>
+<td valign='top' ># TIP 166: Reading and Writing the Photo Image Alpha Channel</td>
 <td valign='top'><a href='/tk/timeline?r=tip-166'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3186,7 +3188,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 165: A User-Data Field for Virtual Events</td>
+<td valign='top' ># TIP 165: A User-Data Field for Virtual Events</td>
 <td valign='top'><a href='/tk/tktview/1008975'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -3194,7 +3196,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 164: Add Rotate Subcommand to the Canvas Widget</td>
+<td valign='top' ># TIP 164: Add Rotate Subcommand to the Canvas Widget</td>
 <td valign='top'><a href='/tk/timeline?r=tip-164'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3202,7 +3204,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 163: A [dict merge] Subcommand</td>
+<td valign='top' ># TIP 163: A [dict merge] Subcommand</td>
 <td valign='top'><a href='/tcl/tktview/745851'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -3210,7 +3212,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 162: IPv6 Sockets for Tcl</td>
+<td valign='top' ># TIP 162: IPv6 Sockets for Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=rmax-ipv6-branch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -3218,7 +3220,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 161: Change Default for Menu&apos;s -tearoff Option to False</td>
+<td valign='top' ># TIP 161: Change Default for Menu&apos;s -tearoff Option to False</td>
 <td valign='top'><a href='/tk/timeline?r=tip-161'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -3226,7 +3228,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 160: Improvements to Terminal and Serial Channel Handling</td>
+<td valign='top' ># TIP 160: Improvements to Terminal and Serial Channel Handling</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-160'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3234,7 +3236,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 159: Extending Tk &apos;wm&apos; Command to Support Coloured Icons</td>
+<td valign='top' ># TIP 159: Extending Tk &apos;wm&apos; Command to Support Coloured Icons</td>
 <td valign='top'><a href='/tk/tktview/815751'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3242,7 +3244,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 158: Distinguish the two &apos;Enter&apos; keys on Windows</td>
+<td valign='top' ># TIP 158: Distinguish the two &apos;Enter&apos; keys on Windows</td>
 <td valign='top'><a href='/tk/tktview/797404'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3250,7 +3252,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 157: Argument Expansion with Leading {expand}</td>
+<td valign='top' ># TIP 157: Argument Expansion with Leading {expand}</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3258,7 +3260,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 156: Language-Neutral Root Locale for Msgcat</td>
+<td valign='top' ># TIP 156: Language-Neutral Root Locale for Msgcat</td>
 <td valign='top'><a href='/tcl/tktview/809825'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3266,7 +3268,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 155: Fix Some of the Text Widget&apos;s Limitations</td>
+<td valign='top' ># TIP 155: Fix Some of the Text Widget&apos;s Limitations</td>
 <td valign='top'><a href='/tk/tktview/791292'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3274,7 +3276,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 154: Add Named Colors to Tk</td>
+<td valign='top' ># TIP 154: Add Named Colors to Tk</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3282,7 +3284,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 153: Enhancing the [winfo toplevel] Command</td>
+<td valign='top' ># TIP 153: Enhancing the [winfo toplevel] Command</td>
 <td valign='top'><a href='http://www.eecs.umich.edu/~mckay/computer/winfotop.patch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3290,7 +3292,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 152: New -detail Option for tk_messageBox</td>
+<td valign='top' ># TIP 152: New -detail Option for tk_messageBox</td>
 <td valign='top'><a href='http://hem.fyristorg.com/matben/download/MovableAlerts.dmg'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3298,23 +3300,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 151: Remove -e: Command Line Option from tclsh and wish</td>
+<td valign='top' ># TIP 151: Remove -e: Command Line Option from tclsh and wish</td>
 <td></td>
 </tr>
-<tr class='state-deferred type-project'>
+<tr class='state-deferred type-project version-85'>
 <td valign='top'><a href='./tip/150.md'>150</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Deferred</td>
-<td valign='top'># TIP 150: Implement the Tk send Command for Windows</td>
+<td valign='top' ># TIP 150: Implement the Tk send Command for Windows</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/149.md'>149</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 149: Allow &quot;enabled&quot; as Synonym for &quot;normal&quot; in -state Option</td>
+<td valign='top' ># TIP 149: Allow &quot;enabled&quot; as Synonym for &quot;normal&quot; in -state Option</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3322,7 +3324,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 148: Correct [list]-Quoting of the &apos;#&apos; Character</td>
+<td valign='top' ># TIP 148: Correct [list]-Quoting of the &apos;#&apos; Character</td>
 <td valign='top'><a href='/tcl/tktview/489537'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3330,7 +3332,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 147: Make Grid&apos;s Column/Row Configure Easier</td>
+<td valign='top' ># TIP 147: Make Grid&apos;s Column/Row Configure Easier</td>
 <td valign='top'><a href='/tk/tktview/659218'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3338,7 +3340,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 146: Add Overall Anchoring to the Grid Geometry Manager</td>
+<td valign='top' ># TIP 146: Add Overall Anchoring to the Grid Geometry Manager</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3346,15 +3348,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 145: Enhanced Tk Font Handling</td>
+<td valign='top' ># TIP 145: Enhanced Tk Font Handling</td>
 <td valign='top'><a href='/tk/tktview/780617'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/144.md'>144</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 144: Argument Expansion Syntax</td>
+<td valign='top' ># TIP 144: Argument Expansion Syntax</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3362,15 +3364,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 143: An Interpreter Resource Limiting Framework</td>
+<td valign='top' ># TIP 143: An Interpreter Resource Limiting Framework</td>
 <td valign='top'><a href='/tcl/tktview/926771'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/142.md'>142</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 142: Search Path Variable to Lookup Command Names in Namespaces</td>
+<td valign='top' ># TIP 142: Search Path Variable to Lookup Command Names in Namespaces</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3378,15 +3380,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 141: Multiple Initial-Files in [tk_getOpenFile]</td>
+<td valign='top' ># TIP 141: Multiple Initial-Files in [tk_getOpenFile]</td>
 <td valign='top'><a href='/tk/tktview/657656'>Link</a></td>
 </tr>
-<tr class='state-deferred type-project'>
+<tr class='state-deferred type-project version-85'>
 <td valign='top'><a href='./tip/140.md'>140</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Deferred</td>
-<td valign='top'># TIP 140: Tracing Namespace Modifications</td>
+<td valign='top' ># TIP 140: Tracing Namespace Modifications</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3394,7 +3396,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 139: Publish Part of Tcl&apos;s Namespace API</td>
+<td valign='top' ># TIP 139: Publish Part of Tcl&apos;s Namespace API</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3402,7 +3404,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 138: New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables</td>
+<td valign='top' ># TIP 138: New TCL_HASH_KEY_SYSTEM_HASH option for Tcl hash tables</td>
 <td valign='top'><a href='/tcl/tktview/731356'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3410,7 +3412,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 137: Specifying Script Encodings for [source] and tclsh</td>
+<td valign='top' ># TIP 137: Specifying Script Encodings for [source] and tclsh</td>
 <td valign='top'><a href='/tcl/tktview/742683'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3418,7 +3420,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 136: Large List Initialisation</td>
+<td valign='top' ># TIP 136: Large List Initialisation</td>
 <td valign='top'><a href='http://homepage.ntlworld.com/whiteowl/tcl/tcl843-lrepeat.patch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3426,15 +3428,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 135: Change &apos;dde servername -exact&apos; Option to -force</td>
+<td valign='top' ># TIP 135: Change &apos;dde servername -exact&apos; Option to -force</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/134.md'>134</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 134: Subsystem Per-Thread Data Interfaces</td>
+<td valign='top' ># TIP 134: Subsystem Per-Thread Data Interfaces</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3442,7 +3444,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 133: Extending [expr] Operators</td>
+<td valign='top' ># TIP 133: Extending [expr] Operators</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3450,15 +3452,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 132: Revised Floating-Point Conversions in Tcl</td>
+<td valign='top' ># TIP 132: Revised Floating-Point Conversions in Tcl</td>
 <td valign='top'><a href='/tcl/timeline?r=kennykb-numerics-branch'>Link</a></td>
 </tr>
-<tr class='state-draft type-project'>
+<tr class='state-draft type-humor version-85'>
 <td valign='top'><a href='./tip/131.md'>131</a></td>
-<td valign='top'>Project</td>
+<td valign='top'>humor</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 131: Read My Mind and Do What I Mean</td>
+<td valign='top' ># TIP 131: Read My Mind and Do What I Mean</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3466,7 +3468,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 130: Unique DDE server names.</td>
+<td valign='top' ># TIP 130: Unique DDE server names.</td>
 <td valign='top'><a href='/tcl/tktview/690354'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3474,15 +3476,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 129: New Format Codes for the [binary] Command</td>
+<td valign='top' ># TIP 129: New Format Codes for the [binary] Command</td>
 <td valign='top'><a href='/tcl/tktview/858211'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/128.md'>128</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 128: Ability to Install a Custom Memory Allocator</td>
+<td valign='top' ># TIP 128: Ability to Install a Custom Memory Allocator</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3490,7 +3492,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 127: Add an -index Option to [lsearch]</td>
+<td valign='top' ># TIP 127: Add an -index Option to [lsearch]</td>
 <td valign='top'><a href='/tcl/tktview/693836'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -3498,7 +3500,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 126: Rich Strings for Representation Persistence</td>
+<td valign='top' ># TIP 126: Rich Strings for Representation Persistence</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3506,7 +3508,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 125: Converting between Frame and Toplevel Windows</td>
+<td valign='top' ># TIP 125: Converting between Frame and Toplevel Windows</td>
 <td valign='top'><a href='/tk/tktview/998125'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3514,7 +3516,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 124: High-Resolution Absolute Time Values From [clock]</td>
+<td valign='top' ># TIP 124: High-Resolution Absolute Time Values From [clock]</td>
 <td valign='top'><a href='/tcl/tktview/656997'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3522,15 +3524,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 123: Adding an Exponentiation Operator to the [expr] Command</td>
+<td valign='top' ># TIP 123: Adding an Exponentiation Operator to the [expr] Command</td>
 <td valign='top'><a href='/tcl/tktview/655176'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/122.md'>122</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 122: Use tcl_{non,}wordchars Throughout Tcl/Tk</td>
+<td valign='top' ># TIP 122: Use tcl_{non,}wordchars Throughout Tcl/Tk</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3538,7 +3540,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 121: Controlled Application Shutdown via Tcl_Exit</td>
+<td valign='top' ># TIP 121: Controlled Application Shutdown via Tcl_Exit</td>
 <td valign='top'><a href='/tcl/tktview/649313'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3546,7 +3548,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 120: Restricted DDE Services</td>
+<td valign='top' ># TIP 120: Restricted DDE Services</td>
 <td valign='top'><a href='/tcl/tktview/649859'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -3554,7 +3556,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 119: Angled Text on a Canvas</td>
+<td valign='top' ># TIP 119: Angled Text on a Canvas</td>
 <td valign='top'><a href='/tk/tktview/1611359'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3562,15 +3564,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 118: Enhance [file attributes] and [file copy] on Mac OS X &amp; BSD</td>
+<td valign='top' ># TIP 118: Enhance [file attributes] and [file copy] on Mac OS X &amp; BSD</td>
 <td valign='top'><a href='/tcl/tktview/626360'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/117.md'>117</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 117: Object Type Introspection</td>
+<td valign='top' ># TIP 117: Object Type Introspection</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3578,15 +3580,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 116: More Safety for Large Images</td>
+<td valign='top' ># TIP 116: More Safety for Large Images</td>
 <td valign='top'><a href='/tk/tktview/646382'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-90'>
 <td valign='top'><a href='./tip/115.md'>115</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 115: Making Tcl Truly 64-Bit Ready</td>
+<td valign='top' ># TIP 115: Making Tcl Truly 64-Bit Ready</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-90'>
@@ -3594,7 +3596,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 114: Eliminate Octal Parsing of Leading Zero Integer Strings</td>
+<td valign='top' ># TIP 114: Eliminate Octal Parsing of Leading Zero Integer Strings</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-114'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3602,7 +3604,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 113: Multi-Line Searches in the Text Widget</td>
+<td valign='top' ># TIP 113: Multi-Line Searches in the Text Widget</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3610,7 +3612,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 112: Ensembles are Namespaces are Commands</td>
+<td valign='top' ># TIP 112: Ensembles are Namespaces are Commands</td>
 <td valign='top'><a href='/tcl/tktview/786509'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3618,7 +3620,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 111: Dictionary Values and Manipulators</td>
+<td valign='top' ># TIP 111: Dictionary Values and Manipulators</td>
 <td valign='top'><a href='/tcl/tktview/654893'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3626,7 +3628,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 110: Add a Tristate Mode to the Checkbutton and Radiobutton</td>
+<td valign='top' ># TIP 110: Add a Tristate Mode to the Checkbutton and Radiobutton</td>
 <td valign='top'><a href='/tk/tktview/863271'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3634,21 +3636,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 109: New Look for Checkbutton and Radiobutton on Unix</td>
+<td valign='top' ># TIP 109: New Look for Checkbutton and Radiobutton on Unix</td>
 <td valign='top'><a href='/tk/tktview/776545'>Link</a></td>
 </tr>
 <tr class='state-final type-informational'>
 <td valign='top'><a href='./tip/108.md'>108</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 108: Summary of Changes to Generic Tcl/Tk Code to Enable Mac OS X Port</td>
+<td valign='top'  colspan=2># TIP 108: Summary of Changes to Generic Tcl/Tk Code to Enable Mac OS X Port</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/107.md'>107</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 107: Fix the 2-second &quot;raise delay&quot; in Tk</td>
+<td valign='top' ># TIP 107: Fix the 2-second &quot;raise delay&quot; in Tk</td>
 <td valign='top'><a href='/tk/tktview/601518'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -3656,15 +3658,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 106: Add Encoding Abilities to the [dde] Command</td>
+<td valign='top' ># TIP 106: Add Encoding Abilities to the [dde] Command</td>
 <td valign='top'><a href='/tcl/timeline?r=tip-106-impl'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/105.md'>105</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 105: Add Prefix Matching for Switch</td>
+<td valign='top' ># TIP 105: Add Prefix Matching for Switch</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3672,15 +3674,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 104: Generalization of the Tk Undo Subsystem</td>
+<td valign='top' ># TIP 104: Generalization of the Tk Undo Subsystem</td>
 <td valign='top'><a href='/tk/tktview/554763'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/103.md'>103</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 103: Argument Expansion Command</td>
+<td valign='top' ># TIP 103: Argument Expansion Command</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3688,7 +3690,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 102: Change [trace list] to [trace info]</td>
+<td valign='top' ># TIP 102: Change [trace list] to [trace info]</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3696,7 +3698,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 101: Export Tcltest Configuration</td>
+<td valign='top' ># TIP 101: Export Tcltest Configuration</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3704,7 +3706,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 100: Add Support for Unloading Dynamic Libraries Loaded with [load]</td>
+<td valign='top' ># TIP 100: Add Support for Unloading Dynamic Libraries Loaded with [load]</td>
 <td valign='top'><a href='/tcl/tktview/823486'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3712,7 +3714,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 99: Add &apos;file link&apos; to Tcl</td>
+<td valign='top' ># TIP 99: Add &apos;file link&apos; to Tcl</td>
 <td valign='top'><a href='/tcl/tktview/562970'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3720,7 +3722,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 98: Adding Transparency Compositing Rules to Photo Images</td>
+<td valign='top' ># TIP 98: Adding Transparency Compositing Rules to Photo Images</td>
 <td valign='top'><a href='/tk/tktview/566765'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -3728,7 +3730,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 97: Moving Vertices of Canvas Items</td>
+<td valign='top' ># TIP 97: Moving Vertices of Canvas Items</td>
 <td valign='top'><a href='/tk/tktview/2157629'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3736,7 +3738,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 96: Add [tk caret] Command and Tk_SetCaretPos API</td>
+<td valign='top' ># TIP 96: Add [tk caret] Command and Tk_SetCaretPos API</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3744,7 +3746,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 95: Add [wm attributes] Command</td>
+<td valign='top' ># TIP 95: Add [wm attributes] Command</td>
 <td valign='top'><a href='/tk/tktview/553926'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3752,7 +3754,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 94: Add Listbox -activestyle Option</td>
+<td valign='top' ># TIP 94: Add Listbox -activestyle Option</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3760,15 +3762,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 93: Get/Delete Enhancement for the Tk Text Widget</td>
+<td valign='top' ># TIP 93: Get/Delete Enhancement for the Tk Text Widget</td>
 <td valign='top'><a href='http://faqchest.dynhost.com/prgm/ptk-l/ptk-01/ptk-0112/ptk-011201/ptk01122716_24437.html'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-84'>
 <td valign='top'><a href='./tip/92.md'>92</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 92: Move Package Load Decisions to Application Developer</td>
+<td valign='top' ># TIP 92: Move Package Load Decisions to Application Developer</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3776,7 +3778,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 91: Backward Compatibility for Channel Types with 32-bit SeekProcs</td>
+<td valign='top' ># TIP 91: Backward Compatibility for Channel Types with 32-bit SeekProcs</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3784,23 +3786,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 90: Enable [return -code] in Control Structure Procs</td>
+<td valign='top' ># TIP 90: Enable [return -code] in Control Structure Procs</td>
 <td valign='top'><a href='/tcl/tktview/531640'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/89.md'>89</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 89: Try/Catch Exception Handling in the Core</td>
+<td valign='top' ># TIP 89: Try/Catch Exception Handling in the Core</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-84'>
 <td valign='top'><a href='./tip/88.md'>88</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 88: Extend Tcl Process Id Control via &apos;pid&apos;</td>
+<td valign='top' ># TIP 88: Extend Tcl Process Id Control via &apos;pid&apos;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3808,7 +3810,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 87: Allow Tcl Access to the Recursion Limit</td>
+<td valign='top' ># TIP 87: Allow Tcl Access to the Recursion Limit</td>
 <td valign='top'><a href='/tcl/tktview/522849'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -3816,7 +3818,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 86: Improved Debugger Support</td>
+<td valign='top' ># TIP 86: Improved Debugger Support</td>
 <td valign='top'><a href='http://pdqi.com/download/tclline-8.4.9.diff.gz'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3824,7 +3826,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 85: Custom Comparisons in Tcltest</td>
+<td valign='top' ># TIP 85: Custom Comparisons in Tcltest</td>
 <td valign='top'><a href='/tcl/tktview/521362'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3832,15 +3834,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 84: Add control for mouse movement filtering</td>
+<td valign='top' ># TIP 84: Add control for mouse movement filtering</td>
 <td valign='top'><a href='/tk/tktview/564642'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/83.md'>83</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 83: Augment Tcl_EvalFile with Tcl_EvalChannel and Tcl_EvalUrl</td>
+<td valign='top' ># TIP 83: Augment Tcl_EvalFile with Tcl_EvalChannel and Tcl_EvalUrl</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3848,22 +3850,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 82: Add -offrelief Option to Checkbutton and Radiobutton</td>
+<td valign='top' ># TIP 82: Add -offrelief Option to Checkbutton and Radiobutton</td>
 <td></td>
 </tr>
 <tr class='state-withdrawn type-process'>
 <td valign='top'><a href='./tip/81.md'>81</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 81: [incr Tcl] Functional Areas for Maintainer Assignments</td>
-<td></td>
+<td valign='top'  colspan=2># TIP 81: [incr Tcl] Functional Areas for Maintainer Assignments</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/80.md'>80</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 80: Additional Options for &apos;lsearch&apos;</td>
+<td valign='top' ># TIP 80: Additional Options for &apos;lsearch&apos;</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3871,21 +3872,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 79: Add Deletion Callback to Tcl_CreateObjTrace</td>
+<td valign='top' ># TIP 79: Add Deletion Callback to Tcl_CreateObjTrace</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/78.md'>78</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 78: TEA 2.0 Definitions</td>
+<td valign='top'  colspan=2># TIP 78: TEA 2.0 Definitions</td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/77.md'>77</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 77: Support for Nested Paired Item Lists</td>
+<td valign='top' ># TIP 77: Support for Nested Paired Item Lists</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3893,7 +3894,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 76: Make &apos;regsub&apos; Return a String</td>
+<td valign='top' ># TIP 76: Make &apos;regsub&apos; Return a String</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -3901,7 +3902,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 75: Refer to Sub-RegExps Inside &apos;switch -regexp&apos; Bodies</td>
+<td valign='top' ># TIP 75: Refer to Sub-RegExps Inside &apos;switch -regexp&apos; Bodies</td>
 <td valign='top'><a href='/tcl/tktview/848578'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3909,7 +3910,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 74: wm stackorder command</td>
+<td valign='top' ># TIP 74: wm stackorder command</td>
 <td valign='top'><a href='/tk/tktview/481148'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3917,7 +3918,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 73: Export Tcl_GetTime in the Public API</td>
+<td valign='top' ># TIP 73: Export Tcl_GetTime in the Public API</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3925,23 +3926,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 72: 64-Bit Value Support for Tcl on 32-Bit Platforms</td>
+<td valign='top' ># TIP 72: 64-Bit Value Support for Tcl on 32-Bit Platforms</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/71.md'>71</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 71: Tk Bitmap Image Improvements</td>
+<td valign='top' ># TIP 71: Tk Bitmap Image Improvements</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/70.md'>70</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 70: A Relational Switch Control Structure</td>
+<td valign='top' ># TIP 70: A Relational Switch Control Structure</td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -3949,7 +3950,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 69: Improvements for the Tcl Hash Table</td>
+<td valign='top' ># TIP 69: Improvements for the Tcl Hash Table</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3957,37 +3958,37 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 68: Dynamic Trace Result Handling</td>
+<td valign='top' ># TIP 68: Dynamic Trace Result Handling</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/67.md'>67</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 67: Allow Subclassing of tk_getOpenFile, tk_getSaveFile on UNIX</td>
+<td valign='top' ># TIP 67: Allow Subclassing of tk_getOpenFile, tk_getSaveFile on UNIX</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/66.md'>66</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 66: Stand-alone and Embedded Tcl/Tk Applications</td>
+<td valign='top'  colspan=2># TIP 66: Stand-alone and Embedded Tcl/Tk Applications</td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/65.md'>65</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 65: Enhanced [info args]</td>
+<td valign='top' ># TIP 65: Enhanced [info args]</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-84'>
 <td valign='top'><a href='./tip/64.md'>64</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 64: Improvements to Windows Font Handling</td>
+<td valign='top' ># TIP 64: Improvements to Windows Font Handling</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -3995,7 +3996,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 63: Add -compound Option to Menu Entries</td>
+<td valign='top' ># TIP 63: Add -compound Option to Menu Entries</td>
 <td valign='top'><a href='ftp://ftp.ucsd.edu/pub/alpha/tcl/compoundmenu.diff'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4003,23 +4004,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 62: Add Support for Command Tracing</td>
+<td valign='top' ># TIP 62: Add Support for Command Tracing</td>
 <td valign='top'><a href='http://www.employees.org/~hlavana/tcl/'>Link</a></td>
 </tr>
-<tr class='state-deferred type-project'>
+<tr class='state-deferred type-project version-85'>
 <td valign='top'><a href='./tip/61.md'>61</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Deferred</td>
-<td valign='top'># TIP 61: Make TK_NO_SECURITY Run-Time Switchable</td>
+<td valign='top' ># TIP 61: Make TK_NO_SECURITY Run-Time Switchable</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/60.md'>60</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 60: EXTERN Macro Change to Support a Wider Set of Attributes</td>
+<td valign='top' ># TIP 60: EXTERN Macro Change to Support a Wider Set of Attributes</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -4027,15 +4028,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 59: Embed Build Information in Tcl Binary Library</td>
+<td valign='top' ># TIP 59: Embed Build Information in Tcl Binary Library</td>
 <td valign='top'><a href='/tcl/tktview/507083'>Link</a></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-85'>
 <td valign='top'><a href='./tip/58.md'>58</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 58: Extend [set] to Assign Multiple Values to Multiple Variables</td>
+<td valign='top' ># TIP 58: Extend [set] to Assign Multiple Values to Multiple Variables</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-85'>
@@ -4043,7 +4044,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 57: Move TclX&apos;s [lassign] into the Tcl Core</td>
+<td valign='top' ># TIP 57: Move TclX&apos;s [lassign] into the Tcl Core</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4051,58 +4052,57 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 56: Standardize Call Interface to Tcl_Eval* Functions</td>
+<td valign='top' ># TIP 56: Standardize Call Interface to Tcl_Eval* Functions</td>
 <td valign='top'><a href='/tcl/tktview/455151'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/55.md'>55</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 55: Package Format for Tcl Extensions</td>
+<td valign='top'  colspan=2># TIP 55: Package Format for Tcl Extensions</td>
 </tr>
 <tr class='state-withdrawn type-process'>
 <td valign='top'><a href='./tip/54.md'>54</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 54: Using PURLs to Unite the Tcl Webspace</td>
-<td></td>
+<td valign='top'  colspan=2># TIP 54: Using PURLs to Unite the Tcl Webspace</td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-84'>
 <td valign='top'><a href='./tip/53.md'>53</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 53: Addition of &apos;assert&apos; Command</td>
+<td valign='top' ># TIP 53: Addition of &apos;assert&apos; Command</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/52.md'>52</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 52: Hierarchical Namespace Lookup of Commands and Variables</td>
+<td valign='top' ># TIP 52: Hierarchical Namespace Lookup of Commands and Variables</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/51.md'>51</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 51: Native Menubutton on Macintosh</td>
+<td valign='top' ># TIP 51: Native Menubutton on Macintosh</td>
 <td></td>
 </tr>
 <tr class='state-final type-informational'>
 <td valign='top'><a href='./tip/50.md'>50</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 50: Bundle [incr Tcl] with the Core Tcl distribution</td>
+<td valign='top'  colspan=2># TIP 50: Bundle [incr Tcl] with the Core Tcl distribution</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/49.md'>49</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 49: I/O Subsystem: Add API Tcl_OutputBuffered(chan)</td>
+<td valign='top' ># TIP 49: I/O Subsystem: Add API Tcl_OutputBuffered(chan)</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4110,7 +4110,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 48: Tk Widget Styling Support</td>
+<td valign='top' ># TIP 48: Tk Widget Styling Support</td>
 <td valign='top'><a href='http://www.purl.org/NET/bonnet/pub/style.patch'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4118,15 +4118,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 47: Modifying Tk to Allow Writing X Window managers</td>
+<td valign='top' ># TIP 47: Modifying Tk to Allow Writing X Window managers</td>
 <td valign='top'><a href='http://www.eecs.umich.edu/~mckay/computer/wmenablers.84a3.patch.gz'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/46.md'>46</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 46: Consistent Overlap Behavior of Area-Defining Canvas Items</td>
+<td valign='top' ># TIP 46: Consistent Overlap Behavior of Area-Defining Canvas Items</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4134,7 +4134,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4b1</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 45: Empty index lists for [lindex] and [lset]</td>
+<td valign='top' ># TIP 45: Empty index lists for [lindex] and [lset]</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4142,21 +4142,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 44: Move Tk&apos;s Private Commands and Variables into ::tk Namespace</td>
+<td valign='top' ># TIP 44: Move Tk&apos;s Private Commands and Variables into ::tk Namespace</td>
 <td valign='top'><a href='/tk/tktview/220936'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/43.md'>43</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 43: How to be a TIP Editor</td>
+<td valign='top'  colspan=2># TIP 43: How to be a TIP Editor</td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/42.md'>42</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 42: Add New Standard Tk Option: -clientdata</td>
+<td valign='top' ># TIP 42: Add New Standard Tk Option: -clientdata</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4164,31 +4164,31 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4a2</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 41: Paned Window Tk Widget</td>
+<td valign='top' ># TIP 41: Paned Window Tk Widget</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-80'>
 <td valign='top'><a href='./tip/40.md'>40</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.0</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 40: Documentation Generator for Tcl Scripts</td>
+<td valign='top' ># TIP 40: Documentation Generator for Tcl Scripts</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/39.md'>39</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 39: Add New Standard Tk Option: -component</td>
+<td valign='top' ># TIP 39: Add New Standard Tk Option: -component</td>
 <td></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/38.md'>38</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 38: Add Support for Default Bindtags</td>
+<td valign='top' ># TIP 38: Add Support for Default Bindtags</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4196,7 +4196,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 37: Uniform Rows and Columns in Grid</td>
+<td valign='top' ># TIP 37: Uniform Rows and Columns in Grid</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4204,7 +4204,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 36: Library Access to &apos;Subst&apos; Functionality</td>
+<td valign='top' ># TIP 36: Library Access to &apos;Subst&apos; Functionality</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4212,15 +4212,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 35: Enhanced Support for Serial Communications</td>
+<td valign='top' ># TIP 35: Enhanced Support for Serial Communications</td>
 <td valign='top'><a href='/tcl/tktview/438509'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-85'>
 <td valign='top'><a href='./tip/34.md'>34</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 34: Modernize TEA Build System</td>
+<td valign='top' ># TIP 34: Modernize TEA Build System</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4228,7 +4228,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 33: Add &apos;lset&apos; Command to Assign to List Elements.</td>
+<td valign='top' ># TIP 33: Add &apos;lset&apos; Command to Assign to List Elements.</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4236,41 +4236,41 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4a4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 32: Add Tcl_Obj-enabled counterpart to Tcl_CreateTrace</td>
+<td valign='top' ># TIP 32: Add Tcl_Obj-enabled counterpart to Tcl_CreateTrace</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/31.md'>31</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 31: CVS tags in the Tcl and Tk repositories</td>
+<td valign='top'  colspan=2># TIP 31: CVS tags in the Tcl and Tk repositories</td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/30.md'>30</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 30: Tk Toolkit Maintainer Assignments</td>
+<td valign='top'  colspan=2># TIP 30: Tk Toolkit Maintainer Assignments</td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-90'>
 <td valign='top'><a href='./tip/29.md'>29</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 29: Allow array syntax for Tcl lists</td>
+<td valign='top' ># TIP 29: Allow array syntax for Tcl lists</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/28.md'>28</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 28: How to be a good maintainer for Tcl/Tk</td>
+<td valign='top'  colspan=2># TIP 28: How to be a good maintainer for Tcl/Tk</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/27.md'>27</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 27: CONST Qualification on Pointers in Tcl API&apos;s</td>
+<td valign='top' ># TIP 27: CONST Qualification on Pointers in Tcl API&apos;s</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4278,35 +4278,35 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 26: Enhancements for the Tk Text Widget</td>
+<td valign='top' ># TIP 26: Enhancements for the Tk Text Widget</td>
 <td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/26.patch'>Link</a></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/25.md'>25</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 25: Native tk_messageBox  on Macintosh</td>
+<td valign='top' ># TIP 25: Native tk_messageBox  on Macintosh</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/24.md'>24</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 24: Tcl Maintainer Assignments</td>
+<td valign='top'  colspan=2># TIP 24: Tcl Maintainer Assignments</td>
 </tr>
 <tr class='state-accepted type-process'>
 <td valign='top'><a href='./tip/23.md'>23</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Accepted</td>
-<td valign='top'># TIP 23: Tk Toolkit Functional Areas for Maintainer Assignments</td>
+<td valign='top'  colspan=2># TIP 23: Tk Toolkit Functional Areas for Maintainer Assignments</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/22.md'>22</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4a2</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 22: Multiple Index Arguments to lindex</td>
+<td valign='top' ># TIP 22: Multiple Index Arguments to lindex</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4314,23 +4314,23 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 21: Asymmetric Padding in the Pack and Grid Geometry Managers</td>
+<td valign='top' ># TIP 21: Asymmetric Padding in the Pack and Grid Geometry Managers</td>
 <td valign='top'><a href='http://www.hwaci.com/sw/asym_pad_patch_2.txt'>Link</a></td>
 </tr>
-<tr class='state-deferred type-project'>
+<tr class='state-deferred type-project version-85'>
 <td valign='top'><a href='./tip/20.md'>20</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.5</td>
 <td valign='top'>Deferred</td>
-<td valign='top'># TIP 20: Add C Locale-Exact CType Functions</td>
+<td valign='top' ># TIP 20: Add C Locale-Exact CType Functions</td>
 <td></td>
 </tr>
-<tr class='state-obsoleted type-project'>
+<tr class='state-obsoleted type-project version-84'>
 <td valign='top'><a href='./tip/19.md'>19</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4a2</td>
 <td valign='top'>Obsoleted</td>
-<td valign='top'># TIP 19: Add a Text Changed Flag to Tk&apos;s Text Widget</td>
+<td valign='top' ># TIP 19: Add a Text Changed Flag to Tk&apos;s Text Widget</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4338,7 +4338,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 18: Add Labels to Frames</td>
+<td valign='top' ># TIP 18: Add Labels to Frames</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4346,21 +4346,21 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 17: Redo Tcl&apos;s filesystem</td>
+<td valign='top' ># TIP 17: Redo Tcl&apos;s filesystem</td>
 <td></td>
 </tr>
 <tr class='state-accepted type-process'>
 <td valign='top'><a href='./tip/16.md'>16</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Accepted</td>
-<td valign='top'># TIP 16: Tcl Functional Areas for Maintainer Assignments</td>
+<td valign='top'  colspan=2># TIP 16: Tcl Functional Areas for Maintainer Assignments</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/15.md'>15</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 15: Functions to List and Detail Math Functions</td>
+<td valign='top' ># TIP 15: Functions to List and Detail Math Functions</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4368,27 +4368,27 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 14: Access to Tk Photo Image Transparency</td>
+<td valign='top' ># TIP 14: Access to Tk Photo Image Transparency</td>
 <td valign='top'><a href='http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch'>Link</a></td>
 </tr>
 <tr class='state-accepted type-process'>
 <td valign='top'><a href='./tip/13.md'>13</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Accepted</td>
-<td valign='top'># TIP 13: Web Service for Drafting and Archiving TIPs</td>
+<td valign='top'  colspan=2># TIP 13: Web Service for Drafting and Archiving TIPs</td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/12.md'>12</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 12: The &quot;Batteries Included&quot; Distribution</td>
+<td valign='top'  colspan=2># TIP 12: The &quot;Batteries Included&quot; Distribution</td>
 </tr>
 <tr class='state-final type-project version-84'>
 <td valign='top'><a href='./tip/11.md'>11</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 11: Tk Menubutton Enhancement: -compound option for menubutton</td>
+<td valign='top' ># TIP 11: Tk Menubutton Enhancement: -compound option for menubutton</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4396,15 +4396,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 10: Tcl I/O Enhancement: Thread-Aware Channels</td>
+<td valign='top' ># TIP 10: Tcl I/O Enhancement: Thread-Aware Channels</td>
 <td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/10.patch'>Link</a></td>
 </tr>
-<tr class='state-withdrawn type-project'>
+<tr class='state-withdrawn type-project version-84'>
 <td valign='top'><a href='./tip/9.md'>9</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Withdrawn</td>
-<td valign='top'># TIP 9: Tk Standard Library</td>
+<td valign='top' ># TIP 9: Tk Standard Library</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4412,7 +4412,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4.0</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 8: Add Winico support to the wm command on windows</td>
+<td valign='top' ># TIP 8: Add Winico support to the wm command on windows</td>
 <td valign='top'><a href='ftp://ftp.ucsd.edu/pub/alpha/tcl/tkWinWm.diff'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4420,15 +4420,15 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 7: Increased resolution for TclpGetTime on Windows</td>
+<td valign='top' ># TIP 7: Increased resolution for TclpGetTime on Windows</td>
 <td></td>
 </tr>
-<tr class='state-rejected type-project'>
+<tr class='state-rejected type-project version-84'>
 <td valign='top'><a href='./tip/6.md'>6</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.4.0</td>
 <td valign='top'>Rejected</td>
-<td valign='top'># TIP 6: Include [Incr Tcl] in the Core Tcl distribution</td>
+<td valign='top' ># TIP 6: Include [Incr Tcl] in the Core Tcl distribution</td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
@@ -4436,38 +4436,38 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 5: Make TkClassProcs and TkSetClassProcs Public and Extensible</td>
+<td valign='top' ># TIP 5: Make TkClassProcs and TkSetClassProcs Public and Extensible</td>
 <td></td>
 </tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/4.md'>4</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 4: Tcl Release and Distribution Philosophy</td>
+<td valign='top'  colspan=2># TIP 4: Tcl Release and Distribution Philosophy</td>
 </tr>
 <tr class='state-accepted type-process'>
 <td valign='top'><a href='./tip/3.md'>3</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Accepted</td>
-<td valign='top'># TIP 3: TIP Format</td>
+<td valign='top'  colspan=2># TIP 3: TIP Format</td>
 </tr>
 <tr class='state-draft type-process'>
 <td valign='top'><a href='./tip/2.md'>2</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Draft</td>
-<td valign='top'># TIP 2: TIP Guidelines</td>
+<td valign='top'  colspan=2># TIP 2: TIP Guidelines</td>
 </tr>
 <tr class='state-active type-informational'>
 <td valign='top'><a href='./tip/1.md'>1</a></td>
 <td valign='top' colspan=2>Informational</td>
 <td valign='top'>Active</td>
-<td valign='top'># TIP 1: TIP Index</td>
+<td valign='top'  colspan=2># TIP 1: TIP Index</td>
 </tr>
 <tr class='state-final type-process'>
 <td valign='top'><a href='./tip/0.md'>0</a></td>
 <td valign='top' colspan=2>Process</td>
 <td valign='top'>Final</td>
-<td valign='top'># TIP 0: Tcl Core Team Basic Rules</td>
+<td valign='top'  colspan=2># TIP 0: Tcl Core Team Basic Rules</td>
 </tr>
 
 </tbody></table>
