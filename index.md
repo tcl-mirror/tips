@@ -1081,7 +1081,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/431.md'>Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-431'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/430.md'>430</a></td>
