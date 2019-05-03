@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/540.md'>540</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/540.md'>Add -signal Channel Configure Option to POSIX Pipes</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/539.md'>539</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>

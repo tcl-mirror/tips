@@ -1,4 +1,5 @@
 {"tip": {
+	"540":{"url":"./tip/540.md","keywords":"Tcl, Unix, pipeline","created":"03-May-2019","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 540: Add -signal Channel Configure Option to POSIX Pipes","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"539":{"url":"./tip/539.md","tcl-ticket":"2370575","keywords":"Tcl, dict filter, set intersection","created":"27-Nov-2008","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 539: Multiple dict filter patterns","author":["Lars Hellström <Lars.Hellstrom@residenset.net>"],"is-jest":false},
 	"538":{"url":"./tip/538.md","keywords":"Tcl","created":"9-April-2019","post-history":"","state":"Draft","tcl-branch":"digit-bit-60","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 538: Externalize libtommath","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"537":{"url":"./tip/537.md","keywords":"Tcl","created":"7-April-2019","post-history":"","state":"Draft","tcl-branch":"regexp-api-64bit","tcl-version":"9.0","vote":"","type":"Project","title":"# TIP 537: Enable 64-bit indexes in regexp matching","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -540,5 +541,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","post-history":"","state":"Active","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 539
-}, "@timestamp": 1556655943}
+	"@max": 540
+}, "@timestamp": 1556868265}
