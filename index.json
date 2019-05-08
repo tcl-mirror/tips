@@ -1,4 +1,5 @@
 {"tip": {
+	"541":{"url":"./tip/541.md","keywords":"Tcl","created":"8-May-2019","post-history":"","state":"Draft","tcl-branch":"bug-2858503fff","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 541: Add support for 'end' index in ttk::combobox current","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"540":{"url":"./tip/540.md","keywords":"Tcl, Unix, pipeline","created":"03-May-2019","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 540: Add -signal Channel Configure Option to POSIX Pipes","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"539":{"url":"./tip/539.md","tcl-ticket":"2370575","keywords":"Tcl, dict filter, set intersection","created":"27-Nov-2008","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 539: Multiple dict filter patterns","author":["Lars Hellström <Lars.Hellstrom@residenset.net>"],"is-jest":false},
 	"538":{"url":"./tip/538.md","keywords":"Tcl","created":"9-April-2019","post-history":"","state":"Draft","tcl-branch":"digit-bit-60","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 538: Externalize libtommath","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -149,7 +150,7 @@
 	"393":{"url":"./tip/393.md","created":"25-Apr-2011","post-history":"","state":"Draft","implementation-url":"http://sqlitestudio.pl/tcl/patches/tip-393-lsearch-command.patch","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 393: Add -command Option to lsearch","author":["Pawel Salawa <pawelsalawa@gmail.com>"],"is-jest":false},
 	"392":{"url":"./tip/392.md","keywords":"bignum,runaway,safe,math,precision,integer,tcl","created":"30-Oct-2011","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 392: Allow Bignums to be Disabled at Runtime on a Per-Interp Basis","author":["Joe Mistachkin <joe@mistachkin.com>"],"is-jest":false},
 	"391":{"url":"./tip/391.md","created":"26-Oct-2011","obsoleted-by":"409","post-history":"","state":"Withdrawn","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 391: Support for UDP Sockets in Tcl","author":["Jeff Rogers <dvrsn@diphi.com>"],"is-jest":false},
-	"390":{"url":"./tip/390.md","created":"27-Oct-2011","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 390: A Logging API for Tcl","author":["Jeff Rogers <dvrsn@diphi.com>"],"is-jest":false},
+	"390":{"url":"./tip/390.md","created":"27-Oct-2011","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 390: A Logging API for Tcl","author":["Jeff Rogers <dvrsn@diphi.com>","Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"389":{"url":"./tip/389.md","keywords":"Tcl","created":"23-Aug-2011","post-history":"","state":"Final","tcl-branch":"tip-389","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 389: Full support for Unicode 10.0 and later (part 1)","discussions-to":"Tcl Core list","author":["Jan Nijtmans <jan.nijtmans@users.sf.net>","Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"388":{"url":"./tip/388.md","keywords":"Tcl","created":"10-Aug-2011","post-history":"","state":"Final","tcl-branch":"tip-388-impl","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 388: Extending Unicode literals past the BMP","discussions-to":"Tcl Core list","author":["Jan Nijtmans <jan.nijtmans@users.sf.net>","Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"387":{"url":"./tip/387.md","keywords":"Tcl, coroutine","created":"30-May-2011","post-history":"","obsoleted-by":"396","state":"Withdrawn","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 387: Unified Yield Command Syntax","author":["Lars Hellström <Lars.Hellstrom@residenset.net>"],"is-jest":false},
@@ -541,5 +542,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","post-history":"","state":"Active","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 540
-}, "@timestamp": 1556868265}
+	"@max": 541
+}, "@timestamp": 1557347819}

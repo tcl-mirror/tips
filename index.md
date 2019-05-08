@@ -142,6 +142,12 @@ Type:
 Version: 
 
     <input class="toggler-version"
+        data-value="86"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.6</button>
+
+
+    <input class="toggler-version"
         data-value="87"
         type="checkbox"
         onclick="toggleFacet('version')">8.7</button>
@@ -151,12 +157,6 @@ Version:
         data-value="90"
         type="checkbox"
         onclick="toggleFacet('version')">9.0</button>
-
-
-    <input class="toggler-version"
-        data-value="86"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.6</button>
 
 
     <input class="toggler-version"
@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/541.md'>541</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/541.md'>Add support for &apos;end&apos; index in ttk::combobox current</a></td>
+<td valign='top'><a href='/tcl/timeline?r=bug-2858503fff'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/540.md'>540</a></td>
 <td valign='top'>Project</td>
