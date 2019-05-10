@@ -1,4 +1,5 @@
 {"tip": {
+	"543":{"url":"./tip/543.md","keywords":"Tcl, traces","created":"07-May-2019","post-history":"","state":"Draft","vote":"Pending","tcl-version":"9.0","type":"Project","title":"# TIP 543: Eliminate TCL_INTERP_DESTROYED flag value","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"542":{"url":"./tip/542.md","keywords":"Tcl","created":"10-May-2019","post-history":"","state":"Draft","tcl-branch":"utf-max","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 542: New encodings: UTF-16, UCS-2, Support for switchable (Androwish-compatible) Full Unicode support.","discussions-to":"Tcl Core list","author":["Jan Nijtmans <jan.nijtmans@users.sf.net>","Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"541":{"url":"./tip/541.md","keywords":"Tcl","created":"8-May-2019","post-history":"","state":"Draft","tcl-branch":"bug-2858503fff","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 541: Add support for 'end' index in ttk::combobox current","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"540":{"url":"./tip/540.md","keywords":"Tcl, Unix, pipeline","created":"03-May-2019","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 540: Add -signal Channel Configure Option to POSIX Pipes","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
@@ -543,5 +544,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","post-history":"","state":"Active","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 542
-}, "@timestamp": 1557482473}
+	"@max": 543
+}, "@timestamp": 1557492060}

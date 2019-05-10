@@ -142,6 +142,12 @@ Type:
 Version: 
 
     <input class="toggler-version"
+        data-value="90"
+        type="checkbox"
+        onclick="toggleFacet('version')">9.0</button>
+
+
+    <input class="toggler-version"
         data-value="87"
         type="checkbox"
         onclick="toggleFacet('version')">8.7</button>
@@ -151,12 +157,6 @@ Version:
         data-value="86"
         type="checkbox"
         onclick="toggleFacet('version')">8.6</button>
-
-
-    <input class="toggler-version"
-        data-value="90"
-        type="checkbox"
-        onclick="toggleFacet('version')">9.0</button>
 
 
     <input class="toggler-version"
@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-90'>
+<td valign='top'><a href='./tip/543.md'>543</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/543.md'>Eliminate TCL_INTERP_DESTROYED flag value</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/542.md'>542</a></td>
 <td valign='top'>Project</td>
