@@ -142,15 +142,15 @@ Type:
 Version: 
 
     <input class="toggler-version"
-        data-value="86"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.6</button>
-
-
-    <input class="toggler-version"
         data-value="87"
         type="checkbox"
         onclick="toggleFacet('version')">8.7</button>
+
+
+    <input class="toggler-version"
+        data-value="86"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.6</button>
 
 
     <input class="toggler-version"
@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/542.md'>542</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/542.md'>New encodings: UTF-16, UCS-2, Support for switchable (Androwish-compatible) Full Unicode support.</a></td>
+<td valign='top'><a href='/tcl/timeline?r=utf-max'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-86'>
 <td valign='top'><a href='./tip/541.md'>541</a></td>
 <td valign='top'>Project</td>
