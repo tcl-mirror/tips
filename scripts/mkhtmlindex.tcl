@@ -303,7 +303,7 @@ set TOGGLES ""
 set STYLES ""
 dict for {axis values} $toggles {
     appendn TOGGLES "[string totitle $axis]: "
-    foreach val [dict keys $values] {
+    foreach val [lsort [dict keys $values]] {
         set map [list]
         lappend map #FACET# $axis
         lappend map #VALUE# [string tolower $val]

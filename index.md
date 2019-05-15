@@ -66,6 +66,24 @@ function toggleFacet(f) {
 State: 
 
     <input class="toggler-state"
+        data-value="accepted"
+        type="checkbox"
+        onclick="toggleFacet('state')">Accepted</button>
+
+
+    <input class="toggler-state"
+        data-value="active"
+        type="checkbox"
+        onclick="toggleFacet('state')">Active</button>
+
+
+    <input class="toggler-state"
+        data-value="deferred"
+        type="checkbox"
+        onclick="toggleFacet('state')">Deferred</button>
+
+
+    <input class="toggler-state"
         data-value="draft"
         type="checkbox"
         onclick="toggleFacet('state')">Draft</button>
@@ -78,9 +96,9 @@ State:
 
 
     <input class="toggler-state"
-        data-value="accepted"
+        data-value="obsoleted"
         type="checkbox"
-        onclick="toggleFacet('state')">Accepted</button>
+        onclick="toggleFacet('state')">Obsoleted</button>
 
 
     <input class="toggler-state"
@@ -94,31 +112,13 @@ State:
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
 
-
-    <input class="toggler-state"
-        data-value="obsoleted"
-        type="checkbox"
-        onclick="toggleFacet('state')">Obsoleted</button>
-
-
-    <input class="toggler-state"
-        data-value="deferred"
-        type="checkbox"
-        onclick="toggleFacet('state')">Deferred</button>
-
-
-    <input class="toggler-state"
-        data-value="active"
-        type="checkbox"
-        onclick="toggleFacet('state')">Active</button>
-
 <br>
 Type: 
 
     <input class="toggler-type"
-        data-value="project"
+        data-value="informational"
         type="checkbox"
-        onclick="toggleFacet('type')">Project</button>
+        onclick="toggleFacet('type')">Informational</button>
 
 
     <input class="toggler-type"
@@ -128,9 +128,9 @@ Type:
 
 
     <input class="toggler-type"
-        data-value="informational"
+        data-value="project"
         type="checkbox"
-        onclick="toggleFacet('type')">Informational</button>
+        onclick="toggleFacet('type')">Project</button>
 
 
     <input class="toggler-type"
@@ -140,6 +140,30 @@ Type:
 
 <br>
 Version: 
+
+    <input class="toggler-version"
+        data-value="80"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.0</button>
+
+
+    <input class="toggler-version"
+        data-value="84"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.4</button>
+
+
+    <input class="toggler-version"
+        data-value="85"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.5</button>
+
+
+    <input class="toggler-version"
+        data-value="86"
+        type="checkbox"
+        onclick="toggleFacet('version')">8.6</button>
+
 
     <input class="toggler-version"
         data-value="87"
@@ -154,33 +178,9 @@ Version:
 
 
     <input class="toggler-version"
-        data-value="86"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.6</button>
-
-
-    <input class="toggler-version"
-        data-value="85"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.5</button>
-
-
-    <input class="toggler-version"
         data-value="92"
         type="checkbox"
         onclick="toggleFacet('version')">9.2</button>
-
-
-    <input class="toggler-version"
-        data-value="84"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.4</button>
-
-
-    <input class="toggler-version"
-        data-value="80"
-        type="checkbox"
-        onclick="toggleFacet('version')">8.0</button>
 
 <br>
 
