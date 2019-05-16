@@ -108,6 +108,12 @@ State:
 
 
     <input class="toggler-state"
+        data-value="voting"
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
+
+
+    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -1115,11 +1121,11 @@ Version:
 <td valign='top' ><a href='./tip/432.md'>Support for New Windows File Dialogs in Vista and Later</a></td>
 <td valign='top'><a href='/tk/timeline?r=apn-win-filedialogs'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/431.md'>431</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/431.md'>Add &apos;tempdir&apos; Subcommand to &apos;file&apos;</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-431'>Link</a></td>
 </tr>
@@ -1495,11 +1501,11 @@ Version:
 <td valign='top' ><a href='./tip/384.md'>Add File Alteration Monitoring to the Tcl Core</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/383.md'>383</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/383.md'>Injecting Code into Suspended Coroutines</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-383'>Link</a></td>
 </tr>
@@ -2455,11 +2461,11 @@ Version:
 <td valign='top' ><a href='./tip/263.md'>Quantum Tcl</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/262.md'>262</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/262.md'>Background Images for Frames</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-262'>Link</a></td>
 </tr>
