@@ -315,10 +315,10 @@ Version:
 <td valign='top' ><a href='./tip/533.md'>Extension of the menu post command.</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86 version-87'>
+<tr class='state-draft type-project version-86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6 and 8.7</td>
+<td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/532.md'>Re-implementation of event loop processing.</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
@@ -331,10 +331,10 @@ Version:
 <td valign='top' ><a href='./tip/531.md'>Static Tcl Interpreter Creation Function</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-531'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86 version-87'>
+<tr class='state-draft type-project version-86'>
 <td valign='top'><a href='./tip/530.md'>530</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6, 8.7</td>
+<td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/530.md'>Control over performance impact of TIP 280</a></td>
 <td valign='top'><a href='/tcl/tktview/a09031e288'>Link</a></td>
