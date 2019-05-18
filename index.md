@@ -331,7 +331,7 @@ Version:
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/530.md'>Control over performance impact of TIP 280</a></td>
-<td valign='top'><a href='/tcl/tktview/a09031e288'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-530'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/529.md'>529</a></td>
