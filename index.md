@@ -72,12 +72,6 @@ State:
 
 
     <input class="toggler-state"
-        data-value="active"
-        type="checkbox"
-        onclick="toggleFacet('state')">Active</button>
-
-
-    <input class="toggler-state"
         data-value="deferred"
         type="checkbox"
         onclick="toggleFacet('state')">Deferred</button>
@@ -4503,10 +4497,10 @@ Version:
 <td valign='top'>Draft</td>
 <td valign='top'  colspan=2><a href='./tip/2.md'>TIP Guidelines</a></td>
 </tr>
-<tr class='state-active type-informational'>
+<tr class='state-obsoleted type-informational'>
 <td valign='top'><a href='./tip/1.md'>1</a></td>
 <td valign='top' colspan=2>Informational</td>
-<td valign='top'>Active</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'  colspan=2><a href='./tip/1.md'>TIP Index</a></td>
 </tr>
 <tr class='state-final type-process'>
