@@ -253,11 +253,11 @@ Version:
 <td valign='top' ><a href='./tip/540.md'>Add -signal Channel Configure Option to POSIX Pipes</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-obsoleted type-project version-87'>
 <td valign='top'><a href='./tip/539.md'>539</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top' ><a href='./tip/539.md'>Multiple dict filter patterns</a></td>
 <td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
