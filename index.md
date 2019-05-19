@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/545.md'>545</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/545.md'>image photo SVG options: remove -unit and add target</a></td>
+<td valign='top'><a href='/tk/timeline?r=tip-545-svg-options'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/544.md'>544</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
