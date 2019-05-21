@@ -229,11 +229,11 @@ Version:
 <td valign='top' ><a href='./tip/545.md'>image photo SVG options: remove -unit and add target height/width option</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-545-svg-options'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/544.md'>544</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/544.md'>Export TclGetIntForIndex()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-544'>Link</a></td>
 </tr>
@@ -285,11 +285,11 @@ Version:
 <td valign='top' ><a href='./tip/538.md'>Externalize libtommath</a></td>
 <td valign='top'><a href='/tcl/timeline?r=digit-bit-60'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-90'>
+<tr class='state-voting type-project version-90'>
 <td valign='top'><a href='./tip/537.md'>537</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/537.md'>Enable 64-bit indexes in regexp matching</a></td>
 <td valign='top'><a href='/tcl/timeline?r=regexp-api-64bit'>Link</a></td>
 </tr>
