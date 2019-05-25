@@ -2471,11 +2471,11 @@ Version:
 <td valign='top' ><a href='./tip/263.md'>Quantum Tcl</a></td>
 <td></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/262.md'>262</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/262.md'>Background Images for Frames</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-262'>Link</a></td>
 </tr>
