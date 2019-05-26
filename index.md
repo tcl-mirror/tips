@@ -2301,7 +2301,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/284.md'>New &apos;invoke&apos; and &apos;namespace invoke&apos; Commands</a></td>
-<td valign='top'><a href='/tcl/tktview/1577324'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-284'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/283.md'>283</a></td>
