@@ -253,11 +253,11 @@ Version:
 <td valign='top' ><a href='./tip/542.md'>New encodings: UTF-16, UCS-2, Support for switchable (Androwish-compatible) Full Unicode support.</a></td>
 <td valign='top'><a href='/tcl/timeline?r=utf-max'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-86'>
+<tr class='state-accepted type-project version-86'>
 <td valign='top'><a href='./tip/541.md'>541</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/541.md'>Add support for &apos;end&apos; index in ttk::combobox current</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-2858503fff'>Link</a></td>
 </tr>
