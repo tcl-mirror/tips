@@ -253,7 +253,7 @@
 	"295":{"url":"./tip/295.md","keywords":"Tcl,lrange","created":"06-Nov-2006","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 295: Enhance Arguments to lrange","author":["Andreas Leitgeb <avl@logic.at>"],"is-jest":false},
 	"294":{"url":"./tip/294.md","keywords":"Tcl,number,cast,rename","created":"03-Nov-2006","post-history":"","state":"Rejected","tcl-version":"8.5","vote":"Done","type":"Project","title":"# TIP 294: The \"entier\" Function: It's Spelt \"entire\"","author":["Lars Hellström <Lars.Hellstrom@residenset.net>","Richard Suchenwirth <richard.suchenwirth-bauersachs@siemens.com>"],"is-jest":false},
 	"293":{"url":"./tip/293.md","obsoletes":"157","created":"02-Nov-2006","post-history":"","state":"Final","vote":"Done","tcl-version":"8.5","type":"Project","title":"# TIP 293: Argument Expansion with Leading {*}","author":["Miguel Sofer <msofer@users.sourceforge.net>"],"is-jest":false},
-	"292":{"url":"./tip/292.md","keywords":"Tcl, expr","created":"01-Nov-2006","post-history":"","state":"Draft","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 292: Allow Unquoted Strings in Expressions","author":["Brian Griffin <bgriffin@model.com>"],"is-jest":false},
+	"292":{"url":"./tip/292.md","keywords":"Tcl, expr","created":"01-Nov-2006","post-history":"","state":"Withdrawn","vote":"Pending","tcl-version":"8.7","type":"Project","title":"# TIP 292: Allow Unquoted Strings in Expressions","author":["Brian Griffin <bgriffin@model.com>"],"is-jest":false},
 	"291":{"url":"./tip/291.md","tcl-ticket":"1600701","keywords":"Tcl,Critcl,TEApot","created":"26-Oct-2006","post-history":"","state":"Final","tcl-version":"8.5","vote":"Done","type":"Project","title":"# TIP 291: Add the 'platform' Package to Tcl","author":["Steve Landers <steve@DigitalSmarties.com>","Andreas Kupries <andreask@activestate.com>"],"is-jest":false},
 	"290":{"url":"./tip/290.md","tcl-ticket":"1587317","keywords":"Tcl,error,trap","created":"29-Oct-2006","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 290: Registration of Custom Error Handler Scripts","author":["Eckhard Lehmann <ecky-l@web.de>","Larry W. Virden <lvirden@yahoo.com>"],"is-jest":false},
 	"289":{"url":"./tip/289.md","keywords":"Tcl","created":"26-Oct-2006","post-history":"","state":"Rejected","tcl-version":"8.5","vote":"Done","type":"Project","title":"# TIP 289: Revision of [lrepeat] Argument Order","author":["Peter Spjuth <peter.spjuth@space.se>","<dgp@users.sf.net>"],"is-jest":false},
@@ -548,4 +548,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 546
-}, "@timestamp": 1558963728}
+}, "@timestamp": 1558970544}

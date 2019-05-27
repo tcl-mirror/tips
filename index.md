@@ -2231,11 +2231,11 @@ Version:
 <td valign='top' ><a href='./tip/293.md'>Argument Expansion with Leading {*}</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-withdrawn type-project version-87'>
 <td valign='top'><a href='./tip/292.md'>292</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Withdrawn</td>
 <td valign='top' ><a href='./tip/292.md'>Allow Unquoted Strings in Expressions</a></td>
 <td></td>
 </tr>
