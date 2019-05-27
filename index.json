@@ -542,10 +542,10 @@
 	"6":{"url":"./tip/6.md","created":"16-Oct-2000","post-history":"","state":"Rejected","tcl-version":"8.4.0","vote":"Done","type":"Project","title":"# TIP 6: Include [Incr Tcl] in the Core Tcl distribution","author":["Mark Harrison <markh@usai.asiainfo.com>"],"is-jest":false},
 	"5":{"url":"./tip/5.md","created":"17-Oct-2000","post-history":"","state":"Final","vote":"Done","tcl-version":"8.4","type":"Project","title":"# TIP 5: Make TkClassProcs and TkSetClassProcs Public and Extensible","author":["Eric Melski <ericm@ajubasolutions.com>"],"is-jest":false},
 	"4":{"url":"./tip/4.md","created":"26-Oct-2000","post-history":"","state":"Draft","vote":"Pending","type":"Informative","title":"# TIP 4: Tcl Release and Distribution Philosophy","discussions-to":"news:comp.lang.tcl","author":["Brent Welch <welch@acm.org>","Donal K. Fellows <fellowsd@cs.man.ac.uk>","Larry W. Virden <lvirden@cas.org>","Larry W. Virden <lvirden@yahoo.com>"],"is-jest":false},
-	"3":{"url":"./tip/3.md","created":"14-Sep-2000","post-history":"","state":"Accepted","vote":"Done","type":"Process","title":"# TIP 3: TIP Format","author":["Andreas Kupries <a.kupries@westend.com>","Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
+	"3":{"url":"./tip/3.md","created":"14-Sep-2000","obsoleted-by":"467","post-history":"","state":"Accepted","vote":"Done","type":"Process","title":"# TIP 3: TIP Format","author":["Andreas Kupries <a.kupries@westend.com>","Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
 	"2":{"url":"./tip/2.md","created":"12-Sep-2000","post-history":"","state":"Draft","vote":"Pending","type":"Process","title":"# TIP 2: TIP Guidelines","author":["Andreas Kupries <a.kupries@westend.com>","Donal K. Fellows <fellowsd@cs.man.ac.uk>","Don Porter <dgp@users.sourceforge.net>","Mo DeJong <no@spam.com>","Larry W. Virden <lvirden@yahoo.com>","Kevin Kenny <kennykb@acm.org>"],"is-jest":false},
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 546
-}, "@timestamp": 1558895968}
+}, "@timestamp": 1558938714}

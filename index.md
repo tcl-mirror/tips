@@ -4501,10 +4501,10 @@ Version:
 <td valign='top'>Draft</td>
 <td valign='top'  colspan=2><a href='./tip/4.md'>Tcl Release and Distribution Philosophy</a></td>
 </tr>
-<tr class='state-accepted type-process'>
+<tr class='state-obsoleted type-process'>
 <td valign='top'><a href='./tip/3.md'>3</a></td>
 <td valign='top' colspan=2>Process</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'  colspan=2><a href='./tip/3.md'>TIP Format</a></td>
 </tr>
 <tr class='state-draft type-process'>
