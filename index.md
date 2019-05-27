@@ -379,7 +379,7 @@ Version:
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/526.md'>Make [expr] Only Accept One Argument</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-526'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-85'>
 <td valign='top'><a href='./tip/525.md'>525</a></td>
