@@ -4427,10 +4427,10 @@ Version:
 <td valign='top' ><a href='./tip/14.md'>Access to Tk Photo Image Transparency</a></td>
 <td valign='top'><a href='http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch'>Link</a></td>
 </tr>
-<tr class='state-accepted type-process'>
+<tr class='state-obsoleted type-process'>
 <td valign='top'><a href='./tip/13.md'>13</a></td>
 <td valign='top' colspan=2>Process</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top'  colspan=2><a href='./tip/13.md'>Web Service for Drafting and Archiving TIPs</a></td>
 </tr>
 <tr class='state-draft type-informational'>

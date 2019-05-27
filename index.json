@@ -532,7 +532,7 @@
 	"16":{"url":"./tip/16.md","created":"21-Nov-2000","post-history":"","state":"Accepted","vote":"Done","type":"Process","title":"# TIP 16: Tcl Functional Areas for Maintainer Assignments","author":["Don Porter <dgp@users.sourceforge.net>","Daniel Steffen <das@users.sourceforge.net>"],"is-jest":false},
 	"15":{"url":"./tip/15.md","keywords":"Tcl,expr,function,introspection","created":"22-Nov-2000","post-history":"","state":"Final","tcl-version":"8.4.0","vote":"Done","type":"Project","title":"# TIP 15: Functions to List and Detail Math Functions","author":["Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
 	"14":{"url":"./tip/14.md","keywords":"Tk,photo,transparency,internal,access","created":"22-Nov-2000","post-history":"","state":"Final","implementation-url":"http://www.cs.man.ac.uk/~fellowsd/tcl/validRegion.patch","tcl-version":"8.4.0","vote":"Done","type":"Project","title":"# TIP 14: Access to Tk Photo Image Transparency","author":["Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
-	"13":{"url":"./tip/13.md","created":"21-Nov-2000","post-history":"","state":"Accepted","vote":"Done","type":"Process","title":"# TIP 13: Web Service for Drafting and Archiving TIPs","author":["Don Porter <dgp@users.sourceforge.net>","Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
+	"13":{"url":"./tip/13.md","created":"21-Nov-2000","obsoleted-by":"467","post-history":"","state":"Accepted","vote":"Done","type":"Process","title":"# TIP 13: Web Service for Drafting and Archiving TIPs","author":["Don Porter <dgp@users.sourceforge.net>","Donal K. Fellows <fellowsd@cs.man.ac.uk>"],"is-jest":false},
 	"12":{"url":"./tip/12.md","created":"15-Sep-2000","post-history":"","state":"Draft","vote":"Pending","type":"Informative","title":"# TIP 12: The \"Batteries Included\" Distribution","discussions-to":"news:comp.lang.tcl","author":["George A. Howlett <gah@siliconmetrics.com>","Larry W. Virden <lvirden@yahoo.com>"],"is-jest":false},
 	"11":{"url":"./tip/11.md","created":"16-Nov-2000","post-history":"","state":"Final","vote":"Done","tcl-version":"8.4","type":"Project","title":"# TIP 11: Tk Menubutton Enhancement: -compound option for menubutton","author":["Todd Helfter <tmh@purdue.edu>"],"is-jest":false},
 	"10":{"url":"./tip/10.md","created":"08-Nov-2000","post-history":"","state":"Final","implementation-url":"https://core.tcl.tk/tips/raw/assets/10.patch","tcl-version":"8.4","vote":"Done","type":"Project","title":"# TIP 10: Tcl I/O Enhancement: Thread-Aware Channels","author":["Andreas Kupries <a.kupries@westend.com>"],"is-jest":false},
@@ -548,4 +548,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 546
-}, "@timestamp": 1558938714}
+}, "@timestamp": 1558938811}
