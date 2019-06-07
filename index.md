@@ -213,7 +213,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/549.md'>Make configure --enable-64bit the default</a></td>
-<td valign='top'><a href='/tcl/timeline?r=tip-548'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-549'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/548.md'>548</a></td>
