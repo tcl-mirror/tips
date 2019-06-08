@@ -1827,7 +1827,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/346.md'>Error on Failed String Encodings</a></td>
-<td valign='top'><a href='/tcl/tktview/1665628'>Link</a></td>
+<td></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/345.md'>345</a></td>
