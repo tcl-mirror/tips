@@ -3253,7 +3253,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/167.md'>Add a New Option for Context Help for Windows</a></td>
-<td valign='top'><a href='/tk/tktview/845248ffffffffffffff'>Link</a></td>
+<td valign='top'><a href='/tk/timeline?r=tip-167'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/166.md'>166</a></td>
