@@ -102,6 +102,12 @@ State:
 
 
     <input class="toggler-state"
+        data-value="voting"
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
+
+
+    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -311,11 +317,11 @@ Version:
 <td valign='top' ><a href='./tip/537.md'>Enable 64-bit indexes in regexp matching</a></td>
 <td valign='top'><a href='/tcl/timeline?r=regexp-api-64bit'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-voting type-project version-86'>
 <td valign='top'><a href='./tip/536.md'>536</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/536.md'>Improvements to Mac-specific IPC in Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
 </tr>
@@ -343,12 +349,12 @@ Version:
 <td valign='top' ><a href='./tip/533.md'>Extension of the menu post command.</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-voting type-project version-86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/532.md'>Re-implementation of event loop processing.</a></td>
+<td valign='top'>Voting</td>
+<td valign='top' ><a href='./tip/532.md'>Re-implementation of event loop processing</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -375,11 +381,11 @@ Version:
 <td valign='top' ><a href='./tip/529.md'>Add metadata dict property to tk photo image</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-529-image-metadata'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/528.md'>528</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/528.md'>Deprecate Tk_Offset()</a></td>
 <td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
 </tr>
@@ -431,11 +437,11 @@ Version:
 <td valign='top' ><a href='./tip/522.md'>Test error codes with Tcltest</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/521.md'>521</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/521.md'>Floating Point Classification Functions</a></td>
 <td></td>
 </tr>
@@ -909,11 +915,11 @@ Version:
 <td valign='top' ><a href='./tip/462.md'>Add New [::tcl::process] Ensemble for Subprocess Management</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-462'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/461.md'>461</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/461.md'>Separate Numeric and String Comparison Operators</a></td>
 <td></td>
 </tr>
