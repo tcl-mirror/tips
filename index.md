@@ -443,7 +443,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/521.md'>Floating Point Classification Functions</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-521'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/520.md'>520</a></td>
@@ -921,7 +921,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/461.md'>Separate Numeric and String Comparison Operators</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-461'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/460.md'>460</a></td>
