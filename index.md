@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-90'>
+<td valign='top'><a href='./tip/550.md'>550</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/550.md'>Garbage Collection for TclOO</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/549.md'>549</a></td>
 <td valign='top'>Project</td>
