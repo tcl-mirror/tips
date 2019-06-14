@@ -234,7 +234,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/548.md'>Deprecate Tcl\_WinUtfToTChar() and Tcl\_WinTCharToUtf() and provide more flexible replacement functions.</a></td>
+<td valign='top' ><a href='./tip/548.md'>Deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()` and provide more flexible replacement functions.</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-548'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -274,7 +274,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/543.md'>Eliminate TCL\_INTERP\_DESTROYED flag value</a></td>
+<td valign='top' ><a href='./tip/543.md'>Eliminate `TCL_INTERP_DESTROYED` flag value</a></td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-87'>
