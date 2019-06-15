@@ -319,11 +319,11 @@ Version:
 <td valign='top' ><a href='./tip/537.md'>Enable 64-bit indexes in regexp matching</a></td>
 <td valign='top'><a href='/tcl/timeline?r=regexp-api-64bit'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-86'>
+<tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/536.md'>536</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/536.md'>Improvements to Mac-specific IPC in Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=mac_services'>Link</a></td>
 </tr>
