@@ -917,11 +917,11 @@ Version:
 <td valign='top' ><a href='./tip/462.md'>Add New [::tcl::process] Ensemble for Subprocess Management</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-462'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/461.md'>461</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/461.md'>Separate Numeric and String Comparison Operators</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-461'>Link</a></td>
 </tr>
