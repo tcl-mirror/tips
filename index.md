@@ -383,11 +383,11 @@ Version:
 <td valign='top' ><a href='./tip/529.md'>Add metadata dict property to tk photo image</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-529-image-metadata'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/528.md'>528</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/528.md'>Deprecate Tk_Offset()</a></td>
 <td valign='top'><a href='/tk/timeline?r=offsetof'>Link</a></td>
 </tr>
