@@ -439,11 +439,11 @@ Version:
 <td valign='top' ><a href='./tip/522.md'>Test error codes with Tcltest</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-522'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/521.md'>521</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/521.md'>Floating Point Classification Functions</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-521'>Link</a></td>
 </tr>
