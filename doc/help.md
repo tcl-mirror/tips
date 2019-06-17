@@ -17,7 +17,7 @@ distributed as a single file executable so installation consists of
 simply placing it in some suitable directory in your `PATH` environment
 variable.
 
-1. Create a user account on the [TIP repository](https://core.tcl.tk/tips) if
+1. Create a user account on the [TIP repository](https://core.tcl-lang.org/tips) if
 you do not have one already.
 You can create one yourself, but the administrator needs to
 assign you commit privileges.
@@ -26,7 +26,7 @@ assign you commit privileges.
 repository into a suitable directory. For example,
 
         cd ~/repos
-        fossil clone https://USERNAME@core.tcl.tk/tips tips.fossil
+        fossil clone https://USERNAME@core.tcl-lang.org/tips tips.fossil
 
 1. Checkout the TIP sources into your working directory with the
 fossil [`open`](http://fossil-scm.org/index.html/help?cmd=open) command.
@@ -44,9 +44,9 @@ To add a new TIP,
 1. Create a file in the `tip` subdirectory.  Choose a name of the
 format `NNN.md`, for example 467.md. The TIP numbering is currently
 not enforced by the system, so pick the next unused number based on
-the [current TIPs](https://core.tcl.tk/tips/doc/trunk/index.md).
+the [current TIPs](https://core.tcl-lang.org/tips/doc/trunk/index.md).
 
-1. [TIP 2](https://core.tcl.tk/tips/doc/trunk/tip/2.md)
+1. [TIP 2](https://core.tcl-lang.org/tips/doc/trunk/tip/2.md)
 specifies guidelines for writing a TIP.
 Write up the text, using [Markdown mark-up](/md_rules) (plenty of
 examples are available - pay attention to the header as described below).
@@ -88,5 +88,5 @@ For example:
 The meta-data is terminated by `------` and indented with tabs
 (for nicer display in fossil).
 
-See [TIP 3](https://core.tcl.tk/tips/doc/trunk/tip/3.md) for a detailed
+See [TIP 3](https://core.tcl-lang.org/tips/doc/trunk/tip/3.md) for a detailed
 specification of the header format and meaning of each header field.

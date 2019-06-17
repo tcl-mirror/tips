@@ -71,7 +71,7 @@ package provide foo 1.0
 </pre>
 
 The implementation is in tcl fossil in branch
-[tip490-msgcat-oo](https://core.tcl.tk/tcl/timeline?r=tip490-msgcat-oo).
+[tip490-msgcat-oo](https://core.tcl-lang.org/tcl/timeline?r=tip490-msgcat-oo).
 
 ## Use own commands for getting and setting message catalogues
 

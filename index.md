@@ -509,7 +509,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/513.md'>Better support for &apos;agendas&apos; as arrays, dictionaries or lists</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/512.md'>512</a></td>
@@ -987,7 +987,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/453.md'>Tcl Based Automation for tcl/pkgs</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tclconfig/timeline?r=practcl'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tclconfig/timeline?r=practcl'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/452.md'>452</a></td>
@@ -1123,7 +1123,7 @@ Version:
 <td valign='top'>8.6.5</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/436.md'>Improve TclOO isa Introspection</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tcloo/info/5fa1374aa026d4c7'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tcloo/info/5fa1374aa026d4c7'>Link</a></td>
 </tr>
 <tr class='state-rejected type-project version-86'>
 <td valign='top'><a href='./tip/435.md'>435</a></td>
@@ -1433,7 +1433,7 @@ Version:
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/397.md'>Extensible Object Copying</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-rfe3485060'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tcloo/timeline?r=development-rfe3485060'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/396.md'>396</a></td>
@@ -1559,7 +1559,7 @@ Version:
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/381.md'>Call Chain Introspection and Control</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tcloo/timeline?r=development-next2'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tcloo/timeline?r=development-next2'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/380.md'>380</a></td>
@@ -1599,7 +1599,7 @@ Version:
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/376.md'>Bundle sqlite3 and tdbc::sqlite3 Packages</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tdbc/'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tdbc/'>Link</a></td>
 </tr>
 <tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/375.md'>375</a></td>
@@ -4361,7 +4361,7 @@ Version:
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/26.md'>Enhancements for the Tk Text Widget</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/26.patch'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tips/raw/assets/26.patch'>Link</a></td>
 </tr>
 <tr class='state-obsoleted type-project version-85'>
 <td valign='top'><a href='./tip/25.md'>25</a></td>
@@ -4479,7 +4479,7 @@ Version:
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/10.md'>Tcl I/O Enhancement: Thread-Aware Channels</a></td>
-<td valign='top'><a href='https://core.tcl.tk/tips/raw/assets/10.patch'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tips/raw/assets/10.patch'>Link</a></td>
 </tr>
 <tr class='state-withdrawn type-project version-84'>
 <td valign='top'><a href='./tip/9.md'>9</a></td>
