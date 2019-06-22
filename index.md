@@ -234,7 +234,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/548.md'>Deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()` and provide more flexible replacement functions.</a></td>
+<td valign='top' ><a href='./tip/548.md'>Deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()` and provide more flexible replacement functions</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-548'>Link</a></td>
 </tr>
 <tr class='state-voting type-project version-87'>
@@ -242,7 +242,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
-<td valign='top' ><a href='./tip/547.md'>New encodings: UTF-16, UCS-2.</a></td>
+<td valign='top' ><a href='./tip/547.md'>New encodings: UTF-16, UCS-2</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-547'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
@@ -282,7 +282,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/542.md'>Support for switchable (Androwish-compatible) Full Unicode support.</a></td>
+<td valign='top' ><a href='./tip/542.md'>Support for switchable (Androwish-compatible) Full Unicode support</a></td>
 <td valign='top'><a href='/tcl/timeline?r=utf-max'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
@@ -354,7 +354,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/533.md'>Extension of the menu post command.</a></td>
+<td valign='top' ><a href='./tip/533.md'>Extension of the menu post command</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
 </tr>
 <tr class='state-accepted type-project version-86'>
@@ -402,7 +402,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/527.md'>New measurement facilities in TCL: New command timerate.</a></td>
+<td valign='top' ><a href='./tip/527.md'>New measurement facilities in TCL: New command timerate</a></td>
 <td valign='top'><a href='/tcl/timeline?r=sebres-8-6-timerate'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
@@ -4316,7 +4316,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.4</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/33.md'>Add &apos;lset&apos; Command to Assign to List Elements.</a></td>
+<td valign='top' ><a href='./tip/33.md'>Add &apos;lset&apos; Command to Assign to List Elements</a></td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-84'>
