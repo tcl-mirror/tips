@@ -228,7 +228,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/548.md'>Deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()` and provide more flexible replacement functions</a></td>
+<td valign='top' ><a href='./tip/548.md'>Support `wchar_t` conversion functions and deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()`</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-548'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
