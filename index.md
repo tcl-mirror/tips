@@ -351,11 +351,11 @@ Version:
 <td valign='top' ><a href='./tip/533.md'>Extension of the menu post command</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug-70e531918e'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-86'>
+<tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/532.md'>532</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/532.md'>Re-implementation of event loop processing</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
