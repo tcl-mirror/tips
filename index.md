@@ -102,6 +102,12 @@ State:
 
 
     <input class="toggler-state"
+        data-value="voting"
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
+
+
+    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -223,11 +229,11 @@ Version:
 <td valign='top' ><a href='./tip/549.md'>Make configure --enable-64bit the default</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-549'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/548.md'>548</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/548.md'>Support `wchar_t` conversion functions and deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()`</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-548'>Link</a></td>
 </tr>
@@ -1293,11 +1299,11 @@ Version:
 <td valign='top' ><a href='./tip/415.md'>Enable Easy Creation of Circular Arc Segments</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-415'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/414.md'>414</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/414.md'>Add (back) Tcl_InitSubsystems as Public API</a></td>
 <td valign='top'><a href='/tcl/timeline?r=initsubsystems'>Link</a></td>
 </tr>
