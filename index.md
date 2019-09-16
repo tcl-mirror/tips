@@ -207,6 +207,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/551.md'>551</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/551.md'>permit underscore in numerical literals in source code</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/550.md'>550</a></td>
 <td valign='top'>Project</td>
