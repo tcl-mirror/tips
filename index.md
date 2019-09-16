@@ -212,7 +212,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/551.md'>permit underscore in numerical literals in source code</a></td>
+<td valign='top' ><a href='./tip/551.md'>Permit underscore in numerical literals in source code</a></td>
 <td></td>
 </tr>
 <tr class='state-draft type-project version-90'>

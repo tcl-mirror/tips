@@ -1,5 +1,5 @@
 {"tip": {
-	"551":{"url":"./tip/551.md","keywords":"numbers, readability","":"","state":"Draft","type":"Project","author":["tips@rocketship1.me"],"created":"16-Sep-2019","title":"# TIP 551: permit underscore in numerical literals in source code","sponsor":"Brian Griffin <brian_griffin@mentor.com>","post-history":"","vote":"Pending","tcl-version":"8.7","char c = len ? *p ":"'\\0';","is-jest":false},
+	"551":{"url":"./tip/551.md","keywords":"numbers, readability","":"","state":"Draft","type":"Project","author":["Eric <tips@rocketship1.me>"],"created":"16-Sep-2019","title":"# TIP 551: Permit underscore in numerical literals in source code","sponsor":"Brian Griffin <brian_griffin@mentor.com>","post-history":"","vote":"Pending","tcl-version":"8.7","char c = len ? *p ":"'\\0';","is-jest":false},
 	"550":{"url":"./tip/550.md","keywords":"Tcl, memory","created":"11-Jun-2019","post-history":"","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 550: Garbage Collection for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"549":{"url":"./tip/549.md","keywords":"Tcl","created":"7-June-2019","post-history":"","state":"Draft","tcl-branch":"tip-549","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 549: Make configure --enable-64bit the default","discussions-to":"Tcl Core list","author":["Jan Nijtmans <jan.nijtmans@users.sf.net>","Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"548":{"url":"./tip/548.md","keywords":"Tcl","state":"Final","type":"Project","author":["Jan Nijtmans <jan.nijtmans@users.sf.net>","Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-against":"none","votes-for":"JN, DKF, KW, KBK","vote-results":"4/2/0 accepted","created":"3-June-2019","title":"# TIP 548:Support `wchar_t` conversion functions and deprecate `Tcl_WinUtfToTChar()` and `Tcl_WinTCharToUtf()`","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"tip-548","votes-present":"DGP, SL","discussions-to":"Tcl Core list","is-jest":false},
@@ -553,4 +553,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 551
-}, "@timestamp": 1568647647}
+}, "@timestamp": 1568648199}
