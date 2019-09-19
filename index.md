@@ -208,6 +208,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/552.md'>552</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/552.md'>Extended treeview functionality.</a></td>
+<td valign='top'><a href='/tk/timeline?r=pspjuth-treeview'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/551.md'>551</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
