@@ -1,4 +1,5 @@
 {"tip": {
+	"553":{"url":"./tip/553.md","keywords":"Tk, label, listbox, entry","created":"07-Nov-2019","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 553: Ellipses: the Alternative to Scrolling and Wrapping","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"552":{"url":"./tip/552.md","keywords":"Tk, treeview","created":"19-Sep-2019","post-history":"","state":"Draft","tk-branch":"pspjuth-treeview","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 552: Extended treeview functionality.","author":["Peter Spjuth <peter.spjuth@gmail.com>"],"is-jest":false},
 	"551":{"url":"./tip/551.md","keywords":"numbers, readability","":"","state":"Draft","type":"Project","author":["Eric Taylor <tips@rocketship1.me>"],"created":"16-Sep-2019","title":"# TIP 551: Permit underscore in numerical literals in source code","sponsor":"Brian Griffin <brian_griffin@mentor.com>","post-history":"","vote":"Pending","tcl-version":"8.7","char c = len ? *p ":"'\\0';","is-jest":false},
 	"550":{"url":"./tip/550.md","keywords":"Tcl, memory","created":"11-Jun-2019","post-history":"","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 550: Garbage Collection for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
@@ -553,5 +554,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 552
-}, "@timestamp": 1568927047}
+	"@max": 553
+}, "@timestamp": 1573168794}
