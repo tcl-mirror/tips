@@ -102,6 +102,12 @@ State:
 
 
     <input class="toggler-state"
+        data-value="voting"
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
+
+
+    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -351,11 +357,11 @@ Version:
 <td valign='top' ><a href='./tip/539.md'>Multiple dict filter patterns</a></td>
 <td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/538.md'>538</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/538.md'>Externalize libtommath</a></td>
 <td valign='top'><a href='/tcl/timeline?r=digit-bit-60'>Link</a></td>
 </tr>
