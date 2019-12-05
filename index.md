@@ -63,7 +63,7 @@ function toggleFacet(f) {
 }
 </script>
 
-State: 
+State:
 
     <input class="toggler-state"
         data-value="accepted"
@@ -113,7 +113,7 @@ State:
         onclick="toggleFacet('state')">Withdrawn</button>
 
 <br>
-Type: 
+Type:
 
     <input class="toggler-type"
         data-value="informational"
@@ -139,7 +139,7 @@ Type:
         onclick="toggleFacet('type')">Humor</button>
 
 <br>
-Version: 
+Version:
 
     <input class="toggler-version"
         data-value="80"

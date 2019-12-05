@@ -399,13 +399,13 @@ grid [canvas .c -width 640 -height 480 -bg white]
     -tags title
 foreach { - - - ytop } [.c bbox title] {}
 set ybot 440
-set ymid [expr { ( $ytop + $ybot ) / 2 }]
-set yscale [expr { ( $ytop - $ybot ) / 8 }]
+set ymid [expr {($ytop + $ybot) / 2}]
+set yscale [expr {($ytop - $ybot) / 8}]
 .c create text 5 $ymid -text {Count} -font {Helvetica 10} -anchor w \
     -tags ylabel
 foreach { - - x1 - } [.c bbox ylabel] {}
 for { set n 0 } { $n <= 7 } { incr n } {
-    set y [expr { $yscale * ( $n + 0.5 ) + $ybot }]
+    set y [expr {$yscale * ($n + 0.5) + $ybot}]
     set item [.c create text $x1 $y -text 10 -font {Helvetica 10} -anchor w \
 		  -tags ymark]
     foreach { - y2 x2 - } [.c bbox $item] {}
@@ -418,21 +418,21 @@ for { set n 0 } { $n <= 7 } { incr n } {
 	set l 1
     }
     for { set t 1 } { $t <= $l } { incr t } {
-	set dy [expr { $yscale * ( log($t) / log (10) ) }]
-	.c create line $x3 [expr { $y+$dy }] \
-	    [expr { $x3+5 }] [expr { $y+$dy }] -tags ytic
+	set dy [expr {$yscale * (log($t) / log (10))}]
+	.c create line $x3 [expr {$y+$dy}] \
+	    [expr {$x3+5}] [expr {$y+$dy}] -tags ytic
     }
 }
 foreach { - - xleft - } [.c bbox ymark] {}
 .c create line $xleft $ybot $xleft $ytop -tags yaxis
 set xright 620
-set xscale [expr { ( $xright - $xleft) / 4 }]
-set xmid [expr { ( $xright + $xleft ) / 2 }]
+set xscale [expr {($xright - $xleft) / 4}]
+set xmid [expr {($xright + $xleft) / 2}]
 .c create text $xmid 470 -text {Time (seconds)} \
     -font {Helvetica 10} -tags xlabel
 foreach { - y1 - - } [.c bbox xlabel] {}
 for { set n -6 } { $n <= -2 } { incr n } {
-    set x [expr { $xscale * ( $n + 6 ) + $xleft }]
+    set x [expr {$xscale * ($n + 6) + $xleft}]
     set item [.c create text $x $y1 -anchor se -text 10 -font {Helvetica 10} \
 		  -tags xmark]
     foreach { - y2 x2 - } [.c bbox $item] {}
@@ -444,18 +444,18 @@ for { set n -6 } { $n <= -2 } { incr n } {
 	set l 1
     }
     for { set t 1 } { $t <= $l } { incr t } {
-	set dx [expr { $xscale * ( log($t) / log (10) ) }]
+	set dx [expr {$xscale * (log($t) / log (10))}]
 	.c create line [expr {$x + $dx}] $ybot \
-	    [expr { $x+$dx }] [expr { $ybot-5 }] -tags xtic
+	    [expr {$x+$dx}] [expr {$ybot-5}] -tags xtic
     }
 }
 .c create line $xleft $ybot $xright $ybot -tags xaxis
 foreach { t count cum } $data {
-    set x [expr { $xscale * ( log($t) / log(10) ) + $xleft }]
-    set y1 [expr { $yscale * ( log($count) / log(10) + 0.5 ) + $ybot }]
-    .c create line [expr $x-1] $y1 $x [expr $y1-1] \
-	[expr $x+1] $y1 $x [expr $y1+1] [expr $x-1] $y1
-    set y2 [expr { $yscale * ( log($cum) / log(10) + 0.5 ) + $ybot }]
+    set x [expr {$xscale * (log($t) / log(10)) + $xleft}]
+    set y1 [expr {$yscale * (log($count) / log(10) + 0.5) + $ybot}]
+    .c create line [expr {$x-1}] $y1 $x [expr {$y1-1}] \
+	[expr {$x+1}] $y1 $x [expr {$y1+1}] [expr {$x-1}] $y1
+    set y2 [expr {$yscale * (log($cum) / log(10) + 0.5) + $ybot}]
     lappend clist $x $y2
 }
 eval [list .c create line] $clist [list -fill red] -tags cum

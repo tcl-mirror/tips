@@ -1,13 +1,13 @@
 # ****************************************************************************
 # Synopsis:
 #     arrayHasElem ?options? arrName ?keyVar? ?valueVar?
-# 
+#
 # Options:
 #     -remove
 #         does "unset arrName($key)" iff a key has been found.
 #     --
 #         end of option list
-# 
+#
 # Take any key (the very first) and assign it to keyVar and its value to valueVar.
 # Return value is 1 iff an element has been found and 0 otherwise.
 # ****************************************************************************
@@ -59,7 +59,7 @@ apply {{} {
 # ****************************************************************************
 # Synopsis:
 #     dHaselem ?-remove? dictVar ?keyVar? ?valueVar?
-#    
+#
 # ****************************************************************************
 
 proc dHaselem {args} {
@@ -107,7 +107,7 @@ apply {{} {
 # ****************************************************************************
 # Synopsis:
 #     lhaselem ?options? listVar ?valueVar?
-#    
+#
 # Options:
 #     -index index
 #         only look at the required index
@@ -115,7 +115,7 @@ apply {{} {
 #         does remove the item iff it has been found.
 #     --
 #         end of option list
-# 
+#
 # Return value is 1 iff an element has been found and 0 otherwise.
 # ****************************************************************************
 
@@ -150,7 +150,7 @@ proc lhaselem {args} {
     if {![info exists livar]} { return 0 }
     set len [llength $livar]
     set index [string map [list end [incr len -1]] $index]
-    set index [expr $index]
+    set index [expr {$index}]
     if {$index < 0 || $index >= [llength $livar]} { return 0 }
     set val [lindex $livar $index]
     if {$rm} { set livar [lreplace $livar $index $index] }

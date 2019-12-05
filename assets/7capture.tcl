@@ -6015,7 +6015,7 @@ foreach { t diff } $data {
     }
 }
 
-set yscale [expr { -400000 / 6 }]
+set yscale [expr {-400000 / 6}]
 grid [canvas .c -width 640 -height 480 -bg white]
 .c create text 320 5 -text {Typical capture transient} \
     -font {Helvetica 12} -anchor n
@@ -6024,21 +6024,21 @@ set item [.c create text 5 240 -text "Time\ndiff.\n(ms)" \
 	      -justify right -anchor w]
 foreach { - - x1 - } [.c bbox $item] {}
 for { set t -2 } { $t <= 3 } { incr t } {
-    set y [expr { 440 + $yscale * ( $t + 2.5 ) / 1000 }]
+    set y [expr {440 + $yscale * ( $t + 2.5 ) / 1000}]
     .c create text $x1 $y -text $t -anchor w \
 	-font {Helvetica 10} -tags ylabel
-    
+
 }
 foreach { - - xmin - } [.c bbox ylabel] {}
 for { set t -2 } { $t <= 3 } { incr t } {
-    set y [expr { 440 + $yscale * ( $t + 2.5 ) / 1000 }]
-    .c create line $xmin $y [expr $xmin+5] $y -tags ytic
-    
+    set y [expr {440 + $yscale * ( $t + 2.5 ) / 1000}]
+    .c create line $xmin $y [expr {$xmin+5}] $y -tags ytic
+
 }
 .c create line $xmin 440 $xmin 40 -tags yaxis
 set xmax 635
-set xscale [expr { ( $xmax - $xmin ) / 60 }]
-set xmid [expr { ( $xmax + $xmin ) / 2 }]
+set xscale [expr {($xmax - $xmin) / 60}]
+set xmid [expr {($xmax + $xmin) / 2}]
 set item [.c create text $xmid 475 -text {Elapsed time (s)} \
 	      -font {Helvetica 10} -anchor s]
 foreach { - y2 - - } [.c bbox $item] {}
@@ -6049,12 +6049,12 @@ for { set t 0 } { $t <= 60 } { incr t 10 } {
     .c create line $x 440 $x 435 -tags xtic
 }
 .c create line $xmin 440 $xmax 440 -tags xframe
-set y [expr { 440 + 2.5e-3 * $yscale }]
+set y [expr {440 + 2.5e-3 * $yscale}]
 .c create line $xmin $y $xmax $y -fill \#999999 -tags xaxis
 
 foreach { t0 d0 } $data {
-    set t [expr { $t0 - $tmin }]
-    set x [expr { $xmin + $t * $xscale }]
-    set y [expr { 440 + ( $d0 + 2.5e-3 ) * $yscale }]
+    set t [expr {$t0 - $tmin}]
+    set x [expr {$xmin + $t * $xscale}]
+    set y [expr {440 + ( $d0 + 2.5e-3 ) * $yscale}]
     .c create line $x $y [expr {$x+1}] $y
 }

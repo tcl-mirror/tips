@@ -138,7 +138,7 @@ set toggles {}
 proc writeRow {number varName} {
     global indexbuf json jests RE
     upvar 1 $varName fields
-    set titlecolumnspan "" 
+    set titlecolumnspan ""
 
     set state $fields(state)
     if {[info exists fields(obsoleted-by)]} {
@@ -198,7 +198,7 @@ proc writeRow {number varName} {
         } else {
             puts stderr "WARNING: $number has invalid Implementation-URL field"
         }
-    } 
+    }
 
     set class [join [lmap axis {state type version} {
         if {![info exists $axis]} continue
@@ -225,7 +225,7 @@ proc writeRow {number varName} {
         appendn indexbuf  "<td valign='top'><a href='$link'>Link</a></td>"
     } elseif {$titlecolumnspan eq ""} {
         appendn indexbuf "<td></td>"
-    } 
+    }
 
     appendn indexbuf "</tr>"
 
@@ -302,7 +302,7 @@ set button {
 set TOGGLES ""
 set STYLES ""
 dict for {axis values} $toggles {
-    appendn TOGGLES "[string totitle $axis]: "
+    appendn TOGGLES "[string totitle $axis]:"
     foreach val [lsort [dict keys $values]] {
         set map [list]
         lappend map #FACET# $axis

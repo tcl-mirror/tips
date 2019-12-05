@@ -12,16 +12,16 @@ proc insert_toc {command tipfile} {
         puts stderr "Error: Unknown command '$command'"
         usage
     }
-    
+
     set bak "[file rootname $tipfile]-[clock format [clock seconds] -format %a,%H%M%S].bak"
     file copy -force -- $tipfile $bak
     puts stderr "$tipfile backed up to $bak"
-    
+
     # Open in binary mode so we preserve existing line ending style
     set fd [open $tipfile rb]
     set lines [split [read $fd] \n]
     close $fd
-    
+
     set toc {}
     set header {}
     set content {}
@@ -57,9 +57,9 @@ proc insert_toc {command tipfile} {
                 } else {
                     # Regular line
                     lappend content $line
-                }                
+                }
             }
-        }            
+        }
     }
 
     # Output the header
