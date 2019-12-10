@@ -259,7 +259,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/551.md'>Permit underscore in numerical literals in source code</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-551'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/550.md'>550</a></td>
