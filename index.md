@@ -330,7 +330,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/542.md'>Support for switchable (Androwish-compatible) Full Unicode support</a></td>
+<td valign='top' ><a href='./tip/542.md'>Support for switchable Full Unicode support</a></td>
 <td valign='top'><a href='/tcl/timeline?r=utf-max'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
