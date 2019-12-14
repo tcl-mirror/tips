@@ -102,12 +102,6 @@ State:
 
 
     <input class="toggler-state"
-        data-value="voting"
-        type="checkbox"
-        onclick="toggleFacet('state')">Voting</button>
-
-
-    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -213,6 +207,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/557.md'>557</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/557.md'>C++ support for Tcl</a></td>
+<td valign='top'><a href='/tcl/timeline?r=cplusplus'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/556.md'>556</a></td>
 <td valign='top'>Project</td>
@@ -357,11 +359,11 @@ Version:
 <td valign='top' ><a href='./tip/539.md'>Multiple dict filter patterns</a></td>
 <td valign='top'><a href='/tcl/tktview/2370575'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/538.md'>538</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/538.md'>Externalize libtommath</a></td>
 <td valign='top'><a href='/tcl/timeline?r=digit-bit-60'>Link</a></td>
 </tr>
