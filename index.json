@@ -1,5 +1,5 @@
 {"tip": {
-	"558":{"url":"./tip/558.md","keywords":"Tcl, TclOO, properties","created":"22-Dec-2019","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 558: Basic Configure Support for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
+	"558":{"url":"./tip/558.md","keywords":"Tcl, TclOO, properties","created":"22-Dec-2019","post-history":"","state":"Draft","tcl-branch":"tip-558","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 558: Basic Configure Support for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"557":{"url":"./tip/557.md","keywords":"Tcl","created":"13-Dec-2019","post-history":"","state":"Draft","tcl-branch":"cplusplus","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 557: C++ support for Tcl","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"556":{"url":"./tip/556.md","keywords":"Tk","created":"26-Nov-2019","post-history":"","state":"Draft","tk-branch":"tip-556","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 556: Add oo like widgets to Tk","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
 	"555":{"url":"./tip/555.md","created":"19-Nov-2019","post-history":"","state":"Draft","tcl-branch":"tip-555","tcl-version":"8.6","vote":"...","type":"Project","title":"# TIP 555: Enable listing of layouts in ttk::Themes","author":["Manfred Rosenberger<manfred.rosenberger@gmx.net>"],"is-jest":false},
@@ -560,4 +560,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 558
-}, "@timestamp": 1577044257}
+}, "@timestamp": 1577570285}

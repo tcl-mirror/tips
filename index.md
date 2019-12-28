@@ -213,7 +213,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/558.md'>Basic Configure Support for TclOO</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-558'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/557.md'>557</a></td>
