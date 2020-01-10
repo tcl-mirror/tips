@@ -333,11 +333,11 @@ Version:
 <td valign='top' ><a href='./tip/544.md'>Export TclGetIntForIndex()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-544'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-90'>
+<tr class='state-voting type-project version-90'>
 <td valign='top'><a href='./tip/543.md'>543</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/543.md'>Eliminate `TCL_INTERP_DESTROYED` flag value</a></td>
 <td></td>
 </tr>
