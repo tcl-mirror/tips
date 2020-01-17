@@ -213,11 +213,11 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-draft type-project version-90'>
+<tr class='state-voting type-project version-90'>
 <td valign='top'><a href='./tip/559.md'>559</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/559.md'>Eliminate public routine `Tcl_FreeResult`</a></td>
 <td></td>
 </tr>
