@@ -5,6 +5,29 @@
 Adding a TIP is not hard, but there are a few steps involved. The
 process will become even simpler as the system matures.
 
+## For New Contributors, READ THIS FIRST!
+
+Note that instead of following the process in the sections below, you can
+email your TIP document to either [the TIP
+Editor](mailto:donal.k.fellows@manchester.ac.uk) or [the Tcl Core mailing
+list](mailto:tcl-core@lists.sourceforge.net) and we will sort out the
+registration in this repository for you. We do not mind doing this at all, but
+please mark the email with something like `TIP Contribution` in the subject
+line so we notice it easily.
+
+Also note that, in general, we would like you to provide an implementation of
+your TIP as well; otherwise you're waiting on unresourced goodwill of a group
+of very busy people and it can take a very long time for anything to get
+done. TIP implementations are usually preferred as either branches in the
+appropriate repository ([Tcl](https://core.tcl-lang.org/tcl) or
+[Tk](https://core.tcl-lang.org/tk), depending on what you're contributing to)
+or as a patch in a ticket in the right repository.  Other code contribution
+routes are possible, but are usually discouraged as they've a history of
+undergoing bitrot. And remember that we have high engineering standards and
+support many platforms: we want code to work for everyone (who uses it) rather
+than on just a single system on a fine day when the Moon is in the Seventh
+House and Jupiter aligns with Mars.
+
 # Preliminaries
 
 TIPs are maintained in a [fossil](https://fossil-scm.org) source code
