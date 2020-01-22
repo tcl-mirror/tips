@@ -1,7 +1,10 @@
 # TIP Index
 
 <div>
-Welcome to the Tcl Improvement Proposals repository. For information on how to raise a new TIP see <a href="./doc/help.md">Help</a>
+Welcome to the <em><strong>T</strong>cl <strong>I</strong>mprovement
+<strong>P</strong>roposals</em> repository. For information on
+<strong>how to raise a new TIP,</strong> see the <a
+href="./doc/help.md">Help</a> page.
 <p>
 </div>
 <form method='GET' action='../../search'>
