@@ -714,7 +714,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/497.md'>Full support for Unicode 11.0 and later (part 2)</a></td>
+<td valign='top' ><a href='./tip/497.md'>Full support for Unicode planes 1-16.</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-497'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
