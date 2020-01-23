@@ -218,8 +218,8 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/560.md'># TIP ???: Megawidget Configure/Property Support</a></td>
-<td></td>
+<td valign='top' ><a href='./tip/560.md'>Megawidget Configure/Property Support</a></td>
+<td valign='top'><a href='/tk/timeline?r=tip-560'>Link</a></td>
 </tr>
 <tr class='state-voting type-project version-90'>
 <td valign='top'><a href='./tip/559.md'>559</a></td>
