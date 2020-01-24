@@ -102,12 +102,6 @@ State:
 
 
     <input class="toggler-state"
-        data-value="voting"
-        type="checkbox"
-        onclick="toggleFacet('state')">Voting</button>
-
-
-    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -221,13 +215,13 @@ Version:
 <td valign='top' ><a href='./tip/560.md'>Megawidget Configure/Property Support</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-560'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-90'>
+<tr class='state-final type-project version-90'>
 <td valign='top'><a href='./tip/559.md'>559</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/559.md'>Eliminate public routine `Tcl_FreeResult`</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-599'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/558.md'>558</a></td>
