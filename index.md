@@ -208,6 +208,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/562.md'>562</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/562.md'>Deprecate channel types 1-4</a></td>
+<td valign='top'><a href='/tcl/timeline?r=deprecate-channel-type-1-4'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/561.md'>561</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
