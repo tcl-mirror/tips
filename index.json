@@ -1,4 +1,5 @@
 {"tip": {
+	"564":{"url":"./tip/564.md","keywords":"Tk Ttk x11 font size","created":"9-Feb-2020","post-history":"","state":"Draft","tcl-branch":"bug-dccd82bdc7","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 564: ttk font sizes in points","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"563":{"url":"./tip/563.md","keywords":"Tk, bindings","created":"02-Feb-2020","state":"Draft","tk-branch":"tip-563-scrollbar-scrollwheel","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 563: scrollwheel on horizontal scrollbar scrolls without shift too","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
 	"562":{"url":"./tip/562.md","keywords":"Tcl","created":"31-Jan-2020","post-history":"","state":"Draft","tcl-branch":"deprecate-channel-type-1-4","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 562: Deprecate channel types 1-4","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"561":{"url":"./tip/561.md","keywords":"Tk","created":"23-Jan-2020","post-history":"","state":"Draft","tk-branch":"tip-561","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 561: Add console Command to Unix","author":["Eric Taylor <et2@rocketship1.biz>"],"is-jest":false},
@@ -564,5 +565,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 563
-}, "@timestamp": 1580656175}
+	"@max": 564
+}, "@timestamp": 1581278084}
