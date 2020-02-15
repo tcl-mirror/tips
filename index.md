@@ -102,6 +102,12 @@ State:
 
 
     <input class="toggler-state"
+        data-value="voting"
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
+
+
+    <input class="toggler-state"
         data-value="withdrawn"
         type="checkbox"
         onclick="toggleFacet('state')">Withdrawn</button>
@@ -207,19 +213,19 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/565.md'>565</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/565.md'>.canvas raise/lower ignore non-existent tag</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-3552805fff'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/564.md'>564</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/564.md'>ttk font sizes in points</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-dccd82bdc7'>Link</a></td>
 </tr>
