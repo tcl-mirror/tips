@@ -229,11 +229,11 @@ Version:
 <td valign='top' ><a href='./tip/564.md'>ttk font sizes in points</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-dccd82bdc7'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/563.md'>563</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/563.md'>scrollwheel on horizontal scrollbar scrolls without shift too</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-563-scrollbar-scrollwheel'>Link</a></td>
 </tr>
