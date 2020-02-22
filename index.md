@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/567.md'>567</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/567.md'>Add Operation to Support Set-like Slots</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/566.md'>566</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
