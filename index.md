@@ -229,11 +229,11 @@ Version:
 <td valign='top' ><a href='./tip/566.md'>Index usage in lset</a></td>
 <td valign='top'><a href='/tcl/timeline?r=lset-index'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/565.md'>565</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/565.md'>.canvas raise/lower ignore non-existent tag</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-3552805fff'>Link</a></td>
 </tr>
