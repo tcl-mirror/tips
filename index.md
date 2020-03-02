@@ -253,11 +253,11 @@ Version:
 <td valign='top' ><a href='./tip/563.md'>scrollwheel on horizontal scrollbar scrolls without shift too</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-563-scrollbar-scrollwheel'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/562.md'>562</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/562.md'>Deprecate channel types 1-4</a></td>
 <td valign='top'><a href='/tcl/timeline?r=deprecate-channel-type-1-4'>Link</a></td>
 </tr>
@@ -293,11 +293,11 @@ Version:
 <td valign='top' ><a href='./tip/558.md'>Basic Configure Support for TclOO</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-558'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/557.md'>557</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/557.md'>C++ support for Tcl</a></td>
 <td valign='top'><a href='/tcl/timeline?r=cplusplus'>Link</a></td>
 </tr>
@@ -773,11 +773,11 @@ Version:
 <td valign='top' ><a href='./tip/498.md'>Simplify Tcl_DeleteNamespace</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-e593adf103-core-8'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-90'>
+<tr class='state-final type-project version-90'>
 <td valign='top'><a href='./tip/497.md'>497</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/497.md'>Full support for Unicode planes 1-16.</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-497'>Link</a></td>
 </tr>
