@@ -1,5 +1,5 @@
 {"tip": {
-	"569":{"url":"./tip/569.md","keywords":"lint","created":"6-Mar-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 569: Eliminate Comments That Serve Lint","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
+	"569":{"url":"./tip/569.md","keywords":"lint","created":"6-Mar-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 569: Eliminate Comments That Serve Lint","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"568":{"url":"./tip/568.md","keywords":"bytearray","created":"4-Mar-2020","post-history":"","state":"Draft","tcl-branch":"dgp-properbytearray","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 568: Revise ByteArray Routines To Support Proper Value Extraction","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
 	"567":{"url":"./tip/567.md","keywords":"Tcl, TclOO, slots","created":"22-Feb-2020","post-history":"","state":"Draft","tcl-branch":"tip-567","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 567: Add Operation to Support Set-like Slots","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"566":{"url":"./tip/566.md","keywords":"lset","created":"19-Feb-2020","post-history":"","state":"Draft","tcl-branch":"lset-index","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 566: Index usage in lset","author":["Jan Nijtmans <jan.nijtmans@gmail.conm>"],"is-jest":false},
@@ -571,4 +571,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 569
-}, "@timestamp": 1583510913}
+}, "@timestamp": 1583511904}
