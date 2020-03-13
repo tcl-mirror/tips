@@ -213,11 +213,11 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/569.md'>569</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/569.md'>Eliminate Comments That Serve Lint</a></td>
 <td></td>
 </tr>
