@@ -213,9 +213,10 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-draft type-project'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/570.md'>570</a></td>
-<td valign='top' colspan=2>Project</td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/570.md'>gesture support for finger scrolling and &quot;pinch to zoom&quot;</a></td>
 <td></td>
