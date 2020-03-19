@@ -218,7 +218,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/570.md'>gesture support for finger scrolling and &quot;pinch to zoom&quot;</a></td>
+<td valign='top' ><a href='./tip/570.md'>Gesture Support for Finger Scrolling and &quot;Pinch to Zoom&quot;</a></td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
