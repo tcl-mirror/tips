@@ -213,6 +213,13 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project'>
+<td valign='top'><a href='./tip/571.md'>571</a></td>
+<td valign='top' colspan=2>Project</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/571.md'>Make TclX&apos;s profiler work properly with Tcl 8.6</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/570.md'>570</a></td>
 <td valign='top'>Project</td>
