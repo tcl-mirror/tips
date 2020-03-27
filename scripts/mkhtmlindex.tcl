@@ -269,6 +269,7 @@ proc parsePreamble {lines varName} {
 }
 
 set dir [file join [file dirname [info script]] ..]
+puts "dir: $dir"
 set index [open [file join $dir index.md] w+]
 set json [open [file join $dir index.json] w+]
 fconfigure $index -translation lf -encoding utf-8
