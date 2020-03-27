@@ -1,5 +1,5 @@
 {"tip": {
-	"571":{"url":"./tip/571.md","state":"Draft","type":"Project","title":"# TIP 571: Make TclX's profiler work properly with Tcl 8.6","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
+	"571":{"url":"./tip/571.md","state":"Draft","tcl-version":"8.6","type":"Project","title":"# TIP 571: Make TclX's profiler work properly with Tcl 8.6","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"570":{"url":"./tip/570.md","keywords":"Tk, bindings","created":"18-Mar-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 570: Gesture Support for Finger Scrolling and \"Pinch to Zoom\"","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
 	"569":{"url":"./tip/569.md","keywords":"lint","state":"Final","vote-summary":"Accepted 8/0/0","type":"Project","author":["Don Porter <dgp@users.sourceforge.net>"],"votes-for":"DP, JD, KK, KW, SL, FV, DF, JN","votes-against":"none","created":"6-Mar-2020","title":"# TIP 569: Eliminate Comments That Serve Lint","post-history":"","vote":"Done","tcl-version":"8.7","votes-present":"none","is-jest":false},
 	"568":{"url":"./tip/568.md","keywords":"bytearray","created":"4-Mar-2020","post-history":"","state":"Draft","tcl-branch":"dgp-properbytearray","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 568: Revise ByteArray Routines To Support Proper Value Extraction","author":["Don Porter <dgp@users.sourceforge.net>"],"is-jest":false},
@@ -573,4 +573,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 571
-}, "@timestamp": 1585326516}
+}, "@timestamp": 1585327379}
