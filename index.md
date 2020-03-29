@@ -172,6 +172,12 @@ Version:
 
 
     <input class="toggler-version"
+        data-value="9"
+        type="checkbox"
+        onclick="toggleFacet('version')">9</button>
+
+
+    <input class="toggler-version"
         data-value="90"
         type="checkbox"
         onclick="toggleFacet('version')">9.0</button>
@@ -213,6 +219,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-9'>
+<td valign='top'><a href='./tip/572.md'>572</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/572.md'>Implement the mechanism to specify the procedure argument call types (Evaluation strategy)</a></td>
+<td></td>
+</tr>
 <tr class='state-withdrawn type-project version-86'>
 <td valign='top'><a href='./tip/571.md'>571</a></td>
 <td valign='top'>Project</td>
