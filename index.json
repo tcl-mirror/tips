@@ -1,4 +1,5 @@
 {"tip": {
+	"573":{"url":"./tip/573.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 573: Surrogates are invalid","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"572":{"url":"./tip/572.md","state":"Draft","tcl-version":"9","type":"Project","title":"# TIP 572: Implement the mechanism to specify the procedure argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"571":{"url":"./tip/571.md","state":"Withdrawn","tcl-version":"8.6","type":"Project","title":"# TIP 571: Make TclX's profiler work properly with Tcl 8.6","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"570":{"url":"./tip/570.md","keywords":"Tk, bindings","created":"18-Mar-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 570: Gesture Support for Finger Scrolling and \"Pinch to Zoom\"","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
@@ -573,5 +574,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 572
-}, "@timestamp": 1585500781}
+	"@max": 573
+}, "@timestamp": 1588084530}
