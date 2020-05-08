@@ -220,6 +220,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/574.md'>574</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/574.md'>Add a &apos;tag delete&apos; command to the ttk::treeview widget</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/573.md'>573</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
