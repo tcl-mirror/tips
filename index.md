@@ -240,7 +240,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>9</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/572.md'>Implement the mechanism to specify the procedure argument call types (Evaluation strategy)</a></td>
+<td valign='top' ><a href='./tip/572.md'>Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)</a></td>
 <td></td>
 </tr>
 <tr class='state-withdrawn type-project version-86'>
