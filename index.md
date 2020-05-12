@@ -225,7 +225,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/575.md'>New capabilities for Tcl\_UtfCharComplete()/Tcl\_UtfNext()/Tcl\_UtfPrev()</a></td>
-<td valign='top'><a href='/tcl/timeline?r=tip-573'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-575'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/574.md'>574</a></td>

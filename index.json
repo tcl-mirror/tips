@@ -1,5 +1,5 @@
 {"tip": {
-	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 575: New capabilities for Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-575","tcl-version":"8.7","type":"Project","title":"# TIP 575: New capabilities for Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"574":{"url":"./tip/574.md","keywords":"Tk Ttk treeview tag","created":"8-May-2020","post-history":"","state":"Draft","tk-branch":"bug-1bb2f1d7ab","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 574: Add a 'tag delete' command to the ttk::treeview widget","author":["Emiliano Gavilan <egavilan@fceia.unr.edu.ar>, Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"573":{"url":"./tip/573.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 573: Surrogates are invalid","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"572":{"url":"./tip/572.md","state":"Voting","tcl-version":"9","type":"Project","title":"# TIP 572: Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
@@ -577,4 +577,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 575
-}, "@timestamp": 1589296136}
+}, "@timestamp": 1589310014}
