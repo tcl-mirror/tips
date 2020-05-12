@@ -1,5 +1,6 @@
 {"tip": {
-	"574":{"url":"./tip/574.md","keywords":"Tk Ttk treeview tag","created":"8-May-2020","post-history":"","state":"Draft","tcl-branch":"bug-1bb2f1d7ab, TIP-574","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 574: Add a 'tag delete' command to the ttk::treeview widget","author":["Emiliano Gavilan <egavilan@fceia.unr.edu.ar>, Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
+	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 575: New capabilities for Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"574":{"url":"./tip/574.md","keywords":"Tk Ttk treeview tag","created":"8-May-2020","post-history":"","state":"Draft","tcl-branch":"TIP-574","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 574: Add a 'tag delete' command to the ttk::treeview widget","author":["Emiliano Gavilan <egavilan@fceia.unr.edu.ar>, Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"573":{"url":"./tip/573.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 573: Surrogates are invalid","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"572":{"url":"./tip/572.md","state":"Voting","tcl-version":"9","type":"Project","title":"# TIP 572: Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"571":{"url":"./tip/571.md","state":"Withdrawn","tcl-version":"8.6","type":"Project","title":"# TIP 571: Make TclX's profiler work properly with Tcl 8.6","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
@@ -575,5 +576,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 574
-}, "@timestamp": 1589201188}
+	"@max": 575
+}, "@timestamp": 1589295847}

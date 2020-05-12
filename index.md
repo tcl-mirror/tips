@@ -220,12 +220,20 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/575.md'>575</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/575.md'>New capabilities for Tcl\_UtfCharComplete()/Tcl\_UtfNext()/Tcl\_UtfPrev()</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-573'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/574.md'>574</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/574.md'>Add a &apos;tag delete&apos; command to the ttk::treeview widget</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=TIP-574'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/573.md'>573</a></td>
