@@ -371,11 +371,11 @@ Version:
 <td valign='top' ><a href='./tip/557.md'>C++ support for Tcl</a></td>
 <td valign='top'><a href='/tcl/timeline?r=cplusplus'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-deferred type-project version-87'>
 <td valign='top'><a href='./tip/556.md'>556</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Deferred</td>
 <td valign='top' ><a href='./tip/556.md'>Add oo like widgets to Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-556'>Link</a></td>
 </tr>
@@ -739,11 +739,11 @@ Version:
 <td valign='top' ><a href='./tip/511.md'>Implement Tcl_AsyncMarkFromSignal()</a></td>
 <td valign='top'><a href='https://www.androwish.org/index.html/info/40790af1e8e4ec9f'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-deferred type-project version-87'>
 <td valign='top'><a href='./tip/510.md'>510</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Deferred</td>
 <td valign='top' ><a href='./tip/510.md'>Add Rbc and Tkpath widgets to Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-510'>Link</a></td>
 </tr>
