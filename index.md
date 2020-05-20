@@ -172,12 +172,6 @@ Version:
 
 
     <input class="toggler-version"
-        data-value="9"
-        type="checkbox"
-        onclick="toggleFacet('version')">9</button>
-
-
-    <input class="toggler-version"
         data-value="90"
         type="checkbox"
         onclick="toggleFacet('version')">9.0</button>
@@ -243,11 +237,11 @@ Version:
 <td valign='top' ><a href='./tip/573.md'>Surrogates are invalid</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-573'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-9'>
+<tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/572.md'>572</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>9</td>
-<td valign='top'>Voting</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/572.md'>Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)</a></td>
 <td></td>
 </tr>

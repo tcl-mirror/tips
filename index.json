@@ -2,7 +2,7 @@
 	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-575","tcl-version":"8.7","type":"Project","title":"# TIP 575: New capabilities for Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"574":{"url":"./tip/574.md","keywords":"Tk Ttk treeview tag","created":"8-May-2020","post-history":"","state":"Draft","tk-branch":"bug-1bb2f1d7ab","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 574: Add a 'tag delete' command to the ttk::treeview widget","author":["Emiliano Gavilan <egavilan@fceia.unr.edu.ar>, Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"573":{"url":"./tip/573.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 573: Surrogates are invalid","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
-	"572":{"url":"./tip/572.md","state":"Voting","tcl-version":"9","type":"Project","title":"# TIP 572: Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
+	"572":{"url":"./tip/572.md","state":"Draft","tcl-version":"9.0","type":"Project","title":"# TIP 572: Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"571":{"url":"./tip/571.md","state":"Withdrawn","tcl-version":"8.6","type":"Project","title":"# TIP 571: Make TclX's profiler work properly with Tcl 8.6","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
 	"570":{"url":"./tip/570.md","keywords":"Tk, bindings","created":"18-Mar-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 570: Gesture Support for Finger Scrolling and \"Pinch to Zoom\"","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
 	"569":{"url":"./tip/569.md","keywords":"lint","state":"Final","vote-summary":"Accepted 8/0/0","type":"Project","author":["Don Porter <dgp@users.sourceforge.net>"],"votes-for":"DP, JD, KK, KW, SL, FV, DF, JN","votes-against":"none","created":"6-Mar-2020","title":"# TIP 569: Eliminate Comments That Serve Lint","post-history":"","vote":"Done","tcl-version":"8.7","votes-present":"none","is-jest":false},
@@ -577,4 +577,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 575
-}, "@timestamp": 1589629283}
+}, "@timestamp": 1590002861}
