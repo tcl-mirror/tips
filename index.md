@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/579.md'>579</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/579.md'>Improved auto_path for Safe Base interpreters</a></td>
+<td></td>
+</tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/578.md'>578</a></td>
 <td valign='top'>Project</td>

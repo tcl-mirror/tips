@@ -1,4 +1,5 @@
 {"tip": {
+	"579":{"url":"./tip/579.md","keywords":"safe interp auto_path access_path","created":"07-Jul-2020","post-history":"","state":"Draft","tcl-branch":"tip-579-8-6 tip-579-8-7","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 579: Improved auto_path for Safe Base interpreters","author":["Keith Nash <k.j.nash@usa.net>"],"is-jest":false},
 	"578":{"url":"./tip/578.md","keywords":"Tcl index","state":"Final","vote-summary":"Accepted 6/0/0","type":"Project","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-against":"none","votes-for":"AK, DKF, FV, JN, KW, SL","created":"10-June-2020","title":"# TIP 578: Death to TCL_DBGX","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"death-to-dbgx","votes-present":"none","is-jest":false},
 	"577":{"url":"./tip/577.md","keywords":"Tcl index","created":"8-June-2020","post-history":"","state":"Draft","tcl-branch":"strict-index","tcl-version":"8.7","type":"Project","title":"# TIP 577: Strict index values","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"576":{"url":"./tip/576.md","keywords":"Tk listbox","created":"25-May-2020","post-history":"","state":"Draft","tk-version":"8.7","tcl-version":"8.7","type":"Project","title":"# TIP 576: Poor-mans Table listbox enhancement","author":["Brian Griffin <briang42@easystreet.net>"],"is-jest":false},
@@ -579,5 +580,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 578
-}, "@timestamp": 1593785598}
+	"@max": 579
+}, "@timestamp": 1594283028}
