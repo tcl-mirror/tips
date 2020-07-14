@@ -213,11 +213,12 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-draft type-project'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/580.md'>580</a></td>
-<td valign='top' colspan=2>Project</td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/580.md'>Export Tk_GetDoublePixelsFromObj and 4 more.</a></td>
+<td valign='top' ><a href='./tip/580.md'>Export Tk_GetDoublePixelsFromObj and 4 more</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-580'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-86'>
