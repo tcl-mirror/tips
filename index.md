@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/581.md'>581</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/581.md'>Master/Slave</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-580'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/580.md'>580</a></td>
 <td valign='top'>Project</td>
@@ -221,13 +229,13 @@ Version:
 <td valign='top' ><a href='./tip/580.md'>Export Tk_GetDoublePixelsFromObj and 4 more</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-580'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/579.md'>579</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/579.md'>Improved auto_path for Safe Base interpreters</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-579-8-7'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/578.md'>578</a></td>
