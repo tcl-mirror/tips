@@ -219,7 +219,7 @@ Version:
 <td valign='top'>8.6</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/581.md'>Master/Slave</a></td>
-<td valign='top'><a href='/tcl/timeline?r=tip-580'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-581'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/580.md'>580</a></td>
