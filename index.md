@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/583.md'>583</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/583.md'>Add Option to Limit Depth of Execution Step Traces for Procs</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/582.md'>582</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
