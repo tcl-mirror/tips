@@ -229,19 +229,19 @@ Version:
 <td valign='top' ><a href='./tip/582.md'>Comments in Expressions</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-voting type-project version-86'>
 <td valign='top'><a href='./tip/581.md'>581</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/581.md'>Master/Slave</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-581'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/580.md'>580</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/580.md'>Export Tk_GetDoublePixelsFromObj and 5 more</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-580'>Link</a></td>
 </tr>
