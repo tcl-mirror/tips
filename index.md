@@ -227,7 +227,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/582.md'>Comments in Expressions</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-582'>Link</a></td>
 </tr>
 <tr class='state-voting type-project version-86'>
 <td valign='top'><a href='./tip/581.md'>581</a></td>
