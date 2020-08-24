@@ -1,4 +1,5 @@
 {"tip": {
+	"584":{"url":"./tip/584.md","keywords":"Tk ttk introspection","created":"24-Aug-2020","post-history":"","state":"Draft","tk-branch":"tip-584","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 584: Better introspection for ttk","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"583":{"url":"./tip/583.md","keywords":"Tcl","created":"15-Aug-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 583: Add Option to Limit Depth of Execution Step Traces for Procs","author":["Eric Taylor <et3@rocketship1.biz>"],"is-jest":false},
 	"582":{"url":"./tip/582.md","keywords":"Tcl","created":"13-Aug-2020","post-history":"","state":"Draft","tcl-branch":"tip-582","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 582: Comments in Expressions","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"581":{"url":"./tip/581.md","keywords":"Tcl","created":"17-July-2020","post-history":"","state":"Draft","tcl-branch":"tip-581","tcl-version":"8.6","vote":"In progress","type":"Project","title":"# TIP 581: Master/Slave","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -27,7 +28,7 @@
 	"558":{"url":"./tip/558.md","keywords":"Tcl, TclOO, properties","created":"22-Dec-2019","post-history":"","state":"Draft","tcl-branch":"tip-558","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 558: Basic Configure Support for TclOO","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"557":{"url":"./tip/557.md","keywords":"Tcl","state":"Final","vote-summary":"Accepted 2/0/3","type":"Project","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-against":"none","votes-for":"JN, KW","created":"13-Dec-2019","title":"# TIP 557: C++ support for Tcl","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"cplusplus","votes-present":"DGP, FV, SL","is-jest":false},
 	"556":{"url":"./tip/556.md","keywords":"Tk","created":"26-Nov-2019","post-history":"","state":"Deferred","tk-branch":"tip-556","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 556: Add oo like widgets to Tk","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
-	"555":{"url":"./tip/555.md","created":"19-Nov-2019","post-history":"","state":"Draft","tcl-branch":"tip-555","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 555: Enable listing of layouts in ttk::Themes","author":["Manfred Rosenberger<manfred.rosenberger@gmx.net>"],"is-jest":false},
+	"555":{"url":"./tip/555.md","created":"19-Nov-2019","obsoleted-by":"584","post-history":"","state":"Withdrawn","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 555: Enable listing of layouts in ttk::Themes","author":["Manfred Rosenberger<manfred.rosenberger@gmx.net>"],"is-jest":false},
 	"554":{"url":"./tip/554.md","created":"14-Nov-2019","post-history":"","state":"Draft","tcl-branch":"tip-554","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 554: Library file system for Tcl and Tk core using an C-based VFS","author":["Sean Woods <yoda@etoyoc.com>","Roy Keene"],"is-jest":false},
 	"553":{"url":"./tip/553.md","keywords":"Tk, label, listbox, entry","created":"07-Nov-2019","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 553: Ellipses: the Alternative to Scrolling and Wrapping","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"552":{"url":"./tip/552.md","keywords":"Tk, treeview","created":"19-Sep-2019","post-history":"","state":"Draft","tk-branch":"pspjuth-treeview","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 552: Extended treeview functionality.","author":["Peter Spjuth <peter.spjuth@gmail.com>"],"is-jest":false},
@@ -584,5 +585,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 583
-}, "@timestamp": 1598105699}
+	"@max": 584
+}, "@timestamp": 1598299063}

@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/584.md'>584</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/584.md'>Better introspection for ttk</a></td>
+<td valign='top'><a href='/tk/timeline?r=tip-584'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/583.md'>583</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
@@ -437,13 +445,13 @@ Version:
 <td valign='top' ><a href='./tip/556.md'>Add oo like widgets to Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-556'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-obsoleted type-project version-86'>
 <td valign='top'><a href='./tip/555.md'>555</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Obsoleted</td>
 <td valign='top' ><a href='./tip/555.md'>Enable listing of layouts in ttk::Themes</a></td>
-<td valign='top'><a href='/tcl/timeline?r=tip-555'>Link</a></td>
+<td></td>
 </tr>
 <tr class='state-draft type-project version-86'>
 <td valign='top'><a href='./tip/554.md'>554</a></td>
