@@ -1101,13 +1101,13 @@ Version:
 <td valign='top' ><a href='./tip/475.md'>Add [string insert] Command and C API</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/474.md'>474</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/474.md'>Treat the mouse wheel events in a uniform way</a></td>
-<td valign='top'><a href='/tk/timeline?r=tip474-uniform-mouse-wheel'>Link</a></td>
+<td valign='top'><a href='/tk/timeline?r=tip474'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/473.md'>473</a></td>
