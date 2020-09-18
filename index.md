@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/586.md'>586</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6 or later</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/586.md'>binary scan to support C strings</a></td>
+<td></td>
+</tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/585.md'>585</a></td>
 <td valign='top'>Project</td>

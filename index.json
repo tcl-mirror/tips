@@ -1,4 +1,5 @@
 {"tip": {
+	"586":{"url":"./tip/586.md","keywords":"binary","created":"18-Sep-2020","post-history":"","state":"Draft","tcl-version":"8.6 or later","type":"Project","title":"# TIP 585: binary scan to support C strings","author":["Christian Werner <undroidwish@googlemail.com>"],"is-jest":false},
 	"585":{"url":"./tip/585.md","keywords":"Tcl Tcl_GetIndexFromObj() Tcl_GetIndexFromObjStruct()","state":"Final","vote-summary":"Accepted 6/0/0","type":"Project","author":["Francois Vogel <fvogelnew1@free.fr>"],"votes-for":"DGP, FV, JN, KW, MC, SL","votes-against":"none","created":"30-Aug-2020","title":"# TIP 585: Promote the INDEX\\_TEMP\\_TABLE flag of Tcl_GetIndexFromObj*() to the public interface","post-history":"","tcl-branch":"tip-585","tcl-version":"8.7","vote":"Done","votes-present":"none","is-jest":false},
 	"584":{"url":"./tip/584.md","keywords":"Tk ttk introspection","created":"24-Aug-2020","post-history":"","state":"Draft","tk-branch":"tip-584","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 584: Better introspection for ttk","author":["Francois Vogel <fvogelnew1@free.fr>"],"is-jest":false},
 	"583":{"url":"./tip/583.md","keywords":"Tcl","created":"15-Aug-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 583: Add Option to Limit Depth of Execution Step Traces for Procs","author":["Eric Taylor <et3@rocketship1.biz>"],"is-jest":false},
@@ -586,5 +587,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 585
-}, "@timestamp": 1600176633}
+	"@max": 586
+}, "@timestamp": 1600450707}
