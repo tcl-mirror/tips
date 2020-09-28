@@ -261,11 +261,11 @@ Version:
 <td valign='top' ><a href='./tip/582.md'>Comments in Expressions</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-582'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-86'>
+<tr class='state-final type-project version-86'>
 <td valign='top'><a href='./tip/581.md'>581</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/581.md'>Master/Slave</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-581'>Link</a></td>
 </tr>
