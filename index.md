@@ -298,7 +298,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/577.md'>Strict index values</a></td>
+<td valign='top' ><a href='./tip/577.md'>Enhanced index values for Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=strict-index'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
