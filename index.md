@@ -221,12 +221,12 @@ Version:
 <td valign='top' ><a href='./tip/587.md'>Default utf-8 for source command</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-587'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-86'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/586.md'>586</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.6 or later</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/586.md'>binary scan to support C strings</a></td>
+<td valign='top' ><a href='./tip/586.md'>C String Parsing Support for binary scan</a></td>
 <td></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -394,7 +394,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/565.md'>.canvas raise/lower ignore non-existent tag</a></td>
+<td valign='top' ><a href='./tip/565.md'>Gracefully ignore non-existent tags in canvas raise/lower</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-3552805fff'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -402,7 +402,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/564.md'>ttk font sizes in points</a></td>
+<td valign='top' ><a href='./tip/564.md'>Specify ttk font sizes in points on X11</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-dccd82bdc7'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
@@ -410,7 +410,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Final</td>
-<td valign='top' ><a href='./tip/563.md'>scrollwheel on horizontal scrollbar scrolls without shift too</a></td>
+<td valign='top' ><a href='./tip/563.md'>Scrollwheel on Horizontal Scrollbar Scrolls Without Shift too</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-563-scrollbar-scrollwheel'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
