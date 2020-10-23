@@ -213,11 +213,11 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-voting type-project version-90'>
+<tr class='state-final type-project version-90'>
 <td valign='top'><a href='./tip/587.md'>587</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/587.md'>Default utf-8 for source command</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-587'>Link</a></td>
 </tr>
@@ -1117,11 +1117,11 @@ Version:
 <td valign='top' ><a href='./tip/475.md'>Add [string insert] Command and C API</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/474.md'>474</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/474.md'>Treat the mouse wheel events in a uniform way</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip474'>Link</a></td>
 </tr>
