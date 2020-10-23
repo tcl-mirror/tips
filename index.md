@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/588.md'>588</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/588.md'>Unicode for (X11) keysyms</a></td>
+<td valign='top'><a href='/tk/timeline?r=keysym-unicode'>Link</a></td>
+</tr>
 <tr class='state-final type-project version-90'>
 <td valign='top'><a href='./tip/587.md'>587</a></td>
 <td valign='top'>Project</td>
