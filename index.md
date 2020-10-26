@@ -235,7 +235,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/586.md'>C String Parsing Support for binary scan</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-586-binary-scan-c-string'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/585.md'>585</a></td>
