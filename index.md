@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/589.md'>589</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/589.md'>Deprecate &quot;-fg&quot;, &quot;-bg&quot;, &quot;-bd&quot; options in Tk.</a></td>
+<td valign='top'><a href='/tk/timeline?r=deprecate-bd-bg-fg'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/588.md'>588</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
