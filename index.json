@@ -14,7 +14,7 @@
 	"578":{"url":"./tip/578.md","keywords":"Tcl index","state":"Final","vote-summary":"Accepted 6/0/0","type":"Project","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-against":"none","votes-for":"AK, DKF, FV, JN, KW, SL","created":"10-June-2020","title":"# TIP 578: Death to TCL_DBGX","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"death-to-dbgx","votes-present":"none","is-jest":false},
 	"577":{"url":"./tip/577.md","keywords":"Tcl index","created":"8-June-2020","post-history":"","state":"Draft","tk-branch":"strict-index","tcl-version":"8.7","type":"Project","title":"# TIP 577: Enhanced index values for Tk","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"576":{"url":"./tip/576.md","keywords":"Tk listbox","created":"25-May-2020","post-history":"","state":"Draft","tk-version":"8.7","tcl-version":"8.7","type":"Project","title":"# TIP 576: Poor-mans Table listbox enhancement","author":["Brian Griffin <briang42@easystreet.net>"],"is-jest":false},
-	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-575","tcl-version":"8.7","type":"Project","title":"# TIP 575: New capabilities for Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"575":{"url":"./tip/575.md","state":"Draft","tcl-branch":"tip-575","tcl-version":"8.7","type":"Project","title":"# TIP 575: Switchable Tcl\\_UtfCharComplete()/Tcl\\_UtfNext()/Tcl\\_UtfPrev()","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"574":{"url":"./tip/574.md","keywords":"Tk Ttk treeview tag","state":"Final","vote-summary":"Accepted 7/0/0","type":"Project","tk-branch":"bug-1bb2f1d7ab","author":["Emiliano Gavilan <egavilan@fceia.unr.edu.ar>, Francois Vogel <fvogelnew1@free.fr>"],"votes-against":"none","votes-for":"MC, JD, DKF, BG, KBK, SL, FV","created":"8-May-2020","title":"# TIP 574: Add a 'tag delete' command to the ttk::treeview widget","post-history":"","vote":"Done","tcl-version":"8.7","votes-present":"none","is-jest":false},
 	"573":{"url":"./tip/573.md","state":"Draft","tcl-branch":"tip-573","tcl-version":"8.7","type":"Project","title":"# TIP 573: Surrogates are invalid","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"572":{"url":"./tip/572.md","state":"Draft","tcl-version":"9.0","type":"Project","title":"# TIP 572: Implement a mechanism to specify the procedure/lambda/method argument call types (Evaluation strategy)","author":["Rami Khaldi <rami.khaldi@fau.de>"],"is-jest":false},
@@ -592,4 +592,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 590
-}, "@timestamp": 1604510876}
+}, "@timestamp": 1604596138}

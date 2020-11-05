@@ -338,7 +338,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/575.md'>New capabilities for Tcl\_UtfCharComplete()/Tcl\_UtfNext()/Tcl\_UtfPrev()</a></td>
+<td valign='top' ><a href='./tip/575.md'>Switchable Tcl\_UtfCharComplete()/Tcl\_UtfNext()/Tcl\_UtfPrev()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-575'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
