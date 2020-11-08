@@ -277,11 +277,11 @@ Version:
 <td valign='top' ><a href='./tip/583.md'>Add Option to Limit Depth of Execution Step Traces for Procs</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-accepted type-project version-87'>
 <td valign='top'><a href='./tip/582.md'>582</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/582.md'>Comments in Expressions</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-582'>Link</a></td>
 </tr>
