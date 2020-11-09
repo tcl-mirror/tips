@@ -218,8 +218,8 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/590.md'>Case-Sensitive Package Names</a></td>
-<td valign='top'><a href='/tcl/timeline?r=case-sensitive-pkg'>Link</a></td>
+<td valign='top' ><a href='./tip/590.md'>Recommend lowercase Package Names</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-590'>Link</a></td>
 </tr>
 <tr class='state-withdrawn type-project version-87'>
 <td valign='top'><a href='./tip/589.md'>589</a></td>

@@ -1,5 +1,5 @@
 {"tip": {
-	"590":{"url":"./tip/590.md","keywords":"package","created":"4-Nov-2020","post-history":"","state":"Draft","tcl-branch":"case-sensitive-pkg","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 590: Case-Sensitive Package Names","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
+	"590":{"url":"./tip/590.md","keywords":"package","created":"4-Nov-2020","post-history":"","state":"Draft","tcl-branch":"tip-590","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 590: Recommend lowercase Package Names","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"589":{"url":"./tip/589.md","created":"27-Oct-2020","post-history":"","state":"Withdrawn","tk-branch":"deprecate-bd-bg-fg","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 589: Deprecate \"-fg\", \"-bg\", \"-bd\" options in Tk.","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"588":{"url":"./tip/588.md","keywords":"X11","created":"23-Oct-2020","post-history":"","state":"Draft","tk-branch":"keysym-unicode","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 588: Unicode for (X11) keysyms","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"587":{"url":"./tip/587.md","keywords":"Tcl source","state":"Final","vote-summary":"Accepted 9/0/0","type":"Project","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-for":"BG, DGP, DKF, FV, JN, KBK, KW, MC, SL","votes-against":"none","created":"20-Sept-2020","title":"# TIP 587: Default utf-8 for source command","post-history":"","tcl-branch":"tip-587","tcl-version":"9.0","vote":"Done","votes-present":"none","is-jest":false},
@@ -592,4 +592,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 590
-}, "@timestamp": 1604856082}
+}, "@timestamp": 1604913307}
