@@ -213,6 +213,13 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project'>
+<td valign='top'><a href='./tip/591.md'>591</a></td>
+<td valign='top' colspan=2>Project</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/591.md'>Rotate ttk::notebook window wtih mousewheel on tab</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/590.md'>590</a></td>
 <td valign='top'>Project</td>
