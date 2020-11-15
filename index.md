@@ -269,11 +269,11 @@ Version:
 <td valign='top' ><a href='./tip/585.md'>Promote the INDEX\_TEMP\_TABLE flag of Tcl_GetIndexFromObj*() to the public interface</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-585'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/584.md'>584</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/584.md'>Better introspection for ttk</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-584'>Link</a></td>
 </tr>
