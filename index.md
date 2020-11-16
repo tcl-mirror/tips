@@ -237,11 +237,11 @@ Version:
 <td valign='top' ><a href='./tip/589.md'>Deprecate &quot;-fg&quot;, &quot;-bg&quot;, &quot;-bd&quot; options in Tk.</a></td>
 <td valign='top'><a href='/tk/timeline?r=deprecate-bd-bg-fg'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/588.md'>588</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/588.md'>Unicode for (X11) keysyms</a></td>
 <td valign='top'><a href='/tk/timeline?r=keysym-unicode'>Link</a></td>
 </tr>
@@ -253,11 +253,11 @@ Version:
 <td valign='top' ><a href='./tip/587.md'>Default utf-8 for source command</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-587'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/586.md'>586</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/586.md'>C String Parsing Support for binary scan</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-586-binary-scan-c-string'>Link</a></td>
 </tr>
