@@ -67,9 +67,9 @@ To add a new TIP,
 1. Create a file in the `tip` subdirectory.  Choose a name of the
 format `NNN.md`, for example 467.md. The TIP numbering is currently
 not enforced by the system, so pick the next unused number based on
-the [current TIPs](https://core.tcl-lang.org/tips/doc/trunk/index.md).
+the [current TIPs](https://core.tcl-lang.org/tips/doc/main/index.md).
 
-1. [TIP 2](https://core.tcl-lang.org/tips/doc/trunk/tip/2.md)
+1. [TIP 2](https://core.tcl-lang.org/tips/doc/main/tip/2.md)
 specifies guidelines for writing a TIP.
 Write up the text, using [Markdown mark-up](/md_rules) (plenty of
 examples are available - pay attention to the header as described below).
@@ -111,5 +111,5 @@ For example:
 The meta-data is terminated by `------` and indented with tabs
 (for nicer display in fossil).
 
-See [TIP 3](https://core.tcl-lang.org/tips/doc/trunk/tip/3.md) for a detailed
+See [TIP 3](https://core.tcl-lang.org/tips/doc/main/tip/3.md) for a detailed
 specification of the header format and meaning of each header field.

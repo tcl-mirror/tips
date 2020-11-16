@@ -843,7 +843,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/513.md'>Better support for &apos;agendas&apos; as arrays, dictionaries or lists</a></td>
-<td valign='top'><a href='https://core.tcl-lang.org/tips/doc/trunk/attach/513/agendas.tcl'>Link</a></td>
+<td valign='top'><a href='https://core.tcl-lang.org/tips/doc/main/attach/513/agendas.tcl'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/512.md'>512</a></td>
