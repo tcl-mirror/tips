@@ -221,11 +221,11 @@ Version:
 <td valign='top' ><a href='./tip/591.md'>Rotate ttk::notebook window wtih mousewheel on tab</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-591'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/590.md'>590</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/590.md'>Recommend lowercase Package Names</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-590'>Link</a></td>
 </tr>
