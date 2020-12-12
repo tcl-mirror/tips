@@ -1,4 +1,5 @@
 {"tip": {
+	"592":{"url":"./tip/592.md","created":"12-Dec-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Draft","type":"Project","title":"# TIP 592: Stop support for Windows XP, Server 2003, Vista, Server 2008","author":["Ashok P. Nadkarni <apnmbx-wits@yahoo.com>"],"is-jest":false},
 	"591":{"url":"./tip/591.md","keywords":"Tk, bindings","created":"13-Nov-2020","state":"Draft","tk-branch":"tip-591","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 591: Rotate ttk::notebook window with mousewheel on tab","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"is-jest":false},
 	"590":{"url":"./tip/590.md","keywords":"package","state":"Final","vote-summary":"Accepted 3/0/2","type":"Project","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"votes-against":"none","votes-for":"JN, KW, MC","created":"4-Nov-2020","title":"# TIP 590: Recommend lowercase Package Names","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"tip-590","votes-present":"FV, SL","is-jest":false},
 	"589":{"url":"./tip/589.md","created":"27-Oct-2020","post-history":"","state":"Withdrawn","tk-branch":"deprecate-bd-bg-fg","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 589: Deprecate \"-fg\", \"-bg\", \"-bd\" options in Tk.","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -265,7 +266,7 @@
 	"328":{"url":"./tip/328.md","keywords":"Coroutine,continuation,event-loop,NRE","created":"07-Sep-2008","post-history":"","state":"Final","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 328: Coroutines","author":["Miguel Sofer <msofer@users.sf.net>","Neil Madden <nem@cs.nott.ac.uk>"],"is-jest":false},
 	"327":{"url":"./tip/327.md","keywords":"tailcall,NRE","created":"20-Sep-2008","post-history":"","state":"Final","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 327: Proper Tailcalls","author":["Miguel Sofer <msofer@users.sf.net>","David S. Cargo <escargo@skypoint.com>"],"is-jest":false},
 	"326":{"url":"./tip/326.md","tcl-ticket":"2082681","keywords":"Tcl, lsort, sorting","created":"01-Sep-2008","post-history":"","state":"Final","vote":"Done","tcl-version":"8.6","type":"Project","title":"# TIP 326: Add -stride Option to lsort","author":["Kieran Elby <kieran@dunelm.org.uk>"],"is-jest":false},
-	"325":{"url":"./tip/325.md","keywords":"Tk, desktop integration","created":"25-Aug-2008","post-history":"","state":"Voting","vote":"In process","tcl-version":"8.7","type":"Project","title":"# TIP 325: System Tray and System Notification Access","author":["David N. Welton <davidw@dedasys.com>, Kevin Walzer <kw@codebykevin.com>"],"is-jest":false},
+	"325":{"url":"./tip/325.md","keywords":"Tk, desktop integration","created":"25-Aug-2008","post-history":"","state":"Accepted","vote":"Accepted","tcl-version":"8.7","type":"Project","title":"# TIP 325: System Tray and System Notification Access","author":["David N. Welton <davidw@dedasys.com>, Kevin Walzer <kw@codebykevin.com>"],"is-jest":false},
 	"324":{"url":"./tip/324.md","tk-ticket":"1477426","obsoletes":"213","keywords":"Tk","created":"08-Aug-2008","post-history":"","state":"Final","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 324: A Standard Dialog For Font Selection","author":["Adrian Robert <adrian.b.robert@gmail.com>","Daniel A. Steffen <das@users.sourceforge.net>"],"is-jest":false},
 	"323":{"url":"./tip/323.md","created":"06-Aug-2008","post-history":"","state":"Final","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 323: Do Nothing Gracefully","author":["Colin McCormack <colin@chinix.com>","Don Porter <dgp@users.sf.net>","Kevin B. Kenny <kennykb@acm.org>"],"is-jest":false},
 	"322":{"url":"./tip/322.md","created":"13-Jul-2008","post-history":"","state":"Final","tcl-version":"8.6","vote":"Done","type":"Project","title":"# TIP 322: Publish the NRE API","author":["Miguel Sofer <msofer@users.sourceforge.net>"],"is-jest":false},
@@ -592,5 +593,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 591
-}, "@timestamp": 1607336638}
+	"@max": 592
+}, "@timestamp": 1607792050}

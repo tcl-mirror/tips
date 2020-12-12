@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/592.md'>592</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/592.md'>Stop support for Windows XP, Server 2003, Vista, Server 2008</a></td>
+<td></td>
+</tr>
 <tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/591.md'>591</a></td>
 <td valign='top'>Project</td>
@@ -2331,11 +2339,11 @@ Version:
 <td valign='top' ><a href='./tip/326.md'>Add -stride Option to lsort</a></td>
 <td valign='top'><a href='/tcl/tktview/2082681'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-accepted type-project version-87'>
 <td valign='top'><a href='./tip/325.md'>325</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/325.md'>System Tray and System Notification Access</a></td>
 <td></td>
 </tr>
