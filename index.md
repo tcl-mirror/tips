@@ -2339,11 +2339,11 @@ Version:
 <td valign='top' ><a href='./tip/326.md'>Add -stride Option to lsort</a></td>
 <td valign='top'><a href='/tcl/tktview/2082681'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/325.md'>325</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/325.md'>System Tray and System Notification Access</a></td>
 <td></td>
 </tr>
