@@ -221,11 +221,11 @@ Version:
 <td valign='top' ><a href='./tip/592.md'>Stop support for Windows XP, Server 2003, Vista, Server 2008</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/591.md'>591</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/591.md'>Rotate ttk::notebook window with mousewheel on tab</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip-591'>Link</a></td>
 </tr>
