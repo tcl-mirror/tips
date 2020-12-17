@@ -219,7 +219,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/592.md'>Stop support for Windows XP, Server 2003, Vista, Server 2008</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-592'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/591.md'>591</a></td>
