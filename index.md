@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/593.md'>593</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/593.md'>Efficient List Item Test-and-Take</a></td>
+<td></td>
+</tr>
 <tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/592.md'>592</a></td>
 <td valign='top'>Project</td>
