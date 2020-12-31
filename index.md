@@ -218,7 +218,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/593.md'>Efficient List Item Test-and-Take</a></td>
+<td valign='top' ><a href='./tip/593.md'>Efficient List Item Existence-Test-and-Take</a></td>
 <td></td>
 </tr>
 <tr class='state-voting type-project version-87'>
