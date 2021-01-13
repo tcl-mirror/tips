@@ -1,5 +1,5 @@
 {"tip": {
-	"594":{"url":"./tip/594.md","keywords":"Tcl, file","created":"13-Jan-2021","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 594:","author":["Emiliano Galivan <emilianogavilan@gmail.com>","aspect <tcler@abstracted-spleen.org>"],"is-jest":false},
+	"594":{"url":"./tip/594.md","keywords":"Tcl, file","created":"13-Jan-2021","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 594: modernize \"file stat\" interface","author":["Emiliano Galivan <emilianogavilan@gmail.com>","aspect <tcler@abstracted-spleen.org>"],"is-jest":false},
 	"593":{"url":"./tip/593.md","keywords":"Tcl, lists","created":"31-Dec-2020","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 593: Efficient List Item Existence-Test-and-Take","author":["Donal Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"592":{"url":"./tip/592.md","created":"12-Dec-2020","post-history":"","state":"Draft","tcl-branch":"tip-592","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 592: Stop support for Windows XP, Server 2003, Vista, Server 2008","author":["Ashok P. Nadkarni <apnmbx-wits@yahoo.com>"],"is-jest":false},
 	"591":{"url":"./tip/591.md","keywords":"Tk, bindings","state":"Final","vote-summary":"Accepted 5/0/0","type":"Project","tk-branch":"tip-591","author":["Harald Oehlmann <oehhar@users.sourceforge.net>"],"votes-for":"JN, FV, KW, MC, SL","votes-against":"none","created":"13-Nov-2020","title":"# TIP 591: Rotate ttk::notebook window with mousewheel on tab","vote":"Done","tcl-version":"8.7","votes-present":"none","is-jest":false},
@@ -596,4 +596,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 594
-}, "@timestamp": 1610550555}
+}, "@timestamp": 1610550664}
