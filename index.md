@@ -219,7 +219,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/594.md'>modernize &quot;file stat&quot; interface</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/tktview/560c5e438c47f5fdd34846dbb333ab96cb905416'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/593.md'>593</a></td>
