@@ -229,11 +229,11 @@ Version:
 <td valign='top' ><a href='./tip/593.md'>Efficient List Item Existence-Test-and-Take</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/592.md'>592</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/592.md'>Stop support for Windows XP, Server 2003, Vista, Server 2008</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-592'>Link</a></td>
 </tr>
@@ -1117,11 +1117,11 @@ Version:
 <td valign='top' ><a href='./tip/482.md'>Record Tk demo directory information</a></td>
 <td valign='top'><a href='/tk/timeline?r=tk-stu-pkg'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/481.md'>481</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/481.md'>`Tcl_GetStringFromObj()` with `size_t` length parameter</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-481'>Link</a></td>
 </tr>
