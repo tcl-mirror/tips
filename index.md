@@ -1751,7 +1751,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/402.md'>General Platform UNC Support</a></td>
-<td valign='top'><a href='/tcl/timeline?r=jn-unc-vfs'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-402'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/401.md'>401</a></td>
