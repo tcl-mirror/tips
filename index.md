@@ -733,11 +733,11 @@ Version:
 <td valign='top' ><a href='./tip/530.md'>Control over performance impact of TIP 280</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-530'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/529.md'>529</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/529.md'>Add metadata dict property to tk photo image</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip529-image-metadata-no-match-method'>Link</a></td>
 </tr>
