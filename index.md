@@ -738,7 +738,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Voting</td>
-<td valign='top' ><a href='./tip/529.md'>Add metadata dict property to tk photo image</a></td>
+<td valign='top' ><a href='./tip/529.md'>Add metadata dictionary property to tk photo image</a></td>
 <td valign='top'><a href='/tk/timeline?r=tip529-image-metadata-no-match-method'>Link</a></td>
 </tr>
 <tr class='state-final type-project version-87'>
