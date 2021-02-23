@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-90'>
+<td valign='top'><a href='./tip/596.md'>596</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>9.0</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/596.md'>Stubs support for Embedding Tcl in other applications</a></td>
+<td valign='top'><a href='/tcl/timeline?r=rfe-854941'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/595.md'>595</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
