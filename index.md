@@ -213,6 +213,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/597.md'>597</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/597.md'>&quot;string is unicode&quot; and new wtf-8 encoding</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-597'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/596.md'>596</a></td>
 <td valign='top'>Project</td>

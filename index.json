@@ -1,4 +1,5 @@
 {"tip": {
+	"597":{"url":"./tip/597.md","state":"Draft","tcl-branch":"tip-597","tcl-version":"8.7","type":"Project","title":"# TIP 597: \"string is unicode\" and new wtf-8 encoding","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"596":{"url":"./tip/596.md","state":"Draft","tcl-branch":"rfe-854941","tcl-version":"9.0","type":"Project","title":"# TIP 596: Stubs support for Embedding Tcl in other applications","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"595":{"url":"./tip/595.md","state":"Draft","tcl-branch":"bug-ea39ab591e","tcl-version":"9.0","type":"Project","title":"# TIP 595: Unicode-aware/case-sensitive Loadable Library handling","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"594":{"url":"./tip/594.md","tcl-ticket":"560c5e438c47f5fdd34846dbb333ab96cb905416","keywords":"Tcl, file","created":"13-Jan-2021","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 594: modernize \"file stat\" interface","author":["Emiliano Gavilán <emilianogavilan@gmail.com>","aspect <tcler@abstracted-spleen.org>"],"is-jest":false},
@@ -597,5 +598,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 596
-}, "@timestamp": 1614605718}
+	"@max": 597
+}, "@timestamp": 1615380780}
