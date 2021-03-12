@@ -1,4 +1,5 @@
 {"tip": {
+	"599":{"url":"./tip/599.md","state":"Draft","tcl-branch":"build-info","tcl-version":"8.7","type":"Project","title":"# TIP 599: extended build information","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"598":{"url":"./tip/598.md","state":"Draft","tcl-branch":"rfe-800716","tcl-version":"8.7","type":"Project","title":"# TIP 598: export TclWinConvertError","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"597":{"url":"./tip/597.md","state":"Draft","tcl-branch":"tip-597","tcl-version":"8.7","type":"Project","title":"# TIP 597: \"string is unicode\" and new wtf-8 encoding","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"596":{"url":"./tip/596.md","state":"Draft","tcl-branch":"rfe-854941","tcl-version":"9.0","type":"Project","title":"# TIP 596: Stubs support for Embedding Tcl in other applications","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -599,5 +600,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 598
-}, "@timestamp": 1615459013}
+	"@max": 599
+}, "@timestamp": 1615561945}

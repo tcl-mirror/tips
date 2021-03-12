@@ -214,6 +214,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/599.md'>599</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/599.md'>extended build information</a></td>
+<td valign='top'><a href='/tcl/timeline?r=build-info'>Link</a></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/598.md'>598</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
