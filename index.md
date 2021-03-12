@@ -213,6 +213,12 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-informational'>
+<td valign='top'><a href='./tip/600.md'>600</a></td>
+<td valign='top' colspan=2>Informational</td>
+<td valign='top'>Draft</td>
+<td valign='top'  colspan=2><a href='./tip/600.md'>Migration guide for Tcl 8.6/8.7/9.0</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/599.md'>599</a></td>
 <td valign='top'>Project</td>
