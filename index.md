@@ -411,11 +411,11 @@ Version:
 <td valign='top' ><a href='./tip/576.md'>Poor-mans Table listbox enhancement</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/575.md'>575</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/575.md'>Switchable Tcl\_UtfCharComplete()/Tcl\_UtfNext()/Tcl\_UtfPrev()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-575'>Link</a></td>
 </tr>
