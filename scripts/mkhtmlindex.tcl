@@ -39,7 +39,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<style title="filtering">
+<style id="facetFilteringSheet">
 /*
  * DO NOT MANUALLY PUT ANY STYLES IN HERE!
  *
