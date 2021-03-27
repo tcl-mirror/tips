@@ -17,7 +17,7 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 </div></form>
 <p>
 
-<style id="facetFilteringSheet">
+<style title="filtering">
 /*
  * DO NOT MANUALLY PUT ANY STYLES IN HERE!
  *
@@ -25,107 +25,162 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
  * structure of this stylesheet. Use a different stylesheet instead!
  */
 </style>
-<script src="scripts/toggles.js"></script>
+<script>
+var sheet = (function(){
+    for (var i=0; i<document.styleSheets.length; i++) {
+        var s = document.styleSheets[i];
+        if (s.title == "filtering") {
+            return s;
+        }
+    }
+})();
+function toggleFacet(f) {
+    r = sheet.cssRules;
+    if (!r) return
+    boxes = document.getElementsByClassName("toggler-"+f);
+    none = true;
+    for (i=0; i<boxes.length; i++) {
+        if (boxes[i].checked) {
+            none=false;
+            break;
+        }
+    }
+    var i = r.length;
+    while (i--) {
+        if (r[i].selectorText && r[i].selectorText.substr(1,f.length).toLowerCase() === f) {
+            sheet.deleteRule(i);
+        }
+    }
+    if (!none) {
+        for (i=0; i<boxes.length; i++) {
+            if (boxes[i].checked) {
+                // sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:table-row;}", 0);
+	    } else {
+                sheet.insertRule("."+f+"-"+boxes[i].dataset.value + " {display:none;}", 0);
+            }
+        }
+    }
+}
+</script>
 
 State:
 
     <input class="toggler-state"
         data-value="accepted"
-        type="checkbox">Accepted</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Accepted</button>
 
 
     <input class="toggler-state"
         data-value="deferred"
-        type="checkbox">Deferred</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Deferred</button>
 
 
     <input class="toggler-state"
         data-value="draft"
-        type="checkbox">Draft</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Draft</button>
 
 
     <input class="toggler-state"
         data-value="final"
-        type="checkbox">Final</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Final</button>
 
 
     <input class="toggler-state"
         data-value="obsoleted"
-        type="checkbox">Obsoleted</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Obsoleted</button>
 
 
     <input class="toggler-state"
         data-value="rejected"
-        type="checkbox">Rejected</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Rejected</button>
 
 
     <input class="toggler-state"
         data-value="voting"
-        type="checkbox">Voting</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Voting</button>
 
 
     <input class="toggler-state"
         data-value="withdrawn"
-        type="checkbox">Withdrawn</button>
+        type="checkbox"
+        onclick="toggleFacet('state')">Withdrawn</button>
 
 <br>
 Type:
 
     <input class="toggler-type"
         data-value="informational"
-        type="checkbox">Informational</button>
+        type="checkbox"
+        onclick="toggleFacet('type')">Informational</button>
 
 
     <input class="toggler-type"
         data-value="process"
-        type="checkbox">Process</button>
+        type="checkbox"
+        onclick="toggleFacet('type')">Process</button>
 
 
     <input class="toggler-type"
         data-value="project"
-        type="checkbox">Project</button>
+        type="checkbox"
+        onclick="toggleFacet('type')">Project</button>
 
 
     <input class="toggler-type"
         data-value="humor"
-        type="checkbox">Humor</button>
+        type="checkbox"
+        onclick="toggleFacet('type')">Humor</button>
 
 <br>
 Version:
 
     <input class="toggler-version"
         data-value="80"
-        type="checkbox">8.0</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">8.0</button>
 
 
     <input class="toggler-version"
         data-value="84"
-        type="checkbox">8.4</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">8.4</button>
 
 
     <input class="toggler-version"
         data-value="85"
-        type="checkbox">8.5</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">8.5</button>
 
 
     <input class="toggler-version"
         data-value="86"
-        type="checkbox">8.6</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">8.6</button>
 
 
     <input class="toggler-version"
         data-value="87"
-        type="checkbox">8.7</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">8.7</button>
 
 
     <input class="toggler-version"
         data-value="90"
-        type="checkbox">9.0</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">9.0</button>
 
 
     <input class="toggler-version"
         data-value="92"
-        type="checkbox">9.2</button>
+        type="checkbox"
+        onclick="toggleFacet('version')">9.2</button>
 
 <br>
 
@@ -169,7 +224,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/599.md'>extended build information</a></td>
+<td valign='top' ><a href='./tip/599.md'>Extended build information</a></td>
 <td valign='top'><a href='/tcl/timeline?r=build-info'>Link</a></td>
 </tr>
 <tr class='state-voting type-project version-87'>
@@ -209,7 +264,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/594.md'>modernize &quot;file stat&quot; interface</a></td>
+<td valign='top' ><a href='./tip/594.md'>Modernize &quot;file stat&quot; interface</a></td>
 <td valign='top'><a href='/tcl/tktview/560c5e438c47f5fdd34846dbb333ab96cb905416'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
