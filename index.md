@@ -172,11 +172,11 @@ Version:
 <td valign='top' ><a href='./tip/599.md'>Extended build information</a></td>
 <td valign='top'><a href='/tcl/timeline?r=build-info'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/598.md'>598</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/598.md'>export TclWinConvertError</a></td>
 <td valign='top'><a href='/tcl/timeline?r=rfe-800716'>Link</a></td>
 </tr>
@@ -196,11 +196,11 @@ Version:
 <td valign='top' ><a href='./tip/596.md'>Stubs support for Embedding Tcl in other applications</a></td>
 <td valign='top'><a href='/tcl/timeline?r=rfe-854941'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-90'>
+<tr class='state-final type-project version-90'>
 <td valign='top'><a href='./tip/595.md'>595</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/595.md'>Unicode-aware/case-sensitive Loadable Library handling</a></td>
 <td valign='top'><a href='/tcl/timeline?r=bug-ea39ab591e'>Link</a></td>
 </tr>
