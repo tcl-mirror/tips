@@ -180,11 +180,11 @@ Version:
 <td valign='top' ><a href='./tip/598.md'>export TclWinConvertError</a></td>
 <td valign='top'><a href='/tcl/timeline?r=rfe-800716'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/597.md'>597</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/597.md'>&quot;string is unicode&quot; and new wtf-8/wtf-16/cesu-8 encodings</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-597'>Link</a></td>
 </tr>
