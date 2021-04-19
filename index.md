@@ -188,11 +188,11 @@ Version:
 <td valign='top' ><a href='./tip/597.md'>&quot;string is unicode&quot; and better utf-8/utf-16/cesu-8 encodings</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-597'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-90'>
+<tr class='state-voting type-project version-90'>
 <td valign='top'><a href='./tip/596.md'>596</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/596.md'>Stubs support for Embedding Tcl in other applications</a></td>
 <td valign='top'><a href='/tcl/timeline?r=rfe-854941'>Link</a></td>
 </tr>
@@ -708,11 +708,11 @@ Version:
 <td valign='top' ><a href='./tip/532.md'>Re-implementation of event loop processing</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug6e8afe516d'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/531.md'>531</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/531.md'>Static Tcl Interpreter Creation Function</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-531'>Link</a></td>
 </tr>
