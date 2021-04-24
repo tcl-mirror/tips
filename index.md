@@ -158,6 +158,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/601.md'>601</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/601.md'>&quot;encoding convertfrom/convertfrom&quot; option to stop on error</a></td>
+<td valign='top'><a href='/tcl/timeline?r=encodings-with-flags'>Link</a></td>
+</tr>
 <tr class='state-draft type-informational'>
 <td valign='top'><a href='./tip/600.md'>600</a></td>
 <td valign='top' colspan=2>Informational</td>
