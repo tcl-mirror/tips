@@ -1,5 +1,5 @@
 {"tip": {
-	"601":{"url":"./tip/601.md","state":"Draft","tcl-branch":"encodings-with-flags","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 01: \"encoding convertfrom/convertfrom\" option to stop on error","author":["Harald Oehlmann <harald.oehlmann@elmicron.de>"],"is-jest":false},
+	"601":{"url":"./tip/601.md","state":"Draft","tcl-branch":"encodings-with-flags","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 601: \"encoding convertfrom/convertfrom\" option to stop on error","author":["Harald Oehlmann <harald.oehlmann@elmicron.de>"],"is-jest":false},
 	"600":{"url":"./tip/600.md","state":"Draft","vote":"No voting","type":"Informative","title":"# TIP 600: Migration guide for Tcl 8.6/8.7/9.0","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"599":{"url":"./tip/599.md","state":"Draft","tcl-branch":"build-info","tcl-version":"8.7","type":"Project","title":"# TIP 599: Extended build information","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"598":{"url":"./tip/598.md","votes-against":"none","votes-for":"JN, KW, KK","vote-summary":"Accepted 3/0/5","state":"Final","tcl-branch":"rfe-800716","tcl-version":"8.7","vote":"Done","type":"Project","title":"# TIP 598: export TclWinConvertError","votes-present":"AK, DP, FV, MC, SL","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -603,4 +603,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 601
-}, "@timestamp": 1619285535}
+}, "@timestamp": 1619679850}
