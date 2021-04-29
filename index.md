@@ -163,7 +163,7 @@ Version:
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/601.md'>&quot;encoding convertfrom/convertfrom&quot; option to stop on error</a></td>
+<td valign='top' ><a href='./tip/601.md'>&quot;encoding convertto/convertfrom&quot; option to stop on error</a></td>
 <td valign='top'><a href='/tcl/timeline?r=encodings-with-flags'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
