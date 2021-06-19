@@ -1,5 +1,5 @@
 {"tip": {
-	"603":{"url":"./tip/603.md","keywords":"Tcl, file","created":"19-Jun-2021","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 603: Get 'stat' Information of Open Files","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
+	"603":{"url":"./tip/603.md","keywords":"Tcl, file","created":"19-Jun-2021","post-history":"","state":"Draft","tcl-branch":"tip-603","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 603: Get 'stat' Information of Open Files","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"is-jest":false},
 	"602":{"url":"./tip/602.md","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 601: remove home folder shortcuts \"~/\" and \"~user/\" from file commands","author":["Harald Oehlmann <harald.oehlmann@elmicron.de>"],"is-jest":false},
 	"601":{"url":"./tip/601.md","state":"Draft","tcl-branch":"encodings-with-flags","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 601: \"encoding convertto/convertfrom\" option to stop on error","author":["Harald Oehlmann <harald.oehlmann@elmicron.de>"],"is-jest":false},
 	"600":{"url":"./tip/600.md","state":"Draft","vote":"No voting","type":"Informative","title":"# TIP 600: Migration guide for Tcl 8.6/8.7/9.0","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
@@ -605,4 +605,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 603
-}, "@timestamp": 1624111118}
+}, "@timestamp": 1624129080}

@@ -164,7 +164,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/603.md'>Get &apos;stat&apos; Information of Open Files</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-603'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/602.md'>602</a></td>
