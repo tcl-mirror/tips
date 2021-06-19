@@ -158,6 +158,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/603.md'>603</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/603.md'>Get &apos;stat&apos; Information of Open Files</a></td>
+<td></td>
+</tr>
 <tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/602.md'>602</a></td>
 <td valign='top'>Project</td>
