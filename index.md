@@ -158,12 +158,13 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
-<tr class='state-draft type-project'>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/604.md'>604</a></td>
-<td valign='top' colspan=2>Project</td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/604.md'>Printing Support for Text and Canvas Widgets</a></td>
-<td></td>
+<td valign='top'><a href='/tk/timeline?r=tk_print'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/603.md'>603</a></td>
