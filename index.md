@@ -159,6 +159,22 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/606.md'>606</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/606.md'>Export more private Tk functions</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/605.md'>605</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/605.md'>Function to get class name from object</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/604.md'>604</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
