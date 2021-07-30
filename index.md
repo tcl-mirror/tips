@@ -159,6 +159,14 @@ Version:
 </tr></thead><tbody>
 
 <tr class='state-draft type-project version-87'>
+<td valign='top'><a href='./tip/607.md'>607</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.7</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/607.md'>-failindex option for encoding convertto/convertfrom</a></td>
+<td></td>
+</tr>
+<tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/606.md'>606</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
@@ -466,7 +474,7 @@ Version:
 <td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/568.md'>Revise ByteArray Routines To Support Proper Value Extraction</a></td>
-<td valign='top'><a href='/tcl/timeline?r=dgp-properbytearray'>Link</a></td>
+<td></td>
 </tr>
 <tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/567.md'>567</a></td>
