@@ -180,7 +180,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/605.md'>Function to get class name from object</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-605'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/604.md'>604</a></td>
