@@ -158,6 +158,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/608.md'>608</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/608.md'>Add virtual event when font configuration changes</a></td>
+<td valign='top'><a href='/tk/tktview/3049518'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/607.md'>607</a></td>
 <td valign='top'>Project</td>

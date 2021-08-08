@@ -1,4 +1,5 @@
 {"tip": {
+	"608":{"url":"./tip/608.md","tk-ticket":"3049518","keywords":"Tk font WorldChanged","created":"07-Aug-2021","post-history":"","state":"Draft","tcl-version":"8.6","type":"Project","title":"# TIP 608: Add virtual event when font configuration changes","author":["Brian Griffin <briang42@easystreet.net>"],"is-jest":false},
 	"607":{"url":"./tip/607.md","keywords":"Tcl","created":"30-Jul-2021","post-history":"","state":"Draft","tcl-version":"8.7","type":"Project","title":"# TIP 607: -failindex option for encoding convertto/convertfrom","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"606":{"url":"./tip/606.md","keywords":"Tcl","created":"15-Jul-2021","post-history":"","state":"Draft","tcl-version":"8.7","type":"Project","title":"# TIP 606: Export more private Tk functions","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
 	"605":{"url":"./tip/605.md","keywords":"Tcl","created":"15-Jul-2021","post-history":"","state":"Draft","tcl-branch":"tip-605","tcl-version":"8.7","type":"Project","title":"# TIP 605: Function to get class name from object","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
@@ -608,5 +609,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 607
-}, "@timestamp": 1627975443}
+	"@max": 608
+}, "@timestamp": 1628381855}
