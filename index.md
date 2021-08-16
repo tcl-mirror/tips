@@ -164,7 +164,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Draft</td>
 <td valign='top' ><a href='./tip/609.md'>Enhance Tcl_ThreadQueueEvent()</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-609'>Link</a></td>
 </tr>
 <tr class='state-draft type-project version-86'>
 <td valign='top'><a href='./tip/608.md'>608</a></td>
