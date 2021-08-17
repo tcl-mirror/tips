@@ -198,13 +198,13 @@ Version:
 <td valign='top' ><a href='./tip/605.md'>Function to get class name from object</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-605'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/604.md'>604</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/604.md'>Printing Support for Text and Canvas Widgets</a></td>
-<td valign='top'><a href='/tk/timeline?r=tk_print'>Link</a></td>
+<td></td>
 </tr>
 <tr class='state-accepted type-project version-87'>
 <td valign='top'><a href='./tip/603.md'>603</a></td>
