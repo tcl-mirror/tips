@@ -946,7 +946,7 @@ Version:
 <td valign='top'>8.7</td>
 <td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/511.md'>Implement Tcl_AsyncMarkFromSignal()</a></td>
-<td valign='top'><a href='https://www.androwish.org/index.html/info/40790af1e8e4ec9f'>Link</a></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-511'>Link</a></td>
 </tr>
 <tr class='state-deferred type-project version-87'>
 <td valign='top'><a href='./tip/510.md'>510</a></td>
