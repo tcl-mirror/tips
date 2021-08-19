@@ -444,11 +444,11 @@ Version:
 <td valign='top' ><a href='./tip/574.md'>Add a &apos;tag delete&apos; command to the ttk::treeview widget</a></td>
 <td valign='top'><a href='/tk/timeline?r=bug-1bb2f1d7ab'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-withdrawn type-project version-87'>
 <td valign='top'><a href='./tip/573.md'>573</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Withdrawn</td>
 <td valign='top' ><a href='./tip/573.md'>Surrogates are invalid</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-573'>Link</a></td>
 </tr>
