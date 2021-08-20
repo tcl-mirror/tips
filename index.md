@@ -940,11 +940,11 @@ Version:
 <td valign='top' ><a href='./tip/512.md'>No stub for Tcl_SetExitProc()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-512'>Link</a></td>
 </tr>
-<tr class='state-accepted type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/511.md'>511</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Accepted</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/511.md'>Implement Tcl_AsyncMarkFromSignal()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-511'>Link</a></td>
 </tr>
