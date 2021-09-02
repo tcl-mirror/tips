@@ -158,6 +158,14 @@ Version:
 <th>Impl.</th>
 </tr></thead><tbody>
 
+<tr class='state-draft type-project version-86'>
+<td valign='top'><a href='./tip/611.md'>611</a></td>
+<td valign='top'>Project</td>
+<td valign='top'>8.6</td>
+<td valign='top'>Draft</td>
+<td valign='top' ><a href='./tip/611.md'>Add subcommands to the &quot;photo image&quot; command to rotate and reflect an image</a></td>
+<td valign='top'><a href='https://wiki.tcl-lang.org/page/rphoto'>Link</a></td>
+</tr>
 <tr class='state-draft type-project version-87'>
 <td valign='top'><a href='./tip/610.md'>610</a></td>
 <td valign='top'>Project</td>
