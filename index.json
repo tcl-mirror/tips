@@ -5,7 +5,7 @@
 	"608":{"url":"./tip/608.md","tk-ticket":"3049518","keywords":"Tk,font,WorldChanged,event","created":"07-Aug-2021","post-history":"","state":"Draft","tcl-version":"8.6","type":"Project","title":"# TIP 608: Add virtual event when font configuration changes","author":["Brian Griffin <briang42@easystreet.net>"],"is-jest":false},
 	"607":{"url":"./tip/607.md","keywords":"Tcl","created":"30-Jul-2021","post-history":"","state":"Draft","tcl-version":"8.7","type":"Project","title":"# TIP 607: -failindex option for encoding convertto/convertfrom","author":["Jan Nijtmans <jan.nijtmans@gmail.com>"],"is-jest":false},
 	"606":{"url":"./tip/606.md","keywords":"Tcl","created":"15-Jul-2021","post-history":"","state":"Draft","tcl-version":"8.7","type":"Project","title":"# TIP 606: Export more private Tk functions","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
-	"605":{"url":"./tip/605.md","keywords":"Tcl","created":"15-Jul-2021","post-history":"","state":"Draft","tcl-branch":"tip-605","tcl-version":"8.7","type":"Project","title":"# TIP 605: Function to get class name from object","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
+	"605":{"url":"./tip/605.md","keywords":"Tcl","created":"15-Jul-2021","post-history":"","state":"Draft","tcl-branch":"tip-605","tcl-version":"8.7","vote":"In progress","type":"Project","title":"# TIP 605: Function to get class name from object","author":["René Zaumseil <r.zaumseil@freenet.de>"],"is-jest":false},
 	"604":{"url":"./tip/604.md","keywords":"Tk, desktop integration","state":"Final","vote-summary":"Accepted 9/0/0","type":"Project","author":["Kevin Walzer <kw@codebykevin.com>"],"votes-for":"MC, JD, KK, FV, DKF, JN, SL, BG, KW","votes-against":"none","created":"03-July-2021","title":"# TIP 604: Printing Support for Text and Canvas Widgets","tcl-version":"8.7","vote":"Done","votes-present":"none","is-jest":false},
 	"603":{"url":"./tip/603.md","keywords":"Tcl, file","state":"Accepted","vote-summary":"Accepted 5/1/1","type":"Project","author":["Donal K. Fellows <donal.k.fellows@manchester.ac.uk>"],"votes-against":"KW","votes-for":"AK, DKF, JN, KBK, SL","created":"19-Jun-2021","title":"# TIP 603: Get 'stat' Information of Open Files","post-history":"","vote":"Done","tcl-version":"8.7","tcl-branch":"tip-603","votes-present":"FV","is-jest":false},
 	"602":{"url":"./tip/602.md","state":"Draft","tcl-version":"9.0","vote":"Pending","type":"Project","title":"# TIP 601: remove home folder shortcuts \"~/\" and \"~user/\" from file commands","author":["Harald Oehlmann <harald.oehlmann@elmicron.de>"],"is-jest":false},
@@ -613,4 +613,4 @@
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
 	"@max": 611
-}, "@timestamp": 1630610952}
+}, "@timestamp": 1630666435}
