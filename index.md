@@ -500,11 +500,11 @@ Version:
 <td valign='top' ><a href='./tip/569.md'>Eliminate Comments That Serve Lint</a></td>
 <td></td>
 </tr>
-<tr class='state-voting type-project version-90'>
+<tr class='state-accepted type-project version-90'>
 <td valign='top'><a href='./tip/568.md'>568</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>9.0</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/568.md'>Revise ByteArray Routines To Support Proper Value Extraction</a></td>
 <td></td>
 </tr>
