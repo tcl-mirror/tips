@@ -28,105 +28,29 @@ Welcome to the Tcl Improvement Proposals repository. For information on how to r
 <script src="scripts/toggles.js"></script>
 
 State:
-
-    <input class="toggler-state"
-        data-value="accepted"
-        type="checkbox">Accepted</button>
-
-
-    <input class="toggler-state"
-        data-value="deferred"
-        type="checkbox">Deferred</button>
-
-
-    <input class="toggler-state"
-        data-value="draft"
-        type="checkbox">Draft</button>
-
-
-    <input class="toggler-state"
-        data-value="final"
-        type="checkbox">Final</button>
-
-
-    <input class="toggler-state"
-        data-value="obsoleted"
-        type="checkbox">Obsoleted</button>
-
-
-    <input class="toggler-state"
-        data-value="rejected"
-        type="checkbox">Rejected</button>
-
-
-    <input class="toggler-state"
-        data-value="voting"
-        type="checkbox">Voting</button>
-
-
-    <input class="toggler-state"
-        data-value="withdrawn"
-        type="checkbox">Withdrawn</button>
-
+ <input class="toggler-state" data-value="accepted" type="checkbox">Accepted</input> 
+ <input class="toggler-state" data-value="deferred" type="checkbox">Deferred</input> 
+ <input class="toggler-state" data-value="draft" type="checkbox">Draft</input> 
+ <input class="toggler-state" data-value="final" type="checkbox">Final</input> 
+ <input class="toggler-state" data-value="obsoleted" type="checkbox">Obsoleted</input> 
+ <input class="toggler-state" data-value="rejected" type="checkbox">Rejected</input> 
+ <input class="toggler-state" data-value="voting" type="checkbox">Voting</input> 
+ <input class="toggler-state" data-value="withdrawn" type="checkbox">Withdrawn</input> 
 <br>
 Type:
-
-    <input class="toggler-type"
-        data-value="informational"
-        type="checkbox">Informational</button>
-
-
-    <input class="toggler-type"
-        data-value="process"
-        type="checkbox">Process</button>
-
-
-    <input class="toggler-type"
-        data-value="project"
-        type="checkbox">Project</button>
-
-
-    <input class="toggler-type"
-        data-value="humor"
-        type="checkbox">Humor</button>
-
+ <input class="toggler-type" data-value="informational" type="checkbox">Informational</input> 
+ <input class="toggler-type" data-value="process" type="checkbox">Process</input> 
+ <input class="toggler-type" data-value="project" type="checkbox">Project</input> 
+ <input class="toggler-type" data-value="humor" type="checkbox">Humor</input> 
 <br>
 Version:
-
-    <input class="toggler-version"
-        data-value="80"
-        type="checkbox">8.0</button>
-
-
-    <input class="toggler-version"
-        data-value="84"
-        type="checkbox">8.4</button>
-
-
-    <input class="toggler-version"
-        data-value="85"
-        type="checkbox">8.5</button>
-
-
-    <input class="toggler-version"
-        data-value="86"
-        type="checkbox">8.6</button>
-
-
-    <input class="toggler-version"
-        data-value="87"
-        type="checkbox">8.7</button>
-
-
-    <input class="toggler-version"
-        data-value="90"
-        type="checkbox">9.0</button>
-
-
-    <input class="toggler-version"
-        data-value="92"
-        type="checkbox">9.2</button>
-
+ <input class="toggler-version" data-value="80" type="checkbox">8.0</input> 
+ <input class="toggler-version" data-value="84" type="checkbox">8.4</input> 
+ <input class="toggler-version" data-value="85" type="checkbox">8.5</input> 
+ <input class="toggler-version" data-value="86" type="checkbox">8.6</input> 
+ <input class="toggler-version" data-value="87" type="checkbox">8.7</input> 
+ <input class="toggler-version" data-value="90" type="checkbox">9.0</input> 
+ <input class="toggler-version" data-value="92" type="checkbox">9.2</input> 
 <br>
 
 
@@ -166,11 +90,11 @@ Version:
 <td valign='top' ><a href='./tip/611.md'>Add subcommands to the &quot;photo image&quot; command to rotate and reflect an image</a></td>
 <td valign='top'><a href='https://wiki.tcl-lang.org/page/rphoto'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-final type-project version-87'>
 <td valign='top'><a href='./tip/610.md'>610</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Final</td>
 <td valign='top' ><a href='./tip/610.md'>Icon Badges</a></td>
 <td></td>
 </tr>

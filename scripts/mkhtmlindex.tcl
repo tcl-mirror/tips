@@ -257,17 +257,17 @@ foreach tip [lsort -decreasing -dictionary [glob [file join $dir tip/*.md]]] {
     writeRow $number fields
 }
 
+# Careful; the button HTML must not have spaces at the start of the line with
+# some versions of fossil.
 set button {
-    <input class="toggler-#FACET#"
-        data-value="#VALUE#"
-        type="checkbox">#TITLE#</button>
+<input class="toggler-#FACET#" data-value="#VALUE#" type="checkbox">#TITLE#</input>
 }
 set TOGGLES ""
 set STYLES ""
 dict for {axis values} $toggles {
     appendn TOGGLES "[string totitle $axis]:"
     foreach val [lsort [dict keys $values]] {
-        set map [list]
+        set map [list "\n" " "]
         lappend map #FACET# $axis
         lappend map #VALUE# [string tolower $val]
         lappend map #TITLE# [regsub {^(\d)(\d)$} [string totitle $val] {\1.\2}]
