@@ -430,7 +430,7 @@ Version:
 <td valign='top'>9.0</td>
 <td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/568.md'>Revise ByteArray Routines To Support Proper Value Extraction</a></td>
-<td></td>
+<td valign='top'><a href='/tcl/timeline?r=tip-568'>Link</a></td>
 </tr>
 <tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/567.md'>567</a></td>
