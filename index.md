@@ -162,12 +162,12 @@ Version:
 <td valign='top' ><a href='./tip/602.md'>remove home folder shortcuts &quot;~/&quot; and &quot;~user/&quot; from file commands</a></td>
 <td></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-draft type-project version-90'>
 <td valign='top'><a href='./tip/601.md'>601</a></td>
 <td valign='top'>Project</td>
-<td valign='top'>8.7</td>
+<td valign='top'>9.0</td>
 <td valign='top'>Draft</td>
-<td valign='top' ><a href='./tip/601.md'>&quot;encoding convertto/convertfrom&quot; option to stop on error</a></td>
+<td valign='top' ><a href='./tip/601.md'>Make &quot;encoding convertto/convertfrom&quot; throw exceptions</a></td>
 <td valign='top'><a href='/tcl/timeline?r=encodings-with-flags'>Link</a></td>
 </tr>
 <tr class='state-draft type-informational'>
@@ -352,11 +352,11 @@ Version:
 <td valign='top' ><a href='./tip/578.md'>Death to TCL_DBGX</a></td>
 <td valign='top'><a href='/tcl/timeline?r=death-to-dbgx'>Link</a></td>
 </tr>
-<tr class='state-draft type-project version-87'>
+<tr class='state-voting type-project version-87'>
 <td valign='top'><a href='./tip/577.md'>577</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.7</td>
-<td valign='top'>Draft</td>
+<td valign='top'>Voting</td>
 <td valign='top' ><a href='./tip/577.md'>Enhanced index values for Tk</a></td>
 <td valign='top'><a href='/tk/timeline?r=enhanced-index'>Link</a></td>
 </tr>
