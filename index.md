@@ -106,11 +106,11 @@ Version:
 <td valign='top' ><a href='./tip/609.md'>Enhance Tcl_ThreadQueueEvent()</a></td>
 <td valign='top'><a href='/tcl/timeline?r=tip-609'>Link</a></td>
 </tr>
-<tr class='state-voting type-project version-86'>
+<tr class='state-accepted type-project version-86'>
 <td valign='top'><a href='./tip/608.md'>608</a></td>
 <td valign='top'>Project</td>
 <td valign='top'>8.6</td>
-<td valign='top'>Voting</td>
+<td valign='top'>Accepted</td>
 <td valign='top' ><a href='./tip/608.md'>Add virtual event when font configuration changes</a></td>
 <td valign='top'><a href='/tk/tktview/3049518'>Link</a></td>
 </tr>
