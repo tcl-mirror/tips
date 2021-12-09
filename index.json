@@ -1,4 +1,5 @@
 {"tip": {
+	"612":{"url":"./tip/612.md","keywords":"Tk","created":"9-Dec-2021","post-history":"","state":"Draft","tcl-version":"8.7","vote":"Pending","type":"Project","title":"# TIP 612: Setting WM_CLASS for main/root window","author":["Benjamin Schnitzler <squirrel@mail.de>"],"is-jest":false},
 	"611":{"url":"./tip/611.md","created":"2-Sep-2021","post-history":"","state":"Draft","implementation-url":"https://wiki.tcl-lang.org/page/rphoto","tcl-version":"8.6","vote":"Pending","type":"Project","title":"# TIP 611: Add subcommands to the \"photo image\" command to rotate and reflect an image","author":["Arjen Markus <arjen.markus@users.sourceforge.net>, Richard Suchenwirth <suchenwi@googlemail.com>"],"is-jest":false},
 	"610":{"url":"./tip/610.md","keywords":"Tk, desktop integration","state":"Final","vote-summary":"Accepted 5/0/0","type":"Project","author":["Kevin Walzer <kw@codebykevin.com>"],"votes-for":"MC, SL, JN, FV, KW","votes-against":"none","created":"21-August-2021","title":"# TIP 610: Icon Badges","tcl-version":"8.7","vote":"Done","votes-present":"none","is-jest":false},
 	"609":{"url":"./tip/609.md","keywords":"Tcl","created":"06-August-2021","post-history":"","state":"Draft","tcl-branch":"tip-609","tcl-version":"8.7","type":"Project","title":"# TIP 609: Enhance Tcl_ThreadQueueEvent()","author":["Christian Werner <undroidwish@googlemail.com>"],"is-jest":false},
@@ -612,5 +613,5 @@
 	"1":{"url":"./tip/1.md","created":"14-Sep-2000","obsoleted-by":"386","post-history":"","state":"Withdrawn","vote":"No voting","type":"Informational","title":"# TIP 1: TIP Index","author":["TIP Editor <donal.fellows@cs.man.ac.uk>"],"is-jest":false},
 	"0":{"url":"./tip/0.md","created":"11-Dec-2000","post-history":"","state":"Final","vote":"Done","type":"Process","title":"# TIP 0: Tcl Core Team Basic Rules","author":["John Ousterhout <ouster@pacbell.net>"],"is-jest":false},
 	"@min": 0,
-	"@max": 611
-}, "@timestamp": 1637933559}
+	"@max": 612
+}, "@timestamp": 1639050994}
